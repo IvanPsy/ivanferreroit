@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Ivan Ferrero</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Main Container -->
+    <div class="main-container single-column" style="padding-top: 6rem;">
+        <main>
+            <h1>Dashboard <span class="text-cyan">Interattive</span></h1>
+            <p class="text-secondary" style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Risorse visuali e navigabili per lo studio e la formazione.
+            </p>
+
+            <!-- Dashboard Grid -->
+            <div class="card-grid">
+                
+                <!-- Placeholder: sostituire con dashboard reali -->
+                <a href="/dashboards/ashby-didattica-inclusiva.html" class="card" style="text-decoration: none;">
+                    <span class="tag tag-cyan" style="margin-bottom: 0.75rem;">Didattica Inclusiva</span>
+                    <h3 style="color: var(--text-primary);">Ashby & Didattica Inclusiva</h3>
+                    <p>Framework cibernetico applicato alla didattica inclusiva. Legge della Varietà Necessaria, attenuatori, amplificatori.</p>
+                </a>
+
+                <!-- Template per nuove dashboard - duplicare questo blocco
+                <a href="/dashboards/nome-file.html" class="card" style="text-decoration: none;">
+                    <span class="tag tag-green" style="margin-bottom: 0.75rem;">Categoria</span>
+                    <h3 style="color: var(--text-primary);">Titolo Dashboard</h3>
+                    <p>Breve descrizione del contenuto.</p>
+                </a>
+                -->
+
+            </div>
+
+            <!-- Empty state: mostrare quando non ci sono dashboard -->
+            <!--
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <p class="text-muted">Nessuna dashboard disponibile al momento.</p>
+                <p class="text-muted" style="font-size: 0.85rem;">Le risorse verranno aggiunte progressivamente.</p>
+            </div>
+            -->
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Risorse create da Ivan Ferrero — 2026<br>
+                    <a href="/">← Torna alla homepage</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
