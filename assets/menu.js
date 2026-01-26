@@ -20,12 +20,14 @@ const menuConfig = {
     
     // Voci di navigazione
     // Aggiungere/rimuovere/modificare qui
-    items: [
-        { label: 'Home', href: '/' },
-        { label: 'Dashboard', href: '/dashboards/' },
-        { label: 'Risorse', href: '/risorse/' },
-        { label: 'Contatti', href: '/#contatti' }
-    ]
+    ```javascript
+items: [
+    { label: 'Home', href: '/' },
+    { label: 'Dashboard', href: '/dashboards/' },
+    { label: 'Chi Sono', href: '/#chi-sono' },
+    { label: 'Contatti', href: '/#contatti' }
+]
+```
 };
 
 // ===========================================
