@@ -807,9 +807,9 @@
         }
 
         /* Progress Indicator */
-        .progress-bar {
+        .dashboard-progress {
             position: fixed;
-            top: 60px;
+            top: 130px;
             left: 0;
             height: 2px;
             background: var(--accent-cyan);
@@ -937,7 +937,7 @@
     <div id="site-menu"></div>
     
 
-    <div class="progress-bar" id="progressBar"></div>
+    <div class="dashboard-progress" id="dashboardProgress"></div>
 
     <nav class="dashboard-nav">
         <div class="dashboard-nav-content">
@@ -2226,7 +2226,7 @@
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
+            document.getElementById('dashboardProgress').style.width = scrolled + '%';
         });
 
         // Concept links - scroll to relevant section
