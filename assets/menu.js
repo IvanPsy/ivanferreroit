@@ -12,22 +12,19 @@
 const menuConfig = {
     // Logo/Brand
     brand: {
-        icon: 'IF',  // Testo nel box logo
+        icon: 'IF',
         text: 'Ivan Ferrero',
-        highlight: 'Ivan',  // Parte evidenziata in cyan
+        highlight: 'Ivan',
         link: '/'
     },
     
     // Voci di navigazione
-    // Aggiungere/rimuovere/modificare qui
-    ```javascript
-items: [
-    { label: 'Home', href: '/' },
-    { label: 'Dashboard', href: '/dashboards/' },
-    { label: 'Chi Sono', href: '/#chi-sono' },
-    { label: 'Contatti', href: '/#contatti' }
-]
-```
+    items: [
+        { label: 'Home', href: '/' },
+        { label: 'Dashboard', href: '/dashboards/' },
+        { label: 'Chi Sono', href: '/#chi-sono' },
+        { label: 'Contatti', href: '/#contatti' }
+    ]
 };
 
 // ===========================================
@@ -41,7 +38,6 @@ items: [
         return;
     }
 
-    // Determina la pagina corrente per evidenziare il link attivo
     const currentPath = window.location.pathname;
     
     function isActive(href) {
@@ -51,7 +47,6 @@ items: [
         return currentPath.startsWith(href);
     }
 
-    // Costruisce il testo del brand con highlight
     function buildBrandText() {
         const { text, highlight } = menuConfig.brand;
         if (highlight && text.includes(highlight)) {
@@ -60,7 +55,6 @@ items: [
         return text;
     }
 
-    // Genera HTML del menu
     const navItems = menuConfig.items.map(item => {
         const activeClass = isActive(item.href) ? ' active' : '';
         return `<a href="${item.href}" class="nav-btn${activeClass}">${item.label}</a>`;
@@ -80,7 +74,6 @@ items: [
         </header>
     `;
 
-    // Aggiungi stili necessari se non già presenti
     if (!document.querySelector('style[data-menu-styles]')) {
         const styles = document.createElement('style');
         styles.setAttribute('data-menu-styles', 'true');
