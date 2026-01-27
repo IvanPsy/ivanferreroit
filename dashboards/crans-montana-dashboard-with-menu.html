@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incendio Crans-Montana: Analisi Psicosociologica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        
+        :root {
+            --fire-red: #dc2626;
+            --fire-orange: #ea580c;
+            --fire-yellow: #f59e0b;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-teal: #14b8a6;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        
+        .fire-gradient {
+            background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+        }
+        
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .timeline-dot {
+            position: relative;
+        }
+        
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--fire-orange);
+            box-shadow: 0 0 20px var(--fire-orange);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .nav-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .mechanism-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mechanism-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(234, 88, 12, 0.5);
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        .flowchart-arrow {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #ea580c;
+        }
+        
+        .case-study-tab {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .case-study-tab.active {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.3), rgba(234, 88, 12, 0.3));
+            border-color: #ea580c;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-slate-100">
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+
+    <!-- Header -->
+    <header class="fixed top-[70px] left-0 right-0 z-40 glass-card border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 fire-gradient rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-white">Crans-Montana 2026</h1>
+                        <p class="text-xs text-slate-400">Analisi Psicosociologica</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex gap-2" id="nav-buttons">
+                    <button onclick="showSection('overview')" class="nav-btn active px-4 py-2 rounded-lg text-sm font-medium border border-slate-600/50" data-section="overview">Overview</button>
+                    <button onclick="showSection('risk')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium border border-slate-600/50" data-section="risk">Risk Blindness</button>
+                    <button onclick="showSection('evacuation')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium border border-slate-600/50" data-section="evacuation">Evacuazione</button>
+                    <button onclick="showSection('crowd')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium border border-slate-600/50" data-section="crowd">Crowd Behavior</button>
+                    <button onclick="showSection('framework')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium border border-slate-600/50" data-section="framework">Framework</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-12 px-4 max-w-7xl mx-auto">
+        
+        <!-- SECTION: Overview -->
+        <section id="overview" class="section active fade-in">
+            <!-- Hero Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="stat-card glass-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-red-500 mb-2">40</div>
+                    <div class="text-sm text-slate-400">Vittime</div>
+                </div>
+                <div class="stat-card glass-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-orange-500 mb-2">119</div>
+                    <div class="text-sm text-slate-400">Feriti</div>
+                </div>
+                <div class="stat-card glass-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-yellow-500 mb-2">&lt;90s</div>
+                    <div class="text-sm text-slate-400">Tempo al Flashover</div>
+                </div>
+                <div class="stat-card glass-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-blue-500 mb-2">300+</div>
+                    <div class="text-sm text-slate-400">Presenti nel locale</div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="glass-card rounded-2xl p-6 mb-8">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Timeline della Tragedia — 1 Gennaio 2026
+                </h2>
+                <div class="relative pl-8 space-y-6 border-l-2 border-orange-500/30 ml-2">
+                    <div class="timeline-dot">
+                        <div class="text-orange-400 text-sm font-semibold">~1:30 CET</div>
+                        <div class="text-white font-medium">Innesco</div>
+                        <div class="text-slate-400 text-sm">Barista solleva collega con champagne e stelle filanti. Le scintille toccano il soffitto in schiuma poliuretanica.</div>
+                    </div>
+                    <div class="timeline-dot">
+                        <div class="text-orange-400 text-sm font-semibold">+10-20 secondi</div>
+                        <div class="text-white font-medium">Flashover</div>
+                        <div class="text-slate-400 text-sm">Il soffitto si incendia. Temperature raggiungono 500-700°C. Propagazione istantanea a tutti i materiali combustibili.</div>
+                    </div>
+                    <div class="timeline-dot">
+                        <div class="text-orange-400 text-sm font-semibold">1:32 CET</div>
+                        <div class="text-white font-medium">Arrivo soccorsi</div>
+                        <div class="text-slate-400 text-sm">Polizia e vigili del fuoco sul posto. Scena descritta come "zona di guerra".</div>
+                    </div>
+                    <div class="timeline-dot">
+                        <div class="text-orange-400 text-sm font-semibold">4:14 CET</div>
+                        <div class="text-white font-medium">Supporto psicologico</div>
+                        <div class="text-slate-400 text-sm">Attivazione linea dedicata per sopravvissuti e familiari.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cause -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-lg font-bold mb-4 text-red-400">🔥 Causa Primaria</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-lg">🎇</span>
+                            </div>
+                            <div>
+                                <div class="font-medium text-red-300">Stelle filanti da champagne</div>
+                                <div class="text-sm text-slate-400">Portate troppo vicino al soffitto durante celebrazione</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                            <div class="w-8 h-8 bg-orange-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-lg">🧱</span>
+                            </div>
+                            <div>
+                                <div class="font-medium text-orange-300">Soffitto in schiuma poliuretanica</div>
+                                <div class="text-sm text-slate-400">Materiale fonoassorbente altamente infiammabile. Esperti francesi (UMIH Nuit) notano che sarebbe vietato nei locali in Francia — possibile lacuna normativa CH</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-lg font-bold mb-4 text-yellow-400">⚠️ Fattori Aggravanti</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/30 transition">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                            <span class="text-sm">Unica scala stretta tra piano terra e seminterrato</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/30 transition">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                            <span class="text-sm">Una sola uscita principale funzionante</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/30 transition">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                            <span class="text-sm">Uscita di emergenza frequentemente bloccata</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/30 transition">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                            <span class="text-sm">Sovraffollamento (~300 persone + terrazza)</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/30 transition">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                            <span class="text-sm">Seminterrato = "zona della morte"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vittime per nazionalità -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-lg font-bold mb-4">📊 Feriti per Nazionalità</h3>
+                <div class="chart-container">
+                    <canvas id="nationalityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Risk Blindness -->
+        <section id="risk" class="section fade-in">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Risk Blindness</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Perché le persone non hanno percepito la pericolosità dell'uso di pirotecnica in un locale chiuso?</p>
+            </div>
+
+            <!-- Normalcy Bias -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🧠</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-400">Normalcy Bias</h3>
+                        <p class="text-sm text-slate-400">La tendenza a negare il pericolo imminente</p>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-slate-800/50 rounded-xl p-4 text-center">
+                        <div class="text-4xl font-bold text-purple-400 mb-1">80%</div>
+                        <div class="text-sm text-slate-400">delle persone manifesta normalcy bias durante i disastri</div>
+                        <div class="text-xs text-slate-500 mt-2">Drabek, 2001</div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 text-center">
+                        <div class="text-4xl font-bold text-purple-400 mb-1">6 min</div>
+                        <div class="text-sm text-slate-400">tempo medio di attesa prima di evacuare (WTC, 11/9)</div>
+                        <div class="text-xs text-slate-500 mt-2">Ripley, 2008</div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 text-center">
+                        <div class="text-4xl font-bold text-purple-400 mb-1">4+</div>
+                        <div class="text-sm text-slate-400">fonti verificate prima di decidere di agire ("milling")</div>
+                        <div class="text-xs text-slate-500 mt-2">Drabek, 2001</div>
+                    </div>
+                </div>
+
+                <!-- 3 Fasi di Ripley -->
+                <div class="bg-slate-900/50 rounded-xl p-4">
+                    <h4 class="font-semibold mb-3 text-slate-300">Le 3 fasi della risposta al disastro (Amanda Ripley)</h4>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                        <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-center flex-1">
+                            <div class="text-2xl mb-2">🚫</div>
+                            <div class="font-bold text-red-400">DENIAL</div>
+                            <div class="text-xs text-slate-400 mt-1">Negazione della minaccia</div>
+                        </div>
+                        <div class="flowchart-arrow hidden md:block"></div>
+                        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 text-center flex-1">
+                            <div class="text-2xl mb-2">🤔</div>
+                            <div class="font-bold text-yellow-400">DELIBERATION</div>
+                            <div class="text-xs text-slate-400 mt-1">Valutazione e verifica</div>
+                        </div>
+                        <div class="flowchart-arrow hidden md:block"></div>
+                        <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4 text-center flex-1">
+                            <div class="text-2xl mb-2">🏃</div>
+                            <div class="font-bold text-green-400">DECISIVE MOMENT</div>
+                            <div class="text-xs text-slate-400 mt-1">Azione finale</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optimistic Bias -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🎯</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-400">Optimistic Bias</h3>
+                        <p class="text-sm text-slate-400">"Non succederà proprio a me"</p>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Persone che si considerano "a rischio inferiore alla media"</span>
+                                <span class="text-blue-400 font-bold">40-70%</span>
+                            </div>
+                            <div class="h-3 bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full" style="width: 55%"></div>
+                            </div>
+                            <div class="text-xs text-slate-500 mt-1">Weinstein, 1987 - Journal of Behavioral Medicine</div>
+                        </div>
+                        
+                        <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                            <h5 class="font-semibold text-blue-300 mb-2">L'optimistic bias aumenta con:</h5>
+                            <ul class="text-sm text-slate-400 space-y-1">
+                                <li>• Percezione di controllabilità del pericolo</li>
+                                <li>• "Se non è successo finora, non succederà"</li>
+                                <li>• Mancanza di esperienza personale con il pericolo</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                        <h5 class="font-semibold mb-3">📚 Base empirica</h5>
+                        <div class="text-sm text-slate-400">
+                            <p class="mb-2"><strong class="text-white">Shepperd et al. (2013)</strong> - Perspectives on Psychological Science</p>
+                            <p>Meta-analisi di <span class="text-blue-400 font-bold">oltre 1.000 studi</span> documenta l'ottimismo irrealistico per eventi diversi, inclusi i disastri.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collective Effervescence -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">⚡</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-pink-400">Collective Effervescence</h3>
+                        <p class="text-sm text-slate-400">L'elettricità del gruppo che altera la valutazione del rischio</p>
+                    </div>
+                </div>
+
+                <blockquote class="border-l-4 border-pink-500 pl-4 py-2 mb-4 italic text-slate-300">
+                    "Una sorta di elettricità si forma dalla loro raccolta che li trasporta rapidamente a un grado straordinario di esaltazione"
+                    <footer class="text-sm text-slate-500 mt-1">— Émile Durkheim, Le forme elementari della vita religiosa (1912)</footer>
+                </blockquote>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-pink-500/10 border border-pink-500/20 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">🔄</div>
+                        <div class="font-semibold text-pink-300">Sincronizzazione emotiva</div>
+                        <div class="text-xs text-slate-400 mt-1">Intensificazione e convergenza delle emozioni</div>
+                    </div>
+                    <div class="bg-pink-500/10 border border-pink-500/20 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">👥</div>
+                        <div class="font-semibold text-pink-300">Dissoluzione del sé</div>
+                        <div class="text-xs text-slate-400 mt-1">Riduzione coscienza individuale, aumento coscienza di gruppo</div>
+                    </div>
+                    <div class="bg-pink-500/10 border border-pink-500/20 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">💓</div>
+                        <div class="font-semibold text-pink-300">Sync fisiologico</div>
+                        <div class="text-xs text-slate-400 mt-1">Battiti cardiaci sincronizzati (Konvalinka et al., 2011)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Effetti Alcol -->
+            <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🍾</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-amber-400">Effetti dell'Alcol</h3>
+                        <p class="text-sm text-slate-400">Compromissione della percezione del rischio</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                        <h5 class="font-semibold text-amber-300 mb-2">Il paradosso alcol + energy drink</h5>
+                        <p class="text-sm text-slate-400">Gli energy drink contrastano la <em>percezione</em> dell'intossicazione ma NON l'effettivo deterioramento cognitivo.</p>
+                        <p class="text-sm text-slate-400 mt-2">Le persone si <strong>sentono</strong> meno intossicate ma restano cognitivamente compromesse.</p>
+                        <div class="text-xs text-slate-500 mt-3">Lalanne, Lutz & Paille, 2017</div>
+                    </div>
+                    <div>
+                        <div class="bg-slate-800/50 rounded-lg p-4 mb-3">
+                            <div class="text-3xl font-bold text-amber-400 mb-1">23%</div>
+                            <div class="text-sm text-slate-400">degli annegamenti attribuiti a intossicazione da alcol/droghe</div>
+                            <div class="text-xs text-slate-500">Strasiotto et al., 2022 - 16 anni, 2.884 morti</div>
+                        </div>
+                        <div class="text-sm text-slate-400 p-3 bg-slate-800/30 rounded-lg">
+                            L'intossicazione "compromette le capacità motorie, la coordinazione, le capacità decisionali, la percezione del pericolo"
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Evacuation -->
+        <section id="evacuation" class="section fade-in">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Delayed Evacuation Response</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Perché i ragazzi hanno continuato a ballare guardando le fiamme invece di fuggire?</p>
+            </div>
+
+            <!-- Regola 10-80-10 -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-teal-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">📊</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-400">La Regola del 10-80-10</h3>
+                        <p class="text-sm text-slate-400">John Leach - Lancaster University</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="text-center">
+                        <div class="relative mx-auto w-24 h-24 mb-3">
+                            <svg class="progress-ring w-24 h-24">
+                                <circle cx="48" cy="48" r="40" stroke="#1e293b" stroke-width="8" fill="none"/>
+                                <circle cx="48" cy="48" r="40" stroke="#22c55e" stroke-width="8" fill="none" 
+                                    stroke-dasharray="251.2" stroke-dashoffset="226" stroke-linecap="round"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-bold text-green-400">10%</span>
+                            </div>
+                        </div>
+                        <div class="font-semibold text-green-400">Razionali</div>
+                        <div class="text-xs text-slate-400">Controllano se stessi, comportamento appropriato</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="relative mx-auto w-24 h-24 mb-3">
+                            <svg class="progress-ring w-24 h-24">
+                                <circle cx="48" cy="48" r="40" stroke="#1e293b" stroke-width="8" fill="none"/>
+                                <circle cx="48" cy="48" r="40" stroke="#eab308" stroke-width="8" fill="none" 
+                                    stroke-dasharray="251.2" stroke-dashoffset="50" stroke-linecap="round"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-bold text-yellow-400">80%</span>
+                            </div>
+                        </div>
+                        <div class="font-semibold text-yellow-400">Paralizzati</div>
+                        <div class="text-xs text-slate-400">Sconcertati, confusi, largamente inattivi</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="relative mx-auto w-24 h-24 mb-3">
+                            <svg class="progress-ring w-24 h-24">
+                                <circle cx="48" cy="48" r="40" stroke="#1e293b" stroke-width="8" fill="none"/>
+                                <circle cx="48" cy="48" r="40" stroke="#ef4444" stroke-width="8" fill="none" 
+                                    stroke-dasharray="251.2" stroke-dashoffset="226" stroke-linecap="round"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-bold text-red-400">10%</span>
+                            </div>
+                        </div>
+                        <div class="font-semibold text-red-400">Controproducenti</div>
+                        <div class="text-xs text-slate-400">Isterici, comportamento irrazionale</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-lg p-4">
+                    <h5 class="font-semibold mb-2 text-slate-300">💡 Insight chiave</h5>
+                    <p class="text-sm text-slate-400">I vincoli temporali durante le emergenze <strong>inibiscono il Sistema Attentivo Supervisore (SAS)</strong>, portando a: risposta appropriata se addestrati, comportamento stereotipato se non addestrati, o paralisi cognitiva.</p>
+                </div>
+            </div>
+
+            <!-- Bystander Effect -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">👁️</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-indigo-400">Bystander Effect</h3>
+                        <p class="text-sm text-slate-400">Darley & Latané, 1968</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="font-semibold mb-3">Esperimento classico: prestare aiuto</h5>
+                        <div class="chart-container h-48">
+                            <canvas id="bystanderChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold mb-3">🔥 Esperimento della stanza piena di fumo</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-16 text-right text-sm text-slate-400">Da soli</div>
+                                <div class="flex-1 h-6 bg-slate-700 rounded overflow-hidden">
+                                    <div class="h-full bg-green-500 rounded" style="width: 75%"></div>
+                                </div>
+                                <div class="w-12 text-green-400 font-bold">75%</div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-16 text-right text-sm text-slate-400">In 3</div>
+                                <div class="flex-1 h-6 bg-slate-700 rounded overflow-hidden">
+                                    <div class="h-full bg-yellow-500 rounded" style="width: 38%"></div>
+                                </div>
+                                <div class="w-12 text-yellow-400 font-bold">38%</div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-16 text-right text-sm text-slate-400">Con 2 complici</div>
+                                <div class="flex-1 h-6 bg-slate-700 rounded overflow-hidden">
+                                    <div class="h-full bg-red-500 rounded" style="width: 10%"></div>
+                                </div>
+                                <div class="w-12 text-red-400 font-bold">10%</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-500 mt-3">Percentuale che ha segnalato il fumo entro 6 minuti</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pluralistic Ignorance -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🤷</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-rose-400">Pluralistic Ignorance</h3>
+                        <p class="text-sm text-slate-400">"Se nessuno scappa, il pericolo non è reale"</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/50 rounded-xl p-4">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="text-center p-3 bg-slate-800/50 rounded-lg flex-1">
+                            <div class="text-3xl mb-2">😰</div>
+                            <div class="text-sm">Ogni individuo sopprime la propria preoccupazione per apparire calmo</div>
+                        </div>
+                        <div class="text-2xl">→</div>
+                        <div class="text-center p-3 bg-slate-800/50 rounded-lg flex-1">
+                            <div class="text-3xl mb-2">🧐</div>
+                            <div class="text-sm">Gli osservatori interpretano il comportamento calmo come prova di non-emergenza</div>
+                        </div>
+                        <div class="text-2xl">→</div>
+                        <div class="text-center p-3 bg-rose-500/20 border border-rose-500/30 rounded-lg flex-1">
+                            <div class="text-3xl mb-2">🚫</div>
+                            <div class="text-sm font-semibold text-rose-300">Tutti rimangono collettivamente inattivi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inattentional Blindness -->
+            <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🦍</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-cyan-400">Inattentional Blindness</h3>
+                        <p class="text-sm text-slate-400">Il "gorilla invisibile" nelle emergenze</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-4">
+                        <h5 class="font-semibold text-cyan-300 mb-2">Studio Simons & Chabris (1999)</h5>
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">~50%</div>
+                        <p class="text-sm text-slate-400">dei partecipanti che contavano passaggi di basket NON ha notato una persona in costume da gorilla che attraversava la scena</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold mb-3">Applicazione ai locali notturni</h5>
+                        <div class="space-y-2 text-sm text-slate-400">
+                            <div class="flex items-start gap-2">
+                                <span class="text-cyan-400">✦</span>
+                                <span>Alto carico percettivo (luci, musica, folla) = maggiore inattentional blindness</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-cyan-400">✦</span>
+                                <span>Livelli sonori tipici: <strong>100-115 dB</strong></span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-cyan-400">✦</span>
+                                <span>23 sopravvissuti Station Nightclub: <strong>non hanno sentito gli allarmi</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Crowd Behavior -->
+        <section id="crowd" class="section fade-in">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Crowd Behavior</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Il mito del panico e le reali dinamiche delle folle in emergenza</p>
+            </div>
+
+            <!-- Il mito del panico -->
+            <div class="glass-card rounded-2xl p-6 mb-6 border-2 border-red-500/30">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🚨</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-red-400">Il Mito del "Panico"</h3>
+                        <p class="text-sm text-slate-400">La ricerca contemporanea sfida questa narrativa</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <blockquote class="border-l-4 border-red-500 pl-4 py-2 italic text-slate-300 bg-red-500/5 rounded-r-lg">
+                        "Il panico è estremamente raro nelle emergenze e nei disastri"
+                        <footer class="text-sm text-slate-500 mt-1">— Quarantelli, Disaster Research Center</footer>
+                    </blockquote>
+                    <blockquote class="border-l-4 border-red-500 pl-4 py-2 italic text-slate-300 bg-red-500/5 rounded-r-lg">
+                        "Un vago mito inteso a incolpare l'esito di una tragedia sugli occupanti quando la progettazione o gestione erano in colpa"
+                        <footer class="text-sm text-slate-500 mt-1">— Fahy & Proulx, NRCC-51384</footer>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- Social Attachment Theory -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">💚</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-green-400">Social Attachment Theory</h3>
+                        <p class="text-sm text-slate-400">Jonathan Sime (1983) & Mawson (2005)</p>
+                    </div>
+                </div>
+
+                <div class="bg-green-500/10 border border-green-500/20 rounded-xl p-5 mb-4">
+                    <p class="text-lg text-center font-medium text-green-300">
+                        "Le persone muoiono <strong>insieme</strong> nelle emergenze non perché competono,<br>
+                        ma perché <strong>si prendono cura l'una dell'altra</strong>"
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-slate-800/50 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">👨‍👩‍👧</div>
+                        <div class="font-semibold text-green-300">Affiliative Behavior</div>
+                        <div class="text-xs text-slate-400 mt-1">Le persone cercano gruppi familiari durante le evacuazioni</div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">⏳</div>
+                        <div class="font-semibold text-green-300">Ritardo volontario</div>
+                        <div class="text-xs text-slate-400 mt-1">Le famiglie ritardano la propria sicurezza per il benessere degli altri</div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">🤝</div>
+                        <div class="font-semibold text-green-300">Comportamento prosociale</div>
+                        <div class="text-xs text-slate-400 mt-1">Aiutare sconosciuti, restare con chi è in difficoltà</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case Studies -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <h3 class="text-xl font-bold mb-4">📚 Casi Studio: Incendi in Locali Notturni</h3>
+                
+                <div class="flex gap-2 mb-4 overflow-x-auto scrollbar-hide">
+                    <button onclick="showCaseStudy('station')" class="case-study-tab active px-4 py-2 rounded-lg border border-slate-600 whitespace-nowrap" data-case="station">
+                        Station (2003)
+                    </button>
+                    <button onclick="showCaseStudy('kiss')" class="case-study-tab px-4 py-2 rounded-lg border border-slate-600 whitespace-nowrap" data-case="kiss">
+                        Kiss (2013)
+                    </button>
+                </div>
+
+                <div id="case-station" class="case-content">
+                    <div class="grid md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-red-500/10 rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-red-400">100</div>
+                            <div class="text-sm text-slate-400">Morti</div>
+                        </div>
+                        <div class="bg-orange-500/10 rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-orange-400">230+</div>
+                            <div class="text-sm text-slate-400">Feriti</div>
+                        </div>
+                        <div class="bg-yellow-500/10 rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-yellow-400">&lt;90s</div>
+                            <div class="text-sm text-slate-400">Condizioni sopportabili</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-slate-800/50 rounded-lg p-4">
+                            <h5 class="font-semibold mb-2 text-orange-300">🔬 Dati chiave (NIST)</h5>
+                            <ul class="text-sm text-slate-400 space-y-1">
+                                <li>• 72% aveva visitato il locale precedentemente</li>
+                                <li>• <strong class="text-white">66%</strong> credeva l'ingresso fosse l'unica uscita</li>
+                                <li>• ~275 persone verso ingresso principale</li>
+                                <li>• Solo i primi 90 sono riusciti a uscire</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-800/50 rounded-lg p-4">
+                            <h5 class="font-semibold mb-2 text-orange-300">📊 Modello computazionale</h5>
+                            <p class="text-sm text-slate-400 mb-2">El-Tawil et al. (2017):</p>
+                            <p class="text-sm text-slate-400">Se le relazioni sociali fossero state ignorate, le morti sarebbero scese da <strong class="text-red-400">105</strong> a <strong class="text-green-400">45</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="case-kiss" class="case-content hidden">
+                    <div class="grid md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-red-500/10 rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-red-400">242</div>
+                            <div class="text-sm text-slate-400">Morti</div>
+                        </div>
+                        <div class="bg-orange-500/10 rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-orange-400">630+</div>
+                            <div class="text-sm text-slate-400">Feriti</div>
+                        </div>
+                        <div class="bg-purple-500/10 rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-purple-400">90%</div>
+                            <div class="text-sm text-slate-400">Morti per inalazione</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-slate-800/50 rounded-lg p-4">
+                            <h5 class="font-semibold mb-2 text-purple-300">🚪 Tragedia dei bagni</h5>
+                            <p class="text-sm text-slate-400">~180 corpi trovati nei bagni: le vittime hanno confuso le porte dei bagni con le uscite</p>
+                        </div>
+                        <div class="bg-slate-800/50 rounded-lg p-4">
+                            <h5 class="font-semibold mb-2 text-purple-300">⚡ Simulazione</h5>
+                            <p class="text-sm text-slate-400">Rimozione barriere controllo folla avrebbe ridotto tempo evacuazione del <strong class="text-green-400">~50%</strong></p>
+                            <div class="text-xs text-slate-500 mt-1">Hennemann et al., 2018</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crowd Crush -->
+            <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-violet-500/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">⚠️</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-violet-400">Meccanica del Crowd Crush</h3>
+                        <p class="text-sm text-slate-400">Non è il "panico" che uccide</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-violet-500/10 border border-violet-500/20 rounded-lg p-4">
+                        <div class="text-2xl font-bold text-violet-400 mb-1">7 pers/m²</div>
+                        <div class="text-sm text-slate-400">Densità critica: chi è davanti deve muoversi alla stessa velocità di chi è dietro</div>
+                    </div>
+                    <div class="bg-violet-500/10 border border-violet-500/20 rounded-lg p-4">
+                        <div class="text-2xl font-bold text-violet-400 mb-1">4.450 N/m</div>
+                        <div class="text-sm text-slate-400">Pressione massima in folle compresse (Helbing et al., 2000)</div>
+                    </div>
+                    <div class="bg-violet-500/10 border border-violet-500/20 rounded-lg p-4">
+                        <div class="text-xl font-bold text-violet-400 mb-1">"Faster-is-slower"</div>
+                        <div class="text-sm text-slate-400">Paradosso: più veloce = più lento e più pericoloso</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Framework -->
+        <section id="framework" class="section fade-in">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Framework Integrativo</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Perché la pirotecnica indoor è percepita come sicura: convergenza di meccanismi psicologici</p>
+            </div>
+
+            <!-- Tabella Meccanismi -->
+            <div class="glass-card rounded-2xl p-6 mb-6 overflow-x-auto">
+                <table class="w-full min-w-[600px]">
+                    <thead>
+                        <tr class="border-b border-slate-700">
+                            <th class="text-left py-3 px-4 text-orange-400">Meccanismo</th>
+                            <th class="text-left py-3 px-4 text-slate-300">Effetto</th>
+                            <th class="text-left py-3 px-4 text-slate-500">Citazione</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-4 font-medium">🏠 Familiarità ambientale</td>
+                            <td class="py-3 px-4 text-slate-400">Bias ottimistico ("questo locale è sempre stato sicuro")</td>
+                            <td class="py-3 px-4 text-slate-500">Weinstein, 1987</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-4 font-medium">⚡ Effervescenza collettiva</td>
+                            <td class="py-3 px-4 text-slate-400">Riduzione del giudizio individuale, amplificazione emozione di gruppo</td>
+                            <td class="py-3 px-4 text-slate-500">Páez et al., 2022</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-4 font-medium">🍾 Uso di alcol/sostanze</td>
+                            <td class="py-3 px-4 text-slate-400">Percezione del pericolo compromessa, mantenimento del sentimento di competenza</td>
+                            <td class="py-3 px-4 text-slate-500">Lalanne et al., 2017</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-4 font-medium">🧠 Normalcy bias</td>
+                            <td class="py-3 px-4 text-slate-400">Interpretazione "fa parte dello spettacolo" dei segnali di allarme</td>
+                            <td class="py-3 px-4 text-slate-500">Drabek, 2001</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-4 font-medium">👥 Milling behavior</td>
+                            <td class="py-3 px-4 text-slate-400">Guardare gli altri (che non reagiscono) per avere indicazioni</td>
+                            <td class="py-3 px-4 text-slate-500">Latané & Darley, 1968</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-4 font-medium">🚪 Bias familiarità uscite</td>
+                            <td class="py-3 px-4 text-slate-400">Dirigersi verso l'ingresso familiare invece dell'uscita più vicina</td>
+                            <td class="py-3 px-4 text-slate-500">NIST, 2005</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="py-3 px-4 font-medium">💚 Attaccamento sociale</td>
+                            <td class="py-3 px-4 text-slate-400">Ritardo per aspettare membri del gruppo</td>
+                            <td class="py-3 px-4 text-slate-500">Sime, 1983; Aguirre, 2011</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 3 Insight Critici -->
+            <div class="glass-card rounded-2xl p-6 mb-6">
+                <h3 class="text-xl font-bold mb-4">💡 Tre Insight Critici dalla Letteratura</h3>
+                
+                <div class="space-y-4">
+                    <div class="mechanism-card bg-slate-800/50 rounded-xl p-5 border border-slate-700">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl font-bold text-red-400">1</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-red-300 mb-2">Il "panico" è un mito che deflette la responsabilità</h4>
+                                <p class="text-sm text-slate-400">Invocare il panico serve a "incolpare l'esito di una tragedia sugli occupanti quando in realtà la progettazione dell'edificio o la sua gestione erano potenzialmente in colpa" (Fahy & Proulx, 2009)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mechanism-card bg-slate-800/50 rounded-xl p-5 border border-slate-700">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl font-bold text-green-400">2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-green-300 mb-2">I legami sociali diventano vulnerabilità in incendi rapidi</h4>
+                                <p class="text-sm text-slate-400">Le persone muoiono insieme non perché competono per le uscite, ma perché si prendono cura l'una dell'altra — aspettano gli amici, aiutano gli sconosciuti, restano con chi è in difficoltà (Sime, 1983; Mawson, 2005)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mechanism-card bg-slate-800/50 rounded-xl p-5 border border-slate-700">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl font-bold text-blue-400">3</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-blue-300 mb-2">Il tempo di pre-evacuazione è il fattore critico</h4>
+                                <p class="text-sm text-slate-400">Le persone impiegano minuti, non secondi, per riconoscere un'emergenza e decidere di agire. Quando il tempo disponibile è &lt;90 secondi, qualsiasi ritardo nel riconoscimento è fatale.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interventi Evidence-Based -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-xl font-bold mb-4">🎯 Interventi Evidence-Based</h3>
+                
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-xl p-5 border border-blue-500/30">
+                        <div class="text-3xl mb-3">🎓</div>
+                        <h4 class="font-semibold text-blue-300 mb-2">Formazione</h4>
+                        <p class="text-sm text-slate-400">Training specifico per superare la paralisi cognitiva (regola 10-80-10)</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-orange-500/20 to-orange-600/10 rounded-xl p-5 border border-orange-500/30">
+                        <div class="text-3xl mb-3">🔔</div>
+                        <h4 class="font-semibold text-orange-300 mb-2">Segnali di allarme</h4>
+                        <p class="text-sm text-slate-400">Chiarezza e riconoscibilità sopra il rumore ambientale (15dB+)</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-xl p-5 border border-green-500/30">
+                        <div class="text-3xl mb-3">👤</div>
+                        <h4 class="font-semibold text-green-300 mb-2">Guida attiva</h4>
+                        <p class="text-sm text-slate-400">Personale formato che indirizza attivamente verso le uscite (Van der Wal et al., 2021)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 text-center text-sm text-slate-500">
+                <p>Report basato su letteratura accademica peer-reviewed</p>
+                <p class="mt-1">Fonti principali: Ripley (2008), Leach (2004-2005), Darley & Latané (1968), Sime (1983), NIST, Helbing et al. (2000)</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.section === sectionId) {
+                    btn.classList.add('active');
+                }
+            });
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Case Study Tabs
+        function showCaseStudy(caseId) {
+            document.querySelectorAll('.case-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('case-' + caseId).classList.remove('hidden');
+            document.querySelectorAll('.case-study-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.case === caseId) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        // Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Nationality Chart
+            const nationalityCtx = document.getElementById('nationalityChart').getContext('2d');
+            new Chart(nationalityCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Svizzera', 'Francia', 'Italia', 'Serbia', 'Altri'],
+                    datasets: [{
+                        data: [71, 14, 11, 4, 19],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(34, 197, 94, 0.8)',
+                            'rgba(168, 85, 247, 0.8)',
+                            'rgba(107, 114, 128, 0.8)'
+                        ],
+                        borderColor: 'rgba(30, 41, 59, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#94a3b8',
+                                padding: 15,
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(30, 41, 59, 0.95)',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#94a3b8',
+                            borderColor: 'rgba(148, 163, 184, 0.2)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+
+            // Bystander Effect Chart
+            const bystanderCtx = document.getElementById('bystanderChart').getContext('2d');
+            new Chart(bystanderCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Da solo', 'In gruppo di 5'],
+                    datasets: [{
+                        label: '% che ha prestato aiuto',
+                        data: [100, 62],
+                        backgroundColor: [
+                            'rgba(34, 197, 94, 0.8)',
+                            'rgba(234, 179, 8, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(34, 197, 94, 1)',
+                            'rgba(234, 179, 8, 1)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(30, 41, 59, 0.95)',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#94a3b8'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                            ticks: { color: '#94a3b8', callback: v => v + '%' }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
