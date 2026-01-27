@@ -1,0 +1,2544 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond Digital Determinism | Dashboard Interattiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a1f26;
+            --bg-card: #232a33;
+            --bg-hover: #2c3541;
+            --text-primary: #e8eaed;
+            --text-secondary: #9aa0a6;
+            --text-muted: #6b7280;
+            --accent-coral: #ff6b6b;
+            --accent-teal: #4ecdc4;
+            --accent-gold: #ffd93d;
+            --accent-purple: #a78bfa;
+            --accent-blue: #60a5fa;
+            --border-color: #2d3748;
+            --gradient-warm: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            --gradient-cool: linear-gradient(135deg, #4ecdc4 0%, #60a5fa 100%);
+            --gradient-purple: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 40px rgba(78, 205, 196, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+        }
+
+        .sidebar-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-section {
+            padding: 1rem 0;
+        }
+
+        .nav-section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--bg-hover);
+            color: var(--accent-teal);
+            border-left-color: var(--accent-teal);
+        }
+
+        .nav-icon {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            max-width: calc(100vw - 280px);
+        }
+
+        /* Section styling */
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 3rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-cool);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(78, 205, 196, 0.15);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: var(--gradient-cool);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .meta-icon {
+            color: var(--accent-teal);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent-teal);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .stat-card.coral::before { background: var(--accent-coral); }
+        .stat-card.teal::before { background: var(--accent-teal); }
+        .stat-card.gold::before { background: var(--accent-gold); }
+        .stat-card.purple::before { background: var(--accent-purple); }
+        .stat-card.blue::before { background: var(--accent-blue); }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card.coral .stat-value { color: var(--accent-coral); }
+        .stat-card.teal .stat-value { color: var(--accent-teal); }
+        .stat-card.gold .stat-value { color: var(--accent-gold); }
+        .stat-card.purple .stat-value { color: var(--accent-purple); }
+        .stat-card.blue .stat-value { color: var(--accent-blue); }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .stat-source {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            background: var(--bg-hover);
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+
+        .card-header:hover {
+            background: var(--bg-secondary);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            font-size: 1.3rem;
+        }
+
+        .card-toggle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .card-header.open .card-toggle {
+            transform: rotate(180deg);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .card-content.open {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 2000px; }
+        }
+
+        /* Data Points */
+        .data-point {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-teal);
+            transition: all 0.2s ease;
+        }
+
+        .data-point:hover {
+            background: var(--bg-hover);
+            transform: translateX(4px);
+        }
+
+        .data-point-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .data-point-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .data-point-source {
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            background: rgba(78, 205, 196, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .data-point-body {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .data-point-body ul {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .data-point-body li {
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .data-point-body li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-teal);
+        }
+
+        /* Highlight values */
+        .highlight {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .highlight.positive { 
+            color: var(--accent-teal); 
+            background: rgba(78, 205, 196, 0.15);
+        }
+        .highlight.negative { 
+            color: var(--accent-coral); 
+            background: rgba(255, 107, 107, 0.15);
+        }
+        .highlight.neutral { 
+            color: var(--accent-gold); 
+            background: rgba(255, 217, 61, 0.15);
+        }
+        .highlight.info { 
+            color: var(--accent-blue); 
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        /* Quote blocks */
+        .quote-block {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(244, 114, 182, 0.1) 100%);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            position: relative;
+        }
+
+        .quote-block::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            font-size: 4rem;
+            color: var(--accent-purple);
+            opacity: 0.3;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .quote-text {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-source {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* Comparison table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th {
+            background: var(--bg-hover);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-teal);
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:hover td {
+            background: var(--bg-hover);
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+
+        .tag.methodology { background: rgba(255, 107, 107, 0.2); color: var(--accent-coral); }
+        .tag.finding { background: rgba(78, 205, 196, 0.2); color: var(--accent-teal); }
+        .tag.caution { background: rgba(255, 217, 61, 0.2); color: var(--accent-gold); }
+        .tag.benefit { background: rgba(96, 165, 250, 0.2); color: var(--accent-blue); }
+        .tag.policy { background: rgba(167, 139, 250, 0.2); color: var(--accent-purple); }
+
+        /* Section headers */
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+        }
+
+        /* Take-home messages */
+        .takeaway-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .takeaway-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .takeaway-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .takeaway-number {
+            position: absolute;
+            top: -20px;
+            right: -10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--border-color);
+            opacity: 0.5;
+            line-height: 1;
+        }
+
+        .takeaway-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .takeaway-title {
+            font-weight: 700;
+            color: var(--accent-teal);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .takeaway-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Discussion questions */
+        .question-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: var(--accent-purple);
+            background: var(--bg-hover);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .question-number {
+            background: var(--gradient-purple);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* References section */
+        .reference-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: background 0.2s ease;
+        }
+
+        .reference-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .reference-item:last-child {
+            border-bottom: none;
+        }
+
+        .reference-authors {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .reference-title {
+            font-style: italic;
+            color: var(--accent-teal);
+        }
+
+        .reference-journal {
+            color: var(--text-muted);
+        }
+
+        .reference-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .reference-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Search box */
+        .search-container {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-teal);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Prose content */
+        .prose {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .prose p {
+            margin-bottom: 1.25rem;
+        }
+
+        .prose strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .prose h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+
+        /* Implications grid */
+        .implications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .implication-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .implication-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .implication-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .implication-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .implication-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* Filter tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-tab:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .filter-tab.active {
+            background: var(--accent-teal);
+            color: var(--bg-primary);
+            border-color: var(--accent-teal);
+        }
+
+        /* Mobile responsive */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            background: var(--accent-teal);
+            border: none;
+            border-radius: 50%;
+            color: var(--bg-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1.5rem;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .takeaway-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .implications-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Keywords highlight */
+        .keyword {
+            color: var(--accent-teal);
+            font-weight: 500;
+        }
+
+        /* Progress indicator */
+        .reading-progress-bar {
+            position: fixed;
+            top: 70px;
+            left: 280px;
+            right: 0;
+            height: 3px;
+            background: var(--bg-secondary);
+            z-index: 50;
+        }
+
+        .reading-progress-fill {
+            height: 100%;
+            background: var(--gradient-cool);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 1024px) {
+            .reading-progress-bar {
+                left: 0;
+            }
+        }
+
+        /* Visual separator */
+        .visual-separator {
+            height: 4px;
+            background: var(--gradient-cool);
+            border-radius: 2px;
+            margin: 2rem 0;
+            opacity: 0.5;
+        }
+
+        /* Abstract box */
+        .abstract-box {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(96, 165, 250, 0.1) 100%);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .abstract-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-teal);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .abstract-text {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .keywords-list {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .keyword-tag {
+            background: rgba(78, 205, 196, 0.2);
+            color: var(--accent-teal);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+    
+    <div class="reading-progress-bar">
+        <div class="reading-progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">Beyond Digital Determinism</div>
+                <div class="sidebar-subtitle">Dashboard Interattiva</div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="🔍 Cerca nel report..." id="searchInput">
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <a class="nav-item active" data-section="overview">
+                    <span class="nav-icon">🏠</span>
+                    Home & Abstract
+                </a>
+                <a class="nav-item" data-section="quickfacts">
+                    <span class="nav-icon">📊</span>
+                    Quick Facts
+                </a>
+                <a class="nav-item" data-section="takeaways">
+                    <span class="nav-icon">🎯</span>
+                    Take-Home Messages
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Evidenze</div>
+                <a class="nav-item" data-section="effectsize">
+                    <span class="nav-icon">📏</span>
+                    Effect Size
+                </a>
+                <a class="nav-item" data-section="methodology">
+                    <span class="nav-icon">🔬</span>
+                    Problemi Metodologici
+                </a>
+                <a class="nav-item" data-section="causality">
+                    <span class="nav-icon">🔄</span>
+                    Reverse Causation
+                </a>
+                <a class="nav-item" data-section="activepassive">
+                    <span class="nav-icon">⚡</span>
+                    Attivo vs Passivo
+                </a>
+                <a class="nav-item" data-section="benefits">
+                    <span class="nav-icon">✨</span>
+                    Benefici Documentati
+                </a>
+                <a class="nav-item" data-section="moderators">
+                    <span class="nav-icon">🎛️</span>
+                    Fattori Moderatori
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Analisi</div>
+                <a class="nav-item" data-section="narrative">
+                    <span class="nav-icon">📖</span>
+                    Analisi Narrativa
+                </a>
+                <a class="nav-item" data-section="synthesis">
+                    <span class="nav-icon">🧩</span>
+                    Sintesi Critica
+                </a>
+                <a class="nav-item" data-section="implications">
+                    <span class="nav-icon">💡</span>
+                    Implicazioni Pratiche
+                </a>
+                <a class="nav-item" data-section="policy">
+                    <span class="nav-icon">📋</span>
+                    Policy & Raccomandazioni
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Risorse</div>
+                <a class="nav-item" data-section="questions">
+                    <span class="nav-icon">❓</span>
+                    Discussion Questions
+                </a>
+                <a class="nav-item" data-section="references">
+                    <span class="nav-icon">📚</span>
+                    Bibliografia
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- OVERVIEW SECTION -->
+            <section class="section active" id="overview">
+                <div class="hero">
+                    <span class="hero-badge">Critical Reappraisal 2018-2025</span>
+                    <h1 class="hero-title">Beyond Digital Determinism</h1>
+                    <p class="hero-subtitle">Una rivalutazione critica degli effetti della tecnologia sullo sviluppo giovanile basata sulle evidenze scientifiche più recenti</p>
+                    <div class="hero-meta">
+                        <span class="meta-item"><span class="meta-icon">📊</span> Meta-analisi e review sistematiche</span>
+                        <span class="meta-item"><span class="meta-icon">👥</span> >355.000 partecipanti negli studi principali</span>
+                        <span class="meta-item"><span class="meta-icon">📅</span> Letteratura 2018-2025</span>
+                    </div>
+                </div>
+
+                <div class="abstract-box">
+                    <div class="abstract-label">Abstract</div>
+                    <p class="abstract-text">
+                        La relazione tra uso delle tecnologie digitali e salute mentale di bambini e adolescenti è diventata oggetto di intensa preoccupazione pubblica. Tuttavia, un esame sistematico delle evidenze empiriche rivela un quadro più sfumato di quanto il discorso popolare suggerisca. Questo report valuta criticamente lo stato attuale della ricerca, basandosi su meta-analisi, review sistematiche e studi longitudinali pubblicati tra il 2018 e il 2025.<br><br>
+                        L'analisi dimostra che gli <strong>effect size riportati sono consistentemente piccoli</strong> (tipicamente spiegano meno dell'1% della varianza negli outcome), che le evidenze sulla <strong>reverse causation</strong> sfidano le narrative causali semplicistiche, e che i <strong>fattori moderatori</strong>—inclusa la qualità dell'uso, le vulnerabilità preesistenti, le pratiche genitoriali e il contesto socioeconomico—modellano sostanzialmente gli outcome.<br><br>
+                        Piuttosto che supportare una relazione lineare e deterministica tra screen time e danno, la base di evidenze punta verso un <strong>modello di effetti condizionali</strong> in cui le tecnologie digitali funzionano come amplificatori di condizioni preesistenti piuttosto che cause primarie di disagio psicologico.
+                    </p>
+                    <div class="keywords-list">
+                        <span class="keyword-tag">digital technology</span>
+                        <span class="keyword-tag">adolescent mental health</span>
+                        <span class="keyword-tag">social media</span>
+                        <span class="keyword-tag">screen time</span>
+                        <span class="keyword-tag">meta-analysis</span>
+                        <span class="keyword-tag">reverse causation</span>
+                        <span class="keyword-tag">parental mediation</span>
+                        <span class="keyword-tag">digital literacy</span>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">📌</span> Tesi Principale del Report</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="quote-block">
+                            <p class="quote-text">Le evidenze empiriche attuali non supportano una relazione causale lineare e deterministica tra uso delle tecnologie digitali e outcome negativi sullo sviluppo. Invece, la letteratura scientifica dimostra consistentemente che gli effetti sono piccoli, condizionali al contesto, e sostanzialmente mediati da vulnerabilità preesistenti, qualità dell'uso (engagement attivo vs passivo), e fattori socio-relazionali incluse le pratiche genitoriali e il clima familiare.</p>
+                        </div>
+                        <p class="prose">
+                            La convinzione che "lo screen time causa danni" rappresenta una <strong>semplificazione scientificamente non supportata</strong> che rischia di misdirizzare sia le priorità di ricerca che gli interventi di policy. Le politiche basate su assunzioni errate possono rivelarsi non solo inefficaci ma controproducenti—deviando risorse da interventi evidence-based, creando dinamiche di conflitto tra adulti e giovani, e potenzialmente negando a popolazioni vulnerabili l'accesso a comunità digitali di supporto.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QUICK FACTS SECTION -->
+            <section class="section" id="quickfacts">
+                <div class="section-header">
+                    <div class="section-number">01 — QUICK FACTS</div>
+                    <h2 class="section-title">I Numeri Chiave</h2>
+                    <p class="section-description">Le statistiche più significative dalle meta-analisi e studi principali</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card coral">
+                        <div class="stat-value">&lt;0.4%</div>
+                        <div class="stat-label">Varianza nel benessere spiegata dal digitale</div>
+                        <div class="stat-source">Orben & Przybylski, 2019 • N=355.000+</div>
+                    </div>
+                    <div class="stat-card teal">
+                        <div class="stat-value">β = -0.035</div>
+                        <div class="stat-label">Coefficiente mediano tecnologia-benessere</div>
+                        <div class="stat-source">Nature Human Behaviour</div>
+                    </div>
+                    <div class="stat-card gold">
+                        <div class="stat-value">4.3×</div>
+                        <div class="stat-label">Effetto bullismo vs effetto digitale</div>
+                        <div class="stat-source">Confronto effect size</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-value">r = -0.07</div>
+                        <div class="stat-label">Correlazione social network - benessere</div>
+                        <div class="stat-source">Huang, 2017 • N=19.652</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-value">14%</div>
+                        <div class="stat-label">Studi longitudinali (vs cross-sectional)</div>
+                        <div class="stat-source">Odgers & Jensen, 2020</div>
+                    </div>
+                    <div class="stat-card coral">
+                        <div class="stat-value">r = 0.20</div>
+                        <div class="stat-label">Correlazione tempo dichiarato vs reale</div>
+                        <div class="stat-source">Ellis, 2019</div>
+                    </div>
+                    <div class="stat-card teal">
+                        <div class="stat-value">125 min</div>
+                        <div class="stat-label">Sottostima media giornaliera uso</div>
+                        <div class="stat-source">Ohme et al., 2021</div>
+                    </div>
+                    <div class="stat-card gold">
+                        <div class="stat-value">38%</div>
+                        <div class="stat-label">Studi con effetti positivi per LGBTQ+</div>
+                        <div class="stat-source">Berger et al., 2022</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-value">r = 0.34</div>
+                        <div class="stat-label">Uso attivo → supporto percepito</div>
+                        <div class="stat-source">Godard & Holtzman, 2024</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-value">~2h</div>
+                        <div class="stat-label">Soglia Goldilocks smartphone</div>
+                        <div class="stat-source">Przybylski & Weinstein, 2017</div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">📈</span> Tabella Comparativa Effect Size</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Variabile</th>
+                                    <th>Correlazione/Effect Size</th>
+                                    <th>Confronto</th>
+                                    <th>Fonte</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tecnologia digitale → Benessere</td>
+                                    <td><span class="highlight negative">β = -0.035</span></td>
+                                    <td>Paragonabile a mangiare patate</td>
+                                    <td>Orben & Przybylski, 2019</td>
+                                </tr>
+                                <tr>
+                                    <td>Essere bullizzati → Benessere</td>
+                                    <td><span class="highlight negative">4.3× maggiore</span></td>
+                                    <td>Molto più impattante</td>
+                                    <td>Stesso dataset</td>
+                                </tr>
+                                <tr>
+                                    <td>Marijuana → Benessere</td>
+                                    <td><span class="highlight negative">2.7× maggiore</span></td>
+                                    <td>Più impattante</td>
+                                    <td>Stesso dataset</td>
+                                </tr>
+                                <tr>
+                                    <td>Social media → Depressione</td>
+                                    <td><span class="highlight negative">r = -0.11</span></td>
+                                    <td>Effetto piccolo</td>
+                                    <td>Huang, 2017</td>
+                                </tr>
+                                <tr>
+                                    <td>Social media → Solitudine</td>
+                                    <td><span class="highlight negative">r = -0.08</span></td>
+                                    <td>Effetto piccolo</td>
+                                    <td>Huang, 2017</td>
+                                </tr>
+                                <tr>
+                                    <td>Uso attivo → Benessere</td>
+                                    <td><span class="highlight positive">r = +0.15</span></td>
+                                    <td>Effetto piccolo positivo</td>
+                                    <td>Godard & Holtzman, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Nevroticismo → Uso problematico</td>
+                                    <td><span class="highlight neutral">r = 0.21</span></td>
+                                    <td>Correlato di personalità più forte</td>
+                                    <td>Meta-analisi 113 campioni</td>
+                                </tr>
+                                <tr>
+                                    <td>Gaming → Cognizione (cross-sect.)</td>
+                                    <td><span class="highlight positive">g = 0.55</span></td>
+                                    <td>Effetto medio-grande</td>
+                                    <td>Bediou et al., 2023</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAKE-HOME MESSAGES -->
+            <section class="section" id="takeaways">
+                <div class="section-header">
+                    <div class="section-number">02 — TAKE-HOME MESSAGES</div>
+                    <h2 class="section-title">I Messaggi Chiave</h2>
+                    <p class="section-description">Le 6 conclusioni essenziali per comprendere il report</p>
+                </div>
+
+                <div class="takeaway-grid">
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">1</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Effect Size Minuscoli</div>
+                            <p class="takeaway-text">Il digitale spiega <strong>&lt;1%</strong> della varianza nel benessere. Altri fattori (sonno, SES, famiglia) hanno un impatto enormemente superiore. L'effetto è paragonabile a "mangiare patate o portare gli occhiali".</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">2</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Causalità Invertita</div>
+                            <p class="takeaway-text">Gli adolescenti vulnerabili <strong>gravitano verso</strong> i social media, non viceversa. La depressione predice l'uso social, ma l'uso social <strong>non predice</strong> depressione successiva.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">3</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Qualità > Quantità</div>
+                            <p class="takeaway-text">Non tutto lo screen time è uguale. <strong>Uso attivo</strong> (messaggi, creazione) ≠ <strong>uso passivo</strong> (scrolling). La qualità dell'engagement conta più delle ore.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">4</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Benefici Reali Esistono</div>
+                            <p class="takeaway-text">Per comunità <strong>LGBTQ+</strong>, giovani con <strong>disabilità</strong>, e situazioni di <strong>isolamento</strong> (es. COVID), le connessioni digitali offrono supporto insostituibile.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">5</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Contesto Determina Effetti</div>
+                            <p class="takeaway-text">Personalità, età, clima familiare, SES → tutti moderano gli effetti. Una "soluzione unica per tutti" è impossibile e controproducente.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">6</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Policy Evidence-Based</div>
+                            <p class="takeaway-text"><strong>Educazione digitale > divieti puri</strong>. No a limiti temporali rigidi senza discussione critica. Le restrizioni da sole non funzionano.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EFFECT SIZE SECTION -->
+            <section class="section" id="effectsize">
+                <div class="section-header">
+                    <div class="section-number">03 — EVIDENZE</div>
+                    <h2 class="section-title">Effect Size: Quanto Sono Piccoli?</h2>
+                    <p class="section-description">L'analisi degli effect size rivela che gli effetti della tecnologia sono molto più piccoli di quanto il discorso pubblico suggerisca</p>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Orben & Przybylski (2019) — Studio Landmark</span>
+                        <span class="data-point-source">Nature Human Behaviour • N=355.000+</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Il digitale spiega <span class="highlight negative">max 0,4%</span> della varianza nel benessere</li>
+                            <li>Coefficiente mediano: <span class="highlight negative">β = -0.035</span></li>
+                            <li>Confronto: essere bullizzati → effetto <span class="highlight info">4,3× maggiore</span></li>
+                            <li>Confronto: marijuana → effetto <span class="highlight info">2,7× maggiore</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-text">L'effetto è paragonabile a mangiare patate o portare gli occhiali. Se mi dicessi quanto tempo un adolescente passa sui dispositivi digitali, non potrei prevedere molto bene il suo benessere complessivo.</p>
+                    <p class="quote-source">— Orben & Przybylski, Nature Human Behaviour</p>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Huang (2017) — Meta-analisi Social Network</span>
+                        <span class="data-point-source">Cyberpsychology, Behavior, and Social Networking • 67 campioni • N=19.652</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Social network e benessere: <span class="highlight negative">r = -0.07</span></li>
+                            <li>Social network e depressione: <span class="highlight negative">r = -0.11</span></li>
+                            <li>Social network e solitudine: <span class="highlight negative">r = -0.08</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Eirich et al. (2022) — Bambini &lt;12 anni</span>
+                        <span class="data-point-source">JAMA Psychiatry • 595 studi</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Correlazioni <span class="highlight neutral">piccole ma significative</span> tra screen time e problemi comportamentali</li>
+                            <li><span class="highlight info">Alta eterogeneità metodologica</span> tra studi</li>
+                            <li>Le differenze metodologiche contribuiscono ai risultati misti</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🔍</span> Analisi Approfondita: Specification Curve Analysis</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            La <strong>Specification Curve Analysis</strong> di Orben & Przybylski ha dimostrato che <span class="highlight info">oltre 600 milioni</span> di specificazioni analitiche erano possibili sugli stessi dataset. A seconda delle scelte metodologiche dei ricercatori—deliberate o inconsce—si potevano produrre risultati <strong>positivi, negativi o nulli</strong>.
+                        </p>
+                        <p class="prose">
+                            Questo suggerisce che il <strong>reporting selettivo</strong> e il <strong>publication bias</strong> possono aver distorto sostanzialmente le conclusioni cumulative del campo. La flessibilità analitica rappresenta una seria minaccia alla validità delle conclusioni causali.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- METHODOLOGY SECTION -->
+            <section class="section" id="methodology">
+                <div class="section-header">
+                    <div class="section-number">04 — METODOLOGIA</div>
+                    <h2 class="section-title">Problemi Metodologici</h2>
+                    <p class="section-description">Le limitazioni metodologiche che indeboliscono le affermazioni causali forti</p>
+                </div>
+
+                <div class="filter-tabs">
+                    <span class="filter-tab active" onclick="filterMethodology('all')">Tutti</span>
+                    <span class="filter-tab" onclick="filterMethodology('measurement')">Misurazione</span>
+                    <span class="filter-tab" onclick="filterMethodology('design')">Design</span>
+                    <span class="filter-tab" onclick="filterMethodology('analysis')">Analisi</span>
+                </div>
+
+                <div class="data-point" data-category="measurement">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Self-report vs. Dati Oggettivi</span>
+                        <span class="tag methodology">Misurazione</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Correlazione tra tempo dichiarato e tempo reale: <span class="highlight negative">r = 0.20</span> (Ellis, 2019)</li>
+                            <li><span class="highlight info">70%</span> dei partecipanti sottostima il proprio uso (Ohme et al., 2021)</li>
+                            <li>Sottostima media: <span class="highlight negative">125 minuti/giorno</span></li>
+                            <li>Questo errore di misurazione introduce <strong>rumore sostanziale</strong> nelle analisi e può distorcere sistematicamente le relazioni osservate</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point" data-category="design">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Design Cross-sectional Dominanti</span>
+                        <span class="tag methodology">Design</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Odgers & Jensen (2020) — Annual Research Review: solo <span class="highlight negative">14%</span> degli studi è longitudinale</li>
+                            <li>Solo <span class="highlight negative">2 studi</span> con design sperimentale/quasi-sperimentale su 29 esaminati</li>
+                            <li>I dati cross-sectional <strong>non possono stabilire</strong> causalità o direzionalità degli effetti</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-text">Gli studi preregistrati più rigorosi e recenti riportano associazioni "improbabili che abbiano significatività clinica o pratica" e non offrono "alcun modo di distinguere causa da effetto".</p>
+                    <p class="quote-source">— Odgers & Jensen, 2020 • Journal of Child Psychology and Psychiatry</p>
+                </div>
+
+                <div class="data-point" data-category="analysis">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Flessibilità Analitica</span>
+                        <span class="tag methodology">Analisi</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Orben & Przybylski (2019) — Specification Curve Analysis</li>
+                            <li><span class="highlight info">600+ milioni</span> di specificazioni analitiche possibili</li>
+                            <li>A seconda delle scelte → risultati <span class="highlight positive">positivi</span>, <span class="highlight negative">negativi</span> o <span class="highlight neutral">nulli</span></li>
+                            <li>Il reporting selettivo e publication bias possono aver distorto le conclusioni del campo</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CAUSALITY SECTION -->
+            <section class="section" id="causality">
+                <div class="section-header">
+                    <div class="section-number">05 — CAUSALITÀ</div>
+                    <h2 class="section-title">Inversione del Nesso Causale</h2>
+                    <p class="section-description">Evidenze longitudinali che sfidano la narrativa "screen time causa danni"</p>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Coyne et al. (2020) — Studio 8 anni</span>
+                        <span class="data-point-source">Computers in Human Behavior • N=500 • Flourishing Families Project</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Analisi within-person: <span class="highlight positive">nessun effetto</span> del social media su depressione/ansia</li>
+                            <li>Aumentare o diminuire l'uso → <span class="highlight positive">nessun cambiamento</span> nel benessere successivo</li>
+                            <li>Le associazioni between-person riflettono <strong>differenze stabili individuali</strong>, non effetti causali</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Heffer et al. (2019) — Risposta a Twenge</span>
+                        <span class="data-point-source">Clinical Psychological Science • N=594 adolescenti + 1.132 universitari</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Follow-up 2-6 anni</li>
+                            <li>Social media <span class="highlight positive">NON predice</span> sintomi depressivi nel tempo</li>
+                            <li>Ma: depressione <span class="highlight negative">predice</span> maggiore uso social (solo ragazze adolescenti)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-text">Questo contrasta con l'idea che le persone che usano molto i social media diventino più depresse nel tempo. Invece, le ragazze adolescenti che si sentono giù potrebbero rivolgersi ai social media per cercare di sentirsi meglio.</p>
+                    <p class="quote-source">— Heffer et al., 2019</p>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Puukko et al. (2020) — Studio Finlandese</span>
+                        <span class="data-point-source">IJERPH • N=2.891 • 6 anni</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Depressione → uso social: <span class="highlight negative">B = 0.13, p = 0.039</span> (significativo)</li>
+                            <li>Uso social → depressione: <span class="highlight positive">B = 0.01, p = 0.802</span> (non significativo)</li>
+                            <li>La direzione causale va dalla depressione all'uso, <strong>non viceversa</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Steinsbekk et al. (2023) — Coorte Norvegese</span>
+                        <span class="data-point-source">Computers in Human Behavior • Random-intercept cross-lagged models</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Modelli random-intercept cross-lagged (metodologia avanzata)</li>
+                            <li>Cambiamenti within-person nell'uso social <span class="highlight positive">non correlati</span> a cambiamenti in depressione/ansia</li>
+                            <li>Misure diagnostiche di depressione e ansia (non solo self-report)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🧬</span> Modello di Selezione Differenziale</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            Questi risultati si allineano con il <strong>modello di selezione differenziale</strong>, che postula che le vulnerabilità di salute mentale preesistenti portino gli individui verso diversi pattern di uso tecnologico, piuttosto che la tecnologia che causa problemi di salute mentale.
+                        </p>
+                        <p class="prose">
+                            Il modello trae supporto dalla <strong>teoria dell'uso compensatorio di internet</strong> (Kardefelt-Winther, 2014), che suggerisce che le persone vedono le attività online come mezzi per alleviare sentimenti negativi. Da questa prospettiva, le piattaforme possono funzionare come <strong>amplificatori di condizioni preesistenti</strong> piuttosto che cause primarie di disagio psicologico.
+                        </p>
+                        <p class="prose">
+                            L'<strong>ipotesi di displacement</strong>—l'idea che lo screen time sostituisca attività promotrici di salute come sonno, attività fisica e socializzazione face-to-face—ha ricevuto <strong>supporto empirico limitato</strong>. Hall e Liu (2022) hanno concluso che c'è "pochissima evidenza diretta o causale che il tempo sui social media sposti il tempo face-to-face". Uno studio norvegese di 8 anni ha trovato che l'uso dei social media <strong>prediceva più tempo con amici offline</strong> nel futuro.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ACTIVE VS PASSIVE SECTION -->
+            <section class="section" id="activepassive">
+                <div class="section-header">
+                    <div class="section-number">06 — USO ATTIVO VS PASSIVO</div>
+                    <h2 class="section-title">Non Tutto lo Screen Time è Uguale</h2>
+                    <p class="section-description">La distinzione cruciale tra consumo passivo e engagement attivo</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card coral">
+                        <div class="stat-value">Passivo</div>
+                        <div class="stat-label">Scrolling, lurking, consumo senza interazione → outcome negativi</div>
+                    </div>
+                    <div class="stat-card teal">
+                        <div class="stat-value">Attivo</div>
+                        <div class="stat-label">Messaggi diretti, commenti, creazione contenuti → potenzialmente benefico</div>
+                    </div>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Verduyn et al. (2017) — Review Fondamentale</span>
+                        <span class="data-point-source">Social Issues and Policy Review</span>
+                    </div>
+                    <div class="data-point-body">
+                        <p>Meccanismo chiave: <strong>confronto sociale ascendente</strong> (upward social comparison)</p>
+                        <ul>
+                            <li>Gli utenti presentano versioni strategicamente costruite e idealizzate di sé stessi</li>
+                            <li>Questo crea ambienti che "provocano quasi esclusivamente confronti verso l'alto"</li>
+                            <li>Quando gli osservatori confrontano la propria esperienza autentica con gli highlight curati degli altri → sentimenti di inadeguatezza e invidia</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Godard & Holtzman (2024) — Meta-analisi Più Recente</span>
+                        <span class="data-point-source">J Computer-Mediated Communication • 897 effect sizes • N≈145.000</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Uso attivo e supporto online percepito: <span class="highlight positive">r = 0.34</span></li>
+                            <li>Uso attivo e benessere: <span class="highlight positive">r = 0.15</span></li>
+                            <li>La maggior parte degli effect size è <span class="highlight neutral">trascurabile</span> (|r| < 0.10)</li>
+                            <li><span class="highlight info">17%</span> degli effetti dell'uso passivo sono positivi</li>
+                            <li><span class="highlight info">17%</span> dell'uso attivo sono negativi</li>
+                            <li>La dicotomia attivo/passivo stessa <strong>semplifica troppo</strong> realtà complesse</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">😰</span> FOMO (Fear of Missing Out)</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Przybylski et al. (2013)</span>
+                            </div>
+                            <div class="data-point-body">
+                                <p><strong>Definizione:</strong> "Una pervasiva apprensione che altri possano avere esperienze gratificanti da cui si è assenti"</p>
+                                <ul>
+                                    <li>Scala validata a 10 item, α = 0.87-0.90</li>
+                                    <li>Correlazione con engagement social: <span class="highlight neutral">r = 0.19-0.32</span></li>
+                                    <li>FOMO correla con minore soddisfazione dei bisogni, umore e soddisfazione di vita</li>
+                                    <li>FOMO <strong>media</strong> le relazioni tra differenze individuali e pattern di engagement problematico</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">📱</span> Doom Scrolling e Algoritmi</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">PNAS Nexus (2024) — Audit Algoritmo Twitter</span>
+                            </div>
+                            <div class="data-point-body">
+                                <p>Il <strong>doom scrolling</strong>—scansione abituale e immersiva di informazioni negative nei newsfeed—sfrutta il bias di negatività evoluzionistico.</p>
+                                <ul>
+                                    <li>Algoritmo Twitter amplifica emozioni negative: <span class="highlight negative">+0.47 SD</span></li>
+                                    <li>Per contenuti politici, rabbia amplificata: <span class="highlight negative">+0.75 SD</span></li>
+                                    <li>La rabbia è "di gran lunga l'emozione predominante amplificata"</li>
+                                    <li>Questo avviene <strong>nonostante</strong> gli utenti indichino di non preferire tali contenuti quando direttamente interrogati</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Mindfulness come Mitigazione</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Meta-analisi: minore mindfulness associata a più uso problematico (weighted <span class="highlight neutral">r = -.37</span>)</li>
+                                    <li>Interventi brevi di meditazione mindfulness possono <strong>mitigare</strong> gli effetti negativi dell'esposizione a immagini idealizzate</li>
+                                    <li>Meccanismo: enhanced attention control che riduce FOMO e tendenze al confronto sociale</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🎭</span> Differenze tra Piattaforme</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            Ricerche che confrontano utenti TikTok e Instagram hanno trovato <strong>esperienze di flow, pattern di engagement e profili di addiction diversi</strong>. Uno studio 2024 su Nature Communications ha trovato che il consumo passivo su TikTok era associato con una percezione <span class="highlight positive">positiva</span> del benessere digitale—contraddicendo il pattern passivo=dannoso documentato per Facebook e Instagram.
+                        </p>
+                        <p class="prose">
+                            L'implicazione critica è che "<strong>screen time</strong>" come costrutto monolitico <strong>oscura più di quanto riveli</strong>; ciò che conta è cosa gli adolescenti stanno facendo, con chi, e in quali contesti sviluppali e sociali.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BENEFITS SECTION -->
+            <section class="section" id="benefits">
+                <div class="section-header">
+                    <div class="section-number">07 — BENEFICI</div>
+                    <h2 class="section-title">Benefici Documentati</h2>
+                    <p class="section-description">Evidenze empiriche dei benefici delle tecnologie digitali che politiche puramente restrittive potrebbero inavvertitamente eliminare</p>
+                </div>
+
+                <div class="filter-tabs">
+                    <span class="filter-tab active" onclick="filterBenefits('all')">Tutti</span>
+                    <span class="filter-tab" onclick="filterBenefits('lgbtq')">LGBTQ+</span>
+                    <span class="filter-tab" onclick="filterBenefits('cognitive')">Cognitivi</span>
+                    <span class="filter-tab" onclick="filterBenefits('social')">Sociali</span>
+                    <span class="filter-tab" onclick="filterBenefits('educational')">Educativi</span>
+                </div>
+
+                <div class="data-point" data-benefit="lgbtq">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Giovani LGBTQ+ — Berger et al. (2022)</span>
+                        <span class="data-point-source">J Medical Internet Research • Review Sistematica</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li><span class="highlight positive">38%</span> degli studi quantitativi → associazione con <strong>riduzione</strong> problemi di salute mentale</li>
+                            <li>Meccanismi: gestione identità, disclosure strategica, connessione con pari</li>
+                            <li>Per giovani LGBTQ+ in aree rurali: vedere rappresentazione positiva e connettersi con gruppi LGBTQ <strong>riduce sentimenti di isolamento</strong></li>
+                            <li>Interventi digitali per questa popolazione <strong>riducono efficacemente</strong> sintomi di salute mentale favorendo resilienza e supporto identity-affirming</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point" data-benefit="cognitive">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Gaming e Cognizione — Chaarani et al. (2022)</span>
+                        <span class="data-point-source">JAMA Network Open • Studio ABCD • N=2.217</span>
+                    </div>
+                    <div class="data-point-body">
+                        <p>Lo studio più ampio mai condotto su video gaming, cognizione e funzione cerebrale:</p>
+                        <ul>
+                            <li>Gamer vs. non-gamer: controllo inibitorio più veloce (<span class="highlight positive">287 ms vs. 300 ms</span>)</li>
+                            <li><span class="highlight positive">Migliore memoria di lavoro</span></li>
+                            <li><span class="highlight positive">Maggiore attivazione cerebrale</span> in aree attenzione/memoria</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point" data-benefit="cognitive">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Bediou et al. (2023) — Meta-analisi Gaming</span>
+                        <span class="data-point-source">Technology, Mind, and Behavior</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Studi cross-sectional: <span class="highlight positive">g = 0.55</span> (effetto medio-grande)</li>
+                            <li>Studi di intervento: <span class="highlight positive">g = 0.33</span></li>
+                            <li>Effetti comparabili all'<strong>istruzione formale</strong> sulle stesse competenze</li>
+                            <li>Miglioramenti in cognizione spaziale paragonabili all'educazione formale che mira alle stesse abilità</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point" data-benefit="social">
+                    <div class="data-point-header">
+                        <span class="data-point-title">COVID-19 — Meta-analisi</span>
+                        <span class="data-point-source">Frontiers in Public Health • 30 studi</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Social media e benessere sociale: <span class="highlight positive">r = 0.202</span> (piccolo-medio, positivo)</li>
+                            <li>Studenti più soli → <strong>maggiore beneficio</strong> dalle connessioni digitali</li>
+                            <li>Poca evidenza di effetti dannosi della tecnologia digitale durante questo periodo</li>
+                            <li>La connettività digitale può servire <strong>funzioni sociali essenziali</strong>, particolarmente quando mezzi alternativi di connessione non sono disponibili</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point" data-benefit="social">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Adolescenti con Disabilità e Malattie Croniche</span>
+                        <span class="data-point-source">Berkanish et al., 2022 • 32 studi</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Supporto peer tecnology-based affronta sfide di sviluppo che differiscono dai pari sani</li>
+                            <li><span class="highlight positive">Effetti positivi</span> sul supporto sociale</li>
+                            <li>La tecnologia aiuta a superare <strong>barriere</strong> all'accesso a connessioni peer</li>
+                            <li>Connessioni peer associate a migliore qualità di vita e outcome di salute</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point" data-benefit="educational">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Digital Literacy e Achievement Accademico</span>
+                        <span class="data-point-source">Tang & Chaw, 2016; Pagani et al., 2016</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Meta-analisi studenti universitari: <span class="highlight positive">r = 0.35</span> (moderata)</li>
+                            <li>Studenti secondaria: <span class="highlight positive">r = 0.55</span> (alta)</li>
+                            <li>Competenze: valutazione informazioni, pensiero critico, navigazione sicurezza online</li>
+                            <li>Queste competenze rappresentano sempre più <strong>prerequisiti</strong> per successo educativo e lavorativo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="data-point" data-benefit="social">
+                    <div class="data-point-header">
+                        <span class="data-point-title">Giovani Rurali e Isolati</span>
+                        <span class="data-point-source">MDPI Children, 2025</span>
+                    </div>
+                    <div class="data-point-body">
+                        <ul>
+                            <li>Uso social media <span class="highlight positive">positivamente associato</span> con supporto sociale online</li>
+                            <li>Giovani rurali riportano <strong>maggiore uso</strong> social media e supporto rispetto ai coetanei urbani</li>
+                            <li>Le piattaforme digitali forniscono <strong>accesso essenziale</strong> a comunità che potrebbero non essere disponibili geograficamente</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODERATORS SECTION -->
+            <section class="section" id="moderators">
+                <div class="section-header">
+                    <div class="section-number">08 — MODERATORI</div>
+                    <h2 class="section-title">Fattori Moderatori</h2>
+                    <p class="section-description">Gli effetti della tecnologia sono condizionali, non universali: sostanzialmente plasmati da caratteristiche individuali, stadio di sviluppo, contesto familiare e qualità dell'engagement</p>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header open" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">👨‍👩‍👧</span> Mediazione Genitoriale</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content open">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Collier et al. (2016) — Meta-analisi 57 studi</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Mediazione restrittiva: <span class="highlight negative">r = -0.06</span> (piccolo effetto negativo sugli outcome)</li>
+                                    <li>Mediazione attiva (discussione): aggressività <span class="highlight positive">r = -0.08</span>, comportamenti sessuali <span class="highlight positive">r = -0.06</span>, uso sostanze <span class="highlight positive">r = -0.11</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="quote-block">
+                            <p class="quote-text">Nessun singolo tipo di mediazione genitoriale era consistentemente associato a minore uso problematico, mentre astenersi da qualsiasi mediazione genitoriale tendeva ad aggravare i problemi.</p>
+                            <p class="quote-source">— Systematic Review 2024</p>
+                        </div>
+                        <p class="prose">
+                            <strong>Clima familiare > tipo di mediazione:</strong> La coesione familiare era consistentemente correlata a <span class="highlight positive">minore</span> uso problematico, mentre il conflitto familiare era consistentemente correlato a <span class="highlight negative">maggiore</span> uso problematico.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🧠</span> Personalità</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Meta-analisi 113 campioni (N=53.913)</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Nevroticismo e uso problematico: <span class="highlight neutral">r = 0.21</span> (correlato di personalità più forte)</li>
+                                    <li>Effetti di moderazione platform-specific: uso Instagram più frequente correlato a più sintomi depressivi per teen <strong>meno estroversi</strong>, ma non per quelli più estroversi</li>
+                                    <li>Tipi di personalità diversi possono avere <strong>esperienze qualitativamente diverse</strong> su piattaforme identiche</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">📊</span> Goldilocks Hypothesis</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Przybylski & Weinstein (2017) — N=120.115 adolescenti UK</span>
+                            </div>
+                            <div class="data-point-body">
+                                <p>Relazione <span class="highlight neutral">curvilinea</span>: troppo poco E troppo → benessere ridotto</p>
+                                <p><strong>Soglie empiriche (giorni feriali):</strong></p>
+                                <ul>
+                                    <li>Smartphone: ~<span class="highlight info">2h</span></li>
+                                    <li>Videogiochi: ~<span class="highlight info">1.7h</span></li>
+                                    <li>Computer: ~<span class="highlight info">4.2h</span></li>
+                                    <li>TV: ~<span class="highlight info">3.4h</span></li>
+                                </ul>
+                                <p>Ma anche oltre le soglie: effect size piccoli (<span class="highlight neutral">d = -0.18</span>)—equivalente a circa un terzo dell'effetto positivo di buon sonno o colazione</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">👶</span> Stadio di Sviluppo</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            Linee guida della Canadian Paediatric Society raccomandano <strong>nessuno screen time</strong> per bambini sotto i 2 anni (eccetto videochiamate) e programmazione limitata di alta qualità per età 2-5, riflettendo evidenze che i bambini più piccoli investono meno sforzo cognitivo durante l'uso dei media, reagiscono con arousal fisiologico più forte ai contenuti, e non possono distinguere la realtà quotidiana dai contenuti su schermo.
+                        </p>
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Studio ABCD — N=11.875</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Screen time moderatamente associato a peggiore salute mentale e problemi comportamentali</li>
+                                    <li>Ma: <strong>status socioeconomico più fortemente associato</strong> a ogni outcome rispetto allo screen time</li>
+                                    <li>Screen time associato a <span class="highlight positive">migliore qualità</span> delle relazioni peer</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">💰</span> SES vs Screen Time</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Studio ABCD — N=11.875</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Status socioeconomico → <span class="highlight info">più fortemente associato</span> agli outcome rispetto allo screen time</li>
+                                    <li>Policymaker e educatori che dirigono attenzione e fondi sulla riduzione dello screen time potrebbero trascurare fattori con impatto dimostrato molto maggiore: sonno, nutrizione, esercizio, sicurezza socioeconomica, clima familiare, relazioni peer</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-text">Il modello DSMM (Differential Susceptibility to Media Effects Model) identifica la suscettibilità disposizionale (personalità, temperamento), la suscettibilità di sviluppo (capacità cognitive ed emotive legate all'età), e la suscettibilità sociale (contesti familiari e peer) come moderatori chiave degli effetti dei media.</p>
+                    <p class="quote-source">— Valkenburg & Peter, 2013</p>
+                </div>
+            </section>
+
+            <!-- NARRATIVE ANALYSIS SECTION -->
+            <section class="section" id="narrative">
+                <div class="section-header">
+                    <div class="section-number">09 — ANALISI NARRATIVA</div>
+                    <h2 class="section-title">Analisi Approfondita</h2>
+                    <p class="section-description">Le sezioni narrative complete del report per uno studio dettagliato</p>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">📝</span> Introduzione: Lo Stato del Dibattito</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            Pochi argomenti nella psicologia dello sviluppo contemporanea hanno generato tanta ansia pubblica quanto gli effetti della tecnologia digitale su bambini e adolescenti. I titoli dei media proclamano regolarmente una "crisi di salute mentale" causata da smartphone e social media, mentre le soluzioni proposte spaziano dai divieti di smartphone nelle scuole alle restrizioni di età per l'accesso alle piattaforme.
+                        </p>
+                        <p class="prose">
+                            Tuttavia, un esame attento della letteratura empirica rivela una <strong>sostanziale disconnessione</strong> tra l'allarme pubblico e i risultati effettivi della ricerca scientifica rigorosa. La posta in gioco di questo dibattito si estende ben oltre il discorso accademico: politiche basate su assunzioni errate possono rivelarsi non solo inefficaci ma <strong>controproducenti</strong>—deviando risorse da interventi evidence-based, creando dinamiche conflittuali tra adulti e giovani, e potenzialmente negando a popolazioni vulnerabili l'accesso a comunità digitali di supporto.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🔬</span> Sezione 1: Limitazioni Metodologiche</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            La caratteristica più sorprendente della letteratura su tecnologia digitale e salute mentale è la <strong>magnitudine degli effetti riportati: sono notevolmente piccoli</strong>. L'analisi specification curve di Orben e Przybylski (2019), pubblicata su Nature Human Behaviour, ha analizzato tre dataset su larga scala comprendenti oltre 355.000 adolescenti e ha trovato che l'uso della tecnologia digitale spiega <strong>al massimo lo 0,4%</strong> della variazione nel benessere adolescenziale.
+                        </p>
+                        <p class="prose">
+                            Il coefficiente di regressione standardizzato mediano era circa β = -0.035—una correlazione così modesta che, come hanno notato gli autori, si dovrebbe conoscere lo screen time di un teenager con precisione impossibile per fare anche previsioni marginalmente migliori sul suo stato psicologico. Per contestualizzare questo effect size, gli stessi dataset hanno rivelato che fattori come l'<strong>essere bullizzati</strong> mostravano associazioni 4,3 volte più grandi dell'uso della tecnologia.
+                        </p>
+                        <p class="prose">
+                            Oltre alle preoccupazioni sugli effect size, la letteratura soffre di profondi <strong>problemi di misurazione</strong>. Studi di validazione dimostrano consistentemente che lo screen time auto-riportato correla debolmente con i dati di utilizzo loggati oggettivamente. Questo errore di misurazione introduce rumore sostanziale nelle analisi e può distorcere sistematicamente le relazioni osservate.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🔄</span> Sezione 2: Reverse Causation</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            Forse la sfida più consequente alle narrative "lo screen time causa danni" viene dalla ricerca longitudinale che esamina la <strong>direzionalità degli effetti</strong>. Piuttosto che l'uso della tecnologia che causa problemi di salute mentale, evidenze sostanziali indicano che gli adolescenti con difficoltà psicologiche preesistenti gravitano verso particolari pattern di engagement digitale.
+                        </p>
+                        <p class="prose">
+                            Lo studio longitudinale di otto anni di Coyne et al. (2020), che ha seguito 500 adolescenti dal Flourishing Families Project, rappresenta un contributo cruciale. Mentre le analisi between-person mostravano associazioni positive tra uso dei social media e depressione/ansia, le <strong>analisi within-person non mostravano alcun effetto</strong>. Criticamente, gli individui che aumentavano il loro uso dei social media non sperimentavano successivi aumenti in depressione o ansia. Simmetricamente, diminuire l'uso dei social media non migliorava il benessere psicologico successivo.
+                        </p>
+                        <p class="prose">
+                            Questa distinzione tra effetti between-person e within-person è metodologicamente essenziale: le associazioni between-person possono riflettere differenze individuali stabili (persone inclini alla depressione usano anche più social media), mentre le analisi within-person isolano se i cambiamenti in una variabile predicono cambiamenti successivi nell'altra <strong>all'interno dello stesso individuo</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">⚡</span> Sezione 3: Uso Passivo vs Attivo</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            La riconcettualizzazione degli effetti della tecnologia digitale richiede di andare oltre le metriche monolitiche di "screen time" verso una comprensione differenziata di <strong>come</strong> vengono usate le piattaforme. L'<strong>uso passivo</strong> coinvolge il monitoraggio delle vite online degli altri senza engagement diretto—scrollare newsfeed, navigare profili, visualizzare contenuti senza commentare. L'<strong>uso attivo</strong> comprende azioni mediate che promuovono lo scambio sociale: messaggi diretti, commenti, creazione di contenuti e comunicazione significativa one-to-one.
+                        </p>
+                        <p class="prose">
+                            Il meccanismo teorico sottostante agli effetti differenziali coinvolge il <strong>confronto sociale ascendente</strong>: gli utenti presentano versioni strategicamente costruite e idealizzate di se stessi, creando ambienti che "provocano quasi esclusivamente confronti verso l'alto". Quando gli osservatori confrontano la propria esperienza vissuta autentica con gli highlight curati degli altri, possono risultare sentimenti di inadeguatezza e invidia—particolarmente per individui vulnerabili.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">✨</span> Sezione 4: Benefici Documentati</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            Una valutazione bilanciata del ruolo della tecnologia digitale nello sviluppo richiede di riconoscere non solo i rischi ma anche i <strong>benefici empiricamente documentati</strong>—benefici che politiche puramente restrittive potrebbero inavvertitamente eliminare.
+                        </p>
+                        <p class="prose">
+                            Per i <strong>giovani LGBTQ+</strong>, le piattaforme digitali forniscono accesso essenziale a comunità che potrebbero non essere disponibili in location geografiche o contesti familiari. Per i giovani LGBTQ+ in aree rurali specificamente, visualizzare rappresentazione positiva e connettersi con gruppi LGBTQ riduce i sentimenti di isolamento. Gli interventi digitali per questa popolazione riducono efficacemente i sintomi di salute mentale favorendo al contempo resilienza e supporto identity-affirming.
+                        </p>
+                        <p class="prose">
+                            I <strong>benefici cognitivi del gaming</strong> hanno ricevuto supporto empirico sostanziale. Lo studio di Chaarani et al. (2022) in JAMA Network Open, basato su 2.217 bambini dallo studio ABCD (il più grande studio per valutare video gaming, cognizione e funzione cerebrale), ha trovato che i videogiocatori dimostravano controllo inibitorio più veloce, migliore performance di memoria di lavoro, e maggiore attivazione cerebrale in regioni di attenzione e memoria rispetto ai non-giocatori.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🎛️</span> Sezione 5: Il Contesto Determina le Conseguenze</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">
+                            Forse la conclusione più importante dalla ricerca contemporanea è che gli effetti della tecnologia digitale sono <strong>condizionali piuttosto che universali</strong>—sostanzialmente plasmati da caratteristiche individuali, stadio di sviluppo, contesto familiare e qualità dell'engagement.
+                        </p>
+                        <p class="prose">
+                            Le <strong>pratiche genitoriali</strong> rappresentano potenti moderatori. La meta-analisi di Collier et al. (2016) su 57 studi ha trovato che la mediazione restrittiva mostrava piccole relazioni negative con gli outcome dei bambini, mentre la mediazione attiva—discutere i contenuti con i bambini—era correlata a minore aggressività, meno comportamenti sessuali e meno uso di sostanze.
+                        </p>
+                        <p class="prose">
+                            L'<strong>ipotesi Goldilocks</strong>, testata da Przybylski e Weinstein (2017) in un campione di 120.115 quindicenni inglesi, dimostra che la relazione tra screen time e benessere è <strong>curvilinea piuttosto che lineare</strong>. Sia troppo poco che troppo screen time erano associati a benessere inferiore, con l'engagement moderato che appariva ottimale. Tuttavia, anche oltre questi punti di inflessione, gli effect size rimanevano piccoli (d = -0.18)—equivalenti a circa un terzo dell'effetto positivo di buon sonno o colazione.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SYNTHESIS SECTION -->
+            <section class="section" id="synthesis">
+                <div class="section-header">
+                    <div class="section-number">10 — SINTESI</div>
+                    <h2 class="section-title">Sintesi Critica e Conclusioni</h2>
+                    <p class="section-description">Le conclusioni interconnesse che sfidano le assunzioni prevalenti</p>
+                </div>
+
+                <div class="takeaway-grid">
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">I</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Effect Size Notevolmente Piccoli</div>
+                            <p class="takeaway-text">Quando Orben e Przybylski riportano che la tecnologia digitale spiega lo 0,4% della varianza nel benessere adolescenziale—paragonabile a mangiare patate o portare gli occhiali—questo risultato richiede una seria riconsiderazione dell'allocazione delle risorse. Policymaker ed educatori che dirigono attenzione e fondi sulla riduzione dello screen time potrebbero trascurare fattori con impatto dimostrato molto maggiore: <strong>sonno, nutrizione, esercizio, sicurezza socioeconomica, clima familiare e relazioni peer</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">II</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Direzione della Causalità Contestata</div>
+                            <p class="takeaway-text">Molteplici studi longitudinali rigorosi dimostrano che le difficoltà di salute mentale preesistenti predicono l'uso successivo dei social media più consistentemente di quanto l'uso dei social media predica problemi di salute mentale successivi. Il <strong>modello di selezione differenziale</strong>—in cui le piattaforme amplificano vulnerabilità preesistenti piuttosto che causarle—riceve sostanziale supporto empirico. Se adolescenti in difficoltà cercano connessione digitale come compensazione per bisogni insoddisfatti, interventi che rimuovono quella connessione senza affrontare le cause sottostanti potrebbero rivelarsi controproducenti.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">III</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Qualità > Quantità</div>
+                            <p class="takeaway-text">La distinzione tra uso attivo e passivo, sebbene non un framework completo, punta verso l'inadeguatezza dello "screen time" come metrica rilevante per le policy. Produzione creativa, connessione sociale significativa, esplorazione dell'identità e sviluppo di competenze rappresentano attività fondamentalmente diverse dal consumo passivo di contenuti algoritmicamente curati ottimizzati per l'engagement. Politiche basate esclusivamente sulla riduzione delle ore di esposizione non catturano queste distinzioni.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">IV</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Fattori Moderatori Potenti</div>
+                            <p class="takeaway-text">Gli effetti di tecnologie identiche differiscono sostanzialmente in base a caratteristiche dell'utente (personalità, vulnerabilità preesistenti), stadio di sviluppo (prima adolescenza vs periodi successivi), contesto familiare (pattern comunicativi, stile di mediazione genitoriale, clima familiare) e circostanze socioeconomiche (secondo digital divide). <strong>Prescrizioni universali che ignorano questi fattori contestuali si riveleranno inevitabilmente inappropriate</strong> per proporzioni sostanziali della popolazione.</p>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-card">
+                        <span class="takeaway-number">V</span>
+                        <div class="takeaway-content">
+                            <div class="takeaway-title">Benefici Documentati da Proteggere</div>
+                            <p class="takeaway-text">Per giovani LGBTQ+ in ambienti non supportivi, per adolescenti con disabilità che cercano connessione peer, per studenti in aree rurali che accedono a risorse educative, e per innumerevoli giovani che mantengono amicizie durante interruzioni senza precedenti come la pandemia COVID-19, le tecnologie digitali forniscono <strong>funzioni insostituibili</strong>. Politiche focalizzate esclusivamente sulla mitigazione del rischio potrebbero inavvertitamente eliminare benefici genuini.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-block">
+                    <p class="quote-text">Queste conclusioni non implicano che le tecnologie digitali non pongano rischi o che le preoccupazioni sulla salute mentale adolescenziale siano infondate. Piuttosto, suggeriscono che il modello più accurato è uno di effetti condizionali all'interno di un'ecologia di sviluppo complessa—non causalità lineare e deterministica. Questa distinzione conta profondamente per dove dirigiamo attenzione, risorse e sforzi di intervento.</p>
+                    <p class="quote-source">— Sintesi del Report</p>
+                </div>
+            </section>
+
+            <!-- IMPLICATIONS SECTION -->
+            <section class="section" id="implications">
+                <div class="section-header">
+                    <div class="section-number">11 — IMPLICAZIONI</div>
+                    <h2 class="section-title">Implicazioni per la Pratica</h2>
+                    <p class="section-description">Raccomandazioni operative per i diversi stakeholder</p>
+                </div>
+
+                <div class="implications-grid">
+                    <div class="implication-card">
+                        <div class="implication-icon">👨‍👩‍👧</div>
+                        <div class="implication-title">Genitori e Caregiver</div>
+                        <p class="implication-text">
+                            Le evidenze supportano la priorità di <strong>comunicazione aperta e co-engagement attivo</strong> rispetto ad approcci puramente restrittivi. Discutere contenuti, modellare abitudini mediatiche sane e mantenere relazioni familiari positive appaiono più consistentemente benefici dell'imporre limiti di tempo senza conversazione contestuale. Vigilanza particolare durante la <strong>prima adolescenza (10-14 anni)</strong> è giustificata, con aumenti graduali dell'autonomia digitale man mano che gli adolescenti dimostrano alfabetizzazione e competenze di auto-regolazione.
+                        </p>
+                    </div>
+
+                    <div class="implication-card">
+                        <div class="implication-icon">🏫</div>
+                        <div class="implication-title">Educatori e Scuole</div>
+                        <p class="implication-text">
+                            Gli approcci più promettenti combinano politiche ponderate con <strong>educazione completa alla digital literacy</strong>. Curricula evidence-based come quello di Common Sense Media Digital Citizenship dimostrano effetti positivi quando implementati con fedeltà. Lo sviluppo professionale dei docenti dovrebbe essere sostenuto, collaborativo e contestualmente rilevante piuttosto che sessioni di formazione isolate. Le politiche sui telefoni dovrebbero essere sviluppate con input degli stakeholder e accompagnate da componenti educative; <strong>i divieti da soli mostrano beneficio accademico limitato</strong>.
+                        </p>
+                    </div>
+
+                    <div class="implication-card">
+                        <div class="implication-icon">🧠</div>
+                        <div class="implication-title">Professionisti Salute Mentale</div>
+                        <p class="implication-text">
+                            Lo screening dovrebbe prestare attenzione alla <strong>qualità e ai pattern</strong> di engagement digitale piuttosto che semplicemente alla quantità. Pattern di uso problematico—incapacità di fermarsi, inganno per continuare l'uso, interferenza con il funzionamento quotidiano—rappresentano indicatori clinicamente significativi. Le <strong>vulnerabilità preesistenti</strong> (depressione, ansia, bassa autostima) meritano attenzione come potenziali driver di comportamenti digitali preoccupanti, non solo come conseguenze.
+                        </p>
+                    </div>
+
+                    <div class="implication-card">
+                        <div class="implication-icon">📋</div>
+                        <div class="implication-title">Policymaker</div>
+                        <p class="implication-text">
+                            Le evidenze supportano il <strong>superamento delle metriche di tempo di esposizione</strong> verso framework che affrontano qualità dei contenuti, design delle piattaforme, trasparenza algoritmica e requisiti di digital literacy. L'investimento in ricerca rigorosa e longitudinale—particolarmente riguardo alle popolazioni marginalizzate sottorappresentate negli studi esistenti—rimane essenziale per sviluppare guidance evidence-based.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- POLICY SECTION -->
+            <section class="section" id="policy">
+                <div class="section-header">
+                    <div class="section-number">12 — POLICY</div>
+                    <h2 class="section-title">Policy e Raccomandazioni</h2>
+                    <p class="section-description">Le principali linee guida istituzionali e le evidenze sui divieti scolastici</p>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header open" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🏛️</span> APA Health Advisory (2023)</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content open">
+                        <div class="quote-block">
+                            <p class="quote-text">I social media non sono intrinsecamente benefici o dannosi – gli effetti dipendono da caratteristiche personali, vulnerabilità psicologiche e contesti.</p>
+                            <p class="quote-source">— American Psychological Association, 2023</p>
+                        </div>
+                        <p class="prose">Raccomandazioni principali:</p>
+                        <ul style="color: var(--text-secondary); margin-left: 1.5rem;">
+                            <li>Alfabetizzazione digitale <strong>prima</strong> dell'accesso alle piattaforme</li>
+                            <li>Monitoraggio adulto per prima adolescenza (10-14 anni) con aumenti graduali di autonomia</li>
+                            <li>Limitare l'esposizione a contenuti specificamente dannosi piuttosto che alla tecnologia genericamente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">👶</span> AAP Framework 5C</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="prose">L'American Academy of Pediatrics si è evoluta oltre i semplici limiti temporali:</p>
+                        <div class="stats-grid" style="margin-top: 1rem;">
+                            <div class="stat-card teal">
+                                <div class="stat-value" style="font-size: 1.5rem;">Child</div>
+                                <div class="stat-label">Caratteristiche individuali del bambino</div>
+                            </div>
+                            <div class="stat-card coral">
+                                <div class="stat-value" style="font-size: 1.5rem;">Content</div>
+                                <div class="stat-label">Tipo e qualità dei contenuti</div>
+                            </div>
+                            <div class="stat-card gold">
+                                <div class="stat-value" style="font-size: 1.5rem;">Context</div>
+                                <div class="stat-label">Contesto d'uso</div>
+                            </div>
+                            <div class="stat-card purple">
+                                <div class="stat-value" style="font-size: 1.5rem;">Child-parent</div>
+                                <div class="stat-label">Relazione genitore-figlio</div>
+                            </div>
+                            <div class="stat-card blue">
+                                <div class="stat-value" style="font-size: 1.5rem;">Communication</div>
+                                <div class="stat-label">Comunicazione familiare</div>
+                            </div>
+                        </div>
+                        <div class="quote-block">
+                            <p class="quote-text">Non ci sono evidenze sufficienti che dimostrino benefici da limiti specifici di screen time.</p>
+                            <p class="quote-source">— American Academy of Pediatrics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">📵</span> Divieti Smartphone a Scuola: Le Evidenze</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Meta-analisi MDPI (2024)</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Effect size complessivo: <span class="highlight neutral">d = 0.162</span> (modesto)</li>
+                                    <li>Effetti più pronunciati per <strong>benessere sociale</strong> che per performance accademica</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Beland & Murphy (2016) — UK</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Divieti equivalenti a ~<span class="highlight positive">1 ora/settimana</span> di istruzione aggiuntiva</li>
+                                    <li>Benefici maggiori per <strong>studenti con risultati bassi</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Università di Birmingham — 1.200+ adolescenti, 30 scuole</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li><span class="highlight neutral">"Nessuna differenza negli outcome"</span> tra scuole con e senza divieto</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="quote-block">
+                            <p class="quote-text">Una soluzione unica per tutti per i cellulari nelle scuole è improbabile che abbia effetti forti.</p>
+                            <p class="quote-source">— Campbell et al., 2024 • Scoping Review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">📚</span> Digital Literacy Education</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Common Sense Media — Digital Citizenship</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Curriculum presente in <span class="highlight positive">>70%</span> delle scuole USA</li>
+                                    <li>Valutazione LSE: <span class="highlight positive">miglioramento consistente</span> in tutte le fasce d'età</li>
+                                    <li>Gli effetti positivi emergono quando implementato con fedeltà</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="prose">
+                            Lo sviluppo professionale più efficace per i docenti incorpora: apprendimento collaborativo, formazione pratica, mentorship continua piuttosto che sessioni una tantum, e rilevanza contestuale ai bisogni specifici della classe.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <h3 class="card-title"><span class="card-icon">🌍</span> Confronti Internazionali</h3>
+                        <span class="card-toggle">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Francia</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Divieti nazionali telefoni dal 2018 per primaria e medie</li>
+                                    <li>Espansione a divieti totali prevista 2025-2026</li>
+                                    <li>Docenti riportano <span class="highlight positive">miglior clima scolastico</span> e <span class="highlight positive">riduzione cyberbullismo</span></li>
+                                    <li>Ma: ricerca suggerisce che i divieti da soli <span class="highlight neutral">non booostano significativamente</span> la performance accademica</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="data-point">
+                            <div class="data-point-header">
+                                <span class="data-point-title">Svezia</span>
+                            </div>
+                            <div class="data-point-body">
+                                <ul>
+                                    <li>Pivot drastico da approccio "iper-digitalizzato" dopo declino punteggi PISA</li>
+                                    <li>Reintroduzione libri di testo fisici</li>
+                                    <li>Divieti telefoni scolastici previsti per 2026</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="prose" style="margin-top: 1rem;">
+                            Il messaggio consistente attraverso i contesti è che le <strong>restrizioni tecnologiche richiedono misure educative accompagnatorie</strong> per essere efficaci.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QUESTIONS SECTION -->
+            <section class="section" id="questions">
+                <div class="section-header">
+                    <div class="section-number">13 — DISCUSSIONE</div>
+                    <h2 class="section-title">Discussion Questions</h2>
+                    <p class="section-description">Domande per la riflessione e il dibattito accademico</p>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">1</span>
+                        <p class="question-text">Dato che gli effect size per tecnologia digitale e salute mentale sono più piccoli di quelli per sonno, nutrizione e fattori socioeconomici, <strong>come dovrebbero essere allocate risorse di intervento limitate</strong> tra queste priorità in competizione?</p>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">2</span>
+                        <p class="question-text">Se la reverse causation è sostanziale—adolescenti in difficoltà che cercano connessione digitale—<strong>come possono gli interventi affrontare le vulnerabilità sottostanti</strong> senza eliminare comunità online potenzialmente supportive?</p>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">3</span>
+                        <p class="question-text">Quali <strong>innovazioni metodologiche</strong> (es. ecological momentary assessment, logging oggettivo, design within-person) potrebbero far avanzare la nostra comprensione oltre le limitazioni attuali di self-report e ricerca cross-sectional?</p>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">4</span>
+                        <p class="question-text">Come dovrebbero gli <strong>effetti differenziali</strong> tra popolazioni (giovani LGBTQ+, giovani con disabilità, giovani rurali) informare politiche che potrebbero altrimenti riflettere principalmente esperienze della maggioranza?</p>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">5</span>
+                        <p class="question-text">Data la rapida evoluzione delle piattaforme—l'emergere di TikTok, il declino di Facebook tra i giovani—<strong>come possono ricerca e policy mantenere rilevanza</strong> quando i paesaggi tecnologici cambiano più velocemente dei cicli di ricerca?</p>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">6</span>
+                        <p class="question-text">Quale <strong>ruolo dovrebbero avere le aziende tecnologiche</strong> nel progettare piattaforme conducenti a uno sviluppo sano, e quali meccanismi regolatori potrebbero incoraggiare tali priorità di design?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REFERENCES SECTION -->
+            <section class="section" id="references">
+                <div class="section-header">
+                    <div class="section-number">14 — BIBLIOGRAFIA</div>
+                    <h2 class="section-title">Riferimenti</h2>
+                    <p class="section-description">Le fonti principali citate nel report</p>
+                </div>
+
+                <div class="search-container" style="padding: 1rem 0;">
+                    <input type="text" class="search-input" placeholder="🔍 Cerca negli autori o titoli..." id="refSearch" onkeyup="filterReferences()">
+                </div>
+
+                <div class="content-card">
+                    <div class="card-content open" id="referencesContainer">
+                        <div class="reference-item">
+                            <span class="reference-authors">American Psychological Association.</span> (2023). <span class="reference-title">Health advisory on social media use in adolescence</span>. <span class="reference-journal"><a href="https://www.apa.org/topics/social-media-internet/health-advisory-adolescent-social-media-use" class="reference-link">https://www.apa.org/topics/social-media-internet/health-advisory-adolescent-social-media-use</a></span>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Bediou, B., Adams, D. M., Mayer, R. E., Tipton, E., Green, C. S., & Bavelier, D.</span> (2023). <span class="reference-title">Effects of action video game play on cognitive skills: A meta-analysis</span>. <span class="reference-journal">Technology, Mind, and Behavior, 4(1).</span> <a href="https://doi.org/10.1037/tmb0000102" class="reference-link">doi:10.1037/tmb0000102</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Berger, M. N., Taba, M., Engel, J. L., et al.</span> (2022). <span class="reference-title">Social media use and health and well-being of LGBTQ youth: Systematic review</span>. <span class="reference-journal">Journal of Medical Internet Research, 24(9), e38449.</span> <a href="https://doi.org/10.2196/38449" class="reference-link">doi:10.2196/38449</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Berkanish, P., Pan, S., & Engel, L.</span> (2022). <span class="reference-title">Technology-based peer support interventions for adolescents with chronic illness: A systematic review</span>. <span class="reference-journal">Journal of Clinical Psychology in Medical Settings, 29, 501-515.</span> <a href="https://doi.org/10.1007/s10880-021-09791-3" class="reference-link">doi:10.1007/s10880-021-09791-3</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Chaarani, B., Ortigara, J., Yuan, D., Loso, H., Potter, A., & Garavan, H. P.</span> (2022). <span class="reference-title">Association of video gaming with cognitive performance among children</span>. <span class="reference-journal">JAMA Network Open, 5(10), e2235721.</span> <a href="https://doi.org/10.1001/jamanetworkopen.2022.35721" class="reference-link">doi:10.1001/jamanetworkopen.2022.35721</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Collier, K. M., Coyne, S. M., Rasmussen, E. E., et al.</span> (2016). <span class="reference-title">Does parental mediation of media influence child outcomes? A meta-analysis</span>. <span class="reference-journal">Developmental Psychology, 52(5), 798-812.</span> <a href="https://doi.org/10.1037/dev0000108" class="reference-link">doi:10.1037/dev0000108</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Coyne, S. M., Rogers, A. A., Zurcher, J. D., Stockdale, L., & Booth, M.</span> (2020). <span class="reference-title">Does time spent using social media impact mental health?: An eight year longitudinal study</span>. <span class="reference-journal">Computers in Human Behavior, 104, 106160.</span> <a href="https://doi.org/10.1016/j.chb.2019.106160" class="reference-link">doi:10.1016/j.chb.2019.106160</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Eirich, R., McArthur, B. A., Anhorn, C., et al.</span> (2022). <span class="reference-title">Association of screen time with internalizing and externalizing behavior problems in children 12 years or younger</span>. <span class="reference-journal">JAMA Psychiatry, 79(5), 393-405.</span> <a href="https://doi.org/10.1001/jamapsychiatry.2022.0155" class="reference-link">doi:10.1001/jamapsychiatry.2022.0155</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Escobar-Viera, C. G., Whitfield, D. L., Wessel, C. B., et al.</span> (2022). <span class="reference-title">Examining social media experiences and attitudes toward technology-based interventions for reducing social isolation among LGBTQ youth</span>. <span class="reference-journal">Frontiers in Digital Health, 4, 900695.</span> <a href="https://doi.org/10.3389/fdgth.2022.900695" class="reference-link">doi:10.3389/fdgth.2022.900695</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Godard, R., & Holtzman, S.</span> (2024). <span class="reference-title">Are active and passive social media use related to mental health, wellbeing, and social support outcomes? A meta-analysis of 141 studies</span>. <span class="reference-journal">Journal of Computer-Mediated Communication, 29(1), zmad055.</span> <a href="https://doi.org/10.1093/jcmc/zmad055" class="reference-link">doi:10.1093/jcmc/zmad055</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Hancock, J. T., Liu, S. X., Luo, M., & Mieczkowski, H.</span> (2022). <span class="reference-title">Psychological well-being and social media use: A meta-analysis</span>. <span class="reference-journal">APA Handbook.</span>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Heffer, T., Good, M., Daly, O., MacDonell, E., & Willoughby, T.</span> (2019). <span class="reference-title">The longitudinal association between social-media use and depressive symptoms among adolescents and young adults: An empirical reply to Twenge et al. (2018)</span>. <span class="reference-journal">Clinical Psychological Science, 7(3), 462-470.</span> <a href="https://doi.org/10.1177/2167702618812727" class="reference-link">doi:10.1177/2167702618812727</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Huang, C.</span> (2017). <span class="reference-title">Time spent on social network sites and psychological well-being: A meta-analysis</span>. <span class="reference-journal">Cyberpsychology, Behavior, and Social Networking, 20(6), 346-354.</span> <a href="https://doi.org/10.1089/cyber.2016.0758" class="reference-link">doi:10.1089/cyber.2016.0758</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Odgers, C. L., & Jensen, M. R.</span> (2020). <span class="reference-title">Annual research review: Adolescent mental health in the digital age: Facts, fears, and future directions</span>. <span class="reference-journal">Journal of Child Psychology and Psychiatry, 61(3), 336-348.</span> <a href="https://doi.org/10.1111/jcpp.13190" class="reference-link">doi:10.1111/jcpp.13190</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Orben, A., & Przybylski, A. K.</span> (2019). <span class="reference-title">The association between adolescent well-being and digital technology use</span>. <span class="reference-journal">Nature Human Behaviour, 3(2), 173-182.</span> <a href="https://doi.org/10.1038/s41562-018-0506-1" class="reference-link">doi:10.1038/s41562-018-0506-1</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Przybylski, A. K., Murayama, K., DeHaan, C. R., & Gladwell, V.</span> (2013). <span class="reference-title">Motivational, emotional, and behavioral correlates of fear of missing out</span>. <span class="reference-journal">Computers in Human Behavior, 29, 1841-1848.</span> <a href="https://doi.org/10.1016/j.chb.2013.02.014" class="reference-link">doi:10.1016/j.chb.2013.02.014</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Przybylski, A. K., & Weinstein, N.</span> (2017). <span class="reference-title">A large-scale test of the Goldilocks hypothesis</span>. <span class="reference-journal">Psychological Science, 28(2), 204-215.</span> <a href="https://doi.org/10.1177/0956797616678438" class="reference-link">doi:10.1177/0956797616678438</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Puukko, K., Hietajärvi, L., Maksniemi, E., Alho, K., & Salmela-Aro, K.</span> (2020). <span class="reference-title">Social media use and depressive symptoms—A longitudinal study from early to late adolescence</span>. <span class="reference-journal">IJERPH, 17(16), 5921.</span> <a href="https://doi.org/10.3390/ijerph17165921" class="reference-link">doi:10.3390/ijerph17165921</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Steinsbekk, S., Nesi, J., & Wichstrøm, L.</span> (2023). <span class="reference-title">Social media behaviors and symptoms of anxiety and depression: A four-wave cohort study from age 10-16 years</span>. <span class="reference-journal">Computers in Human Behavior, 147, 107859.</span> <a href="https://doi.org/10.1016/j.chb.2023.107859" class="reference-link">doi:10.1016/j.chb.2023.107859</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Valkenburg, P. M., Meier, A., & Beyens, I.</span> (2022). <span class="reference-title">Social media use and its impact on adolescent mental health: An umbrella review of the evidence</span>. <span class="reference-journal">Current Opinion in Psychology, 44, 58-68.</span> <a href="https://doi.org/10.1016/j.copsyc.2021.08.017" class="reference-link">doi:10.1016/j.copsyc.2021.08.017</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Valkenburg, P. M., & Peter, J.</span> (2013). <span class="reference-title">The differential susceptibility to media effects model</span>. <span class="reference-journal">Journal of Communication, 63(2), 221-243.</span> <a href="https://doi.org/10.1111/jcom.12024" class="reference-link">doi:10.1111/jcom.12024</a>
+                        </div>
+                        <div class="reference-item">
+                            <span class="reference-authors">Verduyn, P., Ybarra, O., Résibois, M., Jonides, J., & Kross, E.</span> (2017). <span class="reference-title">Do social network sites enhance or undermine subjective well-being? A critical review</span>. <span class="reference-journal">Social Issues and Policy Review, 11(1), 274-302.</span> <a href="https://doi.org/10.1111/sipr.12033" class="reference-link">doi:10.1111/sipr.12033</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">☰</button>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show section
+                const sectionId = this.dataset.section;
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Update progress
+                updateProgress();
+                
+                // Close mobile menu
+                document.getElementById('sidebar').classList.remove('open');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Toggle card content
+        function toggleCard(header) {
+            header.classList.toggle('open');
+            const content = header.nextElementSibling;
+            content.classList.toggle('open');
+        }
+
+        // Toggle sidebar (mobile)
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const activeIndex = Array.from(navItems).findIndex(item => item.classList.contains('active'));
+            const progress = ((activeIndex + 1) / navItems.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            if (query.length < 2) return;
+            
+            // Simple search - highlight matching content
+            document.querySelectorAll('.data-point, .content-card, .takeaway-card').forEach(el => {
+                const text = el.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    el.style.boxShadow = '0 0 0 2px var(--accent-teal)';
+                } else {
+                    el.style.boxShadow = '';
+                }
+            });
+        });
+
+        // Filter references
+        function filterReferences() {
+            const query = document.getElementById('refSearch').value.toLowerCase();
+            document.querySelectorAll('.reference-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        // Filter methodology
+        function filterMethodology(category) {
+            document.querySelectorAll('#methodology .filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.toLowerCase().includes(category) || (category === 'all' && tab.textContent === 'Tutti')) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('#methodology .data-point').forEach(point => {
+                if (category === 'all') {
+                    point.style.display = 'block';
+                } else {
+                    point.style.display = point.dataset.category === category ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Filter benefits
+        function filterBenefits(category) {
+            document.querySelectorAll('#benefits .filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if ((category === 'all' && tab.textContent === 'Tutti') || 
+                    tab.textContent.toLowerCase().includes(category)) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('#benefits .data-point').forEach(point => {
+                if (category === 'all') {
+                    point.style.display = 'block';
+                } else {
+                    point.style.display = point.dataset.benefit === category ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Initialize
+        updateProgress();
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            if (window.innerWidth <= 1024 && 
+                !sidebar.contains(e.target) && 
+                !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+    
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
