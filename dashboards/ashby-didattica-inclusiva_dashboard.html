@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashby & Didattica Inclusiva | Dashboard Interattiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-tertiary: #151b23;
+            --bg-card: #1a222d;
+            --bg-hover: #222c3a;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-cyan: #00d9ff;
+            --accent-cyan-dim: #00d9ff40;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --border-accent: #00d9ff30;
+            --gradient-cyber: linear-gradient(135deg, #00d9ff15 0%, #3fb95010 100%);
+            --shadow-glow: 0 0 30px #00d9ff15;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-display);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Background Grid Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text span {
+            color: var(--accent-cyan);
+        }
+
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .nav-btn.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+            border-color: var(--accent-cyan);
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 5rem 2rem 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            height: calc(100vh - 6rem);
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .sidebar-link.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+            border-left-color: var(--accent-cyan);
+        }
+
+        .sidebar-link .icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Critical Alert Box */
+        .critical-box {
+            background: linear-gradient(135deg, #f8514920 0%, #db6d2820 100%);
+            border: 1px solid var(--accent-red);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .critical-box h4 {
+            color: var(--accent-red);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .critical-box p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Main Content Area */
+        .content-area {
+            min-width: 0;
+        }
+
+        /* Section */
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-cyan-dim) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--accent-cyan-dim);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 span {
+            color: var(--accent-cyan);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-title .icon {
+            font-size: 1.25rem;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .card-content p {
+            margin-bottom: 1rem;
+        }
+
+        .card-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Expandable Cards */
+        .expandable {
+            cursor: pointer;
+        }
+
+        .expandable .card-header::after {
+            content: '▼';
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .expandable.expanded .card-header::after {
+            transform: rotate(180deg);
+        }
+
+        .expandable .card-body {
+            display: none;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        .expandable.expanded .card-body {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 2000px; }
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .info-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card-icon.cyan { background: var(--accent-cyan-dim); }
+        .info-card-icon.green { background: #3fb95020; }
+        .info-card-icon.yellow { background: #d2992220; }
+        .info-card-icon.purple { background: #a371f720; }
+        .info-card-icon.orange { background: #db6d2820; }
+
+        .info-card h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        thead {
+            background: var(--bg-tertiary);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--bg-hover);
+        }
+
+        /* Quote Block */
+        .quote-block {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .quote-block p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .quote-block cite {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: normal;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            overflow-x: auto;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.6rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .tag.cyan { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .tag.green { border-color: var(--accent-green); color: var(--accent-green); }
+        .tag.yellow { border-color: var(--accent-yellow); color: var(--accent-yellow); }
+        .tag.red { border-color: var(--accent-red); color: var(--accent-red); }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Subsection */
+        .subsection {
+            margin-bottom: 2.5rem;
+        }
+
+        .subsection h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .subsection h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .subsection ul, .subsection ol {
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box.insight {
+            border-color: var(--accent-green);
+            background: linear-gradient(135deg, #3fb95010 0%, #3fb95005 100%);
+        }
+
+        .highlight-box.warning {
+            border-color: var(--accent-yellow);
+            background: linear-gradient(135deg, #d2992210 0%, #d2992205 100%);
+        }
+
+        .highlight-box.critical {
+            border-color: var(--accent-red);
+            background: linear-gradient(135deg, #f8514910 0%, #f8514905 100%);
+        }
+
+        .highlight-box h5 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .highlight-box.insight h5 { color: var(--accent-green); }
+        .highlight-box.warning h5 { color: var(--accent-yellow); }
+        .highlight-box.critical h5 { color: var(--accent-red); }
+
+        .highlight-box p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .comparison-card h5 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .comparison-card.old { border-top: 3px solid var(--accent-red); }
+        .comparison-card.new { border-top: 3px solid var(--accent-green); }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.6rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px var(--accent-cyan-dim);
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+        }
+
+        /* Glossary Item */
+        .glossary-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            display: none;
+        }
+
+        .glossary-item.visible {
+            display: block;
+        }
+
+        .glossary-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-item .definition {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-item .application {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding-left: 1rem;
+            border-left: 2px solid var(--border-color);
+        }
+
+        /* Bibliography */
+        .bib-section {
+            margin-bottom: 2rem;
+        }
+
+        .bib-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .bib-item {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border-color);
+        }
+
+        /* Progress Indicator */
+        .progress-bar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            width: 0%;
+            z-index: 999;
+            transition: width 0.1s ease;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Visualization */
+        .visualization {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .variety-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .variety-box {
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .variety-box.system {
+            background: linear-gradient(135deg, #a371f720 0%, #a371f710 100%);
+            border: 2px solid var(--accent-purple);
+        }
+
+        .variety-box.regulator {
+            background: linear-gradient(135deg, #00d9ff20 0%, #00d9ff10 100%);
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .variety-box h5 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .variety-box.system h5 { color: var(--accent-purple); }
+        .variety-box.regulator h5 { color: var(--accent-cyan); }
+
+        .variety-box .value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .variety-arrow {
+            font-size: 2rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: relative;
+                top: 0;
+                height: auto;
+                margin-bottom: 2rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">λ</div>
+                <div class="logo-text">Ashby <span>&</span> Inclusione</div>
+            </div>
+            <nav class="main-nav">
+                <button class="nav-btn active" data-section="overview">Overview</button>
+                <button class="nav-btn" data-section="theory">Teoria</button>
+                <button class="nav-btn" data-section="strategies">Strategie</button>
+                <button class="nav-btn" data-section="applications">Applicazioni</button>
+                <button class="nav-btn" data-section="creative">Vertici Creativi</button>
+                <button class="nav-btn" data-section="recommendations">Raccomandazioni</button>
+                <button class="nav-btn" data-section="resources">Risorse</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="critical-box">
+                <h4>🔴 Tesi Centrale</h4>
+                <p>L'inclusione fallisce quando il sistema scolastico non possiede varietà sufficiente per rispondere alla varietà degli studenti. Non è un problema pedagogico, ma di architettura sistemica.</p>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione Rapida</div>
+                <div class="sidebar-links" id="quickNav">
+                    <a href="#" class="sidebar-link active" data-target="overview">
+                        <span class="icon">📄</span> Overview
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="theory">
+                        <span class="icon">🧠</span> Fondamenti Teorici
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="strategies">
+                        <span class="icon">⚙️</span> Strategie
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="applications">
+                        <span class="icon">🎯</span> Applicazioni
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="creative">
+                        <span class="icon">💡</span> Vertici Creativi
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="recommendations">
+                        <span class="icon">✅</span> Raccomandazioni
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="resources">
+                        <span class="icon">📚</span> Risorse
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Concetti Chiave</div>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link concept-link" data-concept="variety">
+                        <span class="icon">λ</span> Varietà
+                    </a>
+                    <a href="#" class="sidebar-link concept-link" data-concept="attenuator">
+                        <span class="icon">▼</span> Attenuatori
+                    </a>
+                    <a href="#" class="sidebar-link concept-link" data-concept="amplifier">
+                        <span class="icon">▲</span> Amplificatori
+                    </a>
+                    <a href="#" class="sidebar-link concept-link" data-concept="udl">
+                        <span class="icon">◎</span> UDL
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Legenda Emoji</div>
+                <div class="legend">
+                    <div class="legend-item">🔴 Critico</div>
+                    <div class="legend-item">📄 Sintesi</div>
+                    <div class="legend-item">🧠 Framework</div>
+                    <div class="legend-item">💡 Insight</div>
+                    <div class="legend-item">🎯 Goal</div>
+                    <div class="legend-item">⚠️ Alert</div>
+                    <div class="legend-item">🔗 Link</div>
+                    <div class="legend-item">✅ Azione</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <!-- OVERVIEW SECTION -->
+            <section class="section active" id="overview">
+                <div class="hero">
+                    <div class="hero-badge">📄 Framework Cibernetico</div>
+                    <h1>La Legge della Varietà Necessaria<br>e la <span>Didattica Inclusiva</span></h1>
+                    <p class="hero-subtitle">Un framework cibernetico per ripensare l'inclusione scolastica: dalla regolazione dei sistemi complessi alla progettazione di ambienti educativi ad alta varietà.</p>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-card-icon cyan">🧠</div>
+                        <h4>Il Principio</h4>
+                        <p>Solo la varietà può assorbire varietà. Un regolatore deve avere almeno tanta varietà quanta ne ha il sistema da regolare.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon green">🎯</div>
+                        <h4>L'Applicazione</h4>
+                        <p>Un sistema scolastico con poche modalità non può gestire una popolazione studentesca ad alta varietà di bisogni.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon yellow">⚙️</div>
+                        <h4>La Soluzione</h4>
+                        <p>Attenuatori, amplificatori, design universale e tecnologie come moltiplicatori di varietà a costo sostenibile.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon purple">💡</div>
+                        <h4>Il Cambio</h4>
+                        <p>Dal docente come "erogatore di adattamenti" al docente come "regolatore cibernetico" di un sistema complesso.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><span class="icon">📄</span> Abstract Esecutivo</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>La Legge della Varietà Necessaria, formulata dal cibernetico W. Ross Ashby nel 1956, stabilisce un principio fondamentale: <strong>un sistema di controllo deve possedere almeno tanta varietà quanta ne ha il sistema che intende regolare</strong>.</p>
+                        <p>Tradotto in ambito educativo, questo significa che un sistema scolastico con poche modalità di insegnamento, valutazione e relazione non può gestire efficacemente una popolazione studentesca caratterizzata da alta varietà di stili cognitivi, bisogni educativi, background e neurodiversità.</p>
+                        <p>Questo report propone un <strong>reframing dell'inclusione</strong>: non come "aggiunta" di interventi compensativi, ma come riprogettazione dell'architettura stessa del sistema educativo per incorporare varietà strutturale.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🔴 Implicazioni Operative Critiche</h3>
+                    
+                    <div class="highlight-box critical">
+                        <h5>⚠️ Implicazione 1</h5>
+                        <p>L'inclusione non si ottiene "adattando" singoli studenti al sistema, ma progettando sistemi con varietà incorporata.</p>
+                    </div>
+
+                    <div class="highlight-box critical">
+                        <h5>⚠️ Implicazione 2</h5>
+                        <p>Il costo della varietà può essere ottimizzato attraverso strategie precise: attenuazione, amplificazione, design universale, e tecnologie come moltiplicatori.</p>
+                    </div>
+
+                    <div class="highlight-box critical">
+                        <h5>⚠️ Implicazione 3</h5>
+                        <p>Ridurre la varietà del sistema scolastico di fronte a una popolazione studentesca sempre più varia non produce risparmio — produce fallimento regolativo.</p>
+                    </div>
+                </div>
+
+                <div class="visualization">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-secondary);">La Legge in Sintesi</h4>
+                    <div class="variety-diagram">
+                        <div class="variety-box system">
+                            <h5>Sistema (Classe)</h5>
+                            <div class="value">V(s)</div>
+                        </div>
+                        <div class="variety-arrow">≤</div>
+                        <div class="variety-box regulator">
+                            <h5>Regolatore (Docente)</h5>
+                            <div class="value">V(r)</div>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">V(regolatore) ≥ V(sistema da regolare)</p>
+                </div>
+            </section>
+
+            <!-- THEORY SECTION -->
+            <section class="section" id="theory">
+                <div class="section-header">
+                    <h2>🧠 Fondamenti Teorici</h2>
+                    <p>Le basi cibernetiche della varietà necessaria e le sue estensioni</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>1.1 W. Ross Ashby e la Legge della Varietà Necessaria</h3>
+                    
+                    <p>William Ross Ashby (1903-1972), psichiatra e cibernetico britannico, formulò la <strong>Law of Requisite Variety</strong> nel suo testo fondamentale <em>An Introduction to Cybernetics</em> (1956). La legge emerge dallo studio dei sistemi di regolazione.</p>
+
+                    <div class="quote-block">
+                        <p>"Solo la varietà può assorbire varietà"</p>
+                        <cite>— W. Ross Ashby, 1956</cite>
+                    </div>
+
+                    <p>In termini formali: se un sistema disturbante D può trovarsi in n stati diversi, un regolatore R deve poter assumere almeno n stati per mantenere il sistema regolato in equilibrio.</p>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h4 class="card-title"><span class="icon">📐</span> Esempio Elementare: Il Termostato</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Un termostato con due soli stati (acceso/spento) può regolare la temperatura di una stanza rispetto a un setpoint fisso. Ma se le variabili aumentano — umidità, qualità dell'aria, numero di persone, irraggiamento solare — il termostato diventa insufficiente. Serve un sistema di climatizzazione con più parametri di controllo.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h4 class="card-title"><span class="icon">🔢</span> Formalizzazione Matematica</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>La varietà di un sistema è definita come il logaritmo in base 2 del numero di stati distinguibili:</p>
+                            <div class="code-block">V = log₂(n)</div>
+                            <p>La legge stabilisce che:</p>
+                            <div class="code-block">V(regolatore) ≥ V(sistema da regolare)</div>
+                            <div class="highlight-box insight">
+                                <h5>💡 Insight</h5>
+                                <p>La varietà non è una qualità vaga, ma una grandezza misurabile. E il gap di varietà tra regolatore e sistema è quantificabile.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>1.2 Il Contributo di Stafford Beer: Cibernetica Organizzativa</h3>
+                    
+                    <p>Stafford Beer (1926-2002), considerato il padre della cibernetica gestionale, estese il lavoro di Ashby ai sistemi organizzativi con il suo <strong>Viable System Model</strong> (VSM). Beer introdusse due concetti operativi fondamentali per gestire la varietà in modo sostenibile.</p>
+
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="attenuators">▼ Attenuatori</button>
+                        <button class="tab-btn" data-tab="amplifiers">▲ Amplificatori</button>
+                    </div>
+
+                    <div class="tab-content active" id="tab-attenuators">
+                        <h4>Attenuatori di Varietà</h4>
+                        <p>Gli attenuatori <strong>riducono la varietà in ingresso</strong> prima che raggiunga il regolatore. Non eliminano la complessità reale, ma la filtrano, categorizzano, o raggruppano per renderla gestibile.</p>
+                        
+                        <h5 style="margin-top: 1.5rem; color: var(--text-primary);">Esempi in ambito educativo:</h5>
+                        <ul>
+                            <li>Routine di classe strutturate (riducono l'imprevedibilità comportamentale)</li>
+                            <li>Criteri di valutazione standardizzati (riducono la varietà delle performance da valutare)</li>
+                            <li>Raggruppamenti per livello (riducono la varietà intra-gruppo)</li>
+                            <li>Regole di comportamento esplicite (riducono la varietà delle interazioni possibili)</li>
+                        </ul>
+
+                        <div class="highlight-box warning">
+                            <h5>⚠️ Rischio</h5>
+                            <p>Un'attenuazione eccessiva può diventare esclusione. Quando la scuola "attenua" la varietà degli studenti espellendoli o segregandoli, non sta regolando — sta eliminando.</p>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-amplifiers">
+                        <h4>Amplificatori di Varietà</h4>
+                        <p>Gli amplificatori <strong>aumentano la capacità di risposta</strong> del regolatore senza aumentare proporzionalmente le risorse. Permettono a un sistema con risorse limitate di gestire varietà elevata.</p>
+                        
+                        <h5 style="margin-top: 1.5rem; color: var(--text-primary);">Esempi in ambito educativo:</h5>
+                        <ul>
+                            <li>Tecnologie assistive (amplificano le modalità di accesso)</li>
+                            <li>Materiali multimodali (amplificano i canali di comunicazione)</li>
+                            <li>Peer tutoring (amplificano la capacità di supporto)</li>
+                            <li>Piattaforme digitali (amplificano la personalizzazione)</li>
+                            <li>Formazione docenti (amplificano il repertorio di strategie)</li>
+                        </ul>
+
+                        <div class="highlight-box insight">
+                            <h5>💡 Insight Chiave</h5>
+                            <p>L'inclusione efficace non richiede necessariamente più risorse, ma un uso strategico di attenuatori e amplificatori. Il problema italiano non è solo la scarsità di risorse, ma il loro impiego non ottimizzato in termini cibernetici.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>1.3 Il Costo della Varietà: Un Trade-off Inevitabile</h3>
+                    
+                    <p>La varietà ha un costo. Ogni stato aggiuntivo che un regolatore può assumere richiede risorse specifiche:</p>
+
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-icon cyan">🧠</div>
+                            <h4>Costo Cognitivo</h4>
+                            <p>Più opzioni = più decisioni = più carico mentale per il docente</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon green">📚</div>
+                            <h4>Costo Formativo</h4>
+                            <p>Più competenze da acquisire e mantenere aggiornate</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon yellow">🏛️</div>
+                            <h4>Costo Organizzativo</h4>
+                            <p>Più procedure, più coordinamento, più complessità gestionale</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon orange">💰</div>
+                            <h4>Costo Economico</h4>
+                            <p>Più strumenti, più personale, più tempo dedicato</p>
+                        </div>
+                    </div>
+
+                    <p>Questo spiega perché i sistemi tendono a ridurre la varietà: è energeticamente conveniente. La scuola italiana, sotto pressione di risorse limitate, tende sistematicamente a minimizzare la varietà attraverso:</p>
+
+                    <ul>
+                        <li>Standardizzazione dei curricoli</li>
+                        <li>Riduzione delle ore di sostegno</li>
+                        <li>PEI template-based</li>
+                        <li>Classi numerose</li>
+                        <li>Formazione docenti uniforme</li>
+                    </ul>
+
+                    <div class="highlight-box critical">
+                        <h5>📊 Il Paradosso</h5>
+                        <p>Ridurre la varietà del sistema scolastico di fronte a una popolazione studentesca sempre più varia non produce risparmio — produce fallimento regolativo (abbandono, insuccesso, disagio, burnout docente).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STRATEGIES SECTION -->
+            <section class="section" id="strategies">
+                <div class="section-header">
+                    <h2>⚙️ Strategie di Ottimizzazione</h2>
+                    <p>Come ottenere varietà sufficiente a costi sostenibili</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>2.1 La Logica della Piattaforma</h3>
+                    
+                    <p>L'industria manifatturiera ha risolto il problema della varietà con il concetto di <strong>piattaforma</strong>: una base comune da cui derivare varianti a basso costo marginale.</p>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h4 class="card-title"><span class="icon">🚗</span> Esempio Automotive</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>La piattaforma MQB del gruppo Volkswagen è la base per oltre 40 modelli diversi (Golf, Audi A3, Seat Leon, Škoda Octavia). La varietà di prodotti finali è alta, ma il costo di sviluppo è ammortizzato sulla base comune.</p>
+                        </div>
+                    </div>
+
+                    <h4>Traduzione Educativa</h4>
+                    <p>Il curricolo può essere progettato come piattaforma. Una unità didattica "piattaforma" contiene:</p>
+                    <ul>
+                        <li><strong>Un nucleo concettuale invariante</strong> (la base)</li>
+                        <li><strong>Multiple modalità di accesso</strong> (varianti di input)</li>
+                        <li><strong>Multiple modalità di elaborazione</strong> (varianti di processo)</li>
+                        <li><strong>Multiple modalità di espressione</strong> (varianti di output)</li>
+                    </ul>
+
+                    <div class="highlight-box insight">
+                        <h5>💡 Principio</h5>
+                        <p>La varietà è incorporata nel design, non aggiunta come adattamento successivo.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>2.2 Universal Design for Learning (UDL)</h3>
+                    
+                    <p>L'Universal Design for Learning, sviluppato dal Center for Applied Special Technology (CAST), è l'applicazione più sistematica del pensiero platform-based all'educazione. I tre principi UDL sono di fatto strategie di varietà incorporata:</p>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Principio UDL</th>
+                                    <th>Traduzione Cibernetica</th>
+                                    <th>Implementazione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Molteplici mezzi di coinvolgimento</strong></td>
+                                    <td>Varietà nei canali motivazionali</td>
+                                    <td>Scelta, rilevanza, autoregolazione</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Molteplici mezzi di rappresentazione</strong></td>
+                                    <td>Varietà nei canali di input</td>
+                                    <td>Multimodalità, alternative testuali, scaffolding</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Molteplici mezzi di azione ed espressione</strong></td>
+                                    <td>Varietà nei canali di output</td>
+                                    <td>Strumenti, supporti, opzioni di risposta</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="highlight-box insight">
+                        <h5>💡 Il Vantaggio Economico dell'UDL</h5>
+                        <p>La varietà progettata upstream (in fase di design) costa meno della varietà aggiunta downstream (come adattamento). Progettare una lezione UDL richiede più tempo iniziale, ma elimina o riduce drasticamente gli adattamenti individuali successivi.</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h5>📊 Evidenza</h5>
+                        <p>Una meta-analisi di Capp (2017) su 18 studi ha mostrato che l'implementazione UDL produce miglioramenti significativi nei risultati di apprendimento per tutti gli studenti, non solo per quelli con BES.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>2.3 L'Intelligenza Artificiale come Amplificatore</h3>
+                    
+                    <p>L'AI generativa rappresenta un salto qualitativo nella capacità di amplificare varietà a costo marginale quasi nullo. Un Large Language Model può:</p>
+
+                    <ul>
+                        <li>Generare N versioni di una verifica in minuti</li>
+                        <li>Adattare testi a diversi livelli di leggibilità</li>
+                        <li>Creare materiali multimodali personalizzati</li>
+                        <li>Produrre feedback individualizzato</li>
+                        <li>Tradurre contenuti in formati accessibili</li>
+                    </ul>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-card old">
+                            <h5>Prima dell'AI</h5>
+                            <p>La personalizzazione era labor-intensive. Creare 5 versioni di una verifica richiedeva 5x il tempo.</p>
+                        </div>
+                        <div class="comparison-card new">
+                            <h5>Con l'AI</h5>
+                            <p>La personalizzazione diventa capital-intensive ma a costo marginale decrescente. Creare 5 versioni richiede lo stesso tempo di crearne 1.</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box warning">
+                        <h5>⚠️ Rischio</h5>
+                        <p>L'AI amplifica la varietà dell'output, ma non sostituisce la varietà del giudizio professionale. Il docente deve comunque possedere la varietà cognitiva per valutare, selezionare, adattare i prodotti AI.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>2.4 La Distribuzione della Varietà: Sistemi Multi-Agente</h3>
+                    
+                    <p>Un singolo regolatore con varietà insufficiente può essere sostituito da un sistema di regolatori distribuiti la cui varietà combinata è sufficiente.</p>
+
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-icon cyan">👥</div>
+                            <h4>Co-teaching</h4>
+                            <p>Due docenti con profili diversi = varietà sommata</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon green">🤝</div>
+                            <h4>Peer Tutoring</h4>
+                            <p>Gli studenti diventano co-regolatori</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon yellow">🔄</div>
+                            <h4>Gruppi Cooperativi</h4>
+                            <p>La varietà è distribuita nel gruppo</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon purple">🏫</div>
+                            <h4>Team Docente</h4>
+                            <p>Il consiglio di classe come sistema multi-agente</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box insight">
+                        <h5>💡 Il GLO come Sistema Multi-Agente</h5>
+                        <p>L'équipe GLO è un tentativo di costruire un regolatore distribuito con varietà sufficiente per studenti ad alta complessità. La sua efficacia dipende dalla varietà reale dei partecipanti, non dalla loro presenza formale.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APPLICATIONS SECTION -->
+            <section class="section" id="applications">
+                <div class="section-header">
+                    <h2>🎯 Applicazioni alla Didattica Inclusiva</h2>
+                    <p>Traduzione operativa del framework cibernetico nel contesto italiano</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>3.1 Il PEI come Mappa di Varietà Necessaria</h3>
+                    
+                    <p>Il Piano Educativo Individualizzato, nella cornice cibernetica, può essere riletto come un documento che:</p>
+                    <ol>
+                        <li><strong>Analizza la varietà dello studente</strong> (profilo di funzionamento ICF)</li>
+                        <li><strong>Progetta la varietà di risposta</strong> (interventi, strategie, strumenti)</li>
+                        <li><strong>Verifica il matching</strong> (monitoraggio, valutazione)</li>
+                    </ol>
+
+                    <div class="highlight-box critical">
+                        <h5>🔴 Problema Sistemico</h5>
+                        <p>I PEI template-based riducono la varietà dell'intervento, producendo mismatch sistematico con studenti ad alta varietà individuale.</p>
+                    </div>
+
+                    <h4>Proposta: PEI come "Profilo di Varietà"</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Dimensione</th>
+                                    <th>Varietà dello Studente</th>
+                                    <th>Varietà di Risposta Necessaria</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Comunicazione</td>
+                                    <td>Modalità espressive disponibili</td>
+                                    <td>Canali comunicativi da attivare</td>
+                                </tr>
+                                <tr>
+                                    <td>Autonomia</td>
+                                    <td>Range di situazioni gestibili</td>
+                                    <td>Supporti e scaffolding necessari</td>
+                                </tr>
+                                <tr>
+                                    <td>Cognitiva</td>
+                                    <td>Stili di apprendimento, punti forza/debolezza</td>
+                                    <td>Strategie didattiche da impiegare</td>
+                                </tr>
+                                <tr>
+                                    <td>Relazionale</td>
+                                    <td>Pattern di interazione</td>
+                                    <td>Setting e mediazioni da predisporre</td>
+                                </tr>
+                                <tr>
+                                    <td>Sensoriale</td>
+                                    <td>Profilo sensoriale</td>
+                                    <td>Adattamenti ambientali</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>3.2 Il Docente di Sostegno come Amplificatore</h3>
+                    
+                    <p>Nella logica cibernetica, il docente di sostegno non è primariamente un "supporto allo studente" ma un <strong>amplificatore di varietà del sistema classe</strong>. La sua funzione è aumentare la varietà di risposta del sistema didattico, non compensare i "deficit" dello studente.</p>
+
+                    <h4>Implicazioni Operative</h4>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-icon green">✅</div>
+                            <h4>Co-progetta</h4>
+                            <p>Il docente di sostegno co-progetta con il curricolare (amplifica la varietà didattica)</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon green">✅</div>
+                            <h4>Forma i Pari</h4>
+                            <p>Il docente di sostegno forma i pari (distribuisce la varietà)</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon green">✅</div>
+                            <h4>Adatta per Tutti</h4>
+                            <p>Il docente di sostegno adatta materiali per tutti (crea varietà strutturale)</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon orange">⚠️</div>
+                            <h4>Rischio 1:1</h4>
+                            <p>Il docente che lavora solo 1:1 con l'alunno è una risorsa sottoutilizzata in termini cibernetici</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>3.3 La Classe come Sistema Cibernetico</h3>
+                    
+                    <p>Una classe scolastica è un sistema complesso con:</p>
+                    <ul>
+                        <li><strong>Input variabili:</strong> 20-25 studenti con profili diversi</li>
+                        <li><strong>Disturbi:</strong> interruzioni, conflitti, imprevisti</li>
+                        <li><strong>Regolatore:</strong> il docente (o il team docente)</li>
+                        <li><strong>Output desiderato:</strong> apprendimento per tutti</li>
+                    </ul>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h4 class="card-title"><span class="icon">🔢</span> Calcolo Approssimativo della Varietà</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Se ogni studente può trovarsi in 10 stati significativamente diversi (attento, distratto, confuso, annoiato, eccitato, in difficoltà, etc.) e la classe ha 25 studenti, la varietà combinatoria della classe è astronomica.</p>
+                            <div class="highlight-box critical">
+                                <h5>🔴 Implicazione</h5>
+                                <p>Nessun singolo docente può avere varietà individuale sufficiente.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>Soluzioni Cibernetiche per la Classe</h4>
+                    <ol>
+                        <li><strong>Attenuazione:</strong> Routine che riducono gli stati possibili (procedure di inizio lezione, regole esplicite)</li>
+                        <li><strong>Amplificazione:</strong> Strumenti che aumentano la capacità di risposta (tecnologie, materiali differenziati)</li>
+                        <li><strong>Distribuzione:</strong> Peer support, gruppi cooperativi, tutoring</li>
+                        <li><strong>Design universale:</strong> Lezioni progettate con varietà incorporata</li>
+                    </ol>
+                </div>
+
+                <div class="subsection">
+                    <h3>3.4 La Valutazione Inclusiva: Varietà nell'Output</h3>
+                    
+                    <p>La valutazione tradizionale (verifica scritta standardizzata) è un attenuatore di varietà che funziona come filtro: rileva solo le competenze esprimibili attraverso quel canale specifico.</p>
+
+                    <h4>Valutazione ad Alta Varietà</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modalità</th>
+                                    <th>Cosa Rileva</th>
+                                    <th>Per Chi è Vantaggiosa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Verifica scritta tradizionale</td>
+                                    <td>Competenze linguistico-testuali</td>
+                                    <td>Studenti verbali-analitici</td>
+                                </tr>
+                                <tr>
+                                    <td>Verifica orale</td>
+                                    <td>Competenze espositive, argomentative</td>
+                                    <td>Studenti con disgrafia, DSA</td>
+                                </tr>
+                                <tr>
+                                    <td>Compito di realtà</td>
+                                    <td>Competenze applicative</td>
+                                    <td>Studenti pragmatici</td>
+                                </tr>
+                                <tr>
+                                    <td>Portfolio</td>
+                                    <td>Competenze processuali</td>
+                                    <td>Studenti riflessivi</td>
+                                </tr>
+                                <tr>
+                                    <td>Prodotto multimediale</td>
+                                    <td>Competenze creative-digitali</td>
+                                    <td>Studenti visuo-spaziali</td>
+                                </tr>
+                                <tr>
+                                    <td>Osservazione sistematica</td>
+                                    <td>Competenze in contesto</td>
+                                    <td>Studenti con ansia da performance</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="highlight-box insight">
+                        <h5>💡 Principio</h5>
+                        <p>Più canali valutativi = maggiore varietà di rilevazione = quadro più accurato delle competenze reali.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CREATIVE SECTION -->
+            <section class="section" id="creative">
+                <div class="section-header">
+                    <h2>💡 Vertici Creativi e Connessioni Inedite</h2>
+                    <p>Letture non convenzionali che emergono dall'applicazione rigorosa del framework cibernetico</p>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">🔴</span> 4.1 Il Comportamento Problema come Segnale di Mismatch</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Nella prospettiva cibernetica, un "comportamento problema" può essere riletto come <strong>feedback di un sistema di regolazione in crisi</strong>. Lo studente che "disturba" sta segnalando che la varietà dell'ambiente non è sufficiente per la sua varietà interna.</p>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Lettura Tradizionale</th>
+                                        <th>Lettura Cibernetica</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>"È oppositivo"</td>
+                                        <td>Il sistema non offre risposte accettabili per lui</td>
+                                    </tr>
+                                    <tr>
+                                        <td>"Non sta attento"</td>
+                                        <td>L'input non è nel suo range di processabilità</td>
+                                    </tr>
+                                    <tr>
+                                        <td>"Disturba la classe"</td>
+                                        <td>Sta cercando di regolare un sistema che non lo regola</td>
+                                    </tr>
+                                    <tr>
+                                        <td>"È aggressivo"</td>
+                                        <td>La sua varietà comportamentale eccede quella gestibile dal contesto</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h5>📝 Implicazione Operativa</h5>
+                            <p>L'analisi funzionale del comportamento (ABC Analysis) è di fatto un'analisi del mismatch di varietà: quali stati dell'ambiente (antecedenti) producono quali risposte (comportamenti) con quali effetti (conseguenze, che spesso sono tentativi di auto-regolazione).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">🔥</span> 4.2 Il Burnout Docente come Collasso di Varietà</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Il burnout può essere modellato come <strong>esaurimento della varietà di risposta</strong>. Un docente in burnout ha perso flessibilità: risponde in modo rigido, stereotipato, o non risponde affatto.</p>
+                        
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Dinamica Cibernetica del Burnout</h5>
+                        <ol>
+                            <li><strong>Fase iniziale:</strong> Varietà dello studente > Varietà del docente → il docente compensa con sforzo</li>
+                            <li><strong>Fase di stress:</strong> Lo sforzo compensativo consuma risorse → la varietà effettiva del docente diminuisce</li>
+                            <li><strong>Fase di esaurimento:</strong> Varietà residua insufficiente → risposte rigide o ritiro</li>
+                            <li><strong>Fase di breakdown:</strong> Sistema di regolazione collassato → "la classe è ingestibile"</li>
+                        </ol>
+
+                        <div class="highlight-box insight">
+                            <h5>💡 Insight</h5>
+                            <p>La prevenzione del burnout non è solo "benessere docente" ma manutenzione della varietà di sistema. Un docente in burnout è un regolatore guasto che lascia la classe senza regolazione sufficiente.</p>
+                        </div>
+
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Strategie di Prevenzione in Chiave Cibernetica</h5>
+                        <ul>
+                            <li>Formazione continua (rigenera varietà)</li>
+                            <li>Supervisione (amplia prospettive = varietà)</li>
+                            <li>Team teaching (distribuisce il carico di varietà)</li>
+                            <li>Riduzione del numero di studenti per classe (attenua la varietà da gestire)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">🔄</span> 4.3 L'Inclusione Inversa: Lo Studente come Regolatore</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Un vertice creativo radicale: in certe condizioni, lo studente con disabilità può diventare <strong>amplificatore di varietà per il sistema</strong> invece che fonte di perturbazione.</p>
+                        
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Esempi</h5>
+                        <ul>
+                            <li>Lo studente autistico con iperfocus tematico che introduce contenuti inediti</li>
+                            <li>Lo studente con ADHD che segnala quando la lezione è troppo monotona (feedback utile)</li>
+                            <li>Lo studente con disabilità motoria che richiede riprogettazione degli spazi (che poi serve a tutti)</li>
+                            <li>Lo studente non vedente che richiede materiali audio (che diventano risorse per tutti)</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <h5>🔗 Curb-Cut Effect</h5>
+                            <p>I tagli nei marciapiedi, progettati per sedie a rotelle, sono usati da tutti (passeggini, trolley, bici). La varietà introdotta per uno diventa risorsa per molti.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">💻</span> 4.4 Il Digitale come Ambiente ad Alta Varietà</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>L'ambiente digitale presenta una varietà strutturalmente più alta dell'ambiente fisico tradizionale: più stimoli, più canali, più opzioni, più percorsi. Questo ha due implicazioni opposte:</p>
+                        
+                        <div class="comparison-grid">
+                            <div class="comparison-card old">
+                                <h5>Rischio</h5>
+                                <p>Studenti con difficoltà di autoregolazione affrontano un ambiente che eccede la loro capacità di filtraggio (sovraccarico).</p>
+                            </div>
+                            <div class="comparison-card new">
+                                <h5>Opportunità</h5>
+                                <p>L'ambiente digitale può incorporare varietà che quello fisico non può permettersi (personalizzazione automatica, adattamento in tempo reale, multimodalità nativa).</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box insight">
+                            <h5>💡 Paradosso del Digitale Inclusivo</h5>
+                            <p>La tecnologia può essere sia amplificatore di barriere (troppa varietà = sovraccarico) sia amplificatore di accessibilità (varietà giusta = accesso universale). La differenza sta nel design.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">🧬</span> 4.5 La Neurodiversità come Risorsa di Varietà Sistemica</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>La prospettiva neurodiversity-affirmative può essere riformulata in termini cibernetici: un sistema con membri neurodivergenti ha <strong>varietà strutturale maggiore</strong> di un sistema neurotipico omogeneo.</p>
+                        
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Implicazione Evoluzionistica</h5>
+                        <p>I sistemi ad alta varietà interna sono più resilienti ai cambiamenti ambientali. Una popolazione con neurodiversità ha più modi di rispondere a sfide inedite.</p>
+
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Implicazione Educativa</h5>
+                        <p>Classi neurodivergenti non sono "più difficili da gestire" — sono sistemi a più alta varietà che richiedono regolatori a più alta varietà. La difficoltà percepita è un segnale di varietà insufficiente del sistema scolastico, non di difetto degli studenti.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">📝</span> 4.6 Il PDP e il PEI come "Contratti di Varietà"</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Una lettura inedita: il Piano Didattico Personalizzato (per DSA/BES) e il Piano Educativo Individualizzato (per L.104) possono essere visti come <strong>contratti espliciti di varietà</strong> tra lo studente e l'istituzione.</p>
+                        
+                        <p>Lo studente "porta" una certa varietà (il suo profilo). L'istituzione si impegna a "matchare" quella varietà con interventi specifici. Il documento è la formalizzazione di questo patto.</p>
+
+                        <div class="highlight-box warning">
+                            <h5>⚠️ Quando il Contratto Fallisce</h5>
+                            <p>Se il PEI/PDP rimane su carta, l'istituzione ha firmato un contratto di varietà che non onora. Il mismatch produce i fallimenti che osserviamo: insuccesso, disagio, abbandono.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">📚</span> 4.7 La Formazione Docenti come Moltiplicatore di Varietà</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Un docente formato su un solo approccio ha varietà limitata. La formazione può essere ripensata come <strong>espansione deliberata del repertorio di varietà</strong>.</p>
+                        
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Calcolo Approssimativo</h5>
+                        <ul>
+                            <li>Docente con 1 strategia didattica: può rispondere a 1 tipo di studente</li>
+                            <li>Docente con 5 strategie: può rispondere a 5 tipi</li>
+                            <li>Docente con 5 strategie × 3 strumenti × 4 modalità valutative = 60 combinazioni possibili</li>
+                        </ul>
+
+                        <div class="highlight-box insight">
+                            <h5>💡 Insight per i Formatori</h5>
+                            <p>L'obiettivo della formazione docenti non è trasmettere "la" metodologia corretta, ma espandere il repertorio di risposte possibili. Ogni strategia in più è varietà in più.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">⏱️</span> 4.8 Il Tempo Scuola come Vincolo di Varietà</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Un vincolo sottovalutato: il tempo. Un docente con 2 ore settimanali in una classe ha <strong>meno tempo per dispiegare varietà</strong> di uno con 6 ore.</p>
+                        
+                        <div class="highlight-box">
+                            <h5>📝 Implicazione</h5>
+                            <p>Le discipline con poche ore sono strutturalmente svantaggiate nella capacità di risposta inclusiva. Non possono permettersi la varietà che richiederebbe la popolazione studentesca.</p>
+                        </div>
+
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Soluzione Possibile</h5>
+                        <p>Progettazione interdisciplinare che "mette in comune" il tempo, aumentando la varietà di risposta complessiva.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">❌</span> 4.9 L'Errore Sistemico della "Normalizzazione"</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>L'obiettivo implicito di molti interventi educativi è "normalizzare" lo studente divergente — cioè <strong>ridurre la sua varietà</strong> per matchare quella limitata del sistema.</p>
+                        
+                        <p>Nella prospettiva cibernetica, questo è un errore logico: invece di aumentare la varietà del regolatore, si tenta di diminuire quella del sistema da regolare.</p>
+
+                        <h5 style="margin-top: 1rem; color: var(--accent-cyan);">Conseguenze</h5>
+                        <ul>
+                            <li>Lo studente "normalizzato" con sforzo torna alla sua varietà naturale appena l'intervento cessa</li>
+                            <li>L'energia spesa per la normalizzazione è sottratta all'apprendimento</li>
+                            <li>Il messaggio implicito è "la tua varietà è un problema da eliminare"</li>
+                        </ul>
+
+                        <div class="highlight-box critical">
+                            <h5>🔴 Principio Alternativo</h5>
+                            <p>L'inclusione autentica non normalizza lo studente al sistema, ma espande il sistema per includere lo studente.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4 class="card-title"><span class="icon">🎛️</span> 4.10 Il GLO come "Stanza di Controllo" Cibernetica</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Il Gruppo di Lavoro Operativo può essere modellato come una <strong>control room</strong> con più operatori che monitorano un sistema complesso (lo studente nel suo contesto).</p>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Ruolo nel GLO</th>
+                                        <th>Funzione Cibernetica</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Docente curricolare</td>
+                                        <td>Sensore del contesto classe</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Docente di sostegno</td>
+                                        <td>Sensore del funzionamento individuale</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Famiglia</td>
+                                        <td>Sensore del contesto domestico</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Specialista ASL</td>
+                                        <td>Sensore clinico</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dirigente</td>
+                                        <td>Allocatore di risorse</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Studente (se presente)</td>
+                                        <td>Feedback diretto dal sistema</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="highlight-box insight">
+                            <h5>💡 Quando il GLO Fallisce</h5>
+                            <p>Se i "sensori" non comunicano, o se le informazioni non si traducono in azioni, il sistema di controllo è disfunzionale. Il GLO efficace è quello in cui la varietà di prospettive si traduce in varietà di interventi coordinati.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RECOMMENDATIONS SECTION -->
+            <section class="section" id="recommendations">
+                <div class="section-header">
+                    <h2>✅ Raccomandazioni Operative</h2>
+                    <p>Azioni concrete per diversi stakeholder</p>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="teachers">Per Docenti</button>
+                    <button class="tab-btn" data-tab="trainers">Per Formatori</button>
+                    <button class="tab-btn" data-tab="leaders">Per Dirigenti</button>
+                    <button class="tab-btn" data-tab="design">Per la Progettazione</button>
+                </div>
+
+                <div class="tab-content active" id="tab-teachers">
+                    <div class="subsection">
+                        <h3>Raccomandazioni per i Docenti</h3>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">1️⃣</span> Mappa la tua varietà</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Quante strategie didattiche diverse padroneggi realmente? Quanti canali di comunicazione usi? Quante modalità valutative impieghi? Fai un inventario onesto del tuo repertorio.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">2️⃣</span> Identifica i mismatch</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Quali studenti "non raggiungi"? Probabilmente la tua varietà non matcha la loro. La domanda non è "cosa c'è che non va in loro" ma "cosa manca al mio repertorio".</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">3️⃣</span> Investi in amplificatori</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Tecnologie, materiali multimodali, peer support. Ogni amplificatore aumenta la tua varietà effettiva senza aumentare proporzionalmente il tuo carico.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">4️⃣</span> Usa attenuatori strategici</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Routine, procedure chiare, aspettative esplicite. Riducono la varietà da gestire momento per momento, liberando risorse per la varietà che conta.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">5️⃣</span> Distribuisci</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Non portare tutto il carico di varietà da solo. Coinvolgi colleghi, studenti, famiglie, strumenti.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-trainers">
+                    <div class="subsection">
+                        <h3>Raccomandazioni per i Formatori</h3>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">1️⃣</span> Espandi repertori, non trasmettere dogmi</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>L'obiettivo è aumentare la varietà dei corsisti, non convertirli a un metodo. Ogni strategia aggiuntiva è un incremento di varietà.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">2️⃣</span> Modella la varietà</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Se fai formazione con un solo metodo, stai contraddicendo il messaggio. Usa varietà di approcci nella formazione stessa.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">3️⃣</span> Fornisci strumenti amplificatori</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Template, checklist, risorse pronte all'uso sono varietà "preconfezionata" che i corsisti possono attivare immediatamente.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">4️⃣</span> Affronta il costo</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Sii onesto sul fatto che la varietà costa. Aiuta i corsisti a ottimizzare, non a illudersi che sia gratis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-leaders">
+                    <div class="subsection">
+                        <h3>Raccomandazioni per Dirigenti e Decisori</h3>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">1️⃣</span> Misura la varietà del sistema</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Quanti modi diversi ha la tua scuola di rispondere agli studenti? Se sono pochi, l'inclusione sarà strutturalmente carente.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">2️⃣</span> Investi in varietà upstream</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>UDL, progettazione universale, formazione docenti. Costa di più all'inizio, costa meno in adattamenti successivi.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">3️⃣</span> Evita l'attenuazione impropria</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Ridurre la varietà degli studenti (esclusione, segregazione, "orientamento" verso altre scuole) non è regolazione — è abduzione della funzione.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">4️⃣</span> Costruisci sistemi multi-agente</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>GLO efficaci, team docenti reali, reti con i servizi. La varietà distribuita è più sostenibile di quella concentrata.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">5️⃣</span> Monitora il burnout come segnale</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Docenti in esaurimento = sistema che sta perdendo varietà di regolazione. Intervieni prima del collasso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-design">
+                    <div class="subsection">
+                        <h3>Raccomandazioni per la Progettazione Didattica</h3>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">1️⃣</span> Progetta piattaforme, non lezioni singole</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Unità con varietà incorporata, non lezioni da adattare caso per caso.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">2️⃣</span> Applica i principi UDL sistematicamente</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Multiple modalità di engagement, rappresentazione, espressione. Non come add-on, ma come architettura.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">3️⃣</span> Usa l'AI come amplificatore</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Generazione di varianti, personalizzazione, feedback. Ma mantieni il giudizio professionale.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><span class="icon">4️⃣</span> Valuta con varietà</h4>
+                            </div>
+                            <div class="card-content">
+                                <p>Più canali valutativi = rilevazione più accurata = PEI più calibrato.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RESOURCES SECTION -->
+            <section class="section" id="resources">
+                <div class="section-header">
+                    <h2>📚 Risorse</h2>
+                    <p>Glossario, bibliografia e riferimenti</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Glossario Cibernetico per l'Inclusione</h3>
+                    
+                    <div class="search-box">
+                        <input type="text" id="glossarySearch" placeholder="Cerca nel glossario...">
+                    </div>
+
+                    <div id="glossaryItems">
+                        <div class="glossary-item visible" data-term="varietà variety">
+                            <h4>Varietà</h4>
+                            <div class="definition">Numero di stati distinguibili di un sistema. Misura matematica: V = log₂(n)</div>
+                            <div class="application"><strong>Applicazione:</strong> Quanti modi diversi uno studente può funzionare; quanti modi diversi un docente può rispondere</div>
+                        </div>
+
+                        <div class="glossary-item visible" data-term="regolatore regulator controller">
+                            <h4>Regolatore</h4>
+                            <div class="definition">Sistema che mantiene un altro sistema in equilibrio attraverso feedback e azioni correttive</div>
+                            <div class="application"><strong>Applicazione:</strong> Il docente, il team docente, il GLO</div>
+                        </div>
+
+                        <div class="glossary-item visible" data-term="attenuatore attenuator filter">
+                            <h4>Attenuatore</h4>
+                            <div class="definition">Dispositivo che riduce la varietà in ingresso, filtrando o categorizzando gli input</div>
+                            <div class="application"><strong>Applicazione:</strong> Routine, regole, standardizzazioni, procedure di classe</div>
+                        </div>
+
+                        <div class="glossary-item visible" data-term="amplificatore amplifier">
+                            <h4>Amplificatore</h4>
+                            <div class="definition">Dispositivo che aumenta la varietà di risposta senza aumentare proporzionalmente le risorse</div>
+                            <div class="application"><strong>Applicazione:</strong> Tecnologie, formazione, strumenti digitali, peer support</div>
+                        </div>
+
+                        <div class="glossary-item visible" data-term="feedback retroazione">
+                            <h4>Feedback</h4>
+                            <div class="definition">Informazione di ritorno sugli effetti di un'azione che permette la regolazione</div>
+                            <div class="application"><strong>Applicazione:</strong> Valutazione formativa, osservazione, monitoraggio PEI</div>
+                        </div>
+
+                        <div class="glossary-item visible" data-term="omeostasi homeostasis equilibrio">
+                            <h4>Omeostasi</h4>
+                            <div class="definition">Mantenimento di uno stato di equilibrio dinamico in un sistema</div>
+                            <div class="application"><strong>Applicazione:</strong> Clima di classe, regolazione emotiva, apprendimento stabile</div>
+                        </div>
+
+                        <div class="glossary-item visible" data-term="perturbazione disturbance">
+                            <h4>Perturbazione</h4>
+                            <div class="definition">Input che allontana il sistema dall'equilibrio, richiedendo una risposta regolatoria</div>
+                            <div class="application"><strong>Applicazione:</strong> Imprevisti, comportamenti problema, difficoltà emergenti</div>
+                        </div>
+
+                        <div class="glossary-item visible" data-term="sistema viable viability">
+                            <h4>Sistema Viable</h4>
+                            <div class="definition">Sistema capace di sopravvivere e adattarsi nel suo ambiente mantenendo la propria identità</div>
+                            <div class="application"><strong>Applicazione:</strong> Classe inclusiva che funziona; studente che ha successo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Bibliografia</h3>
+
+                    <div class="bib-section">
+                        <h4>Opere Fondamentali</h4>
+                        <div class="bib-item">Ashby, W. R. (1956). <em>An Introduction to Cybernetics</em>. Chapman & Hall.</div>
+                        <div class="bib-item">Ashby, W. R. (1952). <em>Design for a Brain</em>. Chapman & Hall.</div>
+                        <div class="bib-item">Beer, S. (1972). <em>Brain of the Firm</em>. Allen Lane.</div>
+                        <div class="bib-item">Beer, S. (1979). <em>The Heart of Enterprise</em>. John Wiley & Sons.</div>
+                        <div class="bib-item">Beer, S. (1985). <em>Diagnosing the System for Organizations</em>. John Wiley & Sons.</div>
+                    </div>
+
+                    <div class="bib-section">
+                        <h4>Universal Design for Learning</h4>
+                        <div class="bib-item">CAST (2018). <em>Universal Design for Learning Guidelines version 2.2</em>. http://udlguidelines.cast.org</div>
+                        <div class="bib-item">Meyer, A., Rose, D. H., & Gordon, D. (2014). <em>Universal Design for Learning: Theory and Practice</em>. CAST Professional Publishing.</div>
+                        <div class="bib-item">Capp, M. J. (2017). The effectiveness of universal design for learning: A meta-analysis of literature between 2013 and 2016. <em>International Journal of Inclusive Education</em>, 21(8), 791-807.</div>
+                    </div>
+
+                    <div class="bib-section">
+                        <h4>Didattica Inclusiva e Normativa Italiana</h4>
+                        <div class="bib-item">D.Lgs. 66/2017 - Norme per la promozione dell'inclusione scolastica degli studenti con disabilità.</div>
+                        <div class="bib-item">D.I. 182/2020 - Adozione del modello nazionale di PEI.</div>
+                        <div class="bib-item">Ianes, D. & Canevaro, A. (2019). <em>Lontani da dove? Passato e futuro dell'inclusione scolastica in Italia</em>. Erickson.</div>
+                        <div class="bib-item">WHO (2001). <em>International Classification of Functioning, Disability and Health (ICF)</em>. World Health Organization.</div>
+                    </div>
+
+                    <div class="bib-section">
+                        <h4>Cibernetica e Sistemi Complessi</h4>
+                        <div class="bib-item">Bateson, G. (1972). <em>Steps to an Ecology of Mind</em>. Ballantine Books.</div>
+                        <div class="bib-item">Morin, E. (1977). <em>La Méthode 1. La Nature de la Nature</em>. Seuil.</div>
+                        <div class="bib-item">Varela, F. J., Thompson, E., & Rosch, E. (1991). <em>The Embodied Mind</em>. MIT Press.</div>
+                    </div>
+
+                    <div class="bib-section">
+                        <h4>Neurodiversità</h4>
+                        <div class="bib-item">Armstrong, T. (2010). <em>Neurodiversity: Discovering the Extraordinary Gifts of Autism, ADHD, Dyslexia, and Other Brain Differences</em>. Da Capo Press.</div>
+                        <div class="bib-item">Silberman, S. (2015). <em>NeuroTribes: The Legacy of Autism and the Future of Neurodiversity</em>. Avery.</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem; text-align: center;">
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">
+                        Report generato con Claude AI — Gennaio 2026<br>
+                        Dashboard interattiva per lo studio del framework cibernetico applicato alla didattica inclusiva
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Navigation
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            navBtns.forEach(b => b.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.nav-btn[data-section="${sectionId}"]`)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+        }
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => showSection(btn.dataset.section));
+        });
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header').addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabContainer = btn.closest('.subsection') || btn.closest('.section');
+                tabContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        glossarySearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (terms.includes(query) || text.includes(query) || query === '') {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Concept links - scroll to relevant section
+        document.querySelectorAll('.concept-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const concept = link.dataset.concept;
+                
+                // Map concepts to sections
+                const conceptMap = {
+                    'variety': 'theory',
+                    'attenuator': 'theory',
+                    'amplifier': 'theory',
+                    'udl': 'strategies'
+                };
+
+                showSection(conceptMap[concept] || 'theory');
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                const activeBtn = document.querySelector('.nav-btn.active');
+                const nextBtn = activeBtn?.nextElementSibling;
+                if (nextBtn?.classList.contains('nav-btn')) {
+                    showSection(nextBtn.dataset.section);
+                }
+            } else if (e.key === 'ArrowLeft') {
+                const activeBtn = document.querySelector('.nav-btn.active');
+                const prevBtn = activeBtn?.previousElementSibling;
+                if (prevBtn?.classList.contains('nav-btn')) {
+                    showSection(prevBtn.dataset.section);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
