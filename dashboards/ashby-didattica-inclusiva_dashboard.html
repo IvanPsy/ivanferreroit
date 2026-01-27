@@ -48,6 +48,7 @@
             color: var(--text-primary);
             line-height: 1.7;
             min-height: 100vh;
+            padding-top: 140px;
         }
 
         /* Background Grid Pattern */
@@ -68,9 +69,9 @@
         }
 
         /* Header */
-        .header {
+        .dashboard-nav {
             position: fixed;
-            top: 0;
+            top: 70px;
             left: 0;
             right: 0;
             z-index: 1000;
@@ -79,7 +80,7 @@
             backdrop-filter: blur(20px);
         }
 
-        .header-content {
+        .dashboard-nav-content {
             max-width: 1600px;
             margin: 0 auto;
             padding: 1rem 2rem;
@@ -910,7 +911,7 @@
         }
 
         @media (max-width: 768px) {
-            .header-content {
+            .dashboard-nav-content {
                 flex-direction: column;
                 gap: 1rem;
             }
@@ -929,12 +930,17 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/assets/base-styles.css">
 </head>
 <body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+    
+
     <div class="progress-bar" id="progressBar"></div>
 
-    <header class="header">
-        <div class="header-content">
+    <nav class="dashboard-nav">
+        <div class="dashboard-nav-content">
             <div class="logo">
                 <div class="logo-icon">λ</div>
                 <div class="logo-text">Ashby <span>&</span> Inclusione</div>
@@ -949,7 +955,7 @@
                 <button class="nav-btn" data-section="resources">Risorse</button>
             </nav>
         </div>
-    </header>
+    </nav>
 
     <div class="main-container">
         <aside class="sidebar">
@@ -2258,5 +2264,7 @@
             }
         });
     </script>
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
 </body>
 </html>
