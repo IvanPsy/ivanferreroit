@@ -1,0 +1,2739 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART Schools Study — Analisi Critica Interattiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --accent-primary: #00d4aa;
+            --accent-secondary: #7c3aed;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --accent-info: #3b82f6;
+            --border-color: #2a2a3a;
+            --gradient-accent: linear-gradient(135deg, #00d4aa 0%, #7c3aed 100%);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .sidebar-logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-section {
+            padding: 16px 0;
+        }
+
+        .nav-section-title {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            padding: 8px 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent-primary);
+            border-left-color: var(--accent-primary);
+        }
+
+        .nav-item-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            min-width: 24px;
+        }
+
+        .nav-item.active .nav-item-number {
+            color: var(--accent-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 40px 48px;
+            position: sticky;
+            top: 70px;
+            z-index: 50;
+        }
+
+        .header-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-badge.highlight {
+            background: rgba(0, 212, 170, 0.15);
+            border-color: rgba(0, 212, 170, 0.3);
+            color: var(--accent-primary);
+        }
+
+        .page-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.25rem;
+            font-weight: 400;
+            line-height: 1.3;
+            max-width: 900px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+
+        /* Content Sections */
+        .content-area {
+            padding: 48px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.75rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            background: rgba(0, 212, 170, 0.15);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            max-width: 700px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .card-icon.primary { background: rgba(0, 212, 170, 0.15); }
+        .card-icon.secondary { background: rgba(124, 58, 237, 0.15); }
+        .card-icon.warning { background: rgba(245, 158, 11, 0.15); }
+        .card-icon.danger { background: rgba(239, 68, 68, 0.15); }
+        .card-icon.info { background: rgba(59, 130, 246, 0.15); }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Stat Cards */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-value.negative {
+            background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-value.neutral {
+            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-detail {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Content Blocks */
+        .content-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .block-header {
+            padding: 16px 24px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .block-header:hover {
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .block-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .block-toggle {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .block-header.collapsed .block-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .block-content {
+            padding: 24px;
+            max-height: 2000px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .block-header.collapsed + .block-content {
+            max-height: 0;
+            padding: 0 24px;
+        }
+
+        /* Lists */
+        .styled-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .styled-list li {
+            position: relative;
+            padding: 10px 0 10px 28px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .styled-list li:last-child {
+            border-bottom: none;
+        }
+
+        .styled-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 18px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+        }
+
+        .styled-list li.warning::before {
+            background: var(--accent-warning);
+        }
+
+        .styled-list li.danger::before {
+            background: var(--accent-danger);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(0, 212, 170, 0.03);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--accent-primary);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-warning);
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-danger);
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-info);
+        }
+
+        /* Quotes */
+        .quote-block {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-primary);
+            padding: 20px 24px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote-source {
+            margin-top: 12px;
+            font-style: normal;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: rgba(0, 212, 170, 0.08);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+
+        .highlight-box.warning {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .highlight-box.danger {
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .highlight-box-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            margin-bottom: 24px;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 4px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .tab-button.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Chart containers */
+        .chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Questions List */
+        .question-item {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .question-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--accent-secondary);
+            background: rgba(124, 58, 237, 0.15);
+            padding: 4px 10px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Direction Cards */
+        .direction-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .direction-header {
+            padding: 20px 24px;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .direction-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .direction-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.25rem;
+        }
+
+        .direction-content {
+            padding: 24px;
+        }
+
+        .direction-field {
+            margin-bottom: 20px;
+        }
+
+        .direction-field:last-child {
+            margin-bottom: 0;
+        }
+
+        .direction-field-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .direction-field-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Divulgation Table */
+        .divulgation-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .divulgation-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .divulgation-format {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        .divulgation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .divulgation-field {
+            font-size: 0.85rem;
+        }
+
+        .divulgation-field-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .divulgation-hook {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        /* Synthesis Box */
+        .synthesis-box {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 32px;
+        }
+
+        .synthesis-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .synthesis-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Tags */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .tag {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Progress indicator */
+        .dashboard-progress {
+            height: 4px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .dashboard-progress-fill {
+            height: 100%;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            border: none;
+            color: var(--bg-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .page-header {
+                padding: 24px;
+            }
+            
+            .content-area {
+                padding: 24px;
+            }
+            
+            .page-title {
+                font-size: 1.75rem;
+            }
+            
+            .divulgation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted var(--text-muted);
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            z-index: 100;
+            max-width: 300px;
+            white-space: normal;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Sub-navigation for complex sections */
+        .sub-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .sub-nav-btn {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .sub-nav-btn:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .sub-nav-btn.active {
+            background: rgba(0, 212, 170, 0.15);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Prose content */
+        .prose {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .prose p {
+            margin-bottom: 16px;
+        }
+
+        .prose strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .prose h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 24px 0 12px 0;
+            font-weight: 600;
+        }
+
+        /* Checklist STROBE */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-status {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .checklist-status.ok {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--accent-primary);
+        }
+
+        .checklist-status.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-warning);
+        }
+
+        .checklist-status.issue {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-danger);
+        }
+
+        .checklist-content {
+            flex: 1;
+        }
+
+        .checklist-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .checklist-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">SMART Schools</div>
+                <div class="sidebar-subtitle">Analisi Critica Interattiva</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <a class="nav-item active" data-section="overview">
+                    <span class="nav-item-number">00</span>
+                    Quick Overview
+                </a>
+                <a class="nav-item" data-section="metadata">
+                    <span class="nav-item-number">—</span>
+                    Metadata & Paper Info
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Analisi in 6 Parti</div>
+                <a class="nav-item" data-section="parte1">
+                    <span class="nav-item-number">01</span>
+                    Mappatura Strutturale
+                </a>
+                <a class="nav-item" data-section="parte2">
+                    <span class="nav-item-number">02</span>
+                    Limiti Metodologici
+                </a>
+                <a class="nav-item" data-section="parte3">
+                    <span class="nav-item-number">03</span>
+                    Archeologia del Non-detto
+                </a>
+                <a class="nav-item" data-section="parte4">
+                    <span class="nav-item-number">04</span>
+                    Implicazioni
+                </a>
+                <a class="nav-item" data-section="parte5">
+                    <span class="nav-item-number">05</span>
+                    Direzioni Innovative
+                </a>
+                <a class="nav-item" data-section="parte6">
+                    <span class="nav-item-number">06</span>
+                    Traduzione Divulgativa
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Conclusione</div>
+                <a class="nav-item" data-section="sintesi">
+                    <span class="nav-item-number">∑</span>
+                    Valutazione Sintetica
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-meta">
+                    <span class="meta-badge highlight">📊 Studio Trasversale</span>
+                    <span class="meta-badge">Lancet Regional Health Europe</span>
+                    <span class="meta-badge">2025</span>
+                    <span class="meta-badge">n = 1.227</span>
+                    <span class="meta-badge">STROBE Checklist</span>
+                </div>
+                <h1 class="page-title">School phone policies and their association with mental wellbeing, phone use, and social media use</h1>
+                <p class="page-subtitle">Goodyear, Randhawa, Adab et al. • DOI: 10.1016/j.lanepe.2025.101211</p>
+            </header>
+
+            <div class="content-area">
+                <!-- OVERVIEW SECTION -->
+                <section class="section active" id="overview">
+                    <h2 class="section-title">
+                        <span class="section-title-number">00</span>
+                        Quick Overview
+                    </h2>
+                    <p class="section-description">Sintesi rapida dello studio per orientamento immediato</p>
+
+                    <div class="card-grid">
+                        <div class="card">
+                            <div class="card-icon primary">📌</div>
+                            <div class="card-title">Argomento</div>
+                            <div class="card-text">Valutazione dell'impatto delle politiche scolastiche sugli smartphone (restrittive vs permissive) sul benessere mentale, l'uso del telefono e dei social media negli adolescenti inglesi.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon secondary">🔬</div>
+                            <div class="card-title">Cosa hanno fatto</div>
+                            <div class="card-text">Studio osservazionale trasversale su 1.227 adolescenti (12-15 anni) in 30 scuole secondarie inglesi — 20 con politiche restrittive e 10 permissive. Misurazioni: WEMWBS, GAD-7, PHQ-9, accelerometria.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon warning">📊</div>
+                            <div class="card-title">Cosa hanno trovato</div>
+                            <div class="card-text">Nessuna differenza nel benessere mentale tra i gruppi. Le politiche restrittive riducono l'uso a scuola ma NON l'uso complessivo. Confermata l'associazione negativa tra tempo su smartphone/social e benessere.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon danger">💡</div>
+                            <div class="card-title">Take-home Message</div>
+                            <div class="card-text">Le politiche restrittive attuali non migliorano il benessere perché non riducono l'uso complessivo. Servono approcci olistici che considerino anche l'uso fuori dalla scuola.</div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="highlight-box-title">🎯 Rilevanza per il tuo lavoro</div>
+                        <p>Critico per <strong>formatori docenti</strong> e <strong>decisori scolastici</strong> — sfida l'assunzione che vietare i telefoni a scuola sia di per sé benefico. Rilevante per progettare interventi evidence-based sull'uso digitale che coinvolgano famiglie e non solo scuole.</p>
+                    </div>
+
+                    <h3 style="margin: 32px 0 20px; font-size: 1.1rem;">Dati Chiave dello Studio</h3>
+                    
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">1.227</div>
+                            <div class="stat-label">Partecipanti</div>
+                            <div class="stat-detail">12-15 anni</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">30</div>
+                            <div class="stat-label">Scuole</div>
+                            <div class="stat-detail">20 restrittive + 10 permissive</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value neutral">−0.48</div>
+                            <div class="stat-label">Diff. WEMWBS</div>
+                            <div class="stat-detail">95% CI −2.05 a 1.06</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">p = 0.62</div>
+                            <div class="stat-label">Significatività</div>
+                            <div class="stat-detail">Non significativo</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-title">Differenze nell'uso smartphone/social per policy type</div>
+                        <div class="chart-wrapper">
+                            <canvas id="usageChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- METADATA SECTION -->
+                <section class="section" id="metadata">
+                    <h2 class="section-title">
+                        Metadata & Paper Info
+                    </h2>
+                    <p class="section-description">Informazioni complete sul paper e gli autori</p>
+
+                    <div class="content-block">
+                        <div class="block-header">
+                            <div class="block-title">📄 Identificazione del Paper</div>
+                            <div class="block-toggle">▼</div>
+                        </div>
+                        <div class="block-content">
+                            <table>
+                                <tr><th style="width: 200px;">Campo</th><th>Valore</th></tr>
+                                <tr><td><strong>Titolo</strong></td><td>School phone policies and their association with mental wellbeing, phone use, and social media use (SMART Schools): a cross-sectional observational study</td></tr>
+                                <tr><td><strong>Rivista</strong></td><td>The Lancet Regional Health – Europe</td></tr>
+                                <tr><td><strong>Anno</strong></td><td>2025 (Published online 4 February)</td></tr>
+                                <tr><td><strong>Volume/Issue</strong></td><td>Vol. 51, April 2025</td></tr>
+                                <tr><td><strong>DOI</strong></td><td><a href="https://doi.org/10.1016/j.lanepe.2025.101211" style="color: var(--accent-primary);">10.1016/j.lanepe.2025.101211</a></td></tr>
+                                <tr><td><strong>Registration</strong></td><td>ISRCTN77948572</td></tr>
+                                <tr><td><strong>Tipo studio</strong></td><td>Cross-sectional observational study</td></tr>
+                                <tr><td><strong>Checklist</strong></td><td>STROBE (Trasversale)</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="block-header">
+                            <div class="block-title">👥 Team di Ricerca</div>
+                            <div class="block-toggle">▼</div>
+                        </div>
+                        <div class="block-content">
+                            <div class="prose">
+                                <p><strong>Principal Investigator:</strong> Victoria A. Goodyear (School of Sport, Exercise and Rehabilitation Sciences / Institute for Mental Health, University of Birmingham)</p>
+                                
+                                <h4>Autori completi:</h4>
+                                <p>Goodyear VA, Randhawa A, Adab P, Al-Janabi H, Fenton S, Jones K, Michail M, Morrison B, Patterson P, Quinlan J, Sitch A, Twardochleb R, Wade M, Pallan M</p>
+                                
+                                <h4>Affiliazioni:</h4>
+                                <ul class="styled-list">
+                                    <li>School of Sport, Exercise and Rehabilitation Sciences, University of Birmingham</li>
+                                    <li>Institute for Mental Health, University of Birmingham</li>
+                                    <li>Department of Applied Health Sciences, University of Birmingham</li>
+                                    <li>NIHR Birmingham Biomedical Research Centre</li>
+                                    <li>Services for Education, Birmingham</li>
+                                    <li>School of Psychology, University of Birmingham</li>
+                                    <li>Forward Thinking Birmingham, NHS Foundation Trust</li>
+                                    <li>ukactive Research Institute, London</li>
+                                    <li>Advanced Wellbeing Research Centre, Sheffield Hallam University</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="block-header">
+                            <div class="block-title">💰 Finanziamento e Conflitti di Interesse</div>
+                            <div class="block-toggle">▼</div>
+                        </div>
+                        <div class="block-content">
+                            <div class="highlight-box">
+                                <div class="highlight-box-title">Finanziamento</div>
+                                <p><strong>NIHR Public Health Research Programme</strong> (NIHR131396) — finanziamento pubblico indipendente.</p>
+                                <p style="margin-top: 12px; font-style: italic; color: var(--text-muted);">"Il finanziatore non ha avuto ruolo nel disegno dello studio, raccolta dati, analisi, interpretazione o scrittura, o nella decisione di sottoporre l'articolo per pubblicazione."</p>
+                            </div>
+
+                            <h4 style="margin: 20px 0 12px;">Conflitti di interesse dichiarati:</h4>
+                            <ul class="styled-list">
+                                <li><strong>Goodyear & Pallan:</strong> Finanziamento NIHR ricevuto per questo studio (pagato all'Università)</li>
+                                <li><strong>Al-Janabi:</strong> Wellcome Trust Investigator Award (pagato all'Università)</li>
+                                <li><strong>Sitch:</strong> Supporto NIHR Birmingham BRC</li>
+                                <li><strong>Altri autori:</strong> Nessun conflitto dichiarato</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 1 -->
+                <section class="section" id="parte1">
+                    <h2 class="section-title">
+                        <span class="section-title-number">01</span>
+                        Mappatura Strutturale
+                    </h2>
+                    <p class="section-description">Anatomia dello studio: architettura argomentativa, metodologia, risultati</p>
+
+                    <div class="tabs-container">
+                        <div class="tabs-header">
+                            <button class="tab-button active" data-tab="architettura">Architettura</button>
+                            <button class="tab-button" data-tab="metodologia">Metodologia</button>
+                            <button class="tab-button" data-tab="campione">Campione</button>
+                            <button class="tab-button" data-tab="strumenti">Strumenti</button>
+                            <button class="tab-button" data-tab="risultati">Risultati</button>
+                        </div>
+
+                        <div class="tab-panel active" id="tab-architettura">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🎯 Domande di Ricerca</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="question-item">
+                                        <span class="question-number">RQ1</span>
+                                        <span class="question-text">Esistono differenze in benessere mentale, ansia, depressione, sonno, attività fisica, comportamento dirompente, rendimento e uso problematico tra adolescenti in scuole con politiche restrittive vs permissive?</span>
+                                    </div>
+                                    <div class="question-item">
+                                        <span class="question-number">RQ2</span>
+                                        <span class="question-text">Esiste un'associazione tra tempo su smartphone/social media e gli outcome di salute mentale e comportamentali?</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📐 Framework Teorico</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="quote-block">
+                                        "Le politiche scolastiche che restringono l'uso diurno dei telefoni ridurrebbero il tempo complessivo che gli adolescenti trascorrono su smartphone/social media e migliorerebbero il benessere mentale, possibilmente operando attraverso il miglioramento di outcome correlati (attività fisica, sonno, performance accademica, comportamento)."
+                                        <div class="quote-source">— Ipotesi esplicita, p. 3</div>
+                                    </div>
+                                    
+                                    <h4>Modello causale ipotizzato:</h4>
+                                    <div style="background: var(--bg-tertiary); padding: 20px; border-radius: 8px; text-align: center; margin-top: 16px; font-family: 'JetBrains Mono', monospace;">
+                                        Politica Restrittiva → Riduzione uso totale → ↑ Sonno, ↑ Attività fisica, ↑ Rendimento → ↑ Benessere mentale
+                                    </div>
+                                    
+                                    <div class="highlight-box warning" style="margin-top: 20px;">
+                                        <div class="highlight-box-title">⚠️ Spoiler critico</div>
+                                        <p>Il secondo passaggio della catena causale (riduzione uso totale) NON si verifica — quindi l'intero modello si interrompe.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-metodologia">
+                            <div class="card-grid">
+                                <div class="card">
+                                    <div class="card-icon info">📊</div>
+                                    <div class="card-title">Paradigma</div>
+                                    <div class="card-text">Post-positivista, approccio epidemiologico quantitativo. Lo studio sfrutta la "variazione naturale" nelle politiche scolastiche come quasi-esperimento.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon secondary">📐</div>
+                                    <div class="card-title">Disegno</div>
+                                    <div class="card-text">Cross-sectional observational study. Confronto tra scuole con politiche diverse, non randomizzazione.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon primary">📈</div>
+                                    <div class="card-title">Analisi Statistica</div>
+                                    <div class="card-text">Mixed effects linear regression con scuola e anno come effetti random. Covariate a livello individuale e scolastico.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon warning">🔬</div>
+                                    <div class="card-title">Power Analysis</div>
+                                    <div class="card-text">A priori: 1.170 partecipanti per rilevare diff. 3 punti WEMWBS (clinicamente significativa), 90% power, α = 0.05, ICC = 0.1</div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🔄 Analisi di Sensibilità Condotte</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <ul class="styled-list">
+                                        <li>Solo prima misurazione WEMWBS (escludendo effetto della seconda somministrazione)</li>
+                                        <li>Solo scuole "altamente restrittive" (telefoni inaccessibili, n=4)</li>
+                                        <li>Controllo per uso weekend smartphone</li>
+                                        <li>Test trasformazione logaritmica per non-linearità</li>
+                                        <li>Analisi per sottogruppi: sesso, etnia, anno, deprivazione (IDACI)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-campione">
+                            <div class="stat-grid">
+                                <div class="stat-card">
+                                    <div class="stat-value">30</div>
+                                    <div class="stat-label">Scuole Totali</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">20</div>
+                                    <div class="stat-label">Restrittive</div>
+                                    <div class="stat-detail">820 studenti</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">10</div>
+                                    <div class="stat-label">Permissive</div>
+                                    <div class="stat-detail">407 studenti</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">1.227</div>
+                                    <div class="stat-label">Partecipanti</div>
+                                    <div class="stat-detail">12-15 anni</div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📋 Criteri di Inclusione/Esclusione</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <h4>Scuole incluse:</h4>
+                                    <ul class="styled-list">
+                                        <li>Scuole secondarie statali (state-funded mainstream)</li>
+                                        <li>Entro 100 miglia da Birmingham</li>
+                                        <li>Politica smartphone accessibile e coerente tra year groups</li>
+                                    </ul>
+                                    
+                                    <h4 style="margin-top: 20px;">Scuole escluse:</h4>
+                                    <ul class="styled-list">
+                                        <li class="danger">Special schools</li>
+                                        <li class="danger">Pupil referral units</li>
+                                        <li class="danger">Independent schools</li>
+                                        <li class="danger">Scuole senza politica accessibile</li>
+                                    </ul>
+                                    
+                                    <h4 style="margin-top: 20px;">A livello studente:</h4>
+                                    <p style="color: var(--text-secondary);">Nessun criterio di esclusione — tutti gli studenti nelle classi partecipanti invitati per ridurre selection bias.</p>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📊 Tipologie di Politiche nel Campione</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Categoria</th>
+                                                <th>Descrizione</th>
+                                                <th>N scuole</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="badge badge-success">Permissiva</span></td>
+                                                <td>Telefoni permessi sempre</td>
+                                                <td>1</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge badge-success">Permissiva</span></td>
+                                                <td>Permessi a pranzo/ricreazione</td>
+                                                <td>7</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge badge-success">Permissiva</span></td>
+                                                <td>Permessi in zone designate</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge badge-danger">Restrittiva</span></td>
+                                                <td>Spenti in borsa (accessibili)</td>
+                                                <td>16</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge badge-danger">Restrittiva</span></td>
+                                                <td>In armadietti/custodie/reception/vietati (inaccessibili)</td>
+                                                <td>4</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                    <div class="highlight-box warning" style="margin-top: 20px;">
+                                        <div class="highlight-box-title">⚠️ Nota critica</div>
+                                        <p>L'80% delle scuole "restrittive" richiede solo che i telefoni siano in borsa — quindi tecnicamente accessibili. Solo 4/20 hanno politiche davvero stringenti.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-strumenti">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📏 Strumenti di Misura</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Outcome</th>
+                                                <th>Strumento</th>
+                                                <th>Tipo</th>
+                                                <th>Note</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Benessere mentale</strong> (primario)</td>
+                                                <td>WEMWBS</td>
+                                                <td>Self-report</td>
+                                                <td>14-70 punti, validato per adolescenti UK</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ansia</td>
+                                                <td>GAD-7</td>
+                                                <td>Self-report</td>
+                                                <td>0-21 punti</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Depressione</td>
+                                                <td>PHQ-9</td>
+                                                <td>Self-report</td>
+                                                <td>0-27 punti</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Uso problematico social</td>
+                                                <td>PSMU</td>
+                                                <td>Self-report</td>
+                                                <td>Problematic Social Media Use Scale</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sonno</td>
+                                                <td>GENEActiv accelerometro</td>
+                                                <td>Oggettivo</td>
+                                                <td>7 giorni continui, polso non-dominante</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Attività fisica</td>
+                                                <td>GENEActiv accelerometro</td>
+                                                <td>Oggettivo</td>
+                                                <td>MVPA in minuti, accelerazione media</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Comportamento</td>
+                                                <td>PBQ</td>
+                                                <td>Teacher report</td>
+                                                <td>Pupil Behaviour Questionnaire</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rendimento</td>
+                                                <td>Teacher assessment</td>
+                                                <td>Teacher report</td>
+                                                <td>Inglese e Matematica vs target</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Uso smartphone/social</td>
+                                                <td>Self-report + iOS/Android apps</td>
+                                                <td>Misto</td>
+                                                <td>Dati app esclusi per problemi qualità</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-risultati">
+                            <div class="highlight-box" style="margin-bottom: 24px;">
+                                <div class="highlight-box-title">🔑 Risultato Principale</div>
+                                <p style="font-size: 1.1rem;">Nessuna differenza significativa nel benessere mentale tra studenti in scuole restrittive vs permissive.</p>
+                                <p style="margin-top: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">WEMWBS: adj. mean diff. = −0.48, 95% CI −2.05 to 1.06, p = 0.62</p>
+                            </div>
+
+                            <div class="chart-container">
+                                <div class="chart-title">Confronto Outcome: Restrittive vs Permissive (effetti standardizzati)</div>
+                                <div class="chart-wrapper">
+                                    <canvas id="outcomesChart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📊 Risultati Completi per Policy Type</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Outcome</th>
+                                                <th>Diff. Aggiustata</th>
+                                                <th>95% CI</th>
+                                                <th>p-value</th>
+                                                <th>Significativo?</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Benessere mentale (WEMWBS)</td>
+                                                <td>−0.48</td>
+                                                <td>−2.05 to 1.06</td>
+                                                <td>0.62</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ansia (GAD-7)</td>
+                                                <td>0.10</td>
+                                                <td>−0.76 to 0.97</td>
+                                                <td>0.84</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Depressione (PHQ-9)</td>
+                                                <td>−0.04</td>
+                                                <td>−0.98 to 0.92</td>
+                                                <td>0.94</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Uso smartphone IN SCUOLA</td>
+                                                <td>−0.67h</td>
+                                                <td>−0.92 to −0.43</td>
+                                                <td>0.00024</td>
+                                                <td><span class="badge badge-success">Sì ✓</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Social media IN SCUOLA</td>
+                                                <td>−0.54h</td>
+                                                <td>−0.74 to −0.36</td>
+                                                <td>0.00018</td>
+                                                <td><span class="badge badge-success">Sì ✓</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Uso smartphone weekday (tot)</td>
+                                                <td>0.01</td>
+                                                <td>−0.49 to 0.54</td>
+                                                <td>0.96</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Uso smartphone weekend</td>
+                                                <td>0.58</td>
+                                                <td>−0.32 to 1.50</td>
+                                                <td>0.31</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sonno (durata)</td>
+                                                <td>1.27 min</td>
+                                                <td>−8.67 to 10.12</td>
+                                                <td>0.82</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Attività fisica (MVPA)</td>
+                                                <td>1.78 min</td>
+                                                <td>−2.59 to 6.09</td>
+                                                <td>0.46</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Comportamento dirompente</td>
+                                                <td>0.06</td>
+                                                <td>−0.57 to 0.68</td>
+                                                <td>0.88</td>
+                                                <td><span class="badge badge-warning">No</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📈 Associazioni Tempo-Outcome (indipendentemente dalla policy)</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="highlight-box danger">
+                                        <div class="highlight-box-title">⚠️ Finding chiave</div>
+                                        <p>L'aumento del tempo su smartphone/social è significativamente associato a peggioramento di TUTTI gli outcome, confermando che il problema esiste — ma le politiche scolastiche non lo risolvono.</p>
+                                    </div>
+                                    
+                                    <h4 style="margin: 20px 0 12px;">Per ogni ora in più di smartphone (weekday):</h4>
+                                    <div class="stat-grid">
+                                        <div class="stat-card">
+                                            <div class="stat-value negative">−0.53</div>
+                                            <div class="stat-label">Benessere</div>
+                                            <div class="stat-detail">WEMWBS points</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-value negative">+0.38</div>
+                                            <div class="stat-label">Ansia</div>
+                                            <div class="stat-detail">GAD-7 points</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-value negative">+0.54</div>
+                                            <div class="stat-label">Depressione</div>
+                                            <div class="stat-detail">PHQ-9 points</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-value negative">−3.4</div>
+                                            <div class="stat-label">Sonno</div>
+                                            <div class="stat-detail">minuti</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 2 -->
+                <section class="section" id="parte2">
+                    <h2 class="section-title">
+                        <span class="section-title-number">02</span>
+                        Limiti Metodologici
+                    </h2>
+                    <p class="section-description">Valutazione critica basata su checklist STROBE per studi trasversali</p>
+
+                    <div class="tabs-container">
+                        <div class="tabs-header">
+                            <button class="tab-button active" data-tab="strobe">STROBE Checklist</button>
+                            <button class="tab-button" data-tab="metodologici">Limiti Metodologici</button>
+                            <button class="tab-button" data-tab="teorici">Limiti Teorici</button>
+                            <button class="tab-button" data-tab="contestuali">Limiti Contestuali</button>
+                        </div>
+
+                        <div class="tab-panel active" id="tab-strobe">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">✅ Valutazione STROBE — Punti Critici</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="checklist-item">
+                                        <div class="checklist-status ok">✓</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Setting e periodo (Item 5)</div>
+                                            <div class="checklist-note">Periodo di raccolta dati chiaramente riportato (Nov 2022 - Nov 2023), setting descritto in dettaglio.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status warning">⚠</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Partecipanti — Response rate scuole (Item 6)</div>
+                                            <div class="checklist-note">Response rate <11% a livello scuola — rischio significativo di selection bias. Le scuole che hanno accettato potrebbero differire sistematicamente.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status ok">✓</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Variabili — Outcome primario (Item 7)</div>
+                                            <div class="checklist-note">WEMWBS validato, misurato due volte a 4-8 settimane. Definizioni operative chiare.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status warning">⚠</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Variabili — Esposizione (Item 7)</div>
+                                            <div class="checklist-note">Categorizzazione binaria delle politiche maschera eterogeneità interna. 16/20 scuole "restrittive" = telefono in borsa (accessibile).</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status warning">⚠</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Fonti dati — Uso smartphone (Item 8)</div>
+                                            <div class="checklist-note">Self-report introduce recall bias. Dati da app esclusi per problemi qualità — trasparente ma limita validità.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status warning">⚠</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Bias (Item 9)</div>
+                                            <div class="checklist-note">Rischio di desiderabilità sociale differenziale: studenti in scuole restrittive potrebbero sottostimare l'uso scolastico.</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status ok">✓</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Dimensione studio (Item 10)</div>
+                                            <div class="checklist-note">Power analysis a priori condotta. Campione raggiunto (1.227 > 1.170).</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status warning">⚠</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Metodi statistici (Item 12)</div>
+                                            <div class="checklist-note">Mixed effects appropriati. Ma: linearità assunta senza test formale di modelli non-lineari. ICC osservato (0.05) vs assunto (0.1).</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="checklist-item">
+                                        <div class="checklist-status issue">✗</div>
+                                        <div class="checklist-content">
+                                            <div class="checklist-title">Confounding non misurato</div>
+                                            <div class="checklist-note">Cultura scolastica, qualità relazioni docenti-studenti, programmi socio-emotivi esistenti — tutti potenziali confondenti non misurati.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-metodologici">
+                            <div class="card-grid">
+                                <div class="card">
+                                    <div class="card-icon danger">⚠️</div>
+                                    <div class="card-title">Disegno Trasversale</div>
+                                    <div class="card-text">Limitazione più critica. Non è possibile stabilire direzione causale. Adolescenti con peggiore benessere potrebbero usare più smartphone (reverse causality).</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon warning">📋</div>
+                                    <div class="card-title">Operazionalizzazione Politica</div>
+                                    <div class="card-text">Classificazione dal documento, non dall'implementazione effettiva. Variabilità nell'enforcement riduce validità della categorizzazione binaria.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon warning">⏰</div>
+                                    <div class="card-title">Temporalità Politiche</div>
+                                    <div class="card-text">Maggior parte implementate negli ultimi 1-2 anni. Effetti benefici potrebbero richiedere più tempo per manifestarsi.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon info">🗺️</div>
+                                    <div class="card-title">Generalizzabilità Geografica</div>
+                                    <div class="card-text">Tutte le scuole entro 100 miglia da Birmingham. Esclude Londra, Nord Inghilterra, Scozia, Galles.</div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📊 Bias Identificati</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo di Bias</th>
+                                                <th>Rischio</th>
+                                                <th>Descrizione</th>
+                                                <th>Mitigazione</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Selezione (scuole)</td>
+                                                <td><span class="badge badge-danger">Alto</span></td>
+                                                <td>Response rate <11%, scuole partecipanti potrebbero essere sistematicamente diverse</td>
+                                                <td>Propensity score matching, ma non elimina completamente</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Informazione (self-report)</td>
+                                                <td><span class="badge badge-warning">Medio</span></td>
+                                                <td>Recall bias, desiderabilità sociale</td>
+                                                <td>Accelerometria per sonno/PA, ma uso smartphone resta self-report</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Desiderabilità sociale differenziale</td>
+                                                <td><span class="badge badge-warning">Medio</span></td>
+                                                <td>Studenti in scuole restrittive potrebbero sottostimare uso scolastico</td>
+                                                <td>Nessuna — riconosciuto come limite</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Confounding</td>
+                                                <td><span class="badge badge-warning">Medio</span></td>
+                                                <td>Variabili non misurate (cultura scolastica, qualità insegnamento)</td>
+                                                <td>Covariate a livello scuola, ma non complete</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-teorici">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🧠 Limiti del Framework Teorico</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="prose">
+                                        <h4>Modello causale semplificato</h4>
+                                        <p>Il framework ipotizza una catena lineare (politica → uso → benessere) ma ignora:</p>
+                                        <ul class="styled-list">
+                                            <li class="danger"><strong>Meccanismi compensatori:</strong> La riduzione a scuola potrebbe portare ad aumento a casa</li>
+                                            <li class="danger"><strong>Qualità vs quantità:</strong> Non tutto l'uso è equivalente — scrolling passivo ≠ comunicazione attiva</li>
+                                            <li class="danger"><strong>Funzioni sociali:</strong> Il telefono ha ruoli positivi (mantenimento amicizie, supporto sociale)</li>
+                                        </ul>
+                                        
+                                        <h4>Definizione implicita di "uso problematico"</h4>
+                                        <p>Lo studio assume implicitamente che meno = meglio, ma la letteratura distingue tra:</p>
+                                        <ul class="styled-list">
+                                            <li><strong>Uso passivo</strong> (scrolling, consumo) → associato a peggior benessere</li>
+                                            <li><strong>Uso attivo</strong> (comunicazione, creazione) → effetti misti o positivi</li>
+                                        </ul>
+                                        <p>Questa distinzione non è operazionalizzata nello studio.</p>
+                                        
+                                        <h4>Assunzioni non testate</h4>
+                                        <ul class="styled-list">
+                                            <li class="warning">L'uso in orario scolastico e fuori scuola hanno effetti equivalenti</li>
+                                            <li class="warning">La riduzione dell'uso ha effetti immediati (vs cumulativi nel tempo)</li>
+                                            <li class="warning">L'effetto è omogeneo tra sottogruppi (analisi non trovano interazioni, ma sample piccoli)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-contestuali">
+                            <div class="card-grid">
+                                <div class="card">
+                                    <div class="card-icon warning">🦠</div>
+                                    <div class="card-title">Timing Post-pandemico</div>
+                                    <div class="card-text">Dati raccolti 2022-2023. Pattern d'uso digitale potenzialmente alterati dai lockdown — dipendenza maggiore dai dispositivi sviluppata durante la pandemia.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon info">🇬🇧</div>
+                                    <div class="card-title">Contesto UK-specifico</div>
+                                    <div class="card-text">Normatività dell'uso smartphone, struttura scolastica (form teacher, GCSE), politiche non-statutory. Limita trasferibilità ad altri sistemi educativi.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon secondary">📍</div>
+                                    <div class="card-title">Midlands-centrismo</div>
+                                    <div class="card-text">100 miglia da Birmingham esclude aree metropolitane maggiori (Londra) e regioni con diversi profili sociodemografici.</div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon primary">📱</div>
+                                    <div class="card-title">Evoluzione Tecnologica</div>
+                                    <div class="card-text">Le piattaforme social cambiano rapidamente (TikTok vs Instagram). I pattern d'uso 2022-23 potrebbero già essere datati.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 3 -->
+                <section class="section" id="parte3">
+                    <h2 class="section-title">
+                        <span class="section-title-number">03</span>
+                        Archeologia del Non-detto
+                    </h2>
+                    <p class="section-description">Silenzi strategici, punti ciechi disciplinari, presupposti naturalizzati</p>
+
+                    <div class="tabs-container">
+                        <div class="tabs-header">
+                            <button class="tab-button active" data-tab="zone-ombra">Zone d'Ombra</button>
+                            <button class="tab-button" data-tab="semantica">Analisi Semantica</button>
+                            <button class="tab-button" data-tab="domande">Domande Inevase</button>
+                        </div>
+
+                        <div class="tab-panel active" id="tab-zone-ombra">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🔍 Silenzi Strategici</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="prose">
+                                        <h4>Silenzio sulla qualità dell'esperienza scolastica</h4>
+                                        <p>Lo studio non indaga <em>come</em> gli adolescenti vivono le politiche restrittive. Percepiscono il divieto come cura o come controllo? Questa variabile "esperienza soggettiva della restrizione" è completamente assente.</p>
+                                        
+                                        <h4>Assenza della voce degli studenti</h4>
+                                        <p>Nonostante il paper menzioni "patient and public involvement (PPI) activities", queste non includono apparentemente la co-progettazione con adolescenti. Le domande di ricerca sono formulate dalla prospettiva adulta.</p>
+                                        
+                                        <h4>Mai discusso:</h4>
+                                        <ul class="styled-list">
+                                            <li class="danger">Se il problema sia lo smartphone in sé o il design delle piattaforme (algoritmi, notifiche, infinite scroll)</li>
+                                            <li class="danger">Il ruolo dell'industria tech nel rendere i prodotti deliberatamente "addictive"</li>
+                                            <li class="danger">Che alcune famiglie potrebbero volere che i figli siano raggiungibili a scuola (sicurezza, coordinamento)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">👁️ Punti Ciechi Disciplinari</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="prose">
+                                        <p>Il framework è fortemente <strong>epidemiologico-comportamentale</strong>. Manca completamente:</p>
+                                    </div>
+                                    <div class="card-grid" style="margin-top: 16px;">
+                                        <div class="card">
+                                            <div class="card-icon secondary">🏛️</div>
+                                            <div class="card-title">Prospettiva Sociologica</div>
+                                            <div class="card-text">L'uso del telefono come pratica sociale e identitaria. Il ruolo nel mantenimento di status, appartenenza, capitale sociale.</div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon info">🧒</div>
+                                            <div class="card-title">Prospettiva Evolutiva</div>
+                                            <div class="card-text">Le funzioni dello sviluppo digitale delle competenze. L'adolescenza come fase di esplorazione dell'identità anche online.</div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon danger">⚡</div>
+                                            <div class="card-title">Prospettiva Critica</div>
+                                            <div class="card-text">I rapporti di potere impliciti nel "proibire". La scuola come istituzione di controllo vs spazio di autonomia.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🎭 Presupposti Naturalizzati</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <ul class="styled-list">
+                                        <li class="warning">Il tempo sullo smartphone è intrinsecamente problematico (meno = meglio)</li>
+                                        <li class="warning">La scuola ha legittimità di regolare i comportamenti digitali</li>
+                                        <li class="warning">Il benessere è misurabile con scale standardizzate</li>
+                                        <li class="warning">Gli adolescenti sono destinatari passivi di politiche, non agenti</li>
+                                        <li class="warning">L'uso "ricreativo" è separabile dall'uso "educativo"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-semantica">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">📝 Lessico e Connotazioni</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Termine usato</th>
+                                                <th>Connotazione implicita</th>
+                                                <th>Alternative possibili</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>"Restrictive"</strong></td>
+                                                <td>Neutro-positivo (protezione)</td>
+                                                <td>"Proibitivo", "limitante"</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>"Permissive"</strong></td>
+                                                <td>Negativo (lassismo, passività)</td>
+                                                <td>"Autonomia-centrato", "liberale"</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>"Recreational use"</strong></td>
+                                                <td>Non-essenziale, opzionale</td>
+                                                <td>"Uso sociale", "comunicazione peer"</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>"Phone use"</strong></td>
+                                                <td>Fusione device-contenuto</td>
+                                                <td>Distinguere: device vs piattaforme vs attività</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🎭 Modalizzazione e Hedging</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="prose">
+                                        <p>Uso strategico dell'attenuazione nelle conclusioni:</p>
+                                    </div>
+                                    <div class="quote-block">
+                                        "Do not provide evidence to support..."
+                                        <div class="quote-source">Anziché: "dimostrano l'inefficacia"</div>
+                                    </div>
+                                    <div class="quote-block">
+                                        "...in their current form..."
+                                        <div class="quote-source">Lascia aperta la porta a politiche diverse — protegge da critiche politiche</div>
+                                    </div>
+                                    <div class="quote-block">
+                                        "...require further development..."
+                                        <div class="quote-source">Trasforma un risultato nullo in un'agenda di ricerca</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🔄 Agentività nel Testo</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="prose">
+                                        <p>Gli adolescenti sono principalmente <strong>oggetti di studio</strong> e <strong>destinatari di politiche</strong>:</p>
+                                        <div class="quote-block" style="border-left-color: var(--accent-warning);">
+                                            "adolescents who attended schools that restrict..."
+                                            <div class="quote-source">Posiziona i giovani come soggetti passivi delle decisioni istituzionali</div>
+                                        </div>
+                                        <p style="margin-top: 16px;"><strong>Mai come:</strong> agenti che negoziano, resistono, adattano, scelgono.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🏗️ Metafore Strutturanti</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="card-grid">
+                                        <div class="card">
+                                            <div class="card-icon warning">💊</div>
+                                            <div class="card-title">Metafora Medica</div>
+                                            <div class="card-text">"Dose-response" implicita nel modello: più tempo = più danno, come un farmaco o una sostanza tossica.</div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon info">⏱️</div>
+                                            <div class="card-title">Metafora Compositiva</div>
+                                            <div class="card-text">Riferimento ai "24-h movement behaviours" — il tempo digitale come componente che compete con altre attività.</div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon danger">❌</div>
+                                            <div class="card-title">Metafora ASSENTE</div>
+                                            <div class="card-text">Digital literacy come competenza da sviluppare (vs rischio da ridurre). L'uso come pratica da educare, non da vietare.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-domande">
+                            <h3 style="margin-bottom: 20px;">7 Domande che il Paper Solleva ma Non Risponde</h3>
+                            
+                            <div class="question-item">
+                                <span class="question-number">Q1</span>
+                                <span class="question-text"><strong>Perché l'uso complessivo non diminuisce?</strong> Il paper osserva che ridurre l'uso scolastico non riduce quello totale, ma non spiega il meccanismo. C'è compensazione? Displacement? Gli adolescenti "recuperano" il tempo perso?</span>
+                            </div>
+                            
+                            <div class="question-item">
+                                <span class="question-number">Q2</span>
+                                <span class="question-text"><strong>Cosa fanno gli adolescenti quando NON possono usare il telefono?</strong> Il tempo "liberato" viene occupato da interazioni sociali face-to-face? Da noia? Da ansia per la disconnessione?</span>
+                            </div>
+                            
+                            <div class="question-item">
+                                <span class="question-number">Q3</span>
+                                <span class="question-text"><strong>Le politiche restrittive hanno effetti collaterali negativi?</strong> Ad esempio: conflitti con insegnanti, senso di sfiducia, resistenza alla scuola come istituzione?</span>
+                            </div>
+                            
+                            <div class="question-item">
+                                <span class="question-number">Q4</span>
+                                <span class="question-text"><strong>Come varia l'effetto per sottogruppi vulnerabili?</strong> Cosa succede per studenti con ansia sociale che usano il telefono come "coperta di sicurezza"? Per studenti LGBTQ+ che trovano community online?</span>
+                            </div>
+                            
+                            <div class="question-item">
+                                <span class="question-number">Q5</span>
+                                <span class="question-text"><strong>Qual è il ruolo dei genitori?</strong> L'uso fuori scuola dipende largamente dalle regole familiari, ma queste non sono misurate né controllate.</span>
+                            </div>
+                            
+                            <div class="question-item">
+                                <span class="question-number">Q6</span>
+                                <span class="question-text"><strong>Le politiche scolastiche comunicano messaggi impliciti?</strong> Il divieto potrebbe segnalare "il telefono è pericoloso" — effetto educativo o ansiogeno?</span>
+                            </div>
+                            
+                            <div class="question-item">
+                                <span class="question-number">Q7</span>
+                                <span class="question-text"><strong>Cosa succederebbe con politiche EDUCATIVE anziché PROIBITIVE?</strong> Programmi di digital literacy, pause digitali consapevoli, discussioni critiche sui social — mai menzionati come alternativa.</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 4 -->
+                <section class="section" id="parte4">
+                    <h2 class="section-title">
+                        <span class="section-title-number">04</span>
+                        Implicazioni
+                    </h2>
+                    <p class="section-description">Conseguenze teoriche, pratiche, sociali e per la ricerca futura</p>
+
+                    <div class="tabs-container">
+                        <div class="tabs-header">
+                            <button class="tab-button active" data-tab="teoriche">Teoriche</button>
+                            <button class="tab-button" data-tab="pratiche">Pratiche</button>
+                            <button class="tab-button" data-tab="sociali">Sociali/Politiche</button>
+                            <button class="tab-button" data-tab="ricerca">Ricerca Futura</button>
+                        </div>
+
+                        <div class="tab-panel active" id="tab-teoriche">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🧠 Implicazioni per la Teoria</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="highlight-box">
+                                        <div class="highlight-box-title">Rifiuto del modello "dose-semplice"</div>
+                                        <p>La relazione tra politiche scolastiche e benessere <strong>non è</strong> meccanicamente mediata dalla riduzione del tempo d'uso. Il modello causale lineare è falsificato nei suoi passaggi intermedi.</p>
+                                    </div>
+                                    
+                                    <h4 style="margin: 24px 0 12px;">Supporto parziale all'associazione uso-benessere</h4>
+                                    <p style="color: var(--text-secondary);">Confermate le correlazioni negative (β standardizzati tra −0.15 e −0.18). Questo supporta la <em>plausibilità teorica</em> di interventi che riducano l'uso, ma <strong>non</strong> la specifica via delle politiche scolastiche proibitive.</p>
+                                    
+                                    <h4 style="margin: 24px 0 12px;">Complessità sistemica</h4>
+                                    <p style="color: var(--text-secondary);">L'uso digitale è un comportamento incorporato in sistemi più ampi (famiglia, pari, piattaforme). Interventi puntuali su un nodo del sistema (scuola) non propagano effetti se il resto rimane invariato.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-pratiche">
+                            <div class="card-grid">
+                                <div class="card">
+                                    <div class="card-icon primary">🏫</div>
+                                    <div class="card-title">Per Dirigenti Scolastici</div>
+                                    <div class="card-text">
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            <li style="padding: 4px 0;">• Le politiche restrittive attuali <strong>non sono evidence-based</strong> per il benessere</li>
+                                            <li style="padding: 4px 0;">• Possono avere altre giustificazioni (concentrazione, disciplina) non testate</li>
+                                            <li style="padding: 4px 0;">• Necessario approccio più olistico</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon secondary">👩‍🏫</div>
+                                    <div class="card-title">Per Formatori Docenti</div>
+                                    <div class="card-text">
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            <li style="padding: 4px 0;">• Preparare a discussioni complesse con studenti e genitori</li>
+                                            <li style="padding: 4px 0;">• Evitare narrative semplicistiche "smartphone = male"</li>
+                                            <li style="padding: 4px 0;">• Promuovere digital citizenship vs divieti</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-icon info">🧠</div>
+                                    <div class="card-title">Per Clinici/Psicologi Scolastici</div>
+                                    <div class="card-text">
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            <li style="padding: 4px 0;">• L'uso problematico è associato a peggior benessere, ma cause complesse</li>
+                                            <li style="padding: 4px 0;">• Interventi solo su "tempo schermo" potrebbero essere insufficienti</li>
+                                            <li style="padding: 4px 0;">• Considerare intero ecosistema d'uso</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box warning">
+                                <div class="highlight-box-title">⚠️ Cautele Implementative</div>
+                                <ul style="list-style: none; padding: 0; margin: 8px 0 0 0;">
+                                    <li style="padding: 4px 0;">• Lo studio <strong>non</strong> dimostra che le politiche siano inutili, solo che in forma attuale non producono benefici sul benessere</li>
+                                    <li style="padding: 4px 0;">• <strong>Non</strong> è una giustificazione per rimuovere politiche esistenti senza alternative</li>
+                                    <li style="padding: 4px 0;">• L'uso scolastico ridotto potrebbe avere benefici non misurati (concentrazione, interazioni)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-sociali">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">👥 Gruppi Favoriti/Sfavoriti</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Potenzialmente Favoriti</th>
+                                                <th>Potenzialmente Sfavoriti</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Policy-makers che preferiscono interventi sistemici e olistici</td>
+                                                <td>Advocacy groups che promuovono divieti scolastici come soluzione</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Aziende tech che potrebbero usare i risultati per resistere a regolamentazioni</td>
+                                                <td>Genitori che speravano che la scuola "risolvesse" il problema</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Adolescenti che contestano i divieti percepiti come ingiusti</td>
+                                                <td>Insegnanti che invocano regole chiare e semplici</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">⚖️ Usi e Abusi Potenziali</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="card-grid">
+                                        <div class="card">
+                                            <div class="card-icon primary">✅</div>
+                                            <div class="card-title">Usi Legittimi</div>
+                                            <div class="card-text">
+                                                • Advocacy per programmi di digital literacy<br>
+                                                • Richieste di coinvolgimento familiare<br>
+                                                • Pressione per regolamentazione piattaforme
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon danger">❌</div>
+                                            <div class="card-title">Abusi Potenziali</div>
+                                            <div class="card-text">
+                                                • Interpretazione come "lo smartphone non è un problema"<br>
+                                                • Giustificazione per inazione scolastica<br>
+                                                • Strumentalizzazione da interessi commerciali
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="tab-ricerca">
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🔬 Ipotesi Testabili Emergenti</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="question-item">
+                                        <span class="question-number">H1</span>
+                                        <span class="question-text">Politiche combinate scuola-famiglia sono più efficaci di politiche solo scolastiche nel ridurre l'uso complessivo</span>
+                                    </div>
+                                    <div class="question-item">
+                                        <span class="question-number">H2</span>
+                                        <span class="question-text">La "dose-risposta" tra uso e benessere è non lineare e mediata dal tipo di uso (attivo vs passivo)</span>
+                                    </div>
+                                    <div class="question-item">
+                                        <span class="question-number">H3</span>
+                                        <span class="question-text">L'effetto delle politiche varia per vulnerabilità pre-esistente degli studenti (ansia, isolamento sociale)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🔄 Metodologie Alternative da Esplorare</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <ul class="styled-list">
+                                        <li>Studi <strong>longitudinali</strong> con misurazioni ripetute per stabilire temporalità</li>
+                                        <li>Disegni <strong>quasi-sperimentali</strong> (introduzione nuove politiche come "natural experiment")</li>
+                                        <li><strong>Mixed-methods</strong> con componente qualitativa sulla percezione soggettiva</li>
+                                        <li><strong>Passive sensing</strong> dei dati di utilizzo (con consenso) anziché self-report</li>
+                                        <li>Studi di <strong>implementazione</strong> per capire come le politiche vengono realmente applicate</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="content-block">
+                                <div class="block-header">
+                                    <div class="block-title">🔁 Replicazioni Necessarie</div>
+                                    <div class="block-toggle">▼</div>
+                                </div>
+                                <div class="block-content">
+                                    <ul class="styled-list">
+                                        <li>In altri <strong>contesti nazionali</strong> (sistemi scolastici diversi — Italia, Francia, USA)</li>
+                                        <li>Con campioni più ampi di scuole <strong>"altamente restrittive"</strong> (telefoni inaccessibili)</li>
+                                        <li>Su <strong>outcome diversi</strong>: cyberbullismo, interazioni face-to-face, concentrazione in classe</li>
+                                        <li>Con <strong>follow-up prolungato</strong> (effetti a medio-lungo termine)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 5 -->
+                <section class="section" id="parte5">
+                    <h2 class="section-title">
+                        <span class="section-title-number">05</span>
+                        Direzioni Innovative
+                    </h2>
+                    <p class="section-description">3 proposte di ricerca: originali, fattibili, impattanti</p>
+
+                    <div class="direction-card">
+                        <div class="direction-header">
+                            <div class="direction-number">DIREZIONE 01</div>
+                            <div class="direction-title">Studio di implementazione con etnografia scolastica</div>
+                        </div>
+                        <div class="direction-content">
+                            <div class="direction-field">
+                                <div class="direction-field-label">Titolo Provvisorio</div>
+                                <div class="direction-field-content">"Beyond policy texts: How smartphone bans are lived, negotiated and resisted in secondary schools"</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Domanda di Ricerca</div>
+                                <div class="direction-field-content">Come vengono effettivamente implementate, negoziate e resistite le politiche sugli smartphone nelle interazioni quotidiane tra studenti, docenti e staff?</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Razionale</div>
+                                <div class="direction-field-content">Il paper SMART Schools tratta le politiche come binarie ma riconosce variabilità nell'aderenza. Comprendere il "come" dell'implementazione è essenziale per spiegare il "perché" dell'inefficacia.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Metodo Suggerito</div>
+                                <div class="direction-field-content">Etnografia scolastica multi-sito (4-6 scuole). Osservazione partecipante in spazi chiave (corridoi, mensa, aule). Interviste semi-strutturate. Analisi documentale. Durata: 1 anno scolastico. Framework: Sociologia dell'implementazione (Lipsky, Ball).</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Risultati Attesi</div>
+                                <div class="direction-field-content">Tipologia delle "politiche-in-pratica". Identificazione fattori che favoriscono/ostacolano l'aderenza. Emersione strategie di resistenza e aggiramento.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Rischi e Limiti</div>
+                                <div class="direction-field-content">Intensità di risorse per ricerca etnografica. Difficoltà di accesso prolungato. Non generalizzabile statisticamente.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="direction-card">
+                        <div class="direction-header">
+                            <div class="direction-number">DIREZIONE 02</div>
+                            <div class="direction-title">RCT su intervento family-school partnership</div>
+                        </div>
+                        <div class="direction-content">
+                            <div class="direction-field">
+                                <div class="direction-field-label">Titolo Provvisorio</div>
+                                <div class="direction-field-content">"SMART Families: A randomized controlled trial of coordinated school-home smartphone guidelines"</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Domanda di Ricerca</div>
+                                <div class="direction-field-content">Un intervento che coordina linee guida sull'uso smartphone tra scuola e famiglia è più efficace delle sole politiche scolastiche nel ridurre l'uso complessivo e migliorare il benessere?</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Razionale</div>
+                                <div class="direction-field-content">Se il problema è che le politiche scolastiche non toccano l'uso fuori scuola, testare un intervento che affronti entrambi i contesti è il logical next step.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Metodo Suggerito</div>
+                                <div class="direction-field-content">RCT a cluster (40 scuole, 2000 studenti). Intervento: formazione genitori + contratto famiglia-scuola + app monitoraggio condiviso + sessioni mensili. Outcome primario: uso settimanale (misurato passivamente). Follow-up: 3, 6, 12 mesi.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Risultati Attesi</div>
+                                <div class="direction-field-content">Riduzione 20-30% uso complessivo nel gruppo intervento. Miglioramento benessere proporzionale alla riduzione d'uso.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Rischi e Limiti</div>
+                                <div class="direction-field-content">Costo elevato. Difficoltà coinvolgimento parentale, specialmente famiglie svantaggiate. Rischio aumento disuguaglianze.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="direction-card">
+                        <div class="direction-header">
+                            <div class="direction-number">DIREZIONE 03</div>
+                            <div class="direction-title">Studio qualitativo comparativo internazionale</div>
+                        </div>
+                        <div class="direction-content">
+                            <div class="direction-field">
+                                <div class="direction-field-label">Titolo Provvisorio</div>
+                                <div class="direction-field-content">"Phones at school: A comparative qualitative study of adolescent experiences across regulatory contexts"</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Domanda di Ricerca</div>
+                                <div class="direction-field-content">Come vivono gli adolescenti l'uso/non uso del telefono a scuola in paesi con diversi approcci normativi (divieto legislativo, raccomandazione, nessuna indicazione)?</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Razionale</div>
+                                <div class="direction-field-content">La variabilità internazionale offre un "laboratorio naturale" per comprendere come il contesto normativo influenza l'esperienza soggettiva — la dimensione mancante negli studi quantitativi.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Metodo Suggerito</div>
+                                <div class="direction-field-content">Studio qualitativo multi-paese: Francia (divieto legislativo), UK (raccomandazione), Italia (variabile), Finlandia (liberal). 2 scuole per paese, focus group con studenti 14-16 anni. Photo elicitation. Analisi tematica comparativa.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Risultati Attesi</div>
+                                <div class="direction-field-content">Diversità nelle narrazioni: restrizione come protezione vs controllo. Identificazione fattori culturali mediatori. "Best practices" dal punto di vista degli adolescenti.</div>
+                            </div>
+                            <div class="direction-field">
+                                <div class="direction-field-label">Rischi e Limiti</div>
+                                <div class="direction-field-content">Complessità logistica cross-nazionale. Difficoltà traduzione/equivalenza concettuale. Non generalizzabile statisticamente.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PARTE 6 -->
+                <section class="section" id="parte6">
+                    <h2 class="section-title">
+                        <span class="section-title-number">06</span>
+                        Traduzione Divulgativa
+                    </h2>
+                    <p class="section-description">5 idee per contenuti formativi e divulgativi</p>
+
+                    <div class="divulgation-card">
+                        <div class="divulgation-title">
+                            <span>🎯 "Vietare il telefono a scuola non funziona — ecco perché"</span>
+                            <span class="divulgation-format">Articolo blog</span>
+                        </div>
+                        <div class="divulgation-grid">
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Target</div>
+                                <div>Docenti, dirigenti scolastici</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Angolo</div>
+                                <div>Controintuitivo</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Criterio</div>
+                                <div>✓ Provocatorio</div>
+                            </div>
+                        </div>
+                        <div class="divulgation-hook">"1.227 adolescenti, 30 scuole, zero differenze nel benessere. Lo studio Lancet che smonta le nostre certezze."</div>
+                    </div>
+
+                    <div class="divulgation-card">
+                        <div class="divulgation-title">
+                            <span>📱 "Il problema non è il telefono — è il QUANTO e QUANDO"</span>
+                            <span class="divulgation-format">Video YouTube 10min</span>
+                        </div>
+                        <div class="divulgation-grid">
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Target</div>
+                                <div>Genitori</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Angolo</div>
+                                <div>Pratico</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Criterio</div>
+                                <div>✓ Immediatamente applicabile</div>
+                            </div>
+                        </div>
+                        <div class="divulgation-hook">"Quante ore passa tuo figlio sullo smartphone? Spoiler: la scuola non può fare molto da sola."</div>
+                    </div>
+
+                    <div class="divulgation-card">
+                        <div class="divulgation-title">
+                            <span>🔄 "Perché mio figlio usa comunque il telefono 6 ore al giorno"</span>
+                            <span class="divulgation-format">Carousel Instagram</span>
+                        </div>
+                        <div class="divulgation-grid">
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Target</div>
+                                <div>Genitori, educatori</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Angolo</div>
+                                <div>Dibattito attuale</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Criterio</div>
+                                <div>✓ Formato breve (social)</div>
+                            </div>
+                        </div>
+                        <div class="divulgation-hook">Slide 1: "La scuola ha vietato il telefono" → Slide 2: "Ma l'uso totale non è cambiato" → Slide 3: "Ecco perché..."</div>
+                    </div>
+
+                    <div class="divulgation-card">
+                        <div class="divulgation-title">
+                            <span>💼 "La ricetta impossibile: vietare a scuola, permettere ovunque altrove"</span>
+                            <span class="divulgation-format">Thread LinkedIn</span>
+                        </div>
+                        <div class="divulgation-grid">
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Target</div>
+                                <div>Professionisti educazione, HR</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Angolo</div>
+                                <div>Sistemico</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Criterio</div>
+                                <div>✓ Collegato a dibattiti attuali</div>
+                            </div>
+                        </div>
+                        <div class="divulgation-hook">"Un lesson learned dal più grande studio UK sulle politiche scolastiche smartphone — applicabile anche alle policy aziendali"</div>
+                    </div>
+
+                    <div class="divulgation-card">
+                        <div class="divulgation-title">
+                            <span>🌐 "E se il nemico non fosse lo smartphone ma il suo ecosistema?"</span>
+                            <span class="divulgation-format">Articolo longform</span>
+                        </div>
+                        <div class="divulgation-grid">
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Target</div>
+                                <div>Ricercatori, decisori</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Angolo</div>
+                                <div>Provocatorio/Sistemico</div>
+                            </div>
+                            <div class="divulgation-field">
+                                <div class="divulgation-field-label">Criterio</div>
+                                <div>✓ Controintuitivo</div>
+                            </div>
+                        </div>
+                        <div class="divulgation-hook">"1.227 adolescenti dimostrano che vietare il device non basta. Forse è ora di parlare di design delle piattaforme."</div>
+                    </div>
+                </section>
+
+                <!-- SINTESI -->
+                <section class="section" id="sintesi">
+                    <h2 class="section-title">
+                        <span class="section-title-number">∑</span>
+                        Valutazione Sintetica
+                    </h2>
+                    <p class="section-description">Bilancio finale: contributo e limiti</p>
+
+                    <div class="synthesis-box">
+                        <div class="synthesis-title">Conclusione</div>
+                        <div class="synthesis-text">
+                            <p>Lo studio SMART Schools rappresenta il <strong>contributo empirico più rigoroso ad oggi</strong> sulla questione delle politiche scolastiche sugli smartphone, colmando un vuoto nella letteratura peer-reviewed. Il messaggio centrale — che le politiche restrittive attuali non migliorano il benessere perché non riducono l'uso complessivo — è metodologicamente fondato e politicamente rilevante, sfidando assunzioni diffuse tra educatori e decisori.</p>
+                            
+                            <p style="margin-top: 16px;">I <strong>limiti principali</strong> riguardano il disegno trasversale (no causalità), il campionamento geografico limitato e la categorizzazione binaria delle politiche che nasconde eterogeneità nell'implementazione. Lo studio non risponde alla domanda "cosa funziona", ma solo "questo non funziona così". Manca completamente la prospettiva degli adolescenti come soggetti con agency e bisogni legittimi di connessione.</p>
+                            
+                            <p style="margin-top: 16px;">Il <strong>contributo reale</strong> sta nel liberare il dibattito da semplificazioni e nel orientare verso approcci più olistici. Il <strong>limite più significativo</strong> è l'assenza di alternative testate: sappiamo cosa non funziona, non cosa funzionerebbe.</p>
+                        </div>
+                    </div>
+
+                    <div class="tags-container">
+                        <span class="tag">#analisi-critica</span>
+                        <span class="tag">#smartphone-adolescenti</span>
+                        <span class="tag">#politiche-scolastiche</span>
+                        <span class="tag">#benessere-mentale</span>
+                        <span class="tag">#STROBE</span>
+                        <span class="tag">#trasversale</span>
+                        <span class="tag">#2025</span>
+                    </div>
+
+                    <div style="margin-top: 40px; padding: 24px; background: var(--bg-tertiary); border-radius: 12px; text-align: center;">
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Analisi generata: 25 Gennaio 2026</p>
+                        <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 8px;">Framework: Analisi Critica Paper Accademici • Checklist: STROBE</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                
+                // Update active nav
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show section
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Close mobile menu
+                document.getElementById('sidebar').classList.remove('open');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                const container = this.closest('.tabs-container');
+                
+                // Update active tab button
+                container.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show tab panel
+                container.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                container.querySelector('#tab-' + tabId).classList.add('active');
+            });
+        });
+
+        // Collapsible blocks
+        document.querySelectorAll('.block-header').forEach(header => {
+            header.addEventListener('click', function() {
+                this.classList.toggle('collapsed');
+            });
+        });
+
+        // Mobile menu
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Charts
+        const usageCtx = document.getElementById('usageChart').getContext('2d');
+        new Chart(usageCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Uso IN scuola', 'Uso weekday (tot)', 'Uso weekend', 'Uso settimanale'],
+                datasets: [{
+                    label: 'Scuole Permissive',
+                    data: [1.0, 4.2, 5.5, 32],
+                    backgroundColor: 'rgba(124, 58, 237, 0.7)',
+                    borderColor: 'rgba(124, 58, 237, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Scuole Restrittive',
+                    data: [0.33, 4.21, 6.08, 33.5],
+                    backgroundColor: 'rgba(0, 212, 170, 0.7)',
+                    borderColor: 'rgba(0, 212, 170, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#a0a0b0' }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (context.dataIndex < 3) {
+                                    return label + ': ' + context.raw + ' ore';
+                                } else {
+                                    return label + ': ' + context.raw + ' ore/settimana';
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#606070' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b0' }
+                    }
+                }
+            }
+        });
+
+        const outcomesCtx = document.getElementById('outcomesChart').getContext('2d');
+        new Chart(outcomesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Benessere', 'Ansia', 'Depressione', 'PSMU', 'Sonno', 'Attività fisica', 'Comportamento'],
+                datasets: [{
+                    label: 'Differenza standardizzata (restrittive vs permissive)',
+                    data: [-0.05, 0.02, -0.01, 0.02, 0.03, 0.11, 0.03],
+                    backgroundColor: function(context) {
+                        const value = context.raw;
+                        return Math.abs(value) < 0.1 ? 'rgba(107, 114, 128, 0.7)' : 
+                               value > 0 ? 'rgba(239, 68, 68, 0.7)' : 'rgba(0, 212, 170, 0.7)';
+                    },
+                    borderColor: function(context) {
+                        const value = context.raw;
+                        return Math.abs(value) < 0.1 ? 'rgba(107, 114, 128, 1)' : 
+                               value > 0 ? 'rgba(239, 68, 68, 1)' : 'rgba(0, 212, 170, 1)';
+                    },
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Effect size: ' + context.raw.toFixed(2) + ' (non significativo)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        min: -0.3,
+                        max: 0.3,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#606070' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b0' }
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
