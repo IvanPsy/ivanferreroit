@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Critica: FC e Internet Addiction | Ivan Ferrero</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+    
+    <!-- Page-specific styles -->
+    <style>
+        /* Blockquote */
+        blockquote {
+            border-left: 3px solid var(--accent-cyan);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* Tables */
+        .data-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+        .data-table th, .data-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .data-table th { background: var(--bg-tertiary); color: var(--accent-cyan); font-weight: 600; }
+        .data-table tr:hover { background: var(--bg-hover); }
+
+        /* Verdicts */
+        .verdict { padding: 1rem; border-radius: 6px; margin: 1rem 0; }
+        .verdict-weak { background: #f8514915; border-left: 3px solid var(--accent-red); }
+        .verdict-moderate { background: #d2992215; border-left: 3px solid var(--accent-yellow); }
+        .verdict-partial { background: #db6d2815; border-left: 3px solid var(--accent-orange); }
+        .verdict-absent { background: #6e768115; border-left: 3px solid var(--text-muted); }
+
+        /* Page Header */
+        .page-header {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin-bottom: 0.5rem; font-size: 1.8rem; }
+        .page-header .meta { color: var(--text-muted); font-size: 0.85rem; }
+        .page-header .meta a { font-size: 0.85rem; }
+
+        /* Lists in cards */
+        .card ul, .card ol {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .card li { margin-bottom: 0.5rem; }
+        
+        /* Expandable card max-height override for long content */
+        .card.expandable.expanded .card-body { max-height: 5000px; }
+        
+        /* Stat card with text */
+        .stat-card p { 
+            font-size: 0.8rem; 
+            margin-top: 0.5rem; 
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+    
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a class="sidebar-link active" data-target="overview">📊 Overview</a>
+                <a class="sidebar-link" data-target="metodologia">🔬 Metodologia</a>
+                <a class="sidebar-link" data-target="figura5">🧠 Analisi Figura 5</a>
+                <a class="sidebar-link" data-target="contraddizioni">⚠️ Contraddizioni</a>
+                <a class="sidebar-link" data-target="epistemologia">🔍 Problema Epistemologico</a>
+                <a class="sidebar-link" data-target="letteratura">📚 Letteratura 2024-25</a>
+                <a class="sidebar-link" data-target="ipace">🔄 Confronto I-PACE</a>
+                <a class="sidebar-link" data-target="implicazioni">🎯 Implicazioni Pratiche</a>
+                <a class="sidebar-link" data-target="conclusioni">✅ Conclusioni</a>
+                <a class="sidebar-link" data-target="glossario">📖 Glossario</a>
+                <a class="sidebar-link" data-target="bibliografia">📑 Bibliografia</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            
+            <!-- ==================== OVERVIEW ==================== -->
+            <section id="overview" class="section active">
+                <div class="page-header">
+                    <h1>Analisi Critica: Connettività Funzionale e Internet Addiction negli Adolescenti</h1>
+                    <div class="meta">
+                        <strong>Review analizzata:</strong> Chang, C. W., & Lee, S. Y. (2024). <em>Functional connectivity changes associated with internet addiction in adolescents and young adults: A systematic review.</em> PLOS Mental Health, 1(1), e0000022.<br>
+                        <strong>DOI:</strong> <a href="https://doi.org/10.1371/journal.pmen.0000022" target="_blank">10.1371/journal.pmen.0000022</a><br>
+                        <strong>Data analisi:</strong> Gennaio 2026 | <strong>Autore:</strong> Ivan Ferrero
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Abstract Esecutivo</h3>
+                    <p>Questa analisi critica esamina la review sistematica di Chang e Lee (2024) sulla connettività funzionale (FC) cerebrale negli adolescenti con Internet Addiction (IA). L'esame approfondito rivela <strong>significative limitazioni metodologiche</strong>, contraddizioni interne tra gli studi inclusi, e un <strong>divario sostanziale tra i dati empirici presentati e il modello teorico proposto</strong> (Figura 5: Behaviour Network Interactions).</p>
+                    
+                    <div class="stat-grid mt-3">
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Studi inclusi</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Cross-sectional</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Campioni occidentali</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">12-31</div>
+                            <div class="stat-label">Partecipanti/gruppo</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">1</div>
+                            <div class="stat-label">Connessione con supporto consistente</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Conclusioni Chiave</h3>
+                    <div class="card-grid">
+                        <div class="card">
+                            <span class="tag tag-red">Critico</span>
+                            <h3>Gap Modello-Dati</h3>
+                            <p>Il modello teorico proposto (Figura 5) supera sistematicamente le evidenze empiriche disponibili.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-green">Supportato</span>
+                            <h3>ECN Unica Evidenza Solida</h3>
+                            <p>La connessione ECN-deficit di controllo inibitorio è l'unica con supporto consistente attraverso multipli studi.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-yellow">Teorico</span>
+                            <h3>Salience Network</h3>
+                            <p>Il ruolo della SN come "mediatore" è teorico, non empiricamente testato in nessuno dei 12 studi.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-orange">Limitazione</span>
+                            <h3>Causalità Impossibile</h3>
+                            <p>Tutti i 12 studi sono cross-sectional, precludendo qualsiasi inferenza causale.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-purple">Bias</span>
+                            <h3>Generalizzabilità Zero</h3>
+                            <p>Il 100% dei campioni proviene dall'Asia orientale (Cina, Corea, Indonesia), nessun campione occidentale.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-cyan">Framework</span>
+                            <h3>I-PACE Superiore</h3>
+                            <p>Il confronto con il framework I-PACE (Brand et al., 2019) evidenzia lacune strutturali nel modello proposto.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== METODOLOGIA ==================== -->
+            <section id="metodologia" class="section">
+                <h2>Contesto e Limitazioni Metodologiche</h2>
+
+                <div class="subsection">
+                    <h3>Obiettivi e Struttura della Review</h3>
+                    <div class="card">
+                        <p>La review sistematica di Chang e Lee (2024) si propone di sintetizzare le evidenze sulla connettività funzionale (FC) cerebrale negli adolescenti con Internet Addiction, esaminando le alterazioni nei principali network cerebrali:</p>
+                        <ul>
+                            <li><strong>Default Mode Network (DMN)</strong></li>
+                            <li><strong>Executive Control Network (ECN)</strong></li>
+                            <li><strong>Salience Network (SN)</strong></li>
+                            <li><strong>Reward Pathway</strong></li>
+                        </ul>
+                        <p class="mt-2">Include <strong>12 studi</strong> pubblicati tra il 2013 e il 2020, con campioni che variano da 12 a 31 partecipanti per gruppo. Gli autori fanno riferimento al modello I-PACE (Brand et al., 2016, 2019) ma non lo integrano criticamente, proponendo invece un modello originale (Figura 5) che solleva significative questioni di validità.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Limitazioni Metodologiche Fondamentali</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🔴 Il Gap Causale Fatale</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Problema critico:</strong> Tutti i 12 studi inclusi sono cross-sectional.</p>
+                            <p>Gli autori riconoscono esplicitamente questa limitazione:</p>
+                            <blockquote>"Due to the inherent qualities of a cross-sectional study, the studies did not provide clear evidence that IA played a causal role towards the development of the adolescent brain" (p. 14)</blockquote>
+                            <p>Tuttavia, la narrativa del paper, le figure e le tabelle presentano implicitamente una direzionalità IA → alterazioni cerebrali che i dati <strong>non possono supportare</strong>.</p>
+                            <p><strong>Interpretazioni alternative non escluse:</strong></p>
+                            <ul>
+                                <li>L'uso eccessivo di internet causa alterazioni FC</li>
+                                <li>Alterazioni FC preesistenti aumentano la vulnerabilità all'IA</li>
+                                <li>Una terza variabile non misurata causa entrambi i fenomeni</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🔴 Campioni Statisticamente Sottodimensionati</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table mt-2">
+                                <tr><th>Parametro</th><th>Valore</th></tr>
+                                <tr><td>Range dimensioni campione</td><td>12-31 partecipanti</td></tr>
+                                <tr><td>Media approssimativa</td><td>~20 partecipanti per gruppo</td></tr>
+                                <tr><td>Studi con n < 20</td><td>Maggioranza</td></tr>
+                            </table>
+                            <p class="mt-2">Per studi fMRI che pretendono di identificare pattern di connettività funzionale attraverso network neurali complessi, queste dimensioni campionarie sono <strong>insufficienti</strong>. La bassa potenza statistica aumenta sia il rischio di falsi negativi che di falsi positivi (bias di pubblicazione verso risultati significativi).</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🔴 Bias Geografico e Culturale Completo</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Distribuzione geografica degli studi:</strong></p>
+                            <table class="data-table">
+                                <tr><th>Paese</th><th>Numero studi</th></tr>
+                                <tr><td>Cina</td><td>8</td></tr>
+                                <tr><td>Corea del Sud</td><td>3</td></tr>
+                                <tr><td>Indonesia</td><td>1</td></tr>
+                                <tr><td>Campioni occidentali</td><td class="text-red">0</td></tr>
+                            </table>
+                            <p class="mt-2">Gli autori notano che la prevalenza di IA è più alta in Asia (5.1%) rispetto all'Europa (2.7%), ma non affrontano adeguatamente la domanda fondamentale: <strong>stiamo misurando un fenomeno neurobiologico universale o un costrutto culturalmente specifico?</strong></p>
+                            <p><strong>Fattori confondenti culturali non controllati:</strong></p>
+                            <ul>
+                                <li>L'IA è stata medicalizzata prima e più intensivamente in Asia orientale</li>
+                                <li>I criteri diagnostici e le soglie di cut-off variano sostanzialmente</li>
+                                <li>Le aspettative sociali sull'uso di internet differiscono tra culture</li>
+                                <li>I contesti di gaming (PC bang in Corea, internet café in Cina) non hanno equivalenti occidentali</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>⚠️ Problemi nella Valutazione della Qualità</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La review utilizza il framework GRADE per valutare la qualità degli studi:</p>
+                            <table class="data-table">
+                                <tr><th>Valutazione</th><th>Numero studi</th></tr>
+                                <tr><td>Alta qualità</td><td>4</td></tr>
+                                <tr><td>Moderata-Alta</td><td>4</td></tr>
+                                <tr><td>Moderata</td><td>3</td></tr>
+                                <tr><td>Moderata-Bassa</td><td>2</td></tr>
+                            </table>
+                            <p class="mt-2"><strong>Criticità:</strong> I criteri GRADE non penalizzano adeguatamente:</p>
+                            <ul>
+                                <li>Design cross-sectional per domande causali</li>
+                                <li>Dimensioni campionarie inadeguate per analisi fMRI</li>
+                                <li>Restrizione geografica completa</li>
+                                <li>Eterogeneità diagnostica</li>
+                            </ul>
+                            <p class="mt-2 text-yellow">Studi valutati "Alta qualità" hanno comunque 12-30 partecipanti e design cross-sectional. Le valutazioni di qualità possono generare falsa confidenza.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== FIGURA 5 ==================== -->
+            <section id="figura5" class="section">
+                <h2>Analisi Critica della Figura 5: Behaviour Network Interactions</h2>
+
+                <div class="subsection">
+                    <h3>Cosa Afferma il Modello</h3>
+                    <div class="card">
+                        <p>La Figura 5 propone un sistema di interazioni dinamiche durante l'uso di internet in soggetti con IA:</p>
+                        <p class="mt-2"><strong>Frecce solide (interazioni dirette):</strong></p>
+                        <ul>
+                            <li>Rewards Pathway → <span class="text-cyan">AMPLIFICA</span> → Internet Use</li>
+                            <li>Internet Use → <span class="text-cyan">MOTIVA</span> → Rewards Pathway</li>
+                            <li>DMN → <span class="text-cyan">FACILITA</span> → Internet Use</li>
+                            <li>ECN → <span class="text-red">INIBISCE</span> → Internet Use</li>
+                            <li>Internet Use → <span class="text-red">INTERROMPE</span> → ECN</li>
+                            <li>SN → <span class="text-purple">MEDIA</span> → sia DMN che ECN</li>
+                        </ul>
+                        <p class="mt-2"><strong>Frecce tratteggiate (interazioni ridotte):</strong></p>
+                        <ul>
+                            <li>SN ⋯→ DMN (reduced network interaction)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Analisi Connessione per Connessione</h3>
+                    
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="reward">Rewards ↔ Internet</button>
+                        <button class="tab-btn" data-tab="dmn">DMN → Facilita</button>
+                        <button class="tab-btn" data-tab="ecn">ECN ↔ Internet</button>
+                        <button class="tab-btn" data-tab="sn-media">SN Media</button>
+                        <button class="tab-btn" data-tab="sn-dmn">SN ⋯→ DMN</button>
+                    </div>
+
+                    <div class="tab-content active" id="tab-reward">
+                        <div class="card">
+                            <h4>Rewards Pathway ↔ Internet Use</h4>
+                            <p><strong>Affermazione del modello:</strong> Il sistema di ricompensa amplifica l'uso di internet e viene motivato da esso.</p>
+                            <p><strong>Evidenze disponibili:</strong> Ding et al. (2013) trovano una correlazione positiva tra FC nelle regioni del reward system (praecuneus, PCC, talamo, caudato, nucleus accumbens) e i punteggi CIAS.</p>
+                            <p><strong>Problemi critici:</strong></p>
+                            <ul>
+                                <li>Una correlazione positiva non equivale ad "amplificazione"</li>
+                                <li>La direzione causale è indeterminata</li>
+                                <li>La freccia bidirezionale implica un loop causale che i dati cross-sectional non possono dimostrare</li>
+                                <li>Il supporto citato (Koepp et al., 1998 sul rilascio dopaminergico durante il gaming) riguarda adulti, non adolescenti con IA diagnosticata</li>
+                            </ul>
+                            <div class="verdict verdict-partial mt-2">
+                                <strong>Verdetto:</strong> Supporto parziale, direzione causale non dimostrata
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-dmn">
+                        <div class="card">
+                            <h4>DMN → FACILITA → Internet Use</h4>
+                            <p><strong>Affermazione del modello:</strong> Il DMN facilita l'uso di internet attraverso "myopia for future preferences" e alterazioni nel funzionamento cognitivo.</p>
+                            <p><strong>Evidenze disponibili — contraddittorie:</strong></p>
+                            <ul>
+                                <li>Ding et al. (2013): FC <span class="text-green">aumentata</span> nel cervelletto posteriore bilaterale e giro temporale mediale</li>
+                                <li>Wang et al. (2017): FC <span class="text-red">diminuita</span> del 33% nel lobulo parietale inferiore sinistro e 20% nella mPFC dorsale</li>
+                                <li>Lee et al. (2020): FC <span class="text-yellow">alterata</span> (direzione non specificata) nel PCC</li>
+                            </ul>
+                            <p class="mt-2"><strong>Problemi critici:</strong></p>
+                            <ul>
+                                <li>Se il DMN "facilita" l'uso di internet, ci aspetteremmo un pattern coerente (presumibilmente iperconnettività)</li>
+                                <li>I risultati mostrano un mix di aumenti e diminuzioni in regioni diverse</li>
+                                <li>La funzione "myopia for future preferences" attribuita al DMN non è testata direttamente in nessuno dei 12 studi</li>
+                            </ul>
+                            <div class="verdict verdict-weak mt-2">
+                                <strong>Verdetto:</strong> Supporto debole e incoerente. La freccia è un'interpretazione teorica, non un dato empirico
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-ecn">
+                        <div class="card">
+                            <h4>ECN ↔ Internet Use</h4>
+                            <p><strong>Affermazione del modello:</strong> L'ECN inibisce l'uso di internet, ma l'uso di internet (in IA) interrompe questa funzione inibitoria.</p>
+                            <p><strong>Evidenze disponibili — le più consistenti:</strong></p>
+                            <ul>
+                                <li>Li et al. (2014): ridotta attivazione nello striato e giro frontale, ridotta FC nel giro frontale inferiore</li>
+                                <li>Lin et al. (2015): ridotta FC corticostriatale con caudato, ACC bilaterale, striato e giro frontale</li>
+                                <li>Chen et al. (2020): ridotta FC tra DLPFC sinistro e striato dorsale, correlata con aumentata impulsività</li>
+                                <li>Jin et al. (2016): ridotta FC in DLPFC, insula, cortecce temporali, striato, talamo</li>
+                            </ul>
+                            <p class="mt-2"><strong>Problemi (minori ma presenti):</strong></p>
+                            <ul>
+                                <li>La consistenza c'è, ma la direzione causale resta indeterminata</li>
+                                <li>I dati mostrano che adolescenti con IA hanno ridotta FC nell'ECN</li>
+                                <li>Non distinguono se l'ECN era già disfunzionale prima (predisposizione) o se l'uso eccessivo ha causato la disfunzione</li>
+                                <li>Chen et al. (2020) forniscono l'evidenza più vicina alla freccia bidirezionale, ma con n=22</li>
+                            </ul>
+                            <div class="verdict verdict-moderate mt-2">
+                                <strong>Verdetto:</strong> Supporto moderato per la ridotta funzione ECN; supporto debole per la dinamica bidirezionale specifica
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-sn-media">
+                        <div class="card">
+                            <span class="tag tag-red">Più Problematica</span>
+                            <h4>SN → MEDIA → DMN e ECN</h4>
+                            <p><strong>Affermazione del modello:</strong> La Salience Network media dinamicamente sia il DMN che l'ECN, valutando stimoli interni ed esterni.</p>
+                            <p><strong>Evidenze disponibili:</strong></p>
+                            <p>Xing et al. (2014) — l'unico studio focalizzato specificamente sulla SN — <strong class="text-red">non trova differenze significative nella FC</strong> della SN tra gruppo IA e controlli. Testano dACC e insula, trovano solo alterazioni <em>strutturali</em> (ridotta FA), non funzionali.</p>
+                            <blockquote>"researchers did not find significant FC differences in the SN when compared to the controls" (p. 9)</blockquote>
+                            <p>Wang et al. (2017) trovano ridotta FC del 40% tra DMN e regioni della SN (come l'insula), ma questo riguarda la connessione <em>tra</em> network, non la funzione della SN come "mediatore."</p>
+                            <p class="mt-2"><strong>Problema critico:</strong></p>
+                            <p>Il ruolo della SN come "mediatore" tra DMN ed ECN è un framework teorico importato dalla letteratura generale sulle resting-state networks (Menon, 2011; Sridharan et al., 2008 — non citati nel paper). <strong>Non è testato empiricamente in nessuno dei 12 studi su adolescenti con IA.</strong></p>
+                            <p>La Figura 5 mostra la SN con frecce verso DMN ed ECN con la label "MEDIATES." Ma i dati mostrano solo:</p>
+                            <ul>
+                                <li>Nessuna differenza di FC nella SN stessa</li>
+                                <li>Ridotta connettività <em>tra</em> SN e DMN</li>
+                            </ul>
+                            <div class="verdict verdict-absent mt-2">
+                                <strong>Verdetto:</strong> Supporto assente. Il ruolo della SN nel modello è teorico, non empirico
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-sn-dmn">
+                        <div class="card">
+                            <h4>SN ⋯→ DMN (Reduced Network Interaction)</h4>
+                            <p><strong>Affermazione del modello:</strong> L'interazione tra SN e DMN è ridotta in adolescenti con IA.</p>
+                            <p><strong>Evidenze disponibili:</strong> Wang et al. (2017) trovano una riduzione del 40% nella FC tra DMN e regioni della SN. Questo è l'unico dato diretto.</p>
+                            <p><strong>Problemi:</strong></p>
+                            <ul>
+                                <li>Un singolo studio (n=31) supporta questa connessione</li>
+                                <li>Wang et al. misurano FC inter-network a riposo, non durante l'uso effettivo di internet</li>
+                            </ul>
+                            <div class="verdict verdict-weak mt-2">
+                                <strong>Verdetto:</strong> Supporto da singolo studio, non replicato
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Sintesi: Gap tra Modello e Dati</h3>
+                    <table class="data-table">
+                        <tr>
+                            <th>Connessione nel Modello</th>
+                            <th>Studi a Supporto</th>
+                            <th>Qualità del Supporto</th>
+                        </tr>
+                        <tr>
+                            <td>Rewards ↔ Internet Use</td>
+                            <td>1 (Ding et al.)</td>
+                            <td><span class="tag tag-orange">Correlazionale, no causalità</span></td>
+                        </tr>
+                        <tr>
+                            <td>DMN → facilita</td>
+                            <td>3, ma contraddittori</td>
+                            <td><span class="tag tag-red">Debole, direzione incerta</span></td>
+                        </tr>
+                        <tr>
+                            <td>ECN ↔ Internet Use</td>
+                            <td>4-5, coerenti</td>
+                            <td><span class="tag tag-yellow">Moderato, ma no causalità</span></td>
+                        </tr>
+                        <tr>
+                            <td>SN media DMN/ECN</td>
+                            <td>0</td>
+                            <td><span class="tag tag-purple">Teorico, non testato</span></td>
+                        </tr>
+                        <tr>
+                            <td>SN ⋯→ DMN ridotta</td>
+                            <td>1 (Wang et al.)</td>
+                            <td><span class="tag tag-red">Singolo studio</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== CONTRADDIZIONI ==================== -->
+            <section id="contraddizioni" class="section">
+                <h2>Risultati Contraddittori Minimizzati nella Review</h2>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>Default Mode Network: Crisi di Riproducibilità</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">La review riporta una "complex mix of increases and decreases in FC" nel DMN, presentandolo come osservazione neutrale. In realtà, questo indica <strong>seri problemi di riproducibilità</strong>:</p>
+                        <table class="data-table">
+                            <tr><th>Studio</th><th>Direzione FC</th><th>Regioni</th></tr>
+                            <tr>
+                                <td>Ding et al. (2013)</td>
+                                <td><span class="text-green">AUMENTATA</span></td>
+                                <td>Cervelletto posteriore bilaterale, giro temporale mediale</td>
+                            </tr>
+                            <tr>
+                                <td>Wang et al. (2017)</td>
+                                <td><span class="text-red">DIMINUITA</span> (33%, 20%)</td>
+                                <td>Lobulo parietale inferiore sinistro, mPFC dorsale</td>
+                            </tr>
+                        </table>
+                        <p class="mt-2">Entrambi gli studi esaminano il DMN in adolescenti cinesi con IA usando metodi simili. I risultati contraddittori suggeriscono:</p>
+                        <ul>
+                            <li>Rumore statistico da campioni piccoli</li>
+                            <li>Eterogeneità metodologica mascherata come risultati consistenti</li>
+                            <li>Reale eterogeneità nel fenomeno che la review non cattura</li>
+                        </ul>
+                        <p class="text-yellow mt-2">La review non tenta alcuna meta-analisi quantitativa per risolvere le contraddizioni.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>Posterior Cingulate Cortex: Correlazioni Opposte</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Ding et al. (2013) trovano, <strong>nello stesso studio</strong>:</p>
+                        <ul>
+                            <li>Correlazione <span class="text-red">NEGATIVA</span> (95 cluster voxel, p<0.05) tra connettività lobulo parietale superiore sinistro-PCC e severità CIAS</li>
+                            <li>Correlazione <span class="text-green">POSITIVA</span> (219 cluster voxel, p<0.05) tra connettività praecuneus destro-PCC e severità CIAS</li>
+                        </ul>
+                        <p class="mt-2 text-yellow">Correlazioni direzionali opposte nello stesso network, nello stesso studio. La review non spiega questa contraddizione.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>Salience Network: Assenza di Evidenze Trattata come Evidenza</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Xing et al. (2014) — unico studio specificamente sulla SN — <strong>non trova differenze significative di FC</strong>. Trova solo alterazioni strutturali (ridotta FA).</p>
+                        <p class="text-red mt-2">Nonostante ciò, la Figura 5 raffigura la SN come nodo centrale mediatore. Disconnessione evidente tra dati e modello teorico.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== EPISTEMOLOGIA ==================== -->
+            <section id="epistemologia" class="section">
+                <h2>Il Problema Epistemologico del Costrutto "Internet Addiction"</h2>
+
+                <div class="subsection">
+                    <h3>Mancanza di Consenso Diagnostico</h3>
+                    <div class="card">
+                        <p>Gli autori menzionano la "lack of universal consensus of terminology" (p. 14) come limitazione minore. In realtà, è un <strong>problema centrale</strong>.</p>
+                        <p><strong>Strumenti diagnostici usati negli studi inclusi:</strong></p>
+                        <ul>
+                            <li>Chen Internet Addiction Scale (CIAS)</li>
+                            <li>Young's Internet Addiction Test</li>
+                            <li>Criteri DSM-5 per Internet Gaming Disorder</li>
+                            <li>Criteri non specificati in alcuni studi</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Confusione Terminologica</h3>
+                    <div class="card">
+                        <p>La review tratta IA e IGD come sinonimi/intercambiabili. Ma:</p>
+                        <ul>
+                            <li>Il <strong>DSM-5</strong> riconosce solo IGD come "condition for further study"</li>
+                            <li>L'<strong>ICD-11</strong> include Gaming Disorder, non "Internet Addiction" generico</li>
+                            <li>Non esiste consenso diagnostico per il costrutto studiato</li>
+                        </ul>
+                        <p class="mt-2">Quando Ding et al. (2013) trovano correlazioni negative tra FC e punteggi CIAS, stanno misurando lo stesso fenomeno di Chen et al. (2020) usando la performance al task Stroop?</p>
+                        <p class="text-yellow mt-2"><strong>Costruire modelli neurobiologici per un costrutto diagnosticamente indefinito è scientificamente problematico.</strong></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== LETTERATURA ==================== -->
+            <section id="letteratura" class="section">
+                <h2>Confronto con la Letteratura Recente (2024-2025)</h2>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="supportano">Supportano (Parzialmente)</button>
+                    <button class="tab-btn" data-tab="contraddicono">Complicano/Contraddicono</button>
+                </div>
+
+                <div class="tab-content active" id="tab-supportano">
+                    <div class="subsection">
+                        <h3>Evidenze che Supportano Parzialmente il Modello</h3>
+
+                        <div class="card expandable">
+                            <div class="card-header">
+                                <h3>ECN e Deficit di Controllo Cognitivo</h3>
+                                <span class="expand-icon">+</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mt-2"><strong>Zhao et al. (2024)</strong>, in uno studio su 44 adolescenti IGD vs 50 controlli, trovano che l'impulsività negli adolescenti IGD mostra correlazione positiva con la severità del disturbo, collegata a compromissioni nell'ECN e diminuita FC tra SN ed ECN (r=0.4307, p=0.0021; r=-0.5147, p=0.0034).</p>
+                                <p class="mt-2"><strong>León Méndez et al. (2024)</strong>, in una review sistematica su 21 studi fMRI, riportano che sia IA che Smartphone Addiction erano associate a compromissioni nel controllo cognitivo legate al processamento della ricompensa (ACC, insula, amigdala) e alle funzioni esecutive (DLPFC, lobi frontali e parietali).</p>
+                            </div>
+                        </div>
+
+                        <div class="card expandable">
+                            <div class="card-header">
+                                <h3>Ruolo del Caudato</h3>
+                                <span class="expand-icon">+</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mt-2"><strong>Wang et al. (2025)</strong>, in una meta-analisi VBM combinata con analisi FC, trovano ridotto volume di materia grigia nella corteccia prefrontale e nel giro del cingolo, insieme ad aumentato GMV nel nucleo caudato negli IGD rispetto ai controlli.</p>
+                            </div>
+                        </div>
+
+                        <div class="card expandable">
+                            <div class="card-header">
+                                <h3>Salience Network — Prime Evidenze Funzionali</h3>
+                                <span class="expand-icon">+</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mt-2"><strong>Zhao et al. (2024)</strong> forniscono ciò che mancava nella review di Chang & Lee: evidenza di diminuita FC tra SN ed ECN correlata con impulsività. Questo supporta parzialmente il ruolo della SN, anche se verso l'ECN, non il DMN.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-contraddicono">
+                    <div class="subsection">
+                        <h3>Evidenze che Complicano o Contraddicono il Modello</h3>
+
+                        <div class="card expandable">
+                            <div class="card-header">
+                                <h3>🔴 Il Dorsal Attention Network — Un Attore Mancante</h3>
+                                <span class="expand-icon">+</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mt-2"><strong>Zhao et al. (2024)</strong> introducono un network che la Figura 5 ignora completamente: la diminuita attività a riposo del DAN era associata alla disregolazione attentiva dell'IGD negli adolescenti (r=0.4071, p=0.0017), e l'ECN mostrava aumentata FC con il DAN.</p>
+                            </div>
+                        </div>
+
+                        <div class="card expandable">
+                            <div class="card-header">
+                                <h3>🔴 Direzione Causale — Ancora Irrisolta</h3>
+                                <span class="expand-icon">+</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mt-2"><strong>Zhou et al. (2024)</strong>, studiando 96 internet gamers, trovano che l'integrità della sostanza bianca del circuito frontostriatale destro predice la severità dell'IA, con effetto di mediazione completa del self-control.</p>
+                                <p class="text-yellow mt-2">Questo suggerisce che deficit strutturali preesistenti potrebbero <em>precedere</em> l'IA — <strong>invertendo la direzione causale implicita nella Figura 5</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="card expandable">
+                            <div class="card-header">
+                                <h3>🔴 Il Ruolo dei Neurotrasmettitori — Una Dimensione Assente</h3>
+                                <span class="expand-icon">+</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mt-2"><strong>Niu et al. (2024)</strong>, in uno studio multimodale su 37 adolescenti IGD, trovano che le anomalie FC erano associate ai sistemi dopaminergico, serotoninergico, GABAergico e noradrenergico.</p>
+                                <p class="text-red mt-2">La Figura 5 è puramente "network-centrica" e ignora completamente la dimensione neurochimica.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== I-PACE ==================== -->
+            <section id="ipace" class="section">
+                <h2>Confronto con il Framework I-PACE</h2>
+
+                <div class="subsection">
+                    <h3>Struttura del Modello I-PACE</h3>
+                    <div class="card">
+                        <p>Il modello <strong>I-PACE</strong> (Interaction of Person-Affect-Cognition-Execution) di Brand et al. (2016, 2019) è strutturato su quattro componenti interagenti:</p>
+                        <div class="card-grid mt-2">
+                            <div class="stat-card">
+                                <div class="stat-value text-cyan">P</div>
+                                <div class="stat-label">Person</div>
+                                <p>Variabili di predisposizione individuale — tratti di personalità, vulnerabilità genetiche, storia psicopatologica, impulsività, temperamento.</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value text-purple">A</div>
+                                <div class="stat-label">Affect</div>
+                                <p>Risposte emotive, inclusi aspetti della regolazione emotiva, reattività allo stress.</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value text-yellow">C</div>
+                                <div class="stat-label">Cognition</div>
+                                <p>Risposte cognitive come distorsioni cognitive, bias attentivi verso stimoli internet-correlati.</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value text-green">E</div>
+                                <div class="stat-label">Execution</div>
+                                <p>Funzioni esecutive, controllo inibitorio, autoregolazione, decision-making.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Confronto Sistematico</h3>
+                    <table class="data-table">
+                        <tr>
+                            <th>Aspetto</th>
+                            <th>Figura 5 (Chang & Lee)</th>
+                            <th>I-PACE (Brand et al.)</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Fattori predisponenti</strong></td>
+                            <td class="text-red">Assenti — il modello parte dall'uso di internet</td>
+                            <td class="text-green">Espliciti (P) — riconosce vulnerabilità preesistenti</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Direzione causale</strong></td>
+                            <td class="text-yellow">Implicitamente bidirezionale ma non testata</td>
+                            <td class="text-green">Esplicitamente interazionale — evita affermazioni causali unidirezionali</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Componente affettiva</strong></td>
+                            <td class="text-red">Marginale — solo "reward sensitivity"</td>
+                            <td class="text-green">Centrale — la regolazione emotiva media molte connessioni</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sviluppo temporale</strong></td>
+                            <td class="text-red">Statico — mostra lo "stato" dell'IA</td>
+                            <td class="text-green">Dinamico — distingue stadi precoci e tardivi</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Livello neurochimico</strong></td>
+                            <td class="text-red">Assente</td>
+                            <td class="text-green">Integrabile — il modello è framework-agnostico</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Falsificabilità</strong></td>
+                            <td class="text-red">Bassa — sufficientemente vago da accomodare quasi qualsiasi risultato</td>
+                            <td class="text-green">Alta — fa predizioni specifiche testabili</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>Vantaggi Teorici dell'I-PACE</h3>
+                    <div class="card">
+                        <p>Come notato da Yu et al. (2020), il modello I-PACE enfatizza:</p>
+                        <ol>
+                            <li>La rilevanza di considerare fattori di vulnerabilità predisponenti (es. disregolazioni emotive, deficit nel processamento della ricompensa)</li>
+                            <li>La necessità di differenziare stadi precoci e tardivi nello sviluppo dell'addiction</li>
+                            <li>Gli stadi iniziali delle dipendenze comportamentali sono mediati da urgenze incentive dipendenti dallo striato ventrale</li>
+                            <li>Progressivi deficit nel controllo inibitorio prefrontale stimolo-specifico emergono durante gli stadi tardivi</li>
+                        </ol>
+                        <p class="mt-2"><strong>Lacune della Figura 5 rispetto all'I-PACE:</strong></p>
+                        <p>La Figura 5 presenta un modello <em>descrittivo</em> di correlazioni tra network come se fosse un modello <em>esplicativo</em> di meccanismi causali. L'I-PACE evita questo errore epistemologico fondamentale.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== IMPLICAZIONI ==================== -->
+            <section id="implicazioni" class="section">
+                <h2>Implicazioni per la Pratica Clinica e Educativa</h2>
+
+                <div class="subsection">
+                    <h3>Cosa NON Possiamo Affermare</h3>
+                    <div class="card">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.75rem;"><span class="text-red">❌</span> "L'Internet addiction cambia la struttura/funzione cerebrale degli adolescenti" — <em>affermazione causale non supportata</em></li>
+                            <li style="margin-bottom: 0.75rem;"><span class="text-red">❌</span> "Questi cambiamenti cerebrali spiegano il comportamento addictivo" — <em>ragionamento circolare</em></li>
+                            <li style="margin-bottom: 0.75rem;"><span class="text-red">❌</span> "I risultati si applicano agli adolescenti occidentali/italiani" — <em>zero evidenze</em></li>
+                            <li style="margin-bottom: 0.75rem;"><span class="text-red">❌</span> "L'IA è neurobiologicamente equivalente alle dipendenze da sostanze" — <em>similarità ≠ equivalenza</em></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Cosa Possiamo Affermare con Appropriate Cautele</h3>
+                    <div class="card">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.75rem;"><span class="text-green">✓</span> "Adolescenti diagnosticati con IA mostrano pattern di connettività funzionale diversi rispetto ai controlli in studi cross-sectional condotti in Asia orientale"</li>
+                            <li style="margin-bottom: 0.75rem;"><span class="text-green">✓</span> "Queste differenze sono concentrate nei network coinvolti nel controllo esecutivo, nel processamento della ricompensa e nel pensiero autoreferenziale"</li>
+                            <li style="margin-bottom: 0.75rem;"><span class="text-green">✓</span> "I pattern mostrano alcune similarità con le dipendenze da sostanze, suggerendo possibili meccanismi condivisi da investigare"</li>
+                            <li style="margin-bottom: 0.75rem;"><span class="text-green">✓</span> "Lo sviluppo cerebrale adolescenziale crea un periodo di vulnerabilità per vari comportamenti addictivi"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Raccomandazioni Operative</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🎓 Per la Formazione Docenti</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <ul style="margin-top: 1rem;">
+                                <li>Usare l'<strong>I-PACE</strong> come framework teorico principale — più robusto, falsificabile, riconosce fattori predisponenti osservabili</li>
+                                <li>Presentare le alterazioni FC come <em>correlati</em>, non <em>cause</em></li>
+                                <li>Enfatizzare il controllo esecutivo — connessione più solida e rilevante per interventi educativi</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🏥 Per la Pratica Clinica</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <ul style="margin-top: 1rem;">
+                                <li>Evitare il <strong>determinismo neurologico</strong> — la plasticità cerebrale funziona in entrambe le direzioni</li>
+                                <li>Xu et al. (2024) dimostrano che la mindfulness meditation può alterare i pattern FC e ridurre il craving</li>
+                                <li>Focus su strategie che supportano funzioni esecutive (automonitoraggio, pianificazione, inibizione della risposta)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>👨‍👩‍👧 Per la Comunicazione con Famiglie</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <ul style="margin-top: 1rem;">
+                                <li><strong>Framing epistemico onesto:</strong> la neuroscienza dell'IA è in fase di generazione di ipotesi, non di fatti stabiliti</li>
+                                <li>Evitare allarmismi neurobiologici non supportati da evidenze</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== CONCLUSIONI ==================== -->
+            <section id="conclusioni" class="section">
+                <h2>Conclusioni</h2>
+
+                <div class="subsection">
+                    <h3>Valutazione Complessiva della Review</h3>
+                    <div class="card">
+                        <p>La review sistematica di Chang e Lee (2024) fornisce una sintesi utile della letteratura esistente sulla connettività funzionale in adolescenti con Internet Addiction, ma presenta <strong>significative limitazioni</strong> che ne compromettono l'interpretazione:</p>
+                        <ol>
+                            <li><strong>Gap tra dati e modello:</strong> La Figura 5 propone un modello di interazioni tra network che supera sistematicamente le evidenze empiriche disponibili</li>
+                            <li><strong>Limitazioni metodologiche non adeguatamente pesate:</strong> Design cross-sectional, campioni piccoli, bias geografico completo non ricevono sufficiente enfasi critica</li>
+                            <li><strong>Eterogeneità diagnostica ignorata:</strong> Trattare IA e IGD come intercambiabili quando non esiste consenso diagnostico è problematico</li>
+                            <li><strong>Mancata integrazione critica dell'I-PACE:</strong> Il framework teorico più robusto disponibile è citato ma non utilizzato per strutturare la sintesi</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Cosa Resta Scientificamente Difendibile</h3>
+                    <div class="card">
+                        <p>Nonostante le limitazioni, alcuni pattern meritano attenzione come <strong>ipotesi di lavoro</strong>:</p>
+                        <ol>
+                            <li><strong>Alterazioni ECN più consistenti</strong> — ridotta FC riportata attraverso multipli studi, correla con misure comportamentali di inibizione della risposta</li>
+                            <li><strong>Parallelo con dipendenze da sostanze euristicamente valido</strong> — pattern FC simili (non identici) nei network di ricompensa/controllo, framework utile ma non equivalenza empiricamente validata</li>
+                            <li><strong>Vulnerabilità dello sviluppo adolescenziale ben stabilita</strong> — indipendente dalla ricerca sull'IA, fornisce solida base teorica</li>
+                            <li><strong>Risultati task-based più robusti del resting-state</strong> — studi con task comportamentali mostrano correlazioni cervello-comportamento più consistenti</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Direzioni Future Necessarie</h3>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" style="font-size: 1.5rem;">📈</div>
+                            <div class="stat-label">Studi longitudinali per determinare direzione causale</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="font-size: 1.5rem;">🌍</div>
+                            <div class="stat-label">Campioni occidentali per testare generalizzabilità culturale</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="font-size: 1.5rem;">📋</div>
+                            <div class="stat-label">Standardizzazione diagnostica</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="font-size: 1.5rem;">🧬</div>
+                            <div class="stat-label">Integrazione di dati neurochimici</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="font-size: 1.5rem;">👥</div>
+                            <div class="stat-label">Campioni più ampi per potenza statistica adeguata</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== GLOSSARIO ==================== -->
+            <section id="glossario" class="section">
+                <h2>Glossario degli Acronimi</h2>
+                
+                <input type="text" class="search-input mb-3" id="glossarySearch" placeholder="🔍 Cerca termine o acronimo...">
+                
+                <div class="glossary-grid">
+                    <div class="glossary-item visible" data-term="acc anterior cingulate cortex corteccia cingolata anteriore">
+                        <h4>ACC</h4>
+                        <div class="definition">Anterior Cingulate Cortex — Corteccia cingolata anteriore</div>
+                        <div class="application">Coinvolta nel controllo cognitivo, rilevamento errori, regolazione emotiva</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="cias chen internet addiction scale">
+                        <h4>CIAS</h4>
+                        <div class="definition">Chen Internet Addiction Scale</div>
+                        <div class="application">Scala per la valutazione dell'Internet Addiction sviluppata da Chen et al.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dacc dorsal anterior cingulate cortex">
+                        <h4>dACC</h4>
+                        <div class="definition">Dorsal Anterior Cingulate Cortex</div>
+                        <div class="application">Porzione dorsale della corteccia cingolata anteriore</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dan dorsal attention network attentivo">
+                        <h4>DAN</h4>
+                        <div class="definition">Dorsal Attention Network — Network attentivo dorsale</div>
+                        <div class="application">Supporta l'attenzione diretta verso obiettivi</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dlpfc dorsolateral prefrontal cortex prefrontale dorsolaterale">
+                        <h4>DLPFC</h4>
+                        <div class="definition">Dorsolateral Prefrontal Cortex — Corteccia prefrontale dorsolaterale</div>
+                        <div class="application">Cruciale per funzioni esecutive e working memory</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dmn default mode network">
+                        <h4>DMN</h4>
+                        <div class="definition">Default Mode Network — Network di default</div>
+                        <div class="application">Attivo durante stati di riposo, pensiero autoreferenziale, mind-wandering</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dti diffusion tensor imaging">
+                        <h4>DTI</h4>
+                        <div class="definition">Diffusion Tensor Imaging</div>
+                        <div class="application">Tecnica di neuroimaging per visualizzare tratti di sostanza bianca</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="ecn executive control network controllo esecutivo">
+                        <h4>ECN</h4>
+                        <div class="definition">Executive Control Network — Network del controllo esecutivo</div>
+                        <div class="application">Supporta attenzione, decision-making, inibizione risposta</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="fa fractional anisotropy">
+                        <h4>FA</h4>
+                        <div class="definition">Fractional Anisotropy</div>
+                        <div class="application">Misura dell'integrità della sostanza bianca da DTI</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="fc functional connectivity connettività funzionale">
+                        <h4>FC</h4>
+                        <div class="definition">Functional Connectivity — Connettività funzionale</div>
+                        <div class="application">Correlazione temporale tra attività di regioni cerebrali</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="fmri functional magnetic resonance imaging risonanza magnetica funzionale">
+                        <h4>fMRI</h4>
+                        <div class="definition">Functional Magnetic Resonance Imaging — Risonanza magnetica funzionale</div>
+                        <div class="application">Misura attività cerebrale tramite segnale BOLD</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="gca granger causality analysis causalità">
+                        <h4>GCA</h4>
+                        <div class="definition">Granger Causality Analysis — Analisi di causalità di Granger</div>
+                        <div class="application">Metodo per inferire influenze direzionali tra serie temporali</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="gmv gray matter volume materia grigia">
+                        <h4>GMV</h4>
+                        <div class="definition">Gray Matter Volume</div>
+                        <div class="application">Volume di materia grigia cerebrale</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="grade grading recommendations assessment development evaluation">
+                        <h4>GRADE</h4>
+                        <div class="definition">Grading of Recommendations Assessment, Development and Evaluation</div>
+                        <div class="application">Framework per valutare qualità delle evidenze</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="ia internet addiction dipendenza">
+                        <h4>IA</h4>
+                        <div class="definition">Internet Addiction — Dipendenza da internet</div>
+                        <div class="application">Uso problematico/eccessivo di internet</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="icd-11 international classification diseases">
+                        <h4>ICD-11</h4>
+                        <div class="definition">International Classification of Diseases, 11th Revision</div>
+                        <div class="application">Classificazione internazionale delle malattie, 11a revisione (OMS)</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="igd internet gaming disorder gioco">
+                        <h4>IGD</h4>
+                        <div class="definition">Internet Gaming Disorder — Disturbo da gioco su internet</div>
+                        <div class="application">Riconosciuto nel DSM-5 come condizione da studiare</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="i-pace interaction person affect cognition execution">
+                        <h4>I-PACE</h4>
+                        <div class="definition">Interaction of Person-Affect-Cognition-Execution</div>
+                        <div class="application">Modello teorico di Brand et al. per le dipendenze comportamentali</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="mpfc medial prefrontal cortex prefrontale mediale">
+                        <h4>mPFC</h4>
+                        <div class="definition">Medial Prefrontal Cortex — Corteccia prefrontale mediale</div>
+                        <div class="application">Coinvolta nel processamento autoreferenziale e decisionale</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pcc posterior cingulate cortex cingolata posteriore">
+                        <h4>PCC</h4>
+                        <div class="definition">Posterior Cingulate Cortex — Corteccia cingolata posteriore</div>
+                        <div class="application">Nodo centrale del DMN</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="piu problematic internet use uso problematico">
+                        <h4>PIU</h4>
+                        <div class="definition">Problematic Internet Use — Uso problematico di internet</div>
+                        <div class="application">Termine alternativo a Internet Addiction, meno medicalizzato</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="prisma preferred reporting items systematic reviews meta-analyses">
+                        <h4>PRISMA</h4>
+                        <div class="definition">Preferred Reporting Items for Systematic Reviews and Meta-Analyses</div>
+                        <div class="application">Linee guida per reporting di review sistematiche</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="roi region interest regione">
+                        <h4>ROI</h4>
+                        <div class="definition">Region of Interest — Regione di interesse</div>
+                        <div class="application">Area cerebrale specifica analizzata</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="rs-fc resting-state functional connectivity riposo">
+                        <h4>rs-FC</h4>
+                        <div class="definition">Resting-State Functional Connectivity</div>
+                        <div class="application">Connettività funzionale a riposo</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="sma supplementary motor area motoria supplementare">
+                        <h4>SMA</h4>
+                        <div class="definition">Supplementary Motor Area — Area motoria supplementare</div>
+                        <div class="application">Coinvolta nella pianificazione motoria</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="sn salience network salienza">
+                        <h4>SN</h4>
+                        <div class="definition">Salience Network — Network della salienza</div>
+                        <div class="application">Rileva stimoli rilevanti, media switch tra DMN ed ECN</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="vbm voxel-based morphometry morfometria">
+                        <h4>VBM</h4>
+                        <div class="definition">Voxel-Based Morphometry — Morfometria basata su voxel</div>
+                        <div class="application">Tecnica per analizzare differenze strutturali cerebrali</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="vs ventral striatum striato ventrale nucleus accumbens">
+                        <h4>VS</h4>
+                        <div class="definition">Ventral Striatum — Striato ventrale</div>
+                        <div class="application">Include nucleus accumbens, centrale nel sistema di ricompensa</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== BIBLIOGRAFIA ==================== -->
+            <section id="bibliografia" class="section">
+                <h2>Riferimenti Bibliografici</h2>
+
+                <div class="bib-section">
+                    <h4>Paper Analizzato</h4>
+                    <div class="bib-item">
+                        Chang, C. W., & Lee, S. Y. (2024). Functional connectivity changes associated with internet addiction in adolescents and young adults: A systematic review. <em>PLOS Mental Health</em>, 1(1), e0000022. <a href="https://doi.org/10.1371/journal.pmen.0000022" target="_blank">https://doi.org/10.1371/journal.pmen.0000022</a>
+                    </div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Studi Inclusi nella Review (Citati nell'Analisi)</h4>
+                    <div class="bib-item">Chen, C. Y., et al. (2020). [Studio su FC e task Stroop in adolescenti IGD]. <em>[Citato nella review originale]</em></div>
+                    <div class="bib-item">Ding, W. N., et al. (2013). Trait impulsivity and impaired prefrontal impulse inhibition function in adolescents with internet gaming addiction revealed by a Go/No-Go fMRI study. <em>Behavioral and Brain Functions</em>, 9, 20.</div>
+                    <div class="bib-item">Hong, S. B., et al. (2013). Reduced orbitofrontal cortical thickness in male adolescents with internet addiction. <em>Behavioral and Brain Functions</em>, 9, 11.</div>
+                    <div class="bib-item">Jin, C., et al. (2016). Altered brain activity and volume in adolescents with internet gaming disorder: A resting-state fMRI study. <em>Brain Imaging and Behavior</em>, 10, 1–10.</div>
+                    <div class="bib-item">Lee, D., et al. (2020). [Studio su alterazioni PCC]. <em>[Citato nella review originale]</em></div>
+                    <div class="bib-item">Li, B., et al. (2014). Impaired frontal-basal ganglia connectivity in adolescents with internet addiction. <em>Scientific Reports</em>, 4, 5027.</div>
+                    <div class="bib-item">Lin, F., et al. (2015). Abnormal white matter integrity in adolescents with internet addiction disorder: A tract-based spatial statistics study. <em>PLOS ONE</em>, 7, e30253.</div>
+                    <div class="bib-item">Wang, Y., et al. (2017). Altered default mode network connectivity in adolescents with internet gaming addiction. <em>European Journal of Radiology</em>, 86, 29–35.</div>
+                    <div class="bib-item">Xing, L., et al. (2014). Microstructure abnormalities in adolescents with internet addiction disorder. <em>PLOS ONE</em>, 9, e86708.</div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Letteratura 2024-2025</h4>
+                    <div class="bib-item">León Méndez, M., Padrón, I., Fumero, A., & Marrero, R. J. (2024). Effects of internet and smartphone addiction on cognitive control in adolescents and young adults: A systematic review of fMRI studies. <em>Neuroscience and Biobehavioral Reviews</em>, 159, 105572. <a href="https://doi.org/10.1016/j.neubiorev.2024.105572" target="_blank">DOI</a></div>
+                    <div class="bib-item">Niu, X., et al. (2024). Abnormal Granger causal connectivity based on altered gray matter volume and associated neurotransmitters of adolescents with internet gaming disorder revealed by a multimodal neuroimaging study. <em>Developmental Cognitive Neuroscience</em>, 70, 101472. <a href="https://doi.org/10.1016/j.dcn.2024.101472" target="_blank">DOI</a></div>
+                    <div class="bib-item">Wang, X., et al. (2025). Resting-state functional connectivity alterations in internet gaming disorder: A fMRI study combining voxel-based morphometry meta-analysis. <em>Brain Research Bulletin</em>, 232, 111588. <a href="https://doi.org/10.1016/j.brainresbull.2025.111588" target="_blank">DOI</a></div>
+                    <div class="bib-item">Xu, X., et al. (2024). Mindfulness Meditation Training Reduces Gaming Cravings by Reshaping the Functional Connectivity Between the Default Mode Network and Executive Control-Related Brain Regions. <em>Biological Psychiatry: Cognitive Neuroscience and Neuroimaging</em>, 9(8), 827–836. <a href="https://doi.org/10.1016/j.bpsc.2024.04.011" target="_blank">DOI</a></div>
+                    <div class="bib-item">Zhao, T., et al. (2024). Resting-state brain networks alterations in adolescents with Internet Gaming Disorder associate with cognitive control impairments. <em>Frontiers in Psychiatry</em>, 15, 1404050. <a href="https://doi.org/10.3389/fpsyt.2024.1404050" target="_blank">DOI</a></div>
+                    <div class="bib-item">Zhou, H., et al. (2024). White matter integrity of right frontostriatal circuit predicts internet addiction severity among internet gamers. <em>Addiction Biology</em>, 29(5), e13399. <a href="https://doi.org/10.1111/adb.13399" target="_blank">DOI</a></div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Framework Teorici</h4>
+                    <div class="bib-item">Brand, M., Young, K. S., Laier, C., Wölfling, K., & Potenza, M. N. (2016). Integrating psychological and neurobiological considerations regarding the development and maintenance of specific Internet-use disorders: An Interaction of Person-Affect-Cognition-Execution (I-PACE) model. <em>Neuroscience & Biobehavioral Reviews</em>, 71, 252–266.</div>
+                    <div class="bib-item">Brand, M., Wegmann, E., Stark, R., Müller, A., Wölfling, K., Robbins, T. W., & Potenza, M. N. (2019). The Interaction of Person-Affect-Cognition-Execution (I-PACE) model for addictive behaviors: Update, generalization to addictive behaviors beyond internet-use disorders, and specification of the process character of addictive behaviors. <em>Neuroscience & Biobehavioral Reviews</em>, 104, 1–10.</div>
+                    <div class="bib-item">Yu, F., et al. (2020). Convergent cross-sectional and longitudinal evidence for gaming-cue specific posterior parietal dysregulations in early stages of internet gaming disorder. <em>Addiction Biology</em>, 26(3), e12933. <a href="https://doi.org/10.1111/adb.12933" target="_blank">DOI</a></div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Altre Fonti Citate</h4>
+                    <div class="bib-item">Koepp, M. J., et al. (1998). Evidence for striatal dopamine release during a video game. <em>Nature</em>, 393, 266–268.</div>
+                    <div class="bib-item">Menon, V. (2011). Large-scale brain networks and psychopathology: A unifying triple network model. <em>Trends in Cognitive Sciences</em>, 15(10), 483–506.</div>
+                    <div class="bib-item">Sridharan, D., Levitin, D. J., & Menon, V. (2008). A critical role for the right fronto-insular cortex in switching between central-executive and default-mode networks. <em>Proceedings of the National Academy of Sciences</em>, 105(34), 12569–12574.</div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Analisi critica — Ivan Ferrero | Gennaio 2026<br>
+                    <span style="font-size: 0.75rem;">Uso professionale: formazione docenti, pratica clinica, ricerca ciberpsicologia ed educazione inclusiva</span>
+                </p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+    
+    <!-- Interactivity Scripts -->
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabContainer = btn.closest('.subsection') || btn.closest('.section');
+                tabContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        glossarySearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (terms.includes(query) || text.includes(query) || query === '') {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
