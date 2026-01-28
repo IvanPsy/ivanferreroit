@@ -397,7 +397,9 @@
         .block-content {
             padding: 24px;
             max-height: 2000px;
-            overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: auto; /* Permette scroll orizzontale per tabelle */
+            -webkit-overflow-scrolling: touch;
             transition: all 0.3s ease;
         }
 
@@ -854,6 +856,42 @@
             
             .divulgation-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                /* Su mobile il menu del sito è più alto (~120px) */
+                top: 120px;
+                height: calc(100vh - 120px);
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .page-header {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.4rem;
+            }
+
+            .content-area {
+                padding: 1rem;
+            }
+
+            .block-content {
+                padding: 1rem;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: 10px 8px;
             }
         }
 

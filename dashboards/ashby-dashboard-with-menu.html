@@ -911,22 +911,51 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                /* Aumenta padding per compensare menu sito impilato + dashboard nav */
+                padding-top: 200px;
+            }
+
+            .dashboard-nav {
+                /* Menu sito su mobile è più alto (~120px) */
+                top: 120px;
+            }
+
             .dashboard-nav-content {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 0.75rem 1rem;
             }
 
             .main-nav {
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 0.25rem;
+            }
+
+            .nav-btn {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8rem;
             }
 
             .hero {
-                padding: 2rem;
+                padding: 1.5rem;
             }
 
             .hero h1 {
-                font-size: 1.75rem;
+                font-size: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 1rem;
             }
         }
     </style>

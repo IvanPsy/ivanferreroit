@@ -491,9 +491,18 @@
             font-weight: 500;
         }
 
+        /* Table wrapper for mobile scroll */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem;
+        }
+
         /* Comparison table */
         .comparison-table {
             width: 100%;
+            min-width: 600px; /* Forza scroll su mobile */
             border-collapse: collapse;
             margin: 1rem 0;
             font-size: 0.9rem;
@@ -862,6 +871,39 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .sidebar {
+                /* Su mobile il menu del sito è più alto (~120px) */
+                top: 120px;
+                height: calc(100vh - 120px);
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .card-content {
+                padding: 1rem;
+            }
+
+            .comparison-table {
+                font-size: 0.8rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
         @media (max-width: 640px) {
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -873,6 +915,10 @@
 
             .implications-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
             }
         }
 
@@ -903,6 +949,12 @@
         @media (max-width: 1024px) {
             .reading-progress-bar {
                 left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .reading-progress-bar {
+                top: 120px;
             }
         }
 
@@ -1170,6 +1222,7 @@
                         <span class="card-toggle">▼</span>
                     </div>
                     <div class="card-content">
+                        <div class="table-wrapper">
                         <table class="comparison-table">
                             <thead>
                                 <tr>
@@ -1230,6 +1283,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </section>

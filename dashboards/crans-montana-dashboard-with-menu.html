@@ -154,6 +154,44 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* Mobile responsive - menu sito impilato */
+        @media (max-width: 768px) {
+            header.fixed {
+                top: 120px !important;
+            }
+
+            main {
+                padding-top: 180px !important;
+            }
+
+            .nav-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            /* Tabelle scrollabili */
+            table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header .flex.items-center.gap-4 {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
