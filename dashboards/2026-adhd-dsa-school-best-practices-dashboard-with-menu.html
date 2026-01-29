@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADHD • DSA • ODD — Dashboard Operativa</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===========================================
+           DESIGN SYSTEM — IVAN FERRERO
+           =========================================== */
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-tertiary: #151b23;
+            --bg-card: #1a222d;
+            --bg-hover: #222c3a;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-cyan: #00d9ff;
+            --accent-cyan-dim: #00d9ff40;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --border-accent: #00d9ff30;
+            --shadow-glow: 0 0 30px #00d9ff15;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-display);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 1.5rem; }
+        h2 { font-size: 1.6rem; margin-bottom: 1.25rem; }
+        h3 { font-size: 1.3rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+        a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.2s ease; }
+        a:hover { opacity: 0.8; }
+
+        code, .mono { font-family: var(--font-mono); }
+
+        /* ===========================================
+           HEADER
+           =========================================== */
+        .dashboard-header {
+            position: fixed;
+            top: 70px; left: 0; right: 0;
+            z-index: 900;
+            background: rgba(10, 14, 20, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+
+        .dashboard-header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0.75rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .dashboard-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dashboard-logo-icon {
+            width: 40px; height: 40px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .dashboard-logo-text {
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .dashboard-logo-text span { color: var(--accent-cyan); }
+
+        .dashboard-nav {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 0.4rem 0.75rem;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .nav-btn.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+            border-color: var(--accent-cyan);
+        }
+
+        /* ===========================================
+           LAYOUT
+           =========================================== */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 9rem 2rem 2rem;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .subsection {
+            margin-bottom: 2.5rem;
+        }
+
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* ===========================================
+           CARDS
+           =========================================== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card h3, .card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Expandable Card */
+        .card.expandable .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .card.expandable .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .card.expandable.expanded .card-body {
+            max-height: 5000px;
+        }
+
+        .card.expandable .expand-icon {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .card.expandable.expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Stat Card */
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-family: var(--font-mono);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ===========================================
+           TAGS
+           =========================================== */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tag-cyan { background: var(--accent-cyan-dim); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .tag-green { background: #3fb95020; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .tag-yellow { background: #d2992220; color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+        .tag-orange { background: #db6d2820; color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+        .tag-red { background: #f8514920; color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .tag-purple { background: #a371f720; color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+
+        /* ===========================================
+           DO / DON'T LISTS
+           =========================================== */
+        .do-list, .dont-list {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .do-list {
+            background: rgba(63, 185, 80, 0.1);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .dont-list {
+            background: rgba(248, 81, 73, 0.1);
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .do-list h4 { color: var(--accent-green); margin-bottom: 0.75rem; }
+        .dont-list h4 { color: var(--accent-red); margin-bottom: 0.75rem; }
+
+        .do-list ol, .dont-list ol {
+            margin-left: 1.25rem;
+        }
+
+        .do-list li, .dont-list li {
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* ===========================================
+           SCRIPT BOX
+           =========================================== */
+        .script-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .script-box h4 {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .script-line {
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .script-line .speaker {
+            font-weight: 600;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+        }
+
+        .script-line .action {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .script-line .dialogue {
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+        }
+
+        .script-rationale {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .script-rationale strong {
+            color: var(--accent-yellow);
+        }
+
+        /* ===========================================
+           VADEMECUM STYLES
+           =========================================== */
+        .principle-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-tertiary) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .principle-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .principle-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-content p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .checklist {
+            margin: 1rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item .icon-do {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .checklist-item .icon-dont {
+            color: var(--accent-red);
+            font-weight: bold;
+        }
+
+        .signals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .signal-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .signal-card.warning {
+            border-left: 4px solid var(--accent-yellow);
+        }
+
+        .signal-card.danger {
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .signal-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .signal-card.warning h4 { color: var(--accent-yellow); }
+        .signal-card.danger h4 { color: var(--accent-red); }
+
+        .signal-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .signal-card li {
+            padding: 0.25rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ===========================================
+           TABS
+           =========================================== */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); }
+
+        .tab-btn.active {
+            color: var(--accent-cyan);
+            background: var(--bg-card);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ===========================================
+           SEARCH
+           =========================================== */
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px var(--accent-cyan-dim);
+        }
+
+        .search-input::placeholder { color: var(--text-muted); }
+
+        /* ===========================================
+           BIBLIOGRAPHY
+           =========================================== */
+        .bib-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .bib-item:last-child { border-bottom: none; }
+        .bib-item em { color: var(--text-primary); }
+
+        .bib-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .bib-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .bib-container::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .bib-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        /* ===========================================
+           HIGHLIGHT BOX
+           =========================================== */
+        .highlight-box {
+            background: linear-gradient(135deg, #00d9ff10 0%, #3fb95008 100%);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #d2992215 0%, #db6d2810 100%);
+            border-color: var(--accent-yellow);
+        }
+
+        .quote-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .quote-box cite {
+            display: block;
+            margin-top: 0.5rem;
+            font-style: normal;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ===========================================
+           UTILITIES
+           =========================================== */
+        .text-cyan { color: var(--accent-cyan); }
+        .text-green { color: var(--accent-green); }
+        .text-yellow { color: var(--accent-yellow); }
+        .text-orange { color: var(--accent-orange); }
+        .text-red { color: var(--accent-red); }
+        .text-purple { color: var(--accent-purple); }
+        .text-muted { color: var(--text-muted); }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+
+        /* ===========================================
+           RESPONSIVE
+           =========================================== */
+        @media (max-width: 1024px) {
+            .dashboard-header-content {
+                flex-direction: column;
+                gap: 0.75rem;
+                padding: 0.5rem 1rem;
+            }
+            .dashboard-nav { justify-content: center; }
+            .main-container { padding-top: 11rem; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.3rem; }
+            .card-grid { grid-template-columns: 1fr; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Mobile adjustments for site menu */
+        @media (max-width: 768px) {
+            .dashboard-header {
+                top: 120px !important;
+            }
+            .main-container {
+                padding-top: 13rem !important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                padding-top: 11rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+        <div class="dashboard-header-content">
+            <div class="dashboard-logo">
+                <div class="dashboard-logo-icon">🧠</div>
+                <div class="dashboard-logo-text">ADHD • DSA • <span>ODD</span></div>
+            </div>
+            <nav class="dashboard-nav">
+                <button class="nav-btn active" data-section="overview">Overview</button>
+                <button class="nav-btn" data-section="vademecum">⚡ Vademecum</button>
+                <button class="nav-btn" data-section="profilo">Profilo</button>
+                <button class="nav-btn" data-section="prevenzione">Prevenzione</button>
+                <button class="nav-btn" data-section="rifiuto">Rifiuto</button>
+                <button class="nav-btn" data-section="sfida">Sfida</button>
+                <button class="nav-btn" data-section="pari">Pari</button>
+                <button class="nav-btn" data-section="famiglia">Famiglia</button>
+                <button class="nav-btn" data-section="errori">Errori</button>
+                <button class="nav-btn" data-section="docente">Docente</button>
+                <button class="nav-btn" data-section="biblio">Biblio</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="main-container">
+
+        <!-- ===================================
+             OVERVIEW
+             =================================== -->
+        <section id="overview" class="section active">
+            <h1>Gestire ADHD, DSA e tratti oppositivo-provocatori</h1>
+            <p class="text-secondary">Dashboard operativa per l'istituto professionale — approccio evidence-based</p>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">34,7%</div>
+                    <div class="stat-label">ADHD con comorbilità ODD</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">52%</div>
+                    <div class="stat-label">ADHD nella categoria "rifiutato"</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8,8%</div>
+                    <div class="stat-label">ADHD con giftedness (2e)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">+11</div>
+                    <div class="stat-label">Punti percentili con prevenzione Tier 1</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Abstract Esecutivo</h3>
+                <div class="card">
+                    <p>L'alunno di prima superiore con ADHD, Disturbo Specifico dell'Apprendimento, tratti oppositivo-provocatori e quoziente intellettivo superiore alla media rappresenta una delle sfide più complesse per il sistema scolastico italiano. La ricerca degli ultimi quindici anni ha rovesciato molte convinzioni tradizionali: il comportamento oppositivo non è volontà ma <strong class="text-cyan">deficit di competenze</strong> (Greene, 2004); le punizioni escludenti producono effetti iatrogeni documentati (Mowen & Boman, 2020); la relazione docente-studente è il predittore più robusto degli esiti comportamentali (Roorda et al., 2011).</p>
+                    
+                    <p>Questo profilo presenta caratteristiche paradossali. L'intelligenza elevata, lungi dal proteggere, può amplificare i pattern oppositivi attraverso strategie sofisticate di evitamento e sfida (Barry et al., 2014). La comorbilità ADHD+ODD, presente nel 34,7% dei casi di ADHD (Njardvik et al., 2025), genera un circolo vizioso di disregolazione emotiva, conflitto relazionale e rifiuto sociale che peggiora progressivamente senza intervento adeguato.</p>
+
+                    <div class="highlight-box mt-3">
+                        <p style="margin:0;">La letteratura converge su principi operativi chiari: <strong>prevenzione proattiva</strong> tramite strutturazione ambientale e differenziazione curricolare; <strong>de-escalation</strong> attraverso scelte e negoziazione; <strong>costruzione relazionale</strong> basata su rispetto reciproco e comprensione funzionale del comportamento.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Principi Trasversali</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>1. La relazione precede l'intervento</h4>
+                        <p>Ogni strategia funziona meglio in presenza di relazione positiva; senza relazione, le stesse strategie generano resistenza. Investire nella relazione non è premessa dell'intervento—è l'intervento primario.</p>
+                    </div>
+                    <div class="card">
+                        <h4>2. Prevenire costa meno che gestire</h4>
+                        <p>Gli investimenti proattivi (strutturazione, differenziazione, banking time) riducono esponenzialmente il tempo dedicato alla gestione delle crisi.</p>
+                    </div>
+                    <div class="card">
+                        <h4>3. Il comportamento comunica</h4>
+                        <p>L'oppositività non è rumore ma segnale; decodificarlo richiede analisi funzionale, non giudizio morale.</p>
+                    </div>
+                    <div class="card">
+                        <h4>4. La punizione non insegna</h4>
+                        <p>La punizione dice cosa non fare; non insegna cosa fare. Le conseguenze educative devono includere l'insegnamento delle alternative.</p>
+                    </div>
+                    <div class="card">
+                        <h4>5. Il sistema è più forte dell'individuo</h4>
+                        <p>L'intervento sul singolo studente è necessario ma insufficiente; modificare l'ambiente (classe, relazioni, curricolo) produce effetti più duraturi.</p>
+                    </div>
+                    <div class="card">
+                        <h4>6. L'autorevolezza si costruisce</h4>
+                        <p>Lo studente rispetta il docente competente, coerente, rispettoso—non quello che comanda. L'autorità si guadagna nella relazione.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Nota Metodologica</h3>
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Criteri di revisione della letteratura</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">La presente revisione si basa sulla letteratura scientifica peer-reviewed pubblicata tra il 2010 e il 2025, con priorità metodologica accordata a: meta-analisi (11 incluse), revisioni sistematiche (8 incluse), studi randomizzati controllati (RCT) su interventi scolastici (6 inclusi). Le banche dati consultate includono PubMed, PsycINFO, ERIC, Google Scholar, e repository italiani (IRIS, CINECA).</p>
+                        
+                        <p><strong>Criteri di inclusione:</strong> studi empirici quantitativi con campioni scolastici; interventi implementabili in contesti educativi reali; pubblicazione in riviste peer-reviewed.</p>
+                        
+                        <p><strong>Criteri di esclusione:</strong> manuali non validati empiricamente; fonti divulgative; blog; letteratura grigia non sottoposta a revisione.</p>
+                        
+                        <div class="highlight-box warning mt-2">
+                            <h4 class="text-yellow mb-1">Limitazioni identificate</h4>
+                            <ul style="margin-left: 1.25rem; color: var(--text-secondary);">
+                                <li>Scarsità di studi specifici sulla tripla comorbilità ADHD+DSA+ODD+alto QI</li>
+                                <li>Predominanza di ricerca nordamericana; limitati studi italiani di outcome</li>
+                                <li>Carenza di RCT su interventi di de-escalation scolastica</li>
+                                <li>Ricerca sul burnout neurodivergente prevalentemente focalizzata su adulti autistici</li>
+                                <li>Assenza di meta-analisi dedicate agli istituti professionali</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             VADEMECUM
+             =================================== -->
+        <section id="vademecum" class="section">
+            <h1>⚡ Vademecum Operativo</h1>
+            <p class="text-secondary">Quick reference per la gestione quotidiana — i contenuti essenziali pronti all'uso</p>
+
+            <div class="subsection">
+                <h3>I 5 Principi da Tenere a Mente</h3>
+                
+                <div class="principle-card">
+                    <div class="principle-number">1</div>
+                    <div class="principle-content">
+                        <h4>Il comportamento comunica</h4>
+                        <p>L'oppositività non è capriccio: segnala sovraccarico, frustrazione o bisogni non soddisfatti</p>
+                    </div>
+                </div>
+
+                <div class="principle-card">
+                    <div class="principle-number">2</div>
+                    <div class="principle-content">
+                        <h4>Prevenire costa meno che gestire</h4>
+                        <p>Investire nella struttura e nella relazione riduce le crisi</p>
+                    </div>
+                </div>
+
+                <div class="principle-card">
+                    <div class="principle-number">3</div>
+                    <div class="principle-content">
+                        <h4>La relazione viene prima</h4>
+                        <p>Senza relazione positiva, nessuna strategia funziona</p>
+                    </div>
+                </div>
+
+                <div class="principle-card">
+                    <div class="principle-number">4</div>
+                    <div class="principle-content">
+                        <h4>Punire non insegna</h4>
+                        <p>La punizione dice cosa non fare, non cosa fare al suo posto</p>
+                    </div>
+                </div>
+
+                <div class="principle-card">
+                    <div class="principle-number">5</div>
+                    <div class="principle-content">
+                        <h4>La calma si contagia</h4>
+                        <p>Se ti attivi tu, si attiva lui. Se resti calmo, de-escali</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Prevenzione Quotidiana</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ FA</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Posizionalo vicino alla cattedra, lontano da finestre e distrazioni</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Anticipa i cambi di attività ("Tra 5 minuti passiamo a...")</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Dai istruzioni brevi, una alla volta, verificando la comprensione</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Offri compiti sfidanti — la noia genera agitazione</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Costruisci la relazione PRIMA che serva: saluto, interesse genuino, momenti positivi</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ NON FARE</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non dare istruzioni lunghe o multiple — sovraccaricano la memoria di lavoro</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non semplificare troppo — comunica basse aspettative e genera noia</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non ignorare i segnali di escalation (agitazione, tono alterato, evitamento)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non costruire la relazione solo quando c'è un problema</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Script: Quando Rifiuta di Lavorare</h3>
+                <div class="script-box">
+                    <h4>📝 Script pronto all'uso</h4>
+                    
+                    <div class="script-line">
+                        <div class="speaker">1. Docente</div>
+                        <div class="action">(Avvicinati, abbassa il volume, tono neutro)</div>
+                        <div class="dialogue">"Ho notato che non hai iniziato. Cosa succede?"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">2. Se dice "è stupido/inutile":</div>
+                        <div class="dialogue">"Capisco che non ti sembra interessante. Quello che mi serve è che lavori su [X]. Preferisci modificare la consegna o farla in versione ridotta?"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">3. Dai tempo:</div>
+                        <div class="dialogue">"Pensaci. Torno tra 2 minuti e mi dici cosa hai deciso."</div>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ FA</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Valida l'emozione, non il comportamento ("Capisco che sei frustrato")</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Offri scelte VERE dentro limiti non negoziabili</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Dai tempo per elaborare — pretendere subito escalates</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Torna quando lo studente è pronto</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ NON FARE</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non trasformarlo in battaglia pubblica — attiva il saving face</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non chiedere "perché?" durante la crisi — suona come accusa</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non minacciare conseguenze che non puoi mantenere</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non alzare il tono o il volume — l'arousal è contagioso</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Script: Quando Sfida Davanti alla Classe</h3>
+                <div class="script-box">
+                    <h4>📝 Script pronto all'uso</h4>
+                    
+                    <div class="script-line">
+                        <div class="speaker">Studente</div>
+                        <div class="action">(voce alta)</div>
+                        <div class="dialogue">"Ma lei chi è per dirmi cosa devo fare?"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">1. Docente</div>
+                        <div class="action">(Pausa di 3 secondi. Tono calmo, volume normale)</div>
+                        <div class="dialogue">"Capisco che non sei d'accordo. Questa non è la situazione per discuterne. Ti chiedo di sederti. Parliamo a fine ora."</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">2. Se insiste:</div>
+                        <div class="dialogue">"No, adesso no. Due possibilità: sederti ora e parliamo dopo, oppure pausa in corridoio e parliamo tra 5 minuti. Tu scegli."</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">3. Sposta l'attenzione:</div>
+                        <div class="action">(Alla classe)</div>
+                        <div class="dialogue">"Aprite il libro a pagina X, iniziate l'esercizio 3."</div>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ FA</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Mantieni calma e volume basso — la calma de-escala</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Offri via d'uscita dignitosa ("Tu scegli")</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Riduci il pubblico spostando l'attenzione sulla classe</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Mantieni l'impegno a riparlarne — e fallo davvero</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ NON FARE</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non ingaggiare la discussione nel merito — alimenta il conflitto</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non umiliare davanti ai compagni — distrugge la relazione</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non cedere per evitare il conflitto — insegna che la sfida funziona</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non aspettarti scuse immediate — richiedono elaborazione</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Gestire le Dinamiche con la Classe</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ FA</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Valorizza pubblicamente i suoi punti di forza (non comportamentali)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Crea opportunità di collaborazione in cui può contribuire con le sue competenze</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Forma gruppi eterogenei — mai aggregare solo studenti "difficili"</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-do">•</span>
+                                <span>Intervieni sulla reputazione: evidenzia comportamenti che disconfermano lo stereotipo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ NON FARE</h4>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non mostrare frustrazione pubblica — i pari la leggono come legittimazione a escluderlo</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non assegnarlo sempre allo stesso gruppo "dei difficili"</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non ignorare l'esclusione sottile da parte dei compagni</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="icon-dont">•</span>
+                                <span>Non ridurre la ricreazione come punizione — peggiora le competenze sociali</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box mt-3">
+                    <h4 class="text-cyan mb-1">Se i compagni chiedono "perché lui può?"</h4>
+                    <p style="margin:0; font-style: italic;">"Ognuno di voi ha bisogni diversi. Se avessi bisogno di qualcosa di diverso per imparare meglio, lo riceveresti anche tu."</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Gli Errori che Peggiorano la Situazione</h3>
+                <div class="card-grid">
+                    <div class="card" style="border-left: 4px solid var(--accent-red);">
+                        <h4 class="text-red">✗ La sospensione come prima risposta</h4>
+                        <p>Rimuove lo studente dall'unico contesto dove può apprendere alternative. Aumenta la probabilità di comportamenti problematici futuri.</p>
+                    </div>
+                    <div class="card" style="border-left: 4px solid var(--accent-red);">
+                        <h4 class="text-red">✗ La nota come comunicazione</h4>
+                        <p>La nota documenta, non comunica, non educa, non previene.</p>
+                    </div>
+                    <div class="card" style="border-left: 4px solid var(--accent-red);">
+                        <h4 class="text-red">✗ Togliere attività gradite come punizione generica</h4>
+                        <p>Nessuna connessione logica con il comportamento. Rimuove opportunità di apprendimento.</p>
+                    </div>
+                    <div class="card" style="border-left: 4px solid var(--accent-red);">
+                        <h4 class="text-red">✗ "Sei intelligente, potresti se volessi"</h4>
+                        <p>Invalida la sofferenza, colpevolizza, non modifica nulla.</p>
+                    </div>
+                    <div class="card" style="border-left: 4px solid var(--accent-red);">
+                        <h4 class="text-red">✗ Confrontarlo con i compagni</h4>
+                        <p>"Gli altri ci riescono" non insegna competenze, solo vergogna.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Prenderti Cura di Te</h3>
+                <div class="highlight-box warning">
+                    <p style="margin:0;"><strong>Il docente esaurito non ha risorse per gestire questi profili.</strong> Non è egoismo, è prerequisito.</p>
+                </div>
+
+                <div class="card mt-2">
+                    <h4>Strategie protettive</h4>
+                    <ul style="margin-left: 1.25rem; color: var(--text-secondary);">
+                        <li>Costruisci una rete collegiale — confrontarti riduce l'isolamento</li>
+                        <li>Documenta i piccoli successi — protegge dal senso di fallimento</li>
+                        <li>Ristruttura: "mi attacca" → "non ha ancora le competenze per gestire questa situazione"</li>
+                        <li>Stabilisci confini: cosa è tua responsabilità, cosa richiede altri professionisti</li>
+                        <li>Non aspettare il burnout per chiedere aiuto</li>
+                    </ul>
+                </div>
+
+                <div class="signals-grid mt-3">
+                    <div class="signal-card warning">
+                        <h4>⚠️ Segnali di escalation imminente</h4>
+                        <ul>
+                            <li>Agitazione motoria crescente</li>
+                            <li>Tono di voce alterato</li>
+                            <li>Evitamento del contatto visivo</li>
+                            <li>Risposte brevi e secche</li>
+                        </ul>
+                    </div>
+                    <div class="signal-card danger">
+                        <h4>🔴 Segnali di burnout/esaurimento</h4>
+                        <ul>
+                            <li>Irritabilità improvvisa/crescente</li>
+                            <li>Ritiro sociale insolito</li>
+                            <li>Calo improvviso di prestazioni</li>
+                            <li>Perdita di competenze già acquisite</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote-box mt-3">
+                    <p style="margin:0;">Ricorda: non è una battaglia da vincere. È una relazione da costruire.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             PROFILO NEUROPSICOLOGICO
+             =================================== -->
+        <section id="profilo" class="section">
+            <h1>Comprensione del Profilo Neuropsicologico</h1>
+            <p class="text-secondary">Cosa dice la ricerca sul profilo ADHD + DSA + ODD + alto QI</p>
+
+            <div class="subsection">
+                <h3>Dati chiave dalla letteratura</h3>
+                
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Comorbilità ADHD + ODD: un profilo distinto</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">La comorbilità ADHD+ODD non rappresenta una semplice somma di difficoltà ma configura un profilo neuropsicologico qualitativamente distinto. La meta-analisi di Njardvik e collaboratori (2025), analizzando 121 studi e quasi 40.000 soggetti, ha documentato che il <strong class="text-cyan">34,7%</strong> degli adolescenti con ADHD presenta disturbo oppositivo provocatorio comorbido—la comorbilità più frequente, superiore ai disturbi d'ansia (18,4%) e depressivi (13,6%).</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Il "paradosso dell'intelligenza elevata nel DOP"</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">L'interazione con l'intelligenza superiore genera quello che Barry e colleghi (2014) hanno definito il <strong>"paradosso dell'intelligenza elevata nel DOP"</strong>: mentre nella popolazione generale il QI correla negativamente con i disturbi del comportamento, nei soggetti con tratti narcisistici elevati l'intelligenza superiore <strong>amplifica</strong> anziché mitigare i pattern oppositivi. Lo studio su 221 bambini ha evidenziato un'interazione significativa QI × narcisismo: i tratti narcisistici predicevano comportamenti oppositivi con maggiore forza nei soggetti ad alto QI.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Profilo twice-exceptional (2e)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Il profilo twice-exceptional (2e) ADHD+giftedness presenta caratteristiche specifiche documentate da Cornoldi e collaboratori (2023): questi studenti, che rappresentano l'<strong class="text-cyan">8,8%</strong> dei campioni clinici ADHD—il doppio della proporzione attesa—mostrano profili WISC-IV tipici con discrepanza tra indici verbali/percettivi elevati e memoria di lavoro/velocità di elaborazione deficitari.</p>
+                        <p>L'intelligenza non protegge dai deficit esecutivi ma può mascherarli, generando il fenomeno documentato da Mullet e Rinn (2015): genitori che osservano difficoltà significative mentre insegnanti vedono compensazione.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Discrepanza scuola-casa: mismatch o patologia?</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">McCoach e colleghi (2020) hanno identificato un dato cruciale per distinguere ADHD autentico da mismatch ambientale: il <strong class="text-cyan">50%</strong> degli studenti gifted underachieving mostra disattenzione significativa a scuola secondo gli insegnanti, ma solo il <strong class="text-cyan">30%</strong> secondo i genitori. Questa discrepanza ambiente-specifica suggerisce che parte del comportamento problematico rappresenta risposta adattiva a stimolazione inadeguata piuttosto che patologia intrinseca.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Masking e burnout neurodivergente</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Il rischio di <strong>masking e burnout</strong> negli studenti neurodivergenti ad alto funzionamento è stato documentato sistematicamente da Raymaker e colleghi (2020): il mascheramento cronico delle difficoltà esaurisce le risorse adattive, producendo una sindrome caratterizzata da esaurimento cronico, perdita di competenze precedentemente acquisite, ridotta tolleranza agli stimoli.</p>
+                        <p>Miller e colleghi (2021) hanno evidenziato conseguenze severe: tra i partecipanti autistici, il masking correlava con ideazione suicidaria—associazione non riscontrata nei gruppi di controllo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Paradigma: da "non vuole" a "non può"</h3>
+                <div class="quote-box">
+                    <p style="margin:0;">"I bambini si comportano bene se possono" — non "se vogliono".</p>
+                    <cite>Greene, 2004</cite>
+                </div>
+                <p class="mt-2">La funzione comunicativa del comportamento oppositivo emerge con chiarezza dalla ricerca funzionale. L'oppositività raramente è capriccio: segnala sovraccarico cognitivo, frustrazione per richieste percepite come arbitrarie, tentativo di preservare autostima minacciata, o protesta contro mismatch cronico tra bisogni e offerta.</p>
+            </div>
+
+            <div class="subsection">
+                <h3>Implicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO (con razionale)</h4>
+                        <ol>
+                            <li><strong>Valutare sempre la funzione del comportamento prima di intervenire.</strong> L'analisi funzionale (antecedenti-comportamento-conseguenze) è prerequisito di qualsiasi intervento efficace (Walker et al., 2018).</li>
+                            <li><strong>Distinguere mismatch ambientale da patologia intrinseca.</strong> La discrepanza scuola-casa nella manifestazione sintomatica indica spesso bisogno di modificare l'ambiente, non lo studente.</li>
+                            <li><strong>Riconoscere i segnali di masking e sovraccarico.</strong> Irritabilità crescente, ritiro sociale, calo improvviso di prestazioni possono indicare esaurimento adattivo, non peggioramento motivazionale.</li>
+                            <li><strong>Coinvolgere lo studente nell'analisi delle proprie difficoltà.</strong> L'intelligenza elevata permette insight metacognitivo; escluderlo è spreco di risorsa.</li>
+                            <li><strong>Considerare il comportamento oppositivo come tentativo di soddisfare bisogni legittimi.</strong> Autonomia, competenza, rispetto, stimolazione sono bisogni universali (Deci & Ryan, 2000).</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T (con razionale)</h4>
+                        <ol>
+                            <li><strong>Non attribuire l'oppositività a difetto morale.</strong> La ricerca documenta basi neurobiologiche incompatibili con l'attribuzione volitiva (Burke, 2014).</li>
+                            <li><strong>Non aspettarsi che l'intelligenza "compensi" i deficit esecutivi.</strong> Il profilo 2e mostra deficit di memoria di lavoro indipendenti dal QI (Cornoldi et al., 2023).</li>
+                            <li><strong>Non interpretare la compensazione come prova di assenza di difficoltà.</strong> La compensazione ha costi; il masking cronico produce burnout.</li>
+                            <li><strong>Non utilizzare l'intelligenza come arma.</strong> "Sei intelligente, potresti se volessi" invalida e danneggia la relazione.</li>
+                            <li><strong>Non patologizzare risposte adattive a contesti inadeguati.</strong> Rifiutarsi di completare compiti non sfidanti può essere risposta razionale.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             PREVENZIONE
+             =================================== -->
+        <section id="prevenzione" class="section">
+            <h1>Strategie Proattive di Prevenzione</h1>
+            <p class="text-secondary">Investire nella struttura riduce esponenzialmente il tempo di gestione crisi</p>
+
+            <div class="subsection">
+                <h3>Evidenze dalla ricerca</h3>
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Meta-analisi Durlak et al. (2011)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">213 studi, 270.034 studenti: i programmi di prevenzione universale (Tier 1) producono miglioramenti significativi in competenze socio-emotive, comportamento e rendimento accademico con guadagno medio di <strong class="text-cyan">11 punti percentili</strong>. L'efficacia massima si registra per programmi <strong>SAFE</strong>: Sequenziati, Attivi, Focalizzati, Espliciti.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Framework PBIS</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Il framework PBIS (Positive Behavioral Interventions and Supports) è oggi classificato come <strong>pratica evidence-based</strong> per la riduzione della disciplina escludente (Santiago-Rosario et al., 2023). Le scuole che implementano PBIS con fedeltà mostrano riduzioni significative di sospensioni, note disciplinari, e referral.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Il mismatch curricolare come trigger primario</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Per lo studente gifted+ADHD, la letteratura identifica il <strong>mismatch curricolare</strong> come fattore scatenante primario del comportamento problematico. Sadoughifar e colleghi (2024) hanno identificato come fattori esterni principali: assenza di opportunità di accelerazione, curricolo inadeguato ai bisogni, clash tra stile di insegnamento e stile di apprendimento.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Relazione docente-studente: i numeri</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">La meta-analisi di Roorda e colleghi (2011)—99 studi—ha documentato correlazioni medio-alte tra qualità relazionale e engagement (r = .34) e tra conflittualità e disengagement (r = -.32). Per gli studenti con ADHD, MacLean e colleghi (2023) hanno evidenziato un'associazione particolarmente forte tra sintomi ADHD e conflitto relazionale (r = .41), configurando un circolo vizioso che solo l'intervento intenzionale del docente può interrompere.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>I tre livelli della prevenzione efficace</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>🏠 Ambiente fisico</h4>
+                        <p>Riduzione trigger, strutturazione spaziale, posizionamento strategico</p>
+                    </div>
+                    <div class="card">
+                        <h4>📚 Ambiente didattico</h4>
+                        <p>Differenziazione, stimolazione adeguata, sfida intellettuale</p>
+                    </div>
+                    <div class="card">
+                        <h4>🤝 Ambiente relazionale</h4>
+                        <p>Rispetto, prevedibilità, sicurezza emotiva, banking time</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Indicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO</h4>
+                        <ol>
+                            <li><strong>Strutturare l'ambiente fisico.</strong> Posizionamento vicino alla cattedra, lontano da finestre/porte, riduzione del disordine visivo (Kern & Clemens, 2007).</li>
+                            <li><strong>Rendere esplicite e prevedibili le routine.</strong> L'imprevedibilità aumenta l'ansia; la prevedibilità libera risorse cognitive.</li>
+                            <li><strong>Offrire compiti sfidanti con supporto strutturato.</strong> Né troppo facile (noia) né troppo difficile (frustrazione).</li>
+                            <li><strong>Costruire la relazione prima che serva.</strong> "Banking time": brevi interazioni positive su argomenti scelti dallo studente (Pianta, 1999).</li>
+                            <li><strong>Comunicare aspettative alte CON supporto.</strong> "Wise feedback": "Ti dico questo perché ho standard alti E credo che tu possa raggiungerli" (Yeager et al., 2014).</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T</h4>
+                        <ol>
+                            <li><strong>Non improvvisare le richieste.</strong> Richieste impreviste attivano resistenza.</li>
+                            <li><strong>Non sottostimare con compiti semplificati eccessivamente.</strong> Comunica basse aspettative, danneggia l'autostima.</li>
+                            <li><strong>Non aspettare la crisi per costruire la relazione.</strong> Rapporto 5:1 (interazioni positive:negative) è benchmark minimo (Gottman, 1994).</li>
+                            <li><strong>Non confondere struttura con rigidità.</strong> La struttura crea sicurezza; la rigidità genera conflitto.</li>
+                            <li><strong>Non ignorare i segnali di escalation precoce.</strong> Agitazione, tono alterato, evitamento precedono la crisi.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             RIFIUTO
+             =================================== -->
+        <section id="rifiuto" class="section">
+            <h1>Gestione del Rifiuto e Non-Compliance</h1>
+            <p class="text-secondary">Il rifiuto non è attacco personale ma comunicazione</p>
+
+            <div class="subsection">
+                <h3>Framework teorici</h3>
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Collaborative & Proactive Solutions (CPS)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Il framework CPS di Greene (2004) ha dimostrato in trial randomizzato efficacia equivalente o superiore al Parent Management Training tradizionale nella riduzione dei sintomi ODD. La formula operativa: <strong>Empatizzare → Definire preoccupazioni dell'adulto → Invitare a collaborare</strong>—sposta il paradigma da imposizione a negoziazione.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Choice-giving: il potere delle scelte</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">La ricerca sulle scelte documenta consistentemente la riduzione dei comportamenti problematici quando gli studenti percepiscono controllo sulle proprie attività. Jolivette e colleghi (2001) hanno dimostrato che offrire scelte—anche minime, come l'ordine dei compiti o lo strumento di scrittura—riduce significativamente l'oppositività e aumenta l'engagement.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Sequenza ad alta probabilità</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">L'antitesi efficace della non-compliance non è la coercizione ma la <strong>sequenza ad alta probabilità</strong>: iniziare con richieste facili e gradite, costruire momentum comportamentale, poi inserire la richiesta più impegnativa. La ricerca documenta che questa sequenza aumenta la compliance alle richieste difficili.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Script Operativo: Gestione del rifiuto iniziale</h3>
+                <div class="script-box">
+                    <h4>📝 Contesto: Lo studente rifiuta di iniziare un compito assegnato</h4>
+                    
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="action">(avvicinandosi, tono neutro, abbassando il volume)</div>
+                        <div class="dialogue">"Ho notato che non hai iniziato. Cosa succede?"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Studente</div>
+                        <div class="dialogue">"Questo compito è stupido. Non lo faccio."</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="dialogue">"Capisco che non ti sembra interessante. <em>(pausa)</em> Dimmi: c'è qualcosa del compito che ti blocca, o è proprio che non lo trovi utile?"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Studente</div>
+                        <div class="dialogue">"È inutile, lo sappiamo tutti."</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="dialogue">"Posso capire questa sensazione. Quello che mi serve è che tu lavori su [competenza X] oggi. Possiamo trovare un modo che funzioni per te. Preferiresti modificare la consegna e farla su un argomento che ti interessa, oppure farla così ma in versione ridotta?"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Studente</div>
+                        <div class="action">(esita)</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="dialogue">"Pensaci. Torno tra due minuti e mi dici cosa hai deciso."</div>
+                    </div>
+
+                    <div class="script-rationale">
+                        <strong>Razionale:</strong> Riconoscimento del vissuto senza validare il rifiuto; identificazione del bisogno sottostante; offerta di scelte reali; tempo per elaborare; assenza di escalation pubblica.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Indicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO</h4>
+                        <ol>
+                            <li><strong>Validare l'emozione senza validare il comportamento.</strong> "Capisco che sei frustrato" ≠ "quindi puoi non fare nulla".</li>
+                            <li><strong>Offrire scelte entro limiti non negoziabili.</strong> "Devi completare il lavoro" è non negoziabile; "come e quando" è negoziabile.</li>
+                            <li><strong>Utilizzare sequenze ad alta probabilità.</strong> Prima richieste facili, poi quelle impegnative.</li>
+                            <li><strong>Dare tempo per elaborare.</strong> Il sistema nervoso in attivazione ha bisogno di tempo.</li>
+                            <li><strong>Tornare quando lo studente è pronto.</strong> "Torno tra 5 minuti" comunica fiducia.</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T</h4>
+                        <ol>
+                            <li><strong>Non trasformare il rifiuto in battle of wills pubblica.</strong> L'escalation pubblica attiva saving face (Walker et al., 1995).</li>
+                            <li><strong>Non utilizzare minacce che non si è disposti ad attuare.</strong> Lo studente testerà ogni limite dichiarato.</li>
+                            <li><strong>Non chiedere "perché" durante la crisi.</strong> Richiede elaborazione cognitiva inaccessibile durante l'arousal.</li>
+                            <li><strong>Non personalizzare il rifiuto.</strong> "Mi stai mancando di rispetto" sposta il focus dal comportamento.</li>
+                            <li><strong>Non escalare il tono o il volume.</strong> L'arousal è contagioso (Jennings & Greenberg, 2009).</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             SFIDA PUBBLICA
+             =================================== -->
+        <section id="sfida" class="section">
+            <h1>Gestione della Sfida Pubblica all'Autorità</h1>
+            <p class="text-secondary">La sfida pubblica non è il momento per l'intervento educativo — è il momento per la de-escalation</p>
+
+            <div class="subsection">
+                <h3>Dinamiche di gruppo</h3>
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Face-saving e trappola del pubblico</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Walker e colleghi (1995) hanno dimostrato che gli studenti oppositivi in situazione pubblica si trovano in trappola: retrocedere significa perdere la faccia davanti ai compagni; escalare significa conseguenze, ma preserva lo status. <strong>L'unica via d'uscita è offerta dall'adulto che crea opzioni dignitose.</strong></p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Critica pubblica e rifiuto sociale</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">McAuliffe e colleghi (2009) hanno documentato che la critica pubblica del docente verso studenti con comportamenti problematici <strong>media</strong> la relazione tra comportamento e rifiuto sociale: i pari apprendono dal docente che quello studente è devalutabile.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Studio MOSAIC: correzioni private</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Lo studio MOSAIC di Mikami e colleghi (2013)—trial randomizzato—ha dimostrato che le correzioni comportamentali condotte <strong>privatamente</strong> anziché pubblicamente migliorano non solo il comportamento ma anche l'accettazione sociale dello studente da parte dei pari.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Script Operativo: Gestione della sfida pubblica</h3>
+                <div class="script-box">
+                    <h4>📝 Contesto: Lo studente, davanti alla classe, risponde in modo provocatorio</h4>
+                    
+                    <div class="script-line">
+                        <div class="speaker">Studente</div>
+                        <div class="action">(voce alta, rivolta ai compagni)</div>
+                        <div class="dialogue">"Ma lei chi è per dirmi cosa devo fare? Queste regole sono ridicole!"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="action">(pausa di 3 secondi, tono calmo, volume normale)</div>
+                        <div class="dialogue">"Capisco che non sei d'accordo. Questa non è la situazione per discuterne." <em>(pausa)</em> "Ti chiedo di sederti. Parliamo a fine ora."</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Studente</div>
+                        <div class="action">(insiste)</div>
+                        <div class="dialogue">"No, parliamone adesso davanti a tutti!"</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="dialogue">"No, adesso no. Ti offro due possibilità: sederti adesso e ne parliamo dopo, oppure andare in corridoio a prendere una pausa e ne parliamo tra cinque minuti. Tu scegli."</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="action">(Se lo studente continua)</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="action">(rivolgendosi alla classe)</div>
+                        <div class="dialogue">"Aprite il libro a pagina X, iniziate l'esercizio 3."</div>
+                    </div>
+
+                    <div class="script-line">
+                        <div class="speaker">Docente</div>
+                        <div class="action">(poi, allo studente, abbassando il volume e avvicinandosi)</div>
+                        <div class="dialogue">"Vedo che sei molto arrabbiato. Non ti chiedo di non essere arrabbiato. Ti chiedo di sederti adesso. Dopo, ti ascolto."</div>
+                    </div>
+
+                    <div class="script-rationale">
+                        <strong>Razionale:</strong> Nessuna escalation del conflitto; mantenimento della struttura per la classe; offerta di scelte; riconoscimento dell'emozione; impegno a riprendere la conversazione; tono che modella la regolazione.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Risposta all'obiezione: "Se non lo sanziono subito, sembra che abbia vinto"</h3>
+                <div class="highlight-box">
+                    <p>La ricerca documenta che la percezione di "vincere" non deriva dalla sanzione immediata ma dalla <strong>prevedibilità delle conseguenze</strong> e dalla <strong>competenza percepita del docente</strong>. Roorda e colleghi (2023) hanno dimostrato che gli studenti rispettano la competenza gestionale, non la rapidità punitiva.</p>
+                    <p style="margin:0;">Un docente che gestisce la crisi con calma non esclude la sanzione—la posticipa al momento appropriato. La sanzione discussa in privato, dopo la regolazione, è più efficace educativamente e non alimenta la dinamica spettacolare.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Indicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO</h4>
+                        <ol>
+                            <li><strong>Mantenere tono calmo e volume basso.</strong> L'escalation vocale attiva risposte di minaccia; la calma de-escala (Siegel, 2012).</li>
+                            <li><strong>Non rispondere nel merito durante la crisi.</strong> La discussione razionale richiede corteccia prefrontale online; durante l'arousal domina il sistema limbico.</li>
+                            <li><strong>Offrire via d'uscita dignitosa.</strong> "Scegli tu" permette di retrocedere senza perdere la faccia.</li>
+                            <li><strong>Rivolgere l'attenzione alla classe.</strong> Riduce il pubblico del confronto e disincentiva la performance.</li>
+                            <li><strong>Mantenere l'impegno a riprendere.</strong> "Ne parliamo dopo" deve essere mantenuto.</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T</h4>
+                        <ol>
+                            <li><strong>Non ingaggiare la discussione sui contenuti.</strong> "Hai ragione che..." alimenta il conflitto.</li>
+                            <li><strong>Non umiliare davanti ai compagni.</strong> Produce risentimento, distrugge la relazione, modella bullismo.</li>
+                            <li><strong>Non cedere per evitare il conflitto.</strong> Insegna che la sfida funziona.</li>
+                            <li><strong>Non minacciare conseguenze esagerate sotto pressione.</strong> "Sei sospeso!" detto in crisi è spesso impraticabile.</li>
+                            <li><strong>Non aspettarsi scuse immediate.</strong> Le scuse genuine richiedono elaborazione.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             DINAMICHE CON I PARI
+             =================================== -->
+        <section id="pari" class="section">
+            <h1>Dinamiche con i Pari</h1>
+            <p class="text-secondary">L'intervento sul singolo è necessario ma insufficiente: serve intervenire sul sistema-classe</p>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">52%</div>
+                    <div class="stat-label">ADHD nella categoria "rifiutato"</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">60%</div>
+                    <div class="stat-label">Con punteggi rifiuto > 2 DS</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Evidenze dalla ricerca</h3>
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Circolo vizioso rifiuto sociale ↔ sintomi ADHD</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">La meta-analisi di Hoza (2007) ha documentato dati allarmanti. Una volta stabilita la reputazione negativa, è estremamente difficile modificarla—i pari filtrano le informazioni successive confermando le aspettative negative (McQuade & Hoza, 2015).</p>
+                        <p>Stenseng e colleghi (2016) hanno evidenziato una relazione bidirezionale: i sintomi ADHD predicono maggiore rifiuto sociale, ma il rifiuto sociale <strong>peggiora i sintomi ADHD</strong>—circolo vizioso che solo l'intervento sistemico può interrompere.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Deviant peer contagion</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Dishion & Tipsord (2011) documentano che aggregare studenti problematici produce effetti iatrogeni: i comportamenti devianti si amplificano per rinforzo reciproco. Gli studenti a rischio moderato sono i più vulnerabili; l'influenza negativa si riduce con supervisione adulta strutturata.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Good Behavior Game</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Le contingenze di gruppo (Kellam et al., 2008) creano interdipendenza positiva e riducono l'individuazione dello studente problematico. Gli approcci di classe sono più efficaci degli interventi individualizzati.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Indicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO</h4>
+                        <ol>
+                            <li><strong>Identificare e valorizzare pubblicamente punti di forza non comportamentali.</strong> "Marco ha un'ottima capacità di analisi critica" modifica la rappresentazione dei pari.</li>
+                            <li><strong>Creare opportunità di collaborazione strutturata.</strong> Attività in cui lo studente può contribuire aumentano accettazione sociale (Mikami et al., 2013).</li>
+                            <li><strong>Evitare di aggregare studenti problematici.</strong> Gruppi omogenei producono contagio deviante; gruppi eterogenei producono moderazione.</li>
+                            <li><strong>Utilizzare approcci di classe (Good Behavior Game).</strong> Contingenze di gruppo creano interdipendenza positiva.</li>
+                            <li><strong>Intervenire sulla reputazione attivamente.</strong> Evidenziare comportamenti che disconfermano la reputazione negativa.</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T</h4>
+                        <ol>
+                            <li><strong>Non criticare pubblicamente.</strong> La frustrazione visibile segnala ai pari che la svalutazione è legittima (McAuliffe et al., 2009).</li>
+                            <li><strong>Non assegnare sempre allo stesso gruppo "dei difficili".</strong> Cristallizza identità e amplifica comportamenti problematici.</li>
+                            <li><strong>Non ignorare il bullismo sottile.</strong> L'esclusione sistematica danneggia quanto le aggressioni esplicite.</li>
+                            <li><strong>Non forzare la socializzazione.</strong> La socializzazione forzata genera rifiuto; meglio creare condizioni facilitanti.</li>
+                            <li><strong>Non ridurre tempo di socializzazione come punizione.</strong> Ricreazione e attività sociali sono momenti di apprendimento socio-emotivo.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             FAMIGLIA E SERVIZI
+             =================================== -->
+        <section id="famiglia" class="section">
+            <h1>Collaborazione Famiglia e Servizi</h1>
+            <p class="text-secondary">Il PDP non è documento burocratico ma strumento vivo di progettazione condivisa</p>
+
+            <div class="subsection">
+                <h3>Framework normativo italiano</h3>
+                <div class="card">
+                    <p>La normativa prevede strutture di coordinamento specifiche: il <strong>GLO</strong> (Gruppo di Lavoro Operativo) per il PEI, il <strong>Consiglio di Classe</strong> per il PDP. La Nota MIUR 4089/2010 specifica che la collaborazione con i servizi di Neuropsichiatria Infantile è essenziale per la comprensione delle basi neurobiologiche del comportamento.</p>
+                    <p><strong>Riferimenti:</strong> Legge 170/2010, Direttiva BES 2012, Nota MIUR 4089/2010</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Costruire l'alleanza</h3>
+                <div class="highlight-box">
+                    <p style="margin:0;">L'alleanza con i genitori richiede che il docente comunichi <strong>comprensione, non giudizio</strong>. Genitori di figli con questi profili ricevono frequentemente feedback negativi dalla scuola; iniziare dalla segnalazione dei problemi attiva difesa. <strong>Iniziare dalle risorse attiva collaborazione.</strong></p>
+                </div>
+
+                <div class="card expandable mt-2">
+                    <div class="card-header">
+                        <h4>Meccanismi efficaci (Heath et al., 2020)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">La ricerca sull'efficacia degli interventi scolastici documenta che il coinvolgimento familiare potenzia gli esiti. Heath e colleghi, studiando il meccanismo del CPS, hanno identificato che la comprensione genitoriale dei deficit di competenze del figlio media il miglioramento comportamentale—i genitori che comprendono modificano l'ambiente domestico coerentemente.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Indicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO</h4>
+                        <ol>
+                            <li><strong>Iniziare ogni comunicazione con elemento positivo autentico.</strong> Il rapporto 5:1 vale anche per la comunicazione scuola-famiglia (Gottman, 1994).</li>
+                            <li><strong>Condividere le strategie che funzionano, non solo i problemi.</strong> I genitori hanno bisogno di strumenti.</li>
+                            <li><strong>Utilizzare il PDP come documento dinamico.</strong> Revisioni periodiche permettono aggiustamenti.</li>
+                            <li><strong>Chiedere ai genitori cosa funziona a casa.</strong> Le strategie efficaci in famiglia possono essere adattate.</li>
+                            <li><strong>Coordinare le aspettative tra casa e scuola.</strong> Incoerenza genera confusione; coerenza potenzia l'apprendimento.</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T</h4>
+                        <ol>
+                            <li><strong>Non utilizzare il colloquio per elencare mancanze.</strong> L'effetto è difesa o scoraggiamento.</li>
+                            <li><strong>Non colpevolizzare i genitori.</strong> L'eziologia è multifattoriale; la colpevolizzazione distrugge l'alleanza.</li>
+                            <li><strong>Non escludere i genitori dalle decisioni.</strong> Decisioni calate dall'alto generano resistenza.</li>
+                            <li><strong>Non interpretare la difesa genitoriale come ostilità.</strong> I genitori proteggono il figlio.</li>
+                            <li><strong>Non aspettarsi che la famiglia "risolva" problemi scolastici.</strong> Il comportamento è contesto-specifico.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             ERRORI COMUNI
+             =================================== -->
+        <section id="errori" class="section">
+            <h1>Errori Comuni e Pratiche Controproducenti</h1>
+            <p class="text-secondary">Gli interventi punitivi tradizionali non solo non funzionano — fanno danno</p>
+
+            <div class="subsection">
+                <h3>L'evidenza contro le sospensioni</h3>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-red);">+15-20%</div>
+                        <div class="stat-label">Probabilità di arresto/incarcerazione</div>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Meta-analisi Noltemeyer et al. (2015)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Correlazione significativa con: rendimento accademico inferiore, maggiore probabilità di abbandono, aumento dei problemi disciplinari futuri, percezione negativa del clima scolastico.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Effetti iatrogeni a lungo termine (Bacher-Hicks et al., 2021)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Gli studenti in scuole ad alta sospensione hanno probabilità <strong>15-20% superiore</strong> di essere arrestati o incarcerati da adulti, senza alcun beneficio accademico documentabile.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Studio Cohen et al. (2023)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Su campione di studenti delle medie: sia la sospensione in-school che out-of-school si associano a minore comportamento prosociale, minore regolazione emotiva, maggiori comportamenti dirompenti—anche controllando per il comportamento baseline.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Bias cognitivi dei docenti</h3>
+                <div class="card">
+                    <p>La ricerca sulle attribuzioni docenti (DeCuir-Gunby et al., 2021) documenta pattern sistematici: i docenti tendono ad attribuire il successo degli studenti a fattori interni (impegno) e l'insuccesso a fattori esterni o caratteristiche stabili dello studente.</p>
+                    <p style="margin:0;">Per gli studenti "difficili", questo si traduce in <strong>aspettative cristallizzate negative</strong> che diventano profezie auto-avveranti.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Indicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO</h4>
+                        <ol>
+                            <li><strong>Monitorare le proprie attribuzioni.</strong> Chiedersi: deficit di competenza o di volontà?</li>
+                            <li><strong>Documentare i comportamenti positivi, non solo i negativi.</strong> La documentazione selettiva cristallizza la visione negativa.</li>
+                            <li><strong>Cercare disconferme alle aspettative negative.</strong> Notare intenzionalmente i momenti in cui lo studente non si comporta come previsto.</li>
+                            <li><strong>Utilizzare conseguenze che insegnano, non che puniscono.</strong> Connesse, proporzionate, orientate all'apprendimento.</li>
+                            <li><strong>Verificare l'efficacia dell'intervento.</strong> Se non funziona ripetutamente, cambiare intervento.</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T</h4>
+                        <ol>
+                            <li><strong>Non utilizzare la sospensione come risposta di default.</strong> L'evidenza documenta effetti iatrogeni.</li>
+                            <li><strong>Non utilizzare la nota come comunicazione.</strong> Documenta ma non educa né previene.</li>
+                            <li><strong>Non togliere attività gradite come punizione generica.</strong> Nessuna connessione logica.</li>
+                            <li><strong>Non esporre pubblicamente le mancanze.</strong> Umiliazione produce risentimento, non insight.</li>
+                            <li><strong>Non confrontare con altri studenti.</strong> "I tuoi compagni ci riescono" invalida le difficoltà specifiche.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Risposta all'obiezione: "Gli altri vedono che lui può fare quello che vuole"</h3>
+                <div class="highlight-box">
+                    <p>Questa preoccupazione è legittima ma si basa su premesse inesatte. Gli studenti non vedono "che può fare quello che vuole"—vedono strategie di gestione diverse applicate a situazioni diverse.</p>
+                    <p style="margin:0;">I bambini comprendono intuitivamente l'<strong>equità differenziata</strong>: "ognuno riceve ciò di cui ha bisogno, non la stessa cosa" (Tomlinson, 2017). La ricerca documenta che i pari rispettano il docente che gestisce situazioni difficili con competenza più di quello che applica rigidamente regole uniformi.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             SOSTENIBILITÀ DOCENTE
+             =================================== -->
+        <section id="docente" class="section">
+            <h1>Sostenibilità per il Docente</h1>
+            <p class="text-secondary">Prendersi cura di sé non è egoismo — è prerequisito</p>
+
+            <div class="subsection">
+                <h3>Burnout e comportamento problematico</h3>
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Meta-analisi Aloe et al. (2014)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">21 campioni, 63 effect size: il comportamento problematico degli studenti è predittore robusto del burnout docente su tutte e tre le dimensioni:</p>
+                        <ul style="margin-left: 1.25rem; color: var(--text-secondary);">
+                            <li>Esaurimento emotivo (d = 0.44)</li>
+                            <li>Depersonalizzazione (d = 0.36)</li>
+                            <li>Ridotto senso di realizzazione (d = -0.31)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Auto-efficacia come fattore protettivo (Park & Shin, 2020)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Meta-analisi sui docenti di sostegno: l'auto-efficacia come fattore protettivo principale (correlazione con esaurimento emotivo r = -0.39). I docenti che si sentono competenti nella gestione dei comportamenti difficili sono significativamente meno vulnerabili al burnout.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h4>Deep acting vs Surface acting (Wang et al., 2023)</h4>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Due strategie di regolazione emotiva docente:</p>
+                        <ul style="margin-left: 1.25rem; color: var(--text-secondary);">
+                            <li><strong>Deep acting</strong> (riallineare internamente le emozioni) → correla con soddisfazione lavorativa e qualità dell'insegnamento</li>
+                            <li><strong>Surface acting</strong> (sopprimere o fingere emozioni) → correla con esaurimento</li>
+                        </ul>
+                        <p>La strategia adattiva è la <strong>ristrutturazione cognitiva</strong>, non la soppressione.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Indicazioni operative</h3>
+                <div class="card-grid">
+                    <div class="do-list">
+                        <h4>✓ DO</h4>
+                        <ol>
+                            <li><strong>Costruire rete di supporto collegiale.</strong> Confrontarsi riduce l'isolamento e aumenta il repertorio strategico.</li>
+                            <li><strong>Praticare ristrutturazione cognitiva.</strong> "Questo studente mi attacca" → "non ha ancora le competenze per gestire questa situazione".</li>
+                            <li><strong>Riconoscere i propri limiti.</strong> Chiedere supporto è competenza, non debolezza.</li>
+                            <li><strong>Documentare i piccoli successi.</strong> La percezione di realizzazione protegge dal burnout.</li>
+                            <li><strong>Stabilire confini chiari.</strong> Definire cosa è responsabilità docente e cosa richiede altri professionisti.</li>
+                        </ol>
+                    </div>
+                    <div class="dont-list">
+                        <h4>✗ DON'T</h4>
+                        <ol>
+                            <li><strong>Non interpretare le difficoltà come fallimento personale.</strong> Il comportamento è determinato da molteplici fattori.</li>
+                            <li><strong>Non sopprimere le emozioni.</strong> La soppressione cronica produce esaurimento; elaborare è adattivo.</li>
+                            <li><strong>Non isolarsi.</strong> L'isolamento amplifica la percezione di inadeguatezza.</li>
+                            <li><strong>Non aspettare il burnout per chiedere aiuto.</strong> Intervenire precocemente sui segnali è più efficace.</li>
+                            <li><strong>Non identificarsi totalmente con il ruolo.</strong> Mantenere interessi fuori dalla scuola protegge le risorse adattive.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Connessioni non ovvie</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Masking e oppositività</h4>
+                        <p>L'alunno che ha mascherato le proprie difficoltà per anni può esplodere in oppositività quando le risorse compensatorie si esauriscono. L'oppositività improvvisa può segnalare burnout neurodivergente, non deterioramento motivazionale.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Intelligenza elevata e previsione</h4>
+                        <p>Lo studente ad alto QI anticipa le mosse dell'adulto; strategie comportamentali meccaniche vengono rapidamente identificate come manipolazione. La relazione autentica è più efficace proprio perché non è manipolabile.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Rifiuto sociale e sintomi ADHD</h4>
+                        <p>La relazione bidirezionale implica che migliorare l'inclusione sociale può ridurre i sintomi ADHD—non solo viceversa. L'intervento sulle dinamiche di classe è intervento sul disturbo.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Burnout docente e qualità intervento</h4>
+                        <p>Il docente esaurito non ha accesso alle competenze di regolazione necessarie; tende a strategie di surface acting che peggiorano sia il proprio benessere sia gli esiti dello studente. Proteggere il docente protegge lo studente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             BIBLIOGRAFIA
+             =================================== -->
+        <section id="biblio" class="section">
+            <h1>Bibliografia</h1>
+            <p class="text-secondary">Letteratura peer-reviewed 2010-2025 — meta-analisi, revisioni sistematiche, RCT</p>
+
+            <div class="subsection">
+                <input type="text" class="search-input mb-3" id="bibSearch" placeholder="Cerca autore, titolo, rivista...">
+                
+                <div class="bib-container" id="bibContainer">
+                    <div class="bib-item" data-search="aloe amo shanahan 2014 meta-analysis student misbehavior teacher burnout educational research review">
+                        Aloe, A. M., Amo, L. C., & Shanahan, M. E. (2014). A multivariate meta-analysis of student misbehavior and teacher burnout. <em>Educational Research Review, 12</em>, 30-44.
+                    </div>
+                    <div class="bib-item" data-search="alsobeai soares daley 2022 systematic review meta-analysis teacher delivered interventions externalizing behaviors journal behavioral education">
+                        Alsobeai, M., Soares, N., & Daley, D. (2022). Systematic review and meta-analysis of the effectiveness of teacher delivered interventions for externalizing behaviors. <em>Journal of Behavioral Education</em>.
+                    </div>
+                    <div class="bib-item" data-search="bacher-hicks deming billings 2021 school prison pipeline long-run impacts school suspensions adult crime nber working paper">
+                        Bacher-Hicks, A., Deming, D., & Billings, S. (2021). The school to prison pipeline: Long-run impacts of school suspensions on adult crime. <em>NBER Working Paper</em>.
+                    </div>
+                    <div class="bib-item" data-search="barry 2014 cognitive ability psychopathic traits youth conduct problems journal clinical child adolescent psychology">
+                        Barry, T. D., et al. (2014). Cognitive ability and psychopathic traits: Independent and interactive associations with youth conduct problems. <em>Journal of Clinical Child & Adolescent Psychology, 43</em>(6), 878-890.
+                    </div>
+                    <div class="bib-item" data-search="baum schader owen 2021 gifted learning disabled strength-based strategies routledge">
+                        Baum, S. M., Schader, R. M., & Owen, S. V. (2021). <em>To be gifted & learning disabled: Strength-based strategies</em> (3rd ed.). Routledge.
+                    </div>
+                    <div class="bib-item" data-search="burke 2014 functional outcomes child adolescent odd symptoms young adult men journal child psychology psychiatry">
+                        Burke, J. D. (2014). Functional outcomes of child and adolescent ODD symptoms in young adult men. <em>Journal of Child Psychology and Psychiatry, 55</em>(3), 264-272.
+                    </div>
+                    <div class="bib-item" data-search="cohen 2023 out-of-school suspension behavioral psychological outcomes black sample middle school students school psychology review">
+                        Cohen, D. R., et al. (2023). Out-of-school suspension: Behavioral and psychological outcomes in a predominately Black sample of middle school students. <em>School Psychology Review, 52</em>(1), 1-14.
+                    </div>
+                    <div class="bib-item" data-search="cornoldi 2023 cognitive characteristics intellectually gifted children diagnosis adhd learning individual differences">
+                        Cornoldi, C., et al. (2023). Cognitive characteristics of intellectually gifted children with a diagnosis of ADHD. <em>Learning and Individual Differences, 102</em>, 102248.
+                    </div>
+                    <div class="bib-item" data-search="dishion tipsord 2011 peer contagion child adolescent social emotional development annual review psychology">
+                        Dishion, T. J., & Tipsord, J. M. (2011). Peer contagion in child and adolescent social and emotional development. <em>Annual Review of Psychology, 62</em>, 189-214.
+                    </div>
+                    <div class="bib-item" data-search="durlak 2011 impact enhancing students social emotional learning meta-analysis school-based universal interventions child development">
+                        Durlak, J. A., et al. (2011). The impact of enhancing students' social and emotional learning: A meta-analysis of school-based universal interventions. <em>Child Development, 82</em>, 405-432.
+                    </div>
+                    <div class="bib-item" data-search="greene 2004 effectiveness collaborative problem solving affectively dysregulated children oppositional-defiant disorder journal consulting clinical psychology">
+                        Greene, R. W., et al. (2004). Effectiveness of Collaborative Problem Solving in affectively dysregulated children with oppositional-defiant disorder. <em>Journal of Consulting and Clinical Psychology, 72</em>(6), 1157-1164.
+                    </div>
+                    <div class="bib-item" data-search="heath 2020 collaborative problem solving reduces children emotional behavioral difficulties parenting stress journal clinical psychology">
+                        Heath, G. H., et al. (2020). Collaborative Problem Solving reduces children's emotional and behavioral difficulties and parenting stress: Two key mechanisms. <em>Journal of Clinical Psychology</em>.
+                    </div>
+                    <div class="bib-item" data-search="hoza 2007 peer functioning children adhd journal pediatric psychology">
+                        Hoza, B. (2007). Peer functioning in children with ADHD. <em>Journal of Pediatric Psychology, 32</em>(6), 655-663.
+                    </div>
+                    <div class="bib-item" data-search="jolivette 2001 effects choice-making opportunities behavior students emotional behavioral disorders">
+                        Jolivette, K., et al. (2001). Effects of choice-making opportunities on the behavior of students with emotional and behavioral disorders. <em>Behavioral Disorders, 26</em>(2), 131-145.
+                    </div>
+                    <div class="bib-item" data-search="kellam 2008 effects universal classroom behavior management program young adult behavioral psychiatric social outcomes drug alcohol dependence">
+                        Kellam, S. G., et al. (2008). Effects of a universal classroom behavior management program in first and second grades on young adult behavioral, psychiatric, and social outcomes. <em>Drug and Alcohol Dependence, 95</em>, S5-S28.
+                    </div>
+                    <div class="bib-item" data-search="kern clemens 2007 antecedent strategies promote appropriate classroom behavior psychology schools">
+                        Kern, L., & Clemens, N. H. (2007). Antecedent strategies to promote appropriate classroom behavior. <em>Psychology in the Schools, 44</em>(1), 65-75.
+                    </div>
+                    <div class="bib-item" data-search="maclean krause rogers 2023 student-teacher relationship adhd symptomatology meta-analysis journal school psychology">
+                        MacLean, J., Krause, A., & Rogers, M. A. (2023). The student-teacher relationship and ADHD symptomatology: A meta-analysis. <em>Journal of School Psychology, 99</em>, 101217.
+                    </div>
+                    <div class="bib-item" data-search="mcauliffe hubbard romano 2009 role teacher cognition behavior children peer relations journal abnormal child psychology">
+                        McAuliffe, M., Hubbard, J., & Romano, L. (2009). The role of teacher cognition and behavior in children's peer relations. <em>Journal of Abnormal Child Psychology, 37</em>(5), 665-677.
+                    </div>
+                    <div class="bib-item" data-search="mccoach siegle rubenstein 2020 pay attention inattention exploring adhd symptoms sample underachieving gifted students gifted child quarterly">
+                        McCoach, D. B., Siegle, D., & Rubenstein, L. D. (2020). Pay attention to inattention: Exploring ADHD symptoms in a sample of underachieving gifted students. <em>Gifted Child Quarterly, 64</em>(2), 100-116.
+                    </div>
+                    <div class="bib-item" data-search="mcquade hoza 2015 importance social contextual factors peer relationships children adhd current developmental disorders reports">
+                        McQuade, J. D., & Hoza, B. (2015). The importance of social contextual factors in peer relationships of children with ADHD. <em>Current Developmental Disorders Reports, 2</em>(1), 30-37.
+                    </div>
+                    <div class="bib-item" data-search="mikami 2013 randomized trial classroom intervention increase peers social inclusion children adhd journal consulting clinical psychology">
+                        Mikami, A. Y., et al. (2013). A randomized trial of a classroom intervention to increase peers' social inclusion of children with ADHD. <em>Journal of Consulting and Clinical Psychology, 81</em>(1), 100-112.
+                    </div>
+                    <div class="bib-item" data-search="miller rees pearson 2021 masking life experiences masking autistic nonautistic adults autism adulthood">
+                        Miller, D., Rees, J., & Pearson, A. (2021). "Masking is life": Experiences of masking in autistic and nonautistic adults. <em>Autism in Adulthood, 3</em>(4), 330-338.
+                    </div>
+                    <div class="bib-item" data-search="mowen boman 2020 effect school discipline offending time justice quarterly">
+                        Mowen, T. J., & Boman, J. H. (2020). The effect of school discipline on offending across time. <em>Justice Quarterly, 37</em>(5).
+                    </div>
+                    <div class="bib-item" data-search="mullet rinn 2015 giftedness adhd identification misdiagnosis dual diagnosis roeper review">
+                        Mullet, D. R., & Rinn, A. N. (2015). Giftedness and ADHD: Identification, misdiagnosis, and dual diagnosis. <em>Roeper Review, 37</em>(4), 195-207.
+                    </div>
+                    <div class="bib-item" data-search="njardvik 2025 psychiatric comorbidity children adolescents adhd systematic review meta-analysis clinical psychology review">
+                        Njardvik, U., et al. (2025). Psychiatric comorbidity in children and adolescents with ADHD: A systematic review and meta-analysis. <em>Clinical Psychology Review, 118</em>, 102571.
+                    </div>
+                    <div class="bib-item" data-search="noltemeyer ward mcloughlin 2015 relationship school suspension student outcomes meta-analysis school psychology review">
+                        Noltemeyer, A. L., Ward, R. M., & McLoughlin, C. (2015). Relationship between school suspension and student outcomes: A meta-analysis. <em>School Psychology Review, 44</em>, 224-240.
+                    </div>
+                    <div class="bib-item" data-search="park shin 2020 meta-analysis special education teachers burnout sage open">
+                        Park, E.-Y., & Shin, M. (2020). A meta-analysis of special education teachers' burnout. <em>SAGE Open, 10</em>(2).
+                    </div>
+                    <div class="bib-item" data-search="raymaker 2020 having internal resources exhausted beyond measure being left no clean-up crew defining autistic burnout autism adulthood">
+                        Raymaker, D. M., et al. (2020). "Having all of your internal resources exhausted beyond measure and being left with no clean-up crew": Defining autistic burnout. <em>Autism in Adulthood, 2</em>(2), 132-143.
+                    </div>
+                    <div class="bib-item" data-search="roorda 2011 influence affective teacher-student relationships students school engagement achievement meta-analytic approach review educational research">
+                        Roorda, D. L., et al. (2011). The influence of affective teacher-student relationships on students' school engagement and achievement: A meta-analytic approach. <em>Review of Educational Research, 81</em>(4), 493-529.
+                    </div>
+                    <div class="bib-item" data-search="sadoughifar 2024 unpacking underachievement gifted students systematic review internal external factors heliyon">
+                        Sadoughifar, S., et al. (2024). Unpacking the underachievement of gifted students: A systematic review of internal and external factors. <em>Heliyon, 10</em>(17), e36939.
+                    </div>
+                    <div class="bib-item" data-search="santiago-rosario 2023 positive behavioral interventions supports pbis evidence-based practice center pbis university oregon">
+                        Santiago-Rosario, M. R., et al. (2023). Is Positive Behavioral Interventions and Supports (PBIS) an evidence-based practice? <em>Center on PBIS, University of Oregon</em>.
+                    </div>
+                    <div class="bib-item" data-search="stenseng 2016 peer rejection adhd symptoms reciprocal relations ages 4 6 8 child development">
+                        Stenseng, F., et al. (2016). Peer rejection and ADHD symptoms: Reciprocal relations through ages 4, 6, and 8. <em>Child Development, 87</em>(2), 365-373.
+                    </div>
+                    <div class="bib-item" data-search="strickland-cohen 2022 strategies de-escalating student behavior classroom center pbis university oregon">
+                        Strickland-Cohen, M. K., et al. (2022). <em>Strategies for de-escalating student behavior in the classroom</em>. Center on PBIS, University of Oregon.
+                    </div>
+                    <div class="bib-item" data-search="walker chung bonnet 2018 function-based intervention inclusive school settings meta-analysis journal positive behavior interventions">
+                        Walker, V. L., Chung, Y., & Bonnet, L. (2018). Function-based intervention in inclusive school settings: A meta-analysis. <em>Journal of Positive Behavior Interventions, 20</em>, 203-216.
+                    </div>
+                    <div class="bib-item" data-search="wang 2023 teachers emotion regulation environmental personal instructional well-being factors meta-analysis social psychology education">
+                        Wang, H., et al. (2023). Teachers' emotion regulation and related environmental, personal, instructional, and well-being factors: A meta-analysis. <em>Social Psychology of Education</em>.
+                    </div>
+                    <div class="bib-item" data-search="zee koomen 2016 teacher self-efficacy effects classroom processes student academic adjustment teacher well-being synthesis 40 years research review educational research">
+                        Zee, M., & Koomen, H. M. Y. (2016). Teacher self-efficacy and its effects on classroom processes, student academic adjustment, and teacher well-being: A synthesis of 40 years of research. <em>Review of Educational Research, 86</em>(4), 981-1015.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <div class="card mt-4" style="text-align: center;">
+            <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                Dashboard creata da Ivan Ferrero — 2026<br>
+                <span style="font-size: 0.75rem;">Basata su letteratura peer-reviewed 2010-2025 • Approccio evidence-based</span>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Navigation between sections
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.section');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const sectionId = btn.dataset.section;
+                
+                navBtns.forEach(b => b.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(sectionId)?.classList.add('active');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabContainer = btn.closest('.subsection') || btn.closest('.section');
+                tabContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Bibliography search
+        const bibSearch = document.getElementById('bibSearch');
+        const bibItems = document.querySelectorAll('.bib-item');
+
+        bibSearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            bibItems.forEach(item => {
+                const searchText = item.dataset.search || item.textContent.toLowerCase();
+                if (searchText.includes(query) || query === '') {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
