@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literacy, Interventi e Mediazione - Dashboard 2025-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0a0e14 0%, #0f1419 50%, #1a222d 100%);
+            background-attachment: fixed;
+            color: #e6edf3;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 217, 255, 0.03) 2px, rgba(0, 217, 255, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 217, 255, 0.03) 2px, rgba(0, 217, 255, 0.03) 4px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: linear-gradient(180deg, #0f1419 0%, #1a222d 100%);
+            border-right: 1px solid #30363d;
+            padding: 2rem 1rem;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            z-index: 900;
+        }
+
+        .sidebar-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #00d9ff;
+            margin-bottom: 2rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid #30363d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6e7681;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            padding-left: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.7rem 0.8rem;
+            color: #8b949e;
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 0.3rem;
+        }
+
+        .nav-link:hover {
+            color: #00d9ff;
+            border-left-color: #00d9ff;
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .nav-link.active {
+            color: #00d9ff;
+            border-left-color: #00d9ff;
+            background: rgba(0, 217, 255, 0.15);
+            font-weight: 600;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            overflow-y: auto;
+            background: linear-gradient(135deg, rgba(10, 14, 20, 0.95) 0%, rgba(15, 20, 25, 0.95) 100%);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(90deg, #1a222d 0%, #0f1419 100%);
+            border-bottom: 1px solid #30363d;
+            padding: 2rem;
+            position: sticky;
+            top: 70px;
+            z-index: 900;
+            box-shadow: 0 4px 12px rgba(0, 217, 255, 0.1);
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            color: #00d9ff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+        }
+
+        .dashboard-header-subtitle {
+            color: #8b949e;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        .dashboard-header-meta {
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: #6e7681;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .content-section {
+            padding: 2rem;
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* OVERVIEW STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(26, 34, 45, 0.8) 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-label {
+            color: #8b949e;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-subtitle {
+            font-size: 0.75rem;
+            color: #6e7681;
+        }
+
+        /* PAPER CARDS */
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .paper-card {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.7) 0%, rgba(26, 34, 45, 0.7) 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d9ff, #3fb950, #d29922);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .paper-card:hover {
+            border-color: #00d9ff;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.15);
+        }
+
+        .paper-card:hover::before {
+            opacity: 1;
+        }
+
+        .paper-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+            background: rgba(15, 20, 25, 0.5);
+        }
+
+        .paper-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #00d9ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .paper-authors {
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-bottom: 0.5rem;
+        }
+
+        .paper-year {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .paper-body {
+            padding: 1.5rem;
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .paper-card.expanded .paper-body {
+            display: block;
+            max-height: 2000px;
+        }
+
+        .section-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            color: #3fb950;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(63, 185, 80, 0.2);
+            padding-bottom: 0.5rem;
+        }
+
+        .content-text {
+            color: #e6edf3;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: rgba(242, 89, 73, 0.1);
+            border-left: 3px solid #f85149;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .highlight-box.warning {
+            background: rgba(210, 153, 34, 0.1);
+            border-left-color: #d29922;
+        }
+
+        .highlight-box.success {
+            background: rgba(63, 185, 80, 0.1);
+            border-left-color: #3fb950;
+        }
+
+        .highlight-label {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .tag.purple {
+            background: rgba(167, 113, 247, 0.1);
+            color: #a371f7;
+            border-color: rgba(167, 113, 247, 0.3);
+        }
+
+        .tag.green {
+            background: rgba(63, 185, 80, 0.1);
+            color: #3fb950;
+            border-color: rgba(63, 185, 80, 0.3);
+        }
+
+        .tag.yellow {
+            background: rgba(210, 153, 34, 0.1);
+            color: #d29922;
+            border-color: rgba(210, 153, 34, 0.3);
+        }
+
+        /* NARRATIVE SYNTHESIS */
+        .narrative-box {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(26, 34, 45, 0.8) 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .narrative-box h2 {
+            color: #00d9ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+        }
+
+        .narrative-box h3 {
+            color: #3fb950;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .narrative-text {
+            color: #e6edf3;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .theme-block {
+            background: rgba(15, 20, 25, 0.5);
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 6px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .theme-title {
+            color: #d29922;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* GLOSSARY */
+        .glossary-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .glossary-item {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.6) 0%, rgba(26, 34, 45, 0.6) 100%);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .glossary-item:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 4px 12px rgba(0, 217, 255, 0.1);
+        }
+
+        .glossary-term {
+            color: #00d9ff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glossary-definition {
+            color: #8b949e;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(15, 20, 25, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e6edf3;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .search-box::placeholder {
+            color: #6e7681;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #00d9ff;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+        }
+
+        /* BIBLIOGRAPHY */
+        .bibliography-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bib-item {
+            background: rgba(15, 20, 25, 0.5);
+            border-left: 3px solid #3fb950;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .bib-authors {
+            color: #00d9ff;
+            font-weight: 600;
+        }
+
+        .bib-title {
+            color: #e6edf3;
+            font-weight: 500;
+        }
+
+        .bib-source {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .bib-doi {
+            color: #3fb950;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .bib-doi:hover {
+            text-decoration: underline;
+        }
+
+        /* LIMITATIONS SECTION */
+        .limitations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .limitation-card {
+            background: linear-gradient(135deg, rgba(242, 89, 73, 0.1) 0%, rgba(210, 153, 34, 0.05) 100%);
+            border: 1px solid rgba(242, 89, 73, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .limitation-paper {
+            color: #f85149;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .limitation-text {
+            color: #e6edf3;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(15, 20, 25, 0.9);
+            border-top: 1px solid #30363d;
+            padding: 2rem;
+            text-align: center;
+            color: #6e7681;
+            font-size: 0.85rem;
+        }
+
+        .footer-meta {
+            color: #8b949e;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 0.5rem;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 20, 25, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 217, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 217, 255, 0.6);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #30363d;
+            }
+
+            .papers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .glossary-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(15, 20, 25, 0.5);
+            border-radius: 6px;
+            border: 1px solid #30363d;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 120px !important; }
+            .sidebar { top: 120px !important; height: auto !important; position: static !important; width: 100% !important; }
+            .main-content, main { margin-left: 0 !important; }
+            table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 640px) {
+            body { padding-top: 140px !important; }
+            h1 { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-menu"></div>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                Dashboard
+                <br>
+                Literacies & Interventions
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Menu Principale</div>
+                <div class="nav-link active" data-section="overview">Panoramica</div>
+                <div class="nav-link" data-section="papers">Papers</div>
+                <div class="nav-link" data-section="themes">Temi Trasversali</div>
+                <div class="nav-link" data-section="limitations">Limitazioni</div>
+                <div class="nav-link" data-section="glossary">Glossario</div>
+                <div class="nav-link" data-section="bibliography">Bibliografia</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Research Era</div>
+                <div style="font-size: 0.85rem; color: #8b949e; padding: 0.5rem;">
+                    Selezione di ricerca 2024-2026<br>
+                    Interventi, protezioni e mediazioni<br>
+                    Prospettiva costruttiva/risolutiva
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- HEADER -->
+            <header class="header">
+                <h1>Literacy, Interventi e Mediazione</h1>
+                <div class="header-subtitle">Sintesi di ricerca su alfabetizzazione digitale, interventi educativi e protezioni mediate</div>
+                <div class="header-meta">
+                    Selection 2025-2026 | 6 Research Articles | Constructive Framework
+                </div>
+            </header>
+
+            <!-- OVERVIEW SECTION -->
+            <section class="content-section active" id="overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Papers Inclusi</div>
+                        <div class="stat-value">6</div>
+                        <div class="stat-subtitle">Meta-analisi, RCT, Studi quasi-sperimentali</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Partecipanti Totali</div>
+                        <div class="stat-value">~169K</div>
+                        <div class="stat-subtitle">Diversi età e contesti geografici</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Tipo Studio</div>
+                        <div class="stat-value">Mixed</div>
+                        <div class="stat-subtitle">Meta-analisi, Scoping review, Longitudinale</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Focus</div>
+                        <div class="stat-value">Interventi</div>
+                        <div class="stat-subtitle">Fattori protettivi e mediazione</div>
+                    </div>
+                </div>
+
+                <div class="narrative-box">
+                    <h2>Sintesi Narrativa: Verso una Prospettiva Risolutiva</h2>
+
+                    <div class="narrative-text">
+                        Questa raccolta di ricerca (2024-2026) rappresenta uno shift concettuale significativo: non si focalizza su <strong>rischi</strong> e <strong>danni</strong> dei media digitali, ma sulle <strong>soluzioni</strong>, gli <strong>interventi</strong> e i <strong>fattori protettivi</strong> che consentono a bambini e adolescenti di beneficiare dall'ambiente digitale.
+                    </div>
+
+                    <div class="theme-block">
+                        <div class="theme-title">ALFABETIZZAZIONE DIGITALE COME FONDAMENTO</div>
+                        <div class="narrative-text">
+                            Li (2025) fornisce una meta-analisi robusto: interventi scolastici su digital literacy producono miglioramenti statisticamente significativi ma clinicamente modesti (SMD=0.16), con guadagni superiori nei bambini più piccoli (SMD=0.34 in primaria). Il messaggio: l'alfabetizzazione digitale è <strong>insegnabile</strong>, e deve essere <strong>evidence-based</strong>, <strong>ancorata a teoria</strong> pedagogica, e <strong>inclusiva</strong> per ridurre equity gaps.
+                        </div>
+                    </div>
+
+                    <div class="theme-block">
+                        <div class="theme-title">MEDIA LITERACY COME PROTEZIONE CONTRO MISINFORMATION</div>
+                        <div class="narrative-text">
+                            Huang et al. (2024) presenta una meta-analisi impressionante (49 studi, N=81.155): interventi di media literacy producono <strong>effetti robusti e grandi</strong> sulla riduzione di credibilità percepita della misinformation (d=0.60), ma <strong>particolarmente forti</strong> sulla riduzione del comportamento di sharing (d=1.04, grande effetto). Implicazione: giovani addestrati riducono concretamente la diffusione di false claims. Multi-sessional interventions sono significativamente superiori a single-session.
+                        </div>
+                    </div>
+
+                    <div class="theme-block">
+                        <div class="theme-title">DIGITAL DETOX E BENESSERE PSICOLOGICO</div>
+                        <div class="narrative-text">
+                            Due studi affrontano il tema della "disintossicazione digitale" da angolazioni complementari:<br><br>
+                            <strong>Calvert et al. (2025)</strong> rappresenta un <strong>primo studio innovativo</strong> a usare device-level objective tracking (non self-report). Una settimana di social media detox è associata a miglioramenti di depressione, ansia, e benessere. Sebbene il disegno sia pilota (nessun control group), l'uso di misurazione obiettiva elimina recall bias, offrendo prove più solide rispetto a studi tradizionali.<br><br>
+                            <strong>Setia et al. (2025)</strong> fornisce una scoping review che sintetizza la letteratura: non esiste "one-size-fits-all". Uso moderato, age-appropriate, con <strong>consapevolezza attiva</strong> (mindful use), è chiave. Benefici maggiori per giovani; per donne, uso consapevole di social media è particolarmente vantaggioso (riduce comparison-driven anxiety).
+                        </div>
+                    </div>
+
+                    <div class="theme-block">
+                        <div class="theme-title">MEDIAZIONE GENITORIALE COME FATTORE PROTETTIVO</div>
+                        <div class="narrative-text">
+                            Roșu et al. (2026, studio trasversale) evidenzia che <strong>non è il semplice screen time che danneggia lo sviluppo linguistico</strong>. Piuttosto, sono <strong>qualità del contenuto</strong> e <strong>tipo di mediazione genitoriale</strong> che moderano gli effetti. Screen time passivo senza supervisione correlata con linguaggio povero (r ≈ −0.20 a −0.28, piccoli effetti); ma screen time con <strong>mediazione attiva</strong> (genitore commenta, spiega) e contenuto educativo è associato con outcomes linguistici <strong>superiori</strong>. Implicazione: genitori non devono "bannare schermi"—devono <strong>imparare a mediare consapevolmente</strong>.
+                        </div>
+                    </div>
+
+                    <div class="theme-block">
+                        <div class="theme-title">SERIOUS GAMES E INTERVENTI EDUCATIVI SPECIALIZZATI</div>
+                        <div class="narrative-text">
+                            Grau et al. (2025) presenta NeurekaNUM, un serious game per discalculia evolutiva: in uno studio quasi-sperimentale (N=19 bambini con discalculia), 4 mesi di training intensivo produce miglioramenti significativi in calcolo mentale, number sense, base-10 understanding, problem-solving. Studio è pilot (campione piccolo, disegno quasi-sperimentale), ma il risultato suggerisce che <strong>interventi digitali specializzati e tailored a uno specifico learning disability</strong> hanno promessa. Per educazione inclusiva, la lezione è: tecnologia non è sostituto per buon insegnamento, ma <strong>complemento specificamente disegnato</strong> per il bisogno del bambino.
+                        </div>
+                    </div>
+
+                    <h3 style="color: #d29922; margin-top: 1.5rem;">CONVERGENZA TEMATICA TRASVERSALE</h3>
+                    <div class="narrative-text">
+                        Tutti sei studi convergono su un <strong>principio centrale</strong>: l'ambiente digitale non è intrinsecamente dannoso per bambini e adolescenti. Il danno emerge quando<br><br>
+                        (a) <strong>Mancano competenze critiche</strong> (digital literacy, media literacy, critical thinking)<br>
+                        (b) <strong>Manca supervisione informata</strong> (parental mediation assente o esclusivamente restrittiva)<br>
+                        (c) <strong>Contenuto è di bassa qualità</strong> (entertainment passivo, nessun valore educativo)<br>
+                        (d) <strong>Uso è eccessivo e non-consapevole</strong> (scrolling passivo senza autoregolazione)<br><br>
+                        Conversely, benefici emergono quando interventi sono <strong>evidence-based</strong>, <strong>personalizzati per età e bisogno</strong>, <strong>integrati con supporto genitoriale</strong>, e <strong>focalizzati su skill-building</strong> (non solo risk-reduction).
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAPERS SECTION -->
+            <section class="content-section" id="papers">
+                <h2 style="color: #00d9ff; margin-bottom: 1.5rem; font-size: 1.5rem;">Papers Analizzati</h2>
+
+                <div class="papers-grid">
+                    <!-- PAPER 1: Li -->
+                    <div class="paper-card">
+                        <div class="paper-header">
+                            <div class="paper-title">Alfabetizzazione Digitale nella Scuola</div>
+                            <div class="paper-authors">Li, C., Zhang, M. & Xie, K.</div>
+                            <span class="paper-year">2025</span>
+                            <span class="paper-year" style="background: rgba(63, 185, 80, 0.1); color: #3fb950;">META-ANALISI</span>
+                        </div>
+                        <div class="paper-body">
+                            <div class="section-content">
+                                <div class="section-title">Studio e Campione</div>
+                                <div class="content-text">
+                                    Meta-analisi PRISMA di 10 RCT/quasi-sperimentali, 6.250 partecipanti (8-18 anni). Interventi scolastici su digital literacy con risultati misurati via autovalutazione e test standardizzati.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Risultati Principali</div>
+                                <div class="content-text">
+                                    <strong>Competenza digitale globale:</strong> SMD=0.16 (piccolo)<br>
+                                    <strong>Primaria (8-11 anni):</strong> SMD=0.34 (piccolo-moderato)<br>
+                                    <strong>Interventi ancorati a teoria:</strong> SMD=0.19 (superiore)<br><br>
+                                    Eterogeneità rilevante suggerisce variabilità sostanziale in efficacia per design dell'intervento.
+                                </div>
+                            </div>
+
+                            <div class="highlight-box warning">
+                                <div class="highlight-label">LIMITAZIONI CRITICHE</div>
+                                <div class="content-text">
+                                    Eterogeneità non controllata (I² non riportato); soli 10 studi (borderline per robustezza); definizione di "competenza digitale" varia fra studi; publication bias con piccolo N studi; nessun report su stratificazione SES o analisi equity; assenza di outcomes di benessere psicologico; durata follow-up sconosciuta; fidelity implementazione non discussa.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Implicazioni per Pratica</div>
+                                <div class="content-text">
+                                    Interventi universali hanno ROI limitato. Necessario: disegno evidence-based, training robusto docenti, stratificazione per bisogno, integrazione con mediazione genitoriale, valutazione longitudinale di retention.
+                                </div>
+                            </div>
+
+                            <div class="tag-container">
+                                <span class="tag">meta-analisi</span>
+                                <span class="tag green">interventi-scolastici</span>
+                                <span class="tag yellow">equity-gaps</span>
+                                <span class="tag purple">formazione-docenti</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 2: Huang -->
+                    <div class="paper-card">
+                        <div class="paper-header">
+                            <div class="paper-title">Media Literacy e Resilienza alla Misinformation</div>
+                            <div class="paper-authors">Huang, G. et al.</div>
+                            <span class="paper-year">2024</span>
+                            <span class="paper-year" style="background: rgba(63, 185, 80, 0.1); color: #3fb950;">META-ANALISI</span>
+                        </div>
+                        <div class="paper-body">
+                            <div class="section-content">
+                                <div class="section-title">Studio e Campione</div>
+                                <div class="content-text">
+                                    Meta-analisi PRISMA di 49 studi sperimentali (RCT/quasi-sperimentali), 81.155 partecipanti. Interventi di media literacy su credibilità, belief endorsement, sharing behavior, discernimento fra true/false claims.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Risultati Principali</div>
+                                <div class="content-text">
+                                    <strong>Belief in misinformation:</strong> d=0.60 (moderato)<br>
+                                    <strong>Sharing behavior (ridotto):</strong> d=1.04 (GRANDE)<br>
+                                    <strong>Discernimento critico:</strong> d=0.76 (moderato-grande)<br><br>
+                                    <strong>Moderatore:</strong> Multi-sessione >> single-session (effetto significativamente superiore).
+                                </div>
+                            </div>
+
+                            <div class="highlight-box success">
+                                <div class="highlight-label">FORZA DELLO STUDIO</div>
+                                <div class="content-text">
+                                    Large meta-analisi con campione robusto; effect size impressionante su sharing behavior; PRISMA-compliant; finding coerente con theory (inoculation, lateral reading); dose-dependent effect (multi-session è superiore).
+                                </div>
+                            </div>
+
+                            <div class="highlight-box warning">
+                                <div class="highlight-label">LIMITAZIONI</div>
+                                <div class="content-text">
+                                    Definizioni eterogenee di "media literacy"; topic-specificity della misinformation non esaminata (vaccini vs. politica hanno diverse mechanisms); misura di sharing spesso intenzione vs. azione reale; durata follow-up incerta; equity outcomes non stratificati (SES, genere, background culturale).
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Implicazioni per Pratica</div>
+                                <div class="content-text">
+                                    Media literacy dovrebbe essere <strong>curricolare, obbligatoria, multi-sessionale</strong>. Investire in interventi single-session è inefficiente. Integrazione interdisciplinare (storia, scienze, cittadinanza) è efficace. Valutazione sistematica di outcome è essenziale.
+                                </div>
+                            </div>
+
+                            <div class="tag-container">
+                                <span class="tag">meta-analisi</span>
+                                <span class="tag green">media-literacy</span>
+                                <span class="tag yellow">fact-checking</span>
+                                <span class="tag purple">civic-education</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 3: Calvert -->
+                    <div class="paper-card">
+                        <div class="paper-header">
+                            <div class="paper-title">Social Media Detox e Benessere Giovanile</div>
+                            <div class="paper-authors">Calvert, E. et al.</div>
+                            <span class="paper-year">2025</span>
+                            <span class="paper-year" style="background: rgba(0, 217, 255, 0.1); color: #00d9ff;">COORTE PROSPETTICA</span>
+                        </div>
+                        <div class="paper-body">
+                            <div class="section-content">
+                                <div class="section-title">Studio e Campione</div>
+                                <div class="content-text">
+                                    Studio di coorte prospettico (N non dichiarato, presumibile 50-200) con giovani adulti (18-24 anni). Misurazione OBIETTIVA device-level di uso social media (Facebook, Instagram, Snapchat, TikTok, X). Seguita da optional "detox week" (astinenza totale 7 giorni). Assessment psicometrico pre/post.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Risultati Principali</div>
+                                <div class="content-text">
+                                    Post-detox week: improvement di depressione, ansia, benessere psicologico (reported). <strong>Primo studio a usare objective device-level tracking</strong> (elimina recall bias, socially desirable responding). Coerente con "displacement hypothesis" (tempo non su social media speso in attività alternative di valore).
+                                </div>
+                            </div>
+
+                            <div class="highlight-box warning">
+                                <div class="highlight-label">LIMITAZIONI CRITICHE</div>
+                                <div class="content-text">
+                                    Nessun control group/randomizzazione; self-selection bias (chi sceglie detox è già motivato); assenza di blinding; expectancy effects (placebo) non esclusi; durata breve (1 settimana) insusufficiente per valutare sostenibilità; confounding non controllato (cambio stagionale, life events); outcome psicologici auto-reported; follow-up lungo-termine sconosciuto; N non dichiarato nel brief.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Implicazioni per Pratica</div>
+                                <div class="content-text">
+                                    Proof-of-concept promettente che detox da social media è feasible, low-cost intervention con potential mental health benefit. Pero, RCT con control group è essenziale prima di clinical adoption. Mechanism (removal vs. displacement vs. dopamine reset) rimane opaco.
+                                </div>
+                            </div>
+
+                            <div class="tag-container">
+                                <span class="tag">coorte-prospettica</span>
+                                <span class="tag green">digital-wellness</span>
+                                <span class="tag yellow">objective-measurement</span>
+                                <span class="tag purple">mental-health</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 4: Setia -->
+                    <div class="paper-card">
+                        <div class="paper-header">
+                            <div class="paper-title">Strategie di Digital Detox e Benessere Mentale</div>
+                            <div class="paper-authors">Setia, S. et al.</div>
+                            <span class="paper-year">2025</span>
+                            <span class="paper-year" style="background: rgba(167, 113, 247, 0.1); color: #a371f7;">SCOPING REVIEW</span>
+                        </div>
+                        <div class="paper-body">
+                            <div class="section-content">
+                                <div class="section-title">Studio e Campione</div>
+                                <div class="content-text">
+                                    Scoping review (narrativa synthesis, non meta-analisi) della letteratura su digital detox strategies (full abstinence, reduced use, mindful use) e mental health outcomes. Popolazione diversa (bambini, adolescenti, giovani adulti, adults). Moderatori esaminati: età, genere, baseline mental health, storia di use.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Risultati Principali</div>
+                                <div class="content-text">
+                                    <strong>Non esiste "one-size-fits-all".</strong> Uso moderato, age-appropriate, allineato a livelli sviluppo → outcomes ottimali. Benefici MAGGIORI in popolazione giovane (bambini, adolescenti). Uso consapevole (mindful, deliberato) di social media è <strong>particolarmente vantaggioso per donne</strong> (riduce comparison-driven anxiety). Variabili critiche: età, genere, mental health baseline, durata uso precedente.
+                                </div>
+                            </div>
+
+                            <div class="highlight-box warning">
+                                <div class="highlight-label">LIMITAZIONI DELLA SCOPING REVIEW</div>
+                                <div class="content-text">
+                                    Scoping review è qualitativa (nessun effect size quantificato); eterogeneità non sistematicamente analizzata; quality assessment degli studi inclusi assente; narrative bias e cherry-picking risk; pubblicazione bias non addressato; causal inference impossibile (include cross-sectional); mechanism non esaminato; finding descrittivi (qualitative), non quantitativi.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Implicazioni per Pratica</div>
+                                <div class="content-text">
+                                    Age-specific guidelines sono supportate (non una taglia unica). Gendered interventions utili per adolescent girls (mindful use training). Per clinical populations, detox tailored a baseline mental health è promising. Ricerca futura: formal systematic review con meta-analysis per quantificare benefici.
+                                </div>
+                            </div>
+
+                            <div class="tag-container">
+                                <span class="tag">scoping-review</span>
+                                <span class="tag green">moderazione</span>
+                                <span class="tag yellow">gendered-interventions</span>
+                                <span class="tag purple">age-specific</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 5: Grau -->
+                    <div class="paper-card">
+                        <div class="paper-header">
+                            <div class="paper-title">NeurekaNUM: Serious Game per Discalculia</div>
+                            <div class="paper-authors">Grau, S., Mateu-Estivill, R., Adan, A., Serra-Grabulosa, J.M.</div>
+                            <span class="paper-year">2025</span>
+                            <span class="paper-year" style="background: rgba(242, 89, 73, 0.1); color: #f85149;">QUASI-SPERIMENTALE</span>
+                        </div>
+                        <div class="paper-body">
+                            <div class="section-content">
+                                <div class="section-title">Studio e Campione</div>
+                                <div class="content-text">
+                                    Studio quasi-sperimentale pre-post con comparison group. N=42 (19 con discalculia evolutiva diagnosticata, 23 TD—typically developing). Bambini classi 1-3 (età ~7-9 anni), Spagna/Catalogna. Intervento: NeurekaNUM (serious game computer-based) per 4 mesi, 5 sessioni/settimana, 15-20 minuti/sessione.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Risultati Principali</div>
+                                <div class="content-text">
+                                    Gruppo discalculia ha mostrato "significant improvements" in tutte aree (mental calculation, number line, base-10, word problems, transcoding). Gruppo TD no significant changes (buon controllo). <strong>Primo strumento validato culturalmente per spagnolo/catalano.</strong>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box warning">
+                                <div class="highlight-label">LIMITAZIONI CRITICHE</div>
+                                <div class="content-text">
+                                    Campione ESTREMAMENTE RIDOTTO (N=19 intervento), potenza statistica bassa; design quasi-sperimentale senza randomizzazione → selection bias; non-equivalent comparison group; assenza di blinding; nessun control per confounding (history effects, maturation, interventi simultanei); effect sizes e CI non riportati nel brief; assenza di follow-up longitudinale post-intervento; compliance e fidelity non dichiarati; nessun outcome psicologico (anxiety, engagement, self-esteem); generalizzabilità limitata a contesto spagnolo/catalano; comorbidità non esaminate.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Implicazioni per Pratica</div>
+                                <div class="content-text">
+                                    Proof-of-concept che serious games specializzati e tailored a learning disability hanno promessa. Per educazione inclusiva, risultato è promettente ma insufficiente per full adoption; multicentre RCT robusto è imperativo. Serious games sono complemento a buon insegnamento, non sostituto.
+                                </div>
+                            </div>
+
+                            <div class="tag-container">
+                                <span class="tag">quasi-sperimentale</span>
+                                <span class="tag green">serious-games</span>
+                                <span class="tag yellow">inclusive-education</span>
+                                <span class="tag purple">learning-disabilities</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 6: Roșu -->
+                    <div class="paper-card">
+                        <div class="paper-header">
+                            <div class="paper-title">Screen Time, Contenuto e Mediazione Genitoriale</div>
+                            <div class="paper-authors">Roșu et al.</div>
+                            <span class="paper-year">2026</span>
+                            <span class="paper-year" style="background: rgba(0, 217, 255, 0.1); color: #00d9ff;">TRASVERSALE</span>
+                        </div>
+                        <div class="paper-body">
+                            <div class="section-content">
+                                <div class="section-title">Studio e Campione</div>
+                                <div class="content-text">
+                                    Studio trasversale (cross-sectional), N=286 bambini/adolescenti rumeni (5-19 anni). Misurazione: screen time quantitativo, qualità contenuto (educativo vs. entertainment), stile mediazione genitoriale (active, restrictive, co-viewing), competenze linguistiche (vocabolario, fluenza, grammatica), pragmatica (turn-taking, comprensione inferenziale).
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Risultati Principali</div>
+                                <div class="content-text">
+                                    <strong>Screen time elevato:</strong> correla con performance linguistica inferiore (r ≈ −0.19 a −0.28, piccoli effetti).<br>
+                                    <strong>Contenuto educativo:</strong> correla positivamente con vocabolario, fluenza, grammatica, pragmatica.<br>
+                                    <strong>Mediazione attiva:</strong> correla con outcomes linguistici superiori.<br>
+                                    <strong>Moderatore età:</strong> Effetti più pronunciati in 5-12 anni vs. adolescenti (13-19 anni).
+                                </div>
+                            </div>
+
+                            <div class="highlight-box warning">
+                                <div class="highlight-label">LIMITAZIONI CRITICHE</div>
+                                <div class="content-text">
+                                    Design trasversale: causalità impossibile, reverse causality plausibile, confounding sostanziale; self-report bias di screen time (genitori underestimate); operazionalizzazione vaga di "mediazione attiva" e "contenuto educativo"; SES non controllato; age range ampio (5-19) con moderate age-only (no interaction terms); effect sizes piccolissimi (r &lt;0.30 = ~6% varianza spiegata); multiple comparisons senza correction; assumption di linearità non testata; outcome clinico sconosciuto; campione rumeno, generalizzabilità limitata a Italia.
+                                </div>
+                            </div>
+
+                            <div class="section-content">
+                                <div class="section-title">Implicazioni per Pratica</div>
+                                <div class="content-text">
+                                    <strong>Non è il semplice screen time che danneggia linguaggio.</strong> È qualità contenuto + mediazione genitoriale che moderano effetti. Genitori non devono "bannare schermi"—devono imparare mediazione attiva (commentare, spiegare, scegliere contenuto educativo). Policy dovrebbe fornire accesso a contenuti educativi di qualità e training genitoriale.
+                                </div>
+                            </div>
+
+                            <div class="tag-container">
+                                <span class="tag">trasversale</span>
+                                <span class="tag green">parental-mediation</span>
+                                <span class="tag yellow">linguistic-development</span>
+                                <span class="tag purple">family-dynamics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CROSS-CUTTING THEMES -->
+            <section class="content-section" id="themes">
+                <h2 style="color: #00d9ff; margin-bottom: 1.5rem; font-size: 1.5rem;">Temi Trasversali</h2>
+
+                <div class="narrative-box">
+                    <h3>Tema 1: Alfabetizzazione Digitale come Fattore Protettivo Fondamentale</h3>
+                    <div class="narrative-text">
+                        <strong>Li (2025)</strong> e <strong>Huang (2024)</strong> convergono: alphabets digital skills (digital literacy, media literacy, critical thinking) sono <strong>fattori protettivi robusti</strong> contro misinformation, polarizzazione, e uso problematico.<br><br>
+                        Digital literacy development è <strong>moderatamente efficace</strong> (SMD=0.16 globale, ma SMD=0.34 in bambini piccoli—fondamentale investire early). Media literacy è <strong>ampiamente efficace</strong> per misinformation (d=1.04 su sharing behavior—enorme).<br><br>
+                        <strong>Implicazione:</strong> Curricula nazionali dovrebbero integrare digital + media literacy <strong>sin dalla primaria</strong>, con supporto docenti robusto, e <strong>progressione</strong> attraverso scuola secondaria. Non è "lezione di informatica" uno-off; è insegnamento longitudinale, integrated, evidence-based.
+                    </div>
+                </div>
+
+                <div class="narrative-box">
+                    <h3>Tema 2: Mediazione Genitoriale come Leva di Efficacia Intervento</h3>
+                    <div class="narrative-text">
+                        <strong>Roșu (2026)</strong> e implicitamente <strong>Li (2025)</strong> (suggerisce parent-school partnership) evidenziano che mediazione genitoriale <strong>attiva</strong> è critica.<br><br>
+                        Non è restrictive (limitazione pura di accesso); è <strong>active mediation</strong>: genitori scelgono contenuto educativo, commentano durante visione, spiegano, fanno domande, dialogano criticamente.<br><br>
+                        Per <strong>digital literacy</strong>: mediazione attiva amplifica classroom learning (transfer dalla scuola a casa).<br>
+                        Per <strong>screen time e linguaggio</strong>: mediazione attiva preserva/migliora outcomes.<br>
+                        Per <strong>misinformation</strong> (implicito): mediazione genitoriale (co-learning su fact-checking, source evaluation) rinforza media literacy scolastica.<br><br>
+                        <strong>Implicazione:</strong> Policy dovrebbe investire in <strong>parental education programs</strong> sistematici—workshops scolastici, app guidance, risorse online—non assumere genitori sappiano naturalmente come mediare.
+                    </div>
+                </div>
+
+                <div class="narrative-box">
+                    <h3>Tema 3: Interventi Detox come Complementi, Non Soluzioni Standalone</h3>
+                    <div class="narrative-text">
+                        <strong>Calvert (2025)</strong> e <strong>Setia (2025)</strong> affrontano digital detox da angoli diversi.<br><br>
+                        <strong>Calvert:</strong> Una settimana di abstinence sociale media produce miglioramenti di mental health (proof-of-concept). Pero, è intervento pilota, nessun control group, sustainability sconosciuta.<br><br>
+                        <strong>Setia:</strong> Non esiste "one-size-fits-all" detox. Moderazione age-appropriate e consapevolezza sono chiavi. Uso consapevole (mindful, non totale eliminazione) è spesso più efficace/sustainable di cold-turkey abstinence.<br><br>
+                        <strong>Sintesi:</strong> Digital detox non è "cura" per digital wellness. È strumento temporaneo, utile per <strong>reset</strong> (ridurre dopamine-driven habits, permettere clarity), ma sostenibilità lunga-termine richiede <strong>skill-building</strong> (autoregolazione, consapevolezza, alternative-activity engagement). Interventi ottimali: detox breve + training su mindful use + parental support + classroom media literacy.
+                    </div>
+                </div>
+
+                <div class="narrative-box">
+                    <h3>Tema 4: Gamification e Serious Games per Learning Disabilities (Grau)</h3>
+                    <div class="narrative-text">
+                        <strong>Grau (2025)</strong> offre lesson su tecnologia educativa specializzata.<br><br>
+                        NeurekaNUM è <strong>not</strong> generic "game-based learning" (game mechanics senza specific pedagogical design). È <strong>serious game specificatamente tailored a discalculia</strong>: numero sense, mental number line, base-10 understanding.<br><br>
+                        Risultato: improvement significativo (pilot, N=19). Pero: campione piccolo, quasi-sperimentale, assenza di follow-up, costi non quantificati, generalizzabilità incerta.<br><br>
+                        <strong>Implicazione per educazione inclusiva:</strong> Serious games hanno potenziale come <strong>complement a direct instruction</strong> per specific learning disabilities (discalculia, disllessia, ADHD-related learning problems). NON sono sostituti per buon insegnamento. Efficacia dipende da: (a) disegno specifico per disability, (b) integrazione con curriculum regolare, (c) supervisione insegnante, (d) supporto genitoriale, (e) monitoring compliance.
+                    </div>
+                </div>
+
+                <div class="narrative-box">
+                    <h3>Tema 5: Equity e Disparità - Assente dalla Maggior Parte degli Studi</h3>
+                    <div class="narrative-text">
+                        <strong>Observation critica:</strong> Nessuno dei sei studi fornisce analisi sistematica di equity outcomes—stratificazione per SES, ethnic/cultural background, genere (alcuni cenni in Huang su genere, Setia su genere, ma non approfonditi), disabilità.
+                        <br><br>
+                        <strong>Li (2025):</strong> Enfasi su "educazione inclusiva" nel brief, ma actual equity analysis assente. Risk: interventi "universali" di digital literacy potrebbero favore chi ha already accesso domestico, peggiorando gap.<br><br>
+                        <strong>Roșu (2026):</strong> Campione rumeno, SES non controllato. Efficacy in basso-SES populations sconosciuta.<br><br>
+                        <strong>Grau (2025):</strong> Nessuno stratificazione SES, linguistic background. Risk: serious game efficace per middle-class bilingual+ children, inefficace per low-SES unilingual.<br><br>
+                        <strong>Implicazione:** Ricerca futura DEVE esaminare equity sistematicamente. Policy dovrebbe assumere: interventi universali vanno incontro a disparità se non actively tailored.
+                    </div>
+                </div>
+            </section>
+
+            <!-- LIMITATIONS SECTION -->
+            <section class="content-section" id="limitations">
+                <h2 style="color: #00d9ff; margin-bottom: 1.5rem; font-size: 1.5rem;">Limitazioni Metodologiche Trasversali</h2>
+
+                <div class="limitations-grid">
+                    <div class="limitation-card">
+                        <div class="limitation-paper">Li (2025): Digital Literacy</div>
+                        <div class="limitation-text">
+                            Eterogeneità non controllata; soli 10 studi; definizione "competenza digitale" varia; no outcome psicologico; no follow-up lungo-termine; publication bias non controllato; disparità SES non esaminate; fidelity implementazione sconosciuta.
+                        </div>
+                    </div>
+
+                    <div class="limitation-card">
+                        <div class="limitation-paper">Huang (2024): Media Literacy</div>
+                        <div class="limitation-text">
+                            Definizioni eterogenee "media literacy"; topic-specificity misinformation non stratificata; sharing misurato come intenzione vs. azione; durata follow-up incerta; equity outcomes non disaggregati (SES, genere, background culturale); context artificiale (laboratorio vs. real-world social media).
+                        </div>
+                    </div>
+
+                    <div class="limitation-card">
+                        <div class="limitation-paper">Calvert (2025): Social Media Detox</div>
+                        <div class="limitation-text">
+                            Nessun control group; self-selection bias; breve durata (1 week); nessun blinding; expectancy effects non esclusi; confounding non controllato (stagione, life events); N non dichiarato; follow-up lungo-termine sconosciuto; outcome auto-reported; mechanism opaco.
+                        </div>
+                    </div>
+
+                    <div class="limitation-card">
+                        <div class="limitation-paper">Setia (2025): Digital Detox Strategies</div>
+                        <div class="limitation-text">
+                            Scoping review è qualitativa (no effect size); eterogeneity non sistematicamente analizzata; quality assessment assente; narrative bias risk; causal inference impossibile (includes cross-sectional); mechanism non esaminato; "moderato" non quantificato; generalizzabilità geografica incerta.
+                        </div>
+                    </div>
+
+                    <div class="limitation-card">
+                        <div class="limitation-paper">Grau (2025): Serious Game Discalculia</div>
+                        <div class="limitation-text">
+                            Campione ESTREMAMENTE RIDOTTO (N=19); quasi-sperimentale senza randomizzazione; selection bias; nessun blinding; effect size/CI non riportati; no follow-up post-intervento; confounding non controllato; no outcome psicologico; compliance sconosciuta; generalizzabilità limitata a spagnolo/catalano.
+                        </div>
+                    </div>
+
+                    <div class="limitation-card">
+                        <div class="limitation-paper">Roșu (2026): Screen Time & Linguaggio</div>
+                        <div class="limitation-text">
+                            Design trasversale: causalità impossibile; self-report bias screen time; "mediazione" operazionalizzazione vaga; SES non controllato; age range ampio (no interaction terms); effect sizes piccolissimi (~6% varianza); multiple comparisons senza correction; outcome clinico sconosciuto; campione rumeno, generalizzabilità limitata.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="narrative-box" style="border: 1px solid rgba(242, 89, 73, 0.4); background: rgba(242, 89, 73, 0.05);">
+                    <h3 style="color: #f85149;">Messaggi Chiave su Limitazioni</h3>
+                    <div class="narrative-text">
+                        <strong>1. Causalità:</strong> Solo Li (2025) e Huang (2024) sono meta-analisi di trial sperimentali (RCT); Grau, Calvert, Setia sono pilot/quasi-sperimentale/trasversale. Inference causale è limited ad eccezione dei due meta-analyses.<br><br>
+                        <strong>2. Equity:</strong> NESSUNO studio fornisce stratificazione sistematica SES, genere, ethnic background, disabilità. Risk: hallmark di buona ricerca contemporanea è equity; assenza è gap critico.<br><br>
+                        <strong>3. Outcome psicologico:</strong> Li, Grau non misurano benessere, anxiety, engagement, self-esteem. Importante: un intervento potrebbe migliorare competenza digitale ma aumentare stress/ansia (clinical detriment).<br><br>
+                        <strong>4. Follow-up longitudinale:</strong> Tutti gli studi sono (al best) follow-up immediate/breve. Sustainability lunga-termine è sconosciuta.<br><br>
+                        <strong>5. Mechanism:</strong> Mancano studi di "process analysis" che esaminano <strong>come</strong> interventi funzionano. Component analysis, mediation analysis, sono rari.<br><br>
+                        <strong>Implicazione:</strong> Tutti questi studi sono <strong>hypothesis-generating, proof-of-concept, preliminary</strong>. Prima di policy rollout, RCT robusti multicentre in contesti diversi sono imperativi.
+                    </div>
+                </div>
+            </section>
+
+            <!-- GLOSSARY SECTION -->
+            <section class="content-section" id="glossary">
+                <h2 style="color: #00d9ff; margin-bottom: 1.5rem; font-size: 1.5rem;">Glossario Terminologico</h2>
+
+                <input type="text" id="glossary-search" class="search-box" placeholder="Cerca termine...">
+
+                <div class="glossary-container" id="glossary-list">
+                    <div class="glossary-item">
+                        <div class="glossary-term">Alfabetizzazione Digitale</div>
+                        <div class="glossary-definition">
+                            Capacità di comprendere, valutare criticamente e utilizzare informazioni e tecnologie digitali in modo consapevole, responsabile e efficace. Include competenze tecniche (uso applicazioni) e critiche (privacy, sicurezza, evaluazione credibilità).
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Media Literacy</div>
+                        <div class="glossary-definition">
+                            Abilità di valutare criticamente fonti media, riconoscere bias, identificare propaganda, distinguere fact da opinion, e consumare media con consapevolezza. Focalizzato su misinformation resistance, source evaluation, laterale reading.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Mediazione Genitoriale</div>
+                        <div class="glossary-definition">
+                            Supervisione consapevole da parte di genitori sull'uso digitale dei figli. <strong>Active mediation:</strong> genitore commenta, spiega, dialoga (high engagement). <strong>Restrictive mediation:</strong> genitore limita accesso (regole, divieti). <strong>Co-viewing:</strong> genitore guarda insieme senza interhire.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Digital Detox</div>
+                        <div class="glossary-definition">
+                            Periodo di astinenza o riduzione intenzionale da dispositivi digitali/social media, spesso per resettare abitudini non consapevoli, ridurre dopamine-driven behaviors, o facilitare mental health reset. Durata varia (1 giorno a settimane).
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Serious Games</div>
+                        <div class="glossary-definition">
+                            Videogiochi progettati primariamente per obiettivi educativi/terapeutici (non solo intrattenimento). Includono game mechanics (punti, progressione, sfide) integrali con learning content. Es: NeurekaNUM per discalculia.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Misinformation</div>
+                        <div class="glossary-definition">
+                            Informazione falsa o fuorviante, indipendentemente da intento. <strong>Disinformation:</strong> informazione falsa intenzionalmente diffusa. <strong>Malinformation:</strong> informazione accurata ma usata fuori contesto per danneggiare.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Lateral Reading</div>
+                        <div class="glossary-definition">
+                            Tecnica fact-checking: invece di leggere profondamente un articolo, aprire tabs paralleli per verificare source credibilità, autori affiliazioni, expert consenso. Efficace per media literacy.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Inoculation Theory</div>
+                        <div class="glossary-definition">
+                            Modello pedagogico: esposizione attenuata a argomenti falsi (followed da refutation corretta) prepara individui a resistere futuro misinformation. Simile a vaccination biologica.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Effect Size (d, SMD)</div>
+                        <div class="glossary-definition">
+                            Misura standardizzata di magnitudine di un effetto. <strong>Cohen's d:</strong> ~0.2=small, ~0.5=medium, ~0.8=large. <strong>SMD</strong> (Standardized Mean Difference): usato in meta-analisi per confrontare risultati fra studi diversi.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Meta-Analisi</div>
+                        <div class="glossary-definition">
+                            Metodo statistico per sintetizzare risultati di múltipli studi sperimentali. Calcola effect size pooled, esamina eterogeneità, identifica moderatori. Gold standard per evidence synthesis.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Scoping Review</div>
+                        <div class="glossary-definition">
+                            Metodologia di literature review narrativa (non quantitativa) per mappare landscape di evidence su topic. Meno rigorous di systematic review/meta-analysis, but broader scope. Qualitativo.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">RCT (Randomized Controlled Trial)</div>
+                        <div class="glossary-definition">
+                            Disegno sperimentale gold standard: partecipanti randomizzati a intervento vs. control, outcomes misurati double-blind. Permette causal inference robusto.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Confounding</div>
+                        <div class="glossary-definition">
+                            Variabile terza che influenza sia outcome che intervento, creando spurious association. Es: SES correla con screen time E linguistic competence; SES è confound (non è screen time che causa linguaggio, è SES).
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Mindful Use (Uso Consapevole)</div>
+                        <div class="glossary-definition">
+                            Consumo intenzionale, deliberato di media digitale con awareness: scegliere quali app/contenuti, quando, perché. Contrast a passive scrolling. Spesso include app-limiting tools, notification off, time-blocking.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Pragmatica (Linguistica)</div>
+                        <div class="glossary-definition">
+                            Studio di come linguaggio è usato in contesto sociale. Include turn-taking, inferenza, comprehension implicita, perspectiva-taking. Es: capire sarcasmo, interpretare gesti, adattarsi a diversi audience.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Discalculia Evolutiva</div>
+                        <div class="glossary-definition">
+                            Learning disability specifico che affetta capacità di comprendere numeri e eseguire calcoli. Innato (non dovuto a insufficiente insegnamento). Spesso comorbido con disllessia, ADHD.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses)</div>
+                        <div class="glossary-definition">
+                            Checklist standard (27 items) per reporting di systematic review e meta-analysis. Assicura trasparenza, riproducibilità, qualità metodologica.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Digital Citizenship</div>
+                        <div class="glossary-definition">
+                            Pratica consapevole e responsabile di partecipazione digitale: inclusione (rispetto per diversità), impegno civico (contributing positively), etica (privacy, intellectual property).
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Zone of Proximal Development (ZPD)</div>
+                        <div class="glossary-definition">
+                            Concetto Vygotsky: gap fra quello che un bambino può fare da solo vs. con supporto adulto. Optimal learning avviene in ZPD (nè troppo facile, nè impossibile).
+                        </div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Equity Gap</div>
+                        <div class="glossary-definition">
+                            Disparità di outcomes tra gruppi socioeconomici, etnici, di genere. Es: basso-SES children hanno minore accesso a digital literacy interventions, perpetuando digital divide.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BIBLIOGRAPHY SECTION -->
+            <section class="content-section" id="bibliography">
+                <h2 style="color: #00d9ff; margin-bottom: 1.5rem; font-size: 1.5rem;">Bibliografia Completa</h2>
+
+                <div class="bibliography-list">
+                    <div class="bib-item">
+                        <span class="bib-authors">Li, C., Zhang, M. & Xie, K.</span> (2025).
+                        <span class="bib-title">Enhancing digital literacy in children and adolescents: a meta-analysis of school-based interventions.</span>
+                        <span class="bib-source">Information, Communication & Society.</span>
+                        <a href="https://doi.org/10.1080/1369118X.2025.2584142" class="bib-doi" target="_blank">DOI: 10.1080/1369118X.2025.2584142</a>
+                    </div>
+
+                    <div class="bib-item">
+                        <span class="bib-authors">Huang, G. et al.</span> (2024).
+                        <span class="bib-title">Media Literacy Interventions Improve Resilience to Misinformation.</span>
+                        <span class="bib-source">Human Communication Research.</span>
+                        <a href="https://doi.org/10.1177/00936502241288103" class="bib-doi" target="_blank">DOI: 10.1177/00936502241288103</a>
+                    </div>
+
+                    <div class="bib-item">
+                        <span class="bib-authors">Calvert, E. et al.</span> (2025).
+                        <span class="bib-title">Social Media Detox and Youth Mental Health.</span>
+                        <span class="bib-source">JAMA Network Open, Vol. 8, No. 11.</span>
+                        <a href="https://doi.org/10.1001/jamanetworkopen.2025.45245" class="bib-doi" target="_blank">DOI: 10.1001/jamanetworkopen.2025.45245</a>
+                    </div>
+
+                    <div class="bib-item">
+                        <span class="bib-authors">Setia, S. et al.</span> (2025).
+                        <span class="bib-title">Digital Detox Strategies and Mental Health.</span>
+                        <span class="bib-source">Cureus, Vol. 17, No. 1.</span>
+                        <a href="https://doi.org/10.7759/cureus.78250" class="bib-doi" target="_blank">DOI: 10.7759/cureus.78250</a>
+                    </div>
+
+                    <div class="bib-item">
+                        <span class="bib-authors">Grau, S., Mateu-Estivill, R., Adan, A., Serra-Grabulosa, J.M.</span> (2025).
+                        <span class="bib-title">Design and evaluation of a serious game for developmental dyscalculia remediation.</span>
+                        <span class="bib-source">Applied Neuropsychology: Child.</span>
+                        <a href="https://doi.org/10.1080/21622965.2025.2587271" class="bib-doi" target="_blank">DOI: 10.1080/21622965.2025.2587271</a>
+                    </div>
+
+                    <div class="bib-item">
+                        <span class="bib-authors">Roșu et al.</span> (2026).
+                        <span class="bib-title">Screen Time, Digital Content Quality, and Parental Mediation as Predictors of Linguistic and Pragmatic Development.</span>
+                        <span class="bib-source">Children (MDPI), Vol. 13, No. 1.</span>
+                        <span class="bib-source">DOI non fornito nel brief.</span>
+                    </div>
+                </div>
+
+                <div class="narrative-box" style="margin-top: 2rem;">
+                    <h3>Note Metodologiche sulla Raccolta</h3>
+                    <div class="narrative-text">
+                        Questa raccolta di sei paper (2024-2026) rappresenta una <strong>selezione intenzionale</strong> su tema di <strong>interventi, protezioni e mediazioni</strong> nel digitale (non sui rischi). Criteri di inclusione impliciti:<br><br>
+                        • <strong>Focus costruttivo:</strong> Interventi evidence-based, fattori protettivi, skill-building (non solo risk-reduction)<br>
+                        • <strong>Diversità metodologica:</strong> Meta-analisi, scoping review, studi sperimentali, longitudinali<br>
+                        • <strong>Range di età:</strong> Bambini (5-9 anni) a giovani adulti (18-24 anni)<br>
+                        • <strong>Diversità di outcomes:</strong> Literacy, benessere psicologico, sviluppo linguistico, fattori protettivi<br>
+                        • <strong>Contesti geografici multipli:</strong> Spagna, USA, Romania (seppur con limiti di generalizzabilità)<br><br>
+                        <strong>Assenza notevole:</strong> Studi su pre-adolescenti (7-8 anni) e impact di social media regulation/policy (es., TikTok ban, youth protection laws). Questo riflette gaps nella letteratura.
+                    </div>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="footer">
+                <div>Dashboard Interattivo - Literacy, Interventi e Mediazione</div>
+                <div class="footer-meta">
+                    Selezione ricerca 2024-2026 | Analizzato 9 febbraio 2026<br>
+                    Design Ivan Ferrero Dark Cyber Theme | Self-Contained HTML Dashboard
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.content-section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+
+                link.classList.add('active');
+                const sectionId = link.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Paper card expansion
+        const paperCards = document.querySelectorAll('.paper-card');
+        paperCards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossary-search');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        glossarySearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const term = item.querySelector('.glossary-term').textContent.toLowerCase();
+                const definition = item.querySelector('.glossary-definition').textContent.toLowerCase();
+
+                if (term.includes(searchTerm) || definition.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+    <script src="/assets/menu.js"></script>
+</body>
+</html>

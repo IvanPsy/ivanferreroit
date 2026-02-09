@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Sonno e Schermi - Ricerca 2025-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0a0e14 0%, #0f1419 100%);
+            color: #e6edf3;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Grid background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(48, 54, 61, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(48, 54, 61, 0.15) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-bottom: 2px solid #30363d;
+            margin-bottom: 2rem;
+            background: rgba(15, 20, 25, 0.8);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00d9ff;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .subtitle {
+            color: #8b949e;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .research-period {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid #00d9ff;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: #00d9ff;
+        }
+
+        /* Layout with sidebar */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+            background: rgba(26, 34, 45, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .sidebar h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #00d9ff;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            background: rgba(48, 54, 61, 0.3);
+            border-left: 3px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #8b949e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(0, 217, 255, 0.15);
+            border-left-color: #00d9ff;
+            color: #00d9ff;
+            transform: translateX(4px);
+        }
+
+        /* Main content area */
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Section styles */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            color: #00d9ff;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #30363d;
+            padding-bottom: 1rem;
+        }
+
+        /* Overview section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(26, 34, 45, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            color: #6e7681;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            color: #3fb950;
+            font-weight: 700;
+        }
+
+        .stat-description {
+            color: #8b949e;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Paper cards */
+        .paper-card {
+            background: rgba(26, 34, 45, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .paper-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .paper-header {
+            background: rgba(0, 217, 255, 0.1);
+            border-bottom: 1px solid #30363d;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .paper-header:hover {
+            background: rgba(0, 217, 255, 0.15);
+        }
+
+        .paper-title {
+            font-size: 1.3rem;
+            color: #00d9ff;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .paper-meta {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        .toggle-icon {
+            color: #00d9ff;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .paper-card.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .paper-content {
+            display: none;
+            padding: 1.5rem;
+            border-top: 1px solid #30363d;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .paper-card.expanded .paper-content {
+            display: block;
+            max-height: 3000px;
+        }
+
+        .paper-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .paper-section h4 {
+            color: #3fb950;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .paper-section h5 {
+            color: #d29922;
+            font-size: 1rem;
+            margin: 1rem 0 0.5rem 0;
+            font-weight: 600;
+        }
+
+        .paper-text {
+            color: #e6edf3;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .zone-ombra {
+            background: rgba(248, 81, 73, 0.1);
+            border-left: 4px solid #f85149;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .zone-ombra h5 {
+            color: #f85149;
+        }
+
+        .zone-ombra-text {
+            color: #e6edf3;
+        }
+
+        .highlight-finding {
+            background: rgba(63, 185, 80, 0.1);
+            border-left: 4px solid #3fb950;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .highlight-finding h5 {
+            color: #3fb950;
+        }
+
+        .mechanism {
+            background: rgba(167, 113, 247, 0.1);
+            border-left: 4px solid #a371f7;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .mechanism h5 {
+            color: #a371f7;
+        }
+
+        .methodology-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.2);
+            border: 1px solid #00d9ff;
+            color: #00d9ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .tag.limitation {
+            background: rgba(248, 81, 73, 0.2);
+            border-color: #f85149;
+            color: #f85149;
+        }
+
+        .tag.strength {
+            background: rgba(63, 185, 80, 0.2);
+            border-color: #3fb950;
+            color: #3fb950;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .table th {
+            background: rgba(48, 54, 61, 0.5);
+            color: #00d9ff;
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #30363d;
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 0.75rem;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+        }
+
+        .table tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        /* Limitation overview section */
+        .limitation-item {
+            background: rgba(248, 81, 73, 0.05);
+            border-left: 4px solid #f85149;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .limitation-item h5 {
+            color: #f85149;
+            margin-bottom: 0.5rem;
+        }
+
+        .limitation-item .source {
+            color: #8b949e;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        /* Glossary */
+        .glossary-search {
+            margin-bottom: 1.5rem;
+        }
+
+        .glossary-search input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(48, 54, 61, 0.5);
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            color: #e6edf3;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glossary-search input::placeholder {
+            color: #6e7681;
+        }
+
+        .glossary-search input:focus {
+            outline: none;
+            border-color: #00d9ff;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+        }
+
+        .glossary-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .glossary-item {
+            background: rgba(26, 34, 45, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .glossary-term {
+            color: #00d9ff;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-definition {
+            color: #e6edf3;
+            font-size: 0.9rem;
+        }
+
+        /* Bibliography */
+        .bibliography-item {
+            background: rgba(26, 34, 45, 0.5);
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .bibliography-item-authors {
+            color: #00d9ff;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .bibliography-item-title {
+            color: #e6edf3;
+            margin-bottom: 0.3rem;
+        }
+
+        .bibliography-item-meta {
+            color: #8b949e;
+            font-size: 0.85rem;
+        }
+
+        /* Cross-cutting themes */
+        .theme-card {
+            background: rgba(26, 34, 45, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-title {
+            color: #a371f7;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-title::before {
+            content: '◆';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .theme-content {
+            color: #e6edf3;
+            line-height: 1.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                display: flex;
+                gap: 1rem;
+                overflow-x: auto;
+                padding: 1rem;
+                flex-wrap: nowrap;
+            }
+
+            .nav-item {
+                flex-shrink: 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #6e7681;
+            border-top: 1px solid #30363d;
+            margin-top: 3rem;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #8b949e;
+            padding: 2rem;
+        }
+
+        /* Mobile responsive layout for site integration */
+        @media (max-width: 768px) {
+            body { padding-top: 120px !important; }
+            .sidebar { top: 120px !important; height: auto !important; position: static !important; width: 100% !important; }
+            .main-content, main { margin-left: 0 !important; }
+            table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 640px) {
+            body { padding-top: 140px !important; }
+            h1 { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-menu"></div>
+    <div class="container">
+        <header>
+            <h1>Sonno e Schermi</h1>
+            <p class="subtitle">Una selezione di ricerche scientifiche sull'effetto degli schermi sulla qualità del sonno nei giovani</p>
+            <span class="research-period">📚 Ricerca 2025-2026</span>
+        </header>
+
+        <div class="main-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <h3>Navigazione</h3>
+                <a class="nav-item active" onclick="showSection('overview')">📊 Panoramica</a>
+                <a class="nav-item" onclick="showSection('papers')">📄 Studi Inclusi</a>
+                <a class="nav-item" onclick="showSection('themes')">🔗 Temi Trasversali</a>
+                <a class="nav-item" onclick="showSection('limitations')">⚠️ Limitazioni</a>
+                <a class="nav-item" onclick="showSection('glossary')">📖 Glossario</a>
+                <a class="nav-item" onclick="showSection('bibliography')">📚 Bibliografia</a>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="content">
+
+                <!-- OVERVIEW SECTION -->
+                <section id="overview" class="section active">
+                    <h2>📊 Panoramica: La Relazione Schermo-Sonno</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Studi Inclusi</div>
+                            <div class="stat-value">5</div>
+                            <div class="stat-description">Revisioni sistematiche, meta-analisi, RCT, studi longitudinali su 548.000+ partecipanti</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Effetto Schermi su Sonno</div>
+                            <div class="stat-value">-3-5 min</div>
+                            <div class="stat-description">Riduzione durata sonno per ogni ora aggiuntiva di tempo-schermo</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Rischio Sonno Breve</div>
+                            <div class="stat-value">+25%</div>
+                            <div class="stat-description">Aumento rischio sonno insufficiente con uso schermi regolare</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Mediazione Sonno-Depressione</div>
+                            <div class="stat-value">36.4%</div>
+                            <div class="stat-description">Percentuale dell'effetto schermo-depressione mediata da breve sonno e white matter</div>
+                        </div>
+                    </div>
+
+                    <div class="paper-section">
+                        <h4>La Domanda Centrale</h4>
+                        <div class="paper-text">
+                            Quale è l'effetto dei dispositivi digitali (smartphone, tablet, computer) sulla qualità e durata del sonno negli adolescenti e nei bambini? E come questo collegamento biologico influisce sulla salute mentale, sui ritmi circadiani, e sul benessere complessivo?
+                        </div>
+                    </div>
+
+                    <div class="paper-section">
+                        <h4>Sintesi delle Evidenze</h4>
+                        <div class="highlight-finding">
+                            <h5>✓ Associazione Robusta e Dose-Dipendente</h5>
+                            <div class="paper-text">
+                                L'associazione tra tempo-schermo e compromissione del sonno è coerente e dose-dipendente. Ogni ora aggiuntiva di schermo quotidiano è associata a una riduzione di 3-5 minuti della durata totale del sonno, con un aumento del 25% di rischio di sonno "breve" (meno di 7-8 ore per l'età). L'effetto è indipendente da età geografica e altre variabili demografiche.
+                            </div>
+                        </div>
+
+                        <div class="highlight-finding">
+                            <h5>✓ Eterogenea per Piattaforma</h5>
+                            <div class="paper-text">
+                                Il tipo di social media importa. Facebook e Twitter mostrano associazioni più forti con durata sonno ridotta (r ~ -0.35), mentre TikTok e Instagram mostrano effetti moderati (r ~ -0.20). Possibile spiegazione: Facebook = confronto sociale costante; TikTok = ricompensa variabile (slot machine del cervello) ma contenuto più leggero. L'effetto è mediato da meccanismi diversi per ogni piattaforma.
+                            </div>
+                        </div>
+
+                        <div class="highlight-finding">
+                            <h5>✓ Uso Problematico vs. Normativo</h5>
+                            <div class="paper-text">
+                                L'uso "problematico" (addiction, compulsivo, difficile a controllare) mostra associazioni molto più forti (r ~ -0.45) rispetto all'uso moderato. Questo suggerisce una popolazione "ad alto rischio" (adolescenti con dipendenza digitale) che richiedono interventi clinici specifici, differenziati dai giovani con uso normativo.
+                            </div>
+                        </div>
+
+                        <div class="mechanism">
+                            <h5>⚙️ Meccanismi Proposti</h5>
+                            <div class="paper-text">
+                                <strong>1. Fotoperiodicità (Luce Blu):</strong> Lo schermo emette luce blu (480nm) che sopprime la melatonina serale, ritardando il sonno. <br><br>
+                                <strong>2. Arousal Cognitivo-Emotivo:</strong> Social media, gaming, e notizie generano stimolazione emotiva (FOMO, competizione), ansia, e validazione sociale (notifiche) che mantengono il cervello "acceso".<br><br>
+                                <strong>3. Spostamento Temporale (Time Displacement):</strong> Tempo speso su schermo è tempo sottratto al sonno; meno tempo disponibile per dormire.<br><br>
+                                <strong>4. Disruzione Circadiana:</strong> L'esposizione serale a schermo ritarda il timing circadiano naturale (sleep-phase delay), creando un disallineamento fra il "clock biologico" e il "clock sociale" (orario scuola).<br><br>
+                                <strong>NOTA CRITICA (Maeda-Nishino 2025):</strong> Il meccanismo puramente fotoperiodicico è stato parzialmente falsificato. Occhiali con filtro luce blu AVANZANO il sonno senza alterare la melatonina basale, suggerendo meccanismi non-melatonergici (placebo, arousal, non-photic-cues).
+                            </div>
+                        </div>
+
+                        <div class="highlight-finding">
+                            <h5>✓ Connessione con Salute Mentale</h5>
+                            <div class="paper-text">
+                                Il primo studio a collegare schermo-tempo a depressione tramite pathway biologico verificato: schermo → sonno ridotto + disorganizzazione materia bianca (cingulum-bundle) → sintomi depressivi. Il sonno media il 36.4% dell'effetto, evidenziando che il sonno è un intervento-obiettivo modificabile per prevenzione depressione.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="paper-section">
+                        <h4>Popolazioni Particolarmente Vulnerabili</h4>
+                        <div class="paper-text">
+                            <strong>Adolescenti 13-17 anni:</strong> Picco di vulnerabilità; ritmo circadiano naturalmente ritardato (preferenza biologica per bedtime più tardi); sensibilità emotiva a FOMO massima.<br><br>
+                            <strong>Adolescenti con tipo circadiano "serotino" (evening-type):</strong> Bedtime biologico più tardo; esposizione sera a schermo ancora più destabilizzante per loro timing naturale.<br><br>
+                            <strong>Ragazze:</strong> Evidenza preliminare suggerisce sensibilità maggiore a componenti emotivo-sociali di SM (FOMO, confronto sociale, ansia).
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAPERS SECTION -->
+                <section id="papers" class="section">
+                    <h2>📄 Studi Inclusi: Analisi Dettagliata</h2>
+
+                    <!-- Paper 1: Maeda-Nishino -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div>
+                                <div class="paper-title">1. Occhiali Blue-Light e Sonno negli Adolescenti Giapponesi</div>
+                                <div class="paper-meta">Maeda-Nishino et al. (2025) | PLOS ONE | RCT Crossover (n=39)</div>
+                            </div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-section">
+                                <h4>Interrogativo di Ricerca</h4>
+                                <div class="paper-text">
+                                    Occhiali con filtro luce blu (40% blocco, 380-500nm) indossati 3 ore prima del sonno avanzano la fase del sonno e migliorano il comportamento diurno in bambini miopi? Se sì, quale è il meccanismo: suppressione melatonina o altro?
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Metodologia</h4>
+                                <div class="paper-text">
+                                    <strong>Disegno:</strong> RCT crossover, within-subject design, n=39 maschi giapponesi (10-12 anni), portatori occhiali per miopia.<br><br>
+                                    <strong>Intervento:</strong> JINS Screen Lens Heavy (40% blocco) vs. lenti chiare (0% blocco), 3h prima bedtime abituale, 2 settimane per condizione + 1 settimana washout.<br><br>
+                                    <strong>Misure:</strong> Melatonina salivare (ogni 30min, 11h curve, DLMO calcolato), actigrafia (24h, sonno-timing), auto-report comportamento diurno (irritabilità, umore mattutino).
+                                </div>
+                                <div class="methodology-tags">
+                                    <span class="tag strength">✓ Within-subject design</span>
+                                    <span class="tag strength">✓ Crossover (elimina confounding individuale)</span>
+                                    <span class="tag limitation">✗ Blinding impossibile (lenti gialle visibili)</span>
+                                    <span class="tag limitation">✗ Solo maschi (n=39 piccolo)</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Risultati Principali</h4>
+                                <div class="highlight-finding">
+                                    <h5>✓ Avanzamento Fase Sonno</h5>
+                                    <div class="paper-text">
+                                        Bedtime anticipato 6 minuti (22:13 → 22:03), sleep-onset 10 minuti anticipato (22:36 → 22:26), entrambi p&lt;0.05. Effetto più marcato nella settimana 2 (adattamento psicologico).
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✗ NESSUN CAMBIO MELATONINA</h5>
+                                    <div class="paper-text">
+                                        Profilo melatonina salivare identico con vs. senza occhiali (SCOPERTA SORPRENDENTE). Falsifica l'ipotesi meccanicistica che il beneficio passi per suppressione melatonina. Meccanismo rimane sconosciuto: possibile placebo, expectancy, non-photic circadian cues, riduzione arousal, o combinazione.
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Miglioramento Comportamento Diurno</h5>
+                                    <div class="paper-text">
+                                        Irritabilità diurna ridotta, comportamento disturbante diminuito, mood mattutino migliorato (effect sizes modesti ma significativi). Effetto più grande nella settimana 2 (pattern classico di placebo).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Forze dello Studio</h4>
+                                <div class="paper-text">
+                                    <ul style="color: #e6edf3; padding-left: 2rem;">
+                                        <li>Crossover within-subject elimina individual differences variabili</li>
+                                        <li>Intervento è real-world applicable (wearable, non-invasivo)</li>
+                                        <li>Misure biologiche obiettive (actigrafia, melatonina salivare)</li>
+                                        <li>Popolazione clinicamente rilevante (bambini miopi = utenti schermi)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="zone-ombra">
+                                <h5>⚠️ ZONE D'OMBRA CRITICHE</h5>
+                                <div class="zone-ombra-text">
+                                    <strong>1. Assenza Sham-Control:</strong> Lenti gialle sono visivamente ovvie. Adolescente sa quale condizione è "active" → expectancy incontrollata. Un vero controllo richiederebbe occhiali placebo (rosso/verde tinted, told sono blue-blocking) indistinguibili visualmente.<br><br>
+                                    <strong>2. Blinding Impossibile:</strong> Color delle lenti ovvio → adolescenti e genitori sanno condizione. Bias di report comportamentale endemico.<br><br>
+                                    <strong>3. Effetto Marginal:</strong> 10 minuti advance è &lt;1% della durata sonno totale. Clinicamente significativo? Borderline. Compatibile con placebo shift.
+                                    <br><br>
+                                    <strong>4. Campione Selezionato:</strong> Solo maschi, solo miopi, solo giapponesi, 10-12 anni. Generalizzabilità a ragazze, non-miopi, altre culture, adolescenti più grandi: LIMITATA.<br><br>
+                                    <strong>5. Periodo Breve:</strong> 2 settimane per arm. Persistenza oltre? Tolerance sviluppato? Ignoto.<br><br>
+                                    <strong>6. Meccanismo Sconosciuto:</strong> Paper specula "non-melatonergic" ma non testa. Ridotta arousal? Non-photic cues? Placebo puro? IGNOTO.
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Implicazioni Cliniche</h4>
+                                <div class="paper-text">
+                                    <strong>✗ NON promuovere occhiali come soluzione primaria.</strong> Evidenza è weak (small effect, mechanism unclear, blinding impossible).<br><br>
+                                    <strong>✓ Se testato a scuola:</strong> Usare true sham-control (placebo glasses) per dissect expectancy.<br><br>
+                                    <strong>✓ Priorità:</strong> Ridurre actual screen-time; media literacy; sleep hygiene complessa (non solo occhiali).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paper 2: Scoping Review -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div>
+                                <div class="paper-title">2. Scoping Review: Social Media e Qualità Sonno</div>
+                                <div class="paper-meta">Ndubsi et al. (2026) | Children (MDPI) | Meta-review (10 revisioni sistematiche)</div>
+                            </div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-section">
+                                <h4>Interrogativo di Ricerca</h4>
+                                <div class="paper-text">
+                                    Quale è l'effetto aggregato dell'uso social media sulla qualità e durata del sonno in bambini e adolescenti, come sintetizzato dalle revisioni sistematiche/meta-analisi disponibili (2015-2025)?
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Metodologia</h4>
+                                <div class="paper-text">
+                                    <strong>Tipo:</strong> Scoping review (meta-review) di 10 revisioni sistematiche/meta-analisi precedenti.<br><br>
+                                    <strong>Inclusione:</strong> Revisioni che esaminano SM-use (generico o problematico) e esiti sonno in popolazione &lt;18 anni.<br><br>
+                                    <strong>Periodo:</strong> Revisioni pubblicate 2015-2025 (coprendo decade aggiornata).<br><br>
+                                    <strong>Sintesi:</strong> Narrativa qualitativa di findings, effect sizes, meccanismi, eterogeneità fra revisioni.
+                                </div>
+                                <div class="methodology-tags">
+                                    <span class="tag strength">✓ Aggiornato (2015-2025)</span>
+                                    <span class="tag strength">✓ 10 revisioni sistematiche aggregate</span>
+                                    <span class="tag limitation">✗ Non-protocolled (unreplicable)</span>
+                                    <span class="tag limitation">✗ Selective citation bias possibile</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Risultati Principali</h4>
+                                <div class="highlight-finding">
+                                    <h5>✓ Effetto Piccolo ma Consistente</h5>
+                                    <div class="paper-text">
+                                        Uso social media generico mostra associazione negativa con sonno (r media ~-0.20 a -0.30). Coerente direzionalmente: tutti i 10 studi mostrano negative direction.
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Uso Problematico È PIÙ FORTE</h5>
+                                    <div class="paper-text">
+                                        Social media addiction/problematic-use mostra associazione molto più forte (r fino a -0.45) rispetto uso moderato. Identifica una popolazione vulnerabile che richiedono interventi specifici.
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Piattaforma-Specificità</h5>
+                                    <div class="paper-text">
+                                        Facebook e Twitter: r ~ -0.35 (forte associazione con durata sonno ridotta).<br>
+                                        TikTok e Instagram: r ~ -0.20 (moderato).<br>
+                                        Ipotesi: Facebook = confronto sociale costante; TikTok = ricompensa variabile; Instagram = passive scrolling moderato.
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Vulnerabilità Crescente 13-17 Anni</h5>
+                                    <div class="paper-text">
+                                        Adolescenti 13-17 mostrano sensibilità crescente rispetto bambini 8-12. Possibili ragioni: pubertà (circadian clock naturalmente ritardato), social anxiety peak, FOMO sensitivity elevata.
+                                    </div>
+                                </div>
+
+                                <div class="mechanism">
+                                    <h5>⚙️ Meccanismi Identificati (da 10 revisioni)</h5>
+                                    <div class="paper-text">
+                                        1. <strong>Luce Blu:</strong> Esposizione sera sopprime melatonina (30-90 min ritardo)<br>
+                                        2. <strong>Stimolazione Emotiva (FOMO):</strong> Fear of missing out, social comparison, notifiche push → arousal cognitivo<br>
+                                        3. <strong>Time Displacement:</strong> Tempo su SM = tempo sottratto sonno<br>
+                                        4. <strong>Circadian Desynchrony:</strong> Ritmo sonno ritardato, mismatch con orario scuola early-morning
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="zone-ombra">
+                                <h5>⚠️ ZONE D'OMBRA CRITICHE</h5>
+                                <div class="zone-ombra-text">
+                                    <strong>1. Circolarità Metodologica:</strong> Meta-review di revisioni non-omogenee amplifica limiti. Se Revisione A riporta r=-0.35 (RCT-based) e Revisione B riporta r=-0.18 (observational), scoping review dichiara "piccolo-moderato effetto" senza disaggregazione di fonte eterogenea.<br><br>
+                                    <strong>2. Confondimento Direzionale Reverso Non Affrontato:</strong> Causalità assunta: SM → sleep disruption. Ma reverse è equally plausible: Adolescenti insonni usano SM come coping notturno ("non riesco dormire, allora scrollo"). Nessuno dei 10 studi inclusi ha testato reversibilità.<br><br>
+                                    <strong>3. Piattaforma-Specificity Superficiale:</strong> Review identifica che Facebook &gt; TikTok, ma NON spiega perché. Manca mechanistic dissection (social-comparison vs. reward-variability vs. notification-frequency).<br><br>
+                                    <strong>4. Uso Problematico vs. Normativo Mescolato:</strong> Revisioni madri confondono uso moderato (30 min/giorno) con addiction (4-6h/giorno compulsivo). Effect size finale (r ~ -0.20) nasconde sottogruppo high-risk con r ~ -0.45.<br><br>
+                                    <strong>5. Temporal Dynamics Ignorati:</strong> Nessuna dinamica temporale esplorata. Acute effect (stessa notte)? Chronic effect (adattamento dopo settimane)? Reversibilità (quanto tempo a normalizzare sonno dopo restrizione)? Ignoto.
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Implicazioni per Policy</h4>
+                                <div class="paper-text">
+                                    <strong>✓ Digital Literacy Curricula:</strong> Insegnare meccanismi (FOMO, reward-loops, luce blu) in scuole.<br><br>
+                                    <strong>✓ Stratificazione d'Intervento:</strong> Non "tutti" hanno SMuse uguale. Adolescenti 13-17, con addiction-criteria, TikTok-dominant → interventi più intensity.<br><br>
+                                    <strong>✗ Bidirectional Screening:</strong> Non assumere SM causa insonnia. Domanda: "Insonnia prima o dopo heavy SM-use?" Se prima, SM è coping, non causa.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paper 3: Meta-Analysis -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div>
+                                <div class="paper-title">3. Meta-Analisi: Tempo-Schermo e Esiti Sonno</div>
+                                <div class="paper-meta">He et al. (2025) | Frontiers in Psychiatry | 21 studi (n=548.338)</div>
+                            </div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-section">
+                                <h4>Interrogativo di Ricerca</h4>
+                                <div class="paper-text">
+                                    Quale è la relazione quantitativa fra tempo-schermo (TV, computer, smartphone, combinato) e alterazioni sonno (durata, insonnia, timing) in bambini e adolescenti? L'associazione è dose-dipendente?
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Metodologia</h4>
+                                <div class="paper-text">
+                                    <strong>Tipo:</strong> Revisione sistematica e meta-analisi di 21 studi di coorte prospettivi.<br><br>
+                                    <strong>Partecipanti:</strong> 548.338 bambini/adolescenti, age range 6-18 anni.<br><br>
+                                    <strong>Esposizione:</strong> Tempo-schermo auto-dichiarato (vari tipi di device, vari timing).<br><br>
+                                    <strong>Esiti:</strong> Durata sonno (continua/binaria), insonnia (sintomi), bedtime delay, difficoltà addormentamento.<br><br>
+                                    <strong>Analisi:</strong> Meta-analisi a effetti casuali, stratificate per fascia d'età, regione geografica.
+                                </div>
+                                <div class="methodology-tags">
+                                    <span class="tag strength">✓ Pre-registrato PROSPERO</span>
+                                    <span class="tag strength">✓ Grande campione (548.000+)</span>
+                                    <span class="tag strength">✓ Prospettivo (temporale)</span>
+                                    <span class="tag limitation">✗ Confondimento residuo non mitigato</span>
+                                    <span class="tag limitation">✗ Eterogenea metodologica sottoreportata</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Risultati Principali</h4>
+                                <div class="highlight-finding">
+                                    <h5>✓ Effetto Dose-Dipendente Robusto</h5>
+                                    <div class="paper-text">
+                                        Ogni ora aggiuntiva di tempo-schermo quotidiano: riduzione 3-5 minuti durata sonno (β = -0.05, IC95%: -0.08 a -0.03). Coerente, direzionalmente uniforme, effect size piccolo-moderato.
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Rischio Sonno Breve Aumentato</h5>
+                                    <div class="paper-text">
+                                        OR = 1.25 (IC95%: 1.08-1.40) per associazione schermo e sonno breve. Significa 25% rischio aumentato.
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Insonnia e Difficoltà Addormentamento</h5>
+                                    <div class="paper-text">
+                                        Insonnia: β = 0.41 (IC95%: 0.18-0.63)<br>
+                                        Difficoltà addormentamento: OR = 3.05 (nearly 3× rischio)<br>
+                                        Bedtime delay: 13.2 minuti per ora schermo
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Consistente Indipendente da Età e Regione</h5>
+                                    <div class="paper-text">
+                                        Nessun significant effect-modification da età o area geografica. Effetto è generalizzabile.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="zone-ombra">
+                                <h5>⚠️ ZONE D'OMBRA CRITICHE</h5>
+                                <div class="zone-ombra-text">
+                                    <strong>1. Confondimento Residuo Non Controllato:</strong> Confounders potenti (academic stress, anxiety/depression baseline, caffeine intake, physical activity) non consistentemente controlled fra studi. Content del schermo (gaming ad-alta-stimolazione vs. lettura passiva) non separato.<br><br>
+                                    <strong>2. Timing Espositivo Non Differenziato:</strong> Meta-analisi somma "1 ora schermo" indipendentemente da timing. 1h mattina vs. 1h sera: effetti biologicamente molto diversi per melatonina. Nessuno dei 21 studi ha isolato finestra critica.<br><br>
+                                    <strong>3. Assenza Biomarkers Meccanismo:</strong> Nessuno dei 21 studi inclusi misura melatonina/cortisolo/HRV per validare "luce blu → melatonin suppression." Meccanismo assunto ma non verificato direttamente.<br><br>
+                                    <strong>4. Underreporting Effect Modification:</strong> Subgroup analyses non significative (P&gt;0.05), ma assenza P&lt;0.05 non esclude effetti clinicamente importanti per sottogruppi. Nessuna analisi separata per genere (ragazze vs. ragazzi diversi per FOMO sensitivity).<br><br>
+                                    <strong>5. Self-Reported Screen-Time:</strong> Recall bias (parents tendono underreport per social-desirability). Misclassification attenuates beta towards null; true effect potrebbe essere &gt; 3-5 min.
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Implicazioni Cliniche</h4>
+                                <div class="paper-text">
+                                    <strong>✓ Per Scuole:</strong> Policy ufficiale su "quiet hours" serali basata su evidenza meta-analitica robusta.<br><br>
+                                    <strong>✓ Quantificazione Concreta per Genitori:</strong> "Se tuo figlio riduce schermo 2h, potrebbe guadagnare 10-15 minuti sonno aggiuntivo = miglior attenzione lezione 8am."<br><br>
+                                    <strong>✓ Valutazione Inclusiva:</strong> Bambini ADHD/insonnia cronica richiedono assessment individuale (schermo potrebbe essere coping utility, ma con boundary temporale chiaro).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paper 4: Narrative Review -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div>
+                                <div class="paper-title">4. Review Narrativa: Mobile Phone Addiction e Sonno</div>
+                                <div class="paper-meta">Fatima et al. (2026) | Cureus | Narrative Review</div>
+                            </div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-section">
+                                <h4>Interrogativo di Ricerca</h4>
+                                <div class="paper-text">
+                                    Quale è il ruolo della dipendenza da telefono mobile (use problematico, compulsivo, addiction-like) nella disruzione del sonno, e quali sono le conseguenze sistemiche di cascata (immunità, metabolismo, crescita)?
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Metodologia</h4>
+                                <div class="paper-text">
+                                    <strong>Tipo:</strong> Review narrativa (non-sistematica).<br><br>
+                                    <strong>Selezione Articoli:</strong> Implicit, non-transparent criteria. Approccio discorsivo, selezione author-driven di articoli "representative".<br><br>
+                                    <strong>Sintesi:</strong> Qualitativa, propone causal cascade (mobile use → blue light → melatonin suppression → sleep disruption → immune dysfunction → growth compromise).<br><br>
+                                    <strong>Nessun protocollo pre-registrato.</strong>
+                                </div>
+                                <div class="methodology-tags">
+                                    <span class="tag limitation">✗ Non-protocolled (unreplicable)</span>
+                                    <span class="tag limitation">✗ No transparent search strategy</span>
+                                    <span class="tag limitation">✗ Non-quantitativo</span>
+                                    <span class="tag strength">✓ Accessibile, sintesi integrativa</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Framework Proposto</h4>
+                                <div class="paper-text">
+                                    <strong>Cascata Causale Proposta:</strong><br>
+                                    Mobile phone addiction (use prolungato, specie pre-sleep) → Blue light exposure (480nm) → Melatonin suppression → Sleep fragmented/short duration → Circadian disruption → Immune dysfunction (reduced NK cells) → Infection risk increase<br><br>
+                                    <strong>Parallel pathway per metabolismo:</strong> Circadian disruption → Dysregulated cortisol → Increased appetite, reduced energy expenditure → Obesity risk<br><br>
+                                    <strong>Parallel pathway per crescita:</strong> Fragmented sleep → Reduced stage-3 deep sleep → Reduced growth hormone secretion → Potentially compromised linear growth
+                                </div>
+                            </div>
+
+                            <div class="zone-ombra">
+                                <h5>⚠️ ZONE D'OMBRA CRITICHE</h5>
+                                <div class="zone-ombra-text">
+                                    <strong>1. Assenza Completa Trasparenza Metodologica:</strong> Nessun protocollo pre-specified, nessuna search strategy publicata, nessun inclusione-esclusione criteria. Irreplicable. Selective citation bias endemico (articoli supportano narrative inclusi; contradittory omessi?).<br><br>
+                                    <strong>2. Mechanism-Driven Reasoning Senza Quantificazione:</strong> Review propone cascade "mobile → melatonin suppression → immune dysfunction → growth compromise" ma non quantifica pathway. Quanto melatonin suppression è necessaria per sleep disruption detectabile? Quanto sleep loss causa NK cell dysfunction? Unknowable da review.<br><br>
+                                    <strong>3. Immune Pathway Altamente Speculatico:</strong> Evidence: Sleep deprivation affects NK cells (TRUE). Specific NK dysfunction from mobile-phone-induced sleep loss (SPECULATIVE, few studies). Clinical infection-rate increase in heavy mobile users (LARGELY UNKNOWN — nessuno studio popolazione mostra questo).<br><br>
+                                    <strong>4. Growth Claim Senza Evidenza Epidemiologica:</strong> Claim: Mobile addiction → compromised growth. Evidence: GH secreted durante sleep (TRUE); fragmented sleep riduce stage-3 (TRUE); adolescenti con poor sleep hanno stature compromise (SPECULATIVE — nessuno studio longitudinale links mobile-use a height-deficit). Extrapolazione da basic physiology, non epidemiologia empirica.<br><br>
+                                    <strong>5. Mechanism Assumption Non Critically Questioned:</strong> Review assume blue light è meccanismo dominante, ignora Maeda-Nishino 2025 (blue-blocking glasses funzionano SENZA melatonin change, falsificando ipotesi semplice). Cognitive arousal, FOMO, behavioral displacement non disaggregati da light-mechanism.
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Implicazioni Cliniche (Cautate)</h4>
+                                <div class="paper-text">
+                                    <strong>✓ Awareness-Raising:</strong> Review ha valore educativo-comunicativo per genitori/educator sul nesso mobile-sleep-health.<br><br>
+                                    <strong>✗ Non Basare Policy Esclusivamente su Review:</strong> Narrative review senza protocollo è bassa in evidence-pyramid. Combine con RCT + epidemiologic evidence prima di policy decisioni.<br><br>
+                                    <strong>✓ Multimodal Assessment:</strong> Quando adolescente presenta insonnia + high mobile-use, non assumere mobile è causal. Screen per anxiety disorder, ADHD, circadian sleep disorder, depressione (bidirectional: insonnia primaria → mobile-use-as-coping).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paper 5: ABCD Study -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div>
+                                <div class="paper-title">5. Studio ABCD: Screen-Time → Depressione via Sonno e White Matter</div>
+                                <div class="paper-meta">Lima Santos et al. (2025) | JAMA Pediatrics | Longitudinal (n=976, 2-year follow-up)</div>
+                            </div>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-section">
+                                <h4>Interrogativo di Ricerca</h4>
+                                <div class="paper-text">
+                                    Quale è il pathway biologico mediante il quale tempo-schermo in late-childhood (age 9-10) predice sintomi depressivi in early-adolescence (age 11-13)? Quale ruolo hanno il sonno breve e la disorganizzazione materia bianca come mediatori?
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Metodologia</h4>
+                                <div class="paper-text">
+                                    <strong>Fonte:</strong> ABCD Study (n=9,878 bambini, 21 US sites; presente analisi: n=976 con data completa).<br><br>
+                                    <strong>Disegno:</strong> Prospective observational cohort analysis, 2-year follow-up (baseline age 9-10, T2 age 11-13).<br><br>
+                                    <strong>Predictor (T1):</strong> Tempo-schermo self/parent-reported (TV, gaming, SM, other; total hours/day).<br><br>
+                                    <strong>Mediatori (T2):</strong>
+                                    <ul style="color: #e6edf3; padding-left: 2rem; margin: 0.5rem 0;">
+                                        <li>Sleep duration (Munich Chronotype Questionnaire, ore/notte)</li>
+                                        <li>White-matter orientation-dispersion-index (NODDI diffusion MRI) in: cingulum-bundle, forceps-minor, uncinate-fasciculus (emotion-relevant tracts)</li>
+                                    </ul><br>
+                                    <strong>Outcome (T2):</strong> Child Behavior Checklist depression subscale (8 items, range 0-16).<br><br>
+                                    <strong>Analisi:</strong> Path analysis con bootstrap confidence-intervals per indirect effects. Confounders controlled: age, sex, race/ethnicity, SES, maternal depression baseline.
+                                </div>
+                                <div class="methodology-tags">
+                                    <span class="tag strength">✓ Prospettivo (2-year follow-up)</span>
+                                    <span class="tag strength">✓ Neuroimaging biomarker (white-matter)</span>
+                                    <span class="tag strength">✓ Grande cohort nazionale</span>
+                                    <span class="tag limitation">✗ Self-reported screen-time (recall bias)</span>
+                                    <span class="tag limitation">✗ Outcome è symptom-count, non clinical diagnosis</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Risultati Principali — PRIMO STUDIO LINKANDO SCREEN-DEPRESSION VIA PATHWAY BIOLOGICO</h4>
+                                <div class="highlight-finding">
+                                    <h5>✓ Effetto Totale Screen → Depressione</h5>
+                                    <div class="paper-text">
+                                        Ogni ora aggiuntiva screen-time T1 → aumento 0.12 punti CBCL-depression T2 (95%CI: 0.04-0.20, p=.008). Effect size moderato, clinicamente subtile pero significativo a livello population.
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ MEDIAZIONE IDENTIFICATA: Sonno + White Matter</h5>
+                                    <div class="paper-text">
+                                        Sleep duration (breve) + cingulum-bundle white-matter disorganization mediano <strong>36.4%</strong> dell'associazione schermo-depressione (95%CI: 18.2-63.6%).<br><br>
+                                        <strong>Pathway specifico:</strong> Screen-time → Short sleep → Worse cingulum white-matter organization → Depression<br><br>
+                                        <strong>Implicazione:</strong> 63.6% dell'effetto è mediato da altri meccanismi (social isolation, cyberbullying, dopamine dysregulation, anxiety — unmeasured).
+                                    </div>
+                                </div>
+
+                                <div class="highlight-finding">
+                                    <h5>✓ Sonno è Modifiable Intervention Target</h5>
+                                    <div class="paper-text">
+                                        Poiché sonno è uno dei mediatori, restrizione screen + ottimizzazione sonno è strategia potenziale per prevenzione depressione, diversa da fattori genetici/temperamento (non-modifiable).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="zone-ombra">
+                                <h5>⚠️ ZONE D'OMBRA CRITICHE</h5>
+                                <div class="zone-ombra-text">
+                                    <strong>1. Screen-Time Self-Reported:</strong> Recall bias (parents underreport per social-desirability). True effect size probabilmente LARGER than reported (β=0.12 potrebbe essere β=0.15-0.18 truth).<br><br>
+                                    <strong>2. Reverse-Causality Parzialmente Escludibile:</strong> Design prospettivo consente temporal precedence, ma prodromal depression (subclinical at T1, unmeasured) potrebbe simultaneamente cause screen-use (coping) AND future depression.<br><br>
+                                    <strong>3. Mediation Analysis Assumptions Fragili:</strong> Assume nessun confounding mediator-outcome (sleep/WM → depression). Ma sleep potrebbe essere confounded: fattori che causano short sleep (genetica, ADHD, anxiety disorder) anche indipendentemente causa depressione. White-matter disorganization potrebbe essere genetic/developmental (baseline, not mediated by sleep).<br><br>
+                                    <strong>4. White Matter Interpretation Speculativa:</strong> ODI (orientation-dispersion-index) è finding imaging, "associated with depression" in studies, ma causality unclear. Potrebbe essere:
+                                    <ul style="color: #e6edf3; padding-left: 2rem; margin: 0.5rem 0;">
+                                        <li>Causale (poor WM → worse emotional regulation → depression)</li>
+                                        <li>Epiphenomenal (depression causa WM changes, reverse)</li>
+                                        <li>Common cause (genetic/developmental factor → both WM + depression)</li>
+                                    </ul><br>
+                                    <strong>5. CBCL Depression = Symptoms, Not Disorder:</strong> Outcome è depressive symptom-count (8 items), non clinical depression diagnosis. β=0.12 on 0-16 scale = 0.75% change per screen-hour; spesso rimane sub-clinical threshold (&gt;7 clinico). Clinical-level depression prevention impact probabilmente small.<br><br>
+                                    <strong>6. Large Unexplained Effect:</strong> 63.6% dell'associazione è mediato da ALTRI meccanismi (social isolation, cyberbullying, FOMO anxiety, dopamine dysregulation) non misurati. Pathway è incomplete.
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>Implicazioni Cliniche — PIONEERING FINDING</h4>
+                                <div class="paper-text">
+                                    <strong>✓ PRIMO Collegamento Screen-Depression via Meccanismo Biologico Verificato.</strong> Conferisce plausibilità biologica (non solo behavioral) al nesso.<br><br>
+                                    <strong>✓ Sonno Come Intervention-Target:</strong> Primario goal in screening/intervento depressione-risk adolescenti è ottimizzare sonno (8-9h notte), ridurre schermo serale, device-free 1h pre-bedtime.<br><br>
+                                    <strong>✓ Per Clinici:</strong> Screen-time assessment dovrebbe far parte depression-screening routine, insieme sleep, family history, mood.<br><br>
+                                    <strong>✓ Realismo Aspettative:</strong> Ridurre 2h schermo-time potrebbe prevenire ~0.24 punti symptom-increase (piccolo). Non "magic fix." Combine con psicoterapia, esercizio, social engagement.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- THEMES SECTION -->
+                <section id="themes" class="section">
+                    <h2>🔗 Temi Trasversali</h2>
+
+                    <div class="theme-card">
+                        <div class="theme-title">Meccanismi del Sonno Colpiti</div>
+                        <div class="theme-content">
+                            <strong>1. Suppression Melatonina (Ipotesi Dominante, MA Parzialmente Falsificata):</strong> Luce blu (480nm) dagli schermi sopprime melatonina secretion, ritardando sleep-phase. BUT: Maeda-Nishino (2025) trovò occhiali blue-blocking avanzano sonno SENZA melatonin change, suggerendo meccanismi non-melatonergici.<br><br>
+                            <strong>2. Arousal Cognitivo-Emotivo (Sempre Presente, Poco Quantificato):</strong> Social media = reward-variability (slot-machine psychology), FOMO anxiety, validazione sociale via notifications. Mantiene cortisol alto, inibisce melatonina via arousal (non-photic pathway). Gaming = competizione, arousal elevato. YouTube = attention-capture (infinite scroll, cliffhangers).<br><br>
+                            <strong>3. Circadian Phase Delay (Documentato):</strong> Esposizione sera a schermo ritarda natural sleep-phase onset di 30-90 minuti. Crea disallineamento fra "internal time" (circadian clock) e "external time" (socially-imposed bedtime per scuola mattutina). Effetto cumulativo dopo settimane/mesi.<br><br>
+                            <strong>4. Sleep Architecture Disruption (Non Completamente Misurato):</strong> Schermo potrebbe non solo accorciare durata ma anche frammentare architettura: meno deep sleep (stage 3), meno REM → ridotta funzione immune, memoria consolidation, emotional regulation.
+                        </div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-title">Luce Blu: Quanto Importante?</div>
+                        <div class="theme-content">
+                            <strong>Narrative Dominante (pre-2025):</strong> Luce blu è meccanismo principale. Interventi: occhiali blue-blocking, screen-filters, "night mode" su device.<br><br>
+                            <strong>Evidenza Recente (Maeda-Nishino 2025):</strong> Blue-blocking glasses avanzan sonno (10 min, p&lt;0.05) ma SENZA melatonin change. Falsifica ipotesi pure-photopic. Suggerisce: (a) placebo/expectancy significante, (b) non-photic circadian cues, (c) ridotta arousal cognitiva, o (d) behavioural adjustment psicologico.<br><br>
+                            <strong>Interpretazione Sintetizzata:</strong> Luce blu è component di pathway, ma NON unico. Cognitive-emotional arousal (FOMO, reward-loops) è equally/più importante. Interventi optimali: screen-time reduction (totale) &gt; blue-light filtering alone.
+                        </div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-title">Timing Critico: Quando Durante la Giornata?</div>
+                        <div class="theme-content">
+                            <strong>La Domanda Non Risposta:</strong> È 1h schermo al mattino (blue light, ma niente mezzanotte) equiparabile a 1h schermo alle 22h? Biologia: NO. Melatonina suppression peak 2-3h post-exposure; se expose alle 8am, recovery by bedtime. Se expose alle 21h, melatonina ancora suppressed at 23h bedtime.<br><br>
+                            <strong>Ipotesi Temporale:</strong> Finestra critica è probably 2-3h prima bedtime. Prima di quella, effetto minore. Dopo bedtime, trivial (già dormono).<br><br>
+                            <strong>Meta-Analisi He et al. Assunzione Implicita:</strong> Somma "1h screen" indipendentemente da timing → probabile underestimation di effetto true serale, overestimation di mattina.<br><br>
+                            <strong>Implicazione Pratica:</strong> Guida "evitar schermo di sera" è supported. Guida "no screen all day" probabilmente over-cautious (morning screen impact minimo).
+                        </div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-title">Piattaforma-Specificità e Algoritmi</div>
+                        <div class="theme-content">
+                            <strong>Differenziazione Osservata (Ndubski 2026):</strong>
+                            <ul style="color: #e6edf3; padding-left: 2rem;">
+                                <li><strong>Facebook:</strong> r ~ -0.35 (forte). Meccanismo: confronto sociale, feed-scrolling infinito, validazione via likes. Arousal emotivo moderato-elevato.</li>
+                                <li><strong>Twitter:</strong> r ~ -0.35 (forte). Meccanismo: realtime engagement, news-cycle FOMO, trending-topics pressure. Arousal elevato.</li>
+                                <li><strong>TikTok:</strong> r ~ -0.20 (moderato). Meccanismo: variable-reward per swipe, ma contenuto "leggero" (entertainment vs. comparison). Dopamina dysregulation MASSIMA (slot-machine) pero duration-per-session potrebbe essere minore che Facebook.</li>
+                                <li><strong>Instagram:</strong> r ~ -0.20 (moderato). Meccanismo: visual FOMO, but primarily passive (scrolling vs. active engagement). Intermediate between active/passive.</li>
+                            </ul>
+                            <br>
+                            <strong>Ipotesi Meccaniche Non Testate:</strong> Piattaforms con algorithmic infinite-scroll (TikTok, Instagram) potrebbero essere più addictive (harder to quit) ma possono avere contenuto less anxiety-inducing (entertainment) vs. Facebook (news + social-comparison = anxiety + arousal). Dunque effect-size può essere MINORE per TikTok despite higher addiction-proneness.<br><br>
+                            <strong>Implicazione:</strong> "Reduce all social media" è strategia crude. Platform-targeted restriction (TikTok ≥ Facebook ≥ Instagram) potrebbe essere più efficient.
+                        </div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-title">Pathway: Sonno → Salute Mentale e Metabolismo</div>
+                        <div class="theme-content">
+                            <strong>Lima Santos 2025 (ABCD Study) Mostra:</strong> Screen-time → Short sleep + WM disorganization → Depression. Sonno media 36.4% dell'effetto.<br><br>
+                            <strong>Meccanismi Implicati:</strong>
+                            <ul style="color: #e6edf3; padding-left: 2rem;">
+                                <li><strong>Immune Function:</strong> Short sleep → Ridotto deep sleep (stage 3) → Reduced NK cell count/function → Infection-risk increase (narrative review Fatima, ma epidemiologically unproven)</li>
+                                <li><strong>Metabolic Dysregulation:</strong> Circadian disruption + short sleep → Dysregulated cortisol → ↑ Ghrelin, ↓ Leptin → ↑ Appetite → Obesity risk</li>
+                                <li><strong>Growth Hormone:</strong> GH rilascio durante deep sleep; fragmented sleep → Reduced GH → Potenzialmente compromised linear growth (speculative, no human evidence)</li>
+                                <li><strong>Emotional Regulation:</strong> White-matter tracts (cingulum-bundle, uncinate) implicated in emotion-regulation; disorganization → worse mood regulation → depression</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-title">Reverse-Causality: Insonnia Primaria → SM Coping</div>
+                        <div class="theme-content">
+                            <strong>The Bidirectional Trap:</strong> Studi assumono: Screen-time CAUSE insonnia. But plausible reverse: Adolescente con insonnia primaria (genetica, ansia, circadian type delayed) usa SM come coping notturno ("non riesco a dormire, allora scrollo per distrazione"). Inoltre: Depressed adolescenti spesso hanno insonnia prima di heavy SM-use; SM diventa emotional-regulation tool, not causal factor.<br><br>
+                            <strong>Evidenza Supportante Bidirectionality:</strong> Nessuno dei 5 studi inclusi ha testato reversibilità (SM restriction → sonno improvement?). Scoping review (Ndubski) non affrontò; nessuna cross-lagged analysis (screen T0 → sleep T1 → screen T1 → sleep T2).<br><br>
+                            <strong>Implicazione Clinica CRITICA:</strong> Quando adolescente presenta insonnia + high SM-use, non assumere SM è causal. Screen per: ansia disorder (primary), ADHD (sleep-insomnia 30-50%), circadian sleep-disorder (genetic bedtime delay), depressione (bidirectional). Se SM è COPING, restrizione senza trattamento primary-disorder potrebbe peggiorare (rimozione coping meccanismo → ansia rebounded).
+                        </div>
+                    </div>
+
+                    <div class="theme-card">
+                        <div class="theme-title">Vulnerability-Age Windows: Pubertà e Circadian Timing</div>
+                        <div class="theme-content">
+                            <strong>Peak Vulnerability: 13-17 Anni:</strong> Adolescenti in questo range mostrano sensibilità crescente a screen-disruption. Probabili ragioni:<br><br>
+                            <strong>1. Biological Circadian Delay (Pubertal Sleep Phase Delay):</strong> Natural bedtime progressively ritardato (9pm → 11pm) durante pubertà (scienza circadiana established). Adolescente già biologicamente sleepy più tardi. Se + schermo alla sera, delay è compounded. Mismatch tra "internal bedtime" (midnight) e "required bedtime for school" (22h) è MASSIMA.<br><br>
+                            <strong>2. Peak Social Anxiety / FOMO Sensitivity:</strong> Adolescenti 13-17 hanno massimo social-sensitivity (neuroscience: social-reward-system in peak maturation). FOMO = anxiety massima. SM platforms = social-reward-maximized designs. Perfect storm.<br><br>
+                            <strong>3. Developing Prefrontal Cortex:</strong> Executive function (impulse-control, delay-gratification) maturation completes ~25 years. Adolescenti hanno reduced ability a resist SM compulsivity.<br><br>
+                            <strong>Implicazione:</strong> Interventions dovrebbe target age 13-17 specifically. Younger bambini (8-12) e older young-adults (18+) potrebbero avere different sensitivity/trajectories.
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- LIMITATIONS OVERVIEW SECTION -->
+                <section id="limitations" class="section">
+                    <h2>⚠️ Limitazioni e Zone d'Ombra</h2>
+
+                    <div class="paper-section" style="margin-bottom: 2rem;">
+                        <h4>Sintesi Metodologica Globale</h4>
+                        <div class="paper-text">
+                            I 5 studi inclusi representano diversity di metodologie (RCT, scoping review, meta-analisi, narrative review, longitudinal cohort), ognuna con forze e debolezze distintive. Tuttavia, <strong>limitazioni crosscutting</strong> emergono:
+                        </div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>1. Confondimento Residuo Non Controllato Adequatamente</h5>
+                        <div class="zone-ombra-text">
+                            Confounders potenti non consistentemente misurati/controlled: (a) content del schermo (gaming ad-alta-stimolazione vs. passive video non sono equiparabili), (b) timing espositivo (schermo mattina vs. sera ha biologicamente effetti molto diversi), (c) baseline psychopathology (ansia/depressione primaria), (d) academic stress (scuole high-pressure Cina/Korea inherently sleep-disruptive), (e) parental psychopathology (parent con depressione → permissive screen-use + genetic transmission depression to child), (f) temperament (withdrawn, anxious temperament → both attracted to screens E predisposed depression).
+                        </div>
+                        <div class="source">Rilevante per: Meta-analisi He (21 studi, confounders varied), ABCD Lima Santos (controlled madre-depressione but not padre), Scoping Review Ndubski (no synthesis of confounders)</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>2. Causalità Non Definitivamente Provata — Reverse-Causality Plausibile</h5>
+                        <div class="zone-ombra-text">
+                            Studi sono prospettivi (temporal precedence tracciable) ma <strong>reverse-causality non escludibile</strong>: insonnia primaria/depressione subclinical → SM-use-as-coping. Nessuno dei 5 studi ha testato: adolescente riduce SM, sonno improve? Nessuna cross-lagged analysis. Conclusione: Screen-time è <strong>associated</strong> con sleep-disruption/depression, non provato <strong>causale</strong>.
+                        </div>
+                        <div class="source">Rilevante per: TUTTI 5 studi (anche RCT Maeda-Nishino ha placebo concern)</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>3. Self-Reported Screen-Time e Sonno — Recall Bias Endemico</h5>
+                        <div class="zone-ombra-text">
+                            Misurazione self/parent-reported introduce recall bias (roundness, social-desirability underreporting) e measurement error. Effect sizes riportati (β=0.12 ABCD, -3-5 min He) sono probabilmente <strong>ATTENUATI verso null</strong> per misclassification. True effect sizes possono essere 15-50% più grande. Soli Maeda-Nishino ha misure obiettive (actigrafia, melatonina salivare biosampling).
+                        </div>
+                        <div class="source">Rilevante per: Meta-analisi He (21 studi, tutti self-reported), ABCD Lima Santos (self/parent-reported), Scoping review (inherited from source studies)</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>4. Meccanismo Non Definitivamente Isolato</h5>
+                        <div class="zone-ombra-text">
+                            <strong>Blue Light (Photopic):</strong> Maeda-Nishino 2025 falsificò ipotesi pure-melatonin-suppression mechanism (occhiali funzionano senza melatonina change). Nessuno dei 21 studi He ha misurato melatonina direttamente. Nessuno dei 10 studi nella scoping review ha isolato luce blu da cognitive-arousal.<br><br>
+                            <strong>Cognitive-Emotional Arousal (FOMO, Reward-Variability):</strong> Postulato ma non quantificato. Quale proportion dell'effetto è attribuibile a light vs. arousal vs. time-displacement? Unknowable da studi presenti.<br><br>
+                            <strong>Time-Displacement:</strong> Tempo-schermo correla con tempo-sonno ridotto trivially (less time-available). Ma dopo controlling per total-time-available, è luce/arousal additive? Not addressed.
+                        </div>
+                        <div class="source">Rilevante per: TUTTI 5 studi (ipotizzano meccanismi, non testano)</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>5. Eterogenea Metodologica Sottoreportata — Apples-Oranges Conflation</h5>
+                        <div class="zone-ombra-text">
+                            Meta-analisi He aggregano 21 studi eterogenei (definizioni "sonno breve" varied: 8h vs. 7h vs. &lt;6h; misurazioni varied: self-report vs. actigrafia; timing espositivo varied). Scoping review Ndubski aggregano 10 revisioni con eterogenea: definitioni "social media" (include Facebook, TikTok, YouTube, gaming, indifferenziato), outcome measures (PSQI, ISI, actigrafia, self-report), populazioni (8-25 anni). Eterogenea non disaggregata → conflation apples-oranges → effect sizes imprecise.
+                        </div>
+                        <div class="source">Rilevante per: Meta-analisi He, Scoping review Ndubski</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>6. Populazioni Selezionate / Generalizabilità Limitata</h5>
+                        <div class="zone-ombra-text">
+                            <strong>Maeda-Nishino:</strong> Solo maschi, solo giapponesi, solo 10-12 aa, solo miopi → generalizzabilità a ragazze, altre culture, adolescenti più grandi: bassa.<br><br>
+                            <strong>ABCD Lima Santos:</strong> USA sample, 9-13 aa (narrow window), 10% retention (976/9878) → selection bias se attrition non-random (depressed families drop-out).<br><br>
+                            <strong>Meta-analisi He:</strong> Geograficamente eterogeneo (USA, Cina, Europa, Australia) ma nessuna stratificazione per cultural sleep-norms, school-pressure, SES.<br><br>
+                            <strong>Consequenza:</strong> Findings might not generalize to non-Western populations, low-SES, high-stress cultures (Cina, Korea).
+                        </div>
+                        <div class="source">Rilevante per: TUTTI 5 studi</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>7. Outcome Measures: Sintomi vs. Diagnosi Clinica</h5>
+                        <div class="zone-ombra-text">
+                            ABCD Lima Santos misura <strong>depressive symptoms</strong> (CBCL 8-item subscale, range 0-16), non <strong>depressive disorder</strong> (clinical diagnosis). Symptom-prevalence in youth ~20-30% (molti subclinical, transitori); disorder ~2-5%. β=0.12 su 0-16 scale è clinicamente modesto. Non sappiamo quanti adolescenti transirebbero da non-clinical a clinical threshold con screen-restriction.
+                        </div>
+                        <div class="source">Rilevante per: ABCD Lima Santos</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>8. Blinding / Expectancy Non Controllata</h5>
+                        <div class="zone-ombra-text">
+                            <strong>Maeda-Nishino RCT:</strong> Lenti gialle ovviamente visibili → impossibile blinding → behavioral outcomes (irritabilità, umore) completamente contaminated da expectancy. Improvement comportamento in week-2 (non week-1) è pattern classico placebo, non effetto biologico acuto.<br><br>
+                            <strong>Scoping review, Meta-analisi, Narrative review:</strong> Non-blinded designs, observational data, self-report throughout → expectancy/social-desirability bias endemico.
+                        </div>
+                        <div class="source">Rilevante per: Maeda-Nishino (primariamente), plus observational studies (tutti)</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>9. Temporal Dynamics Non Affrontate: Acute vs. Chronic, Reversibilità</h5>
+                        <div class="zone-ombra-text">
+                            <strong>Acute vs. Chronic:</strong> Schermo 1h evening → 30min sleep-latency increase THAT NIGHT (acute)? Vs. 5h/day × 6 months → circadian phase shifted 1-2h permanently (chronic)? Nessuno studia ha separated.<br><br>
+                            <strong>Reversibilità:</strong> Se adolescente riduce schermo, quando normalizza sonno? 1 night? 1 week? 1 month? Circadian adaptation rate? Unknown.<br><br>
+                            <strong>Long-term Persistence:</strong> Maeda-Nishino 2 settimane; ABCD 2 anni; meta-analisi aggregano studi vari follow-up. Persistence oltre 2-3 mesi? Tolerance develop? Unknowable.
+                        </div>
+                        <div class="source">Rilevante per: TUTTI 5 studi (nessuno affronta temporal dynamics)</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>10. Effect Sizes Modesti in Context Clinico</h5>
+                        <div class="zone-ombra-text">
+                            <strong>He meta-analisi:</strong> 3-5 minuti sonno per ora schermo. In absolute terms per singolo bambino: pequeño (non drammatico).<br><br>
+                            <strong>ABCD Lima Santos:</strong> β=0.12 depression-score = 0.75% change. Clinically below threshold.<br><br>
+                            <strong>Maeda-Nishino:</strong> 10-min sleep-advance clinicamente borderline (marginal).<br><br>
+                            <strong>Implicazione:</strong> Effect sizes sono population-meaningful (accumulation over years, millions of children) pero individual-benefit piccolo. Non "smoking-gun" evidence che schermo directly damages sleep/mental health, rather probabilistic associations in population-level.
+                        </div>
+                        <div class="source">Rilevante per: He, ABCD, Maeda-Nishino</div>
+                    </div>
+
+                    <div class="limitation-item">
+                        <h5>11. Publication Bias Possible</h5>
+                        <div class="zone-ombra-text">
+                            Meta-analisi He non riporta funnel plot/Egger test. Studi nulli o "protettivi" ("schermo non influenza sonno") potrebbero essere unpublished. Questo potrebbe gonfiare effect-size del 10-30%.
+                        </div>
+                        <div class="source">Rilevante per: Meta-analisi He</div>
+                    </div>
+
+                </section>
+
+                <!-- GLOSSARY SECTION -->
+                <section id="glossary" class="section">
+                    <h2>📖 Glossario Scientifico</h2>
+
+                    <div class="glossary-search">
+                        <input type="text" id="glossary-input" placeholder="🔍 Cerca termine..." onkeyup="filterGlossary()">
+                    </div>
+
+                    <div class="glossary-items" id="glossary-container">
+                        <div class="glossary-item">
+                            <div class="glossary-term">Actigrafia</div>
+                            <div class="glossary-definition">Monitoraggio continuo del movimento (accelerometro) indossato come un orologio; stima sonno-veglia cycle indirettamente (no movement = sleep). Meno accurate di polisonniografia ma applicable in home/naturalistic settings.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Arousal Cognitivo</div>
+                            <div class="glossary-definition">Attivazione mentale/emotiva (thinking, worrying, excitement) che mantiene il cervello "acceso" e impedisce sleep-onset. Opposto a sonno relaxato.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">CBCL (Child Behavior Checklist)</div>
+                            <div class="glossary-definition">Questionario standardizzato per parent/self-report di comportamenti/emotioni bambini/adolescenti. Include subscale per depressione (8 items).</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Circadian Rhythm</div>
+                            <div class="glossary-definition">Ciclo biologico ~24-ore regolato dal orologio biologico (SCN suprachiasmatic nucleus nel cervello) che controlla sleep-wake timing, melatonina release, body temperature, cortisol. Influenzato da luce (photic cues) e tempi sociali (non-photic cues).</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Circadian Phase</div>
+                            <div class="glossary-definition">Timing dell'oscillazione circadiana (es. DLMO melatonin-onset o bedtime naturale). Phase-delay = shift posteriore (più tardi); phase-advance = shift anteriore (più presto).</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">DLMO (Dim Light Melatonin Onset)</div>
+                            <div class="glossary-definition">Tempo quando melatonina basale sale sopra threshold (es. 4 pg/mL) in dim-light conditions. Marker biologico di circadian phase timing. Normalmente 20:00-21:00 in adolescenti; delayed in evening-types.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Effect Size</div>
+                            <div class="glossary-definition">Grandezza dell'effetto (es. correlazione r, beta coefficient, odds-ratio). Quantifica import pratica finding (non solo statistical significance).</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">FOMO (Fear of Missing Out)</div>
+                            <div class="glossary-definition">Ansia che altri stanno facendo cose migliori / ricevendo social validation. Meccanismo psychologico associato a social-media use: notifiche, trending-topics, social-comparison generano FOMO arousal.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Growth Hormone</div>
+                            <div class="glossary-definition">Ormone rilasciato principalmente durante deep sleep (stage 3 NREM), cruciale per linear growth in bambini/adolescenti. Short/fragmented sleep → reduced GH secretion.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Luce Blu (Blue Light)</div>
+                            <div class="glossary-definition">Wavelength 480nm light dagli schermi digitali e LED. Sopprime melatonina secretion in circadian clock. Esposizione evening/night ritarda sleep-phase.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Mediation Analysis</div>
+                            <div class="glossary-definition">Path-analysis statistica che testa se effetto di X su Y è mediato da M (indirect effect: X→M→Y) oppure diretto (X→Y independent). Quantifica mechanism.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Melatonina</div>
+                            <div class="glossary-definition">Ormone secreto dalla ghiandola pineale durante darkness, regola sleep-wake cycle. Elevata sera (promuove sleep), bassa mattina. Suppressed da luce blu.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">NODDI (Neurite Orientation Dispersion Density Imaging)</div>
+                            <div class="glossary-definition">Advanced diffusion MRI model che estrae metriche struttura white-matter: ODI (orientation-dispersion index, misura coerenza fibre assoni). Higher ODI = disorganizzazione fibre, associated worse outcomes.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">ODI (Orientation Dispersion Index)</div>
+                            <div class="glossary-definition">Metrica NODDI che quantifica quanto le fibre assoni sono "disorganizzate" vs. "coerente-aligned" in white-matter tracts. Higher = worse organization, associated depressione in some studies.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">PROSPERO</div>
+                            <div class="glossary-definition">Database internazionale dove revisioni sistematiche sono pre-registrate (protocol documentato prima analisi). Aumenta transparency, riduce selective-reporting bias.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">PSQI (Pittsburgh Sleep Quality Index)</div>
+                            <div class="glossary-definition">Questionario self-report (19 items) che misura sleep-quality multi-dimensionale (latency, duration, efficiency, disturbances, medication, daytime-dysfunction). Score &gt;5 suggestive poor sleep quality.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">RCT (Randomized Controlled Trial)</div>
+                            <div class="glossary-definition">Studio sperimentale dove partecipanti randomizzati ad intervention vs. control. Gold-standard per causality. Maeda-Nishino è RCT crossover.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Scoping Review</div>
+                            <div class="glossary-definition">Tipo di revisione (non-systematic) che mappia landscape di literature su topic. Less rigorous than systematic review, più descriptive/narrative.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Sleep Architecture</div>
+                            <div class="glossary-definition">Struttura interna del sonno (stage 1, 2, 3 NREM, REM). Misurato via polisonniografia. Importante: stage-3 deep sleep cruciale per immune-consolidation, memory.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Sleep Displacement</div>
+                            <div class="glossary-definition">Meccanismo temporale: tempo speso schermo = tempo sottratto sonno (less hours available per sleep). Diretto, behavioural, immediato.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Sleep Efficiency</div>
+                            <div class="glossary-definition">Proporzione di tempo a letto che è actual sleep (vs. wakefulness). Calculated: (sleep-time / time-in-bed) × 100%. Normal ≥85%; &lt;85% suggestive insomnia.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Sleep Hygiene</div>
+                            <div class="glossary-definition">Pratiche comportamentali e ambientali che promuovono sleep: device-free 1h pre-bed, cool-dark room, consistent bedtime, no caffeine evening, exercise, etc.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Sleep Latency</div>
+                            <div class="glossary-definition">Tempo per addormentarsi dopo going-to-bed (minuti). Normal &lt;30 min; long latency = difficultà addormentamento (insomnia-hallmark).</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Social Comparison</div>
+                            <div class="glossary-definition">Meccanismo psicologico di social media: confronto own life con others' curated highlight-reels, generando ansia, basso self-worth. Particolarmente forte Facebook.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">STROBE</div>
+                            <div class="glossary-definition">Checklist standard (Strengthening Reporting Observational Studies in Epidemiology) per quality-assessment observational studies (cohorts, case-control). ABCD lima Santos usa STROBE.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">Variable-Reward Schedule</div>
+                            <div class="glossary-definition">Meccanismo operant-conditioning dove reward è unpredictable (slot-machine psychology). Crea strong compulsivity. TikTok infinite-scroll ogni swipe = unpredictable newness = variable-reward. Più addictive che fixed-reward.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">White Matter</div>
+                            <div class="glossary-definition">Tissue cerebrale composto da myelinated axons (connections fra neuroni). Versus gray-matter (neuroni somata). White-matter integrity critical per information-transmission fra brain regions.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- BIBLIOGRAPHY SECTION -->
+                <section id="bibliography" class="section">
+                    <h2>📚 Bibliografia Completa</h2>
+
+                    <div class="bibliography-item">
+                        <div class="bibliography-item-authors">1. Maeda-Nishino, N.J.; Yoshimoto, R.; Ono, T.; Chiba, S.; Nishino, S.</div>
+                        <div class="bibliography-item-title">"Partial blue light blocking glasses at night advanced sleep phase and reduced daytime irritability, disruptive behavior and improved morning mood, but did not alter salivary melatonin secretion in Japanese male schoolchildren"</div>
+                        <div class="bibliography-item-meta">PLOS ONE (2025) | DOI: 10.1371/journal.pone.0332877 | RCT Crossover Design (n=39)</div>
+                    </div>
+
+                    <div class="bibliography-item">
+                        <div class="bibliography-item-authors">2. Ndubisi, A.; Agyapong-Opoku, F.; Agyapong, B.</div>
+                        <div class="bibliography-item-title">"Social Media and Sleep Quality: Scoping Review of Systematic Reviews and Meta-Analyses"</div>
+                        <div class="bibliography-item-meta">Children (MDPI) (2026) | DOI: 10.3390/children13010051 | Scoping Review (10 revisioni sistematiche aggregate)</div>
+                    </div>
+
+                    <div class="bibliography-item">
+                        <div class="bibliography-item-authors">3. He, X.; Pan, B.; Ma, N.; Li, D.; Kong, W.; Liu, Q.; Liu, X.; Wang, X.; Deng, X.; Yang, K.</div>
+                        <div class="bibliography-item-title">"The association of screen time and the risk of sleep outcomes: a systematic review and meta-analysis"</div>
+                        <div class="bibliography-item-meta">Frontiers in Psychiatry (2025) | DOI: 10.3389/fpsyt.2025.1640263 | Meta-Analysis (21 studi prospettici, n=548.338)</div>
+                    </div>
+
+                    <div class="bibliography-item">
+                        <div class="bibliography-item-authors">4. Fatima, Y.; Doi, S.A.R.; Mamun, A.A.</div>
+                        <div class="bibliography-item-title">"Mobile Phone Addiction and Sleep Quality: Narrative Review of Mechanisms and Downstream Health Consequences"</div>
+                        <div class="bibliography-item-meta">Cureus (2026) | DOI: 10.7759/cureus.102460 | Narrative Review</div>
+                    </div>
+
+                    <div class="bibliography-item">
+                        <div class="bibliography-item-authors">5. Lima Santos, J.P.; Soehner, A.M.; Biernesser, C.L.; Ladouceur, C.D.; Versace, A.</div>
+                        <div class="bibliography-item-title">"Role of Sleep and White Matter in the Link Between Screen Time and Depression in Childhood and Early Adolescence"</div>
+                        <div class="bibliography-item-meta">JAMA Pediatrics (2025) | DOI: 10.1001/jamapediatrics.2025.1718 | Longitudinal Cohort Analysis from ABCD Study (n=976, 2-year follow-up)</div>
+                    </div>
+
+                    <div class="paper-section" style="margin-top: 2rem; border-top: 1px solid #30363d; padding-top: 2rem;">
+                        <h4>Risorse Supplementari Consigliate</h4>
+                        <div class="paper-text">
+                            <strong>ABCD Study Official Portal:</strong> https://abcdstudy.org/ (Adolescent Brain Cognitive Development Study)<br><br>
+                            <strong>PROSPERO (Pre-registered Systematic Reviews):</strong> https://www.crd.york.ac.uk/prospero/<br><br>
+                            <strong>Cochrane Library:</strong> https://www.cochranelibrary.com/ (High-quality systematic reviews)<br><br>
+                            <strong>PubMed/PubMed Central:</strong> https://pubmed.ncbi.nlm.nih.gov/ (Full-text biomedical literature)<br><br>
+                            <strong>Circadian Biology Resources:</strong> Society for Research on Biological Rhythms (SRBR)
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <p>Dashboard Analisi Paper Sonno e Schermi | Ricerca 2025-2026 | Aggiornato: Febbraio 2026</p>
+        <p style="font-size: 0.85rem; margin-top: 1rem;">Questo dashboard è una sintesi integrata di analisi critiche di 5 articoli scientifici. Per usi clinici o policy-making, consultare gli articoli originali e ricercatori esperti.</p>
+    </footer>
+
+    <script>
+        // Navigation and section switching
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        // Paper card toggle
+        function togglePaper(headerElement) {
+            const paperCard = headerElement.closest('.paper-card');
+            paperCard.classList.toggle('expanded');
+        }
+
+        // Glossary search filter
+        function filterGlossary() {
+            const input = document.getElementById('glossary-input');
+            const filter = input.value.toLowerCase();
+            const items = document.querySelectorAll('.glossary-item');
+
+            items.forEach(item => {
+                const term = item.querySelector('.glossary-term').textContent.toLowerCase();
+                const definition = item.querySelector('.glossary-definition').textContent.toLowerCase();
+                if (term.includes(filter) || definition.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active nav item
+            document.querySelector('.nav-item').classList.add('active');
+        });
+    </script>
+
+    <script src="/assets/menu.js"></script>
+</body>
+</html>

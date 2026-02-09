@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Ricerche: Cyberbullismo, Gaming, Pornografia 2024-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0a0e14;
+            background-image:
+                linear-gradient(0deg, transparent 24%, rgba(0, 217, 255, 0.05) 25%, rgba(0, 217, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 217, 255, 0.05) 75%, rgba(0, 217, 255, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 217, 255, 0.05) 25%, rgba(0, 217, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 217, 255, 0.05) 75%, rgba(0, 217, 255, 0.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            color: #e6edf3;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* === HEADER === */
+        header {
+            background: linear-gradient(135deg, #0f1419 0%, #1a222d 100%);
+            border-bottom: 1px solid #30363d;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #00d9ff;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .subtitle {
+            color: #8b949e;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        /* === LAYOUT CONTAINER === */
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* === SIDEBAR NAVIGATION === */
+        .sidebar {
+            width: 250px;
+            background-color: #0f1419;
+            border-right: 1px solid #30363d;
+            padding: 30px 0;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-title {
+            padding: 10px 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #6e7681;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 5px 0;
+            background: transparent;
+            border: none;
+            border-left: 3px solid transparent;
+            color: #8b949e;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .nav-button:hover {
+            color: #00d9ff;
+            background-color: rgba(0, 217, 255, 0.1);
+            border-left-color: #00d9ff;
+        }
+
+        .nav-button.active {
+            color: #00d9ff;
+            background-color: rgba(0, 217, 255, 0.15);
+            border-left-color: #3fb950;
+            font-weight: 600;
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* === STAT CARDS === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a222d 0%, #0f1419 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #8b949e;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        /* === PAPER CARDS === */
+        .paper-card {
+            background: linear-gradient(135deg, #1a222d 0%, #0f1419 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .paper-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .paper-header {
+            padding: 20px;
+            background: linear-gradient(90deg, rgba(0, 217, 255, 0.1) 0%, transparent 100%);
+            border-bottom: 1px solid #30363d;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .paper-header:hover {
+            background: linear-gradient(90deg, rgba(0, 217, 255, 0.2) 0%, transparent 100%);
+        }
+
+        .paper-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #00d9ff;
+        }
+
+        .paper-year {
+            color: #d29922;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .expand-icon {
+            color: #00d9ff;
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .paper-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .paper-content {
+            display: none;
+            padding: 25px;
+        }
+
+        .paper-card.expanded .paper-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #3fb950;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-content {
+            color: #e6edf3;
+            font-size: 0.95em;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .metadata {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(0, 217, 255, 0.05);
+            border-left: 3px solid #00d9ff;
+            border-radius: 4px;
+        }
+
+        .metadata-item {
+            font-size: 0.9em;
+        }
+
+        .metadata-label {
+            color: #8b949e;
+            font-weight: 600;
+        }
+
+        .metadata-value {
+            color: #e6edf3;
+        }
+
+        /* === LIMITATIONS HIGHLIGHT === */
+        .limitations-box {
+            background: linear-gradient(135deg, rgba(248, 81, 73, 0.1) 0%, rgba(210, 153, 34, 0.1) 100%);
+            border-left: 4px solid #f85149;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .limitations-title {
+            color: #f85149;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .limitations-list {
+            color: #e6edf3;
+            font-size: 0.9em;
+        }
+
+        .limitations-list li {
+            margin-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        /* === TAGS === */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background-color: rgba(0, 217, 255, 0.15);
+            color: #00d9ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .tag.methodology {
+            background-color: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+            border-color: rgba(63, 185, 80, 0.3);
+        }
+
+        .tag.limitation {
+            background-color: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+            border-color: rgba(248, 81, 73, 0.3);
+        }
+
+        /* === GLOSSARY === */
+        .glossary-search {
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #e6edf3;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #00d9ff;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+        }
+
+        .glossary-items {
+            display: grid;
+            gap: 15px;
+        }
+
+        .glossary-item {
+            background-color: #1a222d;
+            border-left: 3px solid #a371f7;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .glossary-term {
+            font-weight: 700;
+            color: #a371f7;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .glossary-definition {
+            color: #e6edf3;
+            font-size: 0.9em;
+            line-height: 1.7;
+        }
+
+        /* === BIBLIOGRAPHY === */
+        .reference {
+            background-color: #1a222d;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #3fb950;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .reference-authors {
+            color: #00d9ff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .reference-title {
+            color: #e6edf3;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .reference-meta {
+            color: #8b949e;
+            font-size: 0.85em;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: #0f1419;
+            border-top: 1px solid #30363d;
+            padding: 30px 20px;
+            text-align: center;
+            color: #8b949e;
+            font-size: 0.9em;
+        }
+
+        /* === SCROLLBAR STYLING === */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f1419;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d9ff;
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 120px !important; }
+            .sidebar { top: 120px !important; height: auto !important; position: static !important; width: 100% !important; }
+            .main-content, main { margin-left: 0 !important; }
+            table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 640px) {
+            body { padding-top: 140px !important; }
+            h1 { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-menu"></div>
+    <header>
+        <h1>Cyberbullismo, Gaming e Pornografia</h1>
+        <p class="subtitle">Selezione di ricerche 2024-2026 | Analisi critica e sintesi</p>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="nav-section">
+                <div class="nav-title">Navigazione</div>
+                <button class="nav-button active" onclick="switchSection('overview')">Overview</button>
+                <button class="nav-button" onclick="switchSection('papers')">Ricerche</button>
+                <button class="nav-button" onclick="switchSection('themes')">Temi Trasversali</button>
+                <button class="nav-button" onclick="switchSection('limitations')">Limitazioni</button>
+                <button class="nav-button" onclick="switchSection('glossary')">Glossario</button>
+                <button class="nav-button" onclick="switchSection('bibliography')">Bibliografia</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- === OVERVIEW SECTION === -->
+            <section id="overview" class="section active">
+                <h2 style="color: #00d9ff; font-size: 2em; margin-bottom: 30px;">Panoramica Generale</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Ricerche Analizzate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2024-2026</div>
+                        <div class="stat-label">Range Temporale</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6.1%</div>
+                        <div class="stat-label">IGD Prevalenza Media</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">68%</div>
+                        <div class="stat-label">Esposizione Pornografia USA</div>
+                    </div>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div>
+                            <span class="paper-title">Sintesi Narrativa</span>
+                        </div>
+                    </div>
+                    <div class="paper-content" style="display: block;">
+                        <div class="section-content">
+                            <p><strong>Questo dashboard integra cinque ricerche peer-reviewed pubblicate tra febbraio 2024 e febbraio 2026, focalizzate su tre fenomeni critici della salute digitale adolescenziale: cyberbullismo, gaming disorder, pornografia, e grooming online.</strong></p>
+
+                            <p style="margin-top: 15px;"><strong>Gli studi rappresentano una varietà di metodologie:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Qualitativa:</strong> Studio di Wefers (2024) su offender grooming, n=14 interviste semi-strutturate</li>
+                                <li><strong>Meta-analitica:</strong> Meta-analisi di Gisbert-Pérez (2025) su IGD prevalenza, 96 campioni, N=149.601</li>
+                                <li><strong>Concettuale:</strong> Review di Alvarez-Segura (2025) su pornografia e trauma in minori</li>
+                                <li><strong>Longitudinale:</strong> Coorte prospettica di Vieta (2026) su cyberbullismo e qualità di vita, 4 wave, N=695</li>
+                                <li><strong>Trasversale Multi-campione:</strong> Li et al. (2026) su Internet Addiction vs IGD, 3 campioni indipendenti, N=10.465</li>
+                            </ul>
+
+                            <p style="margin-top: 15px;"><strong>Hallmark Findings:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Cyberbullismo predice deterioramento longitudinale della qualità di vita più robustamente del bullismo tradizionale</li>
+                                <li>Grooming online non è intenzionalità conscia primaria, bensì escalation da isolamento e patologia mentale</li>
+                                <li>Internet Addiction (compulsività online generalizzata) predice psicopatologia 2-3 volte meglio di IGD specializzato</li>
+                                <li>Esposizione pornografia è ubiquitaria (68% USA) ma effetti longitudinali su trauma sono non conclusivi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === PAPERS SECTION === -->
+            <section id="papers" class="section">
+                <h2 style="color: #00d9ff; font-size: 2em; margin-bottom: 30px;">Ricerche Dettagliate</h2>
+
+                <!-- PAPER 1: GROOMING -->
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <span class="paper-title">Comprensione e Prevenzione del Grooming Online Infantile</span>
+                            <span class="paper-year">2024</span>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="paper-content">
+                        <div class="metadata">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Autori:</span>
+                                <span class="metadata-value">Wefers, S.; Dieseth, T.; George, E.; Øverland, I.; Jolapara, J.; McAree, C.; Findlater, D.</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Rivista:</span>
+                                <span class="metadata-value">Sexual Offending</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">DOI:</span>
+                                <span class="metadata-value"><a href="https://doi.org/10.5964/sotrap.13147" style="color: #00d9ff;">10.5964/sotrap.13147</a></span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Anno:</span>
+                                <span class="metadata-value">Febbraio 2024</span>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Design e Metodologia</div>
+                            <div class="section-content">
+                                Studio qualitativo descrittivo-interpretativo basato su paradigma costruttivista. Campionamento intenzionale (n=14 maschi adulti) che avevano praticato grooming online. Interviste semi-strutturate (~60 minuti) registrate e trascritte. Thematic analysis per identificare temi ricorrenti, pathway causali, fattori di rischio/protezione.
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Principali Risultati</div>
+                            <div class="section-content">
+                                <strong>Tre pathway psicologici identificati:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>Ricerca di connessione sociale/intimità:</strong> Underlying depression/loneliness; isolamento sociale come precondizione</li>
+                                    <li><strong>Comportamento dipendente:</strong> Compulsività, loss of control, graduale escalation da isolamento verso sfruttamento</li>
+                                    <li><strong>Fantasia/roleplay:</strong> Confondimento realtà-fantasia, normalizzazione di interazioni sessuali con minori</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Fattori facilitanti:</strong> Anonimato online (disinhibitor critico), design piattaforme (encryption, algoritmi), percezione distorta (chat non viste come "conversazioni reali" con minori).</p>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Take-Home Message</div>
+                            <div class="section-content">
+                                Grooming non è intenzionalità conscia in prima istanza per molti offender; è escalation graduale da isolamento psicopatologico verso sfruttamento, facilitato da design piattaforme. Implicazione: prevenzione primaria deve puntare a isolamento sociale pre-offending, interventi su mental health, design piattaforme (age-verification, no anonimato per adulti in spazi giovani).
+                            </div>
+                        </div>
+
+                        <div class="limitations-box">
+                            <div class="limitations-title">⚠ Limitazioni Critiche</div>
+                            <div class="limitations-list">
+                                <ul>
+                                    <li><strong>Campione non rappresentativo (n=14):</strong> Caught, convicted, in treatment. Sistematicamente biased verso offenders cooperativi</li>
+                                    <li><strong>Nessun gruppo di controllo:</strong> Impossibile determinare se pathway sono causali vs correlati spuri</li>
+                                    <li><strong>Risk di acquiescenza:</strong> Incentivo psicologico a presentarsi come "motivated to change" per parole boards/terapeuta</li>
+                                    <li><strong>Descrizione metodologica lacunosa:</strong> Manca interview guide, participant characteristics, coding process, data saturation</li>
+                                    <li><strong>Validità esterna molto ridotta:</strong> Solo 14 maschi UK, reclutati da charity specializzata</li>
+                                    <li><strong>Nessun risultato quantitativo:</strong> Frequenza temi per partecipante non riportata</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tags">
+                            <span class="tag methodology">Qualitativo</span>
+                            <span class="tag methodology">Thematic Analysis</span>
+                            <span class="tag limitation">Piccolo campione (n=14)</span>
+                            <span class="tag limitation">Selection bias severo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAPER 2: META-ANALISI IGD -->
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <span class="paper-title">Prevalenza del Gaming Disorder negli Adulti Giovani: Meta-Analisi</span>
+                            <span class="paper-year">2025</span>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="paper-content">
+                        <div class="metadata">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Autori:</span>
+                                <span class="metadata-value">Gisbert-Pérez, J.; Longobardi, C.; Martí-Vilar, M.; Mastrokoukou, S.; Badenes-Ribera, L.</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Rivista:</span>
+                                <span class="metadata-value">Addictive Behaviors</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">DOI:</span>
+                                <span class="metadata-value"><a href="https://doi.org/10.1016/j.addbeh.2025.108576" style="color: #00d9ff;">10.1016/j.addbeh.2025.108576</a></span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Anno:</span>
+                                <span class="metadata-value">Novembre 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Design e Metodologia</div>
+                            <div class="section-content">
+                                Meta-analisi sistematica PRISMA 2020. Ricerca letteratura 2015-2025 su PubMed, PsycINFO, Web of Science, Scopus. Inclusi 96 campioni analitici da 93 studi. N totale: 149.601 partecipanti (18-35 anni). Pool-analysis con Generalized Linear Mixed Models per stimare prevalenza, intervalli di confidenza, moderatori sociodemografici e metodologici.
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Principali Risultati</div>
+                            <div class="section-content">
+                                <strong>Prevalenza pooled IGD: 6.1% (95% CI: 5.03-7.40)</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Doppia nei campioni gamer-only (8.1%) vs popolazione mista (5.47%)</li>
+                                    <li>Varia per strumento: IGDS9-SF > DSM-V criteria > IGDT-10</li>
+                                    <li>Trend storico: aumenta nel tempo in campioni gamer-only</li>
+                                    <li>Associazione negativa con proporzione donne (minore prevalenza al crescere %F)</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Implicazione:</strong> 1 su 16 giovani adulti gaming-focused ha IGD; eterogeneità enorme fra studi suggerisce necessità standardizzazione strumenti diagnostici.</p>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Take-Home Message</div>
+                            <div class="section-content">
+                                Epidemiologia precisa necessaria per policy sanitaria, prevenzione universitaria, pianificazione servizi di cura. Eterogeneità strumenti diagnostici è principale limitazione: pooling di IGDS9-SF + DSM-5 criteria in una stima è methodologically discutibile (mele e pere diagnostiche).
+                            </div>
+                        </div>
+
+                        <div class="limitations-box">
+                            <div class="limitations-title">⚠ Limitazioni Critiche</div>
+                            <div class="limitations-list">
+                                <ul>
+                                    <li><strong>Disegno trasversale sistematico:</strong> Nessuno studio longitudinale incluso. Non osservabile causalità</li>
+                                    <li><strong>Eterogeneità strumenti non risolta:</strong> Pooling di IGDS9-SF, IGDT-10, DSM-5 criteria è problematico (cutoff differenti)</li>
+                                    <li><strong>Confusione gamer-only vs mixed:</strong> Doppia prevalenza è definizionale, non sorprendente epidemiologicamente</li>
+                                    <li><strong>Risk of bias non descritto:</strong> Quale strumento usato? Come pesati studi alta vs bassa qualità?</li>
+                                    <li><strong>Publication bias non valutato:</strong> Nessun funnel plot, Egger test, trim-and-fill</li>
+                                    <li><strong>GRADE assessment assente:</strong> Qualità evidenza non calutata formalmente</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tags">
+                            <span class="tag methodology">Meta-analisi</span>
+                            <span class="tag methodology">PRISMA 2020</span>
+                            <span class="tag limitation">Tutti studi trasversali</span>
+                            <span class="tag limitation">Eterogeneità strumenti</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAPER 3: PORNOGRAFIA -->
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <span class="paper-title">Impatto della Pornografia su Minori: Approccio Trauma-Informed</span>
+                            <span class="paper-year">2025</span>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="paper-content">
+                        <div class="metadata">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Autori:</span>
+                                <span class="metadata-value">Alvarez-Segura, M.; Fernández, I.; El Kasmy, Y.; Francisco, E.; Gallo Martínez, S.; Ortiz Jiménez, E.M.; Butjosa, A.</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Rivista:</span>
+                                <span class="metadata-value">Frontiers in Child and Adolescent Psychiatry</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">DOI:</span>
+                                <span class="metadata-value"><a href="https://doi.org/10.3389/frcha.2025.1567649" style="color: #00d9ff;">10.3389/frcha.2025.1567649</a></span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Anno:</span>
+                                <span class="metadata-value">Settembre 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Design e Metodologia</div>
+                            <div class="section-content">
+                                Review concettuale (non sistematica, senza PRISMA) che integra teorie psicopatologiche traumatiche con dati epidemiologici su esposizione pornografia in adolescenti. Propone framework trauma-informed per esposizione pornografia, parallelo a trauma da testimonianza violenza domestica. Identifica tre pathway di risposta: flight (dissociazione, isolamento), fight (aggression, coercive sexuality), freeze (dissociazione complessiva).
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Principali Risultati</div>
+                            <div class="section-content">
+                                <strong>Prevalenza esposizione:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Studio europeo 6 paesi: 54% adolescenti esposti</li>
+                                    <li>USA: 68.4% esposti</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>AVVERTENZA CRITICA:</strong> Review esplicitamente dichiara "longitudinal results often do not confirm wide-ranging harms" — il che significa prove empiriche attuali NON supportano la riconcettualizzazione proposta come "trauma vero". Approccio trauma-informed è justified clinicamente, ma causalità non provata.</p>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Take-Home Message</div>
+                            <div class="section-content">
+                                Esposizione pornografia minori è POTENZIALMENTE traumatica (non definitivo); danni dipendono da contesto, età, tipo contenuto, caratteristiche individuali. Approccio trauma-informed (non punitivo, considerato contesto, validante) è miglioramento rispetto narrativa moralistico, ma riconcettualizzare come "trauma vero" è overreach. Educazione sessuale sana è protective factor essenziale.
+                            </div>
+                        </div>
+
+                        <div class="limitations-box">
+                            <div class="limitations-title">⚠ Limitazioni Critiche</div>
+                            <div class="limitations-list">
+                                <ul>
+                                    <li><strong>Nessun meccanismo causale dimostrato:</strong> Riconcettualizzazione è metaforica, non empirica</li>
+                                    <li><strong>Admitted contradiction:</strong> "Longitudinal results often do not confirm wide-ranging harms" — dati contraddicono ipotesi principale</li>
+                                    <li><strong>Confusione correlazione-causalità:</strong> Adolescenti depressi cercano pornografia per auto-medicazione (causalità inversa)</li>
+                                    <li><strong>Eterogeneità esposizione non distingue:</strong> Accidentale vs curiosity-driven vs compulsiva probabilmente hanno outcomes diversi</li>
+                                    <li><strong>Popolazione eterogenea non modulata:</strong> Impatto varia per 8 vs 14 vs 17 anni; generalizzazione "children and adolescents" è inaccurata</li>
+                                    <li><strong>Nessun controllo denominatore:</strong> 68% esposti ma non è chiaro se outcomes (depressione, anxiety) siano diversi fra esposti vs non-esposti</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tags">
+                            <span class="tag methodology">Review Concettuale</span>
+                            <span class="tag methodology">Trauma-Informed</span>
+                            <span class="tag limitation">Non sistematica (no PRISMA)</span>
+                            <span class="tag limitation">Dati contraddicono ipotesi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAPER 4: CYBERBULLISMO -->
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <span class="paper-title">Dinamiche Longitudinali di Cyberbullismo e Qualità della Vita</span>
+                            <span class="paper-year">2026</span>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="paper-content">
+                        <div class="metadata">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Autori:</span>
+                                <span class="metadata-value">Vieta, J.; Oriol, X.; Miranda, R.</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Rivista:</span>
+                                <span class="metadata-value">Social Indicators Research</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">DOI:</span>
+                                <span class="metadata-value"><a href="https://doi.org/10.1007/s11205-025-03779-4" style="color: #00d9ff;">10.1007/s11205-025-03779-4</a></span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Anno:</span>
+                                <span class="metadata-value">2026 (Vol. 181, Issue 48)</span>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Design e Metodologia</div>
+                            <div class="section-content">
+                                Studio longitudinale prospettico 4-wave. N=695 adolescenti (10-17 anni). Misure: victimizzazione bullismo tradizionale (TB), cyberbullismo (CB), qualità della vita correlata a salute (HRQoL, presumibilmente PedsQL). Analisi: latent growth models, longitudinal mixed models con autocorrelazione. Design prospettico consente inference causale (con caveats).
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Principali Risultati</div>
+                            <div class="section-content">
+                                <strong>Scoperte principali:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>Cyberbullismo predice consistentemente diminuzioni longitudinali in HRQoL</strong> — più di bullismo tradizionale</li>
+                                    <li><strong>Solo cyberbullismo emerges come predittore robusto:</strong> TB non predice declinamento HRQoL long-term con stessa robustezza</li>
+                                    <li><strong>Magnitudo degli effetti negativi aumenta nel tempo:</strong> Impatto cumulativo che peggiora con esposizione prolungata (trend accelerato, non lineare)</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Implicazione meccanicistica:</strong> CB è persistente (screenshot, forwards, relive), mentre TB è real-time encounter. Neurobiologicamente, trauma è processato come "ongoing threat" vs "resolved incident". Hippocampus immagazzina CB come "narrative ri-evocabile," triggerando amygdala repeatedly.</p>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Take-Home Message</div>
+                            <div class="section-content">
+                                Cyberbullismo ha effetto tossico longitudinale sulla salute; effetto accelera nel tempo (non lineare). Implicazione clinica immediata: adolescenti CB victim dovrebbero ricevere intervento immediatamente, non "wait-and-see". Se untreated, declinamento HRQoL compone, possibile transition a depression/anxiety diagnosable.
+                            </div>
+                        </div>
+
+                        <div class="limitations-box">
+                            <div class="limitations-title">⚠ Limitazioni Critiche</div>
+                            <div class="limitations-list">
+                                <ul>
+                                    <li><strong>Causalità reverse non esclusa:</strong> Possibile adolescenti con HRQoL già compromessa (depression baseline) diventino target CB (depression → online interaction → CB victimizzazione)</li>
+                                    <li><strong>Confondenti non controllati:</strong> Depression/anxiety pre-esistenti, isolamento sociale baseline, supporto familiare non misurati/controllati formalmente</li>
+                                    <li><strong>Vittimizzazione vs perpetrazione non distinguete:</strong> Outcomes per perpetratori vs vittime sono diversi; scopo dello studio incerto</li>
+                                    <li><strong>"Magnitudo aumenta nel tempo" ambigua:</strong> È crescita interaction? Nonlinear trajectory quadratica? Modulation effect? Equation matematica manca</li>
+                                    <li><strong>HRQoL dimensioni non stratificate:</strong> CB potrebbe impattare specificamente emotional e social, non physical; effetto aggregato maschera mechanismi</li>
+                                    <li><strong>Attrition e missing data non reportati:</strong> 4-wave longitudinale tipicamente 10-40% dropout; caratteristiche completers vs dropouts mancano</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tags">
+                            <span class="tag methodology">Longitudinale 4-wave</span>
+                            <span class="tag methodology">Latent Growth Models</span>
+                            <span class="tag limitation">Causalità reverse possibile</span>
+                            <span class="tag limitation">Confondenti non controllati</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAPER 5: IA vs IGD -->
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <span class="paper-title">Dipendenza da Internet vs Gaming Disorder: Sintomi Psicopatologici</span>
+                            <span class="paper-year">2026</span>
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="paper-content">
+                        <div class="metadata">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Autori:</span>
+                                <span class="metadata-value">Li, Y.Y.; Hu, A.Q.; Yi, L.L.; Mao, Z.X.; (+ 11 coautori)</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Rivista:</span>
+                                <span class="metadata-value">Journal of Medical Internet Research (JMIR)</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">DOI:</span>
+                                <span class="metadata-value"><a href="https://doi.org/10.2196/82414" style="color: #00d9ff;">10.2196/82414</a></span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Anno:</span>
+                                <span class="metadata-value">Febbraio 2026</span>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Design e Metodologia</div>
+                            <div class="section-content">
+                                Studio trasversale multi-campione (cross-sectional). Tre campioni indipendenti: S1=8.194 universitari, S2=1.720 liceali, S3=551 pazienti ricoverati in ospedali psichiatrici (N totale: 10.465). Strumenti: IGD (IGDS9-SF≥22), IA (IAT-20≥50), psicopatologia (PHQ-9, GAD-7, SCL-90 subscales, ASRS). Modelli regressione multivariati, R² con intervalli di confidenza.
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Principali Risultati</div>
+                            <div class="section-content">
+                                <strong>Scoperte principali:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>IA prevalenza > IGD:</strong> 7.3-45.9% vs 4.8-32.3% (trend crescente verso campione clinico)</li>
+                                    <li><strong>IA mostra associazioni più forti con psicopatologia:</strong> R²=0.33 per IAT-20 vs R²=0.13 per IGDS9-SF (IA predice psicopatologia 2.5x meglio)</li>
+                                    <li><strong>Correlazione moderata fra IGDS9-SF e IAT-20:</strong> r=0.51-0.57 (suggerisce costrutti distinti ma interrelati)</li>
+                                    <li><strong>Progressione parallela per gravità:</strong> S1 → S2 → S3 mostra aumento parallelo IA/IGD (rapporto rimane ~1.5x)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <div class="section-title">Take-Home Message</div>
+                            <div class="section-content">
+                                IGD e IA sono costrutti distinti ma interrelati; dipendenza da Internet generalizzata (non solo gaming) è il predittore psicopatologico più robusto. Cruciale per screening clinici differenziati: se adolescente ha IGDS9-SF negativo ma IAT-20 positivo, rischio psicopatologico è comunque elevato. Interventi devono puntare a uso internet compulsivo generico, non solo gaming.
+                            </div>
+                        </div>
+
+                        <div class="limitations-box">
+                            <div class="limitations-title">⚠ Limitazioni Critiche</div>
+                            <div class="limitations-list">
+                                <ul>
+                                    <li><strong>Disegno trasversale impedisce causalità:</strong> Non osservabile se IGD/IA causano psicopatologia o essa facilita.</li>
+                                    <li><strong>Asincronicità campioni:</strong> S1 2020, S2 marzo 2024, S3 gennaio 2022-febbraio 2025. Variabilità pandemica/temporale non controllata</li>
+                                    <li><strong>Campionamento non probabilistico:</strong> S1 una sola università (Chengdu), S2 una sola scuola (Hangzhou), S3 due ospedali. Non rappresentativo popolazione generale cinese</li>
+                                    <li><strong>Cutoff strumenti non validati cross-culturalmente:</strong> IGDS9-SF ≥22, IAT-20 ≥50 sviluppati altrove; variabilità interculturale nota (cutoff può variare 5-10 punti)</li>
+                                    <li><strong>Moderazione multivariata non esplorata:</strong> Nessun'analisi di sesso, SES, supporto familiare come moderatori</li>
+                                    <li><strong>R² doppio per IA ma 67% varianza inspiegata:</strong> Fattori confonditivi esclusi (sleep, attaccamento familiare, bullismo, abuso)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tags">
+                            <span class="tag methodology">Trasversale Multi-campione</span>
+                            <span class="tag methodology">Regressione Multivariata</span>
+                            <span class="tag limitation">Disegno trasversale</span>
+                            <span class="tag limitation">Campioni non-probabilistici</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === CROSS-CUTTING THEMES SECTION === -->
+            <section id="themes" class="section">
+                <h2 style="color: #00d9ff; font-size: 2em; margin-bottom: 30px;">Temi Trasversali</h2>
+
+                <div class="paper-card">
+                    <div class="paper-header" style="cursor: auto; background: linear-gradient(90deg, rgba(0, 217, 255, 0.15) 0%, transparent 100%);">
+                        <div><span class="paper-title">1. Isolamento Sociale e Psicopatologia Online</span></div>
+                    </div>
+                    <div class="paper-content" style="display: block;">
+                        <div class="section-content">
+                            <p><strong>Grooming (Wefers):</strong> Isolamento sociale è precondizione quasi universale (pathway "ricerca connessione" è manifestazione di depression/loneliness pre-esistente).</p>
+                            <p style="margin-top: 15px;"><strong>Gaming Disorder (Gisbert-Pérez, Li et al.):</strong> IA predice psicopatologia meglio di IGD specializzato, suggerendo compulsività online generico è manifestazione di problematiche emotive broader (depression, anxiety seeking solace online).</p>
+                            <p style="margin-top: 15px;"><strong>Cyberbullismo (Vieta):</strong> CB è persistente (screenshot, forwards, relive) vs TB transient. Adolescenti CB victim sviluppano isolamento secondario che compone con isolamento primario.</p>
+                            <p style="margin-top: 15px;"><strong>Implicazione:</strong> Isolamento sociale → psicopatologia → ricerca online per auto-medicazione → esposizione a rischi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header" style="cursor: auto; background: linear-gradient(90deg, rgba(63, 185, 80, 0.15) 0%, transparent 100%);">
+                        <div><span class="paper-title">2. Design Piattaforme come Amplificatori di Danno</span></div>
+                    </div>
+                    <div class="paper-content" style="display: block;">
+                        <div class="section-content">
+                            <p><strong>Grooming (Wefers):</strong> Anonimato, encryption, algoritmi facilitano escalation offender. Offenders non percepiscono chat come "reale" — design disinibisce.</p>
+                            <p style="margin-top: 15px;"><strong>Gaming Disorder:</strong> Prevalenza IGD aumenta parallelo a smartphone ubiquitari, algoritmi loot-box, social gaming. Design intentionally compulsivo.</p>
+                            <p style="margin-top: 15px;"><strong>Cyberbullismo (Vieta):</strong> Persistenza digitale è feature design (screenshot, forwards, relive). Algoritmi amplificano (post viralizza). Pubblica audience aumenta shame.</p>
+                            <p style="margin-top: 15px;"><strong>Implicazione:</strong> Piattaforme sono "amplifiers of harm." Regulation deve puntare a design change, non solo educazione utenti.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header" style="cursor: auto; background: linear-gradient(90deg, rgba(210, 153, 34, 0.15) 0%, transparent 100%);">
+                        <div><span class="paper-title">3. Effetti Cumulativi e Non-Lineari nel Tempo</span></div>
+                    </div>
+                    <div class="paper-content" style="display: block;">
+                        <div class="section-content">
+                            <p><strong>Grooming (Wefers):</strong> Escalation graduale da isolamento → opportunism → comportamento compulsivo → normalizzazione fantasia → offending.</p>
+                            <p style="margin-top: 15px;"><strong>Cyberbullismo (Vieta):</strong> Magnitudo effetti aumenta nel tempo (trend accelerato, non lineare). HRQoL decline è exponential/compounding. First 6 mesi sono critici.</p>
+                            <p style="margin-top: 15px;"><strong>Implicazione:</strong> Interventi devono essere early e aggressive, non "wait-and-see." Timeline breve (weeks-months).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header" style="cursor: auto; background: linear-gradient(90deg, rgba(248, 81, 73, 0.15) 0%, transparent 100%);">
+                        <div><span class="paper-title">4. Distinzione fra Correlazione e Causalità</span></div>
+                    </div>
+                    <div class="paper-content" style="display: block;">
+                        <div class="section-content">
+                            <p><strong>Problema trasversale:</strong> Tre studi (Gisbert-Pérez, Alvarez-Segura, Li et al.) sono trasversali. Risultati sono correlazioni, non causalità provata.</p>
+                            <p style="margin-top: 15px;"><strong>Alvarez-Segura (pornografia):</strong> Ammette "longitudinal results often do not confirm wide-ranging harms." Ipotesi non ha supporto longitudinale.</p>
+                            <p style="margin-top: 15px;"><strong>Implicazione:</strong> Causalità è assunta spesso, provata raramente. Policy dovrebbe essere conservatrice.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header" style="cursor: auto; background: linear-gradient(90deg, rgba(167, 113, 247, 0.15) 0%, transparent 100%);">
+                        <div><span class="paper-title">5. Eterogenità Popolazioni e Moderatori</span></div>
+                    </div>
+                    <div class="paper-content" style="display: block;">
+                        <div class="section-content">
+                            <p><strong>Genere:</strong> Nessuno studio stratifica outcomes per genere. Pathway verso psicopatologia probabilmente diversi.</p>
+                            <p style="margin-top: 15px;"><strong>Età/Sviluppo:</strong> CB ha impatto diverso per 11 vs 16 anni. Meta-analisi pooling 18-35 nasconde distribuzione.</p>
+                            <p style="margin-top: 15px;"><strong>Supporto familiare, comorbidità:</strong> Non misurati sistematicamente.</p>
+                            <p style="margin-top: 15px;"><strong>Implicazione:</strong> Interventi one-size-fits-all inefficienti. Ricerca futura deve stratificare per moderatori.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === LIMITATIONS OVERVIEW SECTION === -->
+            <section id="limitations" class="section">
+                <h2 style="color: #f85149; font-size: 2em; margin-bottom: 30px;">Limitazioni Globali</h2>
+
+                <div class="limitations-box" style="background: linear-gradient(135deg, rgba(248, 81, 73, 0.15) 0%, rgba(210, 153, 34, 0.15) 100%); border-left: 4px solid #f85149;">
+                    <div class="limitations-title">1. Disegno Trasversale Dominante (CRITICA)</div>
+                    <div class="limitations-list">
+                        <p style="color: #e6edf3;">Tre su 5 studi sono trasversali. Meta-analisi include 96 campioni ALL trasversali. Nessuna causalità provata; correlazioni potrebbero essere spurie o inverse.</p>
+                    </div>
+                </div>
+
+                <div class="limitations-box" style="background: linear-gradient(135deg, rgba(248, 81, 73, 0.15) 0%, rgba(210, 153, 34, 0.15) 100%); border-left: 4px solid #f85149;">
+                    <div class="limitations-title">2. Campioni Non-Rappresentativi (SEVERA)</div>
+                    <div class="limitations-list">
+                        <p style="color: #e6edf3;"><strong>Wefers:</strong> n=14 offenders caught, convicted, in treatment. <strong>Li et al.:</strong> Una sola università, scuola, due ospedali. <strong>Gisbert-Pérez:</strong> Publication bias possibile. Generalizzabilità compromessa.</p>
+                    </div>
+                </div>
+
+                <div class="limitations-box" style="background: linear-gradient(135deg, rgba(248, 81, 73, 0.15) 0%, rgba(210, 153, 34, 0.15) 100%); border-left: 4px solid #f85149;">
+                    <div class="limitations-title">3. Confondenti Non Controllati (SEVERA)</div>
+                    <div class="limitations-list">
+                        <p style="color: #e6edf3;"><strong>Vieta:</strong> Depression pre-esistente? <strong>Li et al.:</strong> 67% varianza inspiegata. <strong>Alvarez-Segura:</strong> Adolescenti depressi cercano pornografia (causalità inversa).</p>
+                    </div>
+                </div>
+
+                <div class="limitations-box" style="background: linear-gradient(135deg, rgba(248, 81, 73, 0.15) 0%, rgba(210, 153, 34, 0.15) 100%); border-left: 4px solid #f85149;">
+                    <div class="limitations-title">4. Eterogeneità Strumenti Diagnostici (MODERATA)</div>
+                    <div class="limitations-list">
+                        <p style="color: #e6edf3;"><strong>Gisbert-Pérez:</strong> Pooling IGDS9-SF, DSM-5, IGDT-10 è problematico (cutoff differenti). <strong>Li et al.:</strong> Non validati cross-culturalmente.</p>
+                    </div>
+                </div>
+
+                <div class="limitations-box" style="background: linear-gradient(135deg, rgba(248, 81, 73, 0.15) 0%, rgba(210, 153, 34, 0.15) 100%); border-left: 4px solid #f85149;">
+                    <div class="limitations-title">5. Admission di Contradiction (CRITICA - Alvarez-Segura)</div>
+                    <div class="limitations-list">
+                        <p style="color: #e6edf3;">Review pornografia ammette: "longitudinal results often do NOT confirm wide-ranging harms." Dati contraddicono ipotesi principale. Eppure riconcettualizzazione proceeds. Logica errata.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === GLOSSARY SECTION === -->
+            <section id="glossary" class="section">
+                <h2 style="color: #a371f7; font-size: 2em; margin-bottom: 30px;">Glossario Tecnico</h2>
+
+                <div class="glossary-search">
+                    <input type="text" id="glossarySearch" class="search-box" placeholder="Cerca termine...">
+                </div>
+
+                <div class="glossary-items" id="glossaryItems">
+                    <div class="glossary-item">
+                        <div class="glossary-term">Internet Addiction (IA)</div>
+                        <div class="glossary-definition">Dipendenza Internet generalizzata (IAT-20, Young). Include social media, shopping, chat, gaming, streaming. Predice psicopatologia meglio di IGD specializzato.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Internet Gaming Disorder (IGD)</div>
+                        <div class="glossary-definition">Patologia comportamentale specializzata su gaming. ICD-11, appendix DSM-5-TR. IGDS9-SF (cutoff ≥22). Prevalenza ~6.1% giovani adulti.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Cyberbullismo (CB)</div>
+                        <div class="glossary-definition">Bullismo tramite media digitali. Differisce da TB per persistenza (screenshot, forwards, relive), audience (pubblico), 24/7. Predice HRQoL decline longitudinale con effetto accelerante.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Health-Related Quality of Life (HRQoL)</div>
+                        <div class="glossary-definition">Misura multidimensionale (fisico, emotivo, sociale, scuola). PedsQL. Cyberbullismo predice decline con effetto cumulativo.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Grooming Online</div>
+                        <div class="glossary-definition">Manipolazione psicologica di minori per sexual content o incontro offline. Tre pathway: ricerca connessione (depression), comportamento dipendente (compulsività), fantasia/roleplay (distorsione realtà).</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">PRISMA 2020</div>
+                        <div class="glossary-definition">Checklist standard per meta-analyses sistematiche. Richiede Flow Diagram, risk of bias, publication bias evaluation. Meta-analisi Gisbert-Pérez dichiara conformità.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Cross-Sectional Design</div>
+                        <div class="glossary-definition">Studio con snapshot temporale (no follow-up). Non consente inference causale. Tre su 5 studi analizzati sono trasversali.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Reverse Causation</div>
+                        <div class="glossary-definition">Direzione causale opposta a quella ipotizzata. Esempio: "depression causa IA seeking" vs "IA causa depression." Studi trasversali non possono escludere.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Trauma-Informed Approach</div>
+                        <div class="glossary-definition">Framework clinico che riconosce trauma potenziale e risponde con validazione, sicurezza, agency. Alvarez-Segura propone per pornografia. Limitazione: causalità non provata.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Latent Growth Models (LGM)</div>
+                        <div class="glossary-definition">Metodo statistico per analizzare trajettorie di change nel tempo (slope, intercept). Vieta usa per modellare HRQoL decline. Consente test di effetti non-lineari.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">Publication Bias</div>
+                        <div class="glossary-definition">Studi con risultati "positivi" pubblicati più di studi null. Meta-analyses vulnerabile se non valutato (funnel plot, Egger). Gisbert-Pérez non valuta; stima potrebbe essere inflazionata.</div>
+                    </div>
+                    <div class="glossary-item">
+                        <div class="glossary-term">STROBE</div>
+                        <div class="glossary-definition">Checklist standard per studi osservazionali (coorte, case-control, trasversali). Studi Vieta, Li dichiarano conformità.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === BIBLIOGRAPHY SECTION === -->
+            <section id="bibliography" class="section">
+                <h2 style="color: #3fb950; font-size: 2em; margin-bottom: 30px;">Bibliografia Completa</h2>
+
+                <div class="reference">
+                    <div class="reference-authors">1. Wefers, S.; Dieseth, T.; George, E.; et al.</div>
+                    <div class="reference-title">Understanding and Deterring Online Child Grooming: A Qualitative Study</div>
+                    <div class="reference-meta">Sexual Offending, February 2024. DOI: 10.5964/sotrap.13147</div>
+                    <div class="reference-meta" style="margin-top: 8px;">Qualitative, n=14 interviews. Thematic analysis. Three pathways: social isolation, addictive behavior, fantasy/roleplay.</div>
+                </div>
+
+                <div class="reference">
+                    <div class="reference-authors">2. Gisbert-Pérez, J.; Longobardi, C.; Martí-Vilar, M.; et al.</div>
+                    <div class="reference-title">Prevalence of Internet Gaming Disorder in Young Adults: A Systematic Review and Meta-Analysis</div>
+                    <div class="reference-meta">Addictive Behaviors, November 2025. DOI: 10.1016/j.addbeh.2025.108576</div>
+                    <div class="reference-meta" style="margin-top: 8px;">PRISMA 2020. 96 samples, N=149,601. IGD prevalence 6.1% (95% CI: 5.03-7.40); 8.1% gamer-only.</div>
+                </div>
+
+                <div class="reference">
+                    <div class="reference-authors">3. Alvarez-Segura, M.; Fernández, I.; El Kasmy, Y.; et al.</div>
+                    <div class="reference-title">Impact of Pornography Consumption on Children and Adolescents: A Trauma-Informed Approach</div>
+                    <div class="reference-meta">Frontiers in Child and Adolescent Psychiatry, September 2025. DOI: 10.3389/frcha.2025.1567649</div>
+                    <div class="reference-meta" style="margin-top: 8px;">Conceptual narrative review. Trauma-informed framework. Admission: "longitudinal results often do NOT confirm wide-ranging harms."</div>
+                </div>
+
+                <div class="reference">
+                    <div class="reference-authors">4. Vieta, J.; Oriol, X.; Miranda, R.</div>
+                    <div class="reference-title">Longitudinal Dynamics of Bullying, Cyberbullying, and Adolescents' Health-Related Quality of Life</div>
+                    <div class="reference-meta">Social Indicators Research, 2026 (Vol. 181, Issue 48). DOI: 10.1007/s11205-025-03779-4</div>
+                    <div class="reference-meta" style="margin-top: 8px;">Prospective 4-wave cohort, N=695 adolescents (10-17y). Cyberbullismo predicts HRQoL decline with accelerating effect; traditional bullying does NOT.</div>
+                </div>
+
+                <div class="reference">
+                    <div class="reference-authors">5. Li, Y.Y.; Hu, A.Q.; Yi, L.L.; et al. (+ 11 coauthors)</div>
+                    <div class="reference-title">Comparing Internet Addiction and Internet Gaming Disorder With Psychopathological Symptoms: Cross-Sectional Study of Three Independent Adolescent Samples</div>
+                    <div class="reference-meta">Journal of Medical Internet Research (JMIR), February 2026. DOI: 10.2196/82414</div>
+                    <div class="reference-meta" style="margin-top: 8px;">Multi-sample cross-sectional (STROBE). N=10,465. IA shows 2-3x stronger associations with psychopathology than IGD.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p style="margin-bottom: 10px;"><strong>Dashboard Analisi Critica Ricerche 2024-2026</strong></p>
+        <p>Cyberbullismo, Gaming Disorder, Pornografia, Grooming Online</p>
+        <p style="margin-top: 15px; color: #6e7681; font-size: 0.85em;">Generato con design system Ivan Ferrero (dark cyber theme). Contenuto basato su analisi critica peer-reviewed papers.</p>
+    </footer>
+
+    <script src="/assets/menu.js"></script>
+    <script>
+        function switchSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
+        function togglePaper(headerElement) {
+            const card = headerElement.closest('.paper-card');
+            card.classList.toggle('expanded');
+        }
+
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        glossarySearch.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const term = item.querySelector('.glossary-term').textContent.toLowerCase();
+                const definition = item.querySelector('.glossary-definition').textContent.toLowerCase();
+                if (term.includes(searchTerm) || definition.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const paperCards = document.querySelectorAll('#papers .paper-card');
+            paperCards.forEach((card, index) => {
+                if (index !== 0) {
+                    card.classList.remove('expanded');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

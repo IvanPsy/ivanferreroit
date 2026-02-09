@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Social Media e Salute Mentale 2024-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-cards: #1a222d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-cyan: #00d9ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            padding-top: 70px;
+        }
+
+        /* Background Grid Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 70px);
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Main Layout */
+        #app {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-cards) 100%);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .dashboard-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-header-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 220px;
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.05);
+        }
+
+        .nav-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-cyan);
+            border-left-color: var(--accent-cyan);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-cyan);
+            border-left-color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            color: var(--accent-cyan);
+        }
+
+        /* Overview Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-detail {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Paper Cards */
+        .papers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .paper-card {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .paper-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .paper-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(163, 113, 247, 0.05) 100%);
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .paper-header:hover {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(163, 113, 247, 0.1) 100%);
+        }
+
+        .paper-title-section {
+            flex: 1;
+        }
+
+        .paper-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .paper-authors {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .paper-card.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .paper-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .paper-card.expanded .paper-content {
+            max-height: 2000px;
+        }
+
+        .paper-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Tags */
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .tag-cyan {
+            background: rgba(0, 217, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        .tag-yellow {
+            background: rgba(210, 153, 34, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .tag-red {
+            background: rgba(248, 81, 73, 0.2);
+            color: var(--accent-red);
+        }
+
+        .tag-green {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--accent-green);
+        }
+
+        .tag-purple {
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+
+        .content-section h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .content-section p, .content-section li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .content-section ul {
+            margin-left: 1.5rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Limitations Highlight */
+        .limitations-box {
+            background: linear-gradient(135deg, rgba(210, 153, 34, 0.1) 0%, rgba(248, 81, 73, 0.1) 100%);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-left: 3px solid var(--accent-yellow);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+
+        .limitations-box h5 {
+            color: var(--accent-yellow);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .limitations-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Search & Filter */
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .search-box::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1rem;
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .filter-btn.active {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* Glossary */
+        .glossary-item {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .glossary-term {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-definition {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Themes Section */
+        .theme-box {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-title {
+            color: var(--accent-purple);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .contradiction-item {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-red);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+                width: 100%;
+                display: flex;
+                gap: 1rem;
+                overflow-x: auto;
+            }
+
+            .sidebar .nav-section {
+                flex-direction: row;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .paper-header {
+                flex-direction: column;
+            }
+
+            .dashboard-header-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+        }
+
+        /* =========================================== RESPONSIVE MOBILE FOR SITE INTEGRATION =========================================== */
+        @media (max-width: 768px) {
+            body { padding-top: 120px !important; }
+            #app, header { top: 120px !important; }
+            .sidebar { top: 120px !important; height: calc(100vh - 120px) !important; position: static !important; width: 100% !important; }
+            .content { margin-left: 0 !important; padding-top: 1rem !important; }
+            table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 640px) {
+            body { padding-top: 140px !important; }
+            header { top: 140px !important; }
+            h1 { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+
+    <div id="app">
+        <header>
+            <div class="dashboard-header-content">
+                <h1>Social Media e Salute Mentale</h1>
+                <p class="subtitle">Selezione di ricerche 2024-2026 su social media e benessere psicologico negli adolescenti</p>
+                <div class="dashboard-header-meta">
+                    <span>📊 11 Paper Analizzati</span>
+                    <span>📅 2024-2026</span>
+                    <span>👥 ~200.000 Partecipanti</span>
+                    <span>🔬 Meta-analisi, Longitudinali, EMA</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <aside class="sidebar">
+                <div class="nav-section">
+                    <div class="nav-section-title">Sezioni</div>
+                    <div class="nav-item active" data-section="overview">📊 Panoramica</div>
+                    <div class="nav-item" data-section="papers">📄 Paper Completi</div>
+                    <div class="nav-item" data-section="themes">🔗 Temi Trasversali</div>
+                    <div class="nav-item" data-section="limitations">⚠️ Limitazioni</div>
+                    <div class="nav-item" data-section="glossary">📖 Glossario</div>
+                    <div class="nav-item" data-section="bibliography">📚 Bibliografia</div>
+                </div>
+            </aside>
+
+            <main class="content">
+                <!-- SEZIONE PANORAMICA -->
+                <section id="overview" class="section active">
+                    <h2 class="section-title">Panoramica Generale</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Paper Analizzati</div>
+                            <div class="stat-value">11</div>
+                            <div class="stat-detail">Meta-analisi, studi longitudinali, EMA, revisioni sistematiche</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Periodo Coperto</div>
+                            <div class="stat-value">2024-2026</div>
+                            <div class="stat-detail">Ricerca contemporanea su SM e salute mentale</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Partecipanti Stimati</div>
+                            <div class="stat-value">~200K</div>
+                            <div class="stat-detail">Adolescenti e giovani adulti globalmente</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Metodologie</div>
+                            <div class="stat-value">Diverse</div>
+                            <div class="stat-detail">Sperimentali, longitudinali, ESM, qualitative</div>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">Sintesi Narrativa del Campo</div>
+                        <div class="content-section">
+                            <h4>Stato Attuale della Ricerca</h4>
+                            <p>La ricerca 2024-2026 su social media e salute mentale adolescenziale è caratterizzata da tre tendenze emergenti:</p>
+                            <ul>
+                                <li><strong>Eterogenità riconosciuta:</strong> Non esiste un "effetto universale" del social media. Gli studi contemporanei documentano effetti che variano drammaticamente fra individui, piattaforme, e contesti.</li>
+                                <li><strong>Mecanismi specifici al centro:</strong> La ricerca si è spostata da "SM fa male?" a "COME SM affetta la salute mentale?" Meccanismi quali confronto sociale, ansia da feedback, disruzione del sonno sono ora targetizzati.</li>
+                                <li><strong>Problematic Use vs. Duration:</strong> Il tempo trascorso su SM emerge come proxy insufficiente. L'uso problematico (compulsività, dipendenza-like) è predittore più robusto di sintomi mentali rispetto alla semplice durata.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">Metodologie Rappresentate</div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <div class="content-section">
+                                <h4 style="color: var(--accent-green);">Longitudinali Robuste</h4>
+                                <p>ABCD Study (Nagata et al.) con 11.876 partecipanti follow-up 4 anni; RI-CLPM per separare within-person da between-person effects.</p>
+                            </div>
+                            <div class="content-section">
+                                <h4 style="color: var(--accent-cyan);">ESM/EMA Intensive</h4>
+                                <p>Coyne et al., Pouwels et al. con sampling fino a 6x/giorno per settimane; cattura dinamica within-person real-time.</p>
+                            </div>
+                            <div class="content-section">
+                                <h4 style="color: var(--accent-purple);">Meta-Analisi Critiche</h4>
+                                <p>Ferguson (2025) su 46 studi; Tølbøll (2026) umbrella review su 72 review con power analysis.</p>
+                            </div>
+                            <div class="content-section">
+                                <h4 style="color: var(--accent-yellow);">Registered Reports</h4>
+                                <p>Fassi et al. (2025) pre-specified hypotheses; aumenta credibilità vs exploratory analyses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEZIONE PAPER COMPLETI -->
+                <section id="papers" class="section">
+                    <h2 class="section-title">Paper Completi: Analisi Dettagliata</h2>
+
+                    <div class="search-filter">
+                        <input type="text" class="search-box" id="paperSearch" placeholder="Cerca paper per autore, titolo, o anno...">
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">Tutti</button>
+                            <button class="filter-btn" data-filter="longitudinale">Longitudinali</button>
+                            <button class="filter-btn" data-filter="meta-analisi">Meta-Analisi</button>
+                            <button class="filter-btn" data-filter="ESM">ESM/EMA</button>
+                            <button class="filter-btn" data-filter="eterogeneo">Eterogeneo</button>
+                        </div>
+                    </div>
+
+                    <div class="papers-grid" id="papersContainer">
+                        <!-- Papers will be inserted here by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- SEZIONE TEMI TRASVERSALI -->
+                <section id="themes" class="section">
+                    <h2 class="section-title">Temi Trasversali e Contraddizioni</h2>
+
+                    <div class="theme-box">
+                        <div class="theme-title">1. Il Contrasto Ferguson vs. Altri</div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">La contraddizione più rilevante nel campo emerge fra Ferguson (2025) e la maggioranza della letteratura contemporanea.</p>
+
+                        <div class="contradiction-item">
+                            <strong style="color: var(--accent-red);">Ferguson et al. (2025) - "No Evidence"</strong>
+                            <p>Meta-analisi di 46 studi su SM time e disturbi internalizzanti concluide che correlazioni osservate sono deboli (r~.10-.15), eterogenee, contaminate da bias metodologici, e probabilmente artefatti di publication bias.</p>
+                        </div>
+
+                        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 4px; margin: 1rem 0; border-left: 3px solid var(--accent-cyan);">
+                            <strong style="color: var(--accent-cyan);">VS.</strong>
+                        </div>
+
+                        <div class="contradiction-item" style="border-left-color: var(--accent-green);">
+                            <strong style="color: var(--accent-green);">Studi Contemporanei - "Effetti Reali Rilevati"</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>Nagata et al. (2025): within-person increases in SM predicono depressione (β=0.07-0.09, p≤.01)</li>
+                                <li>Blanquer-Cortés et al. (2026): problematic use predicono depressione across quantile regression</li>
+                                <li>Fassi et al. (2025): adolescenti internalizzanti mostrano pattern SM qualitatively distinctive (50% upward comparison vs 30% controls)</li>
+                                <li>Ahmed et al. (2024): moderate associations SM→mental health via sleep disruption</li>
+                            </ul>
+                        </div>
+
+                        <div class="content-section" style="margin-top: 1rem;">
+                            <h4>Risoluzione della Contraddizione</h4>
+                            <p>La contraddizione è in gran parte <strong>definitoria e metodologica</strong>, non sul dato grezzo:</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li><strong>Ferguson focus:</strong> SM time (durata) come predittore—trova correlazioni deboli. Valido: time spent è metrica grezza insufficiente.</li>
+                                <li><strong>Studi contemporanei focus:</strong> Qualità (problematic use, social comparison, feedback-sensitivity) e within-person changes—trovano effetti più robusti. Valido: questi sono meccanismi specifici più predittivi di durata grezza.</li>
+                                <li><strong>Sintesi:</strong> Non è che "SM fa male" universalmente. È che SM TIME da solo non predice; MA SM QUALITY (problematic use, comparison-driven engagement) SÌ predice. Ferguson critica correttamente la metrica di "time spent" come insufficiente.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">2. Within-Person vs Between-Person Effects</div>
+                        <div class="content-section">
+                            <p>Nagata et al. (ABCD Study, N=11.876) fornisce hallmark metodologico importante usando Random-Intercept Cross-Lagged Panel Models (RI-CLPM):</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li><strong>Within-Person (adolescenti come proprio controllo):</strong> Quando QUESTO adolescente aumenta SM uso da anno a anno, depressione aumenta (β=0.07-0.09). EFFETTO POSITIVO.</li>
+                                <li><strong>Between-Person (differenze stabili fra adolescenti):</strong> Adolescenti che usano MOLTO SM baseline non sono significativamente più depressi di quelli che usano poco. EFFETTO NULLO.</li>
+                            </ul>
+                            <p style="margin-top: 1rem;">Implicazione teorica: <strong>la vulnerabilità a SM è dinamica, non statica</strong>. Non è "sei il tipo vulnerabile a SM"; è "quando TU aumenti improvvisamente il tuo uso, i tuoi sintomi emergono."</p>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">3. Eterogenità Individuale Massiva</div>
+                        <div class="content-section">
+                            <p>Due studi documentano esplicitamente che gli effetti SM variano enormemente fra individui:</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li><strong>Coyne et al. (2025) EMA:</strong> Solo il 36% degli adolescenti mostra effetto negativo (decreased body esteem dopo SM); 47% neutro; 17% paradossalmente positivo (increased esteem). Nessun effetto aggregato ma massima eterogenità.</li>
+                                <li><strong>Pouwels et al. (2025) Temporal Stability:</strong> Rank-order stability degli effetti SM è BASSISSIMA (r=.05-.25) fra due time-points 6 mesi apart. Stesso adolescente che mostrava effetto negativo a wave 1 non lo mostra a wave 2. Effetti NON sono tratti stabili ma fluttuanti per individuo.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">4. Meccanismi Specifici Identificati</div>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1rem;">
+                            <div class="content-section">
+                                <h4>A. Social Comparison (Le Blanc-Brillon et al., 2025)</h4>
+                                <p>Upward social comparison è significativo mediatore: SM use → increased upward comparison → reduced self-esteem, increased depression/anxiety. Direct effect di SM su mental health drammaticamente ridotto quando comparison incluso. Implicazione: targeting comparison cognitions therapeuticamente più efficace che semplice SM reduction.</p>
+                            </div>
+                            <div class="content-section">
+                                <h4>B. Sleep Disruption (Ahmed et al., 2024)</h4>
+                                <p>SM use associated with worse sleep consistency. Sleep partially mediates SM→mental health (20-50% of indirect effect). Triple association: SM disrupts sleep, sleep disruption causes mental health decline. Interventi targeting sleep hygiene + SM boundaries potenzialmente synergistic.</p>
+                            </div>
+                            <div class="content-section">
+                                <h4>C. Problematic Use & Feedback Sensitivity (Blanquer-Cortés, Fassi)</h4>
+                                <p>Non è time ma COMPULSIVE use (addictive-like patterns) che predicone depression. Fassi et al. documenta che adolescenti clinically internalizzanti (anxiety/depression) sono 2-3x more sensitive a feedback online (likes/comments impact mood) vs controls. Mechanistic: approval-seeking + anxiety = feedback hypersensitivity.</p>
+                            </div>
+                            <div class="content-section">
+                                <h4>D. Content Type Specificity (Yang et al., 2025)</h4>
+                                <p>Intimate content broadcasting seeking validation increases anxiety/depression via approval-anxiety pathway. Pure positive content broadcasting protective. "Time on SM" è agnostico a content; content determines outcome.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">5. Platform Specificity Emergente (TikTok)</div>
+                        <div class="content-section">
+                            <p><strong>Jain et al. (2025)</strong> - primo systematic review TikTok-specific - documenta che TikTok merita research dedicato vs lumping con "generic social media":</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Algorithm TikTok notoriamente amplifica content eating-disorder-related, appearance-focused, self-harm per user vulnerability detection</li>
+                                <li>Demographic TikTok più giovane (12-24 core user base) e developmentally più vulnerable</li>
+                                <li>Design features (infinite scroll, autop play, algorithmic personalization) più addictive che Instagram/Facebook</li>
+                                <li>Ricerca rimane nascente ma rischi platform-specific emergenti</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">6. Sottopotenziamento Statistico Sistematico (Tølbøll, 2026)</div>
+                        <div class="content-section">
+                            <p><strong>Allarme epistemologico:</strong> Umbrella review su 72 review (20 meta-analisi) documenta che solo 4/15 meta-analisi (27%) su SM use generale raggiungono potenza statistica mediana >80%.</p>
+                            <p style="margin-top: 0.5rem;">Implicazione: "consenso" apparente sul danneggiamento SM potrebbe essere artefatto di aggregazione di studi sottopotenziati piuttosto che evidence robusto. Campo ha necessità urgent di mega-studi longitudinali ad alta potenza pre-registered.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEZIONE LIMITAZIONI -->
+                <section id="limitations" class="section">
+                    <h2 class="section-title">Limitazioni Metodologiche & Zone d'Ombra Critiche</h2>
+
+                    <div class="theme-box">
+                        <div class="theme-title">Limitazioni Ricorrenti Across Studies</div>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1rem;">
+                            <div class="limitations-box">
+                                <h5>🔴 Self-Report Bias su SM Exposure</h5>
+                                <p>Quasi tutti gli studi misurano SM time via autoreport (adolescenti dichiarano minuti/giorno). Validità compromessa: recall bias, social desirability bias, accuracy development cognitivo ancora in corso. Nagata et al. ABCD (gold standard large-N study) rimane vulnerabile a questo. Soluzione: app-based objective tracking (difficile ottenere da platform companies per privacy/policy reasons).</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🔴 Outcome Measurement via Single-Item o Self-Report</h5>
+                                <p>Depression outcome frequentemente via autoreport (CDI, PHQ-9) o caregiver-only (CBCL Nagata). Single-item measures (Pouwels body esteem, mood) sono affidabilità estremamente bassa. Multi-rater, clinical interview assessment (come Fassi et al.) rimane raro. Clinical diagnostic gold standard (structured interview) costoso; limitato a pochi studi.</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🔴 Confounding Non Misurato</h5>
+                                <p>Peer bullying/victimization, family conflict, neuroticism/personality, sleep quality (baseline), puberty timing, SES—tutti noti predictors di SM use E mental health—rarely measured or adjusted. Unmeasured confounding bias amplified quando tutti confounders operate in same direction (depression causes both SM seeking AND is confound).</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🔴 Reverse Causation Ambigua</h5>
+                                <p>Anche studi longitudinali (Nagata, Blanquer-Cortés) non definitively escludono: depressed youth may use SM MORE (seeking support OR escaping), which THEN worsens mood (feedback loop). Longitudinal ordering aiuta ma non risolve. RCTs (rare) sarebbero definitivi ma eticamente problematici (withhold SM from adolescenti).</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🟡 Operationalization Heterogeneity</h5>
+                                <p>"Social media use" operationalized diversamente across studies: time duration, frequency, problematic use scale, specific platform time, engagement type. Ferguson's meta-analisi aggregates across—problematico perché costrutti non equivalenti. Meta-regression per operationalization method raro.</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🟡 Sample Selectivity & Generalizability</h5>
+                                <p>ABCD (Nagata) oversamples higher-SES, mostly-white families. Jain TikTok review nascent literature mostly US/Western. Pouwels Dutch adolescenti 2019-2020 (pre-TikTok dominance Europe). Fassi UK NHS (representative UK not global). Cross-cultural SM norms, platform adoption, depression expression vastly differ.</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🟡 Attrition & Missing Data Underdisclosed</h5>
+                                <p>Nagata: "sample size varied across waves" (attrition unquantified). Coyne EMA: compliance 4x/day x 17 days—mean compliance non-reported, likely <50%. Attrition differenziale (depressed adolescenti more likely dropout) introduces bias.</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🔵 Multiple Comparisons Uncorrected</h5>
+                                <p>Blanquer-Cortés tests multiple quantiles + interactions senza Bonferroni. Fassi compares 10+ SM measures across diagnostic groups senza correction. Risk di type-I error inflated.</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>🔵 Mechanism Pathways Under-Explored</h5>
+                                <p>Paper identifica associations ma non mechanisms. SM→depression operated how? Via sleep, social comparison, offline isolation, family conflict escalation? Mediation analyses with multiple mediators concurrently tested raro. Le Blanc-Brillon testa comparison; Ahmed testa sleep; but altri?</p>
+                            </div>
+
+                            <div class="limitations-box">
+                                <h5>⚪ Publication Bias Ubiquitous</h5>
+                                <p>Ferguson documents funnel asymmetry suggesting null/weak studies unpublished. Risk: field accumulates inflated effects. Alternative bias directions (small-study high variance, inflation in small Ns) not addressed.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">Zone d'Ombra Critiche (Non-Detto Strutturale)</div>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1rem;">
+                            <div class="content-section">
+                                <h4>1. Content Quality vs. Quantity Blind Spot</h4>
+                                <p>Tutti gli studi lumping "SM use" (60 min watching body-positive TikTok = 60 min watching upward-comparison Instagram reels). Varianza clinicamente rilevante nascosta in "time spent." Soluzione: content analysis granulare, ma computationally/ethically difficult senza platform cooperation.</p>
+                            </div>
+
+                            <div class="content-section">
+                                <h4>2. Absence of Protective Factor Analysis</h4>
+                                <p>Se 17% di adolescenti (Coyne) MIGLIORANO il body esteem su SM, cosa protegge? Offline peer support? Body-positive communities? Parental validation? Non indagato. Field biased toward "harm" narrative; protective aspects underdeveloped.</p>
+                            </div>
+
+                            <div class="content-section">
+                                <h4>3. Algorithmic Exposure Non-Misurato</h4>
+                                <p>Personalized feeds (TikTok, Instagram) show diverso content per user. "SM time" è completely heterogeneous in actual exposure. Alcuni adolescenti algorithmically served eating-disorder content; altri body-positive. Mechanism investigation impossible senza platform API access (rare).</p>
+                            </div>
+
+                            <div class="content-section">
+                                <h4>4. Developmental Precision Deficit</h4>
+                                <p>Adolescenti 12yo e 18yo hanno radically different vulnerability (peer importance, identity flux, impulse control). Most studies lump wide age ranges senza stratification. Developmental mechanisms (puberty timing, identity formation stage) rarely theorized explicitly.</p>
+                            </div>
+
+                            <div class="content-section">
+                                <h4>5. Offline Context Erasure</h4>
+                                <p>Coyne EMA captures SM use ma NOT offline context. Same SM exposure with peers present (co-viewing, reality-testing) vs. alone (pure comparison rumination)—opposite effects likely. Family conflict, school stress, peer bullying—all modulate SM effect pero rarely concurrent measurement.</p>
+                            </div>
+
+                            <div class="content-section">
+                                <h4>6. Temporal Granularity Mismatch</h4>
+                                <p>Nagata measures SM annually; depression annually. Effects emerge on hourly/daily scale ma lag structure opaque. Pouwels ESM cattura daily pero only 17 giorni per wave. True micro-temporal dynamics (SM session → mood next hour vs next day) underspecified.</p>
+                            </div>
+
+                            <div class="content-section">
+                                <h4>7. Comorbidity Lumping</h4>
+                                <p>Fassi distingue internalizzanti (anxiety/depression) vs externalizzanti. Ma vero adolescenti hanno anxiety + depression + ADHD. Comorbid categories sparse. Pattern SM potrebbe diverge per comorbid vs single-diagnosis.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="theme-box">
+                        <div class="theme-title">Meta-Limitazione: Epistemological Humility Required</div>
+                        <div class="content-section">
+                            <p>Il campo nel suo insieme è caratterizzato da:</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li><strong>Polarizzazione retorica:</strong> "SM ruins adolescents" vs. "no evidence of harm" sono entrambi overclaims. Verità è "heterogeneous effects contingent on mechanism, individual vulnerability, content, context—not known universally."</li>
+                                <li><strong>Metodological maturation lag:</strong> Letteratura scientifica su SM è ~5 anni dietro metodological best practices. Pre-registration rare; many exploratory findings. Power insufficient. Confounding unmeasured.</li>
+                                <li><strong>Platform opacity:</strong> Algoritmi, design features, A/B tests proprietary. Researchers locked out di mechanistic investigation. RCTs su platform features richiedono cooperation da Facebook/TikTok/Snapchat (commercially disincentivized).</li>
+                                <li><strong>Intervento precedence:</strong> Policy (screen time limits, age restrictions) implemented based on weak evidence. Better approach: hypothesis-driven large-N prospective studies before policy.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEZIONE GLOSSARIO -->
+                <section id="glossary" class="section">
+                    <h2 class="section-title">Glossario Tecnico</h2>
+
+                    <div class="search-filter" style="margin-bottom: 2rem;">
+                        <input type="text" class="search-box" id="glossarySearch" placeholder="Cerca termine...">
+                    </div>
+
+                    <div id="glossaryContainer">
+                        <!-- Glossary items will be inserted here -->
+                    </div>
+                </section>
+
+                <!-- SEZIONE BIBLIOGRAFIA -->
+                <section id="bibliography" class="section">
+                    <h2 class="section-title">Bibliografia Completa</h2>
+
+                    <div class="papers-grid" id="bibliographyContainer">
+                        <!-- Bibliography will be inserted here -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p>Dashboard di ricerca interattivo: Social Media e Salute Mentale 2024-2026</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">Fonte: 11 paper peer-reviewed selezionati e analizzati criticamente | Ultimo aggiornamento: 9 febbraio 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Dati dei paper
+        const papersData = [
+            {
+                id: 1,
+                title: "Within-Person Longitudinal Association: Social Media Use e Depressive Symptoms in Early Adolescence",
+                authors: "Nagata, J. M., et al.",
+                year: 2025,
+                journal: "JAMA Network Open",
+                doi: "10.1001/jamanetworkopen.2025.11704",
+                type: "longitudinale",
+                methodology: ["Longitudinale", "RI-CLPM", "ABCD Study"],
+                highlights: [
+                    "N=11.876 adolescenti, follow-up 4 anni",
+                    "Within-person increases SM predicono depression (β=0.07-0.09)",
+                    "Between-person: nessuna associazione baseline",
+                    "Hallmark: separazione within-person da between-person effects"
+                ],
+                limitations: [
+                    "Self-report SM time (recall bias, social desirability)",
+                    "CBCL depression caregiver-only (non adolescent self-report)",
+                    "Assenza confounders critici (bullying, family conflict, puberty)",
+                    "Attrition rates non riportate",
+                    "Effect size piccolo clinicamente (β~0.07)"
+                ],
+                implications: [
+                    "Increases individuali in SM precedono depressione (causality temporale inferibile)",
+                    "Early detection interventions su increases, non absolute amounts",
+                    "Digital phenotyping per flagging escalation"
+                ],
+                filter: ["longitudinale"]
+            },
+            {
+                id: 2,
+                title: "No Evidence That Time Spent on Social Media Is Correlated With Adolescent Mental Health Problems",
+                authors: "Ferguson, C. J., et al.",
+                year: 2025,
+                journal: "Professional Psychology: Research and Practice",
+                doi: "10.1037/pro0000589",
+                type: "meta-analisi",
+                methodology: ["Meta-analisi", "46 studi", "PRISMA"],
+                highlights: [
+                    "Aggregated correlations r~.10-.15 (molto deboli)",
+                    "Publication bias e methodological quality issues documentati",
+                    "Studi migliore qualità producono effet sizes ancora più piccoli",
+                    "Conclusione: 'no evidence' per causal link SM time → mental health"
+                ],
+                limitations: [
+                    "Outcome heterogeneity non adequately addressed",
+                    "SM time definition molto eterogenea (TikTok vs Twitter)",
+                    "Reverse causation non testata formalmente",
+                    "Publication bias assumptions unidirectionali",
+                    "Confounding variable integration superficiale"
+                ],
+                implications: [
+                    "Critica necessaria all'alarmismo media",
+                    "Policy caution su restrictions non evidence-based",
+                    "Clinical practice: quality not quantity matters"
+                ],
+                filter: ["meta-analisi"]
+            },
+            {
+                id: 3,
+                title: "Social Media Activities With Different Content Characteristics and Adolescent Mental Health",
+                authors: "Yang, C.-C., et al.",
+                year: 2025,
+                journal: "Journal of Medical Internet Research",
+                doi: "10.2196/73098",
+                type: "trasversale",
+                methodology: ["Cross-sectional", "Path analysis", "Mediazione"],
+                highlights: [
+                    "Intimate broadcasting & communication → anxiety/depression via approval-anxiety",
+                    "Positive-only broadcasting → protective effect",
+                    "Passive consumption → minimal effect",
+                    "Content type matters più than duration"
+                ],
+                limitations: [
+                    "Cross-sectional (causality non inferable)",
+                    "SM activity operationalization ambigua",
+                    "Validation contro app data assente",
+                    "Reverse causality plausibile",
+                    "Gender/age moderation non addressed"
+                ],
+                implications: [
+                    "Adolescenti: share vulnerabilities privately, not publicly",
+                    "Digital literacy: intentionality di content-sharing",
+                    "Platform design: private vs. public contexts"
+                ],
+                filter: []
+            },
+            {
+                id: 4,
+                title: "Umbrella Review: Eterogenea Evidence sulla Relazione Social Media e Salute Mentale Adolescenziale",
+                authors: "Tølbøll, K.",
+                year: 2026,
+                journal: "Child and Adolescent Mental Health",
+                doi: "10.1111/camh.70071",
+                type: "umbrella-review",
+                methodology: ["Umbrella review", "72 reviews", "Power analysis", "1.070 effect sizes"],
+                highlights: [
+                    "Solo 4/15 meta-analisi (27%) su SM general use raggiungono potenza >80%",
+                    "Uso problematico mostra associazioni più robuste",
+                    "Sottopotenziamento sistematico campo documentato",
+                    "Epistemological alarm: consensus potrebbe essere artefatto"
+                ],
+                limitations: [
+                    "Review heterogeneità (narrative, systematic, scoping lumped)",
+                    "Qualità meta-analisi non filtrata (no AMSTAR)",
+                    "Confound di compliance con stability",
+                    "Sensitivity analyses su anni di pubblicazione assente",
+                    "Interaction paradox: eterogenità per sottogruppi non addressed"
+                ],
+                implications: [
+                    "Clinician training su power analysis e lettura critica",
+                    "Mega-studi prospettivi robusti urgent",
+                    "Epistemological humility necessaria"
+                ],
+                filter: ["meta-analisi"]
+            },
+            {
+                id: 5,
+                title: "The Associations Between Social Comparison on Social Media and Young Adults' Mental Health",
+                authors: "Le Blanc-Brillon, J., et al.",
+                year: 2025,
+                journal: "Frontiers in Psychology",
+                doi: "10.3389/fpsyg.2025.1597241",
+                type: "trasversale",
+                methodology: ["Cross-sectional", "Path analysis", "Mediation"],
+                highlights: [
+                    "Upward social comparison significant mediator",
+                    "SM use → comparison → depression/anxiety",
+                    "Direct effect SM on mental health ridotto quando comparison included",
+                    "Mechanism: psychological process (comparison) not duration"
+                ],
+                limitations: [
+                    "Cross-sectional design (causality ambigua)",
+                    "All self-report (method variance inflates)",
+                    "Sample characteristics omessi (N, demographics unknown)",
+                    "Mediation assumptions violate (unmeasured confounding)",
+                    "Reverse causation non addressed (depression → comparison → SM)"
+                ],
+                implications: [
+                    "Cognitive-behavioral intervention targeting comparison cognitions",
+                    "Clinical assessment: quale tipo di confronto specificamente?",
+                    "Therapy: reality-checking di curated content effectiveness"
+                ],
+                filter: []
+            },
+            {
+                id: 6,
+                title: "Exploring Problematic TikTok Use and Mental Health Issues",
+                authors: "Jain, L., et al.",
+                year: 2025,
+                journal: "Journal of Primary Care & Community Health",
+                doi: "10.1177/21501319251327303",
+                type: "systematic-review",
+                methodology: ["Systematic review", "Platform-specific", "First TikTok review"],
+                highlights: [
+                    "Prima revisione sistematica TikTok-specific",
+                    "Algorithm TikTok amplifica eating disorder & self-harm content",
+                    "Demographic core users (12-24) developmentally vulnerabile",
+                    "Design features più addictive che Instagram"
+                ],
+                limitations: [
+                    "Nascent literature base (small N studies, recent)",
+                    "Publication lag: risks documented by journalists prima peer-review",
+                    "Algorithm opacity (researchers cannot experimentally manipulate)",
+                    "Demographic skew (likely US/Western-dominated)",
+                    "Rapid platform evolution (findings have short shelf-life)"
+                ],
+                implications: [
+                    "TikTok deserves platform-specific research not generic SM",
+                    "Clinical screening: algorithmic exposure per vulnerable users",
+                    "Platform accountability: content moderation transparency"
+                ],
+                filter: []
+            },
+            {
+                id: 7,
+                title: "Effects of Problematic Social Media Use on Depressive Symptoms",
+                authors: "Blanquer-Cortés, M., et al.",
+                year: 2026,
+                journal: "Scientific Reports",
+                doi: "10.1038/s41598-025-29258-x",
+                type: "longitudinale",
+                methodology: ["Longitudinale", "Quantile regression", "Moderation analysis"],
+                highlights: [
+                    "N=2.121 adolescenti, 2 timepoints",
+                    "Problematic use (non time) associato depression across all quantiles",
+                    "Followers × gender interaction: girls elevated risk",
+                    "Younger adolescenti più vulnerabili"
+                ],
+                limitations: [
+                    "Depression outcome non specificato (CDI? PHQ-9?)",
+                    "Follower count conflation con problematic use concept",
+                    "Multiple testing uncorrected (3 quantiles + interactions)",
+                    "Unmeasured confounders (bullying, family conflict, sleep)",
+                    "Reverse causation possibile (depression → problematic use)"
+                ],
+                implications: [
+                    "Problematic use better intervention target than absolute time limits",
+                    "Girls gendered risk: follower visibility anxiety mechanism",
+                    "Digital literacy: compulsivity recognition vs time monitoring"
+                ],
+                filter: ["longitudinale"]
+            },
+            {
+                id: 8,
+                title: "Who is Most at Risk for Body Esteem Problems After Being on Social Media?",
+                authors: "Coyne, S. M., et al.",
+                year: 2025,
+                journal: "Body Image",
+                doi: "Not specified",
+                type: "EMA",
+                methodology: ["EMA", "Longitudinale", "Phenotypic analysis"],
+                highlights: [
+                    "N=183 adolescenti, 4x daily x 17 giorni (up to 68 observations)",
+                    "Time SM da solo NOT significantly associated body esteem",
+                    "PERO heterogeneity: 47% neutral, 36% negative, 17% positive",
+                    "Predictors negative: female, problematic use, perfectionism, eating disorder risk"
+                ],
+                limitations: [
+                    "Small N (183); high attrition EMA compliance <50% likely",
+                    "Body esteem single-item (unreliable outcome)",
+                    "Phenotypic classification post-hoc (unstable, no cross-validation)",
+                    "Content categorization self-reported (unvalidated)",
+                    "Offline context unmeasured (alone vs with peers)"
+                ],
+                implications: [
+                    "One-size-fits-all SM harm narrative inadequate",
+                    "Protective 17% merits investigation equal to negative 36%",
+                    "Offline peer support buffering effect likely but untested"
+                ],
+                filter: ["ESM"]
+            },
+            {
+                id: 9,
+                title: "Changing or Stable? The Effects of Adolescents' Social Media Use on Psychosocial Functioning",
+                authors: "Pouwels, J. L., et al.",
+                year: 2025,
+                journal: "Child Development",
+                doi: "10.1111/cdev.14207",
+                type: "ESM",
+                methodology: ["ESM", "Temporal stability", "Rank-order correlation"],
+                highlights: [
+                    "N=297 olandesi, ESM 2 waves 6 months apart",
+                    "Rank-order stability SM effects: r=.05-.25 (EXTREMELY LOW)",
+                    "Adolescenti che mostravano effetto negativo wave 1 NO effetto wave 2",
+                    "Effetti NOT stable traits—fluctuating within individuals"
+                ],
+                limitations: [
+                    "Compliance rates wave 2: 58% (substantial attrition)",
+                    "Single-item outcomes (affective well-being, self-esteem, friendship closeness)",
+                    "Within-person regressions on 73 observations unreliable per low-compliance subjects",
+                    "Confound di compliance con effect stability",
+                    "6-month window insufficient to test true stability?"
+                ],
+                implications: [
+                    "Cannot classify adolescenti as stably 'vulnerable' or 'resilient'",
+                    "Risk assessment deve essere dynamic, not static",
+                    "Effects are context/time-dependent, not traits"
+                ],
+                filter: ["ESM"]
+            },
+            {
+                id: 10,
+                title: "Social Media Use in Adolescents With and Without Mental Health Conditions",
+                authors: "Fassi, L., Ferguson, A. M., Przybylski, A. K., et al.",
+                year: 2025,
+                journal: "Nature Human Behaviour",
+                doi: "10.1038/s41562-025-02134-4",
+                type: "registered-report",
+                methodology: ["Registered Report", "Clinical diagnoses", "Cross-sectional"],
+                highlights: [
+                    "N=3.340 UK adolescenti con clinical diagnostic assessments",
+                    "Internalizzanti (anxiety/depression): +50 min SM/day, 50% upward comparison, 28% mood-sensitive feedback",
+                    "Externalizzanti: elevated time but NOT distinctive behavioral pattern",
+                    "SM use patterns qualitatively distinctive per diagnostic group"
+                ],
+                limitations: [
+                    "Cross-sectional (reverse causation ambigua)",
+                    "Diagnostic method non esplicitato (DAWBA? SCID?)",
+                    "Comorbidità categorization opaca",
+                    "Self-report SM behaviors (even though diagnoses clinician-assessed)",
+                    "No objective SM measurement (app tracking)"
+                ],
+                implications: [
+                    "Internalizzanti show comparison-driven, feedback-sensitive SM engagement",
+                    "Condition-specific intervention targets indicated",
+                    "Clinical assessment qualitativo (not quantitativo time) needed"
+                ],
+                filter: ["eterogeneo"]
+            },
+            {
+                id: 11,
+                title: "Social Media Use, Mental Health and Sleep: A Systematic Review With Meta-Analyses",
+                authors: "Ahmed, O., et al.",
+                year: 2024,
+                journal: "Journal of Affective Disorders",
+                doi: "10.1016/j.jad.2024.08.193",
+                type: "meta-analisi",
+                methodology: ["Systematic review", "Meta-analisi", "98 studi, N=102.683"],
+                highlights: [
+                    "SM → worse sleep (consistent associations)",
+                    "Sleep → worse mental health (strong associations)",
+                    "Sleep partially mediates SM → MH (20-50% of indirect effect)",
+                    "Triple association: SM disrupts sleep → mental health declines"
+                ],
+                limitations: [
+                    "Heterogeneity in SM operationalization (duration, frequency, problematic)",
+                    "Mental health outcome diversity (depression, anxiety, loneliness, etc.)",
+                    "Sleep measurement inconsistency (duration vs quality vs insomnia)",
+                    "Cross-sectional dominance (majority of 98 studies)",
+                    "Mediation pathway only in 4/98 studies (weak basis for claim)"
+                ],
+                implications: [
+                    "Sleep is modifiable intervention target",
+                    "Sleep hygiene + SM behavioral boundaries may be synergistic",
+                    "Platform design: nighttime mode, notification disabling"
+                ],
+                filter: ["meta-analisi"]
+            }
+        ];
+
+        // Glossary terms
+        const glossaryTerms = [
+            { term: "ABCD Study", definition: "Adolescent Brain Cognitive Development Study—largest longitudinal cohort in USA (N=11.876), seguendo adolescenti da 9-10 a 12-13 anni, con assessment annuale su SM use e mental health outcomes via standardized instruments (CBCL)." },
+            { term: "RI-CLPM", definition: "Random-Intercept Cross-Lagged Panel Model—tecnica statistica che decompone variance in within-person (intra-individual changes over time) vs between-person (stable traits). Supera limite di CLPM standard assumendo same effects across subjects." },
+            { term: "Within-Person Effect", definition: "Effetto riferito a variazione intra-individuale (stesso soggetto in tempi diversi). Nagata trova: quando adolescente specifico aumenta SM, QUEL adolescente sviluppa depressione più elevata temporalmente. Compare a between-person (differenze stabili fra soggetti)." },
+            { term: "Meta-Analisi", definition: "Analisi sistematica di multiple studi pubblicati, aggregando effect sizes via random-effects models per ottenere overall correlation/effect. Vulnerable a publication bias, heterogeneity. Ferguson's 46-study meta-analysis è esempio." },
+            { term: "EMA / ESM", definition: "Ecological Momentary Assessment / Experience Sampling Method—protocolli intensivi (es. 4x daily per 17 giorni) dove participants rispondono momentary questionnaires su smartphone capturing real-time exposures, mood, behaviors. Coyne, Pouwels esempi." },
+            { term: "Problematic Social Media Use (PSMU)", definition: "Construct misurante compulsive, addictive-like SM engagement (frequent checking, hiding use, failed reduction attempts, mood-dependent use)—distinto da duration semplice. Blanquer-Cortés trova PSMU più predittive depression che time spent." },
+            { term: "Social Comparison (Upward)", definition: "Psychological processo di valutare se stessi contro altri superiori in dimensioni rilevanti (appearance, success, lifestyle). SM amplifica comparison opportunities. Le Blanc-Brillon identifica comparison come significant mediator SM → mental health." },
+            { term: "Publication Bias", definition: "Tendenza studi con risultati 'significativi' o 'positivi' di essere pubblicati vs null findings, inflating aggregate effect size in meta-analyses. Ferguson identifica asymmetrical funnel plots suggesting bias; Tølbøll rileva che consensus SM-harm potrebbe essere artefatto." },
+            { term: "Effect Size (Cohen's d, r, β)", definition: "Quantificazione di magnitude di association/effect. Nagata β=0.07 significa 10-minute SM increase associated ~0.07 SD increase depressive symptoms. Ferguson r=.10 molto debole correlazione. Importante: statistical significance ≠ clinical significance." },
+            { term: "Power Analysis", definition: "Calcolo probabilità di rilevare true effect se esiste (statistical power typically target >80%). Tølbøll allarma: 73% meta-analisi SM use generale sotto-potenziate (<80%), compromettendo validità conclusioni aggregate." },
+            { term: "Heterogeneity (I²)", definition: "Proporzione variance tra studi in meta-analisi dovuta a true effect differences (not sampling error). I²=70-80% suggerisce substantial unexplained variance. Può riflettere true heterogeneous effects (alcuni subgroups harmed, others not) o poor quality." },
+            { term: "Mediation", definition: "Mechanism pathway: Independent Variable (SM) → Mediator (comparison/sleep) → Dependent Variable (depression). Le Blanc-Brillon mostra comparison mediates SM effect; Ahmed mostra sleep mediates. Mechanistic causal inference richiede longitudinal design + cross-lagged testing." },
+            { term: "Moderation", definition: "Variabile che alters relationship strength fra predictor e outcome. Blanquer-Cortés finds gender moderation: followers × depression relationship stronger in girls. Moderation addresses 'for whom' do effects occur." },
+            { term: "Reverse Causality", definition: "Alternative causal direction: outcome predicts predictor (depression → SM use, not SM → depression). Longitudinal design helps order temporally, but definitivo causal inference requires RCT or instrumental variables." },
+            { term: "Selection Bias", definition: "Partecipanti study non representative population. Coyne EMA N=183 self-selected; likely higher engagement/concern per topic. Generalizability reduced." },
+            { term: "Confounding", definition: "Tertiary variable influencing both predictor e outcome, biasing estimate di direct association. Peer bullying, family conflict predict BOTH SM use AND depression; if unmeasured, association SM-depression spurious." },
+            { term: "Common Method Variance", definition: "Inflation di correlations quando tutti measures da same method (self-report). Le Blanc-Brillon: SM use, comparison, mental health tutti self-report—method variance inflates correlations beyond true relationships." },
+            { term: "Temporal Stability", definition: "Consistency effects across time. Pouwels finds LOW rank-order stability (r=.05-.25): adolescenti showing strong SM effect on well-being at wave 1 don't at wave 2. Suggests effects state-like, not trait-like." },
+            { term: "Phenotype", definition: "Observable characteristics/patterns. Coyne identifies 3 phenotypes per SM-body esteem: neutral (47%), negative (36%), positive (17%). Individual phenotypes predict differential SM outcomes." },
+            { term: "Registered Report", definition: "Study design where hypotheses, methods, analyses pre-specified BEFORE data collection, submitted for peer-review pre-publication. Fassi et al. esempio—reduces analytic flexibility risk." },
+            { term: "STROBE Checklist", definition: "Strengthening the Reporting of Observational Studies in Epidemiology—quality assessment tool for observational studies (cross-sectional, cohort). Items include selection, information, confounding, analysis. Papers evaluated on completeness." },
+            { term: "PRISMA Checklist", definition: "Preferred Reporting Items for Systematic reviews and Meta-Analyses—quality assessment per meta-analyses. Items: search strategy, selection criteria, bias assessment, effect size extraction. Ferguson, Ahmed, Jain submittono PRISMA." },
+            { term: "Umbrella Review", definition: "Review of reviews—synthesizing multiple reviews (meta-analisi, systematic, narrative) on same topic. Tølbøll 2026 esamina 72 reviews sulla SM-mental health relationship, conducting power analysis across." },
+            { term: "Attrition / Dropout", definition: "Partecipanti loss to follow-up in longitudinal studies. Se differenziale (depressed adolescenti drop-out più), bias introduced. Nagata, Pouwels don't fully quantify." },
+            { term: "Algorithm", definition: "Computational system determining content delivered to users (personalized feed). TikTok algorithm notoriously amplifies appearance-focused, eating-disorder content per user engagement patterns. Platform opacity prevents researcher investigation." }
+        ];
+
+        // Initialize papers container
+        function initPapers() {
+            const container = document.getElementById('papersContainer');
+            container.innerHTML = papersData.map((paper, index) => `
+                <div class="paper-card" data-paper-id="${paper.id}" data-filter="${paper.filter.join(' ')}">
+                    <div class="paper-header" onclick="togglePaper(${paper.id})">
+                        <div class="paper-title-section">
+                            <div class="paper-title">${paper.title}</div>
+                            <div class="paper-authors">${paper.authors}</div>
+                            <div class="paper-meta">
+                                <span>${paper.year}</span>
+                                <span>${paper.journal}</span>
+                                <span>${paper.doi}</span>
+                            </div>
+                        </div>
+                        <div class="toggle-icon">▼</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="tags">
+                                ${paper.methodology.map(m => `<span class="tag tag-cyan">${m}</span>`).join('')}
+                            </div>
+                            <div class="content-section">
+                                <h4>Key Findings</h4>
+                                <ul>${paper.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
+                            </div>
+                            <div class="limitations-box">
+                                <h5>Limitazioni Metodologiche</h5>
+                                <ul>${paper.limitations.map(l => `<li>${l}</li>`).join('')}</ul>
+                            </div>
+                            <div class="content-section">
+                                <h4>Implicazioni Cliniche/Educative</h4>
+                                <ul>${paper.implications.map(i => `<li>${i}</li>`).join('')}</ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle paper expansion
+        function togglePaper(paperId) {
+            const card = document.querySelector(`[data-paper-id="${paperId}"]`);
+            card.classList.toggle('expanded');
+        }
+
+        // Initialize glossary
+        function initGlossary() {
+            const container = document.getElementById('glossaryContainer');
+            container.innerHTML = glossaryTerms.map(item => `
+                <div class="glossary-item">
+                    <div class="glossary-term">${item.term}</div>
+                    <div class="glossary-definition">${item.definition}</div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize bibliography
+        function initBibliography() {
+            const container = document.getElementById('bibliographyContainer');
+            container.innerHTML = papersData.map(paper => `
+                <div class="theme-box" style="background: var(--bg-cards); border: 1px solid var(--border-color); padding: 1.5rem;">
+                    <div style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.5rem;">${paper.authors} (${paper.year})</div>
+                    <div style="color: var(--text-primary); margin-bottom: 0.5rem; font-size: 0.95rem;">${paper.title}</div>
+                    <div style="color: var(--text-secondary); font-size: 0.85rem;">${paper.journal}</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">DOI: ${paper.doi}</div>
+                </div>
+            `).join('');
+        }
+
+        // Navigation
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const sectionId = item.getAttribute('data-section');
+
+                // Update active nav item
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                // Update active section
+                sections.forEach(s => s.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Paper filtering and search
+        const paperSearch = document.getElementById('paperSearch');
+        const filterBtns = document.querySelectorAll('[data-filter]');
+        let activeFilter = 'all';
+
+        if (paperSearch) {
+            paperSearch.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                document.querySelectorAll('[data-paper-id]').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(query) && (activeFilter === 'all' || card.getAttribute('data-filter').includes(activeFilter)) ? 'block' : 'none';
+                });
+            });
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                activeFilter = e.target.getAttribute('data-filter');
+
+                const query = paperSearch ? paperSearch.value.toLowerCase() : '';
+                document.querySelectorAll('[data-paper-id]').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    const matchesFilter = activeFilter === 'all' || card.getAttribute('data-filter').includes(activeFilter);
+                    const matchesSearch = !query || text.includes(query);
+                    card.style.display = matchesFilter && matchesSearch ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        if (glossarySearch) {
+            glossarySearch.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                document.querySelectorAll('.glossary-item').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(query) ? 'block' : 'none';
+                });
+            });
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initPapers();
+            initGlossary();
+            initBibliography();
+        });
+    </script>
+
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>

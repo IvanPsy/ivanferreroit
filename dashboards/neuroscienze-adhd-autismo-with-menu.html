@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Neuroscienze, ADHD, Autismo e Dopamina - 2025-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0a0e14 0%, #0f1419 50%, #1a222d 100%);
+            background-attachment: fixed;
+            color: #e6edf3;
+            line-height: 1.7;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Grid pattern background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(15, 20, 25, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 20, 25, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 20, 25, 0.95);
+            border-right: 1px solid #30363d;
+            padding: 20px;
+            position: fixed;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
+            z-index: 900;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #00d9ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #30363d;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #8b949e;
+            text-decoration: none;
+            border-radius: 8px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            border-left-color: #00d9ff;
+            padding-left: 20px;
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(0, 217, 255, 0.15);
+            color: #00d9ff;
+            border-left-color: #00d9ff;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        /* Header */
+        .dashboard-header {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #30363d;
+        }
+
+        .dashboard-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .dashboard-header p {
+            color: #8b949e;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .dashboard-header-meta {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #30363d;
+            font-size: 13px;
+            color: #6e7681;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Section Container */
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #30363d;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: #a371f7;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a222d 0%, #2d3748 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00d9ff, #3fb950, transparent);
+        }
+
+        .stat-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #8b949e;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00d9ff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Paper Cards */
+        .paper-card {
+            background: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .paper-card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .paper-header {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(63, 185, 80, 0.05) 100%);
+            padding: 25px;
+            border-bottom: 1px solid #30363d;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .paper-header:hover {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.15) 0%, rgba(63, 185, 80, 0.1) 100%);
+        }
+
+        .paper-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #00d9ff;
+            margin-bottom: 8px;
+        }
+
+        .paper-authors {
+            font-size: 13px;
+            color: #8b949e;
+            margin-bottom: 5px;
+        }
+
+        .paper-meta {
+            font-size: 12px;
+            color: #6e7681;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            color: #00d9ff;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+
+        .paper-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .paper-content {
+            padding: 25px;
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .paper-content.visible {
+            display: block;
+            max-height: 50000px;
+        }
+
+        .paper-body {
+            color: #e6edf3;
+            line-height: 1.8;
+        }
+
+        .paper-section {
+            margin-bottom: 20px;
+        }
+
+        .paper-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #3fb950;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .paper-section p {
+            margin-bottom: 12px;
+            color: #c9d1d9;
+        }
+
+        .paper-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .paper-section li {
+            margin-bottom: 8px;
+            color: #c9d1d9;
+        }
+
+        /* Tags */
+        .tags {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #30363d;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: 1px solid #00d9ff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .tag.red {
+            background: rgba(248, 81, 73, 0.1);
+            color: #f85149;
+            border-color: #f85149;
+        }
+
+        .tag.yellow {
+            background: rgba(210, 153, 34, 0.1);
+            color: #d29922;
+            border-color: #d29922;
+        }
+
+        .tag.green {
+            background: rgba(63, 185, 80, 0.1);
+            color: #3fb950;
+            border-color: #3fb950;
+        }
+
+        /* Limitations Box */
+        .limitations-box {
+            background: linear-gradient(135deg, rgba(248, 81, 73, 0.1) 0%, rgba(210, 153, 34, 0.05) 100%);
+            border-left: 4px solid #f85149;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-right: 1px solid #30363d;
+            border-top: 1px solid #30363d;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .limitations-title {
+            font-weight: 600;
+            color: #f85149;
+            margin-bottom: 12px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .limitations-text {
+            color: #c9d1d9;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* Glossary */
+        .glossary-search {
+            margin-bottom: 25px;
+        }
+
+        .glossary-search input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #e6edf3;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .glossary-search input:focus {
+            outline: none;
+            border-color: #00d9ff;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .glossary-item {
+            background: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .glossary-item:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .glossary-term {
+            font-weight: 600;
+            color: #00d9ff;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glossary-definition {
+            color: #c9d1d9;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Cross-cutting themes */
+        .theme-item {
+            background: #1a222d;
+            border-left: 4px solid #a371f7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-right: 1px solid #30363d;
+            border-top: 1px solid #30363d;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .theme-item h4 {
+            color: #a371f7;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .theme-item p {
+            color: #c9d1d9;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* Methodology Tags */
+        .methodology-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .method-tag {
+            background: rgba(167, 113, 247, 0.1);
+            color: #a371f7;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            border: 1px solid #a371f7;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Overview Box */
+        .overview-box {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(63, 185, 80, 0.05) 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid #00d9ff;
+        }
+
+        .overview-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .overview-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .overview-label {
+            font-size: 12px;
+            color: #8b949e;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .overview-content {
+            color: #c9d1d9;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* Bibliography */
+        .bibliography-item {
+            background: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #c9d1d9;
+            line-height: 1.6;
+        }
+
+        .bibliography-item:hover {
+            border-color: #00d9ff;
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #30363d;
+            text-align: center;
+            color: #6e7681;
+            font-size: 12px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0e14;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d9ff;
+        }
+
+        /* Preprint warning */
+        .preprint-warning {
+            background: linear-gradient(135deg, rgba(210, 153, 34, 0.15) 0%, rgba(248, 81, 73, 0.1) 100%);
+            border-left: 4px solid #d29922;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-right: 1px solid #30363d;
+            border-top: 1px solid #30363d;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .preprint-warning-title {
+            font-weight: 600;
+            color: #d29922;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .preprint-warning-text {
+            color: #c9d1d9;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -280px;
+                transition: left 0.3s ease;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            .dashboard-header h1 {
+                font-size: 32px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn-menu {
+            display: none;
+            background: none;
+            border: 1px solid #30363d;
+            color: #00d9ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 900;
+        }
+
+        @media (max-width: 768px) {
+            .btn-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 120px !important; }
+            .sidebar { top: 120px !important; height: auto !important; position: static !important; width: 100% !important; }
+            .main-content, main { margin-left: 0 !important; }
+            table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 640px) {
+            body { padding-top: 140px !important; }
+            h1 { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-menu"></div>
+    <button class="btn-menu" onclick="toggleSidebar()">☰ Menu</button>
+
+    <div class="main-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-title">🧠 Navigazione</div>
+            <ul class="sidebar-menu">
+                <li><a href="#overview" class="menu-link active">Panoramica</a></li>
+                <li><a href="#huang" class="menu-link">Huang - Brain/Ansia</a></li>
+                <li><a href="#shou" class="menu-link">Shou - ADHD/Brain</a></li>
+                <li><a href="#blaschke" class="menu-link">Bläschke - Pubertà</a></li>
+                <li><a href="#gabarron" class="menu-link">Gabarron - Interventi</a></li>
+                <li><a href="#muris" class="menu-link">Muris - Autismo/Internet</a></li>
+                <li><a href="#cardillo" class="menu-link">Cardillo - Autismo/Ansia</a></li>
+                <li><a href="#de" class="menu-link">De - Algoritmi/Dopamina</a></li>
+                <li><a href="#themes" class="menu-link">Temi Trasversali</a></li>
+                <li><a href="#limitations" class="menu-link">Limitazioni</a></li>
+                <li><a href="#glossary" class="menu-link">Glossario</a></li>
+                <li><a href="#bibliography" class="menu-link">Bibliografia</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header" id="overview">
+                <h1>🧠 Neuroscienze, ADHD, Autismo e Dopamina</h1>
+                <p>Analisi critica di 7 ricerche sulla relazione tra schermo, sviluppo cerebrale e neurosviluppo</p>
+                <div class="dashboard-header-meta">
+                    Selezione di ricerche 2025-2026 | Dataset: ABCD Study, Coorte GUSTO, Meta-analisi internazionali<br>
+                    Analisi: Febbraio 2026 | Formato: Dashboard interdisciplinare interattivo
+                </div>
+            </header>
+
+            <!-- SECTION: OVERVIEW & SYNTHESIS -->
+            <section class="section">
+                <h2 class="section-title">📊 Panoramica e Sintesi Narrativa</h2>
+
+                <div class="overview-box">
+                    <div class="overview-item">
+                        <div class="overview-label">🔬 Domanda centrale della ricerca</div>
+                        <div class="overview-content">
+                            Come l'esposizione al tempo-schermo (social media, gaming, video) durante periodi critici dello sviluppo (infanzia, preadolescenza, adolescenza) altera la struttura cerebrale e predispone a psicopatologia (ansia, ADHD, sintomi autistici, dipendenza comportamentale)?
+                        </div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">🧬 Tema neurobiologico unificante</div>
+                        <div class="overview-content">
+                            La neuroplasticità durante le fasi sensibili dello sviluppo espone il cervello a perturbazioni indotte da stimoli ad alta frequenza (schermo, algoritmi). Specificamente: accelerazione della maturazione corticale visiva (Huang), riduzione della cortical thickness in aree critiche di controllo esecutivo (Shou), alterazione dell'asse HPG e pubertà (Bläschke), sovra-attivazione dei pathway dopaminergici da algoritmi personalizzati (De).
+                        </div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">📈 Pattern di prevalenza e outcome</div>
+                        <div class="overview-content">
+                            Tempo-schermo elevato in infanzia (0-2 anni) predice ansia a 13 anni (Huang). Tempo-schermo a 9-10 anni predice sintomi ADHD a 11-12 anni (Shou). Tempo-schermo è associato ad alterazioni pubertal trajectories (Bläschke, PREPRINT). Persone con autismo mostrano tassi PIU (Problematic Internet Use) 2-4x superiori (Muris), ma MINORE uso social media rispetto a controls. Algoritmi social media generano cicli dopaminergici che recapitolano caratteristiche di addiction (De).
+                        </div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">🛡️ Neurodiversità e specificità</div>
+                        <div class="overview-content">
+                            ADHD e autismo hanno pattern DIFFERENZIALI di internet use e motivazioni psicologiche: ADHD vulnerabile a schermo como stimolo ad alta frequenza; autismo gravita verso special-interest communities (non social media). In autismo, "problematic use" often riflette coping di ansia di prestazione (Cardillo), non addiction clinica.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Studi Analizzati</div>
+                        <div class="stat-value">7</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Dataset Principale</div>
+                        <div class="stat-value">ABCD</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">N Aggregato</div>
+                        <div class="stat-value">79K+</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Follow-up Max</div>
+                        <div class="stat-value">13 anni</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: HUANG - Brain/Anxiety -->
+            <section class="section">
+                <h2 class="section-title">📄 Paper 1: Huang et al. (2025)</h2>
+
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <div class="paper-title">Tempo-schermo in infanzia, cambiamenti cerebrali e ansia adolescenziale</div>
+                            <div class="paper-authors">Huang, P., et al. | eBioMedicine (Lancet)</div>
+                            <div class="paper-meta">DOI: 10.1016/j.ebiom.2025.106093 | Studio longitudinale 13 anni (GUSTO Singapore, N=168)</div>
+                        </div>
+                        <div class="toggle-icon">▶</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="paper-section">
+                                <div class="paper-section-title">🎯 Hallazgo Centrale</div>
+                                <p>Tempo-schermo elevato prima dei 2 anni predice maturazione accelerata della corteccia visuale e prefrontale dorsolaterale → rallentamento della deliberazione decisionale → aumento di ansia a 13 anni. Finestra CRITICA: effetti limitati a 0-2 anni; schermo a 3-4 anni non predittivo.</p>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">📊 Metodologia</div>
+                                <ul>
+                                    <li><strong>Disegno:</strong> Coorte prospettica GUSTO (Singapore), N=168 (follow-up), 13 anni</li>
+                                    <li><strong>Esposizione:</strong> Tempo-schermo a 6, 18, 24 mesi (report parentale)</li>
+                                    <li><strong>Outcome primario:</strong> Maturazione corticale (4.5-7.5 anni) via sMRI; deliberazione a 8.5 anni (Cambridge Gambling Task); ansia a 13 anni (SCARED)</li>
+                                    <li><strong>Meccanismo:</strong> Accelerazione maturazione visiva → sovra-integrazione corteccia visiva-prefrontale → rigidità circuito decisionale</li>
+                                    <li><strong>Fattore protettivo:</strong> Lettura genitore-bambino mitigava effetto</li>
+                                </ul>
+                            </div>
+
+                            <div class="limitations-box">
+                                <div class="limitations-title">⚠️ Limitazioni Critiche</div>
+                                <div class="limitations-text">
+                                    <strong>1. Fallacia finestra critica:</strong> Circolarità: 0-2 anni è speciale PERCHÉ predice outcome, non per teoria biologica ex-ante.<br>
+                                    <strong>2. Attrition massiccia:</strong> 86% dei partecipanti persi dal follow-up (N=168 su >1200). Bias di selezione grave.<br>
+                                    <strong>3. Misurazione tempo-schermo:</strong> Solo report parentale, nessuna validazione oggettiva. Bias differenziale se genitori con ansia over-segnalano.<br>
+                                    <strong>4. Outcome ansia:</strong> SCARED misurato a 13 anni, outcome primario non chiaramente longitudinale (backward-looking?) vs. trasversale.<br>
+                                    <strong>5. Confonditori critici non controllati:</strong> Genetica (DRD2, COMT, 5-HTTLPR), temperamento infantile, qualità relazionale genitore-bambino, inquinamento urbano (Singapore).<br>
+                                    <strong>6. Neuroimaging:</strong> N=168 borderline per morphometry. Nessuna specificazione se risultati localizzati a aree predittive di ansia (amigdala, insula) o solo corteccia visiva generica.
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">💡 Implicazioni Cliniche</div>
+                                <p>Messaggio nuanced per genitori: non "schermi = male a 0-2 anni, bene dopo", ma "tipo, modalità, contesto di utilizzo importa". Lettura condivisa come fattore protettivo concreto (non supplemento agli schermi). Policy pediatriche di "no screen time <2 anni" supportate moderatamente, ma evidenza non sufficientemente robusta per proibizione assoluta.</p>
+                            </div>
+
+                            <div class="methodology-tags">
+                                <span class="method-tag">LONGITUDINALE</span>
+                                <span class="method-tag">NEUROIMAGING</span>
+                                <span class="method-tag">PATHANALYSIS</span>
+                                <span class="method-tag">SINGAPORE</span>
+                                <span class="method-tag">ALTA ATTRITION</span>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag yellow">FINESTRA CRITICA CIRCOLARE</span>
+                                <span class="tag red">PERDITA CAMPIONE 86%</span>
+                                <span class="tag red">CONFONDITORI BIOLOGICI</span>
+                                <span class="tag green">MECCANISMO PLAUSIBILE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: SHOU - ADHD/Brain -->
+            <section class="section">
+                <h2 class="section-title">📄 Paper 2: Shou et al. (2025)</h2>
+
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <div class="paper-title">Tempo-schermo, modifiche cerebrali e sintomi ADHD (ABCD Study, N=10.116)</div>
+                            <div class="paper-authors">Shou, Q., Yamashita, M. & Mizuno, Y. | Translational Psychiatry</div>
+                            <div class="paper-meta">DOI: 10.1038/s41398-025-03672-1 | Studio longitudinale 2 anni (ABCD, N=7.880 al follow-up)</div>
+                        </div>
+                        <div class="toggle-icon">▶</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="paper-section">
+                                <div class="paper-section-title">🎯 Hallazgo Centrale</div>
+                                <p>Ogni ora aggiuntiva di tempo-schermo a 9-10 anni predice aumento sintomi ADHD a 11-12 anni (β=0.032), mediato da riduzione cortical thickness in polo temporale destro, giro frontale superiore sinistro, giro frontale medio rostrale sinistro. Effetto robusto controllando per activity levels, BMI, depressione, ADHD baseline.</p>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">📊 Metodologia</div>
+                                <ul>
+                                    <li><strong>Disegno:</strong> Coorte nazionale USA (ABCD), baseline N=10.116 (9-10 anni), follow-up N=7.880 a 2 anni</li>
+                                    <li><strong>Esposizione:</strong> Tempo-schermo da ABCD Youth Screen Time Survey (6 modalità: TV, video, gaming, texting, video chat, social media)</li>
+                                    <li><strong>Outcome:</strong> ADHD symptoms via Conners Parent Rating Scale (CPRS-R); cortical thickness via sMRI 3T (SPM12/FSL)</li>
+                                    <li><strong>Campione:</strong> Diversità deliberata (43% minoranze), bilanciamento socioeconomico</li>
+                                    <li><strong>Mediazione:</strong> Cortical thickness 3 regioni specifiche mediano relazione schermo → ADHD</li>
+                                </ul>
+                            </div>
+
+                            <div class="limitations-box">
+                                <div class="limitations-title">⚠️ Limitazioni Critiche</div>
+                                <div class="limitations-text">
+                                    <strong>1. Reverse causality:</strong> ADHD baseline non completamente controllato. Bambini con inattentività incipiente potrebbero gravitare verso schermo come auto-soothing; schermo sarebbe conseguenza, non causa.<br>
+                                    <strong>2. Fonte misure diverse:</strong> Comportamento da parent-rated CPRS (viziato); tempo-schermo da self-report o parent? Incoerenza source.<br>
+                                    <strong>3. Confusione inversa:</strong> DRD4 7-repeat allele (ADHD genetico) associato con ridotta dopamina basale → suscettibilità a stimoli forti come schermi. Confusione genetica non esclusa.<br>
+                                    <strong>4. Specifiche regioni non plausibili:</strong> Polo temporale destro (social processing) ridotto da schermo solitario? Contro-intuitivo. Riduzione tipicamente associata a ADHD, ma collegamento specifico a tempo-schermo incerto.<br>
+                                    <strong>5. ADHD "sintomi" non diagnosi:</strong> Outcome è CPRS score (continuo), non diagnosi clinica categoriale. Incremento 3.2 punti per ora su scala 0-100 è clinicamente rilevante?<br>
+                                    <strong>6. Disaggregazione tipo schermo mancante:</strong> Aggraziamento di 6 modalità (TV, gaming, social media) maschere neurobiologia diversa di ciascuna.<br>
+                                    <strong>7. Attrition 22%:</strong> Senza confronto baseline chi ha completato vs. abbandonato, possibile attrition bias.</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">💡 Implicazioni Cliniche</div>
+                                <p>Anamnesi di intake rivista per ADHD: chiedere esplicitamente tempo-schermo. Cautela nel diagnostic threshold: bambino con CPRS elevato potrebbe avere "screen-induced symptoms" (temporali, reversibili), non ADHD vero. Trial di screen reduction come primo approccio prima di farmaci. Stratificazione del rischio: sottogruppi vulnerabili (temperamento difficile, ADHD familiare) potrebbero necessitare counseling personalizzato.</p>
+                            </div>
+
+                            <div class="methodology-tags">
+                                <span class="method-tag">ABCD STUDY</span>
+                                <span class="method-tag">N=10K</span>
+                                <span class="method-tag">2 ANNI FOLLOW-UP</span>
+                                <span class="method-tag">NEUROIMAGING ROBUSTO</span>
+                                <span class="method-tag">CAUSALITÀ INCERTA</span>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag red">REVERSE CAUSALITY</span>
+                                <span class="tag red">GENITORI BIAS RATING</span>
+                                <span class="tag yellow">EFFETTO SIZE MODESTO</span>
+                                <span class="tag green">GRANDE COORTE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: BLASCHKE - Puberty -->
+            <section class="section">
+                <h2 class="section-title">📄 Paper 3: Bläschke et al. (2026) ⚠️ PREPRINT</h2>
+
+                <div class="preprint-warning">
+                    <div class="preprint-warning-title">🚨 ATTENZIONE: PREPRINT NON PEER-REVIEWED</div>
+                    <div class="preprint-warning-text">
+                        Questo studio è stato rilasciato su medRxiv (gennaio 2026) SENZA sottoporre a peer review. Non dovrebbe essere citato in linee guida cliniche, policy sanitaria, o messaging pubblico fino al completamento della peer review. È materiale di "early communication" solamente. Validità incerta; limitazioni potrebbero non essere visibili all'autore.
+                    </div>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <div class="paper-title">Tempo-schermo e alterazioni timing puberale negli adolescenti (ABCD)</div>
+                            <div class="paper-authors">Bläschke, L., et al. | medRxiv (PREPRINT)</div>
+                            <div class="paper-meta">DOI: 10.64898/2026.01.26.26344850 | Studio longitudinale (ABCD, N=10.786, 6 waves annuali)</div>
+                        </div>
+                        <div class="toggle-icon">▶</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="paper-section">
+                                <div class="paper-section-title">🎯 Hallazgo Centrale</div>
+                                <p>Tempo-schermo elevato a 9-10 anni è associato ad alterazione delle traiettorie timing puberale durante follow-up (accelerazione oppure ritardo, eterogeneo per sesso e baseline development). Meccanismo proposto: circadian disruption (blue light) → suppressione melatonina → perturbazione HPG axis (gonadotropins, sex steroids).</p>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">📊 Metodologia</div>
+                                <ul>
+                                    <li><strong>Disegno:</strong> Coorte longitudinale ABCD, N=10.786, baseline 9-10 anni, follow-up annuale fino a 15-16 anni (6 waves)</li>
+                                    <li><strong>Esposizione:</strong> Tempo-schermo ABCD Youth Screen Time Survey</li>
+                                    <li><strong>Outcome:</strong> Puberty assessed via Pubertal Development Scale (PDS, self-report)</li>
+                                    <li><strong>Analisi:</strong> Latent growth curve modeling (LGC) per traiettorie pubertal timing</li>
+                                    <li><strong>Moderatori:</strong> Effetti eterogenei per sesso, baseline puberty status</li>
+                                </ul>
+                            </div>
+
+                            <div class="limitations-box">
+                                <div class="limitations-title">⚠️ Limitazioni Critiche (Esacerbate da Preprint Status)</div>
+                                <div class="limitations-text">
+                                    <strong>1. NO PEER REVIEW:</strong> Principale limitazione. Errori metodologici gravi potrebbero non essere identificati.<br>
+                                    <strong>2. Misura puberty: self-report only:</strong> Adolescenti auto-valutano stadi puberali. Viziato da bias di consapevolezza corporea (adolescenti su schermo potrebbero essere meno body-aware oppure hyper-focused).<br>
+                                    <strong>3. Confusione BMI/adiposity:</strong> Tempo-schermo associato con BMI elevato. Sovrappeso → adipose tissue → aromatase → estrogen → pubertal outcomes. BMI non chiaramente disaggregato da tempo-schermo effect.<br>
+                                    <strong>4. Reverse causality:</strong> Adolescenti che iniziano pubertà precedentemente potrebbero ritirarsi negli schermi (ansia sociale). Causalità indeterminata.<br>
+                                    <strong>5. Assenza biomarkers ormonali:</strong> Nessuna misura di LH, FSH, testosterone, estradiol. Outcome è solo auto-percezione, non biologia vera.<br>
+                                    <strong>6. Sleep non misurato:</strong> Circadian disruption plausibile, ma nessuna quantificazione oggettiva di sonno (durata, timing, qualità).<br>
+                                    <strong>7. Outcome "alterazione traiettoria" non clinicamente definito:</strong> Qual è il threshold di deviazione clinicamente rilevante? Preprint non specifica.</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">💡 Implicazioni (Cautele)</div>
+                                <p><strong>NON utilizzare per messaging sanitario finché peer-reviewed.</strong> Se confermato in peer review, implicazioni sarebbero: endocrinologia pediatrica monitorare adolescenti con tempo-schermo elevato per deviazioni pubertal trajectories; studi meccanicistici su melatonin-GnRH pathways urgenti; RCT di sleep hygiene + blue-light reduction per intervento.</p>
+                            </div>
+
+                            <div class="methodology-tags">
+                                <span class="method-tag">PREPRINT</span>
+                                <span class="method-tag">NO PEER REVIEW</span>
+                                <span class="method-tag">ABCD STUDY</span>
+                                <span class="method-tag">6 WAVES</span>
+                                <span class="method-tag">SELF-REPORT PUBERTY</span>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag red">PREPRINT NON VALIDATED</span>
+                                <span class="tag red">OUTCOME NON CLINICAMENTE DEFINITO</span>
+                                <span class="tag yellow">MECCANISMO PLAUSIBILE MA NON TESTATO</span>
+                                <span class="tag yellow">CONFUSIONE BMI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: GABARRON - Digital Interventions -->
+            <section class="section">
+                <h2 class="section-title">📄 Paper 4: Gabarron et al. (2025)</h2>
+
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <div class="paper-title">Interventi digitali per ADHD: Umbrella Review di 26 Revisioni Sistematiche</div>
+                            <div class="paper-authors">Gabarron, E., Denecke, K. & Lopez-Campos, G. | BMC Psychiatry</div>
+                            <div class="paper-meta">DOI: 10.1186/s12888-025-06825-0 | Umbrella review di 26 systematic reviews (N=34.442 partecipanti)</div>
+                        </div>
+                        <div class="toggle-icon">▶</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="paper-section">
+                                <div class="paper-section-title">🎯 Hallazgo Centrale</div>
+                                <p>Interventi digitali per ADHD (neurofeedback EEG, cognitive training, gaming, VR, app) mostrano efficacia variabile: neurofeedback SMD = −0.51 (moderato); esercizio/VR SMD = −0.40; cognitive training SMD = −0.20 a −0.30 (piccolo, incostante). Adverse events riportati in 30.1% delle review. Non dovrebbe sostituire first-line treatment (farmaci + comportamentale).</p>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">📊 Metodologia</div>
+                                <ul>
+                                    <li><strong>Disegno:</strong> Umbrella review sistematica (PRISMA-compliant) di 26 systematic reviews</li>
+                                    <li><strong>Interventi sintetizzati:</strong> Neurofeedback (EEG), WMT, EFT, videogiochi, VR, esercizio fisico digitale, app-based CBT/mindfulness</li>
+                                    <li><strong>Effect size:</strong> SMD estratti da meta-analisi sottostanti dove disponibile</li>
+                                    <li><strong>Outcome:</strong> ADHD rating scales (parent/teacher/self), continuous performance, working memory, quality of life</li>
+                                    <li><strong>Partecipanti aggregati:</strong> ~34.442 (in tutti i trials inclusi nelle 26 review)</li>
+                                </ul>
+                            </div>
+
+                            <div class="limitations-box">
+                                <div class="limitations-title">⚠️ Limitazioni Critiche</div>
+                                <div class="limitations-text">
+                                    <strong>1. "Umbrella of umbrellas" bias:</strong> Cascata di bias di selezione. 26 review hanno criteri di inclusione DIVERSI; qualità metodologica delle review non valutata (no AMSTAR 2).<br>
+                                    <strong>2. Eterogenità non quantificata:</strong> SMD aggregati nascondono I^2. Se I^2 > 75%, aggregazione è sconsigliata.<br>
+                                    <strong>3. Outcome bias, non-blinding:</strong> Studi comportamentali prone a expectancy effects. Cortese et al. ha documentato: neurofeedback non-blinded SMD = −0.51, ma blinded SMD ~0 (null). Effetto potrebbe essere entirely measurement bias.<br>
+                                    <strong>4. Adverse events sotto-segnalati:</strong> 70% delle review NON hanno riportato adverse events. Sono assenti o non monitorati sistematicamente?<br>
+                                    <strong>5. Follow-up breve:</strong> Durata típica 8-12 settimane. Persistono gli effetti dopo cessazione intervento?<br>
+                                    <strong>6. Population specificity:</strong> Non stratificato per ADHD subtype, comorbidity. Cognitive training potrebbe funzionare per inattention, non hyperactivity.<br>
+                                    <strong>7. No cost-effectiveness:</strong> Neurofeedback ~€5-10K; methylphenidate ~€50-100/mese. Rapporto costo-efficacia non calcolato.<br>
+                                    <strong>8. Publication bias non valutato.</strong>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">💡 Implicazioni Cliniche</div>
+                                <p><strong>Non first-line:</strong> Interventi digitali non dovrebbero essere raccomandati come trattamento primario ADHD. Farmaci + interventi comportamentali genitoriali rimangono standard. <strong>Ruolo complementare:</strong> Per bambini che preferiscono tecnologia oppure con limited access a clinician-delivered therapy, app-based CBT potrebbe essere "better than nothing". <strong>Neurofeedback con cautela:</strong> SMD più alto, ma qualità metodologica spesso bassa; rischi non completamente documentati.</p>
+                            </div>
+
+                            <div class="methodology-tags">
+                                <span class="method-tag">UMBRELLA REVIEW</span>
+                                <span class="method-tag">26 SYSTEMATIC REVIEWS</span>
+                                <span class="method-tag">34K PARTICIPANTS</span>
+                                <span class="method-tag">OUTCOME BIAS ALTO</span>
+                                <span class="method-tag">SHORT FOLLOW-UP</span>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag red">CASCATA DI BIAS</span>
+                                <span class="tag red">OUTCOME NON-BLINDED</span>
+                                <span class="tag yellow">ETEROGENITÀ ALTA</span>
+                                <span class="tag yellow">NO COST-EFFECTIVENESS</span>
+                                <span class="tag green">NEUROBIOLOGICALLY PLAUSIBLE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: MURIS - Autism/Internet -->
+            <section class="section">
+                <h2 class="section-title">📄 Paper 5: Muris et al. (2025)</h2>
+
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <div class="paper-title">Internet Use e Social Media nell'Autismo: Meta-analisi in Due Parti</div>
+                            <div class="paper-authors">Muris, P., et al. | Clinical Child and Family Psychology Review</div>
+                            <div class="paper-meta">DOI: 10.1007/s10567-025-00524-8 (Part I) & 10.1007/s10567-025-00539-1 (Part II) | Meta-analisi PRISMA (35 studi PIU + 28 studi social media)</div>
+                        </div>
+                        <div class="toggle-icon">▶</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="paper-section">
+                                <div class="paper-section-title">🎯 Hallazzi Centrale</div>
+                                <p><strong>PARADOSSO AUTISTICO:</strong> Persone con ASD mostrano tassi PIU (Problematic Internet Use) 15-25% vs. 5-10% in non-ASD (d = 0.6-0.8, effetto GRANDE). MA: tassi social media use MINORE in ASD vs. controls (d = −0.28, contrintuitivo). Motivazioni diverse: ASD users motivati da coping, ansia sociale reduction, special interests; neurotipici da social connection.</p>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">📊 Metodologia</div>
+                                <ul>
+                                    <li><strong>Disegno:</strong> Due meta-analisi sistematiche PRISMA-compliant</li>
+                                    <li><strong>Part I (PIU):</strong> ~35 studi, N aggregato ASD ~3.500, control ~3.500</li>
+                                    <li><strong>Part II (Social media):</strong> ~28 studi, N aggregato ASD ~2.500, control ~2.800</li>
+                                    <li><strong>Outcome Part I:</strong> Severity PIU (via scale validate: IAT, BSMAS, etc.), prevalence, fattori di rischio</li>
+                                    <li><strong>Outcome Part II:</strong> Tempo social media, pattern uso, motivazioni</li>
+                                    <li><strong>Moderatori:</strong> Age, gender, comorbidity (ADHD, ansia), severity ASD</li>
+                                </ul>
+                            </div>
+
+                            <div class="limitations-box">
+                                <div class="limitations-title">⚠️ Limitazioni Critiche</div>
+                                <div class="limitations-text">
+                                    <strong>1. PIU definition non standardizzato:</strong> "Problematic" definito diversamente tra studi (IAT ≥70 vs. functional impairment vs. DSM-5 IGD). Confusione tra compulsive/addictive use vs. restricted-interest-driven intensive use (no impairment).<br>
+                                    <strong>2. Scale PIU contaminate per ASD:</strong> Item come "anxious when not online" potrebbero riflettere ASD-specific use (internet è primary social outlet), non addiction vera. False positive bias.<br>
+                                    <strong>3. No disaggregazione tipo sito/app:</strong> Gaming, hobby communities, YouTube, social media aggregati. Motivazioni radicalmente diverse; effect size potrebbe essere driven da gaming addiction, non healthy community engagement.<br>
+                                    <strong>4. Social media paradosso non investigato:</strong> Perché ASD usa MENO social media? Evitamento consapevole? Fattore protettivo? Genitori scoraggiano? No qualitative data.<br>
+                                    <strong>5. Reverse causality:</strong> PIU → ASD symptoms, oppure ASD symptoms → PIU? Longitudinal evidence assente.<br>
+                                    <strong>6. Confusione autism traits vs. autism diagnosis:</strong> Studi eterogenei: alcuni recruited diagnosis clinica; altri usato autism rating scales in general population. Phenotype pollution.<br>
+                                    <strong>7. Comorbid ADHD non disaggregato:</strong> 30-80% ASD hanno comorbid ADHD, which è independently risk factor per PIU. Confusione critica.<br>
+                                    <strong>8. Outcome heterogeneity alta:</strong> >35 studi, diverse scale, cut-off diversi. I^2 probabilmente alto; aggregazione SMD discutibile.
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">💡 Implicazioni Cliniche</div>
+                                <p><strong>Assessment disaggregato:</strong> Non assumere "ASD + high internet use" = addiction. Approfondire motivazione (coping vs. compulsion?), functional impairment vera (vs. just high engagement?), qualità special interests online (learning + community support vs. escalating gambling?). <strong>Intervento nuanced:</strong> Non automaticamente "reduce screen time". Supportare uso salutare di special interests; teach self-regulation senza demonizzazione; address underlying anxiety/loneliness (internet è function, non causa).</p>
+                            </div>
+
+                            <div class="methodology-tags">
+                                <span class="method-tag">META-ANALISI</span>
+                                <span class="method-tag">2 PARTI</span>
+                                <span class="method-tag">35+28 STUDI</span>
+                                <span class="method-tag">12K PARTICIPANTS</span>
+                                <span class="method-tag">ETEROGENITÀ ALTA</span>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag red">PIU DEFINITION VARIA</span>
+                                <span class="tag red">SCALE NON VALIDATE PER ASD</span>
+                                <span class="tag yellow">PARADOSSO SOCIAL MEDIA</span>
+                                <span class="tag green">GRANDE EFFECT SIZE PIU</span>
+                                <span class="tag green">INSIGHT CLINICO IMPORTANTE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: CARDILLO - Autism/Anxiety -->
+            <section class="section">
+                <h2 class="section-title">📄 Paper 6: Cardillo et al. (2025)</h2>
+
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <div class="paper-title">Uso Problematico Social Media nell'Autismo: Ruolo dell'Ansia di Prestazione</div>
+                            <div class="paper-authors">Cardillo, R., et al. | Addictive Behaviors</div>
+                            <div class="paper-meta">DOI: 10.1016/j.addbeh.2024.108225 | Studio trasversale caso-controllo (N=183: 76 ASD, 107 controls, 8-17 anni)</div>
+                        </div>
+                        <div class="toggle-icon">▶</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="paper-section">
+                                <div class="paper-section-title">🎯 Hallazgo Centrale</div>
+                                <p>PSMU (Problematic Social Media Use) complessivo SIMILE in ASD vs. controls. MA PATTERN PREDITTIVI OPPOSTI: <strong>In ASD:</strong> performance anxiety (paura di valutazione sociale) → PSMU (β=0.45). <strong>In controls:</strong> rejection anxiety (paura di esclusione/solitudine) → PSMU (β=0.52). Cross-over: performance anxiety non predice PSMU in controls; rejection anxiety non predice in ASD.</p>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">📊 Metodologia</div>
+                                <ul>
+                                    <li><strong>Disegno:</strong> Cross-sectional caso-controllo</li>
+                                    <li><strong>ASD group:</strong> N=76 (mean ~12.5 anni, 65% maschi, diagnosis clinica via ADOS/ADI-R)</li>
+                                    <li><strong>Control group:</strong> N=107 (mean ~12.8 anni, 62% maschi, matched approssimativamente)</li>
+                                    <li><strong>Misure:</strong> PSMU (likely BSMAS o simile), Social Anxiety Scale (SASC/CSAS con subscales: performance anxiety vs. rejection anxiety), ASD severity (SRS)</li>
+                                    <li><strong>Analisi:</strong> Bivariate correlations, multiple regression, test di cross-group interaction</li>
+                                </ul>
+                            </div>
+
+                            <div class="limitations-box">
+                                <div class="limitations-title">⚠️ Limitazioni Critiche</div>
+                                <div class="limitations-text">
+                                    <strong>1. Cross-sectional, no causalità:</strong> PSMU → ansia? Oppure ansia → PSMU? Ambigua. Implicazioni diverse per intervento (treat anxiety prima? oppure reduce PSMU prima?).<br>
+                                    <strong>2. Selection bias:</strong> ASD da cliniche specialty (diagnosed, access to care, motivated families). Non rappresentativo di tutti gli ASD (undiagnosed, low-resource).<br>
+                                    <strong>3. Matching inadequate:</strong> "Matched where possible" è vago. SES, IQ, comorbidity controls non chiaramente equalized. SES associato con sia social media use che ansia.<br>
+                                    <strong>4. Dicotomizzazione semplificata:</strong> "Performance vs. rejection anxiety" è overly simplistic. Adolescente potrebbe avere entrambi. Multicollinearità potrebbe confondere regression; effect "performance anxiety" in ASD potrebbe essere parzialmente confuso con overall anxiety severity.<br>
+                                    <strong>5. PSMU non clinicamente definito:</strong> Qual è il threshold clinicamente rilevante? Adolescente ASD 3h/giorno community fan art (special interest) score alto su BSMAS ma ha NO functional impairment.<br>
+                                    <strong>6. Scale di ansia non validate per ASD:</strong> SASC/CSAS item potrebbe misfire in ASD. "Worried what others think" → ASD potrebbe non care (autistic indifference), non riflesso in scale.<br>
+                                    <strong>7. No qualitative data:</strong> Perché performance anxiety → PSMU in ASD? Monitoraggio della percezione? Rehearsal? Community-seeking? Black box.<br>
+                                    <strong>8. Piccolo N per interaction analysis:</strong> Potenza statistica modesta per rilevare interazioni anxiety type × group (N=183 totale, 76 ASD).
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">💡 Implicazioni Cliniche</div>
+                                <p><strong>Assessment disaggregato di ansia:</strong> In ASD, indagare performance anxiety specifica ("paura di mostrare incompetenza"). In neurotipici, focus su rejection anxiety ("paura di solitudine/esclusione"). <strong>Intervento target-specific:</strong> ASD → exposure therapy per performance anxiety, behavioral rehearsal, acceptance di imperfection. Neurotipici → enhance sense of belonging, facilitate genuine peer connections offline.</p>
+                            </div>
+
+                            <div class="methodology-tags">
+                                <span class="method-tag">CROSS-SECTIONAL</span>
+                                <span class="method-tag">CASO-CONTROLLO</span>
+                                <span class="method-tag">N=183</span>
+                                <span class="method-tag">8-17 ANNI</span>
+                                <span class="method-tag">INTERACTION ANALYSIS</span>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag red">NO CAUSALITÀ</span>
+                                <span class="tag red">MATCHING INADEQUATE</span>
+                                <span class="tag yellow">SCALE NON VALIDATE ASD</span>
+                                <span class="tag green">INSIGHT PSICOLOGICO IMPORTANTE</span>
+                                <span class="tag green">DIFFERENZIAZIONE ASD VS. NEUROTIPICI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: DE - Algorithms/Dopamine -->
+            <section class="section">
+                <h2 class="section-title">📄 Paper 7: De et al. (2025)</h2>
+
+                <div class="paper-card">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div>
+                            <div class="paper-title">Social Media, Algoritmi e Dipendenza Adolescenziale: Pathway Dopaminergici</div>
+                            <div class="paper-authors">De, D., et al. | Cureus (open-access)</div>
+                            <div class="paper-meta">DOI: 10.7759/cureus.77145 | Review narrativa (non sistematica, multi-disciplinare)</div>
+                        </div>
+                        <div class="toggle-icon">▶</div>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-body">
+                            <div class="paper-section">
+                                <div class="paper-section-title">🎯 Hallazgo Centrale</div>
+                                <p>Social media algorithms sono engineered per massimizzare engagement tramite personalizzazione continua di contenuto. Questa personalizzazione attiva pathway dopaminergici reward ad alta frequenza (VTA → nucleus accumbens). Negli adolescenti (neurosviluppo sensibile a reward), ciò genera cicli dopaminergici che recapitolano addiction (tolerance, withdrawal, loss of control). Varianti genetiche DRD2, COMT modulano suscettibilità.</p>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">📊 Metodologia</div>
+                                <ul>
+                                    <li><strong>Disegno:</strong> Review narrativa (NON sistematica). Nessun protocollo pre-registered, nessun PRISMA.</li>
+                                    <li><strong>Scope:</strong> Multi-disciplinare: neurobiologia adolescenza, algoritmi, dopamine pathways, addiction, genetica</li>
+                                    <li><strong>Temi sintetizzati:</strong> Heightened reward sensitivity adolescenza; algorithmic recommendation optimization; dopamine mesolimbic system; parallels con substance addiction; DRD2/COMT polymorphisms</li>
+                                    <li><strong>Framework proposto:</strong> Algorithm (personalized content) → dopamine reward → compulsive engagement → algorithm re-personalizes → tolerance/withdrawal → addiction phenotype</li>
+                                </ul>
+                            </div>
+
+                            <div class="limitations-box">
+                                <div class="limitations-title">⚠️ Limitazioni Critiche (Narrative Review)</div>
+                                <div class="limitations-text">
+                                    <strong>1. Non-sistematicità:</strong> No structured search strategy, no inclusion/exclusion criteria. Assenza di appraisal di qualità degli studi inclusi. Cherry-picking di evidenza probabile.<br>
+                                    <strong>2. Causalità vs. correlazione non disambiguata:</strong> Affermazione "algoritmi → dopamine → addiction". Evidenza tipicamente correlazionale. Salti inferenziali (adolescenti hanno heightened NAcc reactivity; algoritmi exist; dopamine release occurs → diretta causazione).<br>
+                                    <strong>3. Dopamine oversimplificazione:</strong> Dopamine non è monolitico. Mesolimbic (reward) vs. mesocortical (cognition) vs. nigrostriatal (motor) systems diversi. Quale è attivato? Dopamine ≠ automaticamente addiction (dopamine involved in many non-addictive behaviors). Dopamine release non equivale patologico.<br>
+                                    <strong>4. Genetic factors oversemplified:</strong> DRD2 7-repeat ↓ dopamine receptor expression → reduced dopaminergic tone. Paradossically associated con addiction (seek more dopamine to compensate). COMT Val/Val produce MENO dopamine. Mechanism della connection addiction unclear. Epigenetics, gene-environment interactions, polygenic risk scores non addressed.<br>
+                                    <strong>5. "Addiction" criteria non rigorosamente applicate:</strong> DSM-5 IGD criteria (preoccupation, tolerance, withdrawal, loss of control, continued use despite harm). Review asserts social media meets these, but: withdrawal è clinical (comme opioid) oppure just frustration? Loss of control è assoluto oppure adolescenti CAN control se incentive. Harm è complesso (depression, anxiety, loneliness but also genuine social connection, creative expression).<br>
+                                    <strong>6. Adolescent development reframed come patologia:</strong> Heightened reward sensitivity in adolescence è NORMAL, evolutionarily adaptive. Review reframes normale neurobiology come vulnerability to addiction.<br>
+                                    <strong>7. Algoritmi not monolitico:</strong> Design choices vary. TikTok vs. YouTube long-form hanno dopamine profiles diversi. De et al. treats all algorithms equally addictive.<br>
+                                    <strong>8. Alternative perspectives missing:</strong> Engagement potrebbe essere rewarding perché connette a genuine peer needs (social belonging, competence), non pathological hijacking. Dopamine release è APPROPRIATE response a legitimate rewards, non exploitation.<br>
+                                    <strong>9. Protective factors, resilience non discussed:</strong> Not all adolescenti exposed develop addiction. Resilience factors? Assente.<br>
+                                    <strong>10. No balanced industry responsibility discussion.</strong>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <div class="paper-section-title">💡 Implicazioni Clinica & Policy</div>
+                                <p><strong>Per policy:</strong> Se social media = "engineered dopamine delivery", regolare algoritmi come drug distribution. Ban addictive design features (infinite scroll, streaks, variable rewards). Stronger age gates.<br><strong>Per clinici:</strong> Assess PSMU non solo su hours, ma su loss of control, continued use despite harm, withdrawal, underlying motivations (coping vs. addiction?). Intervento non just "reduce screen", ma address underlying needs, build offline alternatives, dopamine-boosting activities (exercise, offline social interaction).<br><strong>Per genitori:</strong> Psychoeducation: adolescent brain vulnerable a reward-driven engagement (NOT moral weakness). Collaborative approach: set goals jointly, problem-solve barriers to offline activities.</p>
+                            </div>
+
+                            <div class="methodology-tags">
+                                <span class="method-tag">NARRATIVE REVIEW</span>
+                                <span class="method-tag">NON-SYSTEMATIC</span>
+                                <span class="method-tag">MULTI-DISCIPLINARY</span>
+                                <span class="method-tag">DOPAMINE FOCUS</span>
+                                <span class="method-tag">ADVOCACY ORIENTED</span>
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag red">NO PEER REVIEW PROCESS</span>
+                                <span class="tag red">CHERRY-PICKING RISK</span>
+                                <span class="tag yellow">DOPAMINE OVERSIMPLIFIED</span>
+                                <span class="tag yellow">CAUSALITÀ INFERITA NON PROVATA</span>
+                                <span class="tag green">INSIGHT ETICO IMPORTANTE</span>
+                                <span class="tag green">ADVOCACY CLINICAMENTE RILEVANTE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Cross-cutting Themes -->
+            <section class="section" id="themes">
+                <h2 class="section-title">🔗 Temi Trasversali e Connessioni</h2>
+
+                <h3 class="section-subtitle">1. Il Ruolo dello Studio ABCD</h3>
+                <div class="theme-item">
+                    <h4>Dataset Fondamentale: Cohorte Nazionale USA (21 siti, N>10.000)</h4>
+                    <p>
+                        <strong>Shou et al.</strong> (ADHD/brain structure) e <strong>Bläschke et al.</strong> (pubertal timing) entrambi utilizzano ABCD Study baseline. Questo è attualmente il LARGEST longitudinal neuroimaging dataset di bambini/adolescenti USA (9-10 anni, follow-up multi-year). <strong>Punto critico:</strong> Ciò significa che molti risultati relativi a schermo/ADHD/pubertà negli USA adolescenti sono derivati dal MEDESIMO dataset. Replicazione in altre coorti (UK Biobank, German KiGGS) urgente per validazione generalizability.
+                    </p>
+                </div>
+
+                <h3 class="section-subtitle">2. Cambiamenti Strutturali Cerebrali: Convergenza e Specifiche Regionali</h3>
+                <div class="theme-item">
+                    <h4>Maturazione Accelerata vs. Riduzione Cortical Thickness</h4>
+                    <p>
+                        <strong>Huang (0-2 anni):</strong> Accelerazione maturazione corticale visuale/prefrontale (gyrification index, cortical thickness aumentati).<br>
+                        <strong>Shou (9-10 anni):</strong> Riduzione cortical thickness in polo temporale destro, giro frontale superiore/medio sinistro.<br>
+                        <strong>Interpretazione:</strong> Possibile che tempo-schermo precoce ACCELERA inizialmente maturazione, ma successivamente (preadolescenza) ciò risulta in RIDUZIONE dovuta a synaptic pruning esagerato? Oppure sono effetti di periodi diversi non direttamente comparabili. <strong>Meccanismo non chiarito.</strong>
+                    </p>
+                </div>
+
+                <h3 class="section-subtitle">3. Pathway Dopaminergici in ADHD vs. Autismo vs. Addiction</h3>
+                <div class="theme-item">
+                    <h4>Asse Dopaminergico Comune ma Manifestazioni Diverse</h4>
+                    <p>
+                        <strong>De et al.</strong> propone social media algoritmi = "dopamine delivery". <strong>Ma:</strong><br>
+                        - In ADHD, deficit dopaminergico baseline (ridotta dopamina nucleus accumbens) → ipofocus, necessità di stimolo ad alta intensità (schermo attrae). Schermo perturba ulteriormente regulation dopaminergica.<br>
+                        - In autismo, dopamine sistema potrebbe essere diverso (some autistic profiles associated con ipodopamine). Attrazione a special-interest internet (non social media) potrebbe riflettere dopaminergic coping (self-soothing via hyperfocus).<br>
+                        <strong>Insight:</strong> Dopamine non è categoria monolitica di pathology; è mediatore di comportamento adattativo e disadattativo a seconda di context e neurobiology individuale.
+                    </p>
+                </div>
+
+                <h3 class="section-subtitle">4. Periodi Critici e Sensibilità Developmentale</h3>
+                <div class="theme-item">
+                    <h4>0-2 anni (Huang), 9-10 anni (Shou, Bläschke), Adolescenza (De)</h4>
+                    <p>
+                        Tre finestre critiche identificate:<br>
+                        • <strong>0-2 anni:</strong> Maturazione corticale visiva, attachment, regolazione emotiva precoce (Huang).<br>
+                        • <strong>9-10 anni:</strong> Preadolescenza, pre-pubertal; cortical thickness changes, executive function consolidation (Shou, Bläschke).<br>
+                        • <strong>Adolescenza (13-17):</strong> Pubertà, reward sensitivity peak, prefrontal maturation still ongoing (De, Cardillo, Muris).<br>
+                        <strong>Connessione:</strong> Finestre diverse, meccanismi diversi. Intervento e messaging devono essere age-stratificati, non generic "schermo è cattivo".
+                    </p>
+                </div>
+
+                <h3 class="section-subtitle">5. Neurodiversità: Autismo Differisce da ADHD</h3>
+                <div class="theme-item">
+                    <h4>Internet Use Profiles Opposti</h4>
+                    <p>
+                        <strong>Paradosso Muris:</strong> ADHD gravita verso schermo (stimolo ad alta frequenza, dopamina-seeking). Autismo gravita verso special-interest internet (comunità, hyperfocus), ma MENO verso social media mainstream (d = −0.28). <strong>Cardillo:</strong> Meccanismo diverso di ansia: ADHD-linked rejection anxiety; ASD-linked performance anxiety (paura di commettere errori sociali). <strong>Implicazione clinica:</strong> Interventi non uno-size-fits-all. Autismo non è "ADHD più grave"; è neurodiversità qualitatively diversa.
+                    </p>
+                </div>
+
+                <h3 class="section-subtitle">6. Limitazioni Comuni Across Papers</h3>
+                <div class="theme-item">
+                    <h4>Tre Problemi Ricorrenti</h4>
+                    <p>
+                        1. <strong>Causalità indeterminata:</strong> Tutti gli studi correlazionali o longitudinali osservazionali. Reverse causality (sintomi → schermo) non escluso in alcuno.<br>
+                        2. <strong>Tempo-schermo misurazione grezza:</strong> Self/parent-report, no objective logging. Aggregazione di modalità diverse (TV, gaming, social media, texting) maschere mechanismi specifici.<br>
+                        3. <strong>Outcome bias:</strong> Parent-rated, teacher-rated, self-report measures prone a viez. Pochi studi usano objective indicators (academic achievement, offline peer relationships, sleep architecture, physical activity).
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION: Limitations Overview -->
+            <section class="section" id="limitations">
+                <h2 class="section-title">⚠️ Limitazioni Metodologiche Globali</h2>
+
+                <h3 class="section-subtitle">Macro-Limitazioni</h3>
+                <div class="theme-item">
+                    <h4>1. Causalità vs. Correlazione (Omnipresente)</h4>
+                    <p>
+                        Nessuno dei 7 papers fornisce prova causale diretta. TUTTI sono correlazionali oppure longitudinali osservazionali senza randomizzazione. Reverse causality è biologicamente plausibile in TUTTI: bambini con temperamento difficile/inattentività iniziale potrebbero self-select verso schermo per auto-soothing; bambini con ansia pubblicare potrebbero usare social media per "practice" interazioni; adolescenti con predisposizione genetica a dopamine-seeking potrebbero gravitate verso algoritmi. Ciò potrebbe spiegare TUTTE le associazioni.
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>2. Misurazione di Esposizione (Tempo-Schermo)</h4>
+                    <p>
+                        <strong>Problema fondamentale:</strong> Tempo-schermo è misurato via self/parent-report, senza validazione oggettiva (device logs, accelerometry, eye-tracking). Ciò introduce:<br>
+                        • <strong>Misclassificazione differenziale:</strong> Genitori con ansia over-segnalano; genitori meno consapevoli under-segnalano.<br>
+                        • <strong>Mancanza di dettagli:</strong> TV passiva vs. app interattiva vs. gaming multiplayer hanno neurobiologia radicalmente diversa, ma aggregati in "screen time".<br>
+                        • <strong>Timing impreciso:</strong> Luminanza schermo, tempo di giorno (blue light serale), durata sessioni, frequenza interrupzioni — TUTTE relevanti neurobiologicamente — non catturate.
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>3. Outcome Measurement: Parent-Rated, Non-Blinded</h4>
+                    <p>
+                        Molti outcome sono <strong>parent-rated</strong> (Conners CPRS, Pubertal Development Scale): soggettive, viziati da bias genitoriale, depressione materna, stress familiare. Poiché il genitore sa probabil quantità di schermo usato dal bambino, expectancy effect è probabile (genitore con bambino heavy-user si aspetta peggiore ADHD sintomi, così segnala più alto). <strong>Blinding è assente.</strong>
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>4. Confonditori Biologici: Genetica Non Controllata</h4>
+                    <p>
+                        <strong>Critico:</strong> Varianti genetiche di dopamine receptors (DRD2, COMT, DAT1), serotonin (5-HTTLPR), BDNF correlano sia con ADHD/ansia/autism-like traits CHE con attraction a stimolo ad alta intensità (schermo). Nessuno dei papers misura genetica in modo completo. Questo introduce confusione massiccia: associazione schermo → ADHD potrebbe essere confusa da genetica condivisa (entrambi driven da fattori genetici indipendenti).
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>5. Confonditori Ambientali: Sleep, Attività Fisica, Qualità Relazionale</h4>
+                    <p>
+                        Schermo a sera → circadian disruption → sleep deprivation → ADHD-like symptoms, ansia aumentata, pubertal disruption. Sleep è CONFOUNDER massiccio, raramente controllato adeguatamente. Allo stesso modo, bambini che usano schermo molto probabilmente passano meno tempo in attività fisica, gioco all'aperto, interazione face-to-face. Questi sono MEDIATORI oppure CONFONDITORI? Non chiarito.
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>6. Attrition e Selection Bias</h4>
+                    <p>
+                        <strong>Huang:</strong> 86% attrition. <strong>Shou:</strong> 22% attrition. Se chi ha completato è sistematicamente diverso (più motivato, ricco, meno psicopatologia), allora risultati non generalizzano. Nessuno dei papers fornisce comprehensive baseline comparison tra chi completa vs. abbandona.
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>7. Eterogenità Diagnostica: ASD, ADHD, "Autistic Traits" Mescolati</h4>
+                    <p>
+                        <strong>Muris:</strong> Alcuni studi recruited ASD diagnosi clinica; altri usato autism rating scale in general population. <strong>Cardillo:</strong> ASD reclutati da cliniche specialty (biased verso diagnosed, well-resourced). Questo introduce phenotype pollution: alta-functioning ASD con low support needs non è equivalente a ASD con severe support needs. Associazioni derivate possono non generalizzare.
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>8. Comorbidità Non Disaggregata</h4>
+                    <p>
+                        30-80% di persone con ASD hanno comorbid ADHD. ADHD è independently risk factor per PIU, PSMU, schermo-seeking. Se studi non stratificano per comorbidità, associazione "ASD → PIU" è confusa da "ADHD → PIU". Raro vedere controllo adeguato per comorbidità.
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>9. Preprint Status (Bläschke)</h4>
+                    <p>
+                        <strong>Bläschke et al.</strong> non peer-reviewed. Ciò significa: nessuno scrutinio di esperti, possibili errori gravi non identificati, validità sconosciuta. Non dovrebbe essere usato per policy fino a peer review completion. Questo è singolare nel dataset di 7 papers analizzati — gli altri 6 sono peer-reviewed.
+                    </p>
+                </div>
+
+                <div class="theme-item">
+                    <h4>10. Publication Bias</h4>
+                    <p>
+                        Studi con risultati nulli difficili da pubblicare. È probabile che trials con nessun effetto di schermo → outcome non sono in letteratura. Questo bias upward effect size aggregato. Nessuno dei papers esamina funnel plots oppure conduce sensitivity analyses per publication bias.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION: Glossary -->
+            <section class="section" id="glossary">
+                <h2 class="section-title">📚 Glossario Interattivo</h2>
+                <div class="glossary-search">
+                    <input type="text" id="glossaryInput" placeholder="🔍 Cerca termine neuroscientifico..." onkeyup="filterGlossary()">
+                </div>
+                <div id="glossaryList">
+                    <div class="glossary-item" data-term="abcd">
+                        <div class="glossary-term">ABCD Study</div>
+                        <div class="glossary-definition">Adolescent Brain Cognitive Development Study — coorte longitudinale nazionale USA (21 siti, N>10.000) baseline 9-10 anni, follow-up multi-year. Neuroimaging (MRI), comportamentale, genomica. Fonte dati primaria per Shou & Bläschke papers.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="whiteMatter">
+                        <div class="glossary-term">White Matter / Materia Bianca</div>
+                        <div class="glossary-definition">Fibre nervose mielinizzate che connettono diverse regioni cerebrali. Integrità white matter è critica per comunicazione inter-regionale. DTI (diffusion tensor imaging) misura fractional anisotropy (FA), mean diffusivity (MD) per valutare salute white matter.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="dopamine">
+                        <div class="glossary-term">Dopamina</div>
+                        <div class="glossary-definition">Neurotrasmettitore implicato in motivazione, reward, learning, movimento. Dopamine pathways: mesolimbic (VTA → nucleus accumbens, reward/motivation), mesocortical (VTA → prefrontal cortex, cognizione), nigrostriatal (substantia nigra → striatum, movimento). Deficit dopamina associato con ADHD; dysregulation con addiction.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="ASD">
+                        <div class="glossary-term">ASD (Autism Spectrum Disorder)</div>
+                        <div class="glossary-definition">Disturbo del neurosviluppo caratterizzato da difficoltà di comunicazione sociale e pattern comportamentali ristretti/ripetitivi. Spettro: alcuni con high support needs (non verbali, intellectual disability), altri low support needs (Asperger-like, high-functioning). ABCD dataset e Muris/Cardillo studies focalizzati su ASD.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="corticalThickness">
+                        <div class="glossary-term">Cortical Thickness</div>
+                        <div class="glossary-definition">Spessore della materia grigia corticale, misurato via sMRI. Correlato con maturazione neurologica, capacità cognitive. Riduzione durante adolescenza riflette synaptic pruning (efficienza). Associato con outcome comportamentali/cognitivi.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="nucleusAccumbens">
+                        <div class="glossary-term">Nucleus Accumbens</div>
+                        <div class="glossary-definition">Struttura subcorticale (striatum ventrale) cruciale per processing di reward, motivazione. Dopamine release nel nucleus accumbens è sottesa a piacere, cravings, addiction-like behaviors. Iperreattivo a schermo/social media algoritmi in studi fMRI.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="ADHD">
+                        <div class="glossary-term">ADHD (Attention-Deficit/Hyperactivity Disorder)</div>
+                        <div class="glossary-definition">Disturbo del neurosviluppo caratterizzato da inattentività, iperattività, impulsività. Origine neurobiologica: deficit dopaminergico, immaturità prefrontale. Sottotipi: predominantly inattentive, predominantly hyperactive-impulsive, combined.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="prefrontalCortex">
+                        <div class="glossary-term">Prefrontal Cortex (PFC)</div>
+                        <div class="glossary-definition">Regione cerebrale frontale responsabile per control esecutivo, impulse inhibition, decision-making, working memory. Development continua fino ai ~25 anni. Vulnerabile a perturbazioni durante adolescenza.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="neuroplasticity">
+                        <div class="glossary-term">Neuroplasticità</div>
+                        <div class="glossary-definition">Capacità del cervello di cambiare in risposta a esperienza, learning, environment. Durante infanzia/adolescenza, neuroplasticità è MASSIMA, ma anche VULNERABILITÀ massima a perturbazioni ambientali (schermo, trauma, neglect).</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="HPA">
+                        <div class="glossary-term">HPG Axis / Asse Ipotalamico-Ipofisario-Gonadico</div>
+                        <div class="glossary-definition">Sistema endocrino che regola pubertà e riproduzione. Ipotalamo → GnRH → ipofisi → LH/FSH → gonadi → sex steroid (testosterone, estrogen). Circadian melatonin modulà GnRH. Disruption da schermo/sleep loss implicated in puberty timing alterations (Bläschke).</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="PIU">
+                        <div class="glossary-term">PIU (Problematic Internet Use)</div>
+                        <div class="glossary-definition">Comportamento di internet use caratterizzato da loss of control, continued use despite harm, tolerance, withdrawal. Misurato via scale (IAT, BSMAS, FPIS). Prevalenza ~15-25% in ASD vs. 5-10% in non-ASD (Muris).</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="PSMU">
+                        <div class="glossary-term">PSMU (Problematic Social Media Use)</div>
+                        <div class="glossary-definition">Sottocategoria di PIU, specificamente focalized a social media. Correlato con ansia, depressione, loneliness. Diverso pattern predittivo in ASD (performance anxiety) vs. controls (rejection anxiety) (Cardillo).</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="synaptogenesis">
+                        <div class="glossary-term">Synaptogenesis / Sinaptongenesi</div>
+                        <div class="glossary-definition">Formazione di nuove sinapsi (connessioni neurali). Peak durante infanzia; seguita da synaptic pruning (eliminazione sinapsi non-usate) durante adolescenza. Processo critico per efficienza neurale, learning. Potenzialmente perturbato da stimolo ad alta frequenza (schermo).</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="DRD2">
+                        <div class="glossary-term">DRD2 Gene / Dopamine Receptor D2</div>
+                        <div class="glossary-definition">Gene che codifica dopamine receptor D2. Varianti (7-repeat allele) associati con ridotta dopamine receptor expression, lower dopaminergic tone. Polimorfismi implicati in ADHD, addiction proneness. De et al. cita come factor di vulnerabilità a dopamine-driven engagement.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="COMT">
+                        <div class="glossary-term">COMT Gene / Catechol-O-Methyltransferase</div>
+                        <div class="glossary-definition">Gene che codifica enzima che metabolizza dopamine. Val/Val genotype = ridotta dopamine levels. Met/Met genotype = increased dopamine. Polimorfismi associati con cognitive performance, stress responsivity. Citato in De et al. come genetic vulnerability factor.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="melatonin">
+                        <div class="glossary-term">Melatonina</div>
+                        <div class="glossary-definition">Ormone prodotto da pineal gland, regolato da circadian clock. Secretion increases serata, peaks midnight, drops morning. Blue light exposure (da schermi) suppresses melatonin. Disruption melatonin → sleep deprivation, circadian dysrhythmia → implicato in ADHD, mood disorders, puberty timing disruption (Bläschke mechanism).</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="gyrification">
+                        <div class="glossary-term">Gyrification Index</div>
+                        <div class="glossary-definition">Misura di folding della corteccia cerebrale (gyri = folds, sulci = grooves). Fattore di complessità corticale. Aumentato gyrification tipicamente associato con migliore cognitive function, ma accelerated gyrification durante infanzia (da schermo, Huang) predice later problems.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="temporalPole">
+                        <div class="glossary-term">Polo Temporale (Temporal Pole)</div>
+                        <div class="glossary-definition">Regione cerebrale rostrale del lobo temporale, coinvolta in social processing, mentalizzazione, semantic memory. Riduzione cortical thickness in polo temporale destro associata con ADHD e problematico use del tempo-schermo (Shou).</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="cognersScale">
+                        <div class="glossary-term">Conners Rating Scale (CPRS-R)</div>
+                        <div class="glossary-definition">Parent/teacher-rated scale per ADHD symptoms. Subscales: inattentiveness, hyperactivity-impulsivity. Validato ampiamente in pediatria. Utilizzato come outcome in Shou et al. per misurare ADHD symptoms.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="SCARED">
+                        <div class="glossary-term">SCARED (Screen for Child Anxiety Related Emotional Disorders)</div>
+                        <div class="glossary-definition">Self/parent-report scale per ansia in children/adolescenti. Misurato a 13 anni in Huang study come outcome primario per ansia adolescenziale.</div>
+                    </div>
+
+                    <div class="glossary-item" data-term="fMRI">
+                        <div class="glossary-term">fMRI (functional MRI)</div>
+                        <div class="glossary-definition">Neuroimaging technique che misura blood oxygenation (BOLD signal) per inferire neural activity. Utilizzato per identificare quali brain regions are active durante task oppure rest. Computazionalmente intensive, expensive. Permette investigation di dopamine pathways (indirectly via BOLD).</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Bibliography -->
+            <section class="section" id="bibliography">
+                <h2 class="section-title">📖 Bibliografia Completa dei 7 Paper</h2>
+
+                <h3 class="section-subtitle">Paper 1: Huang et al. (2025) — Screen Time in Infancy & Anxiety</h3>
+                <div class="bibliography-item">
+                    Huang, P., et al. (2025). "Infant Screen Time exposure in early childhood: Longitudinal associations with brain maturation trajectories and anxiety symptoms in early adolescence." eBioMedicine (Lancet), DOI: 10.1016/j.ebiom.2025.106093
+                </div>
+
+                <h3 class="section-subtitle">Paper 2: Shou et al. (2025) — Screen Time & ADHD (ABCD)</h3>
+                <div class="bibliography-item">
+                    Shou, Q., Yamashita, M. & Mizuno, Y. (2025). "Screen Time Exposure and Cortical Brain Structure Changes Associated with ADHD Symptoms in Children: A Longitudinal Study from the Adolescent Brain Cognitive Development Study." Translational Psychiatry, DOI: 10.1038/s41398-025-03672-1
+                </div>
+
+                <h3 class="section-subtitle">Paper 3: Bläschke et al. (2026) — Screen Time & Puberty (ABCD, PREPRINT)</h3>
+                <div class="bibliography-item">
+                    Bläschke, L., et al. (2026). "Screen Time Exposure in Early Adolescence and Trajectories of Pubertal Timing: A Longitudinal Study from the Adolescent Brain Cognitive Development Study." medRxiv (PREPRINT, not peer-reviewed), DOI: 10.64898/2026.01.26.26344850
+                </div>
+
+                <h3 class="section-subtitle">Paper 4: Gabarron et al. (2025) — Digital Interventions for ADHD</h3>
+                <div class="bibliography-item">
+                    Gabarron, E., Denecke, K. & Lopez-Campos, G. (2025). "Digital Interventions for Attention-Deficit/Hyperactivity Disorder: An Umbrella Review of Systematic Reviews." BMC Psychiatry, Vol. 25, Article 414, DOI: 10.1186/s12888-025-06825-0
+                </div>
+
+                <h3 class="section-subtitle">Paper 5: Muris et al. (2025) — Internet Use & Autism (Meta-Analysis)</h3>
+                <div class="bibliography-item">
+                    Muris, P., et al. (2025). "Meta-Analysis of Problematic Internet Use and Social Media Addiction in Individuals with Autism Spectrum Disorder (Parts I & II)." Clinical Child and Family Psychology Review, DOI (Part I): 10.1007/s10567-025-00524-8, DOI (Part II): 10.1007/s10567-025-00539-1
+                </div>
+
+                <h3 class="section-subtitle">Paper 6: Cardillo et al. (2025) — Social Media Use in Autism & Anxiety</h3>
+                <div class="bibliography-item">
+                    Cardillo, R., et al. (2025). "Problematic Social Media Use in Autism Spectrum Disorder: Differential Associations with Performance and Rejection Anxiety." Addictive Behaviors, Vol. 162, Article 108225, DOI: 10.1016/j.addbeh.2024.108225
+                </div>
+
+                <h3 class="section-subtitle">Paper 7: De et al. (2025) — Algorithms, Dopamine, & Adolescent Addiction</h3>
+                <div class="bibliography-item">
+                    De, D., et al. (2025). "Social Media Algorithms and Adolescent Behavioral Addiction: A Neurophysiological Perspective on Dopamine-Driven Reward Loops." Cureus, Vol. 17, Article e77145, DOI: 10.7759/cureus.77145
+                </div>
+
+                <h3 class="section-subtitle">Cross-Cutting References & Meta-Analyses (Cited in Papers)</h3>
+                <div class="bibliography-item">
+                    Cortese, S., et al. (cited in Gabarron as major meta-analytic source on neurofeedback efficacy discrepancies between blinded vs. non-blinded studies)
+                </div>
+                <div class="bibliography-item">
+                    Castellanos, F.X., et al. (cited in Shou for normative cortical morphometry in ADHD, tempo temporale anatomy)
+                </div>
+                <div class="bibliography-item">
+                    Wakefield et al. (cited in Bläschke as cautionary tale of preprint/media amplification of unvalidated research — MMR-autism fraud)
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>
+                    <strong>Dashboard Created:</strong> Febbraio 2026<br>
+                    <strong>Scope:</strong> Analisi critica interdisciplinare di 7 ricerche su neuroscienze dello sviluppo, ADHD, autismo, dipendenza comportamentale<br>
+                    <strong>Lingue:</strong> Italiano (dashboard), English (scientific citations)<br>
+                    <strong>Nota:</strong> Questo dashboard è uno strumento educativo e di sintesi. Non sostituisce peer review formale. Limitazioni metodologiche critiche sono segnalate esplicitamente per ciascun paper. Bläschke et al. è un preprint non-peer-reviewed e non dovrebbe essere usato per policy pubblica finché sottoposto a peer review completo.
+                </p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Toggle Paper Expansion
+        function togglePaper(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+
+            if (content.classList.contains('visible')) {
+                content.classList.remove('visible');
+                header.classList.remove('collapsed');
+            } else {
+                content.classList.add('visible');
+                header.classList.add('collapsed');
+            }
+        }
+
+        // Filter Glossary
+        function filterGlossary() {
+            const input = document.getElementById('glossaryInput').value.toLowerCase();
+            const items = document.querySelectorAll('.glossary-item');
+
+            items.forEach(item => {
+                const term = item.getAttribute('data-term');
+                const termText = item.querySelector('.glossary-term').textContent.toLowerCase();
+                const defText = item.querySelector('.glossary-definition').textContent.toLowerCase();
+
+                if (term.includes(input) || termText.includes(input) || defText.includes(input)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Sidebar Menu Navigation
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar-menu a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+
+                const target = this.getAttribute('href');
+                const section = document.querySelector(target);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                closeSidebar();
+            });
+        });
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('open');
+        }
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(e) {
+            const sidebar = document.querySelector('.sidebar');
+            const btnMenu = document.querySelector('.btn-menu');
+            if (!sidebar.contains(e.target) && !btnMenu.contains(e.target)) {
+                closeSidebar();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set first glossary item as default
+            filterGlossary();
+        });
+    </script>
+    <script src="/assets/menu.js"></script>
+</body>
+</html>

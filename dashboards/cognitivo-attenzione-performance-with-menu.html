@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Cognitivo, Attenzione e Performance Accademica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-cards: #1a222d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-cyan: #00d9ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%),
+                        repeating-linear-gradient(0deg, rgba(0, 217, 255, 0.03) 0px, rgba(0, 217, 255, 0.03) 1px, transparent 1px, transparent 50px),
+                        repeating-linear-gradient(90deg, rgba(0, 217, 255, 0.03) 0px, rgba(0, 217, 255, 0.03) 1px, transparent 1px, transparent 50px);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+            position: fixed;
+            height: calc(100vh - 70px);
+            left: 0;
+            top: 70px;
+            z-index: 900;
+        }
+
+        .sidebar-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-cyan);
+            border-left-color: var(--accent-cyan);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 217, 255, 0.15);
+            color: var(--accent-cyan);
+            border-left-color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* ===== HEADER ===== */
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .page-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== STAT CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===== PAPER CARDS ===== */
+        .papers-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .paper-card {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .paper-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+        }
+
+        .paper-header {
+            padding: 1.5rem;
+            background: rgba(0, 217, 255, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .paper-header-content {
+            flex: 1;
+        }
+
+        .paper-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+
+        .paper-meta-item {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
+            align-self: center;
+            margin-left: 1rem;
+        }
+
+        .paper-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .paper-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .paper-card.expanded .paper-content {
+            max-height: 5000px;
+        }
+
+        .paper-body {
+            padding: 1.5rem;
+        }
+
+        .content-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-icon {
+            font-size: 1.2rem;
+        }
+
+        .section-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 0.3rem 0.3rem 0.3rem 0;
+            font-family: var(--font-mono);
+        }
+
+        .tag-cyan {
+            background: rgba(0, 217, 255, 0.2);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .tag-yellow {
+            background: rgba(210, 153, 34, 0.2);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+        }
+
+        .tag-red {
+            background: rgba(248, 81, 73, 0.2);
+            color: var(--accent-red);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+
+        .tag-green {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--accent-green);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+
+        .tag-purple {
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            border: 1px solid rgba(163, 113, 247, 0.3);
+        }
+
+        .limitations-box {
+            background: rgba(210, 153, 34, 0.08);
+            border-left: 4px solid var(--accent-yellow);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .limitations-box .section-title {
+            color: var(--accent-yellow);
+            margin-bottom: 0.75rem;
+        }
+
+        .limitation-item {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+        }
+
+        .limitation-item:before {
+            content: "⚠ ";
+            color: var(--accent-yellow);
+            margin-left: -1rem;
+            margin-right: 0.5rem;
+        }
+
+        .findings-list {
+            list-style: none;
+        }
+
+        .findings-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .findings-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: rgba(0, 217, 255, 0.1);
+            padding: 0.75rem;
+            text-align: left;
+            color: var(--accent-cyan);
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        /* ===== GLOSSARY SECTION ===== */
+        .glossary-search {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.15);
+        }
+
+        .glossary-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .glossary-item {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .glossary-item:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .glossary-term {
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+        }
+
+        .glossary-definition {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .glossary-item.hidden {
+            display: none;
+        }
+
+        /* ===== NARRATIVE SYNTHESIS ===== */
+        .narrative {
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .narrative h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .narrative p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .narrative strong {
+            color: var(--text-primary);
+        }
+
+        /* ===== FILTER BUTTONS ===== */
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-cards);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-family: var(--font-display);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(0, 217, 255, 0.15);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* ===== SCROLL ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-cyan);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+                padding: 1.5rem 1rem;
+            }
+
+            .main-content {
+                margin-left: 200px;
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .glossary-items {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 1rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .nav-section {
+                display: inline-block;
+                margin-right: 2rem;
+            }
+        }
+
+        /* =========================================== RESPONSIVE MOBILE FOR SITE INTEGRATION =========================================== */
+        @media (max-width: 768px) {
+            body { padding-top: 120px !important; }
+            .sidebar { top: 120px !important; height: auto !important; position: static !important; width: 100% !important; }
+            .main-content, main, .content-area { margin-left: 0 !important; padding-top: 1rem !important; }
+            table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 640px) {
+            body { padding-top: 140px !important; }
+            h1 { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+
+    <div class="container">
+        <!-- SIDEBAR -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📊 Dashboard</div>
+                <div class="sidebar-subtitle">Cognitivo & Attenzione</div>
+            </div>
+
+            <div class="nav-section">
+                <label class="nav-label">Navigazione</label>
+                <div class="nav-item active" data-section="overview">📈 Panoramica</div>
+                <div class="nav-item" data-section="papers">📄 Papers</div>
+                <div class="nav-item" data-section="themes">🔗 Temi Trasversali</div>
+                <div class="nav-item" data-section="limitations">⚠️ Limitazioni</div>
+                <div class="nav-item" data-section="glossary">📚 Glossario</div>
+                <div class="nav-item" data-section="bibliography">🔖 Bibliografia</div>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- OVERVIEW SECTION -->
+            <section id="overview" class="section active">
+                <div class="page-header">
+                    <h1 class="page-title">Cognitivo, Attenzione e Performance Accademica</h1>
+                    <p class="page-subtitle">Una selezione di ricerca sui effetti delle tecnologie digitali sulle funzioni esecutive nei bambini e adolescenti</p>
+                    <div class="page-meta">
+                        📅 Selezione di ricerca dal 2025 e anni circostanti
+                        <br>🔍 Analisi critica condotta il 9 febbraio 2026
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Paper Analizzati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">231K+</div>
+                        <div class="stat-label">Partecipanti Complessivi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">9</div>
+                        <div class="stat-label">Paesi Coperti</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2025</div>
+                        <div class="stat-label">Anno di Pubblicazione</div>
+                    </div>
+                </div>
+
+                <div class="narrative">
+                    <h3>📖 Sintesi Narrativa Generale</h3>
+                    <p>
+                        Questo dashboard sintetizza cinque studi recenti (2025) che esaminano le relazioni tra uso di tecnologie digitali (smartphone, tablet, computer, video brevi) e funzioni esecutive nei bambini e adolescenti. La ricerca evidenzia un pattern consistente: l'uso eccessivo di dispositivi elettronici, soprattutto in modalità isolata (senza supervisione genitoriale), è associato con deterioramento delle funzioni esecutive core come memoria di lavoro, controllo inibitorio, flessibilità cognitiva e attenzione sostenuta.
+                    </p>
+                    <p>
+                        <strong>Hallmark comune:</strong> La mediazione genitoriale emerge come fattore protettivo critico. Non si tratta di demonizzare la tecnologia intrinsecamente, ma piuttosto di implementare strategie di "harm reduction" attraverso co-use, monitoraggio, linee guida temporali e contenuti educativi strutturati.
+                    </p>
+                    <p>
+                        <strong>Metodologie diverse:</strong> I cinque paper utilizzano design variati (revisione sistematica rapida, quasi-esperimento naturale con policy variation, path analysis cross-sectional, epidemiologia nazionale, survey cross-sectional) che, sebbene con limitazioni individuali, convergono verso conclusioni coerenti quando integrati criticamente.
+                    </p>
+                    <p>
+                        <strong>Aree grigie significative:</strong> Causalità rimane incerta in molti studi (design cross-sectional prevale); meccanismi non sono completamente chiariti; generalizzabilità oltre contesti WEIRD (Western, Educated, Industrialized, Rich, Democratic) è limitata. Questa dashboard evidenzia sia le forze che le zone d'ombra per uso informato.
+                    </p>
+                </div>
+
+                <h2 style="color: var(--accent-cyan); margin: 2rem 0 1rem; font-size: 1.5rem; letter-spacing: -0.02em;">Metodologie Rappresentate</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                    <span class="tag tag-cyan">Systematic Review Rapida (PRISMA)</span>
+                    <span class="tag tag-cyan">Quasi-Esperimento (Difference-in-Differences)</span>
+                    <span class="tag tag-cyan">Path Analysis (Mediazione/Moderazione)</span>
+                    <span class="tag tag-cyan">Epidemiologia Nazionale (NHIS)</span>
+                    <span class="tag tag-cyan">Cross-sectional Survey (GLM)</span>
+                </div>
+            </section>
+
+            <!-- PAPERS SECTION -->
+            <section id="papers" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">📄 Analisi Dettagliata dei Papers</h1>
+                    <p class="page-subtitle">Clicca per espandere ogni paper e visualizzare metodologia, risultati, limitazioni e implicazioni complete</p>
+                </div>
+
+                <div class="papers-container">
+                    <!-- PAPER 1: ICT and Executive Functions -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div class="paper-header-content">
+                                <h3 class="paper-title">Tecnologie Informatiche e Funzioni Esecutive nei Bambini: Revisione Sistematica Rapida 2025</h3>
+                                <div class="paper-meta">
+                                    <span class="paper-meta-item">👥 Correia et al.</span>
+                                    <span class="paper-meta-item">📰 Children (MDPI)</span>
+                                    <span class="paper-meta-item">📅 2025</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-body">
+                                <!-- Metadata -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🏷️</span>Metadata</div>
+                                    <div class="section-text">
+                                        <strong>DOI:</strong> 10.3390/children12050555<br>
+                                        <strong>PMC ID:</strong> PMC12109849<br>
+                                        <strong>Tipo Studio:</strong> Systematic review rapido (PRISMA)<br>
+                                        <strong>N Totale:</strong> 231.117 bambini su 10 studi<br>
+                                        <strong>Copertura:</strong> 9 paesi
+                                    </div>
+                                </div>
+
+                                <!-- Study Design -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🔬</span>Design dello Studio</div>
+                                    <div class="section-text">
+                                        <strong>Che cosa hanno fatto:</strong> Revisione sistematica rapida di letteratura post-2020. Inclusi 10 studi primari che esaminano associazione tra uso ICT (smartphone, tablet, computer, console gaming, social media) e funzioni esecutive nei bambini 0-18 anni.
+                                        <br><br>
+                                        <strong>Variabili di outcome:</strong>
+                                    </div>
+                                    <ul class="findings-list">
+                                        <li>Working memory (memoria di lavoro)</li>
+                                        <li>Inhibitory control (controllo inibitorio)</li>
+                                        <li>Cognitive flexibility (flessibilità cognitiva)</li>
+                                        <li>Sustained attention (attenzione sostenuta)</li>
+                                    </ul>
+                                    <div class="section-text">
+                                        <strong>Moderatore critico:</strong> Parental mediation (co-use, co-viewing, parental guidance)
+                                    </div>
+                                </div>
+
+                                <!-- Key Findings -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">📊</span>Risultati Principali</div>
+                                    <ul class="findings-list">
+                                        <li>9/10 studi indicano che esposizione ICT eccessiva è associata con peggioramento funzioni esecutive</li>
+                                        <li>Mediazione genitoriale (co-use, supervisione, guida) <strong>riduce significativamente gli effetti negativi</strong></li>
+                                        <li>Non è ICT intrinsecamente "tossica" — dipende da modalità d'uso (isolato vs. supervisionato)</li>
+                                        <li>Paradigma di harm reduction efficace: engagement genitoriale superiore a ban assoluto</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Limitations Box -->
+                                <div class="limitations-box">
+                                    <div class="section-title"><span class="section-icon">⚠️</span>Limitazioni Critiche</div>
+                                    <div class="limitation-item">Metodologia "rapid review" compromette rigor PRISMA completo (assenza PROSPERO registration documentata)</div>
+                                    <div class="limitation-item">Ricerca sistematica possibilmente incompleta — publication bias non affrontato</div>
+                                    <div class="limitation-item">Heterogeneità sostanziale non quantificata: "ICT" è categoria spuria (video passiva vs. gaming attivo vs. assisted learning hanno meccanismi diversi)</div>
+                                    <div class="limitation-item">Outcome measures non standardizzate — diversi studi usano diverse misure di working memory, inhibitory control, etc.</div>
+                                    <div class="limitation-item">Mediazione genitoriale testata solo osservazionalmente — confounding socioeconomico non escludibile</div>
+                                    <div class="limitation-item">Assenza GRADE tool application (quality of evidence, certainty rating)</div>
+                                    <div class="limitation-item">Population bias: rappresentatività globale illusoria (likely viziata verso paesi ricchi occidentali)</div>
+                                    <div class="limitation-item">Age-specific effects non disaggregati (0-18 è range vastissimo; effects su infants ≠ adolescenti)</div>
+                                </div>
+
+                                <!-- Implications -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">💡</span>Implicazioni Pratiche</div>
+                                    <ul class="findings-list">
+                                        <li><strong>Per educazione:</strong> Classroom design riconsiderato — low-tech hours nella scuola primaria per proteggere attività cognitivamente demanding</li>
+                                        <li><strong>Per genitori:</strong> Media literacy è importante ma secondary — reduction + supervision è first-line</li>
+                                        <li><strong>Per clinica:</strong> Assessment ADHD deve includere storia ICT; proporre trial 4-week ICT reduction PRIMA medication trial</li>
+                                        <li><strong>Per policy:</strong> Parental mediation è modificabile — support programs e training possono essere scalate</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Quality Assessment -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">⭐</span>Valutazione Qualità</div>
+                                    <div class="section-text">
+                                        <strong>Robustezza metodologica:</strong> Moderata<br>
+                                        <strong>Certezza evidenza:</strong> Moderata<br>
+                                        <strong>Applicabilità pratica:</strong> Alta (conclusioni operative su co-use sono implementabili)<br>
+                                        <strong>Punto di forza principale:</strong> Taglia trasversale ampia (231K bambini) consente inference epidemiologica; conclusion su mediazione genitoriale è realistica e non-paternalistic<br>
+                                        <strong>Limitazione principale:</strong> Design rapido vs. full systematic review compromette completezza search; mechanism non quantificato
+                                    </div>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="content-section">
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span class="tag tag-cyan">Systematic Review</span>
+                                        <span class="tag tag-cyan">PRISMA</span>
+                                        <span class="tag tag-green">Mediazione Genitoriale</span>
+                                        <span class="tag tag-yellow">Publication Bias Risk</span>
+                                        <span class="tag tag-yellow">Heterogeneitá Non-Quantificata</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 2: Florida Cellphone Ban -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div class="paper-header-content">
+                                <h3 class="paper-title">Divieto Telefoni Cellulari in Florida e Performance Accademica: Evidenza Causale Quasi-Sperimentale 2025</h3>
+                                <div class="paper-meta">
+                                    <span class="paper-meta-item">👥 Figlio DN, Özek U</span>
+                                    <span class="paper-meta-item">📰 NBER Working Paper No. 34388</span>
+                                    <span class="paper-meta-item">📅 2025</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-body">
+                                <!-- Metadata -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🏷️</span>Metadata</div>
+                                    <div class="section-text">
+                                        <strong>Tipo Studio:</strong> Quasi-esperimento naturale (Difference-in-Differences, DiD)<br>
+                                        <strong>Checklist:</strong> STROBE adattato per quasi-sperimentali (ROBINS-I)<br>
+                                        <strong>Policy di riferimento:</strong> Florida Cellphone Ban 2023<br>
+                                        <strong>Timeframe:</strong> 2021-2025 (2 anni pre-ban, 2 anni post-ban)<br>
+                                        <strong>Design:</strong> Policy variation sfruttata come natural experiment
+                                    </div>
+                                </div>
+
+                                <!-- Study Design -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🔬</span>Design dello Studio</div>
+                                    <div class="section-text">
+                                        <strong>Logica DiD:</strong> Treatment group (Florida schools post-ban) vs. control groups (Florida pre-ban + other states no-ban). Isolato effetto causale del ban controllando per trends pre-policy.
+                                        <br><br>
+                                        <strong>Outcomes misurati:</strong>
+                                    </div>
+                                    <ul class="findings-list">
+                                        <li>Academic test scores (punteggi test accademici)</li>
+                                        <li>Discipline/suspensions (sospensioni disciplinari)</li>
+                                        <li>Attendance (presenze ingiustificate)</li>
+                                        <li>Eterogeneo per: gender (maschi vs. femmine), race/ethnicity, grade level (elementare vs. middle vs. high school)</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Key Findings -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">📊</span>Risultati Principali</div>
+                                    <ul class="findings-list">
+                                        <li><strong>Anno 1 post-ban:</strong> Picco di sospensioni (spec. adolescenti afroamericani), poi attenuato in Anno 2</li>
+                                        <li><strong>Test scores Anno 2:</strong> Miglioramenti significativi +0.6 pp complessivi; +1.4 pp per maschi; +1.2 pp per adolescenti afroamericani</li>
+                                        <li><strong>Absences:</strong> Significativa riduzione ingiustificate</li>
+                                        <li><strong>NO effetti negativi:</strong> Nessun deterioramento apprendimento reportato</li>
+                                        <li>Effetto causale POSITIVO su performance accademica, specialmente post-transizione iniziale</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Limitations Box -->
+                                <div class="limitations-box">
+                                    <div class="section-title"><span class="section-icon">⚠️</span>Limitazioni Critiche</div>
+                                    <div class="limitation-item"><strong>Parallel trends assumption non testata empiricamente:</strong> Abstract non riporta pre-ban trend test; se Florida schools already miglioravano più velocemente pre-ban, DiD coefficient è biased upward</div>
+                                    <div class="limitation-item">Causal mechanism unclear — alternative explanations: halo effect di "general discipline tightening", non phones specifically</div>
+                                    <div class="limitation-item">Enforcement variation non misurata — fidelity del ban varia per school (Yondr pouches strict vs. honor system)</div>
+                                    <div class="limitation-item">Gender/race effects non spiegati — perché maschi e adolescenti afroamericani benefit più? Baseline differences? Reversion to mean?</div>
+                                    <div class="limitation-item">Discipline spike Anno 1 (especially African American) suggerirebbe bias di enforcement — gains Anno 2 potrebbero essere recovery da over-punishment, non genuine learning gains</div>
+                                    <div class="limitation-item">No direct measure di distraction reduction — presume mechanism ma non lo misura</div>
+                                    <div class="limitation-item">Outcome measures non specificate (quale test? FAST? SAT? NAEP?); magnitude di +0.6-1.4 pp clinically significant?</div>
+                                    <div class="limitation-item">Confounding da altre policies simultanee (curriculum changes, teacher hiring, funding) non controlled</div>
+                                    <div class="limitation-item">COVID recovery confounding (2021-2023 include return-to-in-person variation by state)</div>
+                                    <div class="limitation-item">NBER working paper (pre-print, non peer-reviewed) — standards di completeness possono essere inferiori a journal</div>
+                                </div>
+
+                                <!-- Implications -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">💡</span>Implicazioni Pratiche</div>
+                                    <ul class="findings-list">
+                                        <li><strong>Per policy:</strong> Prima evidenza causale (quasi-sperimentale) che phone bans statewide migliorano academic achievement</li>
+                                        <li><strong>Per implementazione:</strong> Transizione critica — Anno 1 discipline spike suggerisce need di careful design (equitable enforcement, student input, graduated consequences)</li>
+                                        <li><strong>Per advocacy:</strong> Fornisce "ammunition" per phone restrictions; pero counter-narrative esiste (not address social benefits)</li>
+                                        <li><strong>Per ricerca:</strong> Dimostra valore di leveraging policy changes come natural experiments per program evaluation</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Notable Feature -->
+                                <div class="content-section" style="background: rgba(0, 217, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-cyan);">
+                                    <div style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.5rem;">⭐ Nota Rilevante</div>
+                                    <div class="section-text">
+                                        Questo è il primo studio che sfrutta una policy naturale ("natural experiment") a livello statale per valutare causal effect di phone ban su academic outcomes. Design quasi-sperimentale è più robusto di studi osservazionali ma ancora meno rigido che RCT. Implicazioni per policy educativa sono significative, ma replicazione multi-state è desiderabile prima advocacy piena.
+                                    </div>
+                                </div>
+
+                                <!-- Quality Assessment -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">⭐</span>Valutazione Qualità</div>
+                                    <div class="section-text">
+                                        <strong>Robustezza metodologica:</strong> Moderata (quasi-sperimentale DiD, non RCT)<br>
+                                        <strong>Certezza causale:</strong> Moderata (dipende da parallel trends assumption validity)<br>
+                                        <strong>Applicabilità pratica:</strong> Alta (policy actionable)<br>
+                                        <strong>Punto di forza principale:</strong> Policy variation exogenous (state-level mandate), large population effect, eterogeneous effects stratificati<br>
+                                        <strong>Limitazione principale:</strong> Parallel trends non testata; alternative explanations non ruled out
+                                    </div>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="content-section">
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span class="tag tag-cyan">Quasi-Esperimento (DiD)</span>
+                                        <span class="tag tag-cyan">Policy Evaluation</span>
+                                        <span class="tag tag-green">Causal Inference</span>
+                                        <span class="tag tag-yellow">Parallel Trends Non-Testata</span>
+                                        <span class="tag tag-yellow">COVID Recovery Confounding</span>
+                                        <span class="tag tag-red">Enforcement Disparities</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 3: Devices, Executive Function & Learning -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div class="paper-header-content">
+                                <h3 class="paper-title">Uso Dispositivi Elettronici, Funzione Esecutiva e Qualità di Apprendimento: Uno Studio di Mediazione-Moderazione</h3>
+                                <div class="paper-meta">
+                                    <span class="paper-meta-item">👥 Qu F, et al.</span>
+                                    <span class="paper-meta-item">📰 Frontiers in Public Health</span>
+                                    <span class="paper-meta-item">📅 2025</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-body">
+                                <!-- Metadata -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🏷️</span>Metadata</div>
+                                    <div class="section-text">
+                                        <strong>DOI:</strong> 10.3389/fpubh.2025.1609878<br>
+                                        <strong>PMC ID:</strong> PMC12380748<br>
+                                        <strong>Tipo Studio:</strong> Cross-sectional con path analysis (mediazione/moderazione)<br>
+                                        <strong>Checklist:</strong> STROBE per modelli mediazione
+                                    </div>
+                                </div>
+
+                                <!-- Study Design -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🔬</span>Design dello Studio</div>
+                                    <div class="section-text">
+                                        <strong>Modello concettuale:</strong>
+                                        <br><br>
+                                        <code style="color: var(--accent-cyan);">Device Use → Executive Function → Learning Quality</code>
+                                        <br><br>
+                                        <strong>Mediazione completa testata:</strong> Direct effect di device-use su learning quality è zero/minimo quando mediatore (executive function) è controllato<br>
+                                        <strong>Moderazione:</strong> Parental mediation modera (attenuates) indirect effect
+                                    </div>
+                                </div>
+
+                                <!-- Key Findings -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">📊</span>Risultati Principali</div>
+                                    <ul class="findings-list">
+                                        <li>Electronic device use prediceva negativamente executive function</li>
+                                        <li>Executive function prediceva negativamente learning quality</li>
+                                        <li><strong>Full mediation pattern:</strong> Effetto totale di device-use su learning-quality era <strong>completamente mediato</strong> da executive function</li>
+                                        <li>Parental mediation moderava (attenuava) indirect pathway</li>
+                                        <li><strong>Interpretazione:</strong> Non è device-use diretto che compromette learning; è mechanism: device-use → esaurimento funzioni esecutive → bambino non riesce concentrarsi nello studio</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Limitations Box -->
+                                <div class="limitations-box">
+                                    <div class="section-title"><span class="section-icon">⚠️</span>Limitazioni Critiche</div>
+                                    <div class="limitation-item"><strong>Cross-sectional design invalida mediazione causale:</strong> Temporal precedence assunta ma non verificata — reverse causality plausibile (learning difficulties → frustration → device self-medication)</div>
+                                    <div class="limitation-item">Confounding strutturale non indirizzato — fattori non misurati potrebbero causare contemporaneamente device-use, executive dysfunction, e poor learning</div>
+                                    <div class="limitation-item">Misurazioni auto-riportate e parent-reported — device use senza objective tracking (app-based); EF potrebbe essere BRIEF parent-rated (circular reasoning risk)</div>
+                                    <div class="limitation-item">Learning quality vago — è achievement test? Grades? Teacher-rated engagement? Operazionalizzazione critica ma non chiara</div>
+                                    <div class="limitation-item">"Full mediation" in cross-sectional design è metodologicamente shaky — assenza direct effect potrebbe essere unmeasured confounders, non vero full mediation</div>
+                                    <div class="limitation-item">Mechanism di moderazione non chiarito — perché parental mediation modera? Quantity vs. quality di device use non disaggregata</div>
+                                    <div class="limitation-item">Sample characteristics non trasparenti (N esatto, age range, paese, SES non specificati in abstract)</div>
+                                    <div class="limitation-item">SEM assumptions checked? (Linearity, normality, multicollinearity diagnostics assenti)</div>
+                                    <div class="limitation-item">No power analysis — campione justificato?</div>
+                                </div>
+
+                                <!-- Implications -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">💡</span>Implicazioni Pratiche</div>
+                                    <ul class="findings-list">
+                                        <li><strong>Per homework policy:</strong> Scuole dovrebbero fornire guidelines per genitori: "No device use 1 ora prima homework" per proteggere executive function capacity</li>
+                                        <li><strong>Per accommodations:</strong> Bambini senza supporto genitoriale sono particolarmente vulnerabili — schools dovrebbero offrire study halls device-free e peer-tutoring</li>
+                                        <li><strong>Per parent training:</strong> "Mediazione genitoriale" può essere insegnata — co-use, monitoring, guidance sono meccanismi protettivi</li>
+                                        <li><strong>Per docenti:</strong> Riconoscere "EF-compromised learning" — bambino appare "lazy" ma è déficit cognitivo, richiede scaffolding diverso</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Quality Assessment -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">⭐</span>Valutazione Qualità</div>
+                                    <div class="section-text">
+                                        <strong>Robustezza metodologica:</strong> Bassa-Moderata<br>
+                                        <strong>Certezza evidenza:</strong> Bassa-Moderata<br>
+                                        <strong>Applicabilità pratica:</strong> Moderata (rational inference, but limited RCT data)<br>
+                                        <strong>Punto di forza principale:</strong> Modello concettuale plausibile; path analysis appropriata per question<br>
+                                        <strong>Limitazione principale:</strong> Design cross-sectional invalida mediazione causale; confounding residuo probabile
+                                    </div>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="content-section">
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span class="tag tag-cyan">Path Analysis</span>
+                                        <span class="tag tag-cyan">Mediazione</span>
+                                        <span class="tag tag-cyan">Moderazione</span>
+                                        <span class="tag tag-red">Cross-sectional Design</span>
+                                        <span class="tag tag-yellow">Temporal Precedence Non-Testata</span>
+                                        <span class="tag tag-yellow">Confounding Non-Controlled</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 4: Screen Time & Teenager Health -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div class="paper-header-content">
+                                <h3 class="paper-title">Tempo Schermo e Salute degli Adolescenti negli USA: Analisi Trasversale NHIS Nazionale 2021-2023</h3>
+                                <div class="paper-meta">
+                                    <span class="paper-meta-item">👥 Zablotsky B, et al.</span>
+                                    <span class="paper-meta-item">📰 CDC Preventing Chronic Disease (PCD)</span>
+                                    <span class="paper-meta-item">📅 2025</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-body">
+                                <!-- Metadata -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🏷️</span>Metadata</div>
+                                    <div class="section-text">
+                                        <strong>DOI:</strong> 10.5888/pcd22.240537<br>
+                                        <strong>PMC ID:</strong> PMC12249308<br>
+                                        <strong>Tipo Studio:</strong> Cross-sectional analysis, dati NHIS (National Health Interview Survey) USA<br>
+                                        <strong>Timeframe:</strong> 2021-2023<br>
+                                        <strong>Design:</strong> Nationally representative household survey, stratified multistage probability sampling
+                                    </div>
+                                </div>
+
+                                <!-- Study Design -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🔬</span>Design dello Studio</div>
+                                    <div class="section-text">
+                                        <strong>Population:</strong> Adolescenti USA 13-17 anni (assunto)<br>
+                                        <strong>Exposure:</strong> Screen time non-accademico (leisure screen: TV, video, social media, gaming), categorizzato (Low, Moderate, High)<br>
+                                        <strong>Outcomes misurati (multisystem):</strong>
+                                    </div>
+                                    <ul class="findings-list">
+                                        <li>Physical activity insufficiente</li>
+                                        <li>Weight concerns/obesity risk</li>
+                                        <li>Mental health: depression e anxiety symptoms</li>
+                                        <li>Socio-emotional support adequacy</li>
+                                        <li>Sleep routine irregolare/inadeguato</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Key Findings -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">📊</span>Risultati Principali</div>
+                                    <ul class="findings-list">
+                                        <li>Adolescenti con <strong>alto screen time</strong> (vs. basso/moderate) hanno <strong>MAGGIORE probabilità</strong> di:</li>
+                                        <li>Attività fisica insufficiente (sedentarietà)</li>
+                                        <li>Preoccupazioni peso e rischio obesità</li>
+                                        <li>Sintomi depressione e ansia</li>
+                                        <li>Supporto socio-emotivo insufficiente da famiglia/amici</li>
+                                        <li>Routine sonno irregolari/inadeguate</li>
+                                        <li><strong>Pattern multisystem:</strong> Non effetto singolo, ma costellazione di health risk factors (metabolico, psichiatrico, sociale, fisiologico)</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Limitations Box -->
+                                <div class="limitations-box">
+                                    <div class="section-title"><span class="section-icon">⚠️</span>Limitazioni Critiche</div>
+                                    <div class="limitation-item"><strong>Cross-sectional design esclude causalità:</strong> Reverse causality non escludibile — adolescenti con depression/anxiety potrebbero self-medicate via escapist screen use</div>
+                                    <div class="limitation-item">Confounding strutturale: Parental mental health, family chaos/stress, baseline child vulnerability (ADHD, autism, peer rejection) non controllate</div>
+                                    <div class="limitation-item">Screen time misurato via self-report (senza objective app-tracking) — bias di social desirability, underestimation unsupervised use</div>
+                                    <div class="limitation-item">"Non-academic screen time" ambiguo — COVID period (2021-2023) incluse online schooling; quale definition usata?</div>
+                                    <div class="limitation-item">Type heterogeneity non disaggregata — passive video streaming ≠ social media ≠ gaming; diverse mechanisms conflated</div>
+                                    <div class="limitation-item">Outcome measures problematiche: "Depression/anxiety symptoms" — singolo item parent-report? PHQ-9? Validity unclear</div>
+                                    <div class="limitation-item">Sleep, physical activity, weight concerns — single-item o validated scales? Specification manca</div>
+                                    <div class="limitation-item">NHIS response rate declining (~55-60% in 2021-2023 vs. historical ~70%) — potential non-response bias</div>
+                                    <div class="limitation-item">Multiple comparisons (5+ outcomes) senza correction — Type I error risk inflated</div>
+                                    <div class="limitation-item">Effect sizes non reportati in abstract — OR, CI, NNH assenti; clinical significance unclear</div>
+                                    <div class="limitation-item">No subgroup analysis (age, gender, race, SES) in abstract — heterogeneity masked</div>
+                                </div>
+
+                                <!-- Implications -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">💡</span>Implicazioni Pratiche</div>
+                                    <ul class="findings-list">
+                                        <li><strong>Per health screening:</strong> Pediatrician e school nurses dovrebbero screen per alto non-academic screen time; se >3-4 ore, assess per physical activity, sleep, mood, social support</li>
+                                        <li><strong>Per inclusive practice:</strong> Adolescenti con depression/ansia potrebbero usare screen come self-regulation; gradual reduction + alternative coping richiesta (esercizio, socializzazione, therapy)</li>
+                                        <li><strong>Per parent education:</strong> Multi-system health messaging — screen time affects muscles (inactivity), mood (depression), sleep, friendships</li>
+                                        <li><strong>Per clinical assessment:</strong> Screen time dovrebbe essere "vital sign" in pediatric evaluation</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Quality Assessment -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">⭐</span>Valutazione Qualità</div>
+                                    <div class="section-text">
+                                        <strong>Robustezza metodologica:</strong> Moderata-Alta (epidemiologia nazionale, large sample)<br>
+                                        <strong>Certezza causale:</strong> Bassa (cross-sectional)<br>
+                                        <strong>Applicabilità pratica:</strong> Alta (multisystem health impacts rilevanti per public health)<br>
+                                        <strong>Punto di forza principale:</strong> Representatività nazionale, multisystem outcomes<br>
+                                        <strong>Limitazione principale:</strong> Cross-sectional, confounding residuo, mechanism not tested
+                                    </div>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="content-section">
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span class="tag tag-cyan">Epidemiologia Nazionale</span>
+                                        <span class="tag tag-cyan">NHIS</span>
+                                        <span class="tag tag-green">Multisystem Outcomes</span>
+                                        <span class="tag tag-red">Cross-sectional Design</span>
+                                        <span class="tag tag-yellow">Reverse Causality Risk</span>
+                                        <span class="tag tag-yellow">Multiple Comparisons</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPER 5: Short-Form Video & Inattention -->
+                    <div class="paper-card">
+                        <div class="paper-header" onclick="togglePaper(this)">
+                            <div class="paper-header-content">
+                                <h3 class="paper-title">Video Brevi e Inattentività nei Bambini della Scuola Primaria: Uno Studio Cross-Sectional in Tailandia</h3>
+                                <div class="paper-meta">
+                                    <span class="paper-meta-item">👥 Chiencharoenthanakij R, et al.</span>
+                                    <span class="paper-meta-item">📰 Brain and Behavior</span>
+                                    <span class="paper-meta-item">📅 2025</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="paper-content">
+                            <div class="paper-body">
+                                <!-- Metadata -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🏷️</span>Metadata</div>
+                                    <div class="section-text">
+                                        <strong>DOI:</strong> 10.1002/brb3.70656<br>
+                                        <strong>PMC ID:</strong> PMC12230358<br>
+                                        <strong>Tipo Studio:</strong> Cross-sectional survey<br>
+                                        <strong>N:</strong> 528 bambini (età 6-12 anni)<br>
+                                        <strong>Reclutamento:</strong> Ospedale terziario Bangkok (11,6% con diagnosi ADHD preesistente)<br>
+                                        <strong>Periodo:</strong> Novembre 2023 - Marzo 2024
+                                    </div>
+                                </div>
+
+                                <!-- Study Design -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">🔬</span>Design dello Studio</div>
+                                    <div class="section-text">
+                                        <strong>Domanda di ricerca:</strong> Effetti unici dei video brevi (TikTok, Instagram Reels, YouTube Shorts) sulla disattenzione nei bambini, isolando da tempo schermo totale<br><br>
+                                        <strong>Outcome:</strong> SNAP-IV short form (parent-rated, 9 item, range 0-27)
+                                        <br><br>
+                                        <strong>Analisi:</strong> Generalized linear models (GLM) con distribuzione gamma; exploratory age × video-use interactions; backward elimination covariates
+                                    </div>
+                                </div>
+
+                                <!-- Key Findings -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">📊</span>Risultati Principali</div>
+                                    <ul class="findings-list">
+                                        <li><strong>Associazione specifica video-brevi:</strong> Significativa associazione fra uso video brevi e comportamenti disattentivi <strong>indipendente dal tempo schermo totale</strong></li>
+                                        <li>Ogni ora aggiuntiva di video brevi aumenta disattenzione di fattore 1.04</li>
+                                        <li><strong>Interazione age:</strong> Associazione è <strong>più forte nei bambini più piccoli</strong> (interazione age × video-brevi significativa negativa)</li>
+                                        <li>Nessuna associazione con iperattività-impulsività o comportamenti opposizionali-provocatori</li>
+                                        <li>Effect size modest (McFadden's pseudo R² = 0.08, <10% varianza spiegata)</li>
+                                        <li><strong>Implicazione:</strong> Video brevi hanno effetti neurobiologici SPECIFICI sulla componente attentiva (non generica</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Limitations Box -->
+                                <div class="limitations-box">
+                                    <div class="section-title"><span class="section-icon">⚠️</span>Limitazioni Critiche</div>
+                                    <div class="limitation-item"><strong>Design cross-sectional:</strong> Confounding bidirezionale — bambini disattenti potrebbero gravitare verso video brevi per auto-reinforcement (reverse causality)</div>
+                                    <div class="limitation-item">Parent-report non validato per video-brevi — SNAP-IV è validato per ADHD tradizionale, non acute media-effects</div>
+                                    <div class="limitation-item">Assenza misure obiettive — nessun mobile app passive tracking; recall bias nelle questionnaire retrospettive</div>
+                                    <div class="limitation-item">SNAP-IV non calibrato per state-dependent attention dysfunction acuta — misura trait-like ADHD, non deterioramento acuto post-viewing</div>
+                                    <div class="limitation-item">Bias di selezione: campione da singolo ospedale terziario Bangkok con 11,6% ADHD preesistente (sovrarappresentazione vs. popolazione generale ~5-7%)</div>
+                                    <div class="limitation-item">Generalizabilità limitata — popolazione tailandese; trasferibilità contesti occidentali incerta</div>
+                                    <div class="limitation-item">Mechanism non testato — nessun sleep quality, laboratorio attentional testing (CPT), neuroimaging, ERP data</div>
+                                    <div class="limitation-item">Confounding residuo: Total screen time predice ancora disattenzione quando controllato — come può subset avere effetto indipendente? (Multicollinearity possibile)</div>
+                                    <div class="limitation-item">Heterogeneous outcome: perché video brevi → inattention (sig.) ma non iperattività (ns)? Spiegazione manca</div>
+                                    <div class="limitation-item">Effect size molto basso (R²=0.08) — spiega <10% varianza; significance can emerge con N grande anche con effect piccolo</div>
+                                </div>
+
+                                <!-- Implications -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">💡</span>Implicazioni Pratiche</div>
+                                    <ul class="findings-list">
+                                        <li><strong>Per screening ADHD:</strong> Clinici devono interrogare esplicitamente media-use patterns; disattenzione potrebbe essere secondary to excessive short-form video, non ADHD primario</li>
+                                        <li><strong>Per assessment:</strong> Trial media-reduction 4 settimane come primo step terapeutico, pre-pharmacotherapy</li>
+                                        <li><strong>Per classroom:</strong> Bambini con storia alto video-use potrebbero richiedere "attentional scaffolding" iniziale (seating vicino teacher, frequent check-ins)</li>
+                                        <li><strong>Per policy scolastica:</strong> "Media-free zones" non solo a scuola ma homework guidelines (es. no short-form video 90 min pre-study)</li>
+                                        <li><strong>Per teacher training:</strong> Docenti devono riconoscere sintomi di "media-related executive dysfunction"</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Notable Feature -->
+                                <div class="content-section" style="background: rgba(0, 217, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-cyan);">
+                                    <div style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.5rem;">⭐ Nota Rilevante</div>
+                                    <div class="section-text">
+                                        Questo studio è pioneristico nel isolare gli effetti specifici dei video brevi (fast-paced, algoritmi di engagement, rapid cutting ~2-sec frames) da media generico. La ipotesi di mechanism è plausibile (cognitive overload, dopamine dysregulation, attentional allocation problems) anche se non testato direttamente. Effect size modesto (R²=0.08) suggerisce che other factors dominano, ma specificity su inattention (non iperattività) è intrigante e richiede follow-up.
+                                    </div>
+                                </div>
+
+                                <!-- Quality Assessment -->
+                                <div class="content-section">
+                                    <div class="section-title"><span class="section-icon">⭐</span>Valutazione Qualità</div>
+                                    <div class="section-text">
+                                        <strong>Robustezza metodologica:</strong> Bassa-Moderata<br>
+                                        <strong>Certezza evidenza:</strong> Bassa (cross-sectional, effect size modesto)<br>
+                                        <strong>Applicabilità pratica:</strong> Moderata (logic implications, but limited RCT data)<br>
+                                        <strong>Punto di forza principale:</strong> Isolation di effetto video-brevi specifico; interazione age esplorata<br>
+                                        <strong>Limitazione principale:</strong> Cross-sectional design, parent-report non validato, mechanism unmeasured
+                                    </div>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="content-section">
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span class="tag tag-cyan">Cross-sectional Survey</span>
+                                        <span class="tag tag-cyan">GLM Analysis</span>
+                                        <span class="tag tag-green">Content-Specificity</span>
+                                        <span class="tag tag-red">Cross-sectional Design</span>
+                                        <span class="tag tag-yellow">Small Effect Size</span>
+                                        <span class="tag tag-yellow">Parent-Report Bias</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CROSS-CUTTING THEMES SECTION -->
+            <section id="themes" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">🔗 Temi Trasversali</h1>
+                    <p class="page-subtitle">Pattern comuni e convergenze across i 5 papers</p>
+                </div>
+
+                <div style="display: grid; gap: 2rem;">
+                    <div class="narrative">
+                        <h3>1. Mediazione Genitoriale come Fattore Protettivo Universale</h3>
+                        <p>
+                            Tutti e cinque gli studi, in vari modi, confermano o implicano che la supervisione genitoriale / co-use / guidance è PROTETTIVA. Dalla revisione sistematica ICT (Correia) che finds "mediazione riduce effetti negativi significativamente", alla path analysis (Qu) che modera indirect effect, al phone ban (Figlio) che implementa policy a scuola (istituzionale, non home-based), il pattern è coerente: unsupervised use è dannoso; co-use / structure è protective.
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>2. Specificità dei Meccanismi per Tipo di Contenuto / Modalità</h3>
+                        <p>
+                            Non è "screen time" come categoria monolitica. Video passivi (TikTok, Instagram Reels) hanno effetto specifico su INATTENTION (Chiencharoenthanakij). Gaming attivo potrebbe avere effetti diversi (menzionato da Correia come possibly positive su controllo inibitorio). Assisted learning può potenziale EF se ben-designed (Correia). Implicazione: Interventi dovrebbero differentiate per content type, non generic "reduce screen time".
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>3. Multisystem Health Compromise (Non Solo Cognitivo)</h3>
+                        <p>
+                            L'epidemiologia NHIS (Zablotsky) mostra che alto screen time associa con metabolico (inattività, peso), psichiatrico (depressione, ansia), sociale (supporto insufficiente), fisiologico (sonno) compromise. Questo non è specifico a cognitive outcomes; è costellazione di health risks. Implicazione: Interventi dovrebbero essere olistici (non solo "attenzione in classe") e multi-disciplinary (pediatria, psicologia, educazione).
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>4. Età-Dipendenza dei Vulnerability</h3>
+                        <p>
+                            Video brevi mostra associazione più forte nei bambini piccoli (Chiencharoenthanakij). Cortex prefrontale maturation è protracted (~25 anni); executive functions development è stage-specific. Implicazione: Primaria/early scuola media richiedono protezione più intensa; adolescenti hanno più self-regulation capacity (sebbene ancora vulnerabili).
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>5. Causalità Rimane Incerta (Design Limitation)</h3>
+                        <p>
+                            Tre studi su cinque sono cross-sectional (Qu, Zablotsky, Chiencharoenthanakij); Figlio uses quasi-esperimento (più forte di osservazionale, meno di RCT); Correia è systematic review of diverse designs. Reverse causality è plausibile (es. bambini con inattention gravitate verso video brevi). Implicazione: Alta qualità RCTs prospettivi sono necessari per definitively stabilire causalità. Policy decisions basate su evidence moderata sono justificati (precautionary principle) ma non certainty-based.
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>6. Confounding Socioeconomico & Equity</h3>
+                        <p>
+                            Figlio's Florida phone ban mostra disparità di enforcement (anno 1 sospensioni spike in adolescenti afroamericani). Genitori low-SES usano device come childcare; genitori high-SES supervisionano + co-use. Zablotsky's NHIS sottorappresenta vulnerable populations (homeless, foster care). Implicazione: Interventi MUST considerare equity; universal ban senza family support può harm low-SES populations; targeted support + mediazione parental training dovrebbe essere prioritario.
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>7. Harm-Reduction Paradigm vs. Abstinence</h3>
+                        <p>
+                            Correia conclude che harm reduction (mediazione genitoriale, co-use, content curation) è più efficace e realistic di ban assoluto. Figlio's Florida policy è "ban during school" (not home ban) + implementato con support systems. Implicazione: Policy dovrebbe mirare a structured use + family engagement, non moralizing "tech is bad".
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LIMITATIONS OVERVIEW SECTION -->
+            <section id="limitations" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">⚠️ Limitazioni e Zone d'Ombra</h1>
+                    <p class="page-subtitle">Una raccolta aggregata di limitazioni metodologiche critiche e domande non affrontate</p>
+                </div>
+
+                <div style="display: grid; gap: 2rem;">
+                    <div class="limitations-box" style="background: rgba(248, 81, 73, 0.08); border-left-color: var(--accent-red);">
+                        <div class="section-title" style="color: var(--accent-red);"><span class="section-icon">🔴</span>Design Limitations (Causalità)</div>
+                        <div class="limitation-item">Tre studi cross-sectional (Qu, Zablotsky, Chiencharoenthanakij) non possono stabilire causalità — temporal precedence non garantita</div>
+                        <div class="limitation-item">Reverse causality plausibile in tutti: bambini con disfunzione esecutiva preesistente gravitano verso ICT-heavy use ("self-medication")</div>
+                        <div class="limitation-item">Quasi-esperimento (Figlio) è stronger che osservazionale ma meno rigido di RCT; parallel trends assumption non empirically testata</div>
+                        <div class="limitation-item">Systematic review (Correia) include studi eterogenei di design; aggregate "harm" conclude maschera variazione sostanziale</div>
+                        <div class="limitation-item"><strong>Gap:</strong> Prospective RCT con lag sequencing (device T1 → EF T2 → learning T3) are sorely needed</div>
+                    </div>
+
+                    <div class="limitations-box" style="background: rgba(210, 153, 34, 0.08); border-left-color: var(--accent-yellow);">
+                        <div class="section-title" style="color: var(--accent-yellow);"><span class="section-icon">🟡</span>Measurement Imprecision</div>
+                        <div class="limitation-item">Device use misurato via parent/self-report (tutti studi) senza objective app-based tracking — recall bias, social desirability bias</div>
+                        <div class="limitation-item">"Screen time" e "non-academic screen" sono ambigui — quale contenuto incluso? COVID-era online schooling classification?</div>
+                        <div class="limitation-item">Executive function measures eterogenee — BRIEF parent-rated (circolare con genitor permissiveness?) vs. CPT lab-based (sample subset?). Standardization assente</div>
+                        <div class="limitation-item">Learning quality vago (Qu) — academic achievement grades? Standardized test? Student self-perception? Operazionalizzazione critica non specificata</div>
+                        <div class="limitation-item">Mental health assessment (Zablotsky) — validated screener (PHQ-9, GAD-7)? O singolo item parent-report? Validity unknown</div>
+                        <div class="limitation-item">SNAP-IV (Chiencharoenthanakij) non calibrato per acute media-related attention changes — misura trait-like ADHD, non state-dependent dysfunction</div>
+                    </div>
+
+                    <div class="limitations-box" style="background: rgba(163, 113, 247, 0.08); border-left-color: var(--accent-purple);">
+                        <div class="section-title" style="color: var(--accent-purple);"><span class="section-icon">🟣</span>Confounding & Alternative Explanations</div>
+                        <div class="limitation-item">Confounding strutturale pervasivo: parental mental health, family stress/chaos, baseline child vulnerability (ADHD, autism, social rejection) — rarely measured</div>
+                        <div class="limitation-item">Socioeconomic confounding — low-SES genitori usano device come childcare; high-SES supervisionano + co-use. Differential outcomes confounded by parental resources</div>
+                        <div class="limitation-item">Peer relationships, bullying, school quality — tutte influiscono learning/mental health; not controlled</div>
+                        <div class="limitation-item">Sleep come mediator (mentioned but not tested) — device-use → poor sleep → depression/EF deficit (path non disaggregated)</div>
+                        <div class="limitation-item">Figlio's Florida: concurrent policies (curriculum changes, teacher hiring, funding) not ruled out; COVID recovery confounding</div>
+                        <div class="limitation-item">Publication bias (Correia) — 10 studi rappresentano tiny fraction di potential literature; positive findings more likely published</div>
+                    </div>
+
+                    <div class="limitations-box" style="background: rgba(0, 217, 255, 0.08); border-left-color: var(--accent-cyan);">
+                        <div class="section-title" style="color: var(--accent-cyan);"><span class="section-icon">🔵</span>Mechanism Gaps (Black Box)</div>
+                        <div class="limitation-item">Perché device-use danneggia EF specificamente? Hypotheses: dopamine dysregulation, attention allocation problems, sleep disruption, cortisol elevation — none directly tested</div>
+                        <div class="limitation-item">Quale componente EF colpita differentemente? Working memory damage da video diversamente da inhibitory control? Aggregate measures mascherano</div>
+                        <div class="limitation-item">Parental mediation mechanism unclear — perché co-use è protective? (A) Quantity reduction? (B) Quality improvement (structured content)? (C) Confounding per parental competence?</div>
+                        <div class="limitation-item">Video brevi specificity (Chiencharoenthanakij) plausibile (rapid pacing, arousal, algoritmi) ma mechanism unmeasured — no EEG, fMRI, pupil dilation, cortisol biomarkers</div>
+                        <div class="limitation-item"><strong>Gap:</strong> Neuroimaging studies (fMRI, EEG), biomarker measurement (cortisol, dopamine), actigraphy (sleep) needed</div>
+                    </div>
+
+                    <div class="limitations-box" style="background: rgba(63, 185, 80, 0.08); border-left-color: var(--accent-green);">
+                        <div class="section-title" style="color: var(--accent-green);"><span class="section-icon">🟢</span>Generalizability & Context Limitations</div>
+                        <div class="limitation-item">Population bias: Correia (9 paesi likely WEIRD-skewed), Chiencharoenthanakij (Bangkok tertiary hospital, selection bias), Zablotsky (NHIS excludes institutionalized, homeless)</div>
+                        <div class="limitation-item">Age range heterogeneity — Correia includes 0-18 (vast; infants ≠ adolescents); effects age-specific not aggregated</div>
+                        <div class="limitation-item">NHIS response rate declining (~55-60%) — non-responders likely differ systematically (bias)</div>
+                        <div class="limitation-item">Outcome heterogeneity — Figlio's test name unspecified (FAST? SAT? NAEP?); magnitude of +0.6-1.4 pp clinically significant?</div>
+                        <div class="limitation-item">Chiencharoenthanakij Bangkok context — cultural differences in emotion expression, parenting norms, digital access patterns may not generalize to Western settings</div>
+                    </div>
+
+                    <div class="limitations-box" style="background: rgba(210, 153, 34, 0.08); border-left-color: var(--accent-yellow);">
+                        <div class="section-title" style="color: var(--accent-yellow);"><span class="section-icon">🟡</span>Domande Critiche Non Affrontate</div>
+                        <div class="limitation-item"><strong>Dose-response:</strong> È soglia (0-2 ore safe, >4 ore harmful) o lineare? Curvilinear? J-shaped? Nessuno studio lo quantifica</div>
+                        <div class="limitation-item"><strong>Reversibility:</strong> Se bambino smette device-use per 4 settimane, recovery in EF/attention? Timeline? Neuroplasticity è alta in childhood</div>
+                        <div class="limitation-item"><strong>Content specificity:</strong> TikTok ≠ YouTube Educational Shorts ≠ gaming. Type-specific effects non disaggregated (Correia mentions, Chiencharoenthanakij explores, but limited)</div>
+                        <div class="limitation-item"><strong>Moderators:</strong> Chi è vulnerabile? Gender differences? Baseline EF low → benefit più da mediazione? Age-dependent? Subgroup analyses rare</div>
+                        <div class="limitation-item"><strong>Benefits vs. harms:</strong> Nessuno studio quantifica counter-benefits di device-use (educational access, social connection, crisis support for LGBTQ+ youth)</div>
+                        <div class="limitation-item"><strong>Temporal specificity:</strong> Acute effects (1 ora post-viewing) vs. chronic (weeks accumulation)? Timing della outcome measure cruciale, not reported</div>
+                    </div>
+
+                    <div class="narrative">
+                        <h3 style="color: var(--accent-yellow);">🎯 Sintesi: Dove Guidare la Ricerca Futura</h3>
+                        <p>
+                            <strong>1. Prospective RCT longitudinale:</strong> N=500+ bambini, lag sequencing (device T1 → EF T2 → learning T3), objective app-tracking, 12+ mesi follow-up. Stratificato per age, baseline EF, SES. Questo stabilirà causality definitivamente.
+                        </p>
+                        <p>
+                            <strong>2. Mechanistic studies (neurobiologia):</strong> fMRI resting-state + task-based (working memory, inhibition); EEG spectral power; biomarkers (cortisol, dopamine metabolites, HPA-axis); sleep (polysomnography, actigraphy). Per chiarire: dopamine dysregulation? Prefrontal fatigue? Sleep-mediated?
+                        </p>
+                        <p>
+                            <strong>3. Content-specificity + dose-response:</strong> Lab-based experiment con counterbalanced conditions (TikTok-style fast vs. educational YouTube slow vs. gaming vs. control). Acute outcome measurement (5 min, 30 min, 2 hours post). Dose-response curve (15 min extrapolated to 2 hours daily).
+                        </p>
+                        <p>
+                            <strong>4. Implementation science:</strong> Multi-site RCT di intervention arms (school-only phone ban vs. school + family mediation training vs. school + family + media literacy). Fidelity measurement, cost-effectiveness, equity outcomes. Sustainability assessment.
+                        </p>
+                        <p>
+                            <strong>5. Qualitative & real-world data:</strong> EMA (Ecological Momentary Assessment) con 4x/day smartphone prompts su mood, attention, social interaction, screen use. Passive device tracking. Identify vulnerable subgroups, protective factors, mechanisms in naturalistic settings.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GLOSSARY SECTION -->
+            <section id="glossary" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">📚 Glossario Tecnico</h1>
+                    <p class="page-subtitle">Ricerca per trovare termini e concetti</p>
+                </div>
+
+                <div class="glossary-search">
+                    <input type="text" class="search-input" id="glossarySearch" placeholder="Cerca termine (es. 'dopamina', 'mediazione', 'SNAP')...">
+                </div>
+
+                <div class="glossary-items" id="glossaryItems">
+                    <div class="glossary-item">
+                        <div class="glossary-term">Funzioni Esecutive (Executive Functions)</div>
+                        <div class="glossary-definition">Processi cognitivi che dirigono e controllano il comportamento: memoria di lavoro (mantenere informazioni), controllo inibitorio (inibire risposte impulsive), flessibilità cognitiva (switch tra task), attenzione sostenuta (mantenere focus). Maturation protracted fino ~25 anni.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Memoria di Lavoro (Working Memory)</div>
+                        <div class="glossary-definition">Capacità di mantenere e manipolare informazioni per brevi periodi (secondi-minuti). Cruciale per apprendimento, problem-solving, reasoning. Limitata a ~7 items. Correlata a academic achievement.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Controllo Inibitorio (Inhibitory Control)</div>
+                        <div class="glossary-definition">Abilità di sopprimere risposte prepotenti/impulsive. Valutato via go-no-go task, Stroop test, delay-of-gratification. Deficit → impulsività, scarsa autoregolazione, difficoltà sociali.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Flessibilità Cognitiva (Cognitive Flexibility)</div>
+                        <div class="glossary-definition">Capacità di switch tra task/mindset/strategie. Valutata via Wisconsin Card Sorting Test, Trail Making Test. Deficit → rigidità, difficoltà adattamento.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Attenzione Sostenuta (Sustained Attention)</div>
+                        <div class="glossary-definition">Abilità di mantenere focus su task per periodi prolungati. Valutata via Continuous Performance Task (CPT). Deficit → distractibility, inattention, task incompletion.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Mediazione Genitoriale (Parental Mediation)</div>
+                        <div class="glossary-definition">Supervisione/engagement genitoriale su media-use bambino: co-use (guardare insieme), monitoring (osservazione), guidance (discussione/limiti), rule-setting (timing, content). Fattore protettivo per ridurre harm di excessive screen time.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Harm Reduction (Riduzione del Danno)</div>
+                        <div class="glossary-definition">Paradigma che riconosce impossibilità di astinenza totale, mirando piuttosto a minimizzare danni attraverso strategie pragmatiche (mediazione genitoriale, content curation, time limits, co-use) vs. moralistic ban.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">SNAP-IV</div>
+                        <div class="glossary-definition">Scala Swanson, Nolan, Pelham (versione IV) — parent/teacher-rated questionnaire per sintomi ADHD (inattention, hyperactivity-impulsivity) nei bambini. 26 item, validated per clinica.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">BRIEF (Behavior Rating Inventory of Executive Function)</div>
+                        <div class="glossary-definition">Questionario parent/teacher-rated per executive function nei bambini/adolescenti. Subscale: Working Memory, Inhibit, Shift, Emotional Control, Initiate, Working Memory, Plan/Organize, Task Completion, Organization of Materials.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">CPT (Continuous Performance Task)</div>
+                        <div class="glossary-definition">Laboratorio test di sustained attention: participant monitora stream di stimuli e risponde a target. Outcome: reaction time, errors, vigilance decrement. Sensibile a inattention e fatigue.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses)</div>
+                        <div class="glossary-definition">Checklist/guidelines per reporting systematic reviews e meta-analyses. 27-item, promotes transparency, completeness. PROSPERO registration pre-specified.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Difference-in-Differences (DiD)</div>
+                        <div class="glossary-definition">Quasi-experimental design sfruttando policy variation over time. Compara change in treated group (pre vs. post) vs. change in control group. Isolates causal effect se parallel trends assumption holds.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Path Analysis / Mediazione</div>
+                        <div class="glossary-definition">Analisi statistiche (SEM) che testa pathways causali. Mediazione: X → M → Y (indirect effect). Full mediation = direct effect = 0. Moderazione: fattore W che moderates strength of X→Y relazione.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Cross-Sectional Study</div>
+                        <div class="glossary-definition">Design osservazionale snapshot — exposure e outcome misurati simultaneamente, single timepoint. Vantaggi: fast, cheap. Limitazioni: temporal precedence incerta, causalità non stabilibile, confounding.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Reverse Causality</div>
+                        <div class="glossary-definition">Quando effect causa exposure (inverso della direzione ipotizzata). Es. depression causa screen-use escapism, non vice versa. Incertezza temporale (cross-sectional) rende bidirectionality plausibile.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">NHIS (National Health Interview Survey)</div>
+                        <div class="glossary-definition">CDC survey annuale USA — household interview nationally representative. Large sample (~35-40K households/year), multistage stratified sampling, low response rate recently. Data su health, risk factors, demographics.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Confounding</div>
+                        <div class="glossary-definition">Fattore non-misurato che causa sia exposure che outcome, creando spurious association. Es. parental depression → high device-use (confounders) AND depression in child. Riduce causalità inference unless controlled.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Effect Size</div>
+                        <div class="glossary-definition">Magnitude di effetto indipendente da sample size. Cohen's d (standarizzato), OR (odds ratio), correlation r. Important per clinica significance (large effect ≠ small effect, anche se both p<.05).</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Dopamina (Dopamine)</div>
+                        <div class="glossary-definition">Neurotransmitter associato con reward, motivation, pleasure, attention. Dysregulation ipotizzato in excessive screen use — rapid rewards (notifications, likes) desensitize dopamine system, requiring more stimulation per satisfaction.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Prefrontal Cortex (PFC)</div>
+                        <div class="glossary-definition">Cervello region responsible for executive function, impulse control, reasoning. Maturation protracted fino ~25 anni. Bottom-up (limbic/reward) vs. top-down (PFC control) compete; PFC immaturity in childhood = reward sensitivity > control.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">ADHD (Attention-Deficit/Hyperactivity Disorder)</div>
+                        <div class="glossary-definition">Developmental neurodevelopmental disorder: persistent inattention, hyperactivity-impulsivity beyond developmental norms. Onset pre-age 12, impairs functioning. Stimulant medication (methylphenidate) first-line. Overlap con media-related EF deficits possibile, complicating diagnosis.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Sleep Architecture</div>
+                        <div class="glossary-definition">Cyclic organization di sleep stages (N1, N2, N3 non-REM; REM). Blue light exposure pre-sleep → delayed circadian rhythm, shortened REM, fragmented sleep. Linked a cognitive impairment, mood dysregulation, obesity risk.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Ecological Momentary Assessment (EMA)</div>
+                        <div class="glossary-definition">Methodology: repeated smartphone prompts (4x/day o more) capturing real-time behavior, mood, context. Minimizes recall bias, captures within-person variability. Expensive, but gold-standard per in-vivo assessment.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Neuroplasticity</div>
+                        <div class="glossary-definition">Brain's ability to reorganize itself, forming new neural connections. High in childhood, decreases with age. Implicates che effects di excessive device-use potenzialmente reversible se intervento early + sustained.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Publication Bias</div>
+                        <div class="glossary-definition">Systematic tendency a publicare studi con positive/significant results vs. null findings. Inflates effect size aggregate in meta-analyses. Risk in rapid reviews se publication bias assessment assente.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">GRADE (Grading of Recommendations Assessment, Development and Evaluation)</div>
+                        <div class="glossary-definition">Framework per assessing quality/certainty di evidence. Rates certainty come High/Moderate/Low/Very Low basato su study design, bias, inconsistency, indirectness, imprecision. Mandatory per systematic reviews.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Intent-to-Treat (ITT)</div>
+                        <div class="glossary-definition">Analisi principio in RCT: include tutti randomizzati, regardless di compliance/dropout. Preserves randomization benefit, aber reduces power (dilutes treatment effect). Conservative approach per causal inference.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Baseline Equivalence</div>
+                        <div class="glossary-definition">In RCT/quasi-experiment: treatment vs. control groups dovrebbero essere simili pre-intervention in demographics, baseline outcomes, risk factors. Testato via covariate balance table. Se non balanced, confounding risk.</div>
+                    </div>
+
+                    <div class="glossary-item">
+                        <div class="glossary-term">Stratification / Subgroup Analysis</div>
+                        <div class="glossary-definition">Analyzing outcomes separately per strata (age, gender, race, SES). Rivela effect heterogeneity. Es. phone ban benefit more for boys than girls? Stratified analysis provides answer. Powered down per stratum (requires larger N total).</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BIBLIOGRAPHY SECTION -->
+            <section id="bibliography" class="section">
+                <div class="page-header">
+                    <h1 class="page-title">🔖 Bibliografia Completa</h1>
+                    <p class="page-subtitle">Riferimenti completi per i 5 papers analizzati</p>
+                </div>
+
+                <div style="display: grid; gap: 2rem;">
+                    <div class="narrative">
+                        <h3>Paper 1: Tecnologie Informatiche e Funzioni Esecutive nei Bambini</h3>
+                        <p>
+                            <strong>Citation:</strong> Correia, et al. (2025). Systematic Review on the Association Between Information and Communication Technology Use and Executive Functions in Children. <em>Children</em> (MDPI), 12(5):555.
+                        </p>
+                        <p>
+                            <strong>DOI:</strong> 10.3390/children12050555<br>
+                            <strong>PMC ID:</strong> PMC12109849
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>Paper 2: Divieto Telefoni Cellulari in Florida</h3>
+                        <p>
+                            <strong>Citation:</strong> Figlio, D.N., & Özek, U. (2025). The Effect of Cellphone Bans on Student Achievement: Evidence from Florida's Statewide Cellphone Ban. <em>NBER Working Paper Series</em>, No. 34388.
+                        </p>
+                        <p>
+                            <strong>Organization:</strong> National Bureau of Economic Research (NBER)<br>
+                            <strong>Type:</strong> Working Paper (pre-print, non peer-reviewed)
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>Paper 3: Uso Dispositivi Elettronici e Funzione Esecutiva</h3>
+                        <p>
+                            <strong>Citation:</strong> Qu, F., et al. (2025). Electronic Device Use, Executive Function, and Learning Quality: A Path Analysis Study. <em>Frontiers in Public Health</em>.
+                        </p>
+                        <p>
+                            <strong>DOI:</strong> 10.3389/fpubh.2025.1609878<br>
+                            <strong>PMC ID:</strong> PMC12380748
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>Paper 4: Tempo Schermo e Salute degli Adolescenti negli USA</h3>
+                        <p>
+                            <strong>Citation:</strong> Zablotsky, B., et al. (2025). Screen Time and US Teenager Health: Associations Between Non-Academic Screen Time and Adolescent Health, National Health Interview Survey (NHIS) 2021-2023. <em>Preventing Chronic Disease (PCD)</em>, CDC.
+                        </p>
+                        <p>
+                            <strong>DOI:</strong> 10.5888/pcd22.240537<br>
+                            <strong>PMC ID:</strong> PMC12249308<br>
+                            <strong>Organization:</strong> Centers for Disease Control and Prevention (CDC), USA
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>Paper 5: Video Brevi e Inattentività in Tailandia</h3>
+                        <p>
+                            <strong>Citation:</strong> Chiencharoenthanakij, R., Yothamart, K., Chantathamma, N., Sukhumdecha, W., Charoensri, S., Thanyakulsajja, B., & Anuroj, K. (2025). Short-Form Video Media Use Is Associated With Greater Inattentive Symptoms in Thai School-Age Children: Insights From a Cross-Sectional Survey. <em>Brain and Behavior</em>.
+                        </p>
+                        <p>
+                            <strong>DOI:</strong> 10.1002/brb3.70656<br>
+                            <strong>PMC ID:</strong> PMC12230358<br>
+                            <strong>Location:</strong> Bangkok, Thailand (tertiary hospital, ambulatory clinics)
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>Referenze Metodologiche Chiave Citate negli Papers</h3>
+                        <p>
+                            <strong>Cochrane Risk of Bias 2 (RoB2):</strong> Higgins, J.P.T., et al. (2019). A revised tool for assessing risk of bias in randomized trials. <em>Cochrane Database of Systematic Reviews</em>.
+                        </p>
+                        <p>
+                            <strong>ROBINS-I (Observational Studies):</strong> Sterne, J.A.C., et al. (2016). ROBINS-I: a tool for assessing risk of bias in non-randomised studies of interventions. <em>BMJ</em>, 355:i4919.
+                        </p>
+                        <p>
+                            <strong>STROBE (Cross-Sectional & Observational):</strong> von Elm, E., et al. (2007). The Strengthening the Reporting of Observational Studies in Epidemiology (STROBE) Statement. <em>The Lancet</em>, 370(9596):1453-1457.
+                        </p>
+                        <p>
+                            <strong>PRISMA 2020:</strong> Page, M.J., et al. (2021). The PRISMA 2020 statement: An updated guideline for reporting systematic reviews. <em>BMJ</em>, 372:n71.
+                        </p>
+                        <p>
+                            <strong>GRADE Framework:</strong> Schünemann, H., et al. (2013). GRADE guidelines: Part 3. Rating the quality of evidence. <em>Journal of Clinical Epidemiology</em>, 64(4):401-406.
+                        </p>
+                    </div>
+
+                    <div class="narrative">
+                        <h3>Letteratura di Background (Menzionata negli Papers)</h3>
+                        <p>
+                            <strong>Dopamine Dysregulation & Screen Media:</strong> Volkow, N.D., Koob, G.F., & McLellan, A.T. (2016). Neurobiological advances from the brain disease model of addiction. <em>The New England Journal of Medicine</em>, 374(4):363-371.
+                        </p>
+                        <p>
+                            <strong>Prefrontal Development:</strong> Casey, B.J., Jones, R.M., & Hare, T.A. (2008). The adolescent brain. <em>Annals of the New York Academy of Sciences</em>, 1124(1):111-126.
+                        </p>
+                        <p>
+                            <strong>Parental Mediation Theory:</strong> Livingstone, S., Helsper, E.K. (2008). Parental mediation of children's internet use. <em>Journal of Broadcasting & Electronic Media</em>, 52(4):581-599.
+                        </p>
+                        <p>
+                            <strong>AAP Screen Time Recommendations:</strong> American Academy of Pediatrics (2016). Media and young minds. <em>Pediatrics</em>, 138(5):e20162591.
+                        </p>
+                        <p>
+                            <strong>Digital Divide & Equity:</strong> van Dijk, J.A.G.M. (2020). The digital divide. <em>Polity Press</em>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                showSection(sectionId);
+
+                // Update active state
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Paper toggle
+        function togglePaper(header) {
+            const card = header.closest('.paper-card');
+            card.classList.toggle('expanded');
+        }
+
+        // Glossary search
+        document.getElementById('glossarySearch').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.glossary-item').forEach(item => {
+                const term = item.querySelector('.glossary-term').textContent.toLowerCase();
+                const def = item.querySelector('.glossary-definition').textContent.toLowerCase();
+
+                if (term.includes(query) || def.includes(query)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
