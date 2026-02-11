@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Cammino dell'Umanità — Arte, Architettura, Pensiero</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --accent: #00e5ff;
+    --accent-dim: #00e5ff33;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --gold: #f59e0b;
+    --rose: #f472b6;
+    --green: #34d399;
+    --purple: #a78bfa;
+    --red: #ef4444;
+    --orange: #fb923c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+    padding-top: 70px;
+  }
+
+  /* HEADER */
+  .hero {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: radial-gradient(ellipse at 50% 80%, var(--accent-dim) 0%, transparent 60%);
+    position: relative;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 650px;
+    font-weight: 300;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+    font-size: 0.85rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* NAV */
+  .epoch-nav {
+    position: sticky;
+    top: 70px;
+    z-index: 900;
+    background: var(--bg);
+    border-bottom: 1px solid #1e293b;
+    padding: 0.8rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    backdrop-filter: blur(12px);
+  }
+
+  .epoch-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .epoch-nav a:hover, .epoch-nav a.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--accent-dim) 5%, var(--accent-dim) 95%, transparent);
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 768px) {
+    .timeline::before { left: 24px; }
+  }
+
+  /* EPOCH SECTION */
+  .epoch {
+    margin-bottom: 4rem;
+    scroll-margin-top: 150px;
+  }
+
+  .epoch-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .epoch-header .dates {
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .epoch-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .epoch-header .tagline {
+    color: var(--text-muted);
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    margin-top: 0.3rem;
+    font-size: 1rem;
+  }
+
+  /* CARDS */
+  .entry {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .entry:nth-child(odd) { flex-direction: row; }
+  .entry:nth-child(even) { flex-direction: row-reverse; }
+
+  .entry-content {
+    flex: 1;
+    max-width: calc(50% - 2rem);
+  }
+
+  .entry-spacer { flex: 1; max-width: calc(50% - 2rem); }
+
+  .entry-dot {
+    position: absolute;
+    left: 50%;
+    top: 1.5rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 12px var(--accent-dim);
+  }
+
+  @media (max-width: 768px) {
+    .entry, .entry:nth-child(even) { flex-direction: row; gap: 1.5rem; }
+    .entry-content { max-width: 100%; flex: 1; }
+    .entry-spacer { display: none; }
+    .entry-dot { left: 24px; top: 1.2rem; }
+  }
+
+  .tl-card {
+    background: var(--surface);
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tl-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .tl-card:hover {
+    border-color: #334155;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  .tl-card-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+  }
+
+  .tl-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .tl-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .tl-card .date-tag {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.8rem;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+
+  /* Category colors */
+  .cat-history .tl-card::before { background: var(--accent); }
+  .cat-history .tl-card-label { color: var(--accent); background: rgba(0,229,255,0.1); }
+  .cat-history .entry-dot { background: var(--accent); }
+
+  .cat-art .tl-card::before { background: var(--rose); }
+  .cat-art .tl-card-label { color: var(--rose); background: rgba(244,114,182,0.1); }
+  .cat-art .entry-dot { background: var(--rose); }
+
+  .cat-arch .tl-card::before { background: var(--gold); }
+  .cat-arch .tl-card-label { color: var(--gold); background: rgba(245,158,11,0.1); }
+  .cat-arch .entry-dot { background: var(--gold); }
+
+  .cat-thought .tl-card::before { background: var(--purple); }
+  .cat-thought .tl-card-label { color: var(--purple); background: rgba(167,139,250,0.1); }
+  .cat-thought .entry-dot { background: var(--purple); }
+
+  .cat-dark .tl-card::before { background: var(--red); }
+  .cat-dark .tl-card-label { color: var(--red); background: rgba(239,68,68,0.1); }
+  .cat-dark .entry-dot { background: var(--red); }
+
+  .cat-tech .tl-card::before { background: var(--green); }
+  .cat-tech .tl-card-label { color: var(--green); background: rgba(52,211,153,0.1); }
+  .cat-tech .entry-dot { background: var(--green); }
+
+  .cat-music .tl-card::before { background: var(--orange); }
+  .cat-music .tl-card-label { color: var(--orange); background: rgba(251,146,60,0.1); }
+  .cat-music .entry-dot { background: var(--orange); }
+
+  /* CONNECTORS */
+  .thread-note {
+    text-align: center;
+    padding: 1.5rem;
+    margin: 1rem auto;
+    max-width: 600px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    border-left: 2px solid var(--accent-dim);
+    border-right: 2px solid var(--accent-dim);
+    background: linear-gradient(90deg, var(--accent-dim), transparent 30%, transparent 70%, var(--accent-dim));
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 2rem auto;
+    max-width: 800px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid #334155;
+    color: var(--text-muted);
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid #1e293b;
+  }
+
+  /* NARRATIVE SYNTHESIS SECTION */
+  .synthesis {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+    scroll-margin-top: 150px;
+  }
+
+  .synthesis-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .synthesis-header .synth-label {
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .synthesis-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  .synthesis-header .synth-sub {
+    color: var(--text-muted);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+
+  .synth-chapter {
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .synth-chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  .synth-chapter-title .ch-num {
+    color: var(--gold);
+    margin-right: 0.5rem;
+  }
+
+  .synth-text {
+    font-size: 1.02rem;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  .synth-text p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  .synth-text .highlight {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .synth-text .gold {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .synth-pullquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--gold);
+    text-align: center;
+    padding: 2rem 2.5rem;
+    margin: 2rem 0;
+    border-left: 3px solid var(--gold);
+    border-right: 3px solid var(--gold);
+    background: linear-gradient(90deg, rgba(245,158,11,0.06), transparent 30%, transparent 70%, rgba(245,158,11,0.06));
+    line-height: 1.7;
+  }
+
+  .synth-divider {
+    text-align: center;
+    margin: 2.5rem 0;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.8em;
+    opacity: 0.4;
+  }
+
+  /* ═══════ RESPONSIVE FOR SITE MENU ═══════ */
+  @media (max-width: 768px) {
+    body {
+      padding-top: 120px !important;
+    }
+    .epoch-nav {
+      top: 120px !important;
+    }
+    .epoch, .synthesis {
+      scroll-margin-top: 200px !important;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+
+<div class="hero">
+  <h1>Il Cammino dell'Umanità</h1>
+  <p class="subtitle">Dalla caduta di Roma al digitale: come pensiero, arte e architettura hanno plasmato il mondo — e come il mondo ha plasmato loro.</p>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Storia & Politica</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rose)"></div> Arte</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Architettura</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Pensiero & Filosofia</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Scienza & Tecnica</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> Musica</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Ombre & Crisi</div>
+  </div>
+</div>
+
+<nav class="epoch-nav" id="epochNav">
+  <a href="#medioevo">Medioevo</a>
+  <a href="#romanico">Romanico</a>
+  <a href="#gotico">Gotico</a>
+  <a href="#rinascimento">Rinascimento</a>
+  <a href="#manierismo">Manierismo</a>
+  <a href="#barocco">Barocco</a>
+  <a href="#illuminismo">Illuminismo</a>
+  <a href="#romanticismo">Romanticismo</a>
+  <a href="#realismo">Realismo</a>
+  <a href="#belleepoque">Belle Époque</a>
+  <a href="#avanguardie">Avanguardie</a>
+  <a href="#totalitarismi">Totalitarismi</a>
+  <a href="#dopoguerra">Dopoguerra</a>
+  <a href="#postmoderno">Postmoderno</a>
+  <a href="#digitale">Era Digitale</a>
+  <a href="#sintesi" style="color:var(--gold);border-color:var(--gold);">✦ Sintesi</a>
+</nav>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">Tutto</button>
+  <button class="filter-btn" data-filter="cat-history">Storia</button>
+  <button class="filter-btn" data-filter="cat-art">Arte</button>
+  <button class="filter-btn" data-filter="cat-arch">Architettura</button>
+  <button class="filter-btn" data-filter="cat-thought">Pensiero</button>
+  <button class="filter-btn" data-filter="cat-tech">Scienza</button>
+  <button class="filter-btn" data-filter="cat-music">Musica</button>
+  <button class="filter-btn" data-filter="cat-dark">Ombre</button>
+</div>
+
+<div class="timeline">
+
+<!-- ═══════════════════════════════ ALTO MEDIOEVO ═══════════════════════════════ -->
+<section class="epoch" id="medioevo">
+  <div class="epoch-header">
+    <div class="dates">476 – 1000</div>
+    <h2>Alto Medioevo</h2>
+    <div class="tagline">La luce si spegne — o si trasforma?</div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Caduta dell'Impero Romano d'Occidente</h3>
+        <p>476 d.C.: Odoacre depone Romolo Augustolo. Non è un'esplosione ma un lento sgretolamento — la burocrazia e le infrastrutture romane non scompaiono di colpo, ma vengono gradualmente assorbite o abbandonate. L'Europa si frammenta in regni romano-barbarici.</p>
+        <div class="date-tag">476 d.C.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>La Chiesa come custode del sapere</h3>
+        <p>I monasteri diventano gli unici centri di conservazione della cultura classica. La regola benedettina ("ora et labora") struttura una vita dove la copiatura dei testi è forma di preghiera. Paradosso: il sapere viene salvato, ma anche filtrato e controllato. Boezio traduce Aristotele dal carcere — ponte fragile tra due mondi.</p>
+        <div class="date-tag">VI–X sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Arte bizantina e miniature</h3>
+        <p>A Oriente, Bisanzio sviluppa un linguaggio visivo radicale: i mosaici di Ravenna (San Vitale, Sant'Apollinare) usano fondo oro e figure frontali non per "incapacità" ma per trascendere il naturalismo — lo spettatore non guarda una scena, entra in uno spazio sacro. In Occidente, l'arte degli amanuensi produce capolavori come il Book of Kells.</p>
+        <div class="date-tag">VI–IX sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Carlo Magno e il Sacro Romano Impero</h3>
+        <p>800 d.C.: l'incoronazione di Carlo Magno da parte del papa crea il modello politico europeo — il potere temporale legittimato dal sacro. La "rinascita carolingia" produce una prima standardizzazione culturale (minuscola carolina, scuole palatine). Ma il suo impero si frammenta alla morte, generando la struttura feudale.</p>
+        <div class="date-tag">800 d.C.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-dark">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🔴 Ombre</div>
+        <h3>Invasioni, peste, paura</h3>
+        <p>Vichinghi, Ungari, Saraceni: l'Europa è sotto assedio su tutti i fronti. L'insicurezza costante produce l'incastellamento — la gente si rifugia nei castelli dei signori locali, cedendo libertà in cambio di protezione. È il DNA del feudalesimo. La vita media è breve, l'orizzonte culturale si restringe.</p>
+        <div class="date-tag">IX–X sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="thread-note">La notte del Medioevo non è buia come si racconta — la luce è custodita in pochi luoghi, e chi la detiene ne controlla il significato.</div>
+</section>
+
+<!-- ═══════════════════════════════ ROMANICO ═══════════════════════════════ -->
+<section class="epoch" id="romanico">
+  <div class="epoch-header">
+    <div class="dates">1000 – 1200</div>
+    <h2>Romanico</h2>
+    <div class="tagline">La pietra come preghiera, il viaggio come fede</div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Anno Mille e le Crociate</h3>
+        <p>Il terrore dell'anno Mille (amplificato dalla storiografia) cede a un'esplosione demografica e commerciale. Le Crociate (1096–1291) sono guerre sanguinose ma anche il primo grande scambio culturale con il mondo islamico: l'Europa "riscopre" matematica, medicina, filosofia greca filtrata da traduttori arabi. I pellegrini muovono economie intere.</p>
+        <div class="date-tag">1000–1200</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Architettura romanica</h3>
+        <p>Muri spessi, archi a tutto sesto, volte a botte — la chiesa romanica è una fortezza di Dio. Sant'Ambrogio a Milano, la cattedrale di Modena, Santiago de Compostela. La pianta cruciforme e le sculture dei capitelli raccontano la Bibbia a chi non sa leggere. L'architettura è il primo mass-media dell'Europa medievale.</p>
+        <div class="date-tag">XI–XII sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Scultura e affreschi romanici</h3>
+        <p>La scultura torna monumentale dopo secoli: i rilievi di Wiligelmo a Modena, i portali scolpiti delle chiese di pellegrinaggio. Le figure sono distorte, espressive, non "realistiche" — comunicano emozione e gerarchia spirituale, non anatomia. Gli affreschi (Sant'Angelo in Formis, San Clemente a Roma) creano narrazioni visive continue.</p>
+        <div class="date-tag">XI–XII sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>La rivoluzione agricola medievale</h3>
+        <p>Aratro pesante, rotazione triennale, collare da cavallo: innovazioni "invisibili" che trasformano l'Europa più di qualsiasi re. La produttività agricola esplode, la popolazione raddoppia tra il 1000 e il 1300. Più cibo = più persone = più città = più commercio = più cultura. La base materiale del Rinascimento si costruisce qui.</p>
+        <div class="date-tag">X–XII sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ GOTICO ═══════════════════════════════ -->
+<section class="epoch" id="gotico">
+  <div class="epoch-header">
+    <div class="dates">1150 – 1400</div>
+    <h2>Gotico</h2>
+    <div class="tagline">La luce come teologia — l'ascesa verso il cielo</div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>La cattedrale gotica</h3>
+        <p>L'arco a sesto acuto, la volta a crociera ogivale e i contrafforti volanti sono una rivoluzione ingegneristica che libera i muri dal peso — e li riempie di vetrate. Notre-Dame (1163), Chartres, Colonia, il Duomo di Milano. L'abate Suger teorizza la luce come manifestazione divina. Le cattedrali sono le startup del Medioevo: progetti multigenerazionali che mobilitano intere comunità.</p>
+        <div class="date-tag">1150–1400</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Giotto e la rivoluzione dello spazio</h3>
+        <p>Giotto (1267–1337) rompe con la tradizione bizantina: nella Cappella degli Scrovegni a Padova, le figure hanno peso, occupano spazio, esprimono emozioni riconoscibili. È il primo passo verso il naturalismo rinascimentale. Non è solo tecnica — è un cambio di paradigma: l'essere umano torna al centro della rappresentazione.</p>
+        <div class="date-tag">1303–1305</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>Scolastica: Tommaso d'Aquino</h3>
+        <p>La Scolastica tenta la grande sintesi tra fede e ragione. Tommaso d'Aquino nella Summa Theologiae usa la logica aristotelica per dimostrare l'esistenza di Dio. È un progetto intellettuale titanico — e anche il seme della sua stessa dissoluzione: se la ragione è strumento valido, prima o poi chiederà autonomia dalla fede.</p>
+        <div class="date-tag">1225–1274</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-dark">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🔴 Ombre</div>
+        <h3>La Peste Nera</h3>
+        <p>1347–1351: la peste bubbonica uccide tra il 30% e il 60% della popolazione europea. Il trauma è inconcepibile. Ma il paradosso storico è brutale: meno persone = più risorse per i sopravvissuti = salari più alti = fine della servitù della gleba in molte aree = accelerazione verso il mondo moderno. La Danza Macabra diventa tema artistico dominante.</p>
+        <div class="date-tag">1347–1351</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>Dante, Petrarca, Boccaccio</h3>
+        <p>Le "Tre Corone" inaugurano la letteratura in volgare italiano. Dante nella Commedia crea un'enciclopedia dell'universo medievale; Petrarca inventa l'introspezione letteraria moderna; Boccaccio nel Decameron celebra l'ingegno umano durante la peste. Petrarca è anche il primo "umanista" — guarda ai classici non come autorità ma come modelli.</p>
+        <div class="date-tag">XIV sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="thread-note">La cattedrale gotica e la Commedia dantesca condividono lo stesso progetto: contenere l'intero universo in un'unica struttura — una di pietra e luce, l'altra di terzine.</div>
+</section>
+
+<!-- ═══════════════════════════════ RINASCIMENTO ═══════════════════════════════ -->
+<section class="epoch" id="rinascimento">
+  <div class="epoch-header">
+    <div class="dates">1400 – 1530</div>
+    <h2>Rinascimento</h2>
+    <div class="tagline">L'uomo misura del mondo — e lo trasforma</div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>Umanesimo e l'individuo</h3>
+        <p>L'Umanesimo riscopre i classici non come reliquie ma come strumenti vivi. Pico della Mirandola nel "De hominis dignitate" (1486) proclama che l'uomo non ha una natura fissa — può farsi bestia o farsi dio. È una dichiarazione d'indipendenza intellettuale senza precedenti. Marsilio Ficino traduce Platone, creando un'alternativa ad Aristotele che dominerà per secoli.</p>
+        <div class="date-tag">XV sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Brunelleschi e la prospettiva costruita</h3>
+        <p>La cupola di Santa Maria del Fiore (1420–1436) è un miracolo di ingegneria — costruita senza centine, con una doppia calotta autoportante. Ma Brunelleschi è anche l'inventore della prospettiva lineare (1415): per la prima volta lo spazio viene rappresentato matematicamente. L'architettura rinascimentale riscopre ordini classici, simmetria, proporzione — l'edificio come corpo armonico.</p>
+        <div class="date-tag">1420–1436</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Leonardo, Michelangelo, Raffaello</h3>
+        <p>Il triumvirato del Rinascimento maturo. Leonardo (1452–1519) fonde arte e scienza — lo sfumato è una teoria della percezione; Michelangelo (1475–1564) nella Sistina trasforma il corpo umano in teologia; Raffaello (1483–1520) nella Scuola d'Atene mette in scena la storia della filosofia come un congresso ideale. L'artista non è più artigiano — è genio, intellettuale, quasi divinità.</p>
+        <div class="date-tag">1490–1520</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>Gutenberg e la stampa a caratteri mobili</h3>
+        <p>1455: la Bibbia di Gutenberg inaugura la più grande rivoluzione nella trasmissione del sapere fino a Internet. In 50 anni vengono stampati più libri di quanti ne fossero stati copiati nei mille anni precedenti. Il sapere esce dai monasteri. Lutero senza la stampa sarebbe stato un altro eretico locale — con la stampa, spacca l'Europa in due.</p>
+        <div class="date-tag">1455</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Scoperta dell'America e nuovi mondi</h3>
+        <p>1492: Colombo raggiunge le Americhe. Lo shock epistemico è enorme — il mondo è più grande di quanto Tolomeo, Aristotele e la Bibbia avessero previsto. Il flusso d'oro e argento ridisegna l'economia mondiale. Ma è anche l'inizio del più grande genocidio della storia: le popolazioni native vengono decimate da malattie e conquista.</p>
+        <div class="date-tag">1492</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-music">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎵 Musica</div>
+        <h3>Polifonia rinascimentale</h3>
+        <p>La musica si emancipa dal canto gregoriano monodico. Josquin des Prez, Palestrina e la scuola veneziana sviluppano la polifonia — più voci indipendenti che creano armonia complessa. Palestrina "salva" la polifonia dal Concilio di Trento che la voleva abolire perché le parole si perdevano. La musica impara a esprimere emozioni individuali.</p>
+        <div class="date-tag">XV–XVI sec.</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MANIERISMO ═══════════════════════════════ -->
+<section class="epoch" id="manierismo">
+  <div class="epoch-header">
+    <div class="dates">1520 – 1600</div>
+    <h2>Manierismo</h2>
+    <div class="tagline">L'armonia si spezza — l'inquietudine come stile</div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Riforma e Controriforma</h3>
+        <p>1517: le 95 tesi di Lutero spaccano la Cristianità. La Riforma protestante non è solo teologica — è politica (i principi tedeschi si liberano di Roma), economica (confisca dei beni ecclesiastici) e culturale (la Bibbia in lingua volgare). La Controriforma cattolica risponde col Concilio di Trento (1545–1563): dottrina rigida ma anche arte come strumento di propaganda emotiva.</p>
+        <div class="date-tag">1517–1600</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>La crisi dell'armonia</h3>
+        <p>Dopo la perfezione rinascimentale, gli artisti cercano lo squilibrio come espressione. Pontormo, Rosso Fiorentino, Parmigianino allungano le figure, distorcono le proporzioni, usano colori acidi. Il Giudizio Universale di Michelangelo (1536–1541) è già Manierismo — corpi turbinanti, angoscia, nessuna serenità. El Greco porterà questo linguaggio all'estremo in Spagna.</p>
+        <div class="date-tag">1520–1600</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Palladio e la Villa come idea</h3>
+        <p>Andrea Palladio (1508–1580) codifica un linguaggio architettonico che dominerà per secoli: Villa Rotonda, la Basilica di Vicenza, le chiese veneziane. Le sue proporzioni matematiche e il dialogo con il paesaggio influenzeranno Jefferson, l'architettura coloniale americana e il Neoclassicismo. I "Quattro Libri" sono il primo bestseller architettonico.</p>
+        <div class="date-tag">1550–1580</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>Copernico e la rivoluzione copernicana</h3>
+        <p>1543: il "De revolutionibus" sposta la Terra dal centro dell'universo. L'impatto non è immediato (pochi leggono il libro, e la Chiesa lo ignora per decenni), ma il seme è piantato. La "rivoluzione copernicana" diventerà metafora di ogni ribaltamento di paradigma — Kant la userà per descrivere la propria filosofia.</p>
+        <div class="date-tag">1543</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BAROCCO ═══════════════════════════════ -->
+<section class="epoch" id="barocco">
+  <div class="epoch-header">
+    <div class="dates">1600 – 1750</div>
+    <h2>Barocco</h2>
+    <div class="tagline">Lo stupore come strategia — l'eccesso che convince</div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Caravaggio e la luce come dramma</h3>
+        <p>Caravaggio (1571–1610) inventa il chiaroscuro teatrale: luce violenta su fondo nero, figure colte nell'istante decisivo, santi che sembrano mendicanti di strada. È scandaloso e rivoluzionario — l'arte diventa esperienza sensoriale totale. Influenzerà Rembrandt, Velázquez, Ribera. La "caravaggiomania" è il primo fenomeno virale dell'arte europea.</p>
+        <div class="date-tag">1595–1610</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Bernini, Borromini e la Roma barocca</h3>
+        <p>Bernini trasforma Roma in un teatro urbano: il colonnato di San Pietro abbraccia i fedeli, la fontana dei Quattro Fiumi anima Piazza Navona. Borromini destabilizza con San Carlo alle Quattro Fontane — superfici ondulate, spazi che sembrano respirare. Versailles (1661–1710) trasferisce il modello al potere assoluto: l'architettura come strumento di sottomissione psicologica.</p>
+        <div class="date-tag">1630–1710</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-music">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎵 Musica</div>
+        <h3>Nasce l'opera — Bach, Vivaldi, Händel</h3>
+        <p>L'opera nasce a Firenze (~1600) come tentativo di ricreare il teatro greco, e diventa il primo grande spettacolo multimediale europeo. Monteverdi la porta a maturità. Bach (1685–1750) costruisce cattedrali sonore con le fughe e le Passioni; Vivaldi rende la musica strumentale drammatica; Händel conquista Londra. La musica barocca è architettura del tempo.</p>
+        <div class="date-tag">1600–1750</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>Galileo, Newton — la Rivoluzione Scientifica</h3>
+        <p>Galileo punta il telescopio al cielo (1609) e vede montagne sulla Luna — la perfezione celeste è un mito. Newton con i Principia (1687) unifica la meccanica terrestre e celeste in equazioni matematiche. Il mondo diventa misurabile, prevedibile, controllabile. Il metodo scientifico — osservazione, ipotesi, esperimento — diventa il nuovo strumento di conoscenza.</p>
+        <div class="date-tag">1609–1687</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>L'Età d'Oro olandese</h3>
+        <p>Mentre l'Europa cattolica è barocca e trionfale, i Paesi Bassi protestanti inventano un'arte borghese: nature morte, scene di genere, paesaggi, ritratti di gruppo. Rembrandt scava nell'anima con la luce; Vermeer congela istanti di vita quotidiana in geometrie perfette. Il mercato dell'arte nasce qui — gli artisti producono per un mercato aperto, non per la Chiesa.</p>
+        <div class="date-tag">1600–1680</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="thread-note">Il Barocco e la Rivoluzione Scientifica sono figli della stessa epoca: uno seduce i sensi, l'altra li disciplina. Entrambi ridefiniscono il rapporto tra l'uomo e l'infinito.</div>
+</section>
+
+<!-- ═══════════════════════════════ ILLUMINISMO ═══════════════════════════════ -->
+<section class="epoch" id="illuminismo">
+  <div class="epoch-header">
+    <div class="dates">1700 – 1800</div>
+    <h2>Illuminismo & Neoclassicismo</h2>
+    <div class="tagline">Sapere aude! — Il trionfo della ragione</div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>L'Encyclopédie e i philosophes</h3>
+        <p>Voltaire, Diderot, Montesquieu, Rousseau: i philosophes costruiscono il progetto di un'umanità guidata dalla ragione. L'Encyclopédie (1751–1772) è il manifesto: tutto il sapere umano organizzato, accessibile, criticato. La tolleranza, la separazione dei poteri, il contratto sociale — le idee che faranno le rivoluzioni nascono qui. Kant: "L'Illuminismo è l'uscita dell'uomo dalla sua immaturità autoimposta."</p>
+        <div class="date-tag">1720–1790</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Rivoluzioni: americana e francese</h3>
+        <p>1776: l'America dichiara che "tutti gli uomini sono creati uguali" (ma non le donne, né gli schiavi). 1789: la Francia decapita un re e proclama i Diritti dell'Uomo. Le idee illuministe diventano polvere da sparo. Ma la Rivoluzione Francese mostra anche il lato oscuro della ragione: il Terrore di Robespierre, la ghigliottina come strumento di "virtù".</p>
+        <div class="date-tag">1776–1799</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Neoclassicismo: ritorno all'ordine</h3>
+        <p>La scoperta di Pompei (1748) ed Ercolano scatena la moda del classico. L'architettura neoclassica rifiuta gli eccessi barocchi: linee pulite, colonne doriche, simmetria razionale. Il Panthéon di Parigi, il British Museum, il Campidoglio di Washington — il potere democratico si veste di toga romana. L'estetica della ragione è austera, bianca, geometrica.</p>
+        <div class="date-tag">1750–1830</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>David e l'arte come politica</h3>
+        <p>Jacques-Louis David è il pittore della Rivoluzione: "Il Giuramento degli Orazi" (1784) è un manifesto del dovere civico; "La Morte di Marat" (1793) trasforma un assassinio politico in icona sacra laica. L'arte neoclassica è didattica, morale, programmatica. Canova nella scultura raggiunge una perfezione formale che dialoga con i marmi greci.</p>
+        <div class="date-tag">1780–1815</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-music">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎵 Musica</div>
+        <h3>Classicismo viennese: Mozart, Haydn, Beethoven</h3>
+        <p>La forma-sonata e la sinfonia classica incarnano l'ideale illuminista di ordine, equilibrio, chiarezza. Mozart (1756–1791) raggiunge una perfezione che sembra senza sforzo. Ma Beethoven (1770–1827) spacca il paradigma: la Terza Sinfonia ("Eroica", 1804) è già Romanticismo — l'espressione individuale esplode le forme classiche dall'interno.</p>
+        <div class="date-tag">1750–1820</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ROMANTICISMO ═══════════════════════════════ -->
+<section class="epoch" id="romanticismo">
+  <div class="epoch-header">
+    <div class="dates">1790 – 1850</div>
+    <h2>Romanticismo</h2>
+    <div class="tagline">Il sentimento come risposta alla ragione — il sublime e l'abisso</div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>La rivolta contro la ragione pura</h3>
+        <p>Il Romanticismo nasce come reazione all'Illuminismo: la ragione non basta, il sentimento, l'intuizione, il genio individuale sono forme di conoscenza. Schelling, Schopenhauer, Kierkegaard esplorano l'irrazionale. Il Sturm und Drang tedesco rivendica passione e natura. Hegel costruisce il sistema filosofico più ambizioso della storia — e Marx lo ribalterà.</p>
+        <div class="date-tag">1790–1850</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Il Sublime: Friedrich, Turner, Delacroix</h3>
+        <p>Caspar David Friedrich mette l'uomo di spalle davanti all'infinito ("Viandante sul mare di nebbia", 1818). Turner dissolve il mondo in tempeste di luce e colore — quasi astrazione. Delacroix nella "Libertà che guida il popolo" (1830) unisce passione politica e violenza cromatica. L'artista romantico è eroe tormentato, voce dell'inesprimibile.</p>
+        <div class="date-tag">1800–1850</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Neogotico e revival storicisti</h3>
+        <p>Il Romanticismo riscopre il Medioevo come epoca di passione e autenticità. Il Neogotico esplode: il Parlamento di Westminster a Londra (1840–1870), il castello di Neuschwanstein (1869–1886). Viollet-le-Duc restaura (e reinventa) Notre-Dame. L'eclettismo storicista mescola stili — ogni nazione cerca le proprie "radici" architettoniche.</p>
+        <div class="date-tag">1830–1880</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>Rivoluzione Industriale</h3>
+        <p>La macchina a vapore (Watt, 1769), il telaio meccanico, la ferrovia (1825) trasformano il mondo più velocemente di qualsiasi evento precedente. Le città esplodono, nasce il proletariato, il paesaggio diventa industriale. Il Crystal Palace (1851) — interamente in ferro e vetro — è la prima architettura che non imita il passato. Il futuro è iniziato.</p>
+        <div class="date-tag">1760–1850</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ REALISMO / IMPRESSIONISMO ═══════════════════════════════ -->
+<section class="epoch" id="realismo">
+  <div class="epoch-header">
+    <div class="dates">1840 – 1900</div>
+    <h2>Realismo & Impressionismo</h2>
+    <div class="tagline">Guardare il mondo com'è — e poi come lo percepiamo</div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Realismo: Courbet e la verità senza filtri</h3>
+        <p>Courbet dichiara: "Mostrami un angelo e lo dipingerò." Il Realismo rifiuta l'idealizzazione — contadini, operai, la realtà sociale entrano nell'arte "alta". "Lo spaccapietre" (1849) è un manifesto: la fatica è bella. Millet, Daumier accompagnano. La fotografia (Daguerre, 1839) costringe la pittura a chiedersi: se la macchina cattura il reale, cosa resta all'artista?</p>
+        <div class="date-tag">1840–1870</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Impressionismo: la percezione come soggetto</h3>
+        <p>Monet, Renoir, Degas, Pissarro escono dallo studio e dipingono en plein air. Il soggetto non è più il paesaggio — è la luce sul paesaggio in quel preciso istante. "Impression, soleil levant" (Monet, 1872) dà il nome al movimento. Pennellate rapide, colori puri, abolizione del contorno. L'arte si interessa alla percezione soggettiva — un parallelo con la nascente psicologia sperimentale.</p>
+        <div class="date-tag">1870–1886</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Post-Impressionismo: le strade divergono</h3>
+        <p>Cézanne geometrizza la natura ("trattare la natura con il cilindro, la sfera, il cono") — il padre del Cubismo. Van Gogh trasforma il colore in emozione pura — anticipa l'Espressionismo. Gauguin cerca il primitivo e l'autentico — apre la strada alle avanguardie. Seurat scientificizza il colore con il Puntinismo. Ogni post-impressionista è una porta verso il Novecento.</p>
+        <div class="date-tag">1886–1905</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>Marx, Darwin, Nietzsche — le tre bombe</h3>
+        <p>Marx (Il Capitale, 1867): la storia è lotta di classe, l'economia determina tutto. Darwin (L'Origine delle Specie, 1859): l'uomo non è creazione divina ma prodotto dell'evoluzione. Nietzsche (1882): "Dio è morto" — e dobbiamo trovare nuovi valori. Freud arriva poco dopo (1899): nemmeno la coscienza è padrona in casa propria. L'uomo del Novecento è sradicato, libero, terrorizzato.</p>
+        <div class="date-tag">1848–1900</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Art Nouveau e la Torre Eiffel</h3>
+        <p>L'Art Nouveau (Jugendstil, Liberty) cerca un linguaggio nuovo: linee organiche, decorazione ispirata alla natura, integrazione tra arti. Gaudí a Barcellona (Sagrada Família, dal 1882) fonde struttura e decorazione in forme mai viste. La Torre Eiffel (1889) — odiata e amata — dimostra che l'ingegneria può creare bellezza senza riferimenti storici.</p>
+        <div class="date-tag">1880–1910</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ BELLE ÉPOQUE ═══════════════════════════════ -->
+<section class="epoch" id="belleepoque">
+  <div class="epoch-header">
+    <div class="dates">1880 – 1914</div>
+    <h2>Belle Époque</h2>
+    <div class="tagline">L'ultimo ballo prima della tempesta</div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Colonialismo, nazionalismi, tensioni</h3>
+        <p>L'Europa controlla l'80% del pianeta. La Conferenza di Berlino (1884–1885) spartisce l'Africa con un righello. Il progresso tecnologico alimenta l'illusione di superiorità razziale e culturale. I nazionalismi si esasperano, le alleanze militari si irrigidiscono, la corsa agli armamenti accelera. L'ottimismo della Belle Époque nasconde una polveriera.</p>
+        <div class="date-tag">1880–1914</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>Seconda Rivoluzione Industriale</h3>
+        <p>Elettricità (Edison, Tesla), telefono (Bell, 1876), automobile (Benz, 1886), cinema (Lumière, 1895), radio (Marconi, 1895). Il mondo accelera in modo vertiginoso. Le città si illuminano, le distanze si annullano, il tempo si standardizza. Einstein con la Relatività Speciale (1905) dissolve anche il tempo e lo spazio assoluti.</p>
+        <div class="date-tag">1870–1914</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ AVANGUARDIE ═══════════════════════════════ -->
+<section class="epoch" id="avanguardie">
+  <div class="epoch-header">
+    <div class="dates">1905 – 1940</div>
+    <h2>Avanguardie del Novecento</h2>
+    <div class="tagline">Distruggere per ricostruire — l'arte salta nel vuoto</div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Espressionismo, Fauvismo, Cubismo</h3>
+        <p>Le avanguardie esplodono in simultanea. I Fauves (Matisse, 1905) liberano il colore dalla realtà. L'Espressionismo (Munch, Kirchner) deforma per esprimere angoscia. Il Cubismo (Picasso e Braque, 1907) frantuma la prospettiva — "Les Demoiselles d'Avignon" mostra un oggetto da tutti i punti di vista contemporaneamente. L'arte rinuncia alla mimesi dopo 2500 anni.</p>
+        <div class="date-tag">1905–1914</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-dark">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🔴 Ombre</div>
+        <h3>Prima Guerra Mondiale</h3>
+        <p>1914–1918: la Grande Guerra distrugge l'illusione del progresso lineare. 20 milioni di morti, trincee, gas nervino. La tecnologia, orgoglio della Belle Époque, diventa strumento di morte industriale. La civiltà europea non si riprenderà mai completamente. Dada nasce come risposta: se la ragione produce questo, l'unica risposta è l'assurdo.</p>
+        <div class="date-tag">1914–1918</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Astrattismo, Dada, Surrealismo</h3>
+        <p>Kandinskij (1910) dipinge il primo quadro astratto — l'arte si libera completamente dalla rappresentazione. Mondrian riduce tutto a linee e colori primari. Duchamp con il suo orinatoio ("Fountain", 1917) dichiara: l'arte è ciò che l'artista decide. Il Surrealismo (Dalí, Magritte, Ernst) esplora l'inconscio freudiano — l'arte come sogno ad occhi aperti.</p>
+        <div class="date-tag">1910–1940</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Bauhaus e il Movimento Moderno</h3>
+        <p>Il Bauhaus (1919–1933) unisce arte, artigianato e industria: "la forma segue la funzione". Gropius, Mies van der Rohe, Le Corbusier progettano un mondo nuovo — cemento armato, vetro, pianta libera, tetto piano. "La casa è una macchina per abitare" (Le Corbusier). Villa Savoie (1929) è il manifesto. L'architettura moderna promette democrazia attraverso il design.</p>
+        <div class="date-tag">1919–1940</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-music">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎵 Musica</div>
+        <h3>Stravinskij, Schönberg, Jazz</h3>
+        <p>Stravinskij con "La Sagra della Primavera" (1913) causa una rivolta al debutto — ritmi primitivi, dissonanze violente. Schönberg abolisce la tonalità (dodecafonia, 1921) — la musica "seria" diventa sempre più cerebrale. Ma intanto dall'America arriva il Jazz: improvvisazione, sincope, libertà. Due strade divergenti che definiscono il Novecento musicale.</p>
+        <div class="date-tag">1910–1935</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ TOTALITARISMI ═══════════════════════════════ -->
+<section class="epoch" id="totalitarismi">
+  <div class="epoch-header">
+    <div class="dates">1920 – 1945</div>
+    <h2>Totalitarismi e Seconda Guerra Mondiale</h2>
+    <div class="tagline">L'abisso — quando il progresso serve la distruzione</div>
+  </div>
+
+  <div class="entry cat-dark">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🔴 Ombre</div>
+        <h3>Fascismo, Nazismo, Stalinismo</h3>
+        <p>Mussolini (1922), Hitler (1933), Stalin (1924): tre varianti del totalitarismo. Il Fascismo usa Roma antica come mito fondativo; il Nazismo costruisce una pseudoscienza razziale; lo Stalinismo perverte l'utopia marxista in terrore burocratico. Tutti e tre controllano l'arte: il Realismo Socialista, l'arte "degenerata" nazista, il razionalismo fascista — l'estetica come strumento di potere totale.</p>
+        <div class="date-tag">1922–1945</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Architettura totalitaria</h3>
+        <p>Ogni regime usa l'architettura per intimidire e indottrinare. L'EUR a Roma (1942) mescola archi romani e razionalismo — il "Colosseo Quadrato" è un paradosso costruito. Speer progetta per Hitler la "Germania" — una capitale mondiale mai realizzata con un'aula per 180.000 persone. Il Palazzo dei Soviet staliniano avrebbe dovuto essere l'edificio più alto del mondo. Megalomania in cemento.</p>
+        <div class="date-tag">1930–1943</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Guernica e l'arte come testimonianza</h3>
+        <p>Picasso dipinge Guernica (1937) dopo il bombardamento della cittadina basca da parte dei nazisti — il toro, il cavallo urlante, la lampadina-sole. È il primo grande quadro politico del Novecento. L'arte delle avanguardie viene espulsa dalla Germania ("arte degenerata"), molti artisti fuggono negli USA. Il baricentro dell'arte mondiale si sposta da Parigi a New York.</p>
+        <div class="date-tag">1937</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-dark">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🔴 Ombre</div>
+        <h3>Seconda Guerra Mondiale e Shoah</h3>
+        <p>1939–1945: 70–85 milioni di morti. La Shoah — lo sterminio sistematico, industriale di 6 milioni di ebrei — è l'abisso assoluto della civiltà occidentale. Hiroshima (1945) dimostra che l'umanità può autodistruggersi. Adorno scriverà: "Scrivere poesia dopo Auschwitz è un atto di barbarie." L'idea stessa di progresso è in frantumi.</p>
+        <div class="date-tag">1939–1945</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="thread-note">Dopo Auschwitz e Hiroshima, ogni forma d'arte deve fare i conti con una domanda: come rappresentare l'irrappresentabile? Come creare bellezza in un mondo che ha prodotto questo?</div>
+</section>
+
+<!-- ═══════════════════════════════ DOPOGUERRA ═══════════════════════════════ -->
+<section class="epoch" id="dopoguerra">
+  <div class="epoch-header">
+    <div class="dates">1945 – 1975</div>
+    <h2>Dopoguerra e Modernismo Tardo</h2>
+    <div class="tagline">Ricostruire — i corpi, le città, il senso</div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Guerra Fredda e boom economico</h3>
+        <p>Il mondo si divide in due blocchi. La competizione USA-URSS produce la corsa allo spazio (Gagarin 1961, Luna 1969), la deterrenza nucleare, ma anche una crescita economica senza precedenti in Occidente. In Europa nasce il welfare state, la classe media si espande, il consumismo diventa modo di vita. Decolonizzazione in Africa e Asia — il Terzo Mondo entra sulla scena.</p>
+        <div class="date-tag">1945–1975</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Espressionismo Astratto e Pop Art</h3>
+        <p>Pollock, De Kooning, Rothko a New York: l'arte diventa gesto puro, espressione diretta dell'inconscio. Poi irrompe la Pop Art — Warhol, Lichtenstein, Oldenburg: le lattine di zuppa, i fumetti, Marilyn serigrafata. L'arte abbraccia (o denuncia?) la cultura di massa. Warhol: "In futuro tutti saranno famosi per 15 minuti." L'arte si fonde con merce, pubblicità, celebrità.</p>
+        <div class="date-tag">1945–1970</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Stile Internazionale e Brutalismo</h3>
+        <p>Grattacieli di vetro e acciaio (Lever House, Seagram Building) diventano il volto del capitalismo globale. "Less is more" (Mies van der Rohe). Ma il Brutalismo (Le Corbusier a Chandigarh, l'Unité d'Habitation) usa il cemento a vista come dichiarazione di onestà materica. L'architettura moderna promette utopia sociale — e spesso produce alienazione. I grandi complessi residenziali diventeranno simbolo di fallimento.</p>
+        <div class="date-tag">1950–1975</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>Esistenzialismo e '68</h3>
+        <p>Sartre: "L'esistenza precede l'essenza" — siamo condannati ad essere liberi. Simone de Beauvoir: "Donna non si nasce, lo si diventa." Il '68 è un'esplosione globale: studenti, operai, femministe, diritti civili. Martin Luther King, Woodstock, il Maggio francese. La controcultura sfida ogni autorità. Ma le utopie si sgretolano nei '70 — crisi petrolifera, terrorismo, disillusione.</p>
+        <div class="date-tag">1945–1975</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-music">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎵 Musica</div>
+        <h3>Rock'n'Roll, Beatles, Hendrix</h3>
+        <p>Elvis (1956) scuote l'America. I Beatles (1963) globalizzano il rock. Hendrix, Doors, Rolling Stones incarnano la ribellione. Il rock è la colonna sonora della controcultura — Woodstock (1969) è il suo apice mistico. Ma è anche la prima industria culturale veramente globale: musica, moda, ideologia, business in un unico pacchetto.</p>
+        <div class="date-tag">1955–1975</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ POSTMODERNO ═══════════════════════════════ -->
+<section class="epoch" id="postmoderno">
+  <div class="epoch-header">
+    <div class="dates">1975 – 2000</div>
+    <h2>Postmodernismo</h2>
+    <div class="tagline">Nessuna verità è assoluta — e tutto è citazione</div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>Decostruzione e fine delle grandi narrazioni</h3>
+        <p>Lyotard (1979): le "grandi narrazioni" (progresso, marxismo, illuminismo) hanno perso credibilità. Derrida decostruisce i testi, Foucault rivela il potere nascosto nel sapere, Baudrillard teorizza la simulazione — viviamo in un mondo di copie senza originale. Il postmodernismo è liberatorio (nessuna verità imposta) e paralizzante (nessuna verità possibile).</p>
+        <div class="date-tag">1975–2000</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Architettura postmoderna e Decostruttivismo</h3>
+        <p>Venturi ("Less is a bore") e la reazione al Modernismo: decorazione, ironia, citazione storica giocosa. La AT&T Building di Johnson (1984) mette un frontone Chippendale su un grattacielo. Poi Gehry (Guggenheim Bilbao, 1997) e Hadid, Libeskind: forme impossibili rese possibili dal computer. L'architettura diventa scultura abitabile, brand, attrazione turistica.</p>
+        <div class="date-tag">1975–2000</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>Arte contemporanea: installazioni, performance, video</h3>
+        <p>L'arte esce dalla tela: Beuys ("ogni uomo è un artista"), Marina Abramović (il corpo come medium), Koons (kitsch come provocazione), Hirst (lo squalo in formalina). L'arte contemporanea è un campo di battaglia: chi decide cosa è arte? Il mercato esplode — le aste raggiungono cifre astronomiche. Banksy spraya la domanda sui muri: "L'arte è ancora libera?"</p>
+        <div class="date-tag">1975–2000</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>Caduta del Muro e globalizzazione</h3>
+        <p>1989: il Muro di Berlino cade. 1991: l'URSS si dissolve. Fukuyama proclama "la fine della storia" — la democrazia liberale ha vinto. Ma è un'illusione: le guerre balcaniche, il genocidio ruandese, il fondamentalismo islamico mostrano che la storia non ha fine. La globalizzazione accelera: merci, capitali, informazioni attraversano confini — ma non le persone.</p>
+        <div class="date-tag">1989–2001</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>La rivoluzione digitale comincia</h3>
+        <p>Il PC (1981), il World Wide Web (Berners-Lee, 1989/1991), il primo browser (1993). In meno di un decennio, la rete connette il mondo. Google (1998), Amazon (1994), la bolla dot-com. È una disruption paragonabile solo alla stampa di Gutenberg — ma molto più veloce. Il mondo analogico ha i giorni contati.</p>
+        <div class="date-tag">1981–2000</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ERA DIGITALE ═══════════════════════════════ -->
+<section class="epoch" id="digitale">
+  <div class="epoch-header">
+    <div class="dates">2000 – Oggi</div>
+    <h2>Era Digitale</h2>
+    <div class="tagline">Tutti connessi, tutti creatori — e tutti sorvegliati</div>
+  </div>
+
+  <div class="entry cat-history">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚔️ Storia</div>
+        <h3>11 settembre, crisi, pandemia</h3>
+        <p>2001: le Torri Gemelle crollano — inizia il "secolo della paura". La crisi finanziaria del 2008 distrugge la fiducia nel capitalismo deregolato. La pandemia COVID-19 (2020) accelera la digitalizzazione e la disuguaglianza. Il populismo e l'autoritarismo avanzano. La guerra torna in Europa (Ucraina, 2022). Il progresso non è lineare — mai lo è stato.</p>
+        <div class="date-tag">2001–2025</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-tech">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">⚙️ Tecnica</div>
+        <h3>Social media, smartphone, AI</h3>
+        <p>iPhone (2007): il mondo in tasca. Facebook, Instagram, TikTok ridefiniscono socialità, politica, identità. L'Intelligenza Artificiale generativa (GPT, 2020–) è la nuova stampa di Gutenberg — o la nuova bomba atomica? La tecnologia non è mai neutra: amplifica il meglio e il peggio dell'umano. Il dibattito sulla AI è il dibattito sul futuro della specie.</p>
+        <div class="date-tag">2007–2025</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-arch">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🏛️ Architettura</div>
+        <h3>Architettura sostenibile e parametrica</h3>
+        <p>Il grattacielo diventa sostenibile (Bosco Verticale di Boeri a Milano, 2014). L'architettura parametrica usa algoritmi per generare forme organiche (Hadid, MAD Architects). La crisi climatica impone nuove priorità: materiali riciclati, energia zero, rewilding urbano. Ma anche: archistar e gentrificazione — l'architettura come agente di disuguaglianza. Chi decide come viviamo?</p>
+        <div class="date-tag">2000–2025</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-art">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🎨 Arte</div>
+        <h3>NFT, AI art, e la democratizzazione</h3>
+        <p>L'arte digitale esplode con gli NFT (2021) — Beeple vende per 69 milioni di dollari. L'AI generativa (Midjourney, DALL-E, Stable Diffusion) solleva la domanda più radicale dopo Duchamp: se una macchina crea, è ancora arte? La street art di Banksy, le installazioni immersive di teamLab, la performance su TikTok — i confini tra arte "alta" e "bassa" sono dissolti. Tutti creano. La curatela diventa il nuovo talento.</p>
+        <div class="date-tag">2010–2025</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="entry cat-thought">
+    <div class="entry-content">
+      <div class="tl-card">
+        <div class="tl-card-label">🧠 Pensiero</div>
+        <h3>Metamodernismo e le nuove sintesi</h3>
+        <p>Dopo il cinismo postmoderno, emerge il Metamodernismo: oscillazione tra ironia e sincerità, tra scetticismo e speranza. Harari ("Sapiens") divulga la macrostoria. Il pensiero ecologico (Latour, Haraway) propone di abbandonare il dualismo natura/cultura. La domanda del XXI secolo: come costruire significato in un mondo saturato di informazione ma povero di saggezza?</p>
+        <div class="date-tag">2010–2025</div>
+      </div>
+    </div>
+    <div class="entry-spacer"></div>
+    <div class="entry-dot"></div>
+  </div>
+
+  <div class="thread-note">Dal monaco che copiava manoscritti all'AI che genera immagini — il cerchio si chiude e si riapre. La domanda resta la stessa: cosa significa essere umani? La risposta cambia ogni volta che qualcuno ha il coraggio di riformularla.</div>
+</section>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- NARRATIVE SYNTHESIS -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="synthesis" id="sintesi">
+
+  <div class="synthesis-header">
+    <div class="synth-label">✦ Lettura d'insieme</div>
+    <h2>Il Senso del Cammino</h2>
+    <div class="synth-sub">Perché queste tappe contano — e cosa ci dicono su di noi</div>
+  </div>
+
+  <!-- CHAPTER 1 -->
+  <div class="synth-chapter">
+    <div class="synth-chapter-title"><span class="ch-num">I.</span> La spirale, non la freccia</div>
+    <div class="synth-text">
+      <p>La tentazione più naturale, guardando questa timeline, è leggerla come una freccia: dal buio alla luce, dall'ignoranza alla conoscenza, dalla barbarie alla civiltà. Ma è un'illusione ottica. Quello che emerge da millecinquecento anni di storia culturale è qualcosa di più complesso e più onesto: una <span class="highlight">spirale</span>, dove ogni ascesa contiene i semi della crisi successiva, e ogni caduta genera le condizioni per un nuovo inizio.</p>
+      <p>L'Impero Romano non "cade" in un giorno — si trasforma in qualcosa di frammentato ma anche di libero. I monaci che copiano Aristotele nel silenzio dei monasteri non stanno conservando il passato: stanno, senza saperlo, costruendo le fondamenta dell'Umanesimo che esploderà mille anni dopo. La Peste Nera uccide metà dell'Europa — e proprio quel vuoto demografico produce salari più alti, fine della servitù, mobilità sociale. Il progresso, quando arriva, non arriva nonostante le catastrofi: spesso arriva <span class="gold">attraverso</span> di esse.</p>
+    </div>
+  </div>
+
+  <!-- CHAPTER 2 -->
+  <div class="synth-chapter">
+    <div class="synth-chapter-title"><span class="ch-num">II.</span> L'arte come sismografo</div>
+    <div class="synth-text">
+      <p>Se c'è un filo rosso che attraversa tutte le epoche, è questo: <span class="highlight">l'arte arriva sempre prima del pensiero</span>. Non lo segue — lo anticipa. Giotto dipinge la dignità dell'individuo un secolo prima che l'Umanesimo la teorizzasse. Caravaggio mette un mendicante al posto di un santo prima che qualsiasi filosofo parlasse di uguaglianza. Turner dissolve il mondo in luce mezzo secolo prima che gli Impressionisti lo rendessero programma. Picasso frantuma la prospettiva nello stesso anno in cui Einstein frantuma lo spazio-tempo assoluto.</p>
+      <p>L'arte non illustra le idee della sua epoca. Le <span class="gold">presagisce</span>. È un sismografo che registra i terremoti culturali prima che le persone li percepiscano consciamente. Questo è il motivo per cui i contemporanei spesso la rifiutano — l'Impressionismo fu deriso, Stravinskij provocò una rivolta, Duchamp scandalizzò il mondo dell'arte: non perché fossero incomprensibili, ma perché dicevano una verità che la società non era ancora pronta ad accettare.</p>
+    </div>
+  </div>
+
+  <div class="synth-pullquote">Ogni grande opera d'arte non è una risposta — è una domanda posta nella forma giusta, nel momento sbagliato.</div>
+
+  <!-- CHAPTER 3 -->
+  <div class="synth-chapter">
+    <div class="synth-chapter-title"><span class="ch-num">III.</span> L'architettura come ideologia costruita</div>
+    <div class="synth-text">
+      <p>Se l'arte è il sismografo, l'architettura è il <span class="highlight">manifesto politico che non mente</span>. Puoi scrivere una costituzione e poi ignorarla, puoi proclamare valori e tradirli — ma un edificio resta lì, nella pietra, a testimoniare chi eri davvero e in cosa credevi davvero.</p>
+      <p>La cattedrale gotica dice: "Il cosmo è ordinato, Dio è in alto, la luce è verità, e questa comunità è disposta a lavorare per generazioni per costruire qualcosa che nessuno di noi vedrà finito." La Reggia di Versailles dice: "Il re è il sole, voi siete ombra." Il Bauhaus dice: "La forma segue la funzione, la bellezza è democrazia, tutti meritano buon design." L'EUR di Mussolini dice: "Roma non è mai morta, e io sono il suo erede." Il Bosco Verticale di Boeri dice: "La natura non è fuori dalla città — è la città."</p>
+      <p>Ogni volta che una civiltà cambia idea su se stessa, la prima cosa che fa è <span class="gold">costruire in modo diverso</span>. Gli archi romanici diventano archi a sesto acuto; i muri spessi si svuotano in vetrate; le colonne classiche tornano e poi scompaiono; il cemento si mostra nudo e poi si vergogna di sé. Non è evoluzione tecnica — è evoluzione di identità.</p>
+    </div>
+  </div>
+
+  <div class="synth-divider">· · · · ·</div>
+
+  <!-- CHAPTER 4 -->
+  <div class="synth-chapter">
+    <div class="synth-chapter-title"><span class="ch-num">IV.</span> Le tre grandi oscillazioni</div>
+    <div class="synth-text">
+      <p>Guardando l'intera parabola, emergono tre grandi movimenti pendolari che si ripetono con variazioni:</p>
+      <p><span class="highlight">Ragione contro sentimento.</span> L'Illuminismo esalta la ragione; il Romanticismo reagisce esaltando il sentimento. Le Avanguardie tentano di ripartire da zero con la logica pura (Bauhaus, Mondrian); l'Espressionismo astratto risponde con il gesto istintivo. Il Postmodernismo decostruisce tutto; il Metamodernismo cerca una nuova sincerità. Il pendolo non si ferma mai perché la tensione tra razionale e irrazionale non è un problema da risolvere — è la <span class="gold">condizione dell'essere umano</span>.</p>
+      <p><span class="highlight">Ordine contro libertà.</span> La Scolastica tenta la Grande Sintesi di fede e ragione; Lutero la spacca. Il Classicismo impone regole; il Barocco le viola con esuberanza. Il Modernismo in architettura standardizza; il Postmodernismo ironizza. Ogni volta che un sistema raggiunge la sua forma più perfetta e compiuta — la cattedrale di Chartres, la Cappella Sistina, la sonata classica di Mozart — genera immediatamente la spinta a superarlo, romperlo, tradirlo. La perfezione, paradossalmente, è la madre della rivoluzione.</p>
+      <p><span class="highlight">L'individuo contro il collettivo.</span> L'Umanesimo scopre l'individuo; le monarchie assolute lo schiacchiano; l'Illuminismo lo emancipano; i totalitarismi lo annientano; il Dopoguerra lo celebra come consumatore; il digitale lo connette e lo isola allo stesso tempo. L'equilibrio tra espressione individuale e appartenenza collettiva è forse la domanda più antica della civiltà — e ogni epoca la riformula nei propri termini, senza mai risolverla.</p>
+    </div>
+  </div>
+
+  <!-- CHAPTER 5 -->
+  <div class="synth-chapter">
+    <div class="synth-chapter-title"><span class="ch-num">V.</span> Le tecnologie che piegano la storia</div>
+    <div class="synth-text">
+      <p>In questa timeline ci sono cinque momenti in cui una tecnologia ha ridefinito non solo <em>come</em> si fa arte, ma <em>cosa</em> significa fare arte — e con essa, cosa significa essere una civiltà che pensa se stessa.</p>
+      <p>Il primo è la <span class="highlight">scrittura monastica</span>: senza i monaci amanuensi, la civiltà classica sarebbe scomparsa, e con essa le fondamenta del pensiero occidentale. Ma la copiatura era anche filtro — i monaci decidevano cosa salvare e cosa lasciare morire. La <span class="highlight">stampa a caratteri mobili</span> di Gutenberg rompe questo monopolio: il sapere esce dai monasteri, la Riforma protestante diventa virale, nasce l'opinione pubblica. Senza Gutenberg, Lutero sarebbe stato un altro eretico bruciato.</p>
+      <p>La <span class="highlight">prospettiva lineare</span> di Brunelleschi non è una tecnica pittorica — è una rivoluzione epistemologica. Dice che lo spazio è misurabile, che l'occhio umano è il centro della rappresentazione, che la matematica può catturare il mondo. Da qui a Galileo che punta il telescopio al cielo il passo è breve e necessario.</p>
+      <p>La <span class="highlight">fotografia</span> costringe l'arte a reinventarsi: se la macchina cattura il reale, l'artista deve trovare qualcos'altro. Senza la fotografia, niente Impressionismo, niente Cubismo, niente astrattismo — tutta l'arte moderna nasce dalla crisi provocata da una scatola con un obiettivo.</p>
+      <p>E ora l'<span class="highlight">intelligenza artificiale</span> pone la domanda più radicale di tutte: se una macchina può creare, cos'è la creatività? Se può scrivere, comporre, dipingere, progettare — qual è il contributo specificamente umano? Non abbiamo ancora la risposta, ma la domanda stessa è il motore di una nuova era culturale che stiamo vivendo dall'interno, senza la distanza storica per giudicarla.</p>
+    </div>
+  </div>
+
+  <div class="synth-pullquote">Ogni grande tecnologia non aggiunge uno strumento — toglie un alibi. Dopo Gutenberg non puoi più dire "il sapere non è per me". Dopo la fotografia non puoi più dire "l'arte serve a copiare il reale". Dopo l'AI non potrai più dire "creare è solo umano".</div>
+
+  <!-- CHAPTER 6 -->
+  <div class="synth-chapter">
+    <div class="synth-chapter-title"><span class="ch-num">VI.</span> Il lato oscuro che non si può separare</div>
+    <div class="synth-text">
+      <p>Sarebbe disonesto raccontare questa storia come un cammino di luci senza ombre. Il progresso culturale dell'umanità è intrecciato in modo inestricabile con la violenza, lo sfruttamento, la distruzione. Le cattedrali gotiche sono state costruite sulla servitù della gleba. Il Rinascimento fiorentino è stato finanziato con i profitti bancari dei Medici. L'Illuminismo ha proclamato i diritti dell'uomo mentre legittimava il colonialismo. L'architettura moderna ha promesso utopia sociale e ha prodotto periferie alienanti.</p>
+      <p>I totalitarismi del Novecento sono il caso più estremo: tutta la potenza della cultura — arte, architettura, musica, cinema, tecnologia — messa al servizio della distruzione. La Shoah non è stata perpetrata da barbari: è stata pianificata da una delle nazioni più colte d'Europa, con la collaborazione di ingegneri, medici, giuristi, filosofi. Questo fatto — che la cultura <span class="gold">non immunizza</span> dalla barbarie — è forse la lezione più importante e più scomoda dell'intero percorso.</p>
+      <p>Ma c'è anche l'altro lato: Guernica, dipinto da un artista in esilio, che grida l'orrore in un linguaggio che nessun reportage potrà mai eguagliare. La musica jazz che nasce dall'oppressione razziale e diventa la voce più autentica del Novecento. Primo Levi che scrive "Se questo è un uomo" — l'arte come testimonianza, come resistenza, come rifiuto dell'oblio. L'arte non previene la barbarie, ma è spesso l'<span class="highlight">unica forza capace di dire la verità su di essa</span> dopo che è accaduta.</p>
+    </div>
+  </div>
+
+  <div class="synth-divider">· · · · ·</div>
+
+  <!-- CHAPTER 7 -->
+  <div class="synth-chapter">
+    <div class="synth-chapter-title"><span class="ch-num">VII.</span> Cosa resta — e cosa ci aspetta</div>
+    <div class="synth-text">
+      <p>Se questa timeline insegna qualcosa, è che il progresso culturale dell'umanità non è un traguardo da raggiungere ma un <span class="highlight">processo da attraversare</span> — conflittuale, contraddittorio, doloroso, a volte splendido. Non c'è un "punto di arrivo" perché ogni soluzione genera nuove domande, ogni equilibrio genera nuove tensioni, ogni forma raggiunta chiede di essere superata.</p>
+      <p>L'essere umano del 2025 è erede di Giotto e di Caravaggio, del Bauhaus e del Brutalismo, di Mozart e del punk, della cattedrale di Chartres e del Bosco Verticale. È erede anche della ghigliottina, del gas nervino, della bomba atomica. Porta con sé tutto — non può scegliere cosa tenere e cosa scartare della propria storia, perché le luci e le ombre sono intrecciate alla radice.</p>
+      <p>Quello che può fare, però, è ciò che ogni epoca ha fatto nei suoi momenti migliori: <span class="gold">guardare il mondo con occhi nuovi</span>. Giotto ha guardato un volto umano e ci ha visto dignità dove prima c'era solo un'icona. Brunelleschi ha guardato lo spazio e ci ha visto geometria. Caravaggio ha guardato un mendicante e ci ha visto un santo. Monet ha guardato uno stagno e ci ha visto luce pura. Picasso ha guardato un orrore e ci ha visto un quadro che il mondo non avrebbe mai dimenticato.</p>
+      <p>La domanda che ogni epoca ha posto, con mezzi diversi e linguaggi diversi, è sempre la stessa: <em>cosa significa essere umani?</em> La risposta non è mai stata definitiva — e non lo sarà mai. Ma il fatto che continuiamo a chiederlo, in pietra e in pixel, in affresco e in algoritmo, in sonata e in stream — quel fatto, in sé, è forse la risposta più profonda che abbiamo.</p>
+    </div>
+  </div>
+
+  <div class="synth-pullquote">Dal monaco che copiava manoscritti all'AI che genera immagini, una cosa non è mai cambiata: la necessità umana di dare forma al mondo — e, dandogli forma, di capire chi siamo.</div>
+
+</section>
+
+<footer>
+  <p>Il Cammino dell'Umanità — Una mappa per esploratori, non una risposta definitiva.<br>
+  Ogni epoca contiene i semi della successiva. Il progresso non è una linea retta — è una spirale.</p>
+</footer>
+
+<script>
+// Sticky nav active state
+const sections = document.querySelectorAll('.epoch');
+const navLinks = document.querySelectorAll('.epoch-nav a');
+
+const observerOptions = {
+  rootMargin: '-100px 0px -60% 0px',
+  threshold: 0
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`.epoch-nav a[href="#${entry.target.id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, observerOptions);
+
+sections.forEach(section => observer.observe(section));
+
+// Filter functionality
+const filterBtns = document.querySelectorAll('.filter-btn');
+const allEntries = document.querySelectorAll('.entry');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+
+    allEntries.forEach(entry => {
+      if (filter === 'all' || entry.classList.contains(filter)) {
+        entry.style.display = 'flex';
+        entry.style.opacity = '1';
+      } else {
+        entry.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Smooth scroll for nav links
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Fade-in animation on scroll
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+allEntries.forEach(entry => {
+  entry.style.opacity = '0';
+  entry.style.transform = 'translateY(20px)';
+  entry.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  fadeObserver.observe(entry);
+});
+</script>
+
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+</body>
+</html>

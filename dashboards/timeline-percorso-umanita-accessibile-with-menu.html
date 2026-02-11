@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Storia dell'Umanità — Passo dopo Passo</title>
+<style>
+  /* ═══════ BASE: ASD-friendly, light, calm ═══════ */
+  @import url('https://fonts.googleapis.com/css2?family=Verdana&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #FAFAFA;
+    --surface: #FFFFFF;
+    --border: #D1D5DB;
+    --text: #1F2937;
+    --text-muted: #6B7280;
+    --primary: #2563EB;
+    --primary-light: #EFF6FF;
+    --history: #2563EB;
+    --history-bg: #EFF6FF;
+    --art: #9333EA;
+    --art-bg: #F5F3FF;
+    --arch: #D97706;
+    --arch-bg: #FFFBEB;
+    --idea: #059669;
+    --idea-bg: #ECFDF5;
+    --shadow: #0000000D;
+    --radius: 12px;
+    --spacing: 1.25rem;
+    --font: Verdana, Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    font-size: 18px;
+    line-height: 1.8;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    padding-top: 70px;
+  }
+
+  /* Focus visible for keyboard nav */
+  :focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ═══════ HEADER ═══════ */
+  .app-header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 1.5rem var(--spacing);
+    text-align: center;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .app-header .how-to {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ═══════ LEGEND — always visible ═══════ */
+  .legend-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem var(--spacing);
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text);
+    font-weight: bold;
+  }
+
+  .legend-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  /* ═══════ PROGRESS BAR ═══════ */
+  .progress-container {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem var(--spacing);
+    position: sticky;
+    top: 70px;
+    z-index: 900;
+  }
+
+  .progress-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .progress-track {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    height: 16px;
+    background: #E5E7EB;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+
+  .progress-dots {
+    display: flex;
+    justify-content: space-between;
+    max-width: 700px;
+    margin: 0.5rem auto 0;
+    padding: 0 4px;
+  }
+
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #D1D5DB;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .progress-dot.done { background: var(--primary); }
+  .progress-dot.current {
+    background: var(--primary);
+    transform: scale(1.4);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+
+  /* ═══════ MAIN CONTENT ═══════ */
+  .content-area {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: var(--spacing);
+    min-height: 60vh;
+  }
+
+  /* ═══════ ERA CARD — identical structure every time ═══════ */
+  .era-card {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .era-card.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .era-number {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .era-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .era-dates {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Context box — "what was happening" */
+  .context-box {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .context-box .box-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .context-box p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  /* Info cards — consistent per-category */
+  .info-card {
+    border: 2px solid;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-card.history { border-color: var(--history); background: var(--history-bg); }
+  .info-card.art { border-color: var(--art); background: var(--art-bg); }
+  .info-card.arch { border-color: var(--arch); background: var(--arch-bg); }
+  .info-card.idea { border-color: var(--idea); background: var(--idea-bg); }
+
+  .info-card .card-tag {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .info-card.history .card-tag { color: var(--history); }
+  .info-card.art .card-tag { color: var(--art); }
+  .info-card.arch .card-tag { color: var(--arch); }
+  .info-card.idea .card-tag { color: var(--idea); }
+
+  .info-card h3 {
+    font-size: 1.05rem;
+    font-weight: bold;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+
+  .info-card p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  /* "Remember this" box */
+  .remember-box {
+    background: #FEF3C7;
+    border: 2px solid #F59E0B;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .remember-box .box-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #92400E;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .remember-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .remember-box li {
+    font-size: 0.95rem;
+    color: #78350F;
+    padding: 0.3rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .remember-box li::before {
+    content: '⭐';
+    position: absolute;
+    left: 0;
+    font-size: 0.8rem;
+  }
+
+  /* Connection to next era */
+  .connection-box {
+    background: var(--primary-light);
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--primary);
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .connection-box::before {
+    content: '➡️ ';
+  }
+
+  /* ═══════ NAVIGATION BUTTONS ═══════ */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+    gap: 1rem;
+  }
+
+  .era-nav-btn {
+    font-family: var(--font);
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.9rem 1.8rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 52px;
+    min-width: 140px;
+    text-align: center;
+  }
+
+  .era-nav-btn.prev {
+    background: var(--surface);
+    color: var(--primary);
+  }
+
+  .era-nav-btn.prev:hover { background: var(--primary-light); }
+
+  .era-nav-btn.next {
+    background: var(--primary);
+    color: white;
+  }
+
+  .era-nav-btn.next:hover { background: #1D4ED8; }
+
+  .era-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .era-nav-btn:disabled:hover {
+    background: inherit;
+  }
+
+  .nav-center {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: bold;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  /* ═══════ WELCOME & FINISH SCREENS ═══════ */
+  .welcome-screen, .finish-screen {
+    text-align: center;
+    padding: 3rem 1.5rem;
+  }
+
+  .welcome-screen h2, .finish-screen h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .welcome-screen p, .finish-screen p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+  }
+
+  .start-btn {
+    font-family: var(--font);
+    font-size: 1.15rem;
+    font-weight: bold;
+    padding: 1rem 2.5rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    margin-top: 1.5rem;
+    min-height: 56px;
+    transition: background 0.2s;
+  }
+
+  .start-btn:hover { background: #1D4ED8; }
+
+  .structure-preview {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    max-width: 450px;
+    text-align: left;
+  }
+
+  .structure-preview h3 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    text-align: center;
+  }
+
+  .structure-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+  }
+
+  .structure-item .s-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* ═══════ OPTIONAL DETAILS (expandable) ═══════ */
+  .details-toggle {
+    font-family: var(--font);
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--primary);
+    background: var(--primary-light);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    margin-top: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+  }
+
+  .details-toggle:hover {
+    background: #DBEAFE;
+  }
+
+  .details-content {
+    display: none;
+    margin-top: 0.8rem;
+    padding: 1rem;
+    background: #F9FAFB;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  .details-content.open { display: block; }
+
+
+  /* ═══════ RESPONSIVE FOR SITE MENU ═══════ */
+  @media (max-width: 768px) {
+    body {
+      padding-top: 120px !important;
+    }
+    .progress-container {
+      top: 120px !important;
+    }
+  }
+
+  /* ═══════ RESPONSIVE ═══════ */
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .era-title { font-size: 1.3rem; }
+    .era-nav-btn { min-width: 110px; padding: 0.7rem 1rem; font-size: 0.9rem; }
+    .legend-bar { gap: 0.8rem; }
+    .progress-dots { padding: 0 2px; }
+  }
+
+  /* ═══════ PRINT FRIENDLY ═══════ */
+  @media print {
+    .progress-container, .nav-buttons, .legend-bar { display: none; }
+    .era-card { display: block !important; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+
+<!-- HEADER -->
+<header class="app-header">
+  <h1>🌍 La Storia dell'Umanità</h1>
+  <p class="how-to">Un viaggio nel tempo, passo dopo passo.<br>
+  Vedrai una pagina alla volta. Leggi con calma. Poi vai avanti.</p>
+</header>
+
+<!-- LEGEND — always the same meaning -->
+<div class="legend-bar" role="navigation" aria-label="Legenda colori">
+  <div class="legend-item">
+    <div class="legend-icon" style="background:var(--history-bg);color:var(--history)">⚔️</div>
+    <span>Cosa succede</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-icon" style="background:var(--art-bg);color:var(--art)">🎨</div>
+    <span>Arte</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-icon" style="background:var(--arch-bg);color:var(--arch)">🏛️</div>
+    <span>Architettura</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-icon" style="background:var(--idea-bg);color:var(--idea)">💡</div>
+    <span>Idee importanti</span>
+  </div>
+</div>
+
+<!-- PROGRESS BAR — sticky -->
+<div class="progress-container" id="progressContainer" style="display:none;">
+  <div class="progress-label" id="progressLabel">Periodo 1 di 11</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:9%"></div>
+  </div>
+  <div class="progress-dots" id="progressDots"></div>
+</div>
+
+<!-- MAIN -->
+<main class="content-area">
+
+<!-- ═══════ WELCOME SCREEN ═══════ -->
+<div class="era-card active" id="welcome">
+  <div class="welcome-screen">
+    <h2>Benvenuto! 👋</h2>
+    <p>Questo è un viaggio nella storia dell'umanità.</p>
+    <p>Parte da quando l'Impero Romano è finito (anno 476).<br>
+    Arriva fino a oggi.</p>
+    <p>Ci sono <strong>11 periodi</strong> da esplorare.</p>
+
+    <div class="structure-preview">
+      <h3>Ogni periodo ha sempre queste parti:</h3>
+      <div class="structure-item">
+        <div class="s-icon" style="background:#F3F4F6">📖</div>
+        <span>Cosa stava succedendo nel mondo</span>
+      </div>
+      <div class="structure-item">
+        <div class="s-icon" style="background:var(--history-bg)">⚔️</div>
+        <span>Gli eventi importanti</span>
+      </div>
+      <div class="structure-item">
+        <div class="s-icon" style="background:var(--art-bg)">🎨</div>
+        <span>Come cambia l'arte</span>
+      </div>
+      <div class="structure-item">
+        <div class="s-icon" style="background:var(--arch-bg)">🏛️</div>
+        <span>Come cambiano gli edifici</span>
+      </div>
+      <div class="structure-item">
+        <div class="s-icon" style="background:var(--idea-bg)">💡</div>
+        <span>Le idee più importanti</span>
+      </div>
+      <div class="structure-item">
+        <div class="s-icon" style="background:#FEF3C7">⭐</div>
+        <span>Le cose da ricordare</span>
+      </div>
+    </div>
+
+    <p style="margin-top:1rem;">Puoi andare avanti e indietro quando vuoi.</p>
+    <button class="start-btn" onclick="startTimeline()">Comincia il viaggio ▶</button>
+  </div>
+</div>
+
+<!-- ═══════ ERA 1: ALTO MEDIOEVO ═══════ -->
+<div class="era-card" id="era1" data-era="1">
+  <div class="era-number">Periodo 1 di 11</div>
+  <div class="era-title">Alto Medioevo</div>
+  <div class="era-dates">476 – 1000</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>L'Impero Romano è finito. L'Europa si è divisa in tanti piccoli regni. Le strade romane si rovinano. I viaggi diventano pericolosi. La vita è difficile per quasi tutti.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>L'Europa si frammenta</h3>
+    <p>Senza l'Impero Romano, ogni zona ha il suo capo. I monasteri (dove vivono i monaci) diventano i posti più importanti. I monaci copiano i libri antichi a mano. Senza di loro, avremmo perso molti testi greci e romani.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Mosaici e miniature</h3>
+    <p>L'arte è soprattutto religiosa. A Ravenna ci sono mosaici bellissimi con sfondi dorati. I monaci decorano i libri con disegni piccoli e colorati. Queste decorazioni si chiamano "miniature".</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Castelli e monasteri</h3>
+    <p>Gli edifici più importanti sono i castelli (per difendersi) e i monasteri (per pregare e studiare). Sono costruiti con muri molto spessi perché devono proteggere chi sta dentro.</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>La Chiesa custodisce il sapere</h3>
+    <p>In questo periodo la Chiesa cattolica è l'unica istituzione che funziona in tutta Europa. Decide cosa è giusto e cosa è sbagliato. Controlla la cultura e l'educazione.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>L'Impero Romano finisce nel 476</li>
+      <li>I monaci salvano i libri antichi copiandoli a mano</li>
+      <li>L'arte è soprattutto religiosa (mosaici e miniature)</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: le persone cominciano a costruire chiese sempre più grandi...</div>
+</div>
+
+<!-- ═══════ ERA 2: ROMANICO E GOTICO ═══════ -->
+<div class="era-card" id="era2" data-era="2">
+  <div class="era-number">Periodo 2 di 11</div>
+  <div class="era-title">Romanico e Gotico</div>
+  <div class="era-dates">1000 – 1400</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>L'Europa sta meglio. Ci sono più persone, più cibo, più commercio. Le città crescono. Le Crociate portano i guerrieri europei in Medio Oriente. Lì scoprono cose nuove: matematica, medicina, filosofia.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Crociate e Peste Nera</h3>
+    <p>I crociati combattono per conquistare Gerusalemme (1096–1291). Ma portano a casa anche nuove conoscenze. Nel 1347 arriva la Peste Nera. Muore circa metà della popolazione europea. È un disastro enorme.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Da figure piatte a figure vere</h3>
+    <p>All'inizio, le figure nelle pitture sono piatte e rigide. Poi arriva Giotto (1267–1337). Lui dipinge persone che sembrano vere: hanno peso, emozioni, occupano spazio. È un grande cambiamento.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Dalle chiese basse alle cattedrali altissime</h3>
+    <p><strong>Romanico</strong> (1000–1200): chiese con muri spessi e archi rotondi. Esempio: Sant'Ambrogio a Milano.<br><br>
+    <strong>Gotico</strong> (1150–1400): cattedrali altissime con archi a punta e grandi vetrate colorate. Esempio: Notre-Dame a Parigi e il Duomo di Milano. I muri sono sottili perché il peso è retto dai pilastri esterni.</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>Dante scrive in italiano</h3>
+    <p>Dante Alighieri scrive la Divina Commedia in italiano (non in latino). Per la prima volta un grande libro è scritto nella lingua che la gente parla ogni giorno. Questo è molto importante.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>Le cattedrali gotiche sono altissime e piene di luce</li>
+      <li>Giotto cambia la pittura: le figure diventano realistiche</li>
+      <li>La Peste Nera (1347) uccide metà dell'Europa</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: gli artisti guardano i Greci e i Romani antichi e dicono "facciamo come loro, ma meglio!"</div>
+</div>
+
+<!-- ═══════ ERA 3: RINASCIMENTO ═══════ -->
+<div class="era-card" id="era3" data-era="3">
+  <div class="era-number">Periodo 3 di 11</div>
+  <div class="era-title">Rinascimento</div>
+  <div class="era-dates">1400 – 1550</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>In Italia (soprattutto a Firenze) nasce un'idea nuova: l'essere umano è al centro di tutto. Le persone riscoprono i testi degli antichi Greci e Romani. Vogliono capire il mondo con la ragione, non solo con la fede.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Due invenzioni che cambiano tutto</h3>
+    <p><strong>La stampa</strong> (Gutenberg, 1455): prima i libri erano copiati a mano e costavano tantissimo. Con la stampa, si possono fare molte copie. Più persone possono leggere.<br><br>
+    <strong>La scoperta dell'America</strong> (Colombo, 1492): il mondo è più grande di quello che si pensava.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Leonardo, Michelangelo, Raffaello</h3>
+    <p><strong>Leonardo da Vinci</strong> dipinge la Gioconda. Studia il corpo umano, le macchine, la natura. È artista E scienziato.<br><br>
+    <strong>Michelangelo</strong> dipinge il soffitto della Cappella Sistina a Roma.<br><br>
+    <strong>Raffaello</strong> dipinge "La Scuola di Atene" con tutti i filosofi antichi.<br><br>
+    Per la prima volta, l'artista non è solo un artigiano. È una persona importante e famosa.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>La cupola di Brunelleschi</h3>
+    <p>Brunelleschi costruisce la cupola del Duomo di Firenze (1420–1436). È enorme e non aveva mai fatto una cosa così prima. Inventa anche la prospettiva: un modo matematico per disegnare lo spazio su una superficie piatta.</p>
+    <button class="details-toggle" onclick="toggleDetails(this)">📐 Cos'è la prospettiva? ▼</button>
+    <div class="details-content">
+      La prospettiva è una tecnica per disegnare le cose come le vediamo noi. Gli oggetti lontani sono disegnati più piccoli. Le linee convergono verso un punto. Questo rende i disegni e i dipinti più realistici.
+    </div>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>L'essere umano è al centro</h3>
+    <p>Prima, Dio era al centro di tutto. Adesso si pensa che anche l'essere umano sia importante. Le persone possono studiare, creare, capire il mondo. Questa idea si chiama "Umanesimo".</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>La stampa (1455) permette a più persone di leggere</li>
+      <li>Leonardo, Michelangelo e Raffaello sono i grandi artisti</li>
+      <li>L'Umanesimo mette l'essere umano al centro</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: l'arte diventa sempre più emozionale e drammatica...</div>
+</div>
+
+<!-- ═══════ ERA 4: BAROCCO ═══════ -->
+<div class="era-card" id="era4" data-era="4">
+  <div class="era-number">Periodo 4 di 11</div>
+  <div class="era-title">Barocco</div>
+  <div class="era-dates">1600 – 1750</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>La Chiesa cattolica e quella protestante si combattono. La Chiesa cattolica usa l'arte per impressionare le persone e convincerle a restare cattoliche. Tutto deve essere grande, drammatico, emozionante.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Guerre di religione e scienza nuova</h3>
+    <p>Cattolici e protestanti combattono per decenni. Intanto, gli scienziati fanno scoperte enormi. Galileo guarda il cielo con il telescopio (1609). Newton scopre le leggi della fisica (1687). Il mondo diventa misurabile e prevedibile.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Caravaggio: luce e ombra</h3>
+    <p>Caravaggio (1571–1610) dipinge scene con luci fortissime e ombre nere. Le sue figure sembrano persone vere, non santi perfetti. È scandaloso ma bellissimo. In Olanda, Rembrandt e Vermeer dipingono la vita di tutti i giorni.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Chiese che sembrano teatri</h3>
+    <p>Bernini costruisce il colonnato di Piazza San Pietro a Roma. Le chiese barocche sono piene di decorazioni: oro, marmo, affreschi sui soffitti. Tutto deve stupire chi entra. La Reggia di Versailles in Francia è l'esempio estremo: un palazzo gigantesco per mostrare il potere del re.</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>Nasce il metodo scientifico</h3>
+    <p>Gli scienziati non si fidano più solo dei libri antichi. Adesso osservano, fanno esperimenti, misurano. Se qualcosa non funziona, cambiano idea. Questo modo di lavorare si chiama "metodo scientifico" e lo usiamo ancora oggi.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>L'arte barocca è drammatica e piena di emozioni</li>
+      <li>Caravaggio usa luce e ombra in modo rivoluzionario</li>
+      <li>Galileo e Newton inventano il metodo scientifico</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: le persone cominciano a pensare "usiamo la ragione per tutto!"</div>
+</div>
+
+<!-- ═══════ ERA 5: ILLUMINISMO ═══════ -->
+<div class="era-card" id="era5" data-era="5">
+  <div class="era-number">Periodo 5 di 11</div>
+  <div class="era-title">Illuminismo</div>
+  <div class="era-dates">1700 – 1800</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>I pensatori dicono: la ragione può risolvere tutti i problemi. Non dobbiamo credere alle cose solo perché lo dice il re o il papa. Dobbiamo pensare con la nostra testa. Questo periodo si chiama "Illuminismo" perché la ragione è come una luce che illumina.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Le rivoluzioni</h3>
+    <p><strong>Rivoluzione Americana</strong> (1776): l'America si rende indipendente dall'Inghilterra. Scrive che "tutti gli uomini sono uguali".<br><br>
+    <strong>Rivoluzione Francese</strong> (1789): il popolo francese rovescia il re. Ma la rivoluzione diventa violenta: molte persone vengono uccise con la ghigliottina.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Arte ordinata e morale</h3>
+    <p>L'arte di questo periodo si chiama "Neoclassica". Guarda ai Greci e ai Romani antichi. I quadri raccontano storie di eroi e dovere civico. Tutto è ordinato, chiaro, razionale. Il pittore più famoso è David, che dipinge scene della Rivoluzione Francese.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Colonne e simmetria</h3>
+    <p>Gli edifici neoclassici copiano i templi greci e romani: colonne, frontoni triangolari, simmetria perfetta. Il Panthéon di Parigi e il Campidoglio di Washington sono esempi famosi. L'architettura dice: "siamo razionali e democratici".</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>La ragione sopra tutto</h3>
+    <p>I filosofi illuministi (Voltaire, Rousseau, Kant) dicono che ogni persona deve pensare con la propria testa. Scrivono l'Encyclopédie: un grande libro che raccoglie tutto il sapere umano. Le loro idee porteranno alle rivoluzioni e ai diritti umani.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>L'Illuminismo dice: usa la ragione, pensa con la tua testa</li>
+      <li>Rivoluzione Americana (1776) e Francese (1789)</li>
+      <li>L'arte e l'architettura diventano ordinate e razionali</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: qualcuno dice "la ragione non basta! Anche i sentimenti sono importanti!"</div>
+</div>
+
+<!-- ═══════ ERA 6: ROMANTICISMO ═══════ -->
+<div class="era-card" id="era6" data-era="6">
+  <div class="era-number">Periodo 6 di 11</div>
+  <div class="era-title">Romanticismo</div>
+  <div class="era-dates">1790 – 1860</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>Dopo l'Illuminismo, molte persone pensano che la ragione da sola non basta. I sentimenti, la natura, la fantasia sono importanti. L'artista diventa un genio tormentato che sente le cose più intensamente degli altri.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Napoleone e la Rivoluzione Industriale</h3>
+    <p>Napoleone conquista mezza Europa (1804–1815). Poi viene sconfitto. Intanto, in Inghilterra arrivano le macchine: fabbriche, treni, navi a vapore. Le città crescono enormemente. Molte persone lasciano la campagna per lavorare nelle fabbriche.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>La natura è immensa e spaventosa</h3>
+    <p>I pittori romantici dipingono tempeste, montagne, tramonti enormi. L'essere umano è piccolo di fronte alla natura. Friedrich dipinge un uomo di spalle davanti a un mare di nebbia. Turner dipinge tempeste di luce. L'arte esprime sentimenti forti: paura, meraviglia, tristezza.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Si torna al Medioevo (ma finto)</h3>
+    <p>I Romantici amano il Medioevo e ricostruiscono castelli in stile gotico. Il Parlamento di Londra e il castello di Neuschwanstein in Germania sono di questo periodo. Non sono medievali veri, ma copie romantiche.</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>I sentimenti contano</h3>
+    <p>Il Romanticismo dice: la ragione è importante, ma anche i sentimenti, l'intuizione, la creatività. Ogni persona è unica e speciale. L'artista non deve seguire le regole: deve esprimere se stesso.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>Il Romanticismo celebra sentimenti, natura, fantasia</li>
+      <li>La Rivoluzione Industriale cambia il mondo con le macchine</li>
+      <li>L'arte mostra la potenza della natura e le emozioni</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: la fotografia viene inventata. L'arte si chiede: "se la macchina copia il reale, cosa faccio io?"</div>
+</div>
+
+<!-- ═══════ ERA 7: IMPRESSIONISMO ═══════ -->
+<div class="era-card" id="era7" data-era="7">
+  <div class="era-number">Periodo 7 di 11</div>
+  <div class="era-title">Impressionismo e Cambiamenti</div>
+  <div class="era-dates">1850 – 1910</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>Il mondo cambia velocissimo. Arrivano l'elettricità, il telefono, il cinema, l'automobile. Le città si riempiono di luci. La fotografia esiste dal 1839. La pittura deve trovare qualcosa di nuovo da fare.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Tre pensatori cambiano tutto</h3>
+    <p><strong>Darwin</strong> (1859): dice che gli esseri viventi si evolvono nel tempo. L'uomo non è stato creato così com'è.<br><br>
+    <strong>Marx</strong> (1867): dice che la storia è una lotta tra ricchi e poveri.<br><br>
+    <strong>Freud</strong> (1899): dice che dentro di noi ci sono desideri e pensieri nascosti che non controlliamo.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Dipingere la luce, non le cose</h3>
+    <p>Gli <strong>Impressionisti</strong> (Monet, Renoir, Degas) escono dallo studio e dipingono all'aperto. Non dipingono le cose come sono, ma come le vedono in quel momento: luce, colore, atmosfera. Le pennellate sono rapide e visibili.<br><br>
+    Poi arrivano <strong>Van Gogh</strong> (colori fortissimi, emozioni), <strong>Cézanne</strong> (forme geometriche) e <strong>Gauguin</strong> (colori inventati). Ognuno apre una strada diversa.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Ferro, vetro e forme nuove</h3>
+    <p>La <strong>Torre Eiffel</strong> (Parigi, 1889) è tutta in ferro. Non assomiglia a niente di prima. <strong>Gaudí</strong> a Barcellona costruisce la Sagrada Família con forme ispirate alla natura. L'<strong>Art Nouveau</strong> usa linee curve e decorazioni di fiori e piante.</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>Vedere il mondo in modo soggettivo</h3>
+    <p>L'Impressionismo dice: non esiste un modo "giusto" di vedere le cose. Ognuno le vede in modo diverso. Questo cambia l'arte per sempre.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>Gli Impressionisti dipingono la luce, non gli oggetti</li>
+      <li>Darwin, Marx e Freud cambiano come pensiamo</li>
+      <li>Torre Eiffel e Art Nouveau: architettura completamente nuova</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: gli artisti rompono TUTTE le regole. E arriva una guerra terribile.</div>
+</div>
+
+<!-- ═══════ ERA 8: AVANGUARDIE ═══════ -->
+<div class="era-card" id="era8" data-era="8">
+  <div class="era-number">Periodo 8 di 11</div>
+  <div class="era-title">Avanguardie</div>
+  <div class="era-dates">1905 – 1940</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>Il mondo è in crisi. La Prima Guerra Mondiale (1914–1918) uccide 20 milioni di persone. Gli artisti sono arrabbiati e confusi. Rompono tutte le regole dell'arte. Cercano modi completamente nuovi di esprimersi.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>La Prima Guerra Mondiale</h3>
+    <p>1914–1918: la guerra più grande che il mondo avesse mai visto. Trincee, bombe, gas velenoso. La tecnologia che sembrava un progresso viene usata per uccidere. Dopo la guerra, niente sembra più avere senso.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>L'arte rompe tutte le regole</h3>
+    <p><strong>Cubismo</strong> (Picasso): gli oggetti sono mostrati da tutti i lati contemporaneamente. Un viso può avere un occhio di fronte e uno di profilo.<br><br>
+    <strong>Astrattismo</strong> (Kandinskij): il quadro non rappresenta niente. Solo forme e colori.<br><br>
+    <strong>Surrealismo</strong> (Dalí): scene impossibili, come nei sogni. Orologi molli, elefanti con zampe di ragno.<br><br>
+    <strong>Duchamp</strong> mette un orinatoio in un museo e dice: "questa è arte". L'arte non è più solo "fare qualcosa di bello".</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Il Bauhaus: la forma segue la funzione</h3>
+    <p>La scuola Bauhaus in Germania (1919–1933) dice: gli edifici devono essere utili, semplici, senza decorazioni inutili. Usano cemento, vetro e acciaio. Le case devono essere pratiche e accessibili a tutti. Questo stile si chiama "Movimento Moderno".</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>Dopo la guerra, niente è più come prima</h3>
+    <p>La guerra ha distrutto la fiducia nel progresso. Gli artisti dicono: se il "mondo civile" produce questa violenza, allora le vecchie regole non valgono più. Bisogna ricominciare da zero.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>L'arte smette di copiare la realtà (Cubismo, Astrattismo)</li>
+      <li>La Prima Guerra Mondiale cambia tutto</li>
+      <li>Il Bauhaus inventa l'architettura moderna</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: arrivano i dittatori. Usano l'arte per controllare le persone.</div>
+</div>
+
+<!-- ═══════ ERA 9: TOTALITARISMI ═══════ -->
+<div class="era-card" id="era9" data-era="9">
+  <div class="era-number">Periodo 9 di 11</div>
+  <div class="era-title">Totalitarismi e Seconda Guerra Mondiale</div>
+  <div class="era-dates">1920 – 1945</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>Dopo la Prima Guerra Mondiale, in molti Paesi arrivano i dittatori. Mussolini in Italia, Hitler in Germania, Stalin in Russia. Controllano tutto: la politica, l'economia, e anche l'arte. Poi scoppia la Seconda Guerra Mondiale.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Dittature e Seconda Guerra Mondiale</h3>
+    <p><strong>Fascismo in Italia</strong> (1922–1943): Mussolini prende il potere. Elimina la democrazia.<br><br>
+    <strong>Nazismo in Germania</strong> (1933–1945): Hitler perseguita e uccide milioni di ebrei (la Shoah).<br><br>
+    <strong>Seconda Guerra Mondiale</strong> (1939–1945): la guerra più distruttiva della storia. 70-85 milioni di morti. Finisce con le bombe atomiche su Hiroshima e Nagasaki.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>L'arte controllata e l'arte che resiste</h3>
+    <p>I dittatori vogliono arte che li celebra. Vietano l'arte moderna e la chiamano "arte degenerata".<br><br>
+    Ma Picasso dipinge <strong>Guernica</strong> (1937): un quadro enorme che mostra l'orrore del bombardamento di una città spagnola. È un grido contro la guerra. Molti artisti scappano in America.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Edifici enormi per mostrare il potere</h3>
+    <p>I dittatori costruiscono edifici giganteschi per far sentire le persone piccole. A Roma, Mussolini costruisce il quartiere EUR con edifici che imitano l'antica Roma. Hitler progetta una capitale ancora più grande (ma non viene mai costruita).</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>L'arte può essere usata per il bene o per il male</h3>
+    <p>Questo periodo mostra che l'arte e l'architettura possono essere usate per controllare le persone (propaganda), ma anche per resistere e denunciare (come Guernica). L'arte non è mai neutrale.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>Fascismo (Italia), Nazismo (Germania), Stalinismo (Russia)</li>
+      <li>La Seconda Guerra Mondiale causa 70-85 milioni di morti</li>
+      <li>Guernica di Picasso è un grido contro la guerra</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: il mondo deve ricostruirsi. L'arte cerca nuovi modi di esprimersi.</div>
+</div>
+
+<!-- ═══════ ERA 10: DOPOGUERRA ═══════ -->
+<div class="era-card" id="era10" data-era="10">
+  <div class="era-number">Periodo 10 di 11</div>
+  <div class="era-title">Dopoguerra</div>
+  <div class="era-dates">1945 – 1980</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>Dopo la guerra, il mondo si divide in due blocchi: USA (capitalismo) e URSS (comunismo). Si chiama "Guerra Fredda". In Europa e America c'è un grande boom economico. Le persone comprano automobili, televisori, elettrodomestici.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Guerra Fredda e il '68</h3>
+    <p>USA e URSS competono in tutto: armi nucleari, corsa allo spazio (Luna, 1969), sport. Non si combattono direttamente, ma il pericolo è enorme.<br><br>
+    Nel <strong>1968</strong>, studenti e lavoratori protestano in tutto il mondo. Chiedono libertà, uguaglianza, pace. È un momento di grande cambiamento sociale.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Pop Art: l'arte incontra i prodotti</h3>
+    <p><strong>Andy Warhol</strong> dipinge lattine di zuppa Campbell's e ritratti di Marilyn Monroe. Usa colori vivaci e ripetizioni. La Pop Art prende immagini dalla pubblicità, dal cinema, dai fumetti e le trasforma in arte.<br><br>
+    Prima di lui, l'<strong>Espressionismo Astratto</strong> (Pollock) dipingeva lanciando colore sulla tela.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Grattacieli di vetro e cemento a vista</h3>
+    <p>I grattacieli di vetro e acciaio diventano il simbolo delle città moderne. L'architetto Mies van der Rohe dice: "meno è di più" (<em>less is more</em>). Gli edifici sono semplici, puliti, senza decorazioni.<br><br>
+    Il <strong>Brutalismo</strong> usa il cemento a vista: edifici grigi e massicci. A qualcuno piacciono. A molti no.</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>Tutto può essere arte</h3>
+    <p>Dopo Duchamp e Warhol, l'arte non ha più confini chiari. Un oggetto quotidiano può essere arte. Una performance può essere arte. Il concetto diventa più importante della tecnica.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>La Pop Art (Warhol) usa immagini dalla vita quotidiana</li>
+      <li>I grattacieli di vetro diventano il simbolo della modernità</li>
+      <li>Il '68: studenti e lavoratori chiedono cambiamento</li>
+    </ul>
+  </div>
+
+  <div class="connection-box">Dopo: arrivano i computer e Internet. Il mondo cambia di nuovo.</div>
+</div>
+
+<!-- ═══════ ERA 11: ERA DIGITALE ═══════ -->
+<div class="era-card" id="era11" data-era="11">
+  <div class="era-number">Periodo 11 di 11</div>
+  <div class="era-title">Era Digitale</div>
+  <div class="era-dates">1980 – Oggi</div>
+
+  <div class="context-box">
+    <div class="box-title">📖 Cosa stava succedendo?</div>
+    <p>Nel 1989 cade il Muro di Berlino: la Guerra Fredda finisce. Arrivano i computer, Internet, gli smartphone. Il mondo diventa connesso come mai prima. Ma ci sono anche nuove crisi: terrorismo (11 settembre 2001), crisi economiche, pandemia (2020), cambiamento climatico.</p>
+  </div>
+
+  <div class="info-card history">
+    <div class="card-tag">⚔️ Cosa succede</div>
+    <h3>Internet cambia tutto</h3>
+    <p><strong>1989</strong>: cade il Muro di Berlino.<br><br>
+    <strong>1991</strong>: nasce il World Wide Web (Internet come lo conosciamo).<br><br>
+    <strong>2007</strong>: arriva il primo iPhone. Il mondo è nel telefono.<br><br>
+    <strong>2020</strong>: la pandemia COVID-19 accelera il digitale.<br><br>
+    <strong>2022-oggi</strong>: l'Intelligenza Artificiale generativa (come ChatGPT) può creare testi, immagini, musica.</p>
+  </div>
+
+  <div class="info-card art">
+    <div class="card-tag">🎨 Arte</div>
+    <h3>Tutti possono creare</h3>
+    <p>L'arte digitale, le installazioni immersive (stanze piene di luci e proiezioni), la street art (come Banksy), i video, le performance. Oggi anche l'Intelligenza Artificiale può creare immagini. La domanda è: se una macchina crea qualcosa, è arte?<br><br>
+    Con Internet e i social media, chiunque può condividere le proprie creazioni con il mondo.</p>
+  </div>
+
+  <div class="info-card arch">
+    <div class="card-tag">🏛️ Architettura</div>
+    <h3>Edifici verdi e forme impossibili</h3>
+    <p>I computer permettono di progettare edifici con forme che prima erano impossibili. Il Guggenheim di Bilbao (1997) sembra una scultura di metallo. Il Bosco Verticale a Milano (2014) ha alberi sui balconi. L'architettura oggi deve essere anche ecologica: risparmiare energia e rispettare l'ambiente.</p>
+  </div>
+
+  <div class="info-card idea">
+    <div class="card-tag">💡 Idea importante</div>
+    <h3>Siamo tutti connessi</h3>
+    <p>Internet ci ha connesso tutti. Possiamo comunicare con chiunque nel mondo in un secondo. Possiamo imparare qualunque cosa. Ma questo porta anche problemi: troppe informazioni, notizie false, dipendenza dagli schermi. La sfida di oggi è usare la tecnologia in modo intelligente.</p>
+  </div>
+
+  <div class="remember-box">
+    <div class="box-title">⭐ Da ricordare</div>
+    <ul>
+      <li>Internet (1991) e smartphone (2007) cambiano il mondo</li>
+      <li>L'arte oggi è ovunque: digitale, di strada, fatta da AI</li>
+      <li>L'architettura usa il computer e diventa ecologica</li>
+    </ul>
+  </div>
+
+  <div class="connection-box" style="border-color: #059669; color: #059669;">Il viaggio continua. La prossima pagina della storia la scriviamo noi.</div>
+</div>
+
+<!-- ═══════ FINISH SCREEN ═══════ -->
+<div class="era-card" id="finish">
+  <div class="finish-screen">
+    <h2>Hai completato il viaggio! 🎉</h2>
+    <p>Hai attraversato <strong>1.500 anni di storia</strong>.</p>
+    <p>Dalla caduta dell'Impero Romano fino all'Intelligenza Artificiale.</p>
+
+    <div class="structure-preview" style="margin-top:2rem;">
+      <h3>Le cose più importanti che hai visto:</h3>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">1</div><span>Il sapere sopravvive grazie ai monaci</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">2</div><span>Le cattedrali gotiche raggiungono il cielo</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">3</div><span>Il Rinascimento mette l'uomo al centro</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">4</div><span>Il Barocco emoziona e stupisce</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">5</div><span>L'Illuminismo accende la ragione</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">6</div><span>Il Romanticismo celebra i sentimenti</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">7</div><span>L'Impressionismo dipinge la luce</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">8</div><span>Le Avanguardie rompono tutte le regole</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">9</div><span>Le guerre mostrano il lato oscuro del progresso</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">10</div><span>La Pop Art rende arte la vita quotidiana</span></div>
+      <div class="structure-item"><div class="s-icon" style="background:var(--history-bg)">11</div><span>Il digitale connette tutti</span></div>
+    </div>
+
+    <button class="start-btn" onclick="goToEra(1)" style="margin-top:1.5rem;">🔄 Rileggi dall'inizio</button>
+  </div>
+</div>
+
+<!-- NAVIGATION (hidden on welcome/finish) -->
+<div class="nav-buttons" id="navButtons" style="display:none;">
+  <button class="era-nav-btn prev" id="prevBtn" onclick="prevEra()">◀ Indietro</button>
+  <div class="nav-center" id="navCenter">1 / 11</div>
+  <button class="era-nav-btn next" id="nextBtn" onclick="nextEra()">Avanti ▶</button>
+</div>
+
+</main>
+
+<script>
+const TOTAL_ERAS = 11;
+let currentEra = 0; // 0 = welcome
+
+function startTimeline() {
+  goToEra(1);
+}
+
+function goToEra(n) {
+  // Hide all
+  document.querySelectorAll('.era-card').forEach(c => c.classList.remove('active'));
+
+  if (n < 1) n = 1;
+  if (n > TOTAL_ERAS + 1) n = TOTAL_ERAS + 1; // +1 for finish
+
+  currentEra = n;
+
+  if (n <= TOTAL_ERAS) {
+    document.getElementById('era' + n).classList.add('active');
+    document.getElementById('progressContainer').style.display = '';
+    document.getElementById('navButtons').style.display = '';
+    updateProgress(n);
+    updateNav(n);
+  } else {
+    // Finish screen
+    document.getElementById('finish').classList.add('active');
+    document.getElementById('progressContainer').style.display = '';
+    document.getElementById('navButtons').style.display = '';
+    updateProgress(TOTAL_ERAS);
+    document.getElementById('prevBtn').disabled = false;
+    document.getElementById('nextBtn').disabled = true;
+    document.getElementById('navCenter').textContent = 'Fine!';
+    document.getElementById('progressLabel').textContent = 'Completato! ✓';
+    document.getElementById('progressFill').style.width = '100%';
+  }
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextEra() {
+  if (currentEra <= TOTAL_ERAS) goToEra(currentEra + 1);
+}
+
+function prevEra() {
+  if (currentEra > 1) goToEra(currentEra - 1);
+}
+
+function updateProgress(n) {
+  const pct = (n / TOTAL_ERAS) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = 'Periodo ' + n + ' di ' + TOTAL_ERAS;
+
+  // Update dots
+  const dotsContainer = document.getElementById('progressDots');
+  dotsContainer.innerHTML = '';
+  for (let i = 1; i <= TOTAL_ERAS; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'progress-dot';
+    dot.setAttribute('aria-label', 'Vai al periodo ' + i);
+    if (i < n) dot.classList.add('done');
+    if (i === n) dot.classList.add('current');
+    dot.onclick = () => goToEra(i);
+    dotsContainer.appendChild(dot);
+  }
+}
+
+function updateNav(n) {
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').disabled = false;
+  document.getElementById('nextBtn').textContent = (n === TOTAL_ERAS) ? 'Fine ▶' : 'Avanti ▶';
+  document.getElementById('navCenter').textContent = n + ' / ' + TOTAL_ERAS;
+}
+
+function toggleDetails(btn) {
+  const content = btn.nextElementSibling;
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open');
+  btn.textContent = isOpen
+    ? btn.textContent.replace('▲', '▼')
+    : btn.textContent.replace('▼', '▲');
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (currentEra === 0) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); nextEra(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevEra(); }
+});
+</script>
+
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+</body>
+</html>
