@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abbecedario della Notazione Matematica | Ivan Ferrero</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ═══════════════════════════════════════════
+           DESIGN SYSTEM — IVAN FERRERO
+           ═══════════════════════════════════════════ */
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-tertiary: #151b23;
+            --bg-card: #1a222d;
+            --bg-hover: #222c3a;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --border-color: #30363d;
+            --accent-cyan: #00d9ff;
+            --accent-cyan-dim: #00d9ff40;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-accent: #00d9ff30;
+            --gradient-cyber: linear-gradient(135deg, #00d9ff15 0%, #3fb95010 100%);
+            --shadow-glow: 0 0 30px #00d9ff15;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-display);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ═══ HEADER ═══ */
+        .dashboard-header { position: fixed; top: 70px; left: 0; right: 0;
+            z-index: 900;
+            background: rgba(10, 14, 20, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+        .dashboard-header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+        .dashboard-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .dashboard-logo-icon {
+            width: 38px; height: 38px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-glow);
+        }
+        .dashboard-logo-text {
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .dashboard-logo-text span { color: var(--accent-cyan); }
+
+        .header-search {
+            flex: 1;
+            max-width: 400px;
+        }
+        .header-search input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .header-search input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px var(--accent-cyan-dim);
+        }
+        .header-search input::placeholder { color: var(--text-muted); }
+
+        /* ═══ LAYOUT ═══ */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 9rem 2rem 2rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2rem;
+            min-height: 100vh;
+        }
+
+        /* ═══ SIDEBAR ═══ */
+        .sidebar {
+            position: sticky;
+            top: 9rem;
+            height: calc(100vh - 9.5rem);
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .sidebar::-webkit-scrollbar { width: 3px; }
+        .sidebar::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
+        .sidebar-section { margin-bottom: 1.5rem; }
+        .sidebar-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            padding-left: 0.75rem;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .sidebar-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+        .sidebar-link.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+        }
+        .sidebar-link .link-icon {
+            font-size: 0.95rem;
+            width: 1.2rem;
+            text-align: center;
+        }
+
+        /* ═══ SECTIONS ═══ */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .subsection {
+            margin-bottom: 2.5rem;
+        }
+        .subsection h3 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 1rem; letter-spacing: -0.02em; }
+        h2 { font-size: 1.6rem; margin-bottom: 1rem; }
+        p { margin-bottom: 0.75rem; color: var(--text-secondary); }
+        a { color: var(--accent-cyan); text-decoration: none; }
+
+        /* ═══ CARDS ═══ */
+        .db-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        .db-card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+        }
+        .db-card h3 { color: var(--accent-cyan); margin-bottom: 0.5rem; }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .stat-card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-glow); }
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-family: var(--font-mono);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        /* Expandable Cards */
+        .db-card.expandable .db-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .db-card.expandable .db-card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .db-card.expandable.expanded .db-card-body {
+            max-height: 3000px;
+        }
+        .db-card.expandable .expand-icon {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+            font-family: var(--font-mono);
+        }
+        .db-card.expandable.expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        /* ═══ TAGS ═══ */
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border-radius: 4px;
+            margin-right: 0.4rem;
+            margin-bottom: 0.3rem;
+        }
+        .tag-cyan { background: var(--accent-cyan-dim); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .tag-green { background: #3fb95020; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .tag-yellow { background: #d2992220; color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+        .tag-orange { background: #db6d2820; color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+        .tag-red { background: #f8514920; color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .tag-purple { background: #a371f720; color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+
+        /* ═══ TABS ═══ */
+        .tabs {
+            display: flex;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 0.4rem 0.8rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active { color: var(--accent-cyan); background: var(--bg-card); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ═══ SYMBOL TABLE ═══ */
+        .symbol-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 1.5rem;
+        }
+        .symbol-table th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-cyan);
+            position: sticky;
+            top: 0;
+        }
+        .symbol-table th:first-child { border-radius: 8px 0 0 0; }
+        .symbol-table th:last-child { border-radius: 0 8px 0 0; }
+        .symbol-table td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.88rem;
+            vertical-align: middle;
+        }
+        .symbol-table tr:hover td {
+            background: var(--bg-hover);
+        }
+        .symbol-table tr.hidden { display: none; }
+        .symbol-cell {
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-align: center;
+            min-width: 70px;
+        }
+        .reading-cell { font-weight: 500; color: var(--text-primary); }
+        .example-cell { color: var(--text-secondary); font-size: 0.83rem; }
+        .note-cell { color: var(--text-muted); font-size: 0.8rem; }
+
+        /* ═══ LIMIT DECODER ═══ */
+        .decoder-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .decoder-formula {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            line-height: 2;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+        .formula-piece {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        .formula-piece:hover {
+            background: var(--accent-cyan-dim);
+            border-color: var(--accent-cyan);
+        }
+        .formula-piece.active {
+            background: var(--accent-cyan-dim);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px #00d9ff30;
+        }
+        .decoder-explanation {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-height: 80px;
+            transition: all 0.3s ease;
+        }
+        .decoder-explanation .reading {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+        }
+        .decoder-explanation .meaning {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+        .decoder-explanation .analogy {
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Step indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin: 0.75rem 0;
+        }
+        .step-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .step-dot.active { background: var(--accent-cyan); box-shadow: 0 0 8px #00d9ff60; }
+        .step-dot:hover { background: var(--text-muted); }
+
+        /* ═══ CONFUSION CARDS ═══ */
+        .confusion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-red);
+            border-radius: 0 8px 8px 0;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        .confusion-card:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 20px rgba(248, 81, 73, 0.1);
+        }
+        .confusion-pair {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-red);
+            margin-bottom: 0.4rem;
+        }
+        .confusion-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .confusion-side {
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            padding: 0.75rem;
+        }
+        .confusion-side .sym {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .confusion-side .desc { font-size: 0.85rem; color: var(--text-secondary); }
+        .confusion-side.left .sym { color: var(--accent-cyan); }
+        .confusion-side.right .sym { color: var(--accent-orange); }
+        .confusion-tip {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+            color: var(--accent-green);
+            padding: 0.5rem 0.75rem;
+            background: #3fb95010;
+            border-radius: 4px;
+            border-left: 2px solid var(--accent-green);
+        }
+
+        /* ═══ QUIZ ═══ */
+        .quiz-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .quiz-question {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        .quiz-question .symbol-highlight {
+            font-family: var(--font-mono);
+            font-size: 1.4rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+        .quiz-option {
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+        .quiz-option:hover {
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+        .quiz-option.correct {
+            border-color: var(--accent-green) !important;
+            background: #3fb95015 !important;
+            color: var(--accent-green) !important;
+        }
+        .quiz-option.wrong {
+            border-color: var(--accent-red) !important;
+            background: #f8514915 !important;
+            color: var(--accent-red) !important;
+        }
+        .quiz-option.disabled { pointer-events: none; }
+        .quiz-feedback {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: none;
+            margin-bottom: 1rem;
+        }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.success { background: #3fb95015; border: 1px solid var(--accent-green); color: var(--accent-green); }
+        .quiz-feedback.error { background: #f8514915; border: 1px solid var(--accent-red); color: var(--accent-red); }
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .quiz-btn {
+            padding: 0.5rem 1.2rem;
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 6px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-btn:hover { background: #00c4e6; }
+        .quiz-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .quiz-score {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* ═══ PLAIN LANGUAGE BOX ═══ */
+        .plain-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-green);
+            border-radius: 0 8px 8px 0;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+        .plain-box.cyan { border-left-color: var(--accent-cyan); }
+        .plain-box.yellow { border-left-color: var(--accent-yellow); }
+        .plain-box.purple { border-left-color: var(--accent-purple); }
+        .plain-box .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.3rem;
+        }
+        .plain-box.cyan .label { color: var(--accent-cyan); }
+        .plain-box .label { color: var(--accent-green); }
+        .plain-box.yellow .label { color: var(--accent-yellow); }
+        .plain-box.purple .label { color: var(--accent-purple); }
+
+        /* ═══ GLOSSARY ═══ */
+        .glossary-grid { display: grid; gap: 0.6rem; }
+        .glossary-item {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+        .glossary-item.visible { display: block; }
+        .glossary-item:hover { border-color: var(--border-accent); }
+        .glossary-item h4 { color: var(--accent-cyan); margin-bottom: 0.3rem; font-size: 1rem; }
+        .glossary-item .definition { color: var(--text-primary); margin-bottom: 0.3rem; font-size: 0.9rem; }
+        .glossary-item .application { font-size: 0.82rem; color: var(--text-secondary); }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 0.88rem;
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px var(--accent-cyan-dim);
+        }
+        .search-input::placeholder { color: var(--text-muted); }
+
+        /* ═══ FILTER BUTTONS ═══ */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        .filter-btn {
+            padding: 0.3rem 0.7rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
+        .filter-btn.active { color: var(--accent-cyan); border-color: var(--accent-cyan); background: var(--accent-cyan-dim); }
+
+        /* ═══ SVG DIAGRAM ═══ */
+        .diagram-container {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding-top: 4rem;
+            }
+            .sidebar {
+                position: static;
+                height: auto;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+                padding-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            .sidebar-section { margin-bottom: 0; }
+            .sidebar-title { display: none; }
+            .confusion-detail { grid-template-columns: 1fr; }
+            .quiz-options { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header-content { flex-direction: column; gap: 0.75rem; padding: 0.5rem 1rem; }
+            .header-search { max-width: 100%; }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.3rem; }
+            .decoder-formula { font-size: 0.9rem; }
+            .formula-piece { padding: 0.2rem 0.4rem; font-size: 0.85rem; }
+        }
+
+        /* ═══ PRINT ═══ */
+        @media print {
+            body { background: white; color: black; }
+            body::before { display: none; }
+            .dashboard-header, .sidebar { display: none; }
+            .main-container { grid-template-columns: 1fr; padding: 0; }
+            .section { display: block !important; page-break-inside: avoid; }
+            .db-card, .stat-card, .confusion-card, .decoder-container, .quiz-container {
+                background: white; border-color: #ccc; box-shadow: none;
+            }
+            .symbol-cell, .accent-cyan { color: #0066cc !important; }
+        }
+    
+/* Site menu integration - mobile */
+@media (max-width: 1024px) {
+    .main-container {
+        padding-top: 8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        top: 120px !important;
+        z-index: 900;
+    }
+    .dashboard-header-content {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+    .header-search {
+        max-width: 100%;
+    }
+    body {
+        padding-top: 200px !important;
+    }
+    .sidebar {
+        top: 120px;
+        height: auto;
+    }
+    .main-container {
+        padding-top: 12rem !important;
+    }
+    /* Tables scrollable */
+    #symbolTableContainer {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .symbol-table {
+        min-width: 600px;
+    }
+}
+
+@media (max-width: 640px) {
+    .dashboard-header {
+        top: 140px !important;
+    }
+    body {
+        padding-top: 220px !important;
+    }
+    .main-container {
+        padding-top: 14rem !important;
+    }
+}
+
+</style>
+</head>
+<body>
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+    <!-- ═══ HEADER ═══ -->
+    <header class="dashboard-header">
+        <div class="dashboard-header-content">
+            <div class="dashboard-logo">
+                <div class="dashboard-logo-icon">∑</div>
+                <div class="dashboard-logo-text"><span>Abbecedario</span> Notazione Matematica</div>
+            </div>
+            <div class="dashboard-header-search">
+                <input type="text" id="globalSearch" placeholder="🔍 Cerca un simbolo, un nome, un concetto...">
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══ MAIN LAYOUT ═══ -->
+    <div class="main-container">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a href="#" class="sidebar-link active" data-target="overview">
+                    <span class="link-icon">🎯</span> Panoramica
+                </a>
+                <a href="#" class="sidebar-link" data-target="decoder">
+                    <span class="link-icon">🔓</span> Decodifica Limite
+                </a>
+                <a href="#" class="sidebar-link" data-target="symbols">
+                    <span class="link-icon">📖</span> Tutti i Simboli
+                </a>
+                <a href="#" class="sidebar-link" data-target="confusions">
+                    <span class="link-icon">⚠️</span> Trabocchetti
+                </a>
+                <a href="#" class="sidebar-link" data-target="quiz">
+                    <span class="link-icon">🧪</span> Quiz
+                </a>
+                <a href="#" class="sidebar-link" data-target="glossary">
+                    <span class="link-icon">📚</span> Glossario
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main>
+            <!-- ═══════════════════════════════════════
+                 SEZIONE 1: PANORAMICA
+                 ═══════════════════════════════════════ -->
+            <section id="overview" class="section active">
+                <h1>Abbecedario della Notazione Matematica</h1>
+                <p>Guida interattiva per decifrare i simboli matematici. Clicca, esplora, cerca — niente panico.</p>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">47</div>
+                        <div class="stat-label">Simboli catalogati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Categorie</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Coppie confuse</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Domande quiz</div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Come usare questa guida</h3>
+                    <div class="db-card-grid">
+                        <div class="db-card">
+                            <h3>🔍 Cerca</h3>
+                            <p>Usa la barra di ricerca in alto per trovare qualsiasi simbolo per nome, forma o significato.</p>
+                        </div>
+                        <div class="db-card">
+                            <h3>🔓 Decodifica</h3>
+                            <p>Clicca su ogni pezzo della definizione di limite per capirla parola per parola.</p>
+                        </div>
+                        <div class="db-card">
+                            <h3>📖 Esplora</h3>
+                            <p>Naviga per categorie: logica, insiemi, numeri, analisi, lettere greche.</p>
+                        </div>
+                        <div class="db-card">
+                            <h3>🧪 Mettiti alla prova</h3>
+                            <p>Il quiz ti aiuta a verificare se hai capito i simboli più importanti.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plain-box cyan">
+                    <div class="label">💡 Il concetto chiave</div>
+                    <p style="color: var(--text-primary); margin: 0;">La matematica è un <strong>linguaggio</strong>. I simboli sono le sue parole. Questa guida è il tuo dizionario: ogni volta che incontri un simbolo che non riconosci, cercalo qui.</p>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════
+                 SEZIONE 2: DECODIFICA LIMITE
+                 ═══════════════════════════════════════ -->
+            <section id="decoder" class="section">
+                <h1>🔓 Decodifica: la Definizione di Limite</h1>
+                <p>Clicca su ogni pezzo della formula per vedere cosa significa. Puoi anche navigare con le frecce.</p>
+
+                <div class="decoder-container">
+                    <div class="decoder-formula" id="decoderFormula">
+                        <span class="formula-piece" data-idx="0">lim</span>
+                        <span class="formula-piece" data-idx="1">x → x₀</span>
+                        <span class="formula-piece" data-idx="2">f(x) = ℓ</span>
+                    </div>
+                    <div class="decoder-formula" id="decoderFormula2" style="margin-top:0.5rem">
+                        <span class="formula-piece" data-idx="3">∀ε > 0</span>
+                        <span class="formula-piece" data-idx="4">∃δ > 0</span>
+                        <span class="formula-piece" data-idx="5">t.c.</span>
+                        <span class="formula-piece" data-idx="6">|x − x₀| < δ</span>
+                        <span class="formula-piece" data-idx="7">⇒</span>
+                        <span class="formula-piece" data-idx="8">|f(x) − ℓ| < ε</span>
+                    </div>
+
+                    <div class="step-indicator" id="stepIndicator"></div>
+
+                    <div class="decoder-explanation" id="decoderExplanation">
+                        <div class="reading">👆 Clicca su un pezzo della formula per iniziare</div>
+                        <div class="meaning">Ogni parte della definizione ha un significato preciso. Esplorale una per una.</div>
+                    </div>
+                </div>
+
+                <div class="plain-box">
+                    <div class="label">🗣️ In parole semplici</div>
+                    <p style="color: var(--text-primary); margin: 0;"><strong>Qualunque margine di errore tu scelga per il risultato (ε), io riesco a trovare una zona abbastanza vicina al punto (δ) dove la funzione resta dentro quel margine.</strong></p>
+                </div>
+
+                <div class="plain-box yellow" style="margin-top: 0.75rem;">
+                    <div class="label">💡 Analogia</div>
+                    <p style="color: var(--text-primary); margin: 0;">ε è come dire "voglio che la temperatura sia 20°C con errore max di 0.5°C". δ è "se il termostato sta tra 19.8 e 20.2, la temperatura sarà nel range". Qualsiasi precisione tu chieda (ε), esiste un'impostazione (δ) che la garantisce.</p>
+                </div>
+
+                <div class="subsection" style="margin-top: 2rem;">
+                    <h3>Schema Visivo</h3>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" style="max-width: 550px;">
+                            <!-- Axes -->
+                            <line x1="80" y1="280" x2="560" y2="280" stroke="#8b949e" stroke-width="1.5"/>
+                            <line x1="80" y1="280" x2="80" y2="30" stroke="#8b949e" stroke-width="1.5"/>
+                            <polygon points="560,280 550,276 550,284" fill="#8b949e"/>
+                            <polygon points="80,30 76,40 84,40" fill="#8b949e"/>
+                            <text x="570" y="285" fill="#8b949e" font-size="13" font-family="Outfit">x</text>
+                            <text x="68" y="25" fill="#8b949e" font-size="13" font-family="Outfit">y</text>
+
+                            <!-- Delta zone (x-axis) -->
+                            <rect x="240" y="270" width="120" height="20" rx="3" fill="#00d9ff15" stroke="#00d9ff" stroke-width="1" stroke-dasharray="4"/>
+                            <line x1="240" y1="280" x2="240" y2="285" stroke="#00d9ff" stroke-width="2"/>
+                            <line x1="360" y1="280" x2="360" y2="285" stroke="#00d9ff" stroke-width="2"/>
+                            <line x1="300" y1="275" x2="300" y2="290" stroke="#00d9ff" stroke-width="2"/>
+                            <text x="293" y="305" fill="#00d9ff" font-size="12" font-weight="600" font-family="JetBrains Mono">x₀</text>
+                            <text x="217" y="305" fill="#00d9ff" font-size="10" font-family="JetBrains Mono">x₀−δ</text>
+                            <text x="348" y="305" fill="#00d9ff" font-size="10" font-family="JetBrains Mono">x₀+δ</text>
+                            
+                            <!-- Delta bracket -->
+                            <line x1="250" y1="320" x2="300" y2="320" stroke="#00d9ff" stroke-width="1.5"/>
+                            <line x1="300" y1="320" x2="350" y2="320" stroke="#00d9ff" stroke-width="1.5"/>
+                            <line x1="250" y1="316" x2="250" y2="324" stroke="#00d9ff" stroke-width="1.5"/>
+                            <line x1="350" y1="316" x2="350" y2="324" stroke="#00d9ff" stroke-width="1.5"/>
+                            <text x="285" y="336" fill="#00d9ff" font-size="11" font-weight="600" font-family="JetBrains Mono">2δ</text>
+
+                            <!-- Epsilon zone (y-axis) -->
+                            <rect x="70" y="110" width="20" height="80" rx="3" fill="#3fb95015" stroke="#3fb950" stroke-width="1" stroke-dasharray="4"/>
+                            <line x1="75" y1="110" x2="80" y2="110" stroke="#3fb950" stroke-width="2"/>
+                            <line x1="75" y1="190" x2="80" y2="190" stroke="#3fb950" stroke-width="2"/>
+                            <line x1="73" y1="150" x2="85" y2="150" stroke="#3fb950" stroke-width="2"/>
+                            <text x="42" y="155" fill="#3fb950" font-size="12" font-weight="600" font-family="JetBrains Mono">ℓ</text>
+                            <text x="30" y="115" fill="#3fb950" font-size="10" font-family="JetBrains Mono">ℓ+ε</text>
+                            <text x="30" y="195" fill="#3fb950" font-size="10" font-family="JetBrains Mono">ℓ−ε</text>
+
+                            <!-- Epsilon bracket -->
+                            <line x1="20" y1="120" x2="20" y2="150" stroke="#3fb950" stroke-width="1.5"/>
+                            <line x1="20" y1="150" x2="20" y2="180" stroke="#3fb950" stroke-width="1.5"/>
+                            <line x1="16" y1="120" x2="24" y2="120" stroke="#3fb950" stroke-width="1.5"/>
+                            <line x1="16" y1="180" x2="24" y2="180" stroke="#3fb950" stroke-width="1.5"/>
+                            <text x="7" y="155" fill="#3fb950" font-size="11" font-weight="600" font-family="JetBrains Mono">2ε</text>
+
+                            <!-- Horizontal dashed lines -->
+                            <line x1="80" y1="110" x2="520" y2="110" stroke="#3fb950" stroke-width="0.7" stroke-dasharray="5,5" opacity="0.5"/>
+                            <line x1="80" y1="190" x2="520" y2="190" stroke="#3fb950" stroke-width="0.7" stroke-dasharray="5,5" opacity="0.5"/>
+                            <line x1="80" y1="150" x2="520" y2="150" stroke="#8b949e" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.3"/>
+
+                            <!-- Vertical dashed lines -->
+                            <line x1="240" y1="30" x2="240" y2="270" stroke="#00d9ff" stroke-width="0.7" stroke-dasharray="5,5" opacity="0.5"/>
+                            <line x1="360" y1="30" x2="360" y2="270" stroke="#00d9ff" stroke-width="0.7" stroke-dasharray="5,5" opacity="0.5"/>
+
+                            <!-- The "magic box" -->
+                            <rect x="240" y="110" width="120" height="80" rx="4" fill="#00d9ff08" stroke="#d29922" stroke-width="1.5" stroke-dasharray="6,3"/>
+                            <text x="263" y="100" fill="#d29922" font-size="10" font-weight="500" font-family="Outfit">zona "sicura"</text>
+
+                            <!-- Function curve -->
+                            <path d="M 110,240 C 150,230 180,210 220,180 C 250,160 270,145 300,150 C 330,155 350,165 380,140 C 410,115 450,100 520,70" 
+                                  stroke="#f85149" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                            <text x="525" y="68" fill="#f85149" font-size="12" font-weight="600" font-family="JetBrains Mono">f(x)</text>
+
+                            <!-- Open circle at x0 -->
+                            <circle cx="300" cy="150" r="5" fill="var(--bg-primary, #0a0e14)" stroke="#f85149" stroke-width="2"/>
+
+                            <!-- Labels -->
+                            <text x="400" y="55" fill="#d29922" font-size="11" font-family="Outfit" font-weight="500">Se x sta nella zona blu (δ)...</text>
+                            <text x="400" y="72" fill="#d29922" font-size="11" font-family="Outfit" font-weight="500">...f(x) sta nella zona verde (ε)</text>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════
+                 SEZIONE 3: TUTTI I SIMBOLI
+                 ═══════════════════════════════════════ -->
+            <section id="symbols" class="section">
+                <h1>📖 Catalogo Completo dei Simboli</h1>
+                <p>Filtra per categoria o cerca un simbolo specifico.</p>
+
+                <input type="text" class="search-input" id="symbolSearch" placeholder="🔍 Cerca per simbolo, nome o significato...">
+
+                <div class="filter-bar" id="categoryFilter">
+                    <button class="filter-btn active" data-cat="all">Tutti</button>
+                    <button class="filter-btn" data-cat="logic">🧠 Logica</button>
+                    <button class="filter-btn" data-cat="sets">📦 Insiemi</button>
+                    <button class="filter-btn" data-cat="numbers">🔢 Num. Insiemi</button>
+                    <button class="filter-btn" data-cat="comparison">⚖️ Confronto</button>
+                    <button class="filter-btn" data-cat="calculus">📈 Analisi</button>
+                    <button class="filter-btn" data-cat="greek">🏛️ Greche</button>
+                </div>
+
+                <div id="symbolTableContainer">
+                    <table class="symbol-table" id="symbolTable">
+                        <thead>
+                            <tr>
+                                <th>Simbolo</th>
+                                <th>Si legge</th>
+                                <th>Esempio / Uso</th>
+                                <th>Nota</th>
+                                <th>Cat.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="symbolTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <p id="noResults" style="display:none; text-align: center; color: var(--accent-yellow); padding: 2rem;">
+                    Nessun simbolo trovato. Prova con un termine diverso.
+                </p>
+            </section>
+
+            <!-- ═══════════════════════════════════════
+                 SEZIONE 4: TRABOCCHETTI
+                 ═══════════════════════════════════════ -->
+            <section id="confusions" class="section">
+                <h1>⚠️ Trabocchetti: Simboli che si Confondono</h1>
+                <p>Questi sono i simboli che gli studenti scambiano più spesso. Studiare le differenze è fondamentale.</p>
+
+                <div id="confusionCards">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════
+                 SEZIONE 5: QUIZ
+                 ═══════════════════════════════════════ -->
+            <section id="quiz" class="section">
+                <h1>🧪 Quiz: Mettiti alla Prova</h1>
+                <p>15 domande per verificare se riconosci i simboli. Clicca sulla risposta corretta.</p>
+
+                <div class="quiz-container" id="quizContainer">
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <div class="quiz-feedback" id="quizFeedback"></div>
+                    <div class="quiz-nav">
+                        <span class="quiz-score" id="quizScore">0 / 0</span>
+                        <button class="quiz-btn" id="quizNext" disabled>Prossima →</button>
+                    </div>
+                </div>
+
+                <div class="plain-box purple" style="margin-top: 1.5rem;">
+                    <div class="label">🔄 Ripeti</div>
+                    <p style="color: var(--text-primary); margin: 0;">Il quiz si può rifare quante volte vuoi. Le domande sono mescolate ogni volta. L'obiettivo è arrivare a 15/15!</p>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════
+                 SEZIONE 6: GLOSSARIO
+                 ═══════════════════════════════════════ -->
+            <section id="glossary" class="section">
+                <h1>📚 Glossario dei Termini</h1>
+                <p>Cerca qualsiasi termine matematico per trovare la definizione e l'applicazione pratica.</p>
+
+                <input type="text" class="search-input" id="glossarySearch" placeholder="🔍 Cerca nel glossario...">
+
+                <div class="glossary-grid" id="glossaryGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- ═══ FOOTER ═══ -->
+            <div class="db-card" style="text-align: center; margin-top: 2rem;">
+                <p class="text-muted" style="font-size: 0.8rem; margin: 0;">
+                    Abbecedario della Notazione Matematica — v1.0 — Prof. Ivan Ferrero — IPIA Rosa Luxemburg, Milano — 2026
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         JAVASCRIPT
+         ═══════════════════════════════════════ -->
+    <script>
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // DATA
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const SYMBOLS_DATA = [
+        // Logic
+        { symbol: '∀', reading: 'Per ogni / Per qualsiasi', example: '"Per ogni numero x..."', note: 'Quantificatore universale', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '∃', reading: 'Esiste / Esiste almeno uno', example: '"Esiste un numero tale che..."', note: 'Quantificatore esistenziale', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '∄', reading: 'Non esiste', example: '"Non esiste nessun x che..."', note: 'Negazione di ∃', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '∋ (t.c.)', reading: 'Tale che / In modo che', example: 'Collega condizione a conseguenza', note: 'Spesso scritto "t.c." o ":"', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '⇒', reading: 'Implica / Allora', example: '"Se piove ⇒ prendo l\'ombrello"', note: 'Implicazione logica', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '⇔', reading: 'Se e solo se', example: '"A è vero ⇔ B è vero"', note: 'Doppia implicazione', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '∧', reading: 'E (congiunzione)', example: '"A ∧ B = entrambi veri"', note: 'AND logico', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '∨', reading: 'O (disgiunzione)', example: '"A ∨ B = almeno uno vero"', note: 'OR logico', cat: 'logic', catLabel: '🧠 Logica' },
+        { symbol: '¬', reading: 'Non / Negazione', example: '"¬A = A è falso"', note: 'NOT logico', cat: 'logic', catLabel: '🧠 Logica' },
+        // Sets
+        { symbol: '∈', reading: 'Appartiene a', example: '"3 ∈ ℕ" (3 è un naturale)', note: 'Appartenenza a un insieme', cat: 'sets', catLabel: '📦 Insiemi' },
+        { symbol: '∉', reading: 'Non appartiene a', example: '"−2 ∉ ℕ"', note: 'Negazione di ∈', cat: 'sets', catLabel: '📦 Insiemi' },
+        { symbol: '⊂', reading: 'È sottoinsieme proprio di', example: '"ℕ ⊂ ℤ"', note: 'Contenuto strettamente', cat: 'sets', catLabel: '📦 Insiemi' },
+        { symbol: '⊆', reading: 'È sottoinsieme di (o uguale)', example: '"A ⊆ B"', note: 'Contenuto o uguale', cat: 'sets', catLabel: '📦 Insiemi' },
+        { symbol: '∪', reading: 'Unione', example: '"A ∪ B = tutti gli elementi"', note: 'Unisce due insiemi', cat: 'sets', catLabel: '📦 Insiemi' },
+        { symbol: '∩', reading: 'Intersezione', example: '"A ∩ B = elementi comuni"', note: 'Elementi in comune', cat: 'sets', catLabel: '📦 Insiemi' },
+        { symbol: '∅ oppure { }', reading: 'Insieme vuoto', example: '"L\'insieme senza elementi"', note: 'Nessun elemento', cat: 'sets', catLabel: '📦 Insiemi' },
+        { symbol: '\\', reading: 'Differenza tra insiemi', example: '"A \\ B = in A ma non in B"', note: 'Sottrazione insiemistica', cat: 'sets', catLabel: '📦 Insiemi' },
+        // Number sets
+        { symbol: 'ℕ', reading: 'Numeri Naturali', example: '0, 1, 2, 3, 4, ...', note: 'Numeri per contare', cat: 'numbers', catLabel: '🔢 Numerici' },
+        { symbol: 'ℤ', reading: 'Numeri Interi', example: '...−3, −2, −1, 0, 1, 2, 3...', note: 'Naturali + negativi', cat: 'numbers', catLabel: '🔢 Numerici' },
+        { symbol: 'ℚ', reading: 'Numeri Razionali', example: '½, −¾, 0.333..., 7', note: 'Frazioni (rapporti)', cat: 'numbers', catLabel: '🔢 Numerici' },
+        { symbol: 'ℝ', reading: 'Numeri Reali', example: 'Tutti i numeri sulla retta', note: 'Razionali + irrazionali', cat: 'numbers', catLabel: '🔢 Numerici' },
+        { symbol: 'ℂ', reading: 'Numeri Complessi', example: 'a + bi dove i² = −1', note: 'Estensione dei reali', cat: 'numbers', catLabel: '🔢 Numerici' },
+        // Comparison
+        { symbol: '≠', reading: 'Diverso da', example: '"5 ≠ 3"', note: 'Non uguale', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        { symbol: '≈', reading: 'Circa uguale', example: '"π ≈ 3.14"', note: 'Approssimazione', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        { symbol: '≤', reading: 'Minore o uguale', example: '"x ≤ 5 → x può essere 5"', note: 'Include l\'uguaglianza', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        { symbol: '≥', reading: 'Maggiore o uguale', example: '"x ≥ 0 → x non negativo"', note: 'Include l\'uguaglianza', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        { symbol: '±', reading: 'Più o meno', example: '"5 ± 2 = da 3 a 7"', note: 'Margine di variazione', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        { symbol: '|x|', reading: 'Valore assoluto di x', example: '|−3| = 3, |5| = 5', note: 'Distanza da zero (≥ 0)', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        { symbol: '√', reading: 'Radice quadrata', example: '√9 = 3, √2 ≈ 1.41', note: 'Quale n² dà x?', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        { symbol: 'n!', reading: 'Fattoriale', example: '5! = 5·4·3·2·1 = 120', note: 'Prodotto fino a n', cat: 'comparison', catLabel: '⚖️ Confronto' },
+        // Calculus
+        { symbol: 'lim', reading: 'Limite', example: 'Dove "va" la funzione', note: 'Comportamento vicino a un punto', cat: 'calculus', catLabel: '📈 Analisi' },
+        { symbol: '→', reading: 'Tende a', example: '"x → 3" = x si avvicina a 3', note: 'Avvicinamento progressivo', cat: 'calculus', catLabel: '📈 Analisi' },
+        { symbol: '∞', reading: 'Infinito', example: '"x → +∞" = cresce senza limiti', note: 'Non è un numero!', cat: 'calculus', catLabel: '📈 Analisi' },
+        { symbol: 'Σ', reading: 'Sommatoria', example: 'Somma di tanti termini', note: 'Sigma maiuscola', cat: 'calculus', catLabel: '📈 Analisi' },
+        { symbol: '∫', reading: 'Integrale', example: 'Area sotto una curva', note: 'Inversa della derivata', cat: 'calculus', catLabel: '📈 Analisi' },
+        { symbol: "f'(x)", reading: 'Derivata di f', example: 'Velocità di cambiamento', note: 'Pendenza della tangente', cat: 'calculus', catLabel: '📈 Analisi' },
+        { symbol: 'Δ', reading: 'Variazione / Differenza', example: '"Δx = quanto cambia x"', note: 'Differenza tra due valori', cat: 'calculus', catLabel: '📈 Analisi' },
+        // Greek
+        { symbol: 'α (alfa)', reading: 'Angoli, coefficienti', example: 'Angolo alfa in trigonometria', note: 'Prima lettera greca', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'β (beta)', reading: 'Angoli, coefficienti', example: 'Secondo angolo, parametro', note: 'Seconda lettera greca', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'γ (gamma)', reading: 'Angoli, coefficienti', example: 'Terzo angolo', note: 'Terza lettera greca', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'δ (delta)', reading: 'Piccola variazione, intorno', example: 'Raggio dell\'intorno in x', note: 'Tolleranza in input', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'ε (epsilon)', reading: 'Piccola quantità positiva', example: 'Tolleranza dell\'errore', note: 'Margine in output', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'θ (theta)', reading: 'Angoli', example: 'Angolo generico', note: 'Molto usato in trigonometria', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'λ (lambda)', reading: 'Parametro, autovalore', example: 'Parametro variabile', note: 'Algebra lineare', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'π (pi greco)', reading: '3.14159...', example: 'Rapporto C/d cerchio', note: 'Costante fondamentale', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'σ (sigma)', reading: 'Deviazione standard', example: 'Dispersione dei dati', note: 'Statistica', cat: 'greek', catLabel: '🏛️ Greche' },
+        { symbol: 'φ (phi)', reading: 'Angoli, sezione aurea', example: 'φ = 1.618...', note: 'Proporzione divina', cat: 'greek', catLabel: '🏛️ Greche' },
+    ];
+
+    const DECODER_DATA = [
+        { piece: 'lim', reading: 'Limite', meaning: 'Stiamo studiando il comportamento di una funzione quando ci avviciniamo a un punto. Non ci interessa cosa succede esattamente nel punto, ma cosa succede lì vicino.', analogy: '🔍 Come guardare una città da lontano: non ci interessa una via precisa, ma la direzione verso cui andiamo.' },
+        { piece: 'x → x₀', reading: '"x tende a x₀"', meaning: 'La variabile x si avvicina sempre di più al valore x₀, senza mai raggiungerlo davvero. È un processo, non un arrivo.', analogy: '🚶 Come camminare verso un muro dimezzando sempre la distanza: ti avvicini sempre ma non lo tocchi mai.' },
+        { piece: 'f(x) = ℓ', reading: '"f(x) è uguale a ℓ"', meaning: 'Man mano che x si avvicina a x₀, i valori della funzione f(x) si avvicinano al numero ℓ (elle). ℓ è il valore limite.', analogy: '🎯 ℓ è il bersaglio: più ti avvicini, più i valori della funzione puntano verso di esso.' },
+        { piece: '∀ε > 0', reading: '"Per ogni epsilon maggiore di zero"', meaning: 'Qualunque margine di errore tu scelga (anche piccolissimo), per quanto piccolo sia... La sfida vale per QUALSIASI precisione richiesta.', analogy: '📏 Come dire "scegli tu quanto preciso vuoi essere: 1°C? 0.1°C? 0.001°C? Va bene qualsiasi precisione."' },
+        { piece: '∃δ > 0', reading: '"Esiste un delta maggiore di zero"', meaning: '...riesco sempre a trovare una "zona di vicinanza" intorno a x₀ (di raggio δ) che funziona. δ dipende da ε: più piccolo è ε, più piccolo sarà δ.', analogy: '🔧 È la risposta alla sfida: "per la precisione che hai chiesto, ecco quanto devi stare vicino al punto."' },
+        { piece: 't.c.', reading: '"Tale che" / "In modo che"', meaning: 'Connette la condizione (stare vicino a x₀) alla conseguenza (f(x) sta vicino a ℓ). È il ponte logico.', analogy: '🌉 Il ponte tra causa ed effetto: "se fai questo → ottieni quello."' },
+        { piece: '|x − x₀| < δ', reading: '"La distanza tra x e x₀ è minore di delta"', meaning: 'Se x sta dentro l\'intorno di x₀ di raggio δ (cioè tra x₀ − δ e x₀ + δ), allora... Il valore assoluto misura la distanza, qualunque sia la direzione.', analogy: '📍 "Se sei nel raggio di δ passi dal punto x₀..." — il valore assoluto ignora se sei a destra o a sinistra.' },
+        { piece: '⇒', reading: '"Allora" / "Implica"', meaning: 'Se la premessa è vera (x sta vicino a x₀), allora la conclusione segue necessariamente (f(x) sta vicino a ℓ). È una garanzia unidirezionale.', analogy: '➡️ "Se premi il pulsante ⇒ la luce si accende." Ma la luce accesa non significa che hai premuto il pulsante.' },
+        { piece: '|f(x) − ℓ| < ε', reading: '"La distanza tra f(x) e ℓ è minore di epsilon"', meaning: 'Allora f(x) sta dentro l\'intorno di ℓ di raggio ε (tra ℓ − ε e ℓ + ε). La funzione è "vicina abbastanza" al suo limite.', analogy: '🎯 "...allora il risultato è centrato sul bersaglio, con errore inferiore a ε."' },
+    ];
+
+    const CONFUSIONS_DATA = [
+        { pair: '∈  vs  ∋', sym1: '∈', desc1: '"Appartiene a"\n3 ∈ ℕ → 3 fa parte dei naturali', sym2: '∋', desc2: '"Tale che"\nUsato nella def. di limite', tip: 'Sembrano uguali ribaltati! ∈ ha la "pancia" a destra (come la E di Elemento), ∋ a sinistra. Molti prof. scrivono "t.c." per evitare confusione.' },
+        { pair: '∈  vs  ε', sym1: '∈', desc1: 'Simbolo di appartenenza\n(operatore tra elemento e insieme)', sym2: 'ε', desc2: 'Lettera greca epsilon\n(un numero, una variabile)', tip: 'ε è una lettera che rappresenta un valore numerico. ∈ è un operatore che esprime una relazione. Sono "cose" diverse: uno è un sostantivo, l\'altro è un verbo.' },
+        { pair: 'δ  vs  Δ', sym1: 'δ', desc1: 'Delta minuscola\nPiccola variazione, infinitesimale', sym2: 'Δ', desc2: 'Delta MAIUSCOLA\nDifferenza finita, variazione misurabile', tip: 'Entrambe significano "cambiamento" ma δ indica quantità che tendono a zero (limiti, derivate), mentre Δ indica differenze concrete e finite (Δx = x₂ − x₁).' },
+        { pair: '<  vs  ≤', sym1: '<', desc1: 'Strettamente minore\n3 < 5 (ma 5 < 5 è FALSO)', sym2: '≤', desc2: 'Minore O uguale\n5 ≤ 5 è VERO!', tip: 'La lineetta sotto (≤) include il caso di uguaglianza. Sembra un dettaglio, ma cambia tutto negli intervalli: [0, 5] include 5, mentre (0, 5) no.' },
+        { pair: '⇒  vs  ⇔', sym1: '⇒', desc1: 'Implica (una direzione)\n"Piove ⇒ strada bagnata"', sym2: '⇔', desc2: 'Se e solo se (entrambe)\n"Equilatero ⇔ equiangolo"', tip: '⇒ è a senso unico: la strada bagnata NON implica che piova (potrebbe essere un idrante). ⇔ va in entrambi i sensi: se vale A allora vale B, e viceversa.' },
+        { pair: "f'(x)  vs  f(x)", sym1: "f'(x)", desc1: 'DERIVATA della funzione\nVelocità di cambiamento', sym2: 'f(x)', desc2: 'VALORE della funzione\nPosizione nel punto x', tip: 'Quell\'apostrofo cambia tutto! f(x) dice "dove sei" (posizione), f\'(x) dice "quanto veloce vai" (velocità). Come la differenza tra "sono a 100 km" e "vado a 80 km/h".' },
+    ];
+
+    const QUIZ_DATA = [
+        { q: 'Cosa significa il simbolo <span class="symbol-highlight">∀</span>?', opts: ['Esiste', 'Per ogni', 'Appartiene a', 'Uguale'], correct: 1 },
+        { q: 'Cosa significa il simbolo <span class="symbol-highlight">∃</span>?', opts: ['Per ogni', 'Non esiste', 'Esiste almeno uno', 'Insieme vuoto'], correct: 2 },
+        { q: 'Come si legge <span class="symbol-highlight">⇒</span>?', opts: ['Se e solo se', 'Implica / Allora', 'Uguale', 'Appartiene'], correct: 1 },
+        { q: 'Cosa indica <span class="symbol-highlight">|x|</span>?', opts: ['Il doppio di x', 'x al quadrato', 'Il valore assoluto (distanza da 0)', 'L\'inverso di x'], correct: 2 },
+        { q: 'Qual è l\'insieme <span class="symbol-highlight">ℤ</span>?', opts: ['Numeri naturali', 'Numeri interi', 'Numeri razionali', 'Numeri reali'], correct: 1 },
+        { q: 'Cosa significa <span class="symbol-highlight">∈</span>?', opts: ['Tale che', 'Epsilon', 'Appartiene a', 'Unione'], correct: 2 },
+        { q: 'Cosa rappresenta <span class="symbol-highlight">ε</span> nella definizione di limite?', opts: ['Un insieme', 'Il limite', 'La tolleranza/margine di errore', 'La derivata'], correct: 2 },
+        { q: 'Come si legge <span class="symbol-highlight">∋</span> (o t.c.)?', opts: ['Appartiene', 'Tale che', 'Per ogni', 'Diverso'], correct: 1 },
+        { q: 'Cosa significa <span class="symbol-highlight">∞</span>?', opts: ['Zero', 'Il numero più grande', 'Infinito (non è un numero)', 'Un milione'], correct: 2 },
+        { q: 'Qual è la differenza tra < e ≤?', opts: ['Nessuna differenza', '≤ include l\'uguaglianza, < no', '< è per numeri positivi', '≤ è per frazioni'], correct: 1 },
+        { q: '<span class="symbol-highlight">∪</span> tra due insiemi significa:', opts: ['Intersezione', 'Differenza', 'Unione (tutti gli elementi)', 'Insieme vuoto'], correct: 2 },
+        { q: 'Cosa indica <span class="symbol-highlight">δ</span> nella definizione di limite?', opts: ['Il valore del limite', 'Il raggio dell\'intorno di x₀', 'L\'errore', 'La funzione'], correct: 1 },
+        { q: 'π (pi greco) vale circa:', opts: ['2.71828', '1.618', '3.14159', '1.41421'], correct: 2 },
+        { q: '<span class="symbol-highlight">f\'(x)</span> indica:', opts: ['Il valore di f', 'La derivata (velocità di cambiamento)', 'L\'inversa di f', 'f al quadrato'], correct: 1 },
+        { q: 'Se A ⇔ B, significa:', opts: ['A implica B ma non viceversa', 'A e B sono uguali', 'A è vero se e solo se B è vero', 'A e B sono falsi'], correct: 2 },
+    ];
+
+    const GLOSSARY_DATA = [
+        { term: 'Limite', def: 'Il valore a cui una funzione tende quando la variabile si avvicina a un punto. Non richiede che la funzione raggiunga effettivamente quel valore.', app: 'Usato per definire continuità, derivate, integrali — è alla base dell\'analisi matematica.' },
+        { term: 'Quantificatore universale (∀)', def: '"Per ogni" o "per qualsiasi". Indica che una proprietà vale per TUTTI gli elementi di un insieme.', app: 'Nella def. di limite: ∀ε > 0 significa "per qualunque margine di errore tu scelga".' },
+        { term: 'Quantificatore esistenziale (∃)', def: '"Esiste almeno uno". Indica che c\'è almeno un elemento con una certa proprietà.', app: 'Nella def. di limite: ∃δ > 0 significa "riesco a trovare un raggio di vicinanza".' },
+        { term: 'Implicazione (⇒)', def: 'Connettivo logico "se...allora". Se la premessa è vera, la conclusione è vera. Se la premessa è falsa, non sappiamo nulla della conclusione.', app: '"Piove ⇒ strada bagnata" è vera. Ma "strada bagnata ⇒ piove" potrebbe essere falsa (idrante!).' },
+        { term: 'Valore assoluto |x|', def: 'La distanza di x da zero sulla retta numerica. È sempre ≥ 0. |5| = 5, |−5| = 5.', app: '|x − x₀| misura la distanza tra x e x₀, indipendentemente dalla direzione.' },
+        { term: 'Intorno', def: 'Un intervallo aperto centrato in un punto. L\'intorno di x₀ di raggio δ è l\'intervallo (x₀ − δ, x₀ + δ).', app: 'Nella def. di limite, δ definisce l\'intorno in cui x deve stare perché f(x) sia vicino a ℓ.' },
+        { term: 'Epsilon (ε)', def: 'Lettera greca usata per indicare una quantità positiva arbitrariamente piccola.', app: 'Nella def. di limite rappresenta il margine di errore tollerato sull\'output f(x).' },
+        { term: 'Delta (δ)', def: 'Lettera greca usata per indicare una piccola variazione o un raggio di vicinanza.', app: 'Nella def. di limite rappresenta il raggio dell\'intorno di x₀ (l\'input).' },
+        { term: 'Insieme', def: 'Una collezione di oggetti (chiamati elementi) ben definita. Un elemento appartiene (∈) o non appartiene (∉) a un insieme.', app: 'ℕ, ℤ, ℚ, ℝ sono gli insiemi numerici fondamentali, contenuti l\'uno nell\'altro.' },
+        { term: 'Derivata f\'(x)', def: 'La velocità istantanea di cambiamento di una funzione. Geometricamente, è la pendenza della retta tangente al grafico nel punto x.', app: 'Se f(x) è la posizione, f\'(x) è la velocità. Se f(x) è il profitto, f\'(x) è il tasso di crescita del profitto.' },
+        { term: 'Integrale ∫', def: 'L\'operazione inversa della derivata. Geometricamente, calcola l\'area sotto il grafico di una funzione.', app: 'Se f\'(x) è la velocità, ∫f\'(x)dx restituisce la posizione (a meno di una costante).' },
+        { term: 'Sommatoria Σ', def: 'Operatore che indica la somma di una serie di termini. Σᵢ₌₁ⁿ aᵢ = a₁ + a₂ + ... + aₙ.', app: 'Usata in statistica (media aritmetica), algebra (serie), probabilità.' },
+        { term: 'Infinito (∞)', def: 'Concetto che indica qualcosa che cresce senza limiti. NON è un numero, è un concetto.', app: 'lim x→∞ f(x) significa "cosa succede a f(x) quando x diventa sempre più grande?"' },
+        { term: 'Doppia implicazione (⇔)', def: '"Se e solo se". A ⇔ B significa che A implica B E B implica A. Le due cose sono equivalenti.', app: '"Un triangolo è equilatero ⇔ ha tre angoli uguali" — vale in entrambe le direzioni.' },
+        { term: 'Continuità', def: 'Una funzione è continua in x₀ se il limite per x→x₀ esiste, f(x₀) esiste, e sono uguali.', app: 'Informalmente: puoi disegnare il grafico "senza staccare la penna dal foglio".' },
+    ];
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // NAVIGATION
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+    const sections = document.querySelectorAll('.section');
+
+    function showSection(sectionId) {
+        sections.forEach(s => s.classList.remove('active'));
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        document.getElementById(sectionId)?.classList.add('active');
+        document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection(link.dataset.target);
+        });
+    });
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // SYMBOL TABLE
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const catColors = {
+        logic: 'cyan', sets: 'green', numbers: 'purple',
+        comparison: 'yellow', calculus: 'red', greek: 'orange'
+    };
+
+    function buildSymbolTable() {
+        const tbody = document.getElementById('symbolTableBody');
+        tbody.innerHTML = '';
+        SYMBOLS_DATA.forEach((s, i) => {
+            const tr = document.createElement('tr');
+            tr.dataset.cat = s.cat;
+            tr.dataset.searchText = `${s.symbol} ${s.reading} ${s.example} ${s.note}`.toLowerCase();
+            tr.innerHTML = `
+                <td class="symbol-cell">${s.symbol}</td>
+                <td class="reading-cell">${s.reading}</td>
+                <td class="example-cell">${s.example}</td>
+                <td class="note-cell">${s.note}</td>
+                <td><span class="tag tag-${catColors[s.cat]}">${s.catLabel}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Category filter
+    document.getElementById('categoryFilter').addEventListener('click', (e) => {
+        if (!e.target.classList.contains('filter-btn')) return;
+        document.querySelectorAll('#categoryFilter .filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        filterSymbolTable();
+    });
+
+    // Search filter
+    document.getElementById('symbolSearch').addEventListener('input', filterSymbolTable);
+
+    function filterSymbolTable() {
+        const activeCat = document.querySelector('#categoryFilter .filter-btn.active')?.dataset.cat || 'all';
+        const query = document.getElementById('symbolSearch').value.toLowerCase().trim();
+        const rows = document.querySelectorAll('#symbolTableBody tr');
+        let visible = 0;
+        rows.forEach(tr => {
+            const catMatch = activeCat === 'all' || tr.dataset.cat === activeCat;
+            const textMatch = !query || tr.dataset.searchText.includes(query);
+            if (catMatch && textMatch) {
+                tr.classList.remove('hidden');
+                visible++;
+            } else {
+                tr.classList.add('hidden');
+            }
+        });
+        document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // DECODER
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    let currentDecoderIdx = -1;
+    const pieces = document.querySelectorAll('.formula-piece');
+    const explanation = document.getElementById('decoderExplanation');
+    const stepIndicator = document.getElementById('stepIndicator');
+
+    // Build step dots
+    DECODER_DATA.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.className = 'step-dot';
+        dot.dataset.idx = i;
+        dot.addEventListener('click', () => showDecoderStep(i));
+        stepIndicator.appendChild(dot);
+    });
+
+    pieces.forEach(piece => {
+        piece.addEventListener('click', () => {
+            showDecoderStep(parseInt(piece.dataset.idx));
+        });
+    });
+
+    function showDecoderStep(idx) {
+        currentDecoderIdx = idx;
+        const data = DECODER_DATA[idx];
+        
+        pieces.forEach(p => p.classList.remove('active'));
+        document.querySelector(`.formula-piece[data-idx="${idx}"]`)?.classList.add('active');
+        
+        document.querySelectorAll('.step-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+        });
+        
+        explanation.innerHTML = `
+            <div class="reading">${data.reading}</div>
+            <div class="meaning">${data.meaning}</div>
+            <div class="analogy">${data.analogy}</div>
+        `;
+    }
+
+    // Keyboard navigation for decoder
+    document.addEventListener('keydown', (e) => {
+        if (document.getElementById('decoder').classList.contains('active')) {
+            if (e.key === 'ArrowRight' && currentDecoderIdx < DECODER_DATA.length - 1) {
+                showDecoderStep(currentDecoderIdx + 1);
+            } else if (e.key === 'ArrowLeft' && currentDecoderIdx > 0) {
+                showDecoderStep(currentDecoderIdx - 1);
+            }
+        }
+    });
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // CONFUSIONS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function buildConfusions() {
+        const container = document.getElementById('confusionCards');
+        CONFUSIONS_DATA.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'confusion-card';
+            card.innerHTML = `
+                <div class="confusion-pair">${c.pair}</div>
+                <div class="confusion-detail">
+                    <div class="confusion-side left">
+                        <div class="sym">${c.sym1}</div>
+                        <div class="desc">${c.desc1.replace(/\n/g, '<br>')}</div>
+                    </div>
+                    <div class="confusion-side right">
+                        <div class="sym">${c.sym2}</div>
+                        <div class="desc">${c.desc2.replace(/\n/g, '<br>')}</div>
+                    </div>
+                </div>
+                <div class="confusion-tip">💡 ${c.tip}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // QUIZ
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    let quizQuestions = [];
+    let quizIdx = 0;
+    let quizCorrect = 0;
+    let quizAnswered = false;
+
+    function shuffleArray(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function initQuiz() {
+        quizQuestions = shuffleArray(QUIZ_DATA);
+        quizIdx = 0;
+        quizCorrect = 0;
+        quizAnswered = false;
+        showQuizQuestion();
+    }
+
+    function showQuizQuestion() {
+        if (quizIdx >= quizQuestions.length) {
+            showQuizResults();
+            return;
+        }
+        quizAnswered = false;
+        const q = quizQuestions[quizIdx];
+        document.getElementById('quizQuestion').innerHTML = `<strong>Domanda ${quizIdx + 1}/${quizQuestions.length}:</strong> ${q.q}`;
+        
+        const optsContainer = document.getElementById('quizOptions');
+        optsContainer.innerHTML = '';
+        q.opts.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.textContent = opt;
+            btn.addEventListener('click', () => checkAnswer(i, q.correct));
+            optsContainer.appendChild(btn);
+        });
+        
+        document.getElementById('quizFeedback').className = 'quiz-feedback';
+        document.getElementById('quizFeedback').textContent = '';
+        document.getElementById('quizNext').disabled = true;
+        document.getElementById('quizScore').textContent = `${quizCorrect} / ${quizIdx}`;
+    }
+
+    function checkAnswer(selected, correct) {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        
+        const opts = document.querySelectorAll('.quiz-option');
+        opts.forEach((o, i) => {
+            o.classList.add('disabled');
+            if (i === correct) o.classList.add('correct');
+            if (i === selected && i !== correct) o.classList.add('wrong');
+        });
+        
+        const feedback = document.getElementById('quizFeedback');
+        if (selected === correct) {
+            quizCorrect++;
+            feedback.textContent = '✅ Corretto!';
+            feedback.className = 'quiz-feedback show success';
+        } else {
+            feedback.textContent = `❌ La risposta corretta era: "${quizQuestions[quizIdx].opts[correct]}"`;
+            feedback.className = 'quiz-feedback show error';
+        }
+        
+        document.getElementById('quizScore').textContent = `${quizCorrect} / ${quizIdx + 1}`;
+        document.getElementById('quizNext').disabled = false;
+    }
+
+    function showQuizResults() {
+        const pct = Math.round((quizCorrect / quizQuestions.length) * 100);
+        let emoji = pct >= 90 ? '🏆' : pct >= 70 ? '👏' : pct >= 50 ? '📚' : '💪';
+        document.getElementById('quizQuestion').innerHTML = `
+            <div style="text-align: center; padding: 1rem;">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">${emoji}</div>
+                <div style="font-size: 1.5rem; color: var(--accent-cyan); font-weight: 700;">${quizCorrect} / ${quizQuestions.length}</div>
+                <div style="color: var(--text-secondary); margin-top: 0.5rem;">Punteggio: ${pct}%</div>
+            </div>
+        `;
+        document.getElementById('quizOptions').innerHTML = '';
+        document.getElementById('quizFeedback').className = 'quiz-feedback';
+        
+        const nextBtn = document.getElementById('quizNext');
+        nextBtn.textContent = '🔄 Ricomincia';
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => {
+            nextBtn.textContent = 'Prossima →';
+            nextBtn.onclick = nextQuestion;
+            initQuiz();
+        };
+    }
+
+    function nextQuestion() {
+        quizIdx++;
+        showQuizQuestion();
+    }
+
+    document.getElementById('quizNext').addEventListener('click', nextQuestion);
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // GLOSSARY
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function buildGlossary() {
+        const grid = document.getElementById('glossaryGrid');
+        GLOSSARY_DATA.forEach(g => {
+            const item = document.createElement('div');
+            item.className = 'glossary-item visible';
+            item.dataset.term = `${g.term} ${g.def} ${g.app}`.toLowerCase();
+            item.innerHTML = `
+                <h4>${g.term}</h4>
+                <div class="definition">${g.def}</div>
+                <div class="application"><strong>Applicazione:</strong> ${g.app}</div>
+            `;
+            grid.appendChild(item);
+        });
+    }
+
+    document.getElementById('glossarySearch')?.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        document.querySelectorAll('.glossary-item').forEach(item => {
+            if (!query || item.dataset.term.includes(query)) {
+                item.classList.add('visible');
+            } else {
+                item.classList.remove('visible');
+            }
+        });
+    });
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // GLOBAL SEARCH
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    document.getElementById('globalSearch').addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        if (!query) return;
+        
+        // Switch to symbols section and search there
+        showSection('symbols');
+        document.getElementById('symbolSearch').value = query;
+        filterSymbolTable();
+    });
+
+    document.getElementById('globalSearch').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const query = e.target.value.toLowerCase().trim();
+            if (query) {
+                showSection('symbols');
+                document.getElementById('symbolSearch').value = query;
+                filterSymbolTable();
+            }
+        }
+    });
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // INIT
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    buildSymbolTable();
+    buildConfusions();
+    buildGlossary();
+    initQuiz();
+    </script>
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+</body>
+</html>
