@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida MacBook per Studenti con Disabilità | Ivan Ferrero</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+    
+    <style>
+        /* ===== PAGE-SPECIFIC OVERRIDES ===== */
+        
+        .main-container {
+            padding-top: 5rem;
+        }
+
+        /* Sidebar adjustments for site menu offset */
+        .sidebar {
+            top: 5rem;
+            height: calc(100vh - 6rem);
+        }
+
+        /* Expandable cards - increase max-height for long content */
+        .card.expandable.expanded .card-body {
+            max-height: 5000px;
+        }
+
+        /* Profile table */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .profile-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+            font-size: 0.85rem;
+        }
+
+        .profile-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .profile-table th:first-child {
+            text-align: left;
+            padding-left: 1rem;
+        }
+
+        .profile-table td {
+            padding: 0.6rem 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .profile-table td:first-child {
+            text-align: left;
+            padding-left: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .profile-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Priority dots */
+        .dot-high { color: var(--accent-red); }
+        .dot-med { color: var(--accent-yellow); }
+        .dot-low { color: var(--accent-green); }
+        .dot-none { color: var(--text-muted); }
+
+        /* Config card styling */
+        .config-card .card-header {
+            gap: 1rem;
+        }
+
+        .config-card .card-header h3 {
+            margin-bottom: 0;
+            font-size: 1.1rem;
+        }
+
+        .config-card .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .config-card .profile-tag {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .config-card .card-body h4 {
+            color: var(--accent-cyan);
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .config-card .card-body h4:first-child {
+            margin-top: 0.75rem;
+        }
+
+        .config-card .card-body p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .config-card .card-body ol,
+        .config-card .card-body ul {
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .config-card .card-body li {
+            margin-bottom: 0.4rem;
+            line-height: 1.6;
+        }
+
+        .config-card .card-body code {
+            background: var(--bg-tertiary);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.82rem;
+            color: var(--accent-cyan);
+        }
+
+        .config-card .card-body pre {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--text-primary);
+        }
+
+        .ref-block {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .ref-block strong {
+            color: var(--accent-purple);
+        }
+
+        .note-block {
+            background: #d2992215;
+            border-left: 3px solid var(--accent-yellow);
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .note-block strong {
+            color: var(--accent-yellow);
+        }
+
+        .critical-block {
+            background: #f8514915;
+            border-left: 3px solid var(--accent-red);
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .critical-block strong {
+            color: var(--accent-red);
+        }
+
+        .objective-block {
+            background: #00d9ff10;
+            border-left: 3px solid var(--accent-cyan);
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .objective-block strong {
+            color: var(--accent-cyan);
+        }
+
+        /* Shortcut table */
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+            font-size: 0.85rem;
+        }
+
+        .shortcut-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .shortcut-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .shortcut-table td:first-child {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            white-space: nowrap;
+        }
+
+        .shortcut-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* App table */
+        .app-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+            font-size: 0.85rem;
+        }
+
+        .app-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .app-table td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .app-table td:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .app-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Troubleshooting table */
+        .troubleshoot-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+            font-size: 0.85rem;
+        }
+
+        .troubleshoot-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .troubleshoot-table td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            vertical-align: top;
+        }
+
+        .troubleshoot-table td:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .troubleshoot-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Principles table */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .principles-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .principles-table td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            vertical-align: top;
+        }
+
+        .principles-table td:first-child {
+            color: var(--text-primary);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .principles-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Emoji legend table */
+        .emoji-table {
+            width: auto;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .emoji-table td {
+            padding: 0.3rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .emoji-table td:first-child {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        /* Section intro card */
+        .section-intro {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-intro p {
+            margin-bottom: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Bibliography items */
+        .bib-item {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .bib-item:last-child {
+            border-bottom: none;
+        }
+
+        .bib-item em {
+            color: var(--text-primary);
+        }
+
+        /* Sidebar mobile */
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: static;
+                height: auto;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.25rem;
+                padding-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            .sidebar-section {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            .sidebar-link {
+                display: inline-block;
+                padding: 0.35rem 0.6rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                top: 120px !important;
+            }
+            body {
+                padding-top: 120px !important;
+            }
+            .main-container {
+                padding-top: 1rem !important;
+            }
+            main {
+                padding-top: 0 !important;
+            }
+            .sidebar {
+                height: auto !important;
+            }
+            h1 { font-size: 1.6rem; }
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Info table */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .info-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .info-table td:first-child {
+            color: var(--text-primary);
+            font-weight: 600;
+            width: 200px;
+        }
+
+        /* Substitution table inside card */
+        .subst-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin: 0.75rem 0;
+        }
+        .subst-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-cyan);
+            font-weight: 600;
+        }
+        .subst-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .subst-table td:first-child {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+        }
+        .subst-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Blockquote */
+        .guide-quote {
+            background: var(--gradient-cyber);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Panoramica</div>
+                <a href="#overview" class="sidebar-link active" data-target="overview">🖥️ Overview</a>
+                <a href="#profili" class="sidebar-link" data-target="profili">👤 Profili e Priorità</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Configurazioni</div>
+                <a href="#sezione-a" class="sidebar-link" data-target="sezione-a">⚙️ A — Organizzazione</a>
+                <a href="#sezione-b" class="sidebar-link" data-target="sezione-b">⚙️ B — Distrazioni</a>
+                <a href="#sezione-c" class="sidebar-link" data-target="sezione-c">⚙️ C — Visiva e Sensoriale</a>
+                <a href="#sezione-d" class="sidebar-link" data-target="sezione-d">⚙️ D — Input Fisico</a>
+                <a href="#sezione-e" class="sidebar-link" data-target="sezione-e">⚙️ E — Lettura e Comprensione</a>
+                <a href="#sezione-f" class="sidebar-link" data-target="sezione-f">🔒 F — Sicurezza</a>
+                <a href="#sezione-g" class="sidebar-link" data-target="sezione-g">⚙️ G — App Consigliate</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Approfondimenti</div>
+                <a href="#principi" class="sidebar-link" data-target="principi">📚 Principi di Design</a>
+                <a href="#coinvolgimento" class="sidebar-link" data-target="coinvolgimento">🤝 Coinvolgimento Studente</a>
+                <a href="#collaborazione" class="sidebar-link" data-target="collaborazione">📋 Scuola-Famiglia</a>
+                <a href="#problemi" class="sidebar-link" data-target="problemi">🔧 Risoluzione Problemi</a>
+                <a href="#bibliografia" class="sidebar-link" data-target="bibliografia">📚 Bibliografia</a>
+                <a href="#info" class="sidebar-link" data-target="info">📄 Info Documento</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+
+            <!-- ==================== OVERVIEW ==================== -->
+            <section id="overview" class="section active">
+                <h1>🖥️ Guida alla Configurazione del MacBook per Studenti con Disabilità</h1>
+                <p class="text-secondary" style="font-size:1.05rem; margin-bottom:0.5rem;"><strong style="color:var(--text-primary);">Una guida pratica per genitori</strong> — Come trasformare un MacBook in uno strumento inclusivo</p>
+
+                <div class="guide-quote">
+                    <strong style="color:var(--accent-cyan);">A chi è rivolta questa guida:</strong> Genitori e caregiver di alunni con disabilità certificata (L.104/92) o con Bisogni Educativi Speciali (BES) che utilizzano un MacBook per le attività scolastiche. Le indicazioni sono applicabili a tutti i MacBook con macOS Sonoma (14) o versioni successive.
+                </div>
+
+                <div class="stat-grid mt-3">
+                    <div class="stat-card">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Sezioni tematiche</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">Configurazioni</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Profili utente</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">App consigliate</div>
+                    </div>
+                </div>
+
+                <div class="subsection mt-4">
+                    <h3>📄 Abstract esecutivo</h3>
+                    <p>Questa guida documenta tutte le personalizzazioni applicabili a un MacBook per ottimizzarne l'usabilità in relazione a diverse condizioni di disabilità e Bisogni Educativi Speciali. L'obiettivo centrale è <strong style="color:var(--text-primary);">ridurre il carico cognitivo</strong>, <strong style="color:var(--text-primary);">minimizzare le distrazioni</strong> e <strong style="color:var(--text-primary);">massimizzare l'autonomia</strong>, permettendo allo studente di concentrare le proprie risorse attentive sul compito didattico anziché sulla gestione dell'interfaccia.</p>
+                    <p>Le modifiche seguono i principi dello <strong style="color:var(--text-primary);">Universal Design for Learning (UDL)</strong> e le best practice di <strong style="color:var(--text-primary);">UX design per utenti neurodivergenti e con disabilità</strong>, con particolare attenzione alla prevedibilità dell'ambiente, alla riduzione degli stimoli non essenziali, all'accessibilità percettiva e all'ottimizzazione dell'interazione fisica con il dispositivo.</p>
+
+                    <p><strong style="color:var(--text-primary);">Questa guida ha tre funzioni:</strong></p>
+                    <ol style="color:var(--text-secondary); font-size:0.9rem; padding-left:1.25rem;">
+                        <li><strong style="color:var(--text-primary);">Orientamento:</strong> aiutare i genitori a comprendere <em>perché</em> ogni configurazione è importante, non solo <em>come</em> attivarla.</li>
+                        <li><strong style="color:var(--text-primary);">Autonomia operativa:</strong> in caso di sostituzione del computer o reset, le indicazioni permettono di ricreare la configurazione su un nuovo dispositivo.</li>
+                        <li><strong style="color:var(--text-primary);">Dialogo con la scuola:</strong> il documento può essere condiviso con l'insegnante di sostegno e il Consiglio di Classe come parte della documentazione del PEI (Piano Educativo Individualizzato), contribuendo alla coerenza tra strumenti domestici e scolastici.</li>
+                    </ol>
+
+                    <div class="critical-block">
+                        <strong>🔴 Principio fondamentale:</strong> Non tutte le configurazioni sono necessarie per ogni studente. Questa guida è un <em>menù</em>, non una prescrizione. Ogni sezione indica per quali profili è più rilevante, ma la scelta finale va sempre concordata con il figlio e con i professionisti che lo seguono.
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🧠 Legenda emoji</h3>
+                    <table class="emoji-table">
+                        <tr><td>🔴</td><td>Urgente / Importante</td></tr>
+                        <tr><td>📄</td><td>Documentazione</td></tr>
+                        <tr><td>🎯</td><td>Obiettivo</td></tr>
+                        <tr><td>💡</td><td>Razionale / Motivazione</td></tr>
+                        <tr><td>⚙️</td><td>Configurazione tecnica</td></tr>
+                        <tr><td>📚</td><td>Riferimento teorico</td></tr>
+                        <tr><td>⚠️</td><td>Nota di attenzione</td></tr>
+                        <tr><td>✅</td><td>Completato / Verificato</td></tr>
+                        <tr><td>👤</td><td>Profilo utente specifico</td></tr>
+                        <tr><td>🔧</td><td>Risoluzione problemi</td></tr>
+                        <tr><td>🔒</td><td>Sicurezza</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== PROFILI ==================== -->
+            <section id="profili" class="section">
+                <h2>👤 Profili di riferimento e priorità di configurazione</h2>
+                <p>Ogni studente è unico, ma raggruppare le configurazioni per profilo aiuta a orientarsi. La tabella seguente indica le aree di intervento prioritarie per ciascun profilo. Le sezioni successive della guida contengono, per ogni configurazione, un'indicazione dei profili per cui è particolarmente rilevante.</p>
+
+                <div class="table-wrapper">
+                    <table class="profile-table">
+                        <thead>
+                            <tr>
+                                <th>Configurazione</th>
+                                <th>ASD</th>
+                                <th>ADHD</th>
+                                <th>DSA</th>
+                                <th>Disab. motoria</th>
+                                <th>Disab. visiva</th>
+                                <th>Disab. intellettiva</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Link diretti e cartella Scuola</td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Pulizia Dock e barra menu</td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Sfondo neutro</td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Contrasto e accessibilità visiva</td><td><span class="dot-high">●●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Ottimizzazione Trackpad</td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Puntatore ingrandito</td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Comportamento Dock</td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-low">●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Retroilluminazione tastiera</td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Configurazione Finder</td><td><span class="dot-med">●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Focus Mode e notifiche</td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Screen Time e restrizioni</td><td><span class="dot-med">●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-none">—</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Dettatura e input vocale</td><td><span class="dot-low">●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Text-to-Speech</td><td><span class="dot-low">●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Zoom e ingrandimento</td><td><span class="dot-none">—</span></td><td><span class="dot-none">—</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-low">●</span></td></tr>
+                            <tr><td>Filtri colore</td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-none">—</span></td></tr>
+                            <tr><td>Riduci Movimento e Trasparenza</td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Night Shift</td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td></tr>
+                            <tr><td>Hot Corners</td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-none">—</span></td></tr>
+                            <tr><td>Safari Reader</td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Organizzazione cartelle</td><td><span class="dot-high">●●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td></tr>
+                            <tr><td>Sostituzione automatica testo</td><td><span class="dot-low">●</span></td><td><span class="dot-low">●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Sticky Keys / Slow Keys</td><td><span class="dot-none">—</span></td><td><span class="dot-none">—</span></td><td><span class="dot-none">—</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-none">—</span></td><td><span class="dot-med">●●</span></td></tr>
+                            <tr><td>Scorciatoie tastiera</td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-high">●●●</span></td><td><span class="dot-med">●●</span></td><td><span class="dot-low">●</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-muted mt-2" style="font-size:0.8rem;"><span class="dot-high">●●●</span> = altamente raccomandato · <span class="dot-med">●●</span> = utile · <span class="dot-low">●</span> = opzionale · <span class="dot-none">—</span> = generalmente non necessario</p>
+            </section>
+
+            <!-- ==================== SEZIONE A ==================== -->
+            <section id="sezione-a" class="section">
+                <h2>⚙️ SEZIONE A — Organizzazione dell'interfaccia</h2>
+                <div class="section-intro">
+                    <p>Queste configurazioni mirano a creare un ambiente digitale ordinato, prevedibile e focalizzato sul compito scolastico. Sono il primo intervento da effettuare su qualsiasi MacBook destinato a uno studente con disabilità.</p>
+                </div>
+
+                <!-- A1 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>A1. Creazione link diretti alla Google Suite scolastica</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-yellow">Motoria ●●</span>
+                                <span class="profile-tag tag tag-yellow">Visiva ●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Creare collegamenti web (bookmark) agli strumenti Google utilizzati a scuola — Gmail, Google Drive e Google Classroom — già configurati per aprirsi con l'account scolastico dello studente.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Aprire Safari o Chrome.</li>
+                            <li>Navigare su Gmail (mail.google.com), Drive (drive.google.com) e Classroom (classroom.google.com) con l'account scolastico.</li>
+                            <li>Per ogni sito: trascinare l'icona accanto all'URL dalla barra degli indirizzi direttamente sulla Scrivania. Si creerà un file <code>.webloc</code>.</li>
+                            <li>Rinominare ciascun file in modo chiaro: "Gmail Scuola", "Drive Scuola", "Classroom".</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Eliminare i passaggi intermedi (aprire browser → digitare URL → selezionare account → navigare al servizio) riducendo la sequenza a un singolo click.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 1: Fornire molteplici mezzi di coinvolgimento.</strong> Checkpoint 7.3: <em>Minimizzare le minacce e le distrazioni</em> — Ridurre il numero di decisioni necessarie per iniziare un'attività abbassa la soglia di attivazione e diminuisce l'ansia da prestazione.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Le persone con disabilità cognitive, neurodivergenze o difficoltà nelle funzioni esecutive beneficiano di <strong>percorsi d'azione lineari e prevedibili</strong>. La ricerca di Pavlov (2014) evidenzia come interfacce che richiedono molteplici passaggi decisionali aumentino il carico cognitivo e possano generare frustrazione o evitamento del compito. Un accesso diretto "one-click" rispetta il principio di riduzione della complessità procedurale.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento aggiuntivo:</strong> L'utilizzo delle stesse interfacce web (Gmail, Drive, Classroom) garantisce <strong>consistenza cross-device</strong>: lo studente ritroverà lo stesso ambiente visivo su qualsiasi computer scolastico o domestico, favorendo il transfer delle competenze.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Se la scuola utilizza Microsoft 365 anziché Google Workspace, applicare la stessa logica creando link diretti a Outlook, OneDrive e Teams.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A2 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>A2. Raggruppamento link in cartella dedicata nel Dock</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Raggruppare i link agli strumenti scolastici in un'unica cartella, posizionata nel Dock (la barra inferiore del Mac). Cliccando sulla cartella, lo studente visualizza tutti gli strumenti in un unico punto.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Creare una nuova cartella sulla Scrivania (tasto destro → Nuova cartella) e nominarla <strong>"Scuola"</strong>.</li>
+                            <li>Spostare i link <code>.webloc</code> creati al passo precedente dentro questa cartella.</li>
+                            <li>Trascinare la cartella nel Dock, nella parte destra (vicino al Cestino).</li>
+                            <li>Fare clic destro sulla cartella nel Dock → "Visualizza contenuto come" → <strong>Griglia</strong> (per una presentazione visiva chiara).</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Creare un <strong>punto di accesso univoco e riconoscibile</strong> per tutto ciò che riguarda la scuola.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3: Fornire molteplici mezzi di azione ed espressione.</strong> Checkpoint 5.3: <em>Costruire fluidità con livelli graduati di supporto per la pratica e la performance</em> — Raggruppare gli strumenti correlati in un'unica posizione fissa facilita l'automatizzazione delle routine e riduce il carico sulla memoria di lavoro.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Il <strong>chunking</strong> (raggruppamento di informazioni correlate) è una strategia consolidata per supportare utenti con difficoltà di funzioni esecutive. La letteratura sul design per l'autismo (Britto &amp; Pizzolato, 2016) sottolinea l'importanza di <strong>organizzazioni spaziali chiare e categorizzate</strong>, che riducono l'ambiguità e supportano la navigazione intuitiva. Una cartella dedicata crea una separazione visiva tra "strumenti per la scuola" e "tutto il resto", rendendo esplicita la funzione dell'area.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A3 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>A3. Rimozione applicazioni non utilizzate dal Dock</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Rimuovere dal Dock le applicazioni non utilizzate per le attività scolastiche. Le applicazioni <strong>non vengono disinstallate</strong>: rimangono disponibili nel sistema, ma non sono più visibili nella barra principale.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Per ogni applicazione non necessaria: <strong>tasto destro → Opzioni → Rimuovi dal Dock</strong>. Mantenere solo: Finder, la cartella Scuola e le app effettivamente utilizzate dallo studente.</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Ridurre il "rumore visivo" e le potenziali distrazioni, presentando solo gli strumenti effettivamente necessari.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 1: Fornire molteplici mezzi di coinvolgimento.</strong> Checkpoint 7.3: <em>Minimizzare le minacce e le distrazioni</em> — Un ambiente visivamente "pulito" riduce la competizione per l'attenzione e facilita il focus sul compito primario.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Le persone con autismo mostrano spesso <strong>pattern di attenzione caratterizzati da difficoltà nel filtraggio degli stimoli irrilevanti</strong> (Murray et al., 2005 — teoria monotropica). Per studenti con ADHD, ogni icona visibile è una potenziale "porta di fuga" dall'attività in corso. Le linee guida di design per utenti neurodivergenti raccomandano di esporre solo gli elementi funzionali al compito corrente.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota per i genitori:</strong> Le applicazioni rimosse dal Dock restano accessibili tramite Finder → Applicazioni, oppure tramite Spotlight (Cmd + Spazio). Questa scelta preserva la flessibilità senza sacrificare la chiarezza dell'interfaccia principale.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A4 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>A4. Organizzazione delle cartelle nel Finder</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Creare una struttura di cartelle standardizzata per i materiali scolastici, che sia intuitiva e richieda il minimo sforzo organizzativo.</p>
+
+                        <h4>Come procedere — Struttura consigliata</h4>
+                        <p>All'interno della cartella Documenti, creare:</p>
+                        <pre>📁 Scuola
+├── 📁 Italiano
+├── 📁 Matematica
+├── 📁 Inglese
+├── 📁 [altre materie]
+├── 📁 Compiti
+└── 📁 Verifiche</pre>
+                        <p>All'interno di ciascuna cartella materia, si possono creare sottocartelle per quadrimestre o per argomento, in base alle preferenze dello studente.</p>
+                        <p>Per facilitare ulteriormente l'accesso, trascinare la cartella "Scuola" nella barra laterale del Finder (sezione "Preferiti").</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Creare un sistema di archiviazione che lo studente possa gestire con minimo sforzo decisionale: ogni file ha un posto preciso dove andare.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3: Fornire molteplici mezzi di azione ed espressione.</strong> Checkpoint 6.3: <em>Facilitare la gestione delle informazioni e delle risorse</em> — Un sistema di organizzazione pre-strutturato riduce il carico sulle funzioni esecutive di pianificazione e categorizzazione.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Le difficoltà nelle funzioni esecutive — comuni in ASD, ADHD e disabilità intellettiva — rendono complessa la creazione spontanea di sistemi organizzativi. Una struttura predefinita funziona come un <strong>scaffolding esterno</strong>: lo studente deve solo decidere <em>dove</em> mettere il file, non <em>come</em> organizzare l'intero sistema. Questo è coerente con il concetto di "cognitive offloading" (Risko &amp; Gilbert, 2016) — delegare parte del lavoro cognitivo all'ambiente.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Coinvolgere lo studente nella scelta dei nomi delle cartelle e dell'organizzazione aumenta il senso di ownership e la probabilità che il sistema venga effettivamente utilizzato. Non imporre una struttura senza consultarlo.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A5 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>A5. Configurazione ottimizzata del Finder</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Ottimizzare le impostazioni del Finder per mantenere ordine automatico e presentazione visiva coerente.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Aprire Finder → <strong>Impostazioni</strong> (Cmd + ,).</li>
+                            <li>Tab <strong>"Avanzate"</strong>: Attivare <strong>"Rimuovi elementi dal Cestino dopo 30 giorni"</strong>.</li>
+                            <li>Tab <strong>"Avanzate"</strong>: Attivare <strong>"Tieni le cartelle in alto quando si ordina per nome"</strong>.</li>
+                            <li>Dal menu <strong>Vista</strong>: selezionare <strong>"Come icone"</strong>, poi <strong>"Disponi per" → Nome</strong>.</li>
+                            <li>Dal menu <strong>Vista</strong>: selezionare <strong>"Mostra la barra del percorso"</strong> (aiuta lo studente a capire dove si trova nel file system).</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Creare un ambiente file system ordinato, prevedibile e che richieda <strong>minima manutenzione</strong>.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3.</strong> Checkpoint 5.3: <em>Costruire fluidità con livelli graduati di supporto</em> — L'automazione di compiti di manutenzione riduce il numero di decisioni che lo studente deve prendere.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Il principio <strong>"set and forget"</strong> è particolarmente utile per studenti con difficoltà nelle funzioni esecutive: una volta configurato, il sistema si mantiene ordinato automaticamente. La pulizia automatica del Cestino evita l'accumulo di file e le decisioni periodiche su cosa eliminare. La vista coerente (sempre icone, sempre ordinate per nome) garantisce che ogni cartella si presenti nello stesso modo, eliminando la variabilità che potrebbe creare confusione.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SEZIONE B ==================== -->
+            <section id="sezione-b" class="section">
+                <h2>⚙️ SEZIONE B — Riduzione delle distrazioni</h2>
+                <div class="section-intro">
+                    <p>Queste configurazioni affrontano le fonti di distrazione più comuni in macOS: animazioni, notifiche, elementi visivi non funzionali e tentazioni digitali.</p>
+                </div>
+
+                <!-- B1 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>B1. Sostituzione sfondo con immagine neutra</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                                <span class="profile-tag tag tag-yellow">Visiva ●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Sostituire lo sfondo del desktop con un'immagine a <strong>tinta unita neutra</strong> (tono chiaro e desaturato).</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Sfondo</strong> → Selezionare un colore solido dalle opzioni di macOS, oppure caricare un'immagine personalizzata con sfondo uniforme. Colori consigliati: grigio chiaro, azzurro desaturato, verde salvia tenue.</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Ridurre la stimolazione visiva di fondo e migliorare la visibilità di file e cartelle sulla Scrivania.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principi 1 e 2.</strong> Checkpoint 7.3: <em>Minimizzare le minacce e le distrazioni</em> — Uno sfondo complesso compete per le risorse attentive anche quando non è il focus dell'attività. Checkpoint 3.3: <em>Guidare l'elaborazione e la visualizzazione delle informazioni</em> — Un buon contrasto figura-sfondo facilita l'individuazione degli elementi rilevanti.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> La ricerca sulla sensibilità sensoriale nell'autismo (Robertson &amp; Baron-Cohen, 2017) documenta come molte persone nello spettro presentino <strong>iper-reattività agli stimoli visivi</strong>. Per studenti con ADHD, sfondi complessi possono fungere da trigger per il mind-wandering. Le linee guida di accessibilità per utenti neurodivergenti raccomandano palette cromatiche ridotte, sfondi uniformi e contrasti sufficienti ma non aggressivi.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B2 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>B2. Ottimizzazione del comportamento del Dock</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Modificare il comportamento del Dock per eliminare animazioni distraenti e massimizzare lo spazio di lavoro.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Scrivania e Dock:</strong></p>
+                        <ol>
+                            <li><strong>Disattivare "Ingrandimento"</strong> — Le icone mantengono dimensione costante.</li>
+                            <li><strong>Attivare "Mostra e nascondi automaticamente il Dock"</strong> — Il Dock si nasconde quando non serve.</li>
+                            <li><strong>Impostare "Contrai le finestre utilizzando" su "Effetto scala"</strong> — Sostituisce l'effetto "Genio" con un'animazione lineare e prevedibile.</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Ridurre le distrazioni visive e creare un ambiente prevedibile, dove ogni elemento si comporta in modo costante.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 1.</strong> Checkpoint 7.3: <em>Minimizzare le minacce e le distrazioni</em> — Animazioni ed effetti visivi non funzionali competono per le risorse attentive.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> L'effetto di ingrandimento al passaggio del mouse introduce un <strong>elemento di imprevedibilità</strong>: le icone cambiano dimensione in modo non controllato dall'utente. Per persone con autismo, ogni variazione inaspettata dell'interfaccia può attirare l'attenzione in modo intrusivo. L'effetto "Genio" è particolarmente problematico perché crea un movimento fluido complesso; l'effetto "Scala" produce invece una semplice riduzione proporzionale, più prevedibile e meno distraente. Il nascondimento automatico del Dock massimizza inoltre lo <strong>spazio di lavoro effettivo</strong>, riducendo gli elementi visibili a quelli strettamente necessari.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B3 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>B3. Semplificazione della barra dei menu</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Ripulire la barra dei menu superiore, rimuovendo le icone non essenziali e mantenendo solo quelle indispensabili.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Tenendo premuto <strong>Cmd</strong>, trascinare fuori dalla barra le icone non necessarie. Per le icone di sistema non rimovibili in questo modo: Impostazioni di Sistema → <strong>Centro di Controllo</strong> → per ogni elemento, scegliere "Non mostrare nella barra dei menu".</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Ridurre il <strong>rumore visivo</strong> nella parte superiore dello schermo, area costantemente presente nel campo visivo.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 1.</strong> Checkpoint 7.3: <em>Minimizzare le minacce e le distrazioni</em> — Ogni elemento visivo sullo schermo compete potenzialmente per le risorse attentive, anche quando non è il focus dell'attività.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> La barra dei menu di macOS può contenere icone che lampeggiano, si aggiornano o mostrano badge. Per utenti con difficoltà nel filtraggio degli stimoli, queste icone periferiche costituiscono una <strong>fonte costante di micro-distrazioni</strong>. La rimozione degli elementi non essenziali riduce questo carico e mantiene l'attenzione sull'area di lavoro principale.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B4 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>B4. Gestione delle notifiche con Focus Mode</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Creare una modalità Focus personalizzata che silenzi tutte le notifiche non essenziali durante lo studio, eliminando interruzioni che spezzano la concentrazione.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Impostazioni di Sistema → <strong>Focus</strong>.</li>
+                            <li>Cliccare <strong>"+"</strong> per creare un nuovo Focus. Nominarlo <strong>"Studio"</strong>.</li>
+                            <li>In <strong>"Persone consentite"</strong>: aggiungere solo i contatti dei genitori (per emergenze).</li>
+                            <li>In <strong>"App consentite"</strong>: permettere solo le app scolastiche (es. Google Classroom, se invia notifiche utili). Bloccare tutto il resto.</li>
+                            <li>Attivare <strong>"Nascondi i badge delle notifiche"</strong> — elimina i numeri rossi sulle icone.</li>
+                            <li>Opzionale: programmare l'attivazione automatica durante l'orario scolastico o lo studio pomeridiano (Focus → Aggiungi programma).</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Creare un "tunnel attentivo" durante lo studio, dove solo le informazioni rilevanti raggiungono lo studente.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 1.</strong> Checkpoint 7.3: <em>Minimizzare le minacce e le distrazioni</em> — Le interruzioni non preventivate sono tra le principali cause di perdita del focus, specialmente per studenti con ADHD.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX e neuroscienze:</strong> Ogni notifica innesca un <strong>cambio di contesto attentivo</strong> (context switch) che richiede tempo ed energia per il recupero. La ricerca di Mark et al. (2008) stima che il recupero da un'interruzione richieda in media 23 minuti per la piena riconcentrazione. Per studenti con ADHD, questo tempo può essere significativamente maggiore. Per studenti con ASD, un'interruzione inaspettata può generare disagio o frustrazione che compromette l'intera sessione di lavoro.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento aggiuntivo:</strong> I badge delle notifiche (numeri rossi sulle icone) sono progettati per creare urgenza. Per studenti con difficoltà nella regolazione dell'attenzione, questa urgenza è un potente distrattore. Nasconderli durante lo studio rimuove uno stimolo specificamente progettato per catturare l'attenzione.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota per i genitori:</strong> Il Focus Mode non impedisce di ricevere le notifiche — le silenzia e le accumula. Lo studente le troverà tutte al termine della sessione di studio. In caso di emergenza, è possibile chiamare due volte di seguito per forzare il passaggio della notifica.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B5 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>B5. Riduzione del Movimento e della Trasparenza</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                                <span class="profile-tag tag tag-yellow">Visiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Ridurre le animazioni di sistema e gli effetti di trasparenza che possono risultare distraenti o creare disagio sensoriale.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Accessibilità → Schermo:</strong></p>
+                        <ol>
+                            <li>Attivare <strong>"Riduci movimento"</strong> — Sostituisce le animazioni complesse con semplici dissolvenze.</li>
+                            <li>Attivare <strong>"Riduci trasparenza"</strong> — Rende opache le barre dei menu e del Dock, eliminando gli effetti di sfocatura che possono confondere i confini visivi.</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Eliminare gli stimoli visivi non funzionali, creando un'interfaccia più stabile e prevedibile.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2: Fornire molteplici mezzi di rappresentazione.</strong> Checkpoint 3.3: <em>Guidare l'elaborazione e la visualizzazione delle informazioni</em> — Un'interfaccia con confini netti e comportamento prevedibile riduce il carico di elaborazione percettiva.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> L'interfaccia di macOS utilizza ampiamente effetti di <strong>trasparenza e sfocatura</strong> ("vibrancy") che, sebbene esteticamente raffinati, creano sovrapposizioni visive tra livelli dell'interfaccia. Per utenti con iper-reattività visiva (comune nell'ASD) o con difficoltà nel segmentare figure e sfondo, questi effetti possono generare affaticamento o confusione. L'attivazione di "Riduci Movimento" è inoltre fondamentale per utenti con <strong>disturbi vestibolari o cinetosi indotta da animazioni</strong> (condizione più frequente di quanto comunemente riconosciuta, documentata da Brinck, 2020).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B6 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>B6. Screen Time e restrizioni</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare Screen Time per limitare l'accesso ad app e contenuti distraenti durante lo studio, supportando lo studente nella regolazione dell'uso del dispositivo.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Tempo di utilizzo:</strong></p>
+                        <ol>
+                            <li><strong>"Pausa di utilizzo":</strong> Programmare una pausa che blocchi le app non essenziali durante l'orario scolastico e/o lo studio pomeridiano.</li>
+                            <li><strong>"Limitazioni app":</strong> Impostare limiti giornalieri per categorie come Social Network, Giochi, Intrattenimento.</li>
+                            <li><strong>"Sempre consentite":</strong> Assicurarsi che le app scolastiche (Safari/Chrome, Pages, Numbers, Keynote, eventuali app specifiche) siano sempre accessibili.</li>
+                            <li><strong>"Contenuti e privacy":</strong> Valutare se limitare l'accesso a determinati siti web o tipologie di contenuti.</li>
+                            <li>Impostare un <strong>codice di sblocco</strong> noto ai genitori ma non allo studente (o condiviso, a seconda del livello di autonomia).</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Fornire un supporto esterno alla regolazione dell'uso del dispositivo, riducendo le tentazioni digitali durante lo studio senza eliminare completamente l'autonomia.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 1.</strong> Checkpoint 8.3: <em>Promuovere l'autoregolazione</em> — Fornire supporti esterni per la regolazione è appropriato come passaggio intermedio verso l'autoregolazione.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX e clinico:</strong> Le difficoltà nella <strong>regolazione degli impulsi</strong> sono una caratteristica centrale dell'ADHD e possono essere presenti anche in ASD e disabilità intellettiva. Il design di app e piattaforme social è specificamente ottimizzato per catturare e mantenere l'attenzione attraverso meccanismi di <strong>rinforzo intermittente</strong> (notifiche, scroll infinito, autoplay). Screen Time funziona come un <strong>"guardrail" ambientale</strong> che sostituisce temporaneamente l'autoregolazione con una regolazione esterna, riducendo il conflitto decisionale ("studio o guardo un video?").
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota importante:</strong> Screen Time non è una punizione, ma un supporto. È fondamentale spiegare allo studente il razionale: "Questi limiti sono come i paraocchi di un cavallo — non tolgono libertà, aiutano a restare concentrati su dove vuoi andare." Man mano che lo studente sviluppa strategie di autoregolazione, i limiti possono essere gradualmente allentati. L'obiettivo è l'autonomia, non il controllo.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota etica:</strong> L'uso di Screen Time va bilanciato con l'età e il livello di autonomia dello studente. Per adolescenti delle scuole superiori, un controllo eccessivo può essere controproducente e danneggiare la relazione di fiducia. Discutere apertamente con il figlio e, se possibile, con il terapeuta o l'insegnante di sostegno.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SEZIONE C ==================== -->
+            <section id="sezione-c" class="section">
+                <h2>⚙️ SEZIONE C — Accessibilità visiva e sensoriale</h2>
+                <div class="section-intro">
+                    <p>Queste configurazioni ottimizzano la percezione visiva, riducono l'affaticamento sensoriale e migliorano il comfort durante l'uso prolungato.</p>
+                </div>
+
+                <!-- C1 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>C1. Ottimizzazione del contrasto visivo</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-red">Visiva ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Attivare l'aumento del contrasto per migliorare la separazione visiva delle finestre e degli elementi dell'interfaccia.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Accessibilità → Schermo</strong> → Attivare <strong>"Aumenta contrasto"</strong>.</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Rendere immediatamente distinguibili le diverse finestre aperte, facilitando l'orientamento visivo.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 3.3: <em>Guidare l'elaborazione e la visualizzazione delle informazioni</em> — Un contrasto figura-sfondo ben definito riduce l'ambiguità percettiva e il tempo necessario per orientarsi.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Molte persone con autismo beneficiano di <strong>confini visivi chiari tra elementi dell'interfaccia</strong> (Britto &amp; Pizzolato, 2016). L'interfaccia "flat" moderna di macOS, con finestre dai bordi sfumati, può creare difficoltà nel distinguere dove finisce una finestra e inizia lo sfondo. L'aumento del contrasto ripristina questa separazione. Per studenti con DSA, un buon contrasto migliora la leggibilità del testo sullo schermo.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Calibrare direttamente con lo studente per trovare il punto ottimale tra definizione dei bordi e comfort visivo. Un contrasto eccessivo può risultare stancante.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C2 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>C2. Ingrandimento del puntatore</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                                <span class="profile-tag tag tag-red">Motoria ●●●</span>
+                                <span class="profile-tag tag tag-red">Visiva ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Aumentare la dimensione del puntatore del mouse per migliorarne la visibilità.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Accessibilità → Schermo → Puntatore</strong> → Aumentare il cursore <strong>"Dimensione puntatore"</strong> tramite il cursore.</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Migliorare la <strong>visibilità e localizzazione del puntatore</strong> sullo schermo, riducendo il tempo necessario per individuarlo dopo momenti di distrazione.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 3.3: <em>Guidare l'elaborazione e la visualizzazione delle informazioni</em> — Evidenziare i pattern e le caratteristiche critiche riduce il carico di elaborazione visiva.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> La ricerca sull'attenzione visiva nell'autismo documenta pattern peculiari di <strong>ricerca visiva e tracking</strong> (Robertson &amp; Baron-Cohen, 2017). Un puntatore più grande facilita il riaggancio dell'attenzione dopo interruzioni. Per studenti con disabilità motorie, un puntatore più grande è anche più facile da posizionare con precisione.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C3 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>C3. Filtri colore</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">DSA ●●●</span>
+                                <span class="profile-tag tag tag-red">Visiva ●●●</span>
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Attivare i filtri colore di sistema per migliorare la leggibilità o compensare specifiche condizioni visive.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Accessibilità → Schermo → Filtri colore:</strong></p>
+                        <ol>
+                            <li>Attivare <strong>"Filtri colore"</strong>.</li>
+                            <li>Scegliere il tipo di filtro in base alle esigenze:
+                                <ul>
+                                    <li><strong>Scala di grigi:</strong> Riduce drasticamente la stimolazione cromatica (utile per ASD con forte iper-reattività visiva, o per ridurre la "attrattività" di contenuti distraenti).</li>
+                                    <li><strong>Filtro rosso/verde, blu/giallo:</strong> Compensano daltonismo.</li>
+                                    <li><strong>Tonalità colore:</strong> Permette di applicare una sovrapposizione colorata personalizzata. <strong>Particolarmente utile per studenti con DSA:</strong> la ricerca sulla sindrome di Irlen/stress visivo suggerisce che sovrapposizioni colorate (tipicamente giallo, rosa o azzurro tenue) possono migliorare la leggibilità del testo per alcuni lettori con dislessia (Wilkins, 2003).</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Adattare la presentazione cromatica dello schermo alle specifiche esigenze percettive dello studente.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 1.1: <em>Offrire modi per personalizzare la presentazione delle informazioni</em> — Consentire la personalizzazione degli aspetti percettivi supporta le differenze individuali.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX e clinico:</strong> Le <strong>overlay colorate</strong> sono uno strumento consolidato nel supporto alla lettura per persone con stress visivo correlato alla dislessia. Sebbene la ricerca sull'efficacia sia ancora dibattuta, molti professionisti e utenti riportano benefici significativi (Wilkins, 2003). La possibilità di personalizzare la tonalità in macOS permette di trovare il colore ottimale per ogni studente. Il filtro in scala di grigi ha inoltre un'applicazione interessante come <strong>strategia anti-distrazione</strong>: i contenuti social e video risultano meno attraenti senza colore, supportando indirettamente la concentrazione.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Testare diversi filtri con lo studente in sessioni di lettura prolungata. L'effetto benefico, quando presente, è solitamente immediato e riconoscibile dallo studente stesso.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C4 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>C4. Night Shift e True Tone</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-yellow">Visiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare Night Shift per ridurre la luce blu nelle ore serali e True Tone per adattare la temperatura colore all'illuminazione ambientale.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Impostazioni di Sistema → <strong>Schermi → Night Shift:</strong>
+                                <ul>
+                                    <li>Attivare la <strong>Programmazione</strong> (consigliato: "Da tramonto ad alba").</li>
+                                    <li>Regolare la <strong>"Temperatura colore"</strong> verso "Più calda" a un livello confortevole.</li>
+                                </ul>
+                            </li>
+                            <li>Impostazioni di Sistema → <strong>Schermi</strong> → Attivare <strong>"True Tone"</strong> (se disponibile sul modello).</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Ridurre l'affaticamento visivo durante l'uso serale del computer e adattare lo schermo alle condizioni di illuminazione dell'ambiente.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 1.1: <em>Offrire modi per personalizzare la presentazione delle informazioni.</em>
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX e salute:</strong> L'esposizione alla luce blu nelle ore serali interferisce con la produzione di melatonina e può disturbare il ciclo sonno-veglia. I <strong>disturbi del sonno</strong> sono particolarmente frequenti in persone con ASD (Cortesi et al., 2010) e ADHD (Hvolby, 2015). Ridurre la componente blu dello schermo nelle ore serali è un intervento semplice che può contribuire a una migliore igiene del sonno. True Tone assicura inoltre che i colori appaiano naturali indipendentemente dall'illuminazione della stanza, riducendo l'affaticamento percettivo.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C5 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>C5. Zoom e ingrandimento schermo</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">Visiva ●●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-green">Intellettiva ●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare lo zoom di sistema per consentire l'ingrandimento temporaneo di porzioni dello schermo quando necessario.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Accessibilità → Zoom:</strong></p>
+                        <ol>
+                            <li>Attivare <strong>"Usa le abbreviazioni da tastiera per ingrandire"</strong> — Permette di zoomare con Cmd + Opzione + = (ingrandisci) e Cmd + Opzione + - (riduci).</li>
+                            <li>Attivare <strong>"Usa il gesto di scorrimento con tasti modificatori per ingrandire"</strong> — Permette di zoomare tenendo premuto Ctrl e scorrendo con due dita sul trackpad.</li>
+                            <li>In <strong>"Stile di zoom"</strong>: scegliere tra "Schermo intero" (ingrandisce tutto), "Schermo diviso" (una metà mostra la versione ingrandita) o "Picture-in-picture" (una lente segue il cursore). Per la maggior parte degli studenti, <strong>"Picture-in-picture"</strong> è la scelta più intuitiva.</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Fornire un modo rapido per ingrandire temporaneamente testo, immagini o dettagli quando necessario, senza modificare permanentemente le dimensioni dello schermo.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 1.1: <em>Offrire modi per personalizzare la presentazione delle informazioni.</em>
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Lo zoom di sistema è un'alternativa più flessibile rispetto all'aumento fisso della dimensione del testo: lo studente può ingrandire solo quando ne ha bisogno, mantenendo la visione d'insieme il resto del tempo. Per studenti con <strong>ipovisione</strong> o <strong>difficoltà di decodifica visiva</strong>, lo zoom diventa uno strumento compensativo fondamentale.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SEZIONE D ==================== -->
+            <section id="sezione-d" class="section">
+                <h2>⚙️ SEZIONE D — Interazione fisica e input</h2>
+                <div class="section-intro">
+                    <p>Queste configurazioni ottimizzano il modo in cui lo studente interagisce fisicamente con il MacBook — trackpad, tastiera e input vocale.</p>
+                </div>
+
+                <!-- D1 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>D1. Ottimizzazione velocità del Trackpad</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                                <span class="profile-tag tag tag-red">Motoria ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Regolare la velocità di scorrimento del trackpad per adattarla alle esigenze motorie dello studente.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Trackpad</strong> → Regolare la <strong>"Velocità di scorrimento"</strong>.</p>
+                        <ul>
+                            <li><strong>Per studenti con difficoltà di motricità fine o tremore:</strong> ridurre la velocità per evitare movimenti involontari eccessivi.</li>
+                            <li><strong>Per studenti che necessitano di movimenti fluidi e continui (es. ASD):</strong> aumentare la velocità per permettere di attraversare l'intero schermo con un unico movimento, senza dover sollevare e riposizionare il dito.</li>
+                        </ul>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Permettere un'interazione fisica fluida e prevedibile con il trackpad, adattata alle caratteristiche motorie individuali.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3.</strong> Checkpoint 5.1: <em>Ottimizzare l'accesso a strumenti e tecnologie assistive</em> — L'interazione fisica con il dispositivo deve essere fluida e non richiedere movimenti frammentati che interrompono il flusso cognitivo.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> La <strong>prevedibilità del movimento</strong> è cruciale per utenti neurodivergenti. Quando il trackpad richiede di sollevare e riposizionare il dito, si introduce un'interruzione nel mapping motorio-visivo che può generare confusione. Per studenti con difficoltà motorie, la velocità va invece ridotta per aumentare la precisione e ridurre la frustrazione da errori di posizionamento.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Regolare gradualmente fino a trovare il valore ottimale per lo studente. Troppo veloce = imprecisione; troppo lento = frustrazione e affaticamento fisico.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- D2 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>D2. Retroilluminazione tastiera sempre attiva</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                                <span class="profile-tag tag tag-yellow">DSA ●●</span>
+                                <span class="profile-tag tag tag-red">Visiva ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Impedire che la retroilluminazione della tastiera si spenga automaticamente dopo un periodo di inattività.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Tastiera</strong> → Impostare <strong>"Disattiva la retroilluminazione della tastiera dopo inattività"</strong> su <strong>"Mai"</strong>.</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Garantire che i tasti siano <strong>sempre chiaramente visibili</strong>, indipendentemente dal tempo di inattività.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 3.3: <em>Guidare l'elaborazione e la visualizzazione delle informazioni</em> — La visibilità costante degli strumenti di input riduce il carico cognitivo.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Lo spegnimento automatico della retroilluminazione crea un <strong>cambio improvviso dell'ambiente visivo</strong> che richiede riadattamento. Per studenti che non hanno ancora automatizzato la digitazione, perdere improvvisamente la visibilità dei tasti interrompe il flusso di lavoro e richiede sforzo aggiuntivo per riorientarsi.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- D3 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>D3. Sostituzione automatica del testo</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">DSA ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Motoria ●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare la sostituzione automatica per gli errori di digitazione ricorrenti e per abbreviazioni utili.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Tastiera → Sostituzioni testo:</strong></p>
+                        <ol>
+                            <li>Cliccare <strong>"+"</strong> per aggiungere una nuova sostituzione.</li>
+                            <li>Nella colonna <strong>"Sostituisci"</strong> inserire l'errore comune o l'abbreviazione.</li>
+                            <li>Nella colonna <strong>"Con"</strong> inserire la versione corretta o il testo espanso.</li>
+                        </ol>
+
+                        <h4>Esempi pratici</h4>
+                        <table class="subst-table">
+                            <thead><tr><th>Sostituisci</th><th>Con</th></tr></thead>
+                            <tbody>
+                                <tr><td>perchè</td><td>perché</td></tr>
+                                <tr><td>pò</td><td>po'</td></tr>
+                                <tr><td>xche</td><td>perché</td></tr>
+                                <tr><td>nn</td><td>non</td></tr>
+                                <tr><td>cmq</td><td>comunque</td></tr>
+                                <tr><td>qlc</td><td>qualcosa</td></tr>
+                                <tr><td>@@</td><td>nome.cognome@scuola.it</td></tr>
+                                <tr><td>//sc</td><td>Nome completo della scuola</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Compensare errori ortografici sistematici e velocizzare la digitazione di testi ricorrenti, riducendo la frustrazione e il tempo speso a correggere.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3.</strong> Checkpoint 5.2: <em>Utilizzare strumenti e tecnologie multiple</em> — Gli strumenti compensativi supportano l'espressione senza sostituire l'apprendimento.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX e clinico:</strong> Per studenti con <strong>dislessia</strong>, gli errori ortografici ricorrenti sono spesso stabili e prevedibili (es. confusione accenti, doppie). La sostituzione automatica funziona come <strong>strumento compensativo "invisibile"</strong>: il testo appare corretto senza richiedere allo studente un'attenzione aggiuntiva alla forma. Per studenti con difficoltà motorie, le abbreviazioni riducono la quantità di digitazione necessaria. Questo approccio è coerente con quanto previsto dai PDP (Piani Didattici Personalizzati) per studenti con DSA, che includono l'uso di strumenti compensativi.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Personalizzare le sostituzioni in base agli errori specifici dello studente. È utile raccogliere i testi prodotti in un periodo di due settimane per identificare i pattern ricorrenti, poi configurare le sostituzioni mirate.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- D4 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>D4. Dettatura e input vocale</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">DSA ●●●</span>
+                                <span class="profile-tag tag tag-red">Motoria ●●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Attivare la dettatura di macOS, che permette di scrivere testo parlando anziché digitando.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Impostazioni di Sistema → <strong>Tastiera → Dettatura</strong> → Attivare <strong>"Dettatura"</strong>.</li>
+                            <li>Scegliere la lingua: <strong>Italiano</strong>.</li>
+                            <li>Configurare la <strong>scorciatoia</strong>: l'impostazione predefinita è premere due volte il tasto Fn (o il tasto 🌐). Si può personalizzare.</li>
+                            <li>Opzionale: scaricare il <strong>modello offline</strong> per funzionare anche senza connessione Internet (consigliato per affidabilità).</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Fornire un canale di input alternativo alla tastiera, particolarmente utile per studenti la cui velocità di elaborazione del pensiero supera la velocità di digitazione.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3.</strong> Checkpoint 5.1: <em>Ottimizzare l'accesso a strumenti e tecnologie assistive.</em>
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX e clinico:</strong> La dettatura è uno degli <strong>strumenti compensativi più efficaci</strong> per studenti con dislessia e disgrafia: separa la competenza di produzione del contenuto dalla competenza di trascrizione. Per studenti con disabilità motorie, può essere l'unico canale di input testo praticabile. È importante che lo studente impari anche i <strong>comandi vocali per la punteggiatura</strong> ("punto", "virgola", "a capo", "apri virgolette / chiudi virgolette") per produrre testi formattati correttamente.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota per i genitori:</strong> La dettatura di macOS migliora significativamente con la pratica: sia il sistema si adatta alla voce dello studente, sia lo studente impara a scandire e a usare i comandi. Prevedere un breve periodo di apprendimento (1-2 settimane) prima di valutarne l'efficacia. Il modello offline è meno preciso di quello online, ma garantisce funzionamento costante.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- D5 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>D5. Sticky Keys e Slow Keys</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">Motoria ●●●</span>
+                                <span class="profile-tag tag tag-yellow">Intellettiva ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare le opzioni di accessibilità della tastiera per studenti con difficoltà motorie nella pressione contemporanea di più tasti o nella precisione della pressione.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Accessibilità → Tastiera:</strong></p>
+                        <ol>
+                            <li><strong>Sticky Keys (Tasti singoli):</strong> Attivare <strong>"Abilita Tasti singoli"</strong>. Questa funzione permette di eseguire combinazioni di tasti (es. Cmd + C) premendo un tasto alla volta anziché simultaneamente. Lo studente preme prima Cmd, poi C — il sistema li interpreta come premuti insieme.</li>
+                            <li><strong>Slow Keys (Tasti lenti):</strong> Attivare <strong>"Abilita Tasti lenti"</strong>. Questa funzione introduce un ritardo tra la pressione del tasto e la registrazione — ignora le pressioni accidentali brevi, accettando solo le pressioni intenzionali più lunghe. Regolare il <strong>"Ritardo di accettazione"</strong> in base alle esigenze.</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Rendere la tastiera utilizzabile anche per studenti con limitazioni nella motricità fine, tremore, o difficoltà nella coordinazione bimanuale.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3.</strong> Checkpoint 5.1: <em>Ottimizzare l'accesso a strumenti e tecnologie assistive.</em>
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Le scorciatoie da tastiera del Mac richiedono tipicamente la pressione simultanea di 2-3 tasti, azione che presuppone una buona coordinazione bimanuale. Sticky Keys elimina questo requisito. Slow Keys è particolarmente utile per studenti con <strong>spasticità o movimenti involontari</strong>, che possono generare pressioni accidentali dei tasti.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- D6 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>D6. Scorciatoie da tastiera essenziali</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-cyan">Tutti i profili</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Insegnare gradualmente allo studente le scorciatoie da tastiera fondamentali, che riducono la dipendenza dal trackpad e velocizzano le operazioni comuni.</p>
+
+                        <h4>Scorciatoie di base — primo livello</h4>
+                        <table class="shortcut-table">
+                            <thead><tr><th>Scorciatoia</th><th>Funzione</th></tr></thead>
+                            <tbody>
+                                <tr><td>Cmd + C</td><td>Copia</td></tr>
+                                <tr><td>Cmd + V</td><td>Incolla</td></tr>
+                                <tr><td>Cmd + Z</td><td>Annulla (fondamentale: "se sbagli, puoi tornare indietro")</td></tr>
+                                <tr><td>Cmd + S</td><td>Salva</td></tr>
+                                <tr><td>Cmd + Spazio</td><td>Spotlight — cerca qualsiasi cosa nel Mac</td></tr>
+                                <tr><td>Cmd + Tab</td><td>Cambia applicazione</td></tr>
+                                <tr><td>Cmd + Q</td><td>Chiudi applicazione</td></tr>
+                                <tr><td>Cmd + W</td><td>Chiudi finestra/tab</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Scorciatoie intermedie — secondo livello</h4>
+                        <table class="shortcut-table">
+                            <thead><tr><th>Scorciatoia</th><th>Funzione</th></tr></thead>
+                            <tbody>
+                                <tr><td>Cmd + A</td><td>Seleziona tutto</td></tr>
+                                <tr><td>Cmd + F</td><td>Cerca nel documento o nella pagina web</td></tr>
+                                <tr><td>Cmd + T</td><td>Nuova scheda nel browser</td></tr>
+                                <tr><td>Cmd + N</td><td>Nuovo documento/finestra</td></tr>
+                                <tr><td>Cmd + P</td><td>Stampa</td></tr>
+                                <tr><td>Cmd + , (virgola)</td><td>Apri Impostazioni dell'app corrente</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Sviluppare automatismi che riducono il numero di passaggi per le operazioni comuni, liberando risorse cognitive per il compito effettivo.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3.</strong> Checkpoint 5.3: <em>Costruire fluidità con livelli graduati di supporto.</em>
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Ogni passaggio aggiuntivo (spostare la mano dalla tastiera al trackpad, navigare nei menu, cliccare) rappresenta un <strong>punto di interruzione</strong> nel flusso di lavoro. Le scorciatoie da tastiera eliminano questi punti di interruzione. L'apprendimento va però graduato: troppe scorciatoie in una volta generano sovraccarico. Introdurne 2-3 alla settimana, partendo da quelle più utili (Cmd+C, Cmd+V, Cmd+Z).
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Consiglio pratico:</strong> Creare un piccolo promemoria stampato con le scorciatoie attualmente in fase di apprendimento e posizionarlo accanto al MacBook. Rimuovere le scorciatoie dal foglio man mano che vengono automatizzate, e aggiungerne di nuove.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SEZIONE E ==================== -->
+            <section id="sezione-e" class="section">
+                <h2>⚙️ SEZIONE E — Supporto alla lettura e alla comprensione</h2>
+                <div class="section-intro">
+                    <p>Queste configurazioni sfruttano le capacità del Mac per supportare la lettura, la comprensione del testo e l'elaborazione delle informazioni.</p>
+                </div>
+
+                <!-- E1 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>E1. Text-to-Speech (Contenuto Parlato)</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">DSA ●●●</span>
+                                <span class="profile-tag tag tag-red">Visiva ●●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Attivare la funzione di lettura del testo ad alta voce, che permette al Mac di leggere qualsiasi testo selezionato.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Impostazioni di Sistema → <strong>Accessibilità → Contenuto Parlato.</strong></li>
+                            <li>Attivare <strong>"Leggi la selezione"</strong>. La scorciatoia predefinita è <strong>Opzione + Esc</strong>.</li>
+                            <li>Cliccare su <strong>"Voce del sistema"</strong> e scegliere una voce italiana di alta qualità (es. "Alice" o "Luca" — scaricare la versione "Avanzata" per una voce più naturale).</li>
+                            <li>Regolare la <strong>velocità di lettura</strong> con lo slider.</li>
+                            <li>Attivare <strong>"Evidenzia il contenuto"</strong> per far sì che il testo venga evidenziato parola per parola durante la lettura (supporto visivo alla lettura).</li>
+                            <li>Personalizzare il colore dell'evidenziazione per renderlo più visibile.</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Fornire un canale uditivo complementare alla lettura visiva, supportando la comprensione del testo.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 2.5: <em>Illustrare attraverso media multipli</em> — Presentare l'informazione attraverso più canali sensoriali contemporaneamente rafforza la comprensione.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX e clinico:</strong> Il Text-to-Speech è uno degli <strong>strumenti compensativi fondamentali</strong> previsti dalla normativa italiana per studenti con DSA (L.170/2010) e dal PEI per studenti con disabilità. La combinazione <strong>voce + evidenziazione visiva sincronizzata</strong> crea un'esperienza di lettura multimodale che:
+                            <ul>
+                                <li>Per <strong>studenti con dislessia</strong>: bypassa le difficoltà di decodifica, permettendo l'accesso al contenuto.</li>
+                                <li>Per <strong>studenti con disabilità visiva</strong>: sostituisce o integra la lettura visiva.</li>
+                                <li>Per <strong>studenti con ADHD</strong>: l'ascolto può mantenere l'attenzione meglio della lettura silenziosa.</li>
+                                <li>Per <strong>studenti con disabilità intellettiva</strong>: la doppia modalità (visiva + uditiva) rafforza la comprensione.</li>
+                            </ul>
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Scaricare le voci "Avanzate" o "Premium" (disponibili nelle impostazioni della voce) per una qualità audio significativamente migliore. Le voci base possono risultare robotiche e meno comprensibili.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E2 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>E2. Safari Reader e semplificazione pagine web</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">ASD ●●●</span>
+                                <span class="profile-tag tag tag-red">ADHD ●●●</span>
+                                <span class="profile-tag tag tag-red">DSA ●●●</span>
+                                <span class="profile-tag tag tag-red">Intellettiva ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare Safari per offrire una modalità di lettura pulita e priva di distrazioni.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>In Safari, quando si apre un articolo, cliccare sull'icona <strong>"Reader"</strong> nella barra degli indirizzi (icona con linee orizzontali). La pagina viene ripulita di pubblicità, sidebar, pop-up e presentata come testo puro con immagini essenziali.</li>
+                            <li>Per attivare automaticamente Reader su tutti i siti: Safari → <strong>Impostazioni → Siti web → Reader</strong> → Impostare <strong>"Quando si visitano altri siti web"</strong> su <strong>"Attivo"</strong>.</li>
+                            <li>Personalizzare il font, la dimensione del testo e il colore di sfondo di Reader per ottimizzare la leggibilità.</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Eliminare il "rumore" delle pagine web (pubblicità, animazioni, sidebar, pop-up, suggerimenti) e presentare il contenuto in formato pulito e leggibile.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principi 1 e 2.</strong> Checkpoint 7.3 e 3.3 — Minimizzare le distrazioni e guidare l'elaborazione delle informazioni.
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Una pagina web media contiene decine di elementi competitivi per l'attenzione: banner pubblicitari, video autoplay, notifiche di cookie, pop-up di iscrizione a newsletter, articoli correlati, widget social. Per qualsiasi studente con difficoltà attentive o di elaborazione, questa complessità visiva può rendere la lettura del contenuto effettivo estremamente faticosa. Reader Mode agisce come un <strong>filtro cognitivo</strong>, presentando solo il contenuto rilevante.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E3 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>E3. Estensioni browser per la produttività scolastica</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-cyan">Tutti i profili</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Installare estensioni che supportano la lettura, lo studio e la produttività sul web.</p>
+
+                        <h4>Estensioni consigliate per Chrome/Safari</h4>
+                        <div class="table-wrapper">
+                            <table class="app-table">
+                                <thead><tr><th>Estensione</th><th>Funzione</th><th>Profili principali</th></tr></thead>
+                                <tbody>
+                                    <tr><td><strong>Read Aloud</strong> (Chrome)</td><td>Lettura ad alta voce di pagine web con voci naturali</td><td>DSA, Disabilità visiva</td></tr>
+                                    <tr><td><strong>Mercury Reader</strong> (Chrome)</td><td>Semplificazione pagine web (alternativa a Safari Reader)</td><td>ASD, ADHD, DSA</td></tr>
+                                    <tr><td><strong>Dark Reader</strong> (Chrome/Safari)</td><td>Converte i siti in modalità scura, riducendo l'affaticamento visivo</td><td>ASD, Disabilità visiva</td></tr>
+                                    <tr><td><strong>uBlock Origin</strong> (Chrome)</td><td>Blocco pubblicità e pop-up — riduce drasticamente le distrazioni</td><td>Tutti</td></tr>
+                                    <tr><td><strong>Google Dictionary</strong> (Chrome)</td><td>Definizione di parole con doppio click</td><td>DSA, Disabilità intellettiva</td></tr>
+                                    <tr><td><strong>Helperbird</strong> (Chrome)</td><td>Suite completa di accessibilità: overlay colorate, font per dislessia, righello di lettura</td><td>DSA, Disabilità visiva</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Estendere le funzionalità di accessibilità del sistema operativo all'esperienza web.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 2.</strong> Checkpoint 1.1: <em>Offrire modi per personalizzare la presentazione delle informazioni.</em>
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> Installare solo le estensioni effettivamente utili. Ogni estensione aggiunge complessità al browser e può rallentarlo. Meno è meglio: scegliere 2-3 estensioni mirate ai bisogni specifici dello studente.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E4 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>E4. Hot Corners per accesso rapido</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-yellow">ASD ●●</span>
+                                <span class="profile-tag tag tag-yellow">ADHD ●●</span>
+                                <span class="profile-tag tag tag-red">Motoria ●●●</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare i "Hot Corners" (angoli attivi) dello schermo per attivare funzioni con un semplice gesto del trackpad.</p>
+
+                        <h4>Come procedere</h4>
+                        <p>Impostazioni di Sistema → <strong>Scrivania e Dock → Hot Corners</strong> (pulsante in basso):</p>
+
+                        <h4>Configurazione consigliata</h4>
+                        <table class="shortcut-table">
+                            <thead><tr><th>Angolo</th><th>Funzione consigliata</th></tr></thead>
+                            <tbody>
+                                <tr><td>In alto a sinistra</td><td>Mission Control (vista di tutte le finestre)</td></tr>
+                                <tr><td>In alto a destra</td><td>Scrivania (nasconde tutte le finestre)</td></tr>
+                                <tr><td>In basso a sinistra</td><td>Blocca schermo</td></tr>
+                                <tr><td>In basso a destra</td><td>Launchpad (griglia di tutte le app)</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Fornire scorciatoie gestuali intuitive per le funzioni più usate, accessibili anche a chi ha difficoltà con le scorciatoie da tastiera.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UDL — Principio 3.</strong> Checkpoint 5.1: <em>Ottimizzare l'accesso a strumenti e tecnologie assistive.</em>
+                        </div>
+                        <div class="ref-block">
+                            <strong>📚 Riferimento UX:</strong> Gli Hot Corners richiedono un singolo movimento motorio (spostare il cursore in un angolo) anziché la memorizzazione e l'esecuzione di combinazioni di tasti. Per studenti con <strong>disabilità motorie</strong>, rappresentano un'alternativa importante alle scorciatoie da tastiera. Per studenti con <strong>ADHD</strong>, l'accesso rapido a Mission Control aiuta a ritrovare velocemente la finestra su cui si stava lavorando.
+                        </div>
+
+                        <div class="note-block">
+                            <strong>⚠️ Nota:</strong> L'Hot Corner può attivarsi accidentalmente. Se questo crea problemi, macOS permette di richiedere un tasto modificatore (es. tenere premuto Cmd mentre si porta il cursore nell'angolo).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SEZIONE F ==================== -->
+            <section id="sezione-f" class="section">
+                <h2>🔒 SEZIONE F — Sicurezza e manutenzione</h2>
+                <div class="section-intro">
+                    <p>Queste configurazioni proteggono il dispositivo e i dati dello studente, e facilitano il ripristino in caso di problemi.</p>
+                </div>
+
+                <!-- F1 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>F1. Backup e ripristino della configurazione</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-red">🔴 Priorità alta per tutti i profili</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>⚙️ Cosa fare</h4>
+                        <p>Configurare il backup automatico di Time Machine per proteggere i dati e le configurazioni dello studente.</p>
+
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li>Collegare un <strong>disco esterno</strong> (o configurare un NAS domestico).</li>
+                            <li>Impostazioni di Sistema → <strong>Generali → Time Machine</strong> → Selezionare il disco come destinazione backup.</li>
+                            <li>Time Machine eseguirà backup automatici ogni ora quando il disco è collegato.</li>
+                        </ol>
+
+                        <h4>Alternativa senza disco esterno</h4>
+                        <p>Se non si dispone di un disco esterno, assicurarsi che:</p>
+                        <ul>
+                            <li>I file scolastici siano salvati su <strong>Google Drive o iCloud</strong> (sincronizzazione cloud automatica).</li>
+                            <li>Le impostazioni principali siano documentate (questa guida serve anche a questo scopo).</li>
+                        </ul>
+
+                        <h4>Per documentare la configurazione corrente</h4>
+                        <p>Eseguire nel Terminale (Applicazioni → Utility → Terminale):</p>
+                        <pre>defaults read > ~/Desktop/configurazione-mac-backup.txt</pre>
+                        <p>Questo salva sulla Scrivania un file con tutte le impostazioni personalizzate.</p>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Garantire che in caso di guasto, furto o sostituzione del MacBook, la configurazione possa essere ripristinata rapidamente.
+                        </div>
+
+                        <h4>💡 Razionale</h4>
+
+                        <div class="ref-block">
+                            <strong>📚</strong> Per uno studente con disabilità, la <strong>perdita della configurazione personalizzata</strong> può essere molto più impattante che per un utente tipico: non si tratta solo di preferenze estetiche, ma di <strong>strumenti compensativi</strong> la cui assenza può compromettere seriamente l'autonomia scolastica. Un backup regolare protegge questo investimento.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- F2 -->
+                <div class="card expandable config-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>F2. Sicurezza di base</h3>
+                            <div class="profile-tags">
+                                <span class="profile-tag tag tag-cyan">🔒 Configurazioni consigliate per tutti i profili</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>Come procedere</h4>
+                        <ol>
+                            <li><strong>Password di accesso:</strong> Impostazioni di Sistema → <strong>Utenti e gruppi</strong> → Assicurarsi che l'account abbia una password. Per studenti con difficoltà a ricordare password complesse, utilizzare una password semplice ma non ovvia, oppure configurare lo <strong>sblocco con Apple Watch</strong> se disponibile.</li>
+                            <li><strong>FileVault (crittografia disco):</strong> Impostazioni di Sistema → <strong>Privacy e Sicurezza → FileVault</strong> → Attivare. Questo protegge i dati in caso di furto del dispositivo. <strong>Conservare la chiave di recupero in un luogo sicuro</strong>.</li>
+                            <li><strong>Localizzazione:</strong> Impostazioni di Sistema → <strong>Privacy e Sicurezza → Servizi di localizzazione → Servizi di sistema</strong> → Assicurarsi che <strong>"Trova il mio Mac"</strong> sia attivo. In caso di smarrimento, il Mac potrà essere localizzato tramite iCloud.com.</li>
+                            <li><strong>Aggiornamenti automatici:</strong> Impostazioni di Sistema → <strong>Generali → Aggiornamento software</strong> → Attivare <strong>"Aggiornamenti automatici"</strong> per mantenere il sistema sicuro e aggiornato.</li>
+                        </ol>
+
+                        <div class="objective-block">
+                            <strong>🎯 Obiettivo:</strong> Proteggere il dispositivo e i dati senza aggiungere complessità operativa per lo studente.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SEZIONE G ==================== -->
+            <section id="sezione-g" class="section">
+                <h2>⚙️ SEZIONE G — App consigliate</h2>
+                <div class="section-intro">
+                    <p>Questa sezione elenca applicazioni gratuite o già incluse in macOS che possono supportare lo studente nell'attività scolastica.</p>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="app-table">
+                        <thead>
+                            <tr><th>App</th><th>Descrizione</th><th>Gratuita</th><th>Profili principali</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Pages</strong></td><td>Elaboratore testi Apple con ottima accessibilità integrata</td><td>✅</td><td>Tutti</td></tr>
+                            <tr><td><strong>Keynote</strong></td><td>Presentazioni — alternativa a PowerPoint, ottima per verifiche orali</td><td>✅</td><td>Tutti</td></tr>
+                            <tr><td><strong>GarageBand</strong></td><td>Creazione audio — utile per podcast e registrazioni</td><td>✅</td><td>DSA (registrazione lezioni)</td></tr>
+                            <tr><td><strong>QuickTime</strong></td><td>Registrazione schermo — utile per catturare lezioni online</td><td>✅</td><td>Tutti</td></tr>
+                            <tr><td><strong>Anteprima</strong></td><td>Annotazione e firma di PDF — utile per compilare schede</td><td>✅</td><td>Tutti</td></tr>
+                            <tr><td><strong>ClaroRead</strong></td><td>Suite TTS professionale con evidenziazione, dizionario e OCR</td><td>❌ (a pagamento)</td><td>DSA, Disabilità visiva</td></tr>
+                            <tr><td><strong>Natural Reader</strong></td><td>TTS con voci naturali e scan OCR</td><td>Freemium</td><td>DSA</td></tr>
+                            <tr><td><strong>Notability</strong></td><td>Presa appunti con registrazione audio sincronizzata</td><td>❌</td><td>ADHD, DSA</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="note-block mt-2">
+                    <strong>⚠️ Nota:</strong> Prima di acquistare software, verificare con la scuola se esistono licenze istituzionali disponibili. Molte scuole hanno convenzioni con produttori di software per l'accessibilità. Inoltre, le ASL possono fornire software compensativi tramite la prescrizione nel PEI.
+                </div>
+            </section>
+
+            <!-- ==================== PRINCIPI ==================== -->
+            <section id="principi" class="section">
+                <h2>📚 Sintesi dei principi di design applicati</h2>
+
+                <div class="table-wrapper">
+                    <table class="principles-table">
+                        <thead><tr><th>Principio</th><th>Applicazione in questa guida</th></tr></thead>
+                        <tbody>
+                            <tr><td>Riduzione del carico cognitivo</td><td>Link diretti, raggruppamento, rimozione elementi superflui, automazione manutenzione, sostituzione automatica testo</td></tr>
+                            <tr><td>Prevedibilità</td><td>Posizione fissa degli strumenti, consistenza cross-device, trackpad fluido, comportamento Dock costante, Riduci Movimento</td></tr>
+                            <tr><td>Minimizzazione delle distrazioni</td><td>Dock essenziale e nascosto, sfondo neutro, barra menu semplificata, Focus Mode, Safari Reader, Screen Time</td></tr>
+                            <tr><td>Accessibilità visiva</td><td>Contrasto calibrato, puntatore ingrandito, retroilluminazione costante, filtri colore, Zoom, Night Shift</td></tr>
+                            <tr><td>Accessibilità uditiva e linguistica</td><td>Text-to-Speech, Dettatura, sostituzione testo</td></tr>
+                            <tr><td>Accessibilità motoria</td><td>Trackpad ottimizzato, Sticky Keys, Slow Keys, Hot Corners, scorciatoie graduali</td></tr>
+                            <tr><td>Fluidità dell'interazione</td><td>Trackpad ottimizzato, effetti scala, scorciatoie tastiera, Hot Corners</td></tr>
+                            <tr><td>Flessibilità e reversibilità</td><td>App non disinstallate, configurazione reversibile, accessibili via Spotlight, limiti Screen Time graduali</td></tr>
+                            <tr><td>Autonomia progressiva</td><td>Coinvolgimento dello studente, limiti gradualmente allentati, documentazione per auto-gestione</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==================== COINVOLGIMENTO ==================== -->
+            <section id="coinvolgimento" class="section">
+                <h2>🤝 Coinvolgimento dello studente nella configurazione</h2>
+
+                <div class="critical-block">
+                    <strong>🔴 Questa sezione è tanto importante quanto le configurazioni tecniche.</strong>
+                </div>
+
+                <p>La configurazione del MacBook non è qualcosa che si fa <em>per</em> lo studente, ma <em>con</em> lo studente. Anche quando le limitazioni cognitive o comunicative sono significative, è fondamentale coinvolgere il più possibile il ragazzo nella scelta e nella personalizzazione degli strumenti.</p>
+
+                <div class="subsection">
+                    <h3>Perché è importante</h3>
+                    <p>La ricerca sull'<strong>autodeterminazione</strong> nelle persone con disabilità (Wehmeyer, 2005) dimostra che il senso di controllo sul proprio ambiente è uno dei predittori più forti di qualità della vita e successo adattivo. Uno studente che sente il MacBook come "il mio computer, configurato come piace a me" lo utilizzerà con più motivazione e competenza di uno studente che percepisce il dispositivo come "il computer che mi hanno imposto così".</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Suggerimenti pratici</h3>
+                    <div class="card">
+                        <ul>
+                            <li><strong>Chiedere preferenze</strong> dove possibile: colore dello sfondo, posizione delle icone, velocità del trackpad. Anche scelte apparentemente minori danno senso di agency.</li>
+                            <li><strong>Spiegare il perché</strong> di ogni configurazione con un linguaggio adatto: "Ti nascondo queste icone così quando apri il computer vedi subito le cose della scuola" è più efficace di "L'ho configurato io, non toccare niente".</li>
+                            <li><strong>Procedere in sessioni brevi</strong>: non configurare tutto in una volta. 2-3 modifiche per sessione, con tempo per abituarsi.</li>
+                            <li><strong>Accettare aggiustamenti</strong>: se lo studente chiede di modificare qualcosa, ascoltare. La configurazione "perfetta" dal punto di vista tecnico ma rifiutata dallo studente è inutile.</li>
+                            <li><strong>Celebrare la competenza</strong>: quando lo studente padroneggia una nuova scorciatoia o funzione, riconoscerlo. La competenza digitale è una competenza di vita.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== COLLABORAZIONE ==================== -->
+            <section id="collaborazione" class="section">
+                <h2>📋 Collaborazione scuola-famiglia</h2>
+
+                <p>Questa guida è progettata per funzionare in sinergia con la documentazione scolastica. Ecco come utilizzarla nel contesto del percorso educativo:</p>
+
+                <div class="card">
+                    <h3>Condivisione con l'insegnante di sostegno</h3>
+                    <p>Questa guida (o una versione sintetica) può essere allegata al <strong>PEI</strong> (Piano Educativo Individualizzato) come documentazione degli strumenti compensativi tecnologici configurati a casa, garantendo coerenza tra l'ambiente domestico e quello scolastico.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Verifica di coerenza</h3>
+                    <p>Se lo studente utilizza un computer anche a scuola, è importante che le configurazioni siano allineate. Le differenze tra i due ambienti (es. Dock con icone diverse, sfondo diverso, velocità trackpad diversa) possono generare confusione e rallentare lo sviluppo degli automatismi.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Aggiornamento periodico</h3>
+                    <p>La configurazione va rivista almeno a ogni cambio di quadrimestre o in occasione del GLO (Gruppo di Lavoro Operativo), per adattarla all'evoluzione delle competenze e dei bisogni dello studente.</p>
+                </div>
+
+                <div class="subsection mt-3">
+                    <h3>Riferimenti normativi italiani</h3>
+                    <div class="card">
+                        <ul>
+                            <li><strong>L. 104/1992</strong> — Legge-quadro per l'assistenza, l'integrazione sociale e i diritti delle persone handicappate.</li>
+                            <li><strong>D.Lgs. 66/2017</strong> e <strong>D.I. 182/2020</strong> (modificato con D.I. 153/2023) — Normativa sul PEI e inclusione scolastica, che include l'indicazione di strumenti e sussidi necessari.</li>
+                            <li><strong>L. 170/2010</strong> — Norme in materia di disturbi specifici di apprendimento, che prevede l'uso di strumenti compensativi e misure dispensative.</li>
+                            <li><strong>DM 5669/2011</strong> e <strong>Linee Guida allegate</strong> — Dettagliano gli strumenti compensativi per studenti con DSA, tra cui esplicitamente i dispositivi informatici e i software di sintesi vocale.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== PROBLEMI ==================== -->
+            <section id="problemi" class="section">
+                <h2>🔧 Risoluzione problemi comuni</h2>
+
+                <div class="table-wrapper">
+                    <table class="troubleshoot-table">
+                        <thead><tr><th>Problema</th><th>Causa probabile</th><th>Soluzione</th></tr></thead>
+                        <tbody>
+                            <tr><td>"Il Dock è sparito"</td><td>Nascondi automaticamente è attivo</td><td>Spostare il cursore sul bordo inferiore dello schermo — il Dock riappare</td></tr>
+                            <tr><td>"Non trovo un'app"</td><td>Rimossa dal Dock (non disinstallata)</td><td>Usare Spotlight: Cmd + Spazio, digitare il nome dell'app</td></tr>
+                            <tr><td>"Lo sfondo è cambiato"</td><td>Aggiornamento macOS o cambio accidentale</td><td>Impostazioni → Sfondo → Reimpostare il colore solido</td></tr>
+                            <tr><td>"Il computer parla"</td><td>VoiceOver attivato accidentalmente</td><td>Premere Cmd + F5 per disattivare VoiceOver</td></tr>
+                            <tr><td>"I tasti non funzionano normalmente"</td><td>Sticky Keys attivato per errore</td><td>Impostazioni → Accessibilità → Tastiera → Verificare lo stato</td></tr>
+                            <tr><td>"Lo schermo è tutto grigio / con colori strani"</td><td>Filtro colore attivato accidentalmente</td><td>Impostazioni → Accessibilità → Schermo → Filtri colore → Disattivare</td></tr>
+                            <tr><td>"La dettatura non funziona"</td><td>Microfono non autorizzato o lingua sbagliata</td><td>Impostazioni → Privacy → Microfono; Tastiera → Dettatura → Verificare lingua</td></tr>
+                            <tr><td>"Il Focus Mode blocca le notifiche importanti"</td><td>Configurazione troppo restrittiva</td><td>Impostazioni → Focus → "Studio" → Aggiungere persone/app consentite</td></tr>
+                            <tr><td>"Il computer è lentissimo"</td><td>Troppe app aperte o disco pieno</td><td>Chiudere app non necessarie (Cmd+Q); verificare spazio disco in "Questo Mac"</td></tr>
+                            <tr><td>"Le impostazioni sono cambiate dopo un aggiornamento"</td><td>Gli aggiornamenti macOS possono resettare alcune preferenze</td><td>Riverificare le configurazioni di questa guida dopo ogni aggiornamento major</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="note-block mt-2">
+                    <strong>⚠️ Consiglio generale:</strong> Quando qualcosa non funziona come previsto, prima di modificare le impostazioni, provare a <strong>riavviare il MacBook</strong> (menu Apple → Riavvia). Molti problemi temporanei si risolvono con un semplice riavvio.
+                </div>
+            </section>
+
+            <!-- ==================== BIBLIOGRAFIA ==================== -->
+            <section id="bibliografia" class="section">
+                <h2>📚 Riferimenti bibliografici</h2>
+
+                <div class="bib-item">Brinck, T. (2020). <em>Reducing vestibular motion sensitivity in digital interfaces: Design recommendations and testing methodology</em>. Journal of Usability Studies, 15(4), 183-201.</div>
+                <div class="bib-item">Britto, T. C. P., &amp; Pizzolato, E. B. (2016). <em>Towards web accessibility guidelines of interaction and interface design for people with autism spectrum disorder</em>. Proceedings of the 9th International Conference on Advances in Computer-Human Interactions.</div>
+                <div class="bib-item">CAST (2018). <em>Universal Design for Learning Guidelines version 2.2</em>. Retrieved from http://udlguidelines.cast.org</div>
+                <div class="bib-item">Cortesi, F., Giannotti, F., Ivanenko, A., &amp; Johnson, K. (2010). <em>Sleep in children with autistic spectrum disorder</em>. Sleep Medicine, 11(7), 659-664.</div>
+                <div class="bib-item">Hvolby, A. (2015). <em>Associations of sleep disturbance with ADHD: implications for treatment</em>. ADHD Attention Deficit and Hyperactivity Disorders, 7(1), 1-18.</div>
+                <div class="bib-item">Mark, G., Gudith, D., &amp; Klocke, U. (2008). <em>The cost of interrupted work: More speed and stress</em>. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems.</div>
+                <div class="bib-item">Murray, D., Lesser, M., &amp; Lawson, W. (2005). <em>Attention, monotropism and the diagnostic criteria for autism</em>. Autism, 9(2), 139-156.</div>
+                <div class="bib-item">Pavlov, N. (2014). <em>User interface for people with autism spectrum disorders</em>. Journal of Software Engineering and Applications, 7(2), 128-134.</div>
+                <div class="bib-item">Risko, E. F., &amp; Gilbert, S. J. (2016). <em>Cognitive offloading</em>. Trends in Cognitive Sciences, 20(9), 676-688.</div>
+                <div class="bib-item">Robertson, C. E., &amp; Baron-Cohen, S. (2017). <em>Sensory perception in autism</em>. Nature Reviews Neuroscience, 18(11), 671-684.</div>
+                <div class="bib-item">Wehmeyer, M. L. (2005). <em>Self-determination and individuals with severe disabilities: Re-examining meanings and misinterpretations</em>. Research and Practice for Persons with Severe Disabilities, 30(3), 113-120.</div>
+                <div class="bib-item">Wilkins, A. J. (2003). <em>Reading through colour: How coloured filters can reduce reading difficulty, eye strain, and headaches</em>. John Wiley &amp; Sons.</div>
+            </section>
+
+            <!-- ==================== INFO DOCUMENTO ==================== -->
+            <section id="info" class="section">
+                <h2>📄 Informazioni sul documento</h2>
+
+                <table class="info-table">
+                    <tr><td>Titolo</td><td>Guida alla Configurazione del MacBook per Studenti con Disabilità</td></tr>
+                    <tr><td>Destinatari</td><td>Genitori e caregiver di studenti con disabilità o BES</td></tr>
+                    <tr><td>Redatto da</td><td>Ivan Ferrero — Insegnante di Sostegno, Cyberpsicologist</td></tr>
+                    <tr><td>Versione</td><td>1.0</td></tr>
+                    <tr><td>Ultimo aggiornamento</td><td>Febbraio 2026</td></tr>
+                    <tr><td>Compatibilità</td><td>macOS Sonoma (14) e versioni successive</td></tr>
+                    <tr><td>Licenza</td><td>Questo documento può essere liberamente condiviso e adattato per uso educativo, citando la fonte</td></tr>
+                </table>
+
+                <div class="guide-quote mt-3">
+                    <strong style="color:var(--accent-cyan);">💡 Nota finale:</strong> Questa guida è un documento vivo. Le tecnologie e le esigenze degli studenti evolvono. Si raccomanda di rivederla almeno una volta l'anno scolastico, in occasione dei GLO o degli incontri con i servizi, e di aggiornarla in base all'evoluzione delle competenze e dei bisogni dello studente. Le configurazioni qui descritte non sostituiscono la valutazione professionale, ma la integrano con indicazioni pratiche per l'uso quotidiano del dispositivo.
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Risorsa creata da Ivan Ferrero — 2026
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+    
+    <!-- Interactivity Scripts -->
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+    </script>
+</body>
+</html>
