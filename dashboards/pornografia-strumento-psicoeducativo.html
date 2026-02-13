@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiale Pornografico come Strumento Psicoeducativo | Ivan Ferrero</title>
+    <meta name="description" content="Revisione sistematica della letteratura sull'uso clinico del materiale erotico in psicoterapia sessuale. Dashboard interattiva evidence-based.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+    
+    <style>
+        /* === FALLBACK: inline design system per preview standalone === */
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-tertiary: #151b23;
+            --bg-card: #1a222d;
+            --bg-hover: #222c3a;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-cyan: #00d9ff;
+            --accent-cyan-dim: #00d9ff40;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --border-accent: #00d9ff30;
+            --gradient-cyber: linear-gradient(135deg, #00d9ff15 0%, #3fb95010 100%);
+            --shadow-glow: 0 0 30px #00d9ff15;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-display);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); }
+        h1 { font-size: 2.2rem; margin-bottom: 1.5rem; }
+        h2 { font-size: 1.8rem; margin-bottom: 1.25rem; }
+        h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+        a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.2s ease; }
+        a:hover { opacity: 0.8; }
+        code, .mono { font-family: var(--font-mono); }
+        strong { color: var(--text-primary); }
+
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 5rem 2rem 2rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            height: calc(100vh - 6rem);
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+        .sidebar-section { margin-bottom: 2rem; }
+        .sidebar-title {
+            font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--text-muted);
+            margin-bottom: 0.75rem; padding-left: 0.75rem;
+        }
+        .sidebar-link {
+            display: block; padding: 0.45rem 0.75rem;
+            color: var(--text-secondary); font-size: 0.82rem;
+            border-radius: 6px; transition: all 0.2s ease; cursor: pointer;
+        }
+        .sidebar-link:hover { color: var(--text-primary); background: var(--bg-hover); }
+        .sidebar-link.active { color: var(--accent-cyan); background: var(--accent-cyan-dim); }
+
+        /* SECTIONS */
+        .section { display: none; }
+        .section.active { display: block; }
+        .subsection { margin-bottom: 3rem; }
+        .subsection h3 {
+            color: var(--text-primary); margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        .card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-glow); }
+        .card h3 { color: var(--accent-cyan); margin-bottom: 0.75rem; }
+        .card h4 { color: var(--accent-cyan); }
+
+        .card.expandable .card-header {
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+        }
+        .card.expandable .card-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+        }
+        .card.expandable.expanded .card-body { max-height: 5000px; }
+        .card.expandable .expand-icon {
+            color: var(--accent-cyan); font-size: 1.2rem;
+            transition: transform 0.2s ease; flex-shrink: 0; margin-left: 1rem;
+        }
+        .card.expandable.expanded .expand-icon { transform: rotate(45deg); }
+        .card-summary { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; }
+
+        /* STAT CARDS */
+        .stat-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 1.25rem; text-align: center;
+        }
+        .stat-value {
+            font-size: 1.8rem; font-weight: 700; color: var(--accent-cyan);
+            font-family: var(--font-mono);
+        }
+        .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .stat-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem; margin-bottom: 2rem;
+        }
+        .card-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;
+        }
+
+        /* TAGS */
+        .tag {
+            display: inline-block; padding: 0.25rem 0.75rem;
+            font-size: 0.75rem; font-weight: 500; border-radius: 4px;
+            margin-right: 0.5rem; margin-bottom: 0.5rem;
+        }
+        .tag-cyan { background: var(--accent-cyan-dim); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .tag-green { background: #3fb95020; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .tag-yellow { background: #d2992220; color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+        .tag-orange { background: #db6d2820; color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+        .tag-red { background: #f8514920; color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .tag-purple { background: #a371f720; color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+
+        /* TABS */
+        .tabs {
+            display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 0.5rem 1rem; background: transparent; border: none;
+            color: var(--text-secondary); font-family: var(--font-display);
+            font-size: 0.9rem; cursor: pointer; border-radius: 6px 6px 0 0;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active { color: var(--accent-cyan); background: var(--bg-card); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* GLOSSARY */
+        .search-input {
+            width: 100%; padding: 0.75rem 1rem;
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 6px; color: var(--text-primary);
+            font-family: var(--font-display); font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        .search-input:focus { outline: none; border-color: var(--accent-cyan); box-shadow: 0 0 0 3px var(--accent-cyan-dim); }
+        .search-input::placeholder { color: var(--text-muted); }
+        .glossary-grid { display: grid; gap: 1rem; }
+        .glossary-item {
+            display: none; background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 1.25rem;
+        }
+        .glossary-item.visible { display: block; }
+        .glossary-item h4 { color: var(--accent-cyan); margin-bottom: 0.5rem; }
+        .glossary-item .definition { color: var(--text-primary); margin-bottom: 0.5rem; }
+        .glossary-item .application { font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* BIBLIOGRAPHY */
+        .bib-section { margin-bottom: 1.5rem; }
+        .bib-section h4 { color: var(--text-primary); margin-bottom: 0.75rem; }
+        .bib-item {
+            padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);
+            font-size: 0.88rem; color: var(--text-secondary);
+        }
+        .bib-item:last-child { border-bottom: none; }
+        .bib-item em { color: var(--text-primary); }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: 3px; background: var(--bg-secondary); z-index: 999;
+        }
+        .progress-bar { height: 100%; background: var(--accent-cyan); width: 0%; transition: width 0.1s ease; }
+
+        /* UTILITIES */
+        .text-cyan { color: var(--accent-cyan); }
+        .text-green { color: var(--accent-green); }
+        .text-yellow { color: var(--accent-yellow); }
+        .text-orange { color: var(--accent-orange); }
+        .text-red { color: var(--accent-red); }
+        .text-purple { color: var(--accent-purple); }
+        .text-muted { color: var(--text-muted); }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+
+        /* PAGE-SPECIFIC */
+        .hero-intro {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px; padding: 2rem; margin-bottom: 2rem;
+        }
+        .hero-intro p { color: var(--text-primary); font-size: 1.05rem; margin-bottom: 0; }
+        .key-insight {
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1rem 1.5rem; margin: 1rem 0;
+            background: var(--bg-tertiary); border-radius: 0 6px 6px 0;
+        }
+        .key-insight p { margin-bottom: 0; color: var(--text-primary); }
+        .warning-box {
+            border-left: 3px solid var(--accent-yellow);
+            padding: 1rem 1.5rem; margin: 1rem 0;
+            background: #d299220a; border-radius: 0 6px 6px 0;
+        }
+        .warning-box p { margin-bottom: 0; }
+        .danger-box {
+            border-left: 3px solid var(--accent-red);
+            padding: 1rem 1.5rem; margin: 1rem 0;
+            background: #f851490a; border-radius: 0 6px 6px 0;
+        }
+        .danger-box p { margin-bottom: 0; }
+        .protocol-step {
+            display: flex; gap: 1rem; align-items: flex-start;
+            padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);
+        }
+        .protocol-step:last-child { border-bottom: none; }
+        .step-num {
+            background: var(--accent-cyan-dim); color: var(--accent-cyan);
+            font-family: var(--font-mono); font-weight: 600;
+            width: 28px; height: 28px; min-width: 28px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem;
+        }
+        .step-text { color: var(--text-secondary); }
+        .step-text strong { color: var(--text-primary); }
+        .study-ref {
+            font-family: var(--font-mono); font-size: 0.8rem;
+            color: var(--text-muted); display: block; margin-top: 0.3rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .main-container { grid-template-columns: 1fr; padding-top: 2rem; }
+            .sidebar {
+                position: static; height: auto;
+                display: flex; flex-wrap: wrap; gap: 0.5rem;
+                padding-right: 0; margin-bottom: 2rem;
+            }
+            .sidebar-section { margin-bottom: 0; }
+            .sidebar-title { display: none; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.3rem; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Revisione Letteratura</div>
+                <a href="#overview" class="sidebar-link active" data-target="overview">📊 Sintesi</a>
+                <a href="#protocolli" class="sidebar-link" data-target="protocolli">🏥 Protocolli Clinici</a>
+                <a href="#effetti" class="sidebar-link" data-target="effetti">✅ Effetti Positivi</a>
+                <a href="#spettro" class="sidebar-link" data-target="spettro">📈 Modelli a Spettro</a>
+                <a href="#immaginario" class="sidebar-link" data-target="immaginario">🧠 Immaginario Erotico</a>
+                <a href="#condizionamento" class="sidebar-link" data-target="condizionamento">🔬 Condizionamento</a>
+                <a href="#somatici" class="sidebar-link" data-target="somatici">🧘 Approcci Somatici</a>
+                <a href="#csbd" class="sidebar-link" data-target="csbd">⚕️ CSBD e ICD-11</a>
+                <a href="#act" class="sidebar-link" data-target="act">🎯 ACT e Defusione</a>
+                <a href="#sexpositive" class="sidebar-link" data-target="sexpositive">💜 Framework Sex-Positive</a>
+                <a href="#etica" class="sidebar-link" data-target="etica">⚖️ Etica e Rischi</a>
+                <a href="#conclusioni" class="sidebar-link" data-target="conclusioni">📖 Conclusioni</a>
+                <a href="#glossario" class="sidebar-link" data-target="glossario">📚 Glossario</a>
+                <a href="#bibliografia" class="sidebar-link" data-target="bibliografia">🔗 Bibliografia</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+
+            <!-- ==================== OVERVIEW ==================== -->
+            <section id="overview" class="section active">
+                <h1>Materiale pornografico come strumento psicoeducativo in psicoterapia sessuale</h1>
+                <p class="text-muted" style="margin-top:-1rem; margin-bottom:1.5rem;">Revisione della letteratura — 2025</p>
+
+                <div class="hero-intro">
+                    <p>L'uso clinico del materiale erotico in terapia sessuale ha radici documentate sin dai primi anni '70 e trova oggi supporto in una letteratura crescente che ne distingue l'impiego funzionale-integrativo da quello compulsivo-sostitutivo. La ricerca contemporanea converge su un punto fondamentale: <strong style="color:var(--accent-cyan)">non è il materiale in sé a determinare l'esito clinico, ma il contesto relazionale, le motivazioni d'uso e la relazione psicologica dell'individuo con gli stimoli erotici</strong>.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Aree tematiche</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Studi citati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">75,5%</div>
+                        <div class="stat-label">Utenti ricreativi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1972</div>
+                        <div class="stat-label">Prime evidenze</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">ICD-11</div>
+                        <div class="stat-label">CSBD ≠ addiction</div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Navigazione rapida per area</h3>
+                    <div class="card-grid">
+                        <div class="card" style="cursor:pointer" onclick="showSection('protocolli')">
+                            <h4>🏥 Protocolli Clinici</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Da LoPiccolo & Lobitz (1972) a Kleinplatz (2020). Fondamenti empirici e teorici dell'uso terapeutico.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('effetti')">
+                            <h4>✅ Effetti Positivi</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Kohut, Hald, Rissel: cosa dice la ricerca quantitativa sul consumo non-compulsivo.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('spettro')">
+                            <h4>📈 Dal Binomio ai Modelli a Spettro</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">PPMI di Grubbs, profili di utenti, incongruenza morale e qualità relazionale.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('immaginario')">
+                            <h4>🧠 Immaginario Erotico</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Dual Control Model, desiderio responsivo, erotismo e fantasia sessuale.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('condizionamento')">
+                            <h4>🔬 Condizionamento Sessuale</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Da Rachman a Hoffmann: quando le preferenze sono "apprese".</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('somatici')">
+                            <h4>🧘 Approcci Somatici</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Lowen, Sensate Focus, mindfulness e il corpo nella sessualità.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('csbd')">
+                            <h4>⚕️ CSBD e ICD-11</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Classificazione, dibattito addiction, Kafka, Prause, Ley.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('act')">
+                            <h4>🎯 ACT e Defusione</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Twohig, Crosby: defusione cognitiva anziché soppressione.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('sexpositive')">
+                            <h4>💜 Framework Sex-Positive</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">AASECT, OCSB, OMS, modello biopsicosociale integrato.</p>
+                        </div>
+                        <div class="card" style="cursor:pointer" onclick="showSection('etica')">
+                            <h4>⚖️ Etica e Rischi</h4>
+                            <p class="text-muted" style="font-size:0.9rem; margin:0;">Standard APA, Codice Deontologico italiano, protocollo prudente.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== PROTOCOLLI CLINICI ==================== -->
+            <section id="protocolli" class="section">
+                <h2>🏥 Protocolli clinici storici e contemporanei</h2>
+                <p>L'impiego terapeutico di materiale sessualmente esplicito ha il suo fondamento empirico più solido nei protocolli di masturbazione diretta degli anni '70, con una linea di sviluppo che arriva fino ai modelli contemporanei di sessualità ottimale.</p>
+
+                <div class="subsection">
+                    <h3>Fondamenti empirici</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>LoPiccolo & Lobitz — Protocollo di masturbazione diretta (1972)</h4>
+                                <div class="card-summary">Programma in nove fasi con letteratura erotica e fantasie sessuali per l'anorgasmia primaria</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Lo studio seminale di LoPiccolo e Lobitz ha incorporato esplicitamente <strong>letteratura erotica e fantasie sessuali</strong> come strumenti per potenziare la risposta sessuale in donne con anorgasmia primaria, all'interno di un programma terapeutico strutturato in nove fasi.</p>
+                            <span class="study-ref">LoPiccolo, J. & Lobitz, W. C. (1972). Archives of Sexual Behavior, 2(2), 163–171. DOI: 10.1007/BF01541865</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Riley & Riley — Studio controllato (1978)</h4>
+                                <div class="card-summary">90% di efficacia nel gruppo masturbazione diretta vs 53% nel controllo</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Lo studio controllato confermò l'efficacia del protocollo: <strong>il 90% delle donne nel gruppo di masturbazione diretta raggiunse la capacità orgasmica</strong>, contro il 53% nel gruppo di controllo con sensate focus e psicoterapia supportiva. La differenza risultò significativa a p &lt; .05.</p>
+                            <div class="stat-grid mt-2" style="grid-template-columns: 1fr 1fr;">
+                                <div class="stat-card">
+                                    <div class="stat-value text-green">90%</div>
+                                    <div class="stat-label">Masturbazione diretta</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value text-muted">53%</div>
+                                    <div class="stat-label">Gruppo di controllo</div>
+                                </div>
+                            </div>
+                            <p class="mt-2">McMullen e Rosen (1979) e Heinrich (1976) replicarono questi risultati con disegni controllati.</p>
+                            <span class="study-ref">Riley & Riley (1978). British Journal of Psychiatry, 133(5), 404–409</span>
+                            <span class="study-ref">McMullen & Rosen (1979). J. Consulting and Clinical Psychology, 47(5), 912–918. DOI: 10.1037/0022-006x.47.5.912</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Framework teorico-clinici contemporanei</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Jack Morin — Core Erotic Themes (1995)</h4>
+                                <div class="card-summary">Equazione Erotica e Quattro Pilastri dell'Erotismo</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Morin ha fornito il quadro teorico-clinico più articolato per l'uso terapeutico dell'immaginario erotico, introducendo il concetto di <strong>Core Erotic Themes (CET)</strong>: pattern psicologici ricorrenti alla base dell'eccitazione, formatisi in risposta al clima emotivo delle esperienze formative.</p>
+                            <p>La sua <strong>Equazione Erotica</strong>: <em>Attrazione + Ostacoli = Eccitazione</em></p>
+                            <p>I <strong>Quattro Pilastri dell'Erotismo</strong>:</p>
+                            <div class="stat-grid mt-1" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+                                <div class="stat-card"><div class="stat-label">Desiderio e anticipazione</div></div>
+                                <div class="stat-card"><div class="stat-label">Violazione dei divieti</div></div>
+                                <div class="stat-card"><div class="stat-label">Ricerca di potere</div></div>
+                                <div class="stat-card"><div class="stat-label">Superamento dell'ambivalenza</div></div>
+                            </div>
+                            <div class="key-insight mt-2">
+                                <p>Questi strumenti offrono al terapeuta una chiave per leggere le fantasie e il consumo di materiale erotico come <strong>finestre diagnostiche sulla vita psichica del paziente</strong>, anziché come comportamenti da patologizzare.</p>
+                            </div>
+                            <span class="study-ref">Morin, J. (1995). The Erotic Mind. HarperPerennial.</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Marty Klein — Porn Literacy in terapia di coppia (2016)</h4>
+                                <div class="card-summary">Il conflitto sulla pornografia come proxy per problematiche relazionali più profonde</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Klein ha sistematizzato l'approccio della <strong>"porn literacy"</strong> in terapia di coppia, argomentando che il conflitto sulla pornografia è tipicamente un proxy per problematiche relazionali più profonde: insoddisfazione sessuale, fallimenti comunicativi, lotte di potere.</p>
+                            <p>Il suo approccio clinico lavora sull'<strong>autonomia, la disclosure e la comunicazione onesta</strong> sui bisogni sessuali.</p>
+                            <span class="study-ref">Klein, M. (2016). His Porn, Her Pain. Praeger.</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Peggy Kleinplatz — Sessualità ottimale (2009, 2020)</h4>
+                                <div class="card-summary">Otto componenti della "great sex" — l'orgasmo non è centrale</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Kleinplatz e colleghi hanno identificato <strong>otto componenti della sessualità ottimale</strong> attraverso interviste qualitative con 64 informatori chiave:</p>
+                            <div class="stat-grid mt-1" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+                                <div class="stat-card"><div class="stat-label">Presenza</div></div>
+                                <div class="stat-card"><div class="stat-label">Connessione</div></div>
+                                <div class="stat-card"><div class="stat-label">Intimità erotica profonda</div></div>
+                                <div class="stat-card"><div class="stat-label">Comunicazione straordinaria</div></div>
+                                <div class="stat-card"><div class="stat-label">Rischio interpersonale</div></div>
+                                <div class="stat-card"><div class="stat-label">Autenticità</div></div>
+                                <div class="stat-card"><div class="stat-label">Vulnerabilità</div></div>
+                                <div class="stat-card"><div class="stat-label">Trascendenza</div></div>
+                            </div>
+                            <div class="key-insight mt-2">
+                                <p>Significativamente, <strong>l'orgasmo e la performance fisica non risultarono centrali</strong>. Il modello supporta l'uso terapeutico dell'esplorazione erotica come mezzo per potenziare autenticità, comunicazione e intimità.</p>
+                            </div>
+                            <span class="study-ref">Kleinplatz et al. (2009). Canadian J. of Human Sexuality, 18(1-2), 1–13</span>
+                            <span class="study-ref">Kleinplatz & Ménard (2020). Magnificent Sex. Routledge.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== EFFETTI POSITIVI ==================== -->
+            <section id="effetti" class="section">
+                <h2>✅ Effetti positivi del consumo non-compulsivo</h2>
+                <p>La ricerca quantitativa converge su un dato spesso contro-intuitivo: nella maggioranza dei casi documentati, il consumo di pornografia non è associato a effetti negativi significativi — e in diversi casi è correlato a esiti positivi.</p>
+
+                <div class="subsection">
+                    <h3>Studi fondamentali</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Kohut, Fisher & Campbell (2017) — Studio bottom-up con 430 partecipanti</h4>
+                                <div class="card-summary">"Nessun effetto negativo" fu il tema più frequentemente riportato</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Studio con approccio bottom-up qualitativo con <strong>430 uomini e donne</strong> in relazioni eterosessuali. Il risultato più rilevante: <strong>"nessun effetto negativo" rappresentò il tema più frequentemente riportato</strong> nell'intero dataset.</p>
+                            <p>Gli effetti positivi percepiti — miglioramento della comunicazione sessuale, maggiore sperimentazione, comfort sessuale aumentato — furono riportati con frequenza superiore rispetto a quelli negativi.</p>
+                            <span class="study-ref">Kohut et al. (2017). Archives of Sexual Behavior, 46(2), 585–602. DOI: 10.1007/s10508-016-0783-6</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Hald & Malamuth (2008) — Campione rappresentativo danese</h4>
+                                <div class="card-summary">Effetti positivi percepiti moderati, effetti negativi minimi</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">In un ampio campione rappresentativo di giovani adulti danesi (18–30 anni), lo studio trovò <strong>effetti positivi percepiti moderati e effetti negativi minimi</strong> in entrambi i generi.</p>
+                            <span class="study-ref">Hald & Malamuth (2008). Archives of Sexual Behavior, 37(4), 614–625. DOI: 10.1007/s10508-007-9212-1</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Rissel et al. (2017) — Studio australiano su 20.094 adulti</h4>
+                                <div class="card-summary">Solo 4% uomini e 1% donne si auto-definivano dipendenti</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Lo studio su larga scala su <strong>20.094 adulti australiani</strong> confermò che gli effetti avversi erano riportati da una piccola minoranza:</p>
+                            <div class="stat-grid mt-2" style="grid-template-columns: 1fr 1fr;">
+                                <div class="stat-card">
+                                    <div class="stat-value">4%</div>
+                                    <div class="stat-label">Uomini auto-definiti "dipendenti"</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">1%</div>
+                                    <div class="stat-label">Donne auto-definite "dipendenti"</div>
+                                </div>
+                            </div>
+                            <span class="study-ref">Rissel et al. (2017). J. of Sex Research, 54(2), 227–240. DOI: 10.1080/00224499.2016.1191597</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Kohut, Baer & Watts (2016) — Atteggiamenti egualitari (N=25.047)</h4>
+                                <div class="card-summary">Consumatori di pornografia con atteggiamenti più egualitari verso le donne</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Analizzando il General Social Survey (<strong>N = 25.047</strong>), trovarono che <strong>i consumatori di pornografia esprimevano atteggiamenti più egualitari rispetto ai non-consumatori</strong> riguardo alle donne in posizioni di potere e al lavoro femminile extradomestico.</p>
+                            <span class="study-ref">Kohut et al. (2016). J. of Sex Research, 53(1), 1–11. DOI: 10.1080/00224499.2015.1023427</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Bőthe, Vaillancourt-Morel & Bergeron (2022) — Motivazioni d'uso</h4>
+                                <div class="card-summary">Le motivazioni contano più della frequenza</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Studiando 259 coppie, hanno dimostrato che <strong>le motivazioni d'uso contano più della frequenza</strong>:</p>
+                            <div class="card-grid mt-2">
+                                <div class="card" style="border-color: var(--accent-green);">
+                                    <h4 class="text-green">Motivazione approach</h4>
+                                    <p style="margin:0">Uso per <strong>curiosità sessuale</strong> → predice maggiore soddisfazione e funzionamento sessuale</p>
+                                </div>
+                                <div class="card" style="border-color: var(--accent-red);">
+                                    <h4 class="text-red">Motivazione avoidance</h4>
+                                    <p style="margin:0">Uso per <strong>evitamento emotivo</strong> → predice esiti negativi</p>
+                                </div>
+                            </div>
+                            <span class="study-ref">Bőthe et al. (2022). J. of Sex Research, 59(4), 457–471. DOI: 10.1080/00224499.2021.1893261</span>
+                        </div>
+                    </div>
+
+                    <div class="warning-box mt-2">
+                        <p><strong class="text-yellow">⚠ Nota metodologica:</strong> Fisher e Kohut (2020) hanno sottolineato la necessità di rigore metodologico nel campo, evidenziando come molte conclusioni allarmistiche derivino da disegni di ricerca inadeguati.</p>
+                        <span class="study-ref">Fisher & Kohut (2020). J. of Sexual Medicine, 17(2), 195–209. DOI: 10.1016/j.jsxm.2019.10.022</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== MODELLI A SPETTRO ==================== -->
+            <section id="spettro" class="section">
+                <h2>📈 Dal binomio sano/patologico ai modelli a spettro</h2>
+                <p>La ricerca contemporanea ha definitivamente superato la dicotomia binaria sano/patologico nel consumo di pornografia, in favore di modelli dimensionali e basati su profili.</p>
+
+                <div class="subsection">
+                    <h3>Profili di utilizzo</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Vaillancourt-Morel et al. (2017) — Tre profili distinti</h4>
+                                <div class="card-summary">75,5% utenti ricreativi, 12,7% distressed non-compulsivi, 11,8% compulsivi</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Mediante analisi cluster, hanno identificato tre profili distinti:</p>
+                            <div class="stat-grid mt-2" style="grid-template-columns: repeat(3, 1fr);">
+                                <div class="stat-card" style="border-color: var(--accent-green);">
+                                    <div class="stat-value text-green">75,5%</div>
+                                    <div class="stat-label">Utenti ricreativi — alta soddisfazione sessuale, bassa compulsività</div>
+                                </div>
+                                <div class="stat-card" style="border-color: var(--accent-yellow);">
+                                    <div class="stat-value text-yellow">12,7%</div>
+                                    <div class="stat-label">Non-compulsivi altamente distressed — minore soddisfazione, senza compulsività</div>
+                                </div>
+                                <div class="stat-card" style="border-color: var(--accent-red);">
+                                    <div class="stat-value text-red">11,8%</div>
+                                    <div class="stat-label">Compulsivi — bassa soddisfazione, alta compulsività</div>
+                                </div>
+                            </div>
+                            <div class="key-insight mt-2">
+                                <p>Questo studio dimostra che <strong>la grande maggioranza dei consumatori di pornografia ha un uso funzionale e integrato</strong>.</p>
+                            </div>
+                            <span class="study-ref">Vaillancourt-Morel et al. (2017). J. of Sexual Medicine, 14(1), 78–85. DOI: 10.1016/j.jsxm.2016.10.016</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Il modello PPMI di Grubbs</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Pornography Problems Due to Moral Incongruence (PPMI)</h4>
+                                <div class="card-summary">Tre percorsi verso l'uso percepito come problematico, incluso il ruolo dell'incongruenza morale</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il modello più influente nella comprensione della percezione soggettiva di problematicità. Grubbs identifica <strong>tre percorsi</strong> verso l'uso percepito come problematico:</p>
+                            <div class="card-grid mt-2">
+                                <div class="card">
+                                    <h4>1. Disregolazione genuina</h4>
+                                    <p style="margin:0">Effettiva difficoltà nel controllare il comportamento</p>
+                                </div>
+                                <div class="card">
+                                    <h4>2. Abitudini d'uso</h4>
+                                    <p style="margin:0">Frequenza elevata che crea problematicità percepita</p>
+                                </div>
+                                <div class="card" style="border-color: var(--accent-purple);">
+                                    <h4 class="text-purple">3. Incongruenza morale</h4>
+                                    <p style="margin:0">Conflitto tra norme internalizzate e comportamento — predice la percezione di dipendenza <strong>al di sopra e al di là dei livelli reali d'uso</strong></p>
+                                </div>
+                            </div>
+                            <p class="mt-2">Questo dato è stato replicato in un campione rappresentativo polacco da Lewczuk et al. (2020) e in campioni rappresentativi statunitensi (Grubbs et al., 2020).</p>
+                            <span class="study-ref">Grubbs et al. (2019). Archives of Sexual Behavior, 48(2), 397–415. DOI: 10.1007/s10508-018-1248-x</span>
+                            <span class="study-ref">Lewczuk et al. (2020). J. of Sexual Medicine, 17(2), 300–311. DOI: 10.1016/j.jsxm.2019.11.259</span>
+                            <span class="study-ref">Grubbs et al. (2020). Clinical Psychological Science, 8(5), 895–916. DOI: 10.1177/2167702620922966</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Pornografia e qualità relazionale</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Meta-analisi e studi diadici</h4>
+                                <div class="card-summary">Il pattern d'uso nella coppia è il moderatore chiave</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La meta-analisi di <strong>Wright, Tokunaga, Kraus e Klann</strong> (2017) su 50 studi e oltre 50.000 partecipanti ha trovato <strong>associazioni negative piccole</strong> con la soddisfazione interpersonale, significative solo per gli uomini.</p>
+                            <p>Tuttavia, studi diadici più recenti mostrano che <strong>il pattern d'uso nella coppia è il moderatore chiave</strong>:</p>
+                            <div class="card-grid mt-2">
+                                <div class="card" style="border-color: var(--accent-green);">
+                                    <h4 class="text-green">Uso condiviso</h4>
+                                    <p style="margin:0">Associato a <strong>esiti positivi</strong> (Kohut, Balzarini, Fisher & Campbell, 2018)</p>
+                                </div>
+                                <div class="card" style="border-color: var(--accent-red);">
+                                    <h4 class="text-red">Uso discordante</h4>
+                                    <p style="margin:0">Un partner consuma, l'altro no → associato a <strong>minore vicinanza relazionale</strong></p>
+                                </div>
+                            </div>
+                            <p class="mt-2">Lo studio diary di Vaillancourt-Morel et al. (2020) su 217 coppie per 35 giorni <strong>non trovò associazioni significative</strong> tra uso giornaliero di pornografia e soddisfazione relazionale.</p>
+                            <span class="study-ref">Wright et al. (2017). Human Communication Research, 43(3), 315–343. DOI: 10.1111/hcre.12108</span>
+                            <span class="study-ref">Kohut et al. (2018). J. of Social and Personal Relationships, 35(4), 655–676. DOI: 10.1177/0265407517743096</span>
+                            <span class="study-ref">Vaillancourt-Morel et al. (2020). J. of Social and Personal Relationships, 37(10–11), 2802–2821. DOI: 10.1177/0265407520940048</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== IMMAGINARIO EROTICO ==================== -->
+            <section id="immaginario" class="section">
+                <h2>🧠 L'immaginario erotico come motore della sessualità adulta</h2>
+
+                <div class="subsection">
+                    <h3>Modelli neuropsicologici</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Dual Control Model — Bancroft & Janssen (2000)</h4>
+                                <div class="card-summary">Equilibrio tra meccanismi eccitatori (SES) e inibitori (SIS) della risposta sessuale</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il modello postula che la risposta sessuale dipende dall'equilibrio tra meccanismi centrali <strong>eccitatori (SES)</strong> e <strong>inibitori (SIS)</strong>. Gli individui variano nella propensione per entrambi i sistemi: alta inibizione predispone alla disfunzione sessuale, bassa inibizione ai comportamenti sessuali a rischio.</p>
+                            <p>Janssen e Bancroft (2007) hanno distinto due fattori inibitori:</p>
+                            <div class="card-grid mt-1">
+                                <div class="card">
+                                    <h4>SIS1</h4>
+                                    <p style="margin:0">Minaccia di <strong>fallimento performativo</strong></p>
+                                </div>
+                                <div class="card">
+                                    <h4>SIS2</h4>
+                                    <p style="margin:0">Minaccia di <strong>conseguenze</strong></p>
+                                </div>
+                            </div>
+                            <p class="mt-2">Una scoping review di 152 studi (Janssen & Bancroft, 2023) ha confermato la validità del modello a vent'anni dalla formulazione.</p>
+                            <span class="study-ref">Bancroft & Janssen (2000). Neuroscience & Biobehavioral Reviews, 24(5), 571–579. DOI: 10.1016/S0149-7634(00)00024-5</span>
+                            <span class="study-ref">Janssen & Bancroft (2023). J. of Sex Research, 60(7), 935–961. DOI: 10.1080/00224499.2023.2219247</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Emily Nagoski — Acceleratore e freni (2015/2022)</h4>
+                                <div class="card-summary">Desiderio spontaneo vs responsivo; il contesto è centrale</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Nagoski ha tradotto il DCM nell'accessibile metafora dell'<strong>"acceleratore" e dei "freni"</strong>, introducendo la distinzione cruciale tra <strong>desiderio spontaneo</strong> e <strong>desiderio responsivo</strong> — quest'ultimo emerge in risposta all'eccitazione anziché precederla.</p>
+                            <div class="key-insight mt-2">
+                                <p>Il contributo principale per la clinica: l'enfasi sul <strong>contesto</strong>. Stress, umore, fiducia e immagine corporea non sono periferici ma centrali nel benessere sessuale.</p>
+                            </div>
+                            <span class="study-ref">Nagoski, E. (2015/2022). Come As You Are. Simon & Schuster.</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Esther Perel — Erotismo e paradosso relazionale (2006)</h4>
+                                <div class="card-summary">"Sessualità trasformata dall'immaginazione" — il paradosso amore/desiderio</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Perel ha articolato il paradosso centrale della sessualità relazionale: <strong>l'amore cerca vicinanza e prevedibilità, il desiderio necessita mistero e distanza</strong>.</p>
+                            <p>La sua definizione di <strong>erotismo come "sessualità trasformata dall'immaginazione"</strong> è diventata un riferimento clinico fondamentale. Il desiderio richiede spazio psicologico, freschezza, vitalità, imprevedibilità — condizioni che l'immaginario erotico può contribuire a sostenere quando la fusione relazionale soffoca l'eros.</p>
+                            <span class="study-ref">Perel, E. (2006). Mating in Captivity. HarperCollins.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>La fantasia sessuale nella ricerca empirica</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Leitenberg & Henning (1995) — Landmark review</h4>
+                                <div class="card-summary">Fantasie quasi universali, positivamente correlate con adattamento sessuale</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La review ha stabilito che le fantasie sessuali sono <strong>quasi universali</strong> (47–92% degli uomini e 37–94% delle donne durante il rapporto) e <strong>positivamente correlate con l'adattamento e la soddisfazione sessuale</strong>. Il senso di colpa per le fantasie correla invece con minore soddisfazione.</p>
+                            <span class="study-ref">Leitenberg & Henning (1995). Psychological Bulletin, 117(3), 469–496. DOI: 10.1037/0033-2909.117.3.469</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Joyal, Cossette & Lapierre (2015) — 1.516 adulti, 55 fantasie</h4>
+                                <div class="card-summary">Solo 2 fantasie su 55 risultavano rare; 30 comuni per uno o entrambi i generi</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">In un campione di <strong>1.516 adulti</strong>, solo <strong>2 fantasie su 55 risultavano rare</strong> (sesso con minori; sesso con animali) e <strong>30 erano comuni</strong> per uno o entrambi i generi. Questo dato sfida la tendenza a patologizzare la diversità dell'immaginario erotico.</p>
+                            <span class="study-ref">Joyal et al. (2015). J. of Sexual Medicine, 12(2), 328–340. DOI: 10.1111/jsm.12734</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== CONDIZIONAMENTO ==================== -->
+            <section id="condizionamento" class="section">
+                <h2>🔬 Condizionamento sessuale: quando le preferenze sono "apprese"</h2>
+
+                <div class="subsection">
+                    <h3>Studi classici</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Rachman (1966) — Il primo condizionamento sessuale sperimentale</h4>
+                                <div class="card-summary">Eccitazione sessuale condizionata a stivali femminili</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Rachman dimostrò per la prima volta che <strong>l'eccitazione sessuale può essere condizionata a stimoli precedentemente neutri</strong>. Tre volontari maschi furono condizionati a mostrare risposte penilpletismografiche a fotografie di stivali femminili (CS) associate ripetutamente a immagini di nudi femminili (US).</p>
+                            <p>Tutti i soggetti mostrarono condizionamento, generalizzazione dello stimolo, estinzione e recupero spontaneo. Rachman e Hodgson (1968) replicarono con 5 soggetti e condizioni di controllo migliorate.</p>
+                            <span class="study-ref">Rachman (1966). The Psychological Record, 16, 293–296. DOI: 10.1007/BF03393671</span>
+                            <span class="study-ref">Rachman & Hodgson (1968). The Psychological Record, 18, 25–27. DOI: 10.1007/BF03393736</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>La ricerca moderna di Heather Hoffmann</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Hoffmann et al. — Condizionamento nelle donne e in campo (2004–2017)</h4>
+                                <div class="card-summary">La maggior parte degli stimoli acquisisce proprietà eccitanti attraverso l'esperienza</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Hoffmann, Janssen e Turner (2004)</strong> dimostrarono per la prima volta il condizionamento dell'eccitazione sessuale nelle donne, sia con presentazione subliminale che consapevole.</p>
+                            <p><strong>Hoffmann, Peterson e Garner (2012)</strong> dimostrarono il condizionamento sessuale in contesti naturalistici (studio di field).</p>
+                            <p><strong>Hoffmann et al. (2014)</strong> trovarono una tendenza alla maggiore condizionabilità negli individui con alta compulsività sessuale.</p>
+                            <div class="key-insight mt-2">
+                                <p>Nella presidential address review, <strong>Hoffmann (2017)</strong> ha concluso che il condizionamento sessuale è un processo molto più complesso di quanto tradizionalmente creduto, intrecciato con processi cognitivi e motivazionali, e che <strong>"solo una gamma ristretta di stimoli può essere considerata primariamente o 'intrinsecamente' sessuale — la maggior parte degli stimoli acquisisce proprietà eccitanti attraverso l'esperienza"</strong>.</p>
+                            </div>
+                            <span class="study-ref">Hoffmann et al. (2004). Archives of Sexual Behavior, 33(1), 43–53. DOI: 10.1023/B:ASEB.0000007461.59019.d3</span>
+                            <span class="study-ref">Hoffmann et al. (2012). Socioaffective Neuroscience & Psychology, 2, 17336. DOI: 10.3402/snp.v2i0.17336</span>
+                            <span class="study-ref">Hoffmann et al. (2014). Sexual Addiction & Compulsivity, 21(2), 75–91. DOI: 10.1080/10720162.2014.895460</span>
+                            <span class="study-ref">Hoffmann (2017). Archives of Sexual Behavior, 46(8), 2213–2229. DOI: 10.1007/s10508-017-1030-5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Implicazioni cliniche per la distinzione preferenze autentiche vs artefatti</h3>
+                    <div class="card">
+                        <p>La distinzione clinica tra preferenze autentiche e artefatti del condizionamento può essere guidata da diversi principi emergenti dalla letteratura:</p>
+                        <p>Le risposte condizionate in laboratorio sono <strong>relativamente deboli</strong> rispetto a quelle sviluppate naturalisticamente. Il condizionamento è più forte per stimoli biologicamente rilevanti (<strong>cue-to-consequence specificity</strong>).</p>
+                        <p>Il modello di elaborazione dell'informazione sessuale di <strong>Janssen, Everaerd, Spiering e Janssen</strong> (2000) distingue tra processamento automatico genitale e appraisal deliberato soggettivo.</p>
+                        <p>La ricerca di <strong>Laan e Everaerd</strong> (1995) ha mostrato che le donne presentano <strong>bassa concordanza tra eccitazione genitale e soggettiva</strong> — l'eccitazione automatica condizionata non equivale necessariamente a desiderio autentico.</p>
+                        <span class="study-ref">Janssen et al. (2000). J. of Sex Research, 37, 8–23</span>
+                        <span class="study-ref">Laan & Everaerd (1995). Annual Review of Sex Research, 6, 32–76</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== APPROCCI SOMATICI ==================== -->
+            <section id="somatici" class="section">
+                <h2>🧘 Corpo presente o corpo assente: approcci somatici alla sessualità</h2>
+
+                <div class="subsection">
+                    <h3>Fondamenti teorici</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Alexander Lowen — Piacere autentico vs mera eccitazione</h4>
+                                <div class="card-summary">Analisi bioenergetica: armatura muscolare, resa dell'ego e sessualità incarnata</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Lowen ha proposto la distinzione clinicamente cruciale tra <strong>piacere autentico</strong> (esperienza corporea piena, integrata) e <strong>mera eccitazione</strong> (che può essere superficiale, compulsiva o dissociata).</p>
+                            <p>Per Lowen, la soddisfazione sessuale richiede la resa del controllo egoico: "la resa dell'ego implica una discesa del sentire nel corpo, un flusso verso il basso dell'eccitazione nel profondo dell'addome e del bacino". L'<strong>armatura muscolare cronica</strong> blocca l'esperienza sessuale piena, e la terapia bioenergetica mira a sciogliere queste tensioni per ripristinare la capacità di piacere.</p>
+                            <div class="key-insight mt-2">
+                                <p><strong>Applicazione al consumo di materiale erotico:</strong> un consumo "incarnato" (con presenza corporea, respiro, sensazioni) differisce qualitativamente da uno "dissociato" (puramente visivo-cognitivo, disconnesso dal corpo).</p>
+                            </div>
+                            <span class="study-ref">Lowen, A. (1965). Love and Orgasm. Macmillan.</span>
+                            <span class="study-ref">Lowen, A. (1970). Pleasure. Lancer Books.</span>
+                            <span class="study-ref">Lowen, A. (1976). Bioenergetics. Penguin.</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Sensate Focus — Masters & Johnson (1970)</h4>
+                                <div class="card-summary">Il paradigma della sessualità incarnata, connesso alla mindfulness</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il Sensate Focus rappresenta il <strong>paradigma della sessualità incarnata</strong>: tocco non-demanding per il proprio interesse sensoriale (temperatura, texture, pressione), focalizzazione sul momento presente anziché sugli obiettivi performativi.</p>
+                            <p>Weiner e Avery-Clark (2014, 2017) hanno chiarito il modello e esplicitamente connesso il Sensate Focus alla mindfulness: <strong>"L'attitudine del Sensate Focus Fase 1 è ciò che viene attualmente definito mindfulness"</strong>.</p>
+                            <span class="study-ref">Masters & Johnson (1970). Human Sexual Inadequacy. Little, Brown.</span>
+                            <span class="study-ref">Weiner & Avery-Clark (2014). Sexual and Relationship Therapy, 29(3), 307–319. DOI: 10.1080/14681994.2014.892920</span>
+                            <span class="study-ref">Weiner & Avery-Clark (2017). Sensate Focus in Sex Therapy. Routledge.</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Good Enough Sex (GES) — McCarthy & Metz (2007)</h4>
+                                <div class="card-summary">Desiderio e soddisfazione sono più importanti di eccitazione e orgasmo</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il modello GES integra principi corporei con ristrutturazione cognitiva: il rilassamento psicofisico è il fondamento del piacere sessuale, le aspettative realistiche sostituiscono la pressione performativa, e <strong>desiderio e soddisfazione sono più importanti di eccitazione e orgasmo</strong>.</p>
+                            <span class="study-ref">McCarthy & Metz (2007). Sexual and Relationship Therapy, 22(3), 351–362.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Mindfulness e sessualità</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Lori Brotto — Mindfulness-Based Sex Therapy</h4>
+                                <div class="card-summary">Miglioramento di desiderio, eccitazione e concordanza genitale-soggettiva</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Brotto e Basson (2014)</strong> hanno dimostrato in 117 donne che un intervento mindfulness-based di 4 sessioni migliorava significativamente desiderio, eccitazione, lubrificazione e soddisfazione sessuale, con effetti mantenuti a 6 mesi. Criticamente, <strong>l'aumento della mindfulness prediceva i miglioramenti nel desiderio sessuale</strong>.</p>
+                            <p><strong>Brotto, Chivers, Millman e Albert (2016)</strong> hanno dimostrato che la terapia mindfulness-based <strong>migliorava specificamente la concordanza tra eccitazione genitale e soggettiva</strong> — colmando il gap tra risposta fisica incarnata ed esperienza soggettiva consapevole.</p>
+                            <span class="study-ref">Brotto & Basson (2014). Behaviour Research and Therapy, 57, 43–54. DOI: 10.1016/j.brat.2014.04.001</span>
+                            <span class="study-ref">Brotto et al. (2016). Archives of Sexual Behavior, 45, 1907–1921.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== CSBD ==================== -->
+            <section id="csbd" class="section">
+                <h2>⚕️ Il CSBD nell'ICD-11 e il dibattito sull'addiction</h2>
+
+                <div class="subsection">
+                    <h3>Classificazione ICD-11</h3>
+
+                    <div class="card" style="border-color: var(--accent-cyan);">
+                        <h4>CSBD — Codice 6C72</h4>
+                        <p>Incluso nell'ICD-11 come <strong>disturbo del controllo degli impulsi</strong>, esplicitamente <strong>non come dipendenza</strong>.</p>
+                        <p><strong>Criteri (Kraus et al., 2018):</strong> pattern persistente di fallimento nel controllare impulsi sessuali intensi e ripetitivi con conseguente comportamento sessuale ripetitivo, durata di almeno 6 mesi, marcato distress o compromissione funzionale significativa.</p>
+                        <div class="danger-box mt-2">
+                            <p><strong class="text-red">Clausola critica:</strong> "Il distress interamente legato a giudizi morali e disapprovazione circa impulsi, urgenze o comportamenti sessuali <strong>non è sufficiente</strong> per soddisfare questo requisito."</p>
+                        </div>
+                        <p class="mt-2">La scelta conservativa di non classificarlo come addiction riflette l'assenza di evidenze definitive sull'equivalenza dei processi neurobiologici con quelli osservati nelle dipendenze da sostanze (Potenza, Gola, Voon, Kor & Kraus, 2017).</p>
+                        <span class="study-ref">Kraus et al. (2018). World Psychiatry, 17(1), 109–110. DOI: 10.1002/wps.20499</span>
+                        <span class="study-ref">Potenza et al. (2017). The Lancet Psychiatry, 4(9), 663–664.</span>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Il dibattito scientifico</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Kafka (2010) — La proposta respinta per il DSM-5</h4>
+                                <div class="card-summary">Hypersexual Disorder respinto nonostante field trials positivi</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La proposta di Kafka per l'Hypersexual Disorder nel DSM-5 fu <strong>respinta nonostante field trials positivi</strong> (Reid et al., 2012).</p>
+                            <span class="study-ref">Kafka (2010). Archives of Sexual Behavior, 39(2), 377–400. DOI: 10.1007/s10508-009-9574-7</span>
+                            <span class="study-ref">Reid et al. (2012). J. of Sexual Medicine, 9(11), 2868–2877. DOI: 10.1111/j.1743-6109.2012.02936.x</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Nicole Prause — Sfida neurofisiologica al modello addiction</h4>
+                                <div class="card-summary">Risposte EEG inconsistenti con i pattern attesi per le dipendenze</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Prause ha sfidato il modello addiction su basi neurofisiologiche. <strong>Steele, Staley, Fong e Prause (2013)</strong> e <strong>Prause et al. (2015)</strong> trovarono risposte EEG alle immagini sessuali <strong>inconsistenti con i pattern attesi per le dipendenze</strong>. La sua interpretazione resta tuttavia contestata da altri neuroscienziati.</p>
+                            <span class="study-ref">Steele et al. (2013). Socioaffective Neuroscience & Psychology, 3, 20770. DOI: 10.3402/snp.v3i0.20770</span>
+                            <span class="study-ref">Prause et al. (2015). Biological Psychology, 109, 192–199. DOI: 10.1016/j.biopsycho.2015.06.005</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Ley, Prause & Finn (2014) — "The Emperor Has No Clothes"</h4>
+                                <div class="card-summary">Review critica del modello addiction: disegni sperimentali poveri e rigore limitato</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Hanno argomentato che il modello addiction è ostacolato da <strong>disegni sperimentali poveri, rigore limitato e mancanza di specificazione del modello</strong>.</p>
+                            <span class="study-ref">Ley et al. (2014). Current Sexual Health Reports, 6(2), 94–105. DOI: 10.1007/s11930-014-0016-8</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Briken et al. (2024) e Antons et al. (2022) — Review recenti</h4>
+                                <div class="card-summary">Preoccupazioni per auto-etichettamento, patologizzazione, profitto dell'industria</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Briken et al. (2024)</strong> hanno sottolineato le preoccupazioni per processi di <strong>auto-etichettamento, patologizzazione di comportamenti non-eteronormativi, e profitto dell'industria del trattamento</strong> dal label "addiction".</p>
+                            <p><strong>Antons et al. (2022)</strong> — review sistematica dei 24 studi di intervento disponibili — hanno identificato <strong>CBT, motivational interviewing, mindfulness e ACT</strong> come le componenti terapeutiche più utilizzate.</p>
+                            <span class="study-ref">Briken et al. (2024). Sexual Medicine Reviews, 12(3), 355–370. DOI: 10.1093/sxmrev/qeae014</span>
+                            <span class="study-ref">Antons et al. (2022). J. of Behavioral Addictions, 11(3), 643–666. DOI: 10.1556/2006.2022.00061</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== ACT ==================== -->
+            <section id="act" class="section">
+                <h2>🎯 ACT e la relazione con gli stimoli erotici</h2>
+                <p>Defusione anziché soppressione: il contributo dell'Acceptance and Commitment Therapy alla comprensione e al trattamento del consumo problematico di pornografia.</p>
+
+                <div class="subsection">
+                    <h3>Studi fondativi</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Twohig, Crosby & Cox (2009) — Il principio fondamentale</h4>
+                                <div class="card-summary">La quantità di visione non predice il livello di problemi percepiti</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">In 84 studenti maschi, <strong>la quantità di visione non prediceva il livello di problemi percepiti</strong>. La pornografia diveniva problematica non quando la frequenza era alta, ma quando i partecipanti tentavano di controllare pensieri e urgenze sessuali (soppressione del pensiero).</p>
+                            <div class="key-insight mt-2">
+                                <p>È <strong>la relazione con le urgenze</strong>, non il comportamento in sé, a determinare la problematicità.</p>
+                            </div>
+                            <span class="study-ref">Twohig et al. (2009). Sexual Addiction & Compulsivity, 16(4), 253–266. DOI: 10.1080/10720160903300788</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Twohig & Crosby (2010) — Primo esperimento di trattamento</h4>
+                                <div class="card-summary">Riduzione dell'85% nella visione, mantenuta all'83% al follow-up</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">6 maschi adulti trattati in 8 sessioni di ACT mostrarono una <strong>riduzione dell'85% nella visione al post-trattamento</strong>, mantenuta all'83% al follow-up a 3 mesi.</p>
+                            <span class="study-ref">Twohig & Crosby (2010). Behavior Therapy, 41(3), 285–295. DOI: 10.1016/j.beth.2009.06.002</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Crosby & Twohig (2016) — Primo RCT</h4>
+                                <div class="card-summary">93% riduzione nel gruppo ACT vs 21% in lista d'attesa</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Primo trial controllato randomizzato di qualsiasi trattamento psicosociale per comportamenti sessuali compulsivi. In 28 maschi adulti:</p>
+                            <div class="stat-grid mt-2" style="grid-template-columns: 1fr 1fr;">
+                                <div class="stat-card" style="border-color: var(--accent-green);">
+                                    <div class="stat-value text-green">93%</div>
+                                    <div class="stat-label">Riduzione nel gruppo ACT</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value text-muted">21%</div>
+                                    <div class="stat-label">Riduzione nella lista d'attesa</div>
+                                </div>
+                            </div>
+                            <p class="mt-2">Il 54% raggiungeva la cessazione completa al post-trattamento.</p>
+                            <div class="warning-box mt-2">
+                                <p><strong class="text-yellow">⚠ Limite significativo:</strong> tutti i partecipanti tranne uno erano membri della Chiesa di Gesù Cristo dei Santi degli Ultimi Giorni, sollevando questioni sulla generalizzabilità e sul ruolo dell'incongruenza morale.</p>
+                            </div>
+                            <span class="study-ref">Crosby & Twohig (2016). Behavior Therapy, 47(3), 355–366. DOI: 10.1016/j.beth.2016.02.001</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Levin, Lillis & Hayes (2012) / Levin, Lee & Twohig (2019)</h4>
+                                <div class="card-summary">L'evitamento esperienziale come moderatore chiave</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Levin et al. (2012)</strong> hanno dimostrato che l'<strong>evitamento esperienziale</strong> moderava la relazione tra frequenza di visione e problemi psicosociali.</p>
+                            <p><strong>Levin et al. (2019)</strong> confermarono che visionare pornografia per motivazioni di <strong>evitamento emotivo</strong> prediceva sia la maggiore frequenza sia le conseguenze negative, indipendentemente da altre motivazioni.</p>
+                            <span class="study-ref">Levin et al. (2012). Sexual Addiction & Compulsivity, 19(3), 168–180. DOI: 10.1080/10720162.2012.657150</span>
+                            <span class="study-ref">Levin et al. (2019). The Psychological Record, 69, 1–12. DOI: 10.1007/s40732-018-0302-3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>I sei processi ACT applicati al consumo di pornografia</h3>
+                    <div class="card-grid">
+                        <div class="card" style="border-left: 3px solid var(--accent-red);">
+                            <h4 class="text-red">Da: Fusione cognitiva</h4>
+                            <p style="margin:0.5rem 0">"Devo guardare", "Sono un dipendente dal sesso"</p>
+                            <h4 class="text-green" style="margin-top:1rem;">A: Defusione</h4>
+                            <p style="margin:0">Osservare i pensieri senza agire automaticamente</p>
+                        </div>
+                        <div class="card" style="border-left: 3px solid var(--accent-red);">
+                            <h4 class="text-red">Da: Evitamento esperienziale</h4>
+                            <p style="margin:0.5rem 0">Uso della pornografia per fuggire ansia, solitudine, vergogna</p>
+                            <h4 class="text-green" style="margin-top:1rem;">A: Accettazione</h4>
+                            <p style="margin:0">Disponibilità a sperimentare queste emozioni senza fuga comportamentale</p>
+                        </div>
+                        <div class="card" style="border-left: 3px solid var(--accent-red);">
+                            <h4 class="text-red">Da: Comportamento governato da regole</h4>
+                            <p style="margin:0.5rem 0">"Non devo mai provare eccitazione verso la pornografia"</p>
+                            <h4 class="text-green" style="margin-top:1rem;">A: Azione impegnata guidata dai valori</h4>
+                            <p style="margin:0">"Scelgo di investire la mia energia sessuale nella mia relazione"</p>
+                        </div>
+                    </div>
+                    <div class="key-insight mt-2">
+                        <p>Il passaggio dall'identità fissa <strong>("Sono un dipendente")</strong> al <strong>sé-come-contesto</strong> <strong>("Sono una persona che sta avendo pensieri sulla visione di pornografia")</strong> è particolarmente trasformativo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== FRAMEWORK SEX-POSITIVE ==================== -->
+            <section id="sexpositive" class="section">
+                <h2>💜 Il framework sex-positive e le posizioni professionali</h2>
+
+                <div class="subsection">
+                    <h3>Posizioni istituzionali</h3>
+
+                    <div class="card" style="border-color: var(--accent-purple);">
+                        <h4 class="text-purple">Position Statement AASECT (2016)</h4>
+                        <p>Approvata unanimemente dal Board of Directors, rappresenta una svolta storica:</p>
+                        <div class="key-insight">
+                            <p>"AASECT (1) <strong>non trova evidenze empiriche sufficienti</strong> per supportare la classificazione della sex addiction o della porn addiction come disturbo mentale, e (2) <strong>non trova che i metodi di training e trattamento</strong> per la sexual addiction siano adeguatamente informati da una conoscenza accurata della sessualità umana."</p>
+                        </div>
+                        <p class="mt-2">Lo statement, redatto da un gruppo di lavoro che includeva Doug Braun-Harvey, Michael Aaron, Michael Vigorito e Russell Stambaugh, <strong>non nega che le persone sperimentino problemi reali</strong> con il comportamento sessuale, ma contesta il framework concettuale utilizzato per comprenderli e trattarli.</p>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Braun-Harvey & Vigorito — Out of Control Sexual Behavior (2016)</h4>
+                                <div class="card-summary">OCSB: problema di salute sessuale, non addiction — con Sei Principi di Salute Sessuale</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il modello <strong>OCSB</strong>: un problema di salute sessuale in cui urgenze, pensieri o comportamenti sessuali consensuali sono percepiti come fuori controllo, concettualizzato come <strong>problema comportamentale all'interno del range normale dell'espressione sessuale</strong>, non come disturbo clinico o addiction.</p>
+                            <p><strong>Sei Principi di Salute Sessuale</strong> (adattati dalle definizioni OMS/PAHO):</p>
+                            <div class="stat-grid mt-1" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+                                <div class="stat-card"><div class="stat-label">Consenso</div></div>
+                                <div class="stat-card"><div class="stat-label">Non-sfruttamento</div></div>
+                                <div class="stat-card"><div class="stat-label">Protezione da HIV/IST</div></div>
+                                <div class="stat-card"><div class="stat-label">Onestà</div></div>
+                                <div class="stat-card"><div class="stat-label">Valori condivisi</div></div>
+                                <div class="stat-card"><div class="stat-label">Piacere reciproco</div></div>
+                            </div>
+                            <p class="mt-2">Vincitore del SSTAR Health Professional Book Award 2018. Il framework centra la salute sessuale anziché la riduzione della patologia.</p>
+                            <span class="study-ref">Braun-Harvey & Vigorito (2016). Treating Out of Control Sexual Behavior. Springer. DOI: 10.1891/9780826196767</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Definizioni e modelli integrativi</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Definizione OMS di salute sessuale (2006)</h4>
+                                <div class="card-summary">Approccio positivo e rispettoso, non meramente assenza di malattia</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="key-insight mt-2">
+                                <p>"La salute sessuale è uno stato di benessere fisico, emotivo, mentale e sociale in relazione alla sessualità; non è semplicemente l'assenza di malattia, disfunzione o infermità. La salute sessuale richiede un approccio <strong>positivo e rispettoso</strong> alla sessualità e alle relazioni sessuali, nonché la possibilità di avere esperienze sessuali <strong>piacevoli</strong> e sicure, libere da coercizione, discriminazione e violenza."</p>
+                            </div>
+                            <span class="study-ref">OMS (2006). Defining Sexual Health: Report of a Technical Consultation on Sexual Health, 28–31 January 2002, Geneva.</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>Nimbi, Galizia, Rossi et al. (2022) — Biopsicosociale + Sex-Positive</h4>
+                                <div class="card-summary">Integrazione del modello biopsicosociale con l'approccio sex-positive</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Hanno proposto l'integrazione del modello biopsicosociale con l'approccio sex-positive, riconoscendo che un approccio sex-positive <strong>"riconosce e promuove i bisogni e le scelte di ciascun individuo, rispettando valori fondamentali come il consenso, la libera determinazione e l'accesso alla salute sessuale."</strong></p>
+                            <span class="study-ref">Nimbi et al. (2022). Sexuality Research and Social Policy, 19, 1–15. DOI: 10.1007/s13178-021-00647-x</span>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h4>SHIP Model — Girard et al. (2023)</h4>
+                                <div class="card-summary">Sexual Health and Integrative Pleasure: sessualità positiva orientata al piacere come core della terapia</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il <strong>Sexual Health and Integrative Pleasure (SHIP) Model</strong> ha ulteriormente sistematizzato una sessualità positiva orientata al piacere come componente core della terapia sessuale evidence-based.</p>
+                            <span class="study-ref">Girard et al. (2023). J. of Marital and Family Therapy. DOI: 10.1111/jmft.12624</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== ETICA ==================== -->
+            <section id="etica" class="section">
+                <h2>⚖️ Rischi clinici, etica e considerazioni deontologiche</h2>
+
+                <div class="subsection">
+                    <h3>Quadro normativo</h3>
+
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="apa">Standard APA</button>
+                        <button class="tab-btn" data-tab="cdp">Codice Deontologico IT</button>
+                    </div>
+
+                    <div class="tab-content active" id="tab-apa">
+                        <div class="card">
+                            <h4>Standard APA rilevanti</h4>
+                            <p><strong>Standard 10.01(b):</strong> Quando si utilizzano tecniche per le quali non esistono procedure generalmente riconosciute, lo psicologo deve informare il paziente della natura in sviluppo del trattamento, dei rischi potenziali, dei trattamenti alternativi e della natura volontaria della partecipazione. La prescrizione di visione di pornografia come homework terapeutico rientra in questa categoria, richiedendo un <strong>consenso informato rafforzato</strong>.</p>
+                            <p><strong>Standard 3.04</strong> (evitare il danno) e <strong>Standard 2.01</strong> (confini di competenza) implicano che tale intervento sia appropriato solo per clinici con formazione specifica in sessuologia.</p>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-cdp">
+                        <div class="card">
+                            <h4>Codice Deontologico degli Psicologi Italiani</h4>
+                            <p class="text-muted">(vigente dal 16/02/1998, revisione 2023, CNOP)</p>
+                            <p><strong>Articolo 4</strong> — Rispetto della dignità, autodeterminazione, astensione dall'imporre il proprio sistema di valori. Taglia in entrambe le direzioni: protegge sia dal moralismo anti-pornografia sia dalla prescrizione acritica.</p>
+                            <p><strong>Articolo 5</strong> — Metodi e tecniche adeguati, efficaci e scientificamente validati. <span class="text-yellow">Critico:</span> la prescrizione di pornografia manca di una base di evidenze robusta come tecnica terapeutica specifica e codificata, ponendo interrogativi sulla sua ammissibilità deontologica.</p>
+                            <p><strong>Articolo 28</strong> — Divieto assoluto di rapporti sessuali con i pazienti. Impone che qualsiasi intervento che coinvolga contenuti sessuali sia rigorosamente giustificato e documentato.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Rischi clinici specifici</h3>
+                    <div class="card-grid">
+                        <div class="card" style="border-left: 3px solid var(--accent-red);">
+                            <h4 class="text-red">Riattivazione del pattern compulsivo</h4>
+                            <p style="margin:0">In individui con storia di CSBD</p>
+                        </div>
+                        <div class="card" style="border-left: 3px solid var(--accent-yellow);">
+                            <h4 class="text-yellow">Distress morale</h4>
+                            <p style="margin:0">In pazienti con valori religiosi o culturali conflittuali</p>
+                        </div>
+                        <div class="card" style="border-left: 3px solid var(--accent-orange);">
+                            <h4 class="text-orange">Conflitto relazionale</h4>
+                            <p style="margin:0">Se la prescrizione coinvolge coppie con pattern d'uso discordanti</p>
+                        </div>
+                        <div class="card" style="border-left: 3px solid var(--accent-purple);">
+                            <h4 class="text-purple">Confusione di confini</h4>
+                            <p style="margin:0">Nella relazione terapeutica</p>
+                        </div>
+                    </div>
+                    <p class="mt-2"><strong>Herring (2001)</strong> ha sottolineato che i terapeuti che si identificano personalmente come "in recovery" rischiano la sovraidentificazione con un modello di trattamento.</p>
+                    <div class="warning-box mt-2">
+                        <p><strong class="text-yellow">⚠ Tensione fondamentale:</strong> esiste una tensione fra il rischio iatrogenico dell'introduzione inappropriata di contenuti sessuali in terapia e il rischio iatrogenico, altrettanto documentato, dell'evitamento sistematico della sessualità nella pratica clinica.</p>
+                    </div>
+                    <span class="study-ref">Herring (2001). Sexual Addiction & Compulsivity, 8(1), 13–22.</span>
+                </div>
+
+                <div class="subsection">
+                    <h3>Protocollo clinico prudente</h3>
+                    <div class="card" style="border-color: var(--accent-cyan);">
+                        <h4>Cinque elementi per l'uso del materiale erotico in terapia</h4>
+                        <div class="protocol-step">
+                            <span class="step-num">1</span>
+                            <div class="step-text"><strong>Screening iniziale</strong> per storia di CSBD, trauma sessuale, incongruenza morale, e pattern relazionali discordanti</div>
+                        </div>
+                        <div class="protocol-step">
+                            <span class="step-num">2</span>
+                            <div class="step-text"><strong>Consenso informato specifico</strong> che descriva la natura dell'intervento, i rischi potenziali, le alternative disponibili e la natura volontaria</div>
+                        </div>
+                        <div class="protocol-step">
+                            <span class="step-num">3</span>
+                            <div class="step-text"><strong>Razionale clinico documentato</strong> che colleghi l'intervento a obiettivi terapeutici specifici e misurabili</div>
+                        </div>
+                        <div class="protocol-step">
+                            <span class="step-num">4</span>
+                            <div class="step-text"><strong>Monitoraggio continuo</strong> degli effetti con valutazione regolare di distress, funzionamento relazionale e pattern d'uso</div>
+                        </div>
+                        <div class="protocol-step">
+                            <span class="step-num">5</span>
+                            <div class="step-text"><strong>Supervisione clinica</strong> con un collega esperto in sessuologia clinica</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== CONCLUSIONI ==================== -->
+            <section id="conclusioni" class="section">
+                <h2>📖 Conclusione: verso un uso clinicamente informato</h2>
+
+                <div class="hero-intro">
+                    <p>La letteratura esaminata permette di tracciare una posizione clinica fondata su evidenze, <strong>né apologetica né patologizzante</strong>.</p>
+                </div>
+
+                <div class="card">
+                    <p>Il materiale erotico ha una storia documentata come strumento terapeutico dai protocolli di Lobitz e LoPiccolo in poi. <strong>La ricerca contemporanea identifica consistentemente il contesto, le motivazioni e la relazione psicologica con gli stimoli</strong> — non la frequenza d'uso — come variabili determinanti per gli esiti.</p>
+                    <p>Il modello PPMI di Grubbs e i dati sui profili di utenti di Vaillancourt-Morel superano la dicotomia sano/patologico in favore di un <strong>approccio dimensionale</strong>.</p>
+                    <p>L'<strong>ACT</strong> offre il framework terapeutico più evidence-based per lavorare sulla relazione con gli stimoli erotici, spostando il focus dalla soppressione delle urgenze alla <strong>flessibilità psicologica e all'azione guidata dai valori</strong>.</p>
+                    <p>Gli approcci somatici di Lowen e la mindfulness-based sex therapy di Brotto forniscono gli strumenti per distinguere clinicamente tra <strong>consumo incarnato</strong> (presenza corporea, integrazione sensoriale-affettiva) e <strong>consumo dissociato</strong> (disconnessione corpo-mente, evitamento emotivo).</p>
+                    <p>La classificazione del CSBD nell'ICD-11 come disturbo del controllo degli impulsi — <strong>non come addiction</strong> — e l'esclusione esplicita del distress da incongruenza morale dai criteri diagnostici, rafforzano un approccio clinico non-patologizzante.</p>
+                </div>
+
+                <div class="key-insight mt-2">
+                    <p>L'insight forse più rilevante per il clinico è che la prescrizione o integrazione di materiale erotico non è mai un intervento tecnico isolato: è un <strong>intervento relazionale</strong> che mobilizza la relazione del paziente con il piacere, la vergogna, il corpo, l'immaginazione e i valori. Il clinico deve possedere non solo competenza sessuologica specifica, ma anche la capacità di navigare le proprie reazioni controtransferali e i propri assunti sulla sessualità — esigenza che il Codice Deontologico italiano e le linee guida APA rendono non opzionale ma <strong>deontologicamente vincolante</strong>.</p>
+                </div>
+            </section>
+
+            <!-- ==================== GLOSSARIO ==================== -->
+            <section id="glossario" class="section">
+                <h2>📚 Glossario</h2>
+                <input type="text" class="search-input mb-3" id="glossarySearch" placeholder="🔍 Cerca termine...">
+                <div class="glossary-grid">
+                    <div class="glossary-item visible" data-term="CET core erotic themes temi erotici nucleari morin">
+                        <h4>Core Erotic Themes (CET)</h4>
+                        <div class="definition">Pattern psicologici ricorrenti alla base dell'eccitazione sessuale, formatisi in risposta al clima emotivo delle esperienze formative.</div>
+                        <div class="application"><strong>Autore:</strong> Jack Morin (1995). <strong>Applicazione:</strong> Chiave per leggere fantasie e consumo di materiale erotico come finestre diagnostiche sulla vita psichica.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="DCM dual control model modello doppio controllo bancroft janssen eccitazione inibizione SES SIS">
+                        <h4>Dual Control Model (DCM)</h4>
+                        <div class="definition">Modello neuropsicologico per cui la risposta sessuale dipende dall'equilibrio tra meccanismi centrali eccitatori (SES) e inibitori (SIS1 e SIS2).</div>
+                        <div class="application"><strong>Autori:</strong> Bancroft & Janssen (2000). <strong>Applicazione:</strong> Comprensione delle differenze individuali nella risposta sessuale e nella vulnerabilità alle disfunzioni.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="PPMI pornography problems moral incongruence incongruenza morale grubbs">
+                        <h4>PPMI — Pornography Problems Due to Moral Incongruence</h4>
+                        <div class="definition">Modello che identifica tre percorsi verso l'uso percepito come problematico: disregolazione genuina, abitudini d'uso, e incongruenza morale tra norme internalizzate e comportamento.</div>
+                        <div class="application"><strong>Autore:</strong> Grubbs et al. (2019). <strong>Applicazione:</strong> Distinguere tra problematicità reale e distress da incongruenza morale in assessment clinico.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="CSBD compulsive sexual behavior disorder comportamento sessuale compulsivo ICD-11 6C72">
+                        <h4>CSBD — Compulsive Sexual Behavior Disorder</h4>
+                        <div class="definition">Disturbo del controllo degli impulsi (ICD-11, codice 6C72). Pattern persistente di fallimento nel controllare impulsi sessuali intensi e ripetitivi. Esplicitamente NON classificato come addiction.</div>
+                        <div class="application"><strong>Riferimento:</strong> Kraus et al. (2018). <strong>Nota:</strong> Il distress legato esclusivamente a giudizi morali non è sufficiente per la diagnosi.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="OCSB out of control sexual behavior comportamento sessuale fuori controllo braun-harvey">
+                        <h4>OCSB — Out of Control Sexual Behavior</h4>
+                        <div class="definition">Problema di salute sessuale in cui urgenze sessuali consensuali sono percepite come fuori controllo. Concettualizzato come problema comportamentale nel range normale, non come addiction.</div>
+                        <div class="application"><strong>Autori:</strong> Braun-Harvey & Vigorito (2016). <strong>Applicazione:</strong> Framework con Sei Principi di Salute Sessuale per valutazione e trattamento.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="ACT acceptance commitment therapy accettazione impegno defusione evitamento esperienziale">
+                        <h4>ACT — Acceptance and Commitment Therapy</h4>
+                        <div class="definition">Framework terapeutico che lavora sulla relazione con le urgenze anziché sulla loro soppressione, attraverso defusione cognitiva, accettazione, e azione guidata dai valori.</div>
+                        <div class="application"><strong>Applicazione alla pornografia:</strong> Il framework più evidence-based per il consumo problematico (Twohig, Crosby). La problematicità è determinata dalla relazione con le urgenze, non dal comportamento.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="sensate focus masters johnson tocco sensoriale mindfulness">
+                        <h4>Sensate Focus</h4>
+                        <div class="definition">Paradigma di sessualità incarnata: tocco non-demanding per il proprio interesse sensoriale, focalizzazione sul momento presente anziché sugli obiettivi performativi.</div>
+                        <div class="application"><strong>Autori:</strong> Masters & Johnson (1970), chiarito da Weiner & Avery-Clark (2014, 2017). Connesso esplicitamente alla mindfulness.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="GES good enough sex sesso sufficiente mccarthy metz">
+                        <h4>GES — Good Enough Sex</h4>
+                        <div class="definition">Modello che integra principi corporei con ristrutturazione cognitiva: aspettative realistiche, rilassamento come fondamento del piacere, desiderio e soddisfazione più importanti di eccitazione e orgasmo.</div>
+                        <div class="application"><strong>Autori:</strong> McCarthy & Metz (2007). <strong>Applicazione:</strong> Riduzione della pressione performativa in terapia sessuale.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="SHIP sexual health integrative pleasure modello piacere integrativo girard">
+                        <h4>SHIP Model</h4>
+                        <div class="definition">Sexual Health and Integrative Pleasure Model: sessualità positiva orientata al piacere come componente core della terapia sessuale evidence-based.</div>
+                        <div class="application"><strong>Autori:</strong> Girard et al. (2023). <strong>Applicazione:</strong> Integrazione del piacere come obiettivo terapeutico legittimo.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="equazione erotica attrazione ostacoli eccitazione morin">
+                        <h4>Equazione Erotica</h4>
+                        <div class="definition">Attrazione + Ostacoli = Eccitazione. Formula di Morin che descrive la dinamica psicologica dell'eccitazione sessuale.</div>
+                        <div class="application"><strong>Autore:</strong> Jack Morin (1995). <strong>Applicazione:</strong> Chiave interpretativa per comprendere il ruolo delle fantasie e degli stimoli erotici.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="condizionamento sessuale rachman hoffmann apprendimento preferenze">
+                        <h4>Condizionamento sessuale</h4>
+                        <div class="definition">Processo per cui l'eccitazione sessuale può essere condizionata a stimoli precedentemente neutri attraverso associazione ripetuta con stimoli sessualmente rilevanti.</div>
+                        <div class="application"><strong>Autori chiave:</strong> Rachman (1966), Hoffmann (2004–2017). <strong>Applicazione:</strong> La maggior parte degli stimoli acquisisce proprietà eccitanti attraverso l'esperienza.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="desiderio responsivo spontaneo nagoski">
+                        <h4>Desiderio responsivo vs spontaneo</h4>
+                        <div class="definition">Il desiderio spontaneo precede l'eccitazione; il desiderio responsivo emerge IN RISPOSTA all'eccitazione. Entrambi sono normali e funzionali.</div>
+                        <div class="application"><strong>Autore:</strong> Nagoski (2015/2022). <strong>Applicazione:</strong> Fondamentale per normalizzare la diversità nelle modalità di desiderio.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="porn literacy alfabetizzazione pornografica klein">
+                        <h4>Porn Literacy</h4>
+                        <div class="definition">Approccio terapeutico che lavora sulla comprensione critica e informata della pornografia nel contesto della relazione, centrato su autonomia, disclosure e comunicazione onesta.</div>
+                        <div class="application"><strong>Autore:</strong> Marty Klein (2016). <strong>Applicazione:</strong> Il conflitto sulla pornografia nella coppia come proxy per problematiche relazionali più profonde.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="armatura muscolare lowen bioenergetica tensione cronica">
+                        <h4>Armatura muscolare cronica</h4>
+                        <div class="definition">Concetto bioenergetico: tensioni muscolari croniche che bloccano l'esperienza sessuale piena e il flusso dell'eccitazione nel corpo.</div>
+                        <div class="application"><strong>Autore:</strong> Alexander Lowen (1965, 1970, 1976). <strong>Applicazione:</strong> La terapia bioenergetica mira a sciogliere queste tensioni per ripristinare la capacità di piacere.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== BIBLIOGRAFIA ==================== -->
+            <section id="bibliografia" class="section">
+                <h2>🔗 Bibliografia completa</h2>
+                <input type="text" class="search-input mb-3" id="bibSearch" placeholder="🔍 Cerca autore, anno, titolo...">
+                <div id="bibList">
+                    <div class="bib-item" data-bib="antons 2022">Antons, S. et al. (2022). <em>Journal of Behavioral Addictions</em>, 11(3), 643–666. DOI: 10.1556/2006.2022.00061</div>
+                    <div class="bib-item" data-bib="bancroft janssen 2000">Bancroft, J. & Janssen, E. (2000). The dual control model of male sexual response. <em>Neuroscience & Biobehavioral Reviews</em>, 24(5), 571–579. DOI: 10.1016/S0149-7634(00)00024-5</div>
+                    <div class="bib-item" data-bib="bothe vaillancourt-morel bergeron 2022">Bőthe, B., Vaillancourt-Morel, M.-P. & Bergeron, S. (2022). <em>Journal of Sex Research</em>, 59(4), 457–471. DOI: 10.1080/00224499.2021.1893261</div>
+                    <div class="bib-item" data-bib="braun-harvey vigorito 2016 ocsb">Braun-Harvey, D. & Vigorito, M. A. (2016). <em>Treating Out of Control Sexual Behavior</em>. Springer. DOI: 10.1891/9780826196767</div>
+                    <div class="bib-item" data-bib="briken 2024">Briken, P. et al. (2024). <em>Sexual Medicine Reviews</em>, 12(3), 355–370. DOI: 10.1093/sxmrev/qeae014</div>
+                    <div class="bib-item" data-bib="brotto basson 2014 mindfulness">Brotto, L. A. & Basson, R. (2014). <em>Behaviour Research and Therapy</em>, 57, 43–54. DOI: 10.1016/j.brat.2014.04.001</div>
+                    <div class="bib-item" data-bib="brotto chivers millman albert 2016">Brotto, L. A. et al. (2016). <em>Archives of Sexual Behavior</em>, 45, 1907–1921.</div>
+                    <div class="bib-item" data-bib="crosby twohig 2016 rct act">Crosby, J. M. & Twohig, M. P. (2016). <em>Behavior Therapy</em>, 47(3), 355–366. DOI: 10.1016/j.beth.2016.02.001</div>
+                    <div class="bib-item" data-bib="fisher kohut 2020">Fisher, W. A. & Kohut, T. (2020). <em>Journal of Sexual Medicine</em>, 17(2), 195–209. DOI: 10.1016/j.jsxm.2019.10.022</div>
+                    <div class="bib-item" data-bib="girard 2023 ship">Girard, A. et al. (2023). <em>Journal of Marital and Family Therapy</em>. DOI: 10.1111/jmft.12624</div>
+                    <div class="bib-item" data-bib="grubbs perry wilt reid 2019 ppmi">Grubbs, J. B. et al. (2019). <em>Archives of Sexual Behavior</em>, 48(2), 397–415. DOI: 10.1007/s10508-018-1248-x</div>
+                    <div class="bib-item" data-bib="grubbs 2020">Grubbs, J. B. et al. (2020). <em>Clinical Psychological Science</em>, 8(5), 895–916. DOI: 10.1177/2167702620922966</div>
+                    <div class="bib-item" data-bib="hald malamuth 2008">Hald, G. M. & Malamuth, N. M. (2008). <em>Archives of Sexual Behavior</em>, 37(4), 614–625. DOI: 10.1007/s10508-007-9212-1</div>
+                    <div class="bib-item" data-bib="herring 2001">Herring, B. (2001). <em>Sexual Addiction & Compulsivity</em>, 8(1), 13–22.</div>
+                    <div class="bib-item" data-bib="hoffmann janssen turner 2004">Hoffmann, H. et al. (2004). <em>Archives of Sexual Behavior</em>, 33(1), 43–53. DOI: 10.1023/B:ASEB.0000007461.59019.d3</div>
+                    <div class="bib-item" data-bib="hoffmann peterson garner 2012">Hoffmann, H. et al. (2012). <em>Socioaffective Neuroscience & Psychology</em>, 2, 17336. DOI: 10.3402/snp.v2i0.17336</div>
+                    <div class="bib-item" data-bib="hoffmann 2014 compulsivity">Hoffmann, H. et al. (2014). <em>Sexual Addiction & Compulsivity</em>, 21(2), 75–91. DOI: 10.1080/10720162.2014.895460</div>
+                    <div class="bib-item" data-bib="hoffmann 2017 situating conditioning">Hoffmann, H. (2017). Situating human sexual conditioning. <em>Archives of Sexual Behavior</em>, 46(8), 2213–2229. DOI: 10.1007/s10508-017-1030-5</div>
+                    <div class="bib-item" data-bib="janssen everaerd spiering 2000">Janssen, E. et al. (2000). <em>Journal of Sex Research</em>, 37, 8–23.</div>
+                    <div class="bib-item" data-bib="janssen bancroft 2023 scoping review">Janssen, E. & Bancroft, J. (2023). <em>Journal of Sex Research</em>, 60(7), 935–961. DOI: 10.1080/00224499.2023.2219247</div>
+                    <div class="bib-item" data-bib="joyal cossette lapierre 2015">Joyal, C. C. et al. (2015). <em>Journal of Sexual Medicine</em>, 12(2), 328–340. DOI: 10.1111/jsm.12734</div>
+                    <div class="bib-item" data-bib="kafka 2010 hypersexual">Kafka, M. P. (2010). <em>Archives of Sexual Behavior</em>, 39(2), 377–400. DOI: 10.1007/s10508-009-9574-7</div>
+                    <div class="bib-item" data-bib="klein 2016 porn">Klein, M. (2016). <em>His Porn, Her Pain</em>. Praeger.</div>
+                    <div class="bib-item" data-bib="kleinplatz 2009 optimal sexuality">Kleinplatz, P. J. et al. (2009). <em>Canadian Journal of Human Sexuality</em>, 18(1-2), 1–13.</div>
+                    <div class="bib-item" data-bib="kleinplatz menard 2020 magnificent sex">Kleinplatz, P. J. & Ménard, A. D. (2020). <em>Magnificent Sex</em>. Routledge.</div>
+                    <div class="bib-item" data-bib="kohut baer watts 2016 egualitari">Kohut, T. et al. (2016). <em>Journal of Sex Research</em>, 53(1), 1–11. DOI: 10.1080/00224499.2015.1023427</div>
+                    <div class="bib-item" data-bib="kohut fisher campbell 2017">Kohut, T. et al. (2017). <em>Archives of Sexual Behavior</em>, 46(2), 585–602. DOI: 10.1007/s10508-016-0783-6</div>
+                    <div class="bib-item" data-bib="kohut balzarini fisher campbell 2018">Kohut, T. et al. (2018). <em>Journal of Social and Personal Relationships</em>, 35(4), 655–676. DOI: 10.1177/0265407517743096</div>
+                    <div class="bib-item" data-bib="kraus 2018 csbd icd-11">Kraus, S. W. et al. (2018). <em>World Psychiatry</em>, 17(1), 109–110. DOI: 10.1002/wps.20499</div>
+                    <div class="bib-item" data-bib="laan everaerd 1995">Laan, E. & Everaerd, W. (1995). <em>Annual Review of Sex Research</em>, 6, 32–76.</div>
+                    <div class="bib-item" data-bib="leitenberg henning 1995 fantasy">Leitenberg, H. & Henning, K. (1995). Sexual fantasy. <em>Psychological Bulletin</em>, 117(3), 469–496. DOI: 10.1037/0033-2909.117.3.469</div>
+                    <div class="bib-item" data-bib="levin lillis hayes 2012">Levin, M. E. et al. (2012). <em>Sexual Addiction & Compulsivity</em>, 19(3), 168–180. DOI: 10.1080/10720162.2012.657150</div>
+                    <div class="bib-item" data-bib="levin lee twohig 2019">Levin, M. E. et al. (2019). <em>The Psychological Record</em>, 69, 1–12. DOI: 10.1007/s40732-018-0302-3</div>
+                    <div class="bib-item" data-bib="lewczuk 2020">Lewczuk, K. et al. (2020). <em>Journal of Sexual Medicine</em>, 17(2), 300–311. DOI: 10.1016/j.jsxm.2019.11.259</div>
+                    <div class="bib-item" data-bib="ley prause finn 2014 emperor">Ley, D. et al. (2014). <em>Current Sexual Health Reports</em>, 6(2), 94–105. DOI: 10.1007/s11930-014-0016-8</div>
+                    <div class="bib-item" data-bib="lopiccolo lobitz 1972">LoPiccolo, J. & Lobitz, W. C. (1972). <em>Archives of Sexual Behavior</em>, 2(2), 163–171. DOI: 10.1007/BF01541865</div>
+                    <div class="bib-item" data-bib="lowen 1965 1970 1976 bioenergetica">Lowen, A. (1965). <em>Love and Orgasm</em>. Macmillan. / (1970). <em>Pleasure</em>. Lancer Books. / (1976). <em>Bioenergetics</em>. Penguin.</div>
+                    <div class="bib-item" data-bib="masters johnson 1970">Masters, W. H. & Johnson, V. E. (1970). <em>Human Sexual Inadequacy</em>. Little, Brown.</div>
+                    <div class="bib-item" data-bib="mccarthy metz 2007 ges">McCarthy, B. W. & Metz, M. E. (2007). <em>Sexual and Relationship Therapy</em>, 22(3), 351–362.</div>
+                    <div class="bib-item" data-bib="morin 1995 erotic mind">Morin, J. (1995). <em>The Erotic Mind</em>. HarperPerennial.</div>
+                    <div class="bib-item" data-bib="nagoski 2015 2022 come as you are">Nagoski, E. (2015/2022). <em>Come As You Are</em>. Simon & Schuster.</div>
+                    <div class="bib-item" data-bib="nimbi galizia rossi 2022 biopsicosociale">Nimbi, F. M. et al. (2022). <em>Sexuality Research and Social Policy</em>, 19, 1–15. DOI: 10.1007/s13178-021-00647-x</div>
+                    <div class="bib-item" data-bib="oms who 2006 sexual health">OMS (2006). <em>Defining Sexual Health: Report of a Technical Consultation</em>. Geneva.</div>
+                    <div class="bib-item" data-bib="perel 2006 mating captivity">Perel, E. (2006). <em>Mating in Captivity</em>. HarperCollins.</div>
+                    <div class="bib-item" data-bib="potenza gola voon kor kraus 2017">Potenza, M. N. et al. (2017). <em>The Lancet Psychiatry</em>, 4(9), 663–664.</div>
+                    <div class="bib-item" data-bib="prause 2015 eeg">Prause, N. et al. (2015). <em>Biological Psychology</em>, 109, 192–199. DOI: 10.1016/j.biopsycho.2015.06.005</div>
+                    <div class="bib-item" data-bib="rachman 1966 fetishism conditioning">Rachman, S. (1966). <em>The Psychological Record</em>, 16, 293–296. DOI: 10.1007/BF03393671</div>
+                    <div class="bib-item" data-bib="rachman hodgson 1968">Rachman, S. & Hodgson, R. J. (1968). <em>The Psychological Record</em>, 18, 25–27. DOI: 10.1007/BF03393736</div>
+                    <div class="bib-item" data-bib="reid 2012 field trials">Reid, R. C. et al. (2012). <em>Journal of Sexual Medicine</em>, 9(11), 2868–2877. DOI: 10.1111/j.1743-6109.2012.02936.x</div>
+                    <div class="bib-item" data-bib="riley riley 1978">Riley, A. J. & Riley, E. J. (1978). <em>British Journal of Psychiatry</em>, 133(5), 404–409.</div>
+                    <div class="bib-item" data-bib="rissel 2017 australia">Rissel, C. et al. (2017). <em>Journal of Sex Research</em>, 54(2), 227–240. DOI: 10.1080/00224499.2016.1191597</div>
+                    <div class="bib-item" data-bib="steele staley fong prause 2013">Steele, V. R. et al. (2013). <em>Socioaffective Neuroscience & Psychology</em>, 3, 20770. DOI: 10.3402/snp.v3i0.20770</div>
+                    <div class="bib-item" data-bib="twohig crosby cox 2009">Twohig, M. P. et al. (2009). <em>Sexual Addiction & Compulsivity</em>, 16(4), 253–266. DOI: 10.1080/10720160903300788</div>
+                    <div class="bib-item" data-bib="twohig crosby 2010 act treatment">Twohig, M. P. & Crosby, J. M. (2010). <em>Behavior Therapy</em>, 41(3), 285–295. DOI: 10.1016/j.beth.2009.06.002</div>
+                    <div class="bib-item" data-bib="vaillancourt-morel 2017 profiles">Vaillancourt-Morel, M.-P. et al. (2017). <em>Journal of Sexual Medicine</em>, 14(1), 78–85. DOI: 10.1016/j.jsxm.2016.10.016</div>
+                    <div class="bib-item" data-bib="vaillancourt-morel 2020 diary">Vaillancourt-Morel, M.-P. et al. (2020). <em>J. of Social and Personal Relationships</em>, 37(10–11), 2802–2821. DOI: 10.1177/0265407520940048</div>
+                    <div class="bib-item" data-bib="weiner avery-clark 2014 2017 sensate focus">Weiner, L. & Avery-Clark, C. (2014). <em>Sexual and Relationship Therapy</em>, 29(3), 307–319. DOI: 10.1080/14681994.2014.892920 / (2017). <em>Sensate Focus in Sex Therapy</em>. Routledge.</div>
+                    <div class="bib-item" data-bib="wright tokunaga kraus klann 2017 meta-analysis">Wright, P. J. et al. (2017). <em>Human Communication Research</em>, 43(3), 315–343. DOI: 10.1111/hcre.12108</div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Revisione della letteratura — Materiale pornografico come strumento psicoeducativo in psicoterapia sessuale<br>
+                    Risorsa creata da <a href="https://ivanferrero.it">Ivan Ferrero</a> — 2025
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+    
+    <!-- Interactivity Scripts -->
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabContainer = btn.closest('.subsection') || btn.closest('.section');
+                tabContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        glossarySearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (terms.includes(query) || text.includes(query) || query === '') {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        });
+
+        // Bibliography search
+        const bibSearch = document.getElementById('bibSearch');
+        const bibItems = document.querySelectorAll('.bib-item');
+
+        bibSearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            bibItems.forEach(item => {
+                const bib = item.dataset.bib.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (bib.includes(query) || text.includes(query) || query === '') {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
