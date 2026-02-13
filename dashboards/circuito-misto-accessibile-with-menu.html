@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuito Misto Accessibile — Guida Interattiva | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* =============================================
+           PAGE-SPECIFIC: CIRCUIT DASHBOARD
+           ============================================= */
+
+        /* --- Palette semantica circuito (colorblind-safe) --- */
+        :root {
+            --cir-r1: #4A9EE8;           /* Blu medio — R1 */
+            --cir-r2: #3DA86B;           /* Verde scuro — R2 */
+            --cir-r3: #E58A2E;           /* Arancione — R3 */
+            --cir-gen: #C49A2E;          /* Oro — generatore */
+            --cir-nodo: #9B5DE5;         /* Viola — nodi */
+            --cir-corrente: #CC3D33;     /* Rosso mattone — corrente */
+            --cir-filo: #666;            /* Grigio — fili */
+            --cir-parallelo: #4A9EE8;    /* Blu — box parallelo */
+            --cir-calcolato: #E07000;    /* Arancione scuro — risultati */
+            --cir-light-bg: #FAF8F5;     /* Crema — sfondo area circuito */
+            --cir-light-card: #FFFFFF;
+            --cir-light-text: #2D2D2D;
+            --cir-light-border: #D4D0CC;
+            --cir-result-bg: #FFF5EB;
+            --cir-result-border: #E07000;
+        }
+
+        /* --- Circuit area: Light island inside dark page --- */
+        .circuit-light-area {
+            background: var(--cir-light-bg);
+            border-radius: 8px;
+            padding: 24px;
+            color: var(--cir-light-text);
+        }
+
+        .circuit-light-area p,
+        .circuit-light-area span,
+        .circuit-light-area div {
+            color: var(--cir-light-text);
+        }
+
+        .circuit-svg-wrap {
+            background: var(--cir-light-card);
+            border: 1px solid var(--cir-light-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .circuit-svg {
+            width: 100%;
+            height: 320px;
+        }
+
+        /* --- Legend (inside light area) --- */
+        .cir-legend {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            background: var(--cir-light-card);
+            border: 1px solid var(--cir-light-border);
+            border-radius: 8px;
+        }
+
+        .cir-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--cir-light-text);
+        }
+
+        .cir-legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            border: 2px solid rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        /* --- Progress (renamed to avoid base-styles conflict) --- */
+        .cir-progress {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            justify-content: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cir-pnum {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: #DDD;
+            color: #999;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .cir-pnum.active {
+            background: var(--cir-calcolato);
+            color: #FFF;
+            border-color: var(--cir-calcolato);
+            box-shadow: 0 0 0 3px rgba(224,112,0,0.2);
+        }
+
+        .cir-pnum.done {
+            background: var(--cir-r2);
+            color: #FFF;
+            border-color: var(--cir-r2);
+        }
+
+        .cir-pline {
+            width: 20px;
+            height: 3px;
+            background: #DDD;
+            border-radius: 2px;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .cir-pline.done { background: var(--cir-r2); }
+
+        /* --- SVG elements --- */
+        .wire {
+            stroke: var(--cir-filo);
+            stroke-width: 3.5;
+            fill: none;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .wire.visible { opacity: 1; }
+
+        .comp {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .comp.visible { opacity: 1; }
+
+        .svg-label {
+            font-family: 'Verdana', sans-serif;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .svg-label.visible { opacity: 1; }
+
+        .current-arrow {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .current-arrow.visible { opacity: 1; }
+
+        .parallel-box {
+            fill: none;
+            stroke: var(--cir-parallelo);
+            stroke-width: 2.5;
+            stroke-dasharray: 8,4;
+            rx: 8;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .parallel-box.visible { opacity: 0.5; }
+
+        .result-svg-box {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .result-svg-box.visible { opacity: 1; }
+
+        /* --- Instruction box (light) --- */
+        .cir-instruction {
+            background: var(--cir-light-card);
+            border: 2px solid var(--cir-r1);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .cir-inst-step {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--cir-r1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2px;
+        }
+
+        .cir-inst-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--cir-light-text);
+            margin-bottom: 6px;
+        }
+
+        .cir-inst-text {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* --- Result box (light) --- */
+        .cir-result {
+            background: var(--cir-result-bg);
+            border: 2px solid var(--cir-result-border);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .cir-result.visible { display: block; }
+
+        .cir-result h4 {
+            font-size: 0.85rem;
+            color: var(--cir-calcolato);
+            margin-bottom: 8px;
+        }
+
+        .cir-result-formula {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--cir-light-text);
+            text-align: center;
+            padding: 8px;
+            background: var(--cir-light-card);
+            border-radius: 6px;
+            border: 1px solid var(--cir-light-border);
+            margin-bottom: 6px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .cir-result-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--cir-calcolato);
+            text-align: center;
+            padding: 10px;
+            background: var(--cir-light-card);
+            border-radius: 6px;
+            border: 2px solid var(--cir-calcolato);
+        }
+
+        /* --- Water metaphor card (light) --- */
+        .cir-water {
+            background: var(--cir-light-card);
+            border: 1px solid var(--cir-light-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .cir-water.visible { display: block; }
+
+        .cir-water-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #555;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .water-svg {
+            width: 100%;
+            height: 180px;
+        }
+
+        /* --- Circuit controls (light) --- */
+        .cir-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .cir-btn {
+            min-height: 44px;
+            min-width: 44px;
+            padding: 10px 24px;
+            font-family: 'Verdana', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cir-btn:focus {
+            outline: 3px solid var(--cir-r1);
+            outline-offset: 2px;
+        }
+
+        .cir-btn-primary {
+            background: var(--cir-r1);
+            color: #FFF;
+        }
+        .cir-btn-primary:hover:not(:disabled) { background: #3580C0; }
+
+        .cir-btn-secondary {
+            background: #EEEEEE;
+            color: var(--cir-light-text);
+            border-color: var(--cir-light-border);
+        }
+        .cir-btn-secondary:hover:not(:disabled) { background: #DDD; }
+
+        .cir-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .cir-step-counter {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .cir-kb-hint {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #BBB;
+            margin-top: 6px;
+        }
+
+        .cir-kb-hint kbd {
+            background: #EEE;
+            border: 1px solid #CCC;
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-size: 0.65rem;
+        }
+
+        /* --- Teacher sections: tip cards --- */
+        .tip-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .tip-card.tip-green { border-left-color: var(--accent-green); }
+        .tip-card.tip-yellow { border-left-color: var(--accent-yellow); }
+        .tip-card.tip-orange { border-left-color: var(--accent-orange); }
+        .tip-card.tip-purple { border-left-color: var(--accent-purple); }
+        .tip-card.tip-red { border-left-color: var(--accent-red); }
+
+        .tip-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-card p:last-child { margin-bottom: 0; }
+
+        /* --- Comparison table --- */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .compare-table th {
+            background: var(--bg-hover);
+            color: var(--accent-cyan);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent-cyan-dim);
+        }
+
+        .compare-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .compare-table tr:hover td {
+            background: var(--bg-hover);
+        }
+
+        /* --- Numbered steps (teacher section) --- */
+        .teach-step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 1.25rem;
+            align-items: flex-start;
+        }
+
+        .teach-step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .teach-step-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .teach-step-content p {
+            font-size: 0.9rem;
+        }
+
+        .teach-step-content .teach-say {
+            background: var(--bg-hover);
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-top: 8px;
+            font-style: italic;
+            color: var(--text-primary);
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .teach-step-content .teach-say::before {
+            content: '💬 ';
+        }
+
+        /* --- Profile badges --- */
+        .profile-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0.75rem 0;
+        }
+
+        .profile-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .profile-badge.adhd { background: #f8514920; color: var(--accent-red); border: 1px solid #f8514940; }
+        .profile-badge.dsa { background: #d2992220; color: var(--accent-yellow); border: 1px solid #d2992240; }
+        .profile-badge.asd { background: #a371f720; color: var(--accent-purple); border: 1px solid #a371f740; }
+        .profile-badge.di { background: #db6d2820; color: var(--accent-orange); border: 1px solid #db6d2840; }
+        .profile-badge.all { background: #00d9ff15; color: var(--accent-cyan); border: 1px solid #00d9ff30; }
+
+        /* --- Mobile responsive --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-container {
+                grid-template-columns: 1fr !important;
+                padding-top: 8rem !important;
+            }
+            .circuit-svg { height: 240px; }
+            .cir-progress { gap: 3px; }
+            .cir-pnum { width: 24px; height: 24px; font-size: 0.65rem; }
+            .cir-pline { width: 10px; }
+            .cir-legend { gap: 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .cir-legend-item { font-size: 0.72rem; }
+            .cir-btn { padding: 8px 16px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <div class="main-container">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a href="#circuito" class="sidebar-link active" data-target="circuito">⚡ Circuito Interattivo</a>
+                <a href="#accessibilita" class="sidebar-link" data-target="accessibilita">♿ Accorgimenti Accessibilità</a>
+                <a href="#guida-docenti" class="sidebar-link" data-target="guida-docenti">🎓 Guida per Docenti</a>
+                <a href="#glossario" class="sidebar-link" data-target="glossario">📖 Glossario</a>
+                <a href="#riferimenti" class="sidebar-link" data-target="riferimenti">📚 Riferimenti</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main>
+
+            <!-- =========================================
+                 SEZIONE 1: CIRCUITO INTERATTIVO
+                 ========================================= -->
+            <section id="circuito" class="section active">
+                <h1>⚡ Circuito Misto: Serie + Parallelo</h1>
+                <p>Dashboard interattiva per costruire e risolvere un circuito misto passo dopo passo. Progettata con principi di accessibilità (UDL + Mayer) per alunni con BES.</p>
+
+                <div class="circuit-light-area">
+
+                    <!-- Legenda fissa -->
+                    <div class="cir-legend" role="complementary" aria-label="Legenda colori del circuito">
+                        <div class="cir-legend-item">
+                            <div class="cir-legend-dot" style="background: var(--cir-r1);"></div>
+                            <span>R₁ = 10Ω (serie)</span>
+                        </div>
+                        <div class="cir-legend-item">
+                            <div class="cir-legend-dot" style="background: var(--cir-r2);"></div>
+                            <span>R₂ = 30Ω (parallelo)</span>
+                        </div>
+                        <div class="cir-legend-item">
+                            <div class="cir-legend-dot" style="background: var(--cir-r3);"></div>
+                            <span>R₃ = 60Ω (parallelo)</span>
+                        </div>
+                        <div class="cir-legend-item">
+                            <div class="cir-legend-dot" style="background: var(--cir-gen);"></div>
+                            <span>E = 90V</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress -->
+                    <div class="cir-progress" role="progressbar" aria-label="Avanzamento step">
+                        <div class="cir-pnum" id="pn1">1</div><div class="cir-pline" id="pl1"></div>
+                        <div class="cir-pnum" id="pn2">2</div><div class="cir-pline" id="pl2"></div>
+                        <div class="cir-pnum" id="pn3">3</div><div class="cir-pline" id="pl3"></div>
+                        <div class="cir-pnum" id="pn4">4</div><div class="cir-pline" id="pl4"></div>
+                        <div class="cir-pnum" id="pn5">5</div><div class="cir-pline" id="pl5"></div>
+                        <div class="cir-pnum" id="pn6">6</div><div class="cir-pline" id="pl6"></div>
+                        <div class="cir-pnum" id="pn7">7</div><div class="cir-pline" id="pl7"></div>
+                        <div class="cir-pnum" id="pn8">8</div><div class="cir-pline" id="pl8"></div>
+                        <div class="cir-pnum" id="pn9">9</div>
+                    </div>
+
+                    <!-- SVG Circuit -->
+                    <div class="circuit-svg-wrap">
+                        <svg class="circuit-svg" viewBox="0 0 600 320" role="img" aria-label="Schema del circuito misto con R1 in serie e R2, R3 in parallelo">
+
+                            <!-- GENERATORE -->
+                            <g class="comp" id="gen">
+                                <circle cx="70" cy="180" r="28" fill="#FFF" stroke="var(--cir-gen)" stroke-width="3"/>
+                                <text x="60" y="176" font-size="22" font-weight="bold" fill="var(--cir-gen)">+</text>
+                                <text x="75" y="194" font-size="16" fill="var(--cir-gen)">−</text>
+                                <text x="70" y="230" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--cir-gen)" font-family="Verdana, sans-serif">E = 90V</text>
+                            </g>
+
+                            <!-- FILI: generatore → R1 -->
+                            <path class="wire" id="w1" d="M 70 152 L 70 70 L 150 70"/>
+
+                            <!-- R1 -->
+                            <g class="comp" id="r1">
+                                <rect x="150" y="48" width="80" height="44" rx="6" fill="var(--cir-r1)"/>
+                                <text x="190" y="68" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFF" font-family="Verdana, sans-serif">R₁</text>
+                                <text x="190" y="84" text-anchor="middle" font-size="13" fill="#FFF" font-family="Verdana, sans-serif">10 Ω</text>
+                            </g>
+
+                            <!-- FILI: R1 → nodo A -->
+                            <path class="wire" id="w2" d="M 230 70 L 290 70"/>
+
+                            <!-- NODO A -->
+                            <g class="comp" id="nodeA">
+                                <circle cx="290" cy="70" r="9" fill="var(--cir-nodo)" stroke="#FFF" stroke-width="2"/>
+                                <text x="290" y="48" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--cir-nodo)" font-family="Verdana, sans-serif">A</text>
+                            </g>
+
+                            <!-- FILI: nodo A → rami -->
+                            <path class="wire" id="w3a" d="M 290 70 L 290 42 L 350 42"/>
+                            <path class="wire" id="w3b" d="M 290 70 L 290 140 L 350 140"/>
+
+                            <!-- R3 (ramo alto) -->
+                            <g class="comp" id="r3">
+                                <rect x="350" y="20" width="80" height="44" rx="6" fill="var(--cir-r3)"/>
+                                <text x="390" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFF" font-family="Verdana, sans-serif">R₃</text>
+                                <text x="390" y="56" text-anchor="middle" font-size="13" fill="#FFF" font-family="Verdana, sans-serif">60 Ω</text>
+                            </g>
+
+                            <!-- R2 (ramo basso) -->
+                            <g class="comp" id="r2">
+                                <rect x="350" y="118" width="80" height="44" rx="6" fill="var(--cir-r2)"/>
+                                <text x="390" y="138" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFF" font-family="Verdana, sans-serif">R₂</text>
+                                <text x="390" y="154" text-anchor="middle" font-size="13" fill="#FFF" font-family="Verdana, sans-serif">30 Ω</text>
+                            </g>
+
+                            <!-- BOX PARALLELO -->
+                            <rect class="parallel-box" id="pBox" x="278" y="12" width="178" height="160"/>
+                            <text class="svg-label" id="pLabel" x="367" y="188" text-anchor="middle" font-size="13" fill="var(--cir-parallelo)" font-family="Verdana, sans-serif" font-weight="bold">PARALLELO</text>
+
+                            <!-- FILI: rami → nodo B -->
+                            <path class="wire" id="w4a" d="M 430 42 L 480 42 L 480 90"/>
+                            <path class="wire" id="w4b" d="M 430 140 L 480 140 L 480 90"/>
+
+                            <!-- NODO B -->
+                            <g class="comp" id="nodeB">
+                                <circle cx="480" cy="90" r="9" fill="var(--cir-nodo)" stroke="#FFF" stroke-width="2"/>
+                                <text x="480" y="68" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--cir-nodo)" font-family="Verdana, sans-serif">B</text>
+                            </g>
+
+                            <!-- FILI: ritorno -->
+                            <path class="wire" id="w5" d="M 480 99 L 480 260 L 70 260 L 70 208"/>
+
+                            <!-- FRECCE CORRENTE -->
+                            <g class="current-arrow" id="arrowI1">
+                                <polygon points="118,64 130,70 118,76" fill="var(--cir-corrente)"/>
+                                <text x="124" y="56" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--cir-corrente)" font-family="Verdana, sans-serif">I₁</text>
+                            </g>
+                            <g class="current-arrow" id="arrowI2">
+                                <polygon points="338,134 350,140 338,146" fill="var(--cir-corrente)"/>
+                                <text x="330" y="158" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--cir-corrente)" font-family="Verdana, sans-serif">I₂</text>
+                            </g>
+                            <g class="current-arrow" id="arrowI3">
+                                <polygon points="338,36 350,42 338,48" fill="var(--cir-corrente)"/>
+                                <text x="330" y="28" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--cir-corrente)" font-family="Verdana, sans-serif">I₃</text>
+                            </g>
+
+                            <!-- RISULTATI SVG -->
+                            <g class="result-svg-box" id="resI1">
+                                <rect x="100" y="90" width="82" height="24" rx="4" fill="var(--cir-result-bg)" stroke="var(--cir-calcolato)" stroke-width="2"/>
+                                <text x="141" y="107" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--cir-calcolato)" font-family="Verdana, sans-serif">I₁ = 3 A</text>
+                            </g>
+                            <g class="result-svg-box" id="resI2">
+                                <rect x="440" y="126" width="82" height="24" rx="4" fill="var(--cir-result-bg)" stroke="var(--cir-calcolato)" stroke-width="2"/>
+                                <text x="481" y="143" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--cir-calcolato)" font-family="Verdana, sans-serif">I₂ = 2 A</text>
+                            </g>
+                            <g class="result-svg-box" id="resI3">
+                                <rect x="440" y="28" width="82" height="24" rx="4" fill="var(--cir-result-bg)" stroke="var(--cir-calcolato)" stroke-width="2"/>
+                                <text x="481" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--cir-calcolato)" font-family="Verdana, sans-serif">I₃ = 1 A</text>
+                            </g>
+                            <g class="result-svg-box" id="resV23">
+                                <rect x="310" y="78" width="100" height="24" rx="4" fill="#EEF7FF" stroke="var(--cir-r1)" stroke-width="2"/>
+                                <text x="360" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--cir-r1)" font-family="Verdana, sans-serif">V₂₃ = 60 V</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Water metaphor -->
+                    <div class="cir-water" id="waterCard">
+                        <div class="cir-water-title">💧 Pensa all'acqua nei tubi</div>
+                        <svg class="water-svg" viewBox="0 0 500 180" role="img" aria-label="Metafora: l'acqua si divide in due tubi di diametro diverso">
+                            <circle cx="18" cy="90" r="14" fill="#FFF" stroke="var(--cir-gen)" stroke-width="2"/>
+                            <text x="18" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--cir-gen)" font-family="Verdana, sans-serif">P</text>
+                            <text x="18" y="118" text-anchor="middle" font-size="9" fill="var(--cir-gen)" font-family="Verdana, sans-serif">Pompa</text>
+
+                            <rect x="36" y="75" width="90" height="30" rx="6" fill="#B3D9F2" stroke="var(--cir-r1)" stroke-width="2"/>
+                            <text x="81" y="95" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--cir-r1)" font-family="Verdana, sans-serif">Tubo unico</text>
+
+                            <polygon points="130,82 141,90 130,98" fill="var(--cir-r1)"/>
+
+                            <path d="M 141 90 L 165 90 L 185 45" stroke="var(--cir-filo)" stroke-width="2.5" fill="none"/>
+                            <path d="M 141 90 L 165 90 L 185 135" stroke="var(--cir-filo)" stroke-width="2.5" fill="none"/>
+
+                            <rect x="185" y="30" width="140" height="28" rx="6" fill="#FDEBD0" stroke="var(--cir-r3)" stroke-width="2"/>
+                            <text x="255" y="48" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--cir-r3)" font-family="Verdana, sans-serif">Tubo STRETTO (R₃=60Ω)</text>
+                            <text x="255" y="22" text-anchor="middle" font-size="9" fill="var(--cir-corrente)" font-family="Verdana, sans-serif">→ meno acqua (1 A)</text>
+
+                            <rect x="185" y="120" width="140" height="36" rx="6" fill="#D5F0E0" stroke="var(--cir-r2)" stroke-width="2"/>
+                            <text x="255" y="143" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--cir-r2)" font-family="Verdana, sans-serif">Tubo LARGO (R₂=30Ω)</text>
+                            <text x="255" y="168" text-anchor="middle" font-size="9" fill="var(--cir-corrente)" font-family="Verdana, sans-serif">→ più acqua (2 A)</text>
+
+                            <path d="M 325 44 L 360 90" stroke="var(--cir-filo)" stroke-width="2.5" fill="none"/>
+                            <path d="M 325 138 L 360 90" stroke="var(--cir-filo)" stroke-width="2.5" fill="none"/>
+
+                            <rect x="365" y="75" width="115" height="30" rx="6" fill="#B3D9F2" stroke="var(--cir-r1)" stroke-width="2"/>
+                            <text x="422" y="95" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--cir-r1)" font-family="Verdana, sans-serif">Si riuniscono!</text>
+                        </svg>
+                    </div>
+
+                    <!-- Instruction -->
+                    <div class="cir-instruction" role="status" aria-live="polite">
+                        <div class="cir-inst-step" id="instStep"></div>
+                        <div class="cir-inst-title" id="instTitle">Premi "Avanti" per iniziare</div>
+                        <div class="cir-inst-text" id="instText">Costruiremo e risolveremo il circuito, un pezzo alla volta.</div>
+                    </div>
+
+                    <!-- Result box -->
+                    <div class="cir-result" id="resultBox" role="status" aria-live="polite">
+                        <h4 id="resultTitle"></h4>
+                        <div class="cir-result-formula" id="resultFormula"></div>
+                        <div class="cir-result-value" id="resultValue"></div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="cir-controls">
+                        <button class="cir-btn cir-btn-secondary" id="btnPrev" disabled aria-label="Step precedente">← Indietro</button>
+                        <button class="cir-btn cir-btn-secondary" id="btnReset" aria-label="Ricomincia">⟲ Ricomincia</button>
+                        <button class="cir-btn cir-btn-primary" id="btnNext" aria-label="Step successivo">Avanti →</button>
+                    </div>
+
+                    <div class="cir-step-counter" id="stepCounter" aria-live="polite">Step 0 di 9</div>
+                    <div class="cir-kb-hint">Usa <kbd>→</kbd> <kbd>←</kbd> o <kbd>Spazio</kbd> per navigare</div>
+
+                </div><!-- /circuit-light-area -->
+            </section>
+
+
+            <!-- =========================================
+                 SEZIONE 2: ACCORGIMENTI ACCESSIBILITÀ
+                 ========================================= -->
+            <section id="accessibilita" class="section">
+                <h2>♿ Accorgimenti per l'Accessibilità</h2>
+                <p>Tutti gli accorgimenti adottati in questa dashboard per renderla fruibile da alunni con Bisogni Educativi Speciali, con i principi teorici di riferimento.</p>
+
+                <!-- Stat cards overview -->
+                <div class="stat-grid" style="margin-bottom: 1.5rem;">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-cyan);">9</div>
+                        <div class="stat-label">Step progressivi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-green);">4</div>
+                        <div class="stat-label">Colori colorblind-safe</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-orange);">3</div>
+                        <div class="stat-label">Modalità di navigazione</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-purple);">∞</div>
+                        <div class="stat-label">Ripetizioni possibili</div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Principi applicati</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🧠 Segmentazione del carico cognitivo</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> Il Segmenting Principle di Mayer (2009) dimostra che le persone apprendono meglio quando le informazioni complesse vengono spezzate in unità gestibili, presentate una alla volta.</p>
+                            <p><strong>Applicazione:</strong> Il circuito è scomposto in 9 step: i primi 5 costruiscono il circuito aggiungendo un solo componente alla volta, gli step 6-9 guidano i calcoli mostrando un risultato per volta. Ogni step ha un unico focus cognitivo dichiarato esplicitamente.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge adhd">ADHD</span>
+                                <span class="profile-badge dsa">DSA</span>
+                                <span class="profile-badge asd">Autismo</span>
+                                <span class="profile-badge di">DI lieve</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🎨 Codifica semantica dei colori (colorblind-safe)</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> Il colore non deve mai essere l'unico veicolo di informazione (WCAG 2.1 — 1.4.1). Ogni colore deve avere un significato semantico costante e la palette deve essere sicura per protanopia e deuteranopia.</p>
+                            <p><strong>Applicazione:</strong> La palette usa blu/verde/arancione/viola — combinazione verificata per le forme più comuni di daltonismo. Ogni resistenza ha sempre lo stesso colore in tutto il materiale. Le etichette testuali accompagnano sempre il colore. La legenda è fissa e visibile in ogni step.</p>
+
+                            <div class="table-wrapper">
+                                <table class="compare-table">
+                                    <thead>
+                                        <tr><th>Colore</th><th>Significato</th><th>Differenziatore aggiuntivo</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td style="color: var(--cir-r1);">■ Blu</td><td>R₁ (serie), dati noti</td><td>Posizione: sempre a sinistra</td></tr>
+                                        <tr><td style="color: var(--cir-r2);">■ Verde</td><td>R₂ (parallelo, ramo basso)</td><td>Posizione: sempre in basso</td></tr>
+                                        <tr><td style="color: var(--cir-r3);">■ Arancione</td><td>R₃ (parallelo, ramo alto)</td><td>Posizione: sempre in alto</td></tr>
+                                        <tr><td style="color: var(--cir-nodo);">■ Viola</td><td>Nodi A e B</td><td>Forma: cerchio + lettera</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="profile-badges">
+                                <span class="profile-badge all">Tutti</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>📊 Barra di progresso esplicita</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> La prevedibilità riduce l'ansia da prestazione e mantiene l'attenzione focalizzata (UDL Checkpoint 7.1 — Engagement). Sapere "dove mi trovo" e "quanto manca" è fondamentale per la regolazione attentiva.</p>
+                            <p><strong>Applicazione:</strong> La barra numerata (1-9) mostra in tempo reale lo step attuale (arancione), gli step completati (verde) e quelli rimanenti (grigio). Il contatore testuale "Step X di 9" funziona anche per chi non distingue i colori.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge adhd">ADHD</span>
+                                <span class="profile-badge asd">Autismo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🌊 Metafora visiva dell'acqua nei tubi</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> La rappresentazione multipla (UDL — Principio 1) e l'ancoraggio a esperienze concrete favoriscono la comprensione nei pensatori concreti. La teoria del dual coding (Paivio, 1986) suggerisce che codifica verbale + visiva migliora la ritenzione.</p>
+                            <p><strong>Applicazione:</strong> Allo step 4, quando si introduce il parallelo, appare una rappresentazione con tubi d'acqua di diametro diverso: il tubo più largo (R₂ = 30Ω) fa passare più acqua (2A), quello più stretto (R₃ = 60Ω) ne fa passare meno (1A). L'analogia rende immediatamente intuitiva la relazione inversa tra resistenza e corrente.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge asd">Autismo</span>
+                                <span class="profile-badge di">DI lieve</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🔲 Risultati intermedi nei box evidenziati</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> La working memory ha capacità limitata (Miller, 1956: 7±2 chunk). Esternalizzare i risultati intermedi in supporti visivi riduce il carico e permette di "agganciarli" nella fase successiva.</p>
+                            <p><strong>Applicazione:</strong> Ogni risultato calcolato (R₂₃, I₁, V₂₃, I₂, I₃) appare in un box arancione ad alto contrasto sia nel testo di spiegazione sia direttamente sullo schema SVG. L'alunno non deve ricordare i numeri: li trova sempre visibili.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge adhd">ADHD</span>
+                                <span class="profile-badge dsa">DSA</span>
+                                <span class="profile-badge di">DI lieve</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>⌨️ Navigazione multimodale</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> UDL Principio 3 (Azione ed Espressione) — offrire più modi per interagire con il contenuto. WCAG 2.1 — 2.1.1: tutta la funzionalità deve essere accessibile da tastiera.</p>
+                            <p><strong>Applicazione:</strong> Tre modalità di navigazione: bottoni cliccabili (mouse/touch), frecce tastiera ← → e barra spaziatrice, bottone "Ricomincia" per ripetere liberamente. Il focus visibile (outline 3px) rende chiaro quale elemento è selezionato per chi naviga da tastiera.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge all">Tutti</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>📐 Sfondo chiaro e tipografia accessibile</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> Il contrasto testo/sfondo deve essere minimo 4.5:1 (WCAG 2.1 AA). Lo sfondo crema riduce l'abbagliamento rispetto al bianco puro, beneficiando chi ha sensibilità visiva o fotofobia. Font sans-serif migliorano la decodifica per i lettori con dislessia (BDA, 2018).</p>
+                            <p><strong>Applicazione:</strong> L'area del circuito usa sfondo crema (#FAF8F5) e font Verdana — scelto perché le lettere hanno spaziatura più generosa rispetto ad Arial. I numeri nelle formule hanno dimensione maggiore (monospace JetBrains Mono per allineamento colonnare). Interlinea 1.6.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge dsa">DSA</span>
+                                <span class="profile-badge asd">Autismo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🔄 Consistenza strutturale e prevedibilità</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> La prevedibilità è uno dei bisogni fondamentali per gli studenti nello spettro autistico (NICE CG170). Stesse posizioni = stessi significati riduce il carico di decodifica.</p>
+                            <p><strong>Applicazione:</strong> I componenti del circuito mantengono sempre la stessa posizione in tutti gli step. R₁ è sempre a sinistra, R₂ sempre in basso, R₃ sempre in alto. Il generatore è sempre l'elemento più a sinistra. Il layout di ogni step è identico: legenda → progresso → schema → istruzione → risultato → controlli.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge asd">Autismo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>📣 Attributi ARIA e aria-live</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> WAI-ARIA 1.2 — Le regioni con contenuto dinamico devono annunciare i cambiamenti agli screen reader tramite aria-live regions.</p>
+                            <p><strong>Applicazione:</strong> Il box istruzione e il box risultato hanno <code>aria-live="polite"</code>: quando il contenuto cambia ad ogni step, lo screen reader lo annuncia senza interrompere la lettura in corso. L'SVG ha <code>role="img"</code> con <code>aria-label</code> descrittivo. La legenda ha <code>role="complementary"</code>. I bottoni hanno <code>aria-label</code> espliciti.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge all">Tutti</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>🎯 Istruzioni esplicite e obiettivo dichiarato</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Principio:</strong> Nessun implicito. Ogni step dichiara cosa stiamo facendo e perché, eliminando l'inferenza pragmatica che può essere difficoltosa per studenti autistici o con disabilità intellettiva.</p>
+                            <p><strong>Applicazione:</strong> Ogni step ha tre livelli di informazione: l'etichetta di stato (STEP 4 DI 9 — COSTRUZIONE), il titolo che anticipa il concetto ("R₂ e R₃ sono in PARALLELO"), e il testo che spiega in linguaggio concreto. Nessun step presuppone che l'alunno sappia cosa fare senza che sia detto.</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge asd">Autismo</span>
+                                <span class="profile-badge di">DI lieve</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- =========================================
+                 SEZIONE 3: GUIDA PER DOCENTI
+                 ========================================= -->
+            <section id="guida-docenti" class="section">
+                <h2>🎓 Come Spiegare questo Circuito agli Alunni</h2>
+                <p>Una guida operativa step-by-step per accompagnare la spiegazione mantenendo i principi di accessibilità per alunni con BES.</p>
+
+                <div class="subsection">
+                    <h3>Prima della lezione: preparazione</h3>
+
+                    <div class="tip-card tip-green">
+                        <h4>✅ Anticipare la struttura</h4>
+                        <p>Prima di aprire la dashboard, dì agli alunni: "Oggi costruiremo un circuito in 9 passi. I primi 5 li montiamo, gli ultimi 4 facciamo i calcoli." Sapere cosa aspettarsi riduce l'ansia e attiva la working memory nella giusta modalità.</p>
+                    </div>
+
+                    <div class="tip-card tip-yellow">
+                        <h4>⚠️ Verifica prerequisiti</h4>
+                        <p>Assicurati che gli alunni conoscano: cos'è una resistenza ("un ostacolo al passaggio della corrente"), cos'è la tensione ("la spinta che fa muovere la corrente"), e la legge di Ohm nella forma V = R × I. Se manca un prerequisito, colmalo prima di iniziare: procedere senza fondamenta genera frustrazione e disimpegno.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <h4>🖥️ Setup tecnico</h4>
+                        <p>Proietta la dashboard sulla LIM/SMART Board. Se hai alunni con BES che beneficiano del ritmo autonomo, condividi anche il link così possono navigare dal tablet/PC al proprio ritmo. La doppia modalità (proiezione per il gruppo + navigazione individuale) è il setup ottimale.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Durante la spiegazione: i 9 step</h3>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">1</div>
+                        <div class="teach-step-content">
+                            <h4>Il generatore</h4>
+                            <p>Parti dal generatore come "pompa" che spinge. Collegati all'esperienza concreta: "È come la batteria del telefono. Più volt ha, più spinge forte."</p>
+                            <div class="teach-say">Vedete il cerchio giallo con il + e il −? Quello è il generatore. Ha 90 Volt di "spinta". Da qui parte tutto.</div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">2</div>
+                        <div class="teach-step-content">
+                            <h4>R₁ in serie</h4>
+                            <p>Enfatizza il concetto di "obbligatorio": tutta la corrente passa di qui. Usa la metafora del corridoio stretto.</p>
+                            <div class="teach-say">Adesso aggiungiamo R₁. È come un corridoio stretto: tutta la corrente deve passare di qui, non ha scelta. Segnatevi: in serie = nessuna alternativa.</div>
+                            <div class="profile-badges">
+                                <span class="profile-badge asd">Per autismo: scrivi "SERIE = OBBLIGATORIO" sulla lavagna e lascialo visibile per tutta la lezione</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">3</div>
+                        <div class="teach-step-content">
+                            <h4>Il nodo A: la corrente si divide</h4>
+                            <p>Questo è il passaggio critico. Rallenta. Usa le mani per mimare la biforcazione. Il nodo viola è visivamente distinto proprio per questo.</p>
+                            <div class="teach-say">Punto A: qui la corrente arriva a un bivio. Come quando una strada si divide in due. Una parte va su, una parte va giù. Domanda: secondo voi, vanno uguali nelle due strade?</div>
+                            <div class="profile-badges">
+                                <span class="profile-badge adhd">Per ADHD: la domanda diretta riattiva l'attenzione</span>
+                                <span class="profile-badge di">Per DI: chiedi a un alunno di venire alla lavagna e indicare con il dito le due "strade"</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">4</div>
+                        <div class="teach-step-content">
+                            <h4>Il parallelo + metafora acqua</h4>
+                            <p>Qui appare la metafora dell'acqua. Soffermati su questa slide. Fai il collegamento esplicito: "Nel tubo più largo passa più acqua, proprio come nella resistenza più bassa passa più corrente."</p>
+                            <div class="teach-say">Guardate i tubi: R₂ è 30 ohm, il tubo largo. R₃ è 60 ohm, il tubo stretto. Dove passa più acqua? Nel tubo largo! Stessa cosa con la corrente: dove la resistenza è minore, passa più corrente.</div>
+                            <div class="profile-badges">
+                                <span class="profile-badge asd">Per autismo: la metafora dell'acqua è un ponte verso il concetto astratto. Non saltarla</span>
+                                <span class="profile-badge di">Per DI: se possibile, porta due cannucce (una larga, una stretta) e soffiaci dentro per far "sentire" la differenza</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">5</div>
+                        <div class="teach-step-content">
+                            <h4>Il circuito si chiude</h4>
+                            <p>Evidenzia che la corrente torna al generatore: il circuito è un "anello". Collega: "Circuito viene da 'circolo' = giro completo."</p>
+                            <div class="teach-say">Ecco, il circuito è completo. La corrente esce dal +, attraversa tutto, e torna al −. Un giro completo, come una pista.</div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">6</div>
+                        <div class="teach-step-content">
+                            <h4>Calcolo R₂₃</h4>
+                            <p>Qui iniziano i calcoli. Fai notare che i box arancione contengono i risultati — sono "il bigliettino legale" che possono usare nello step successivo.</p>
+                            <div class="teach-say">Ora semplifichiamo: uniamo R₂ e R₃ in un'unica resistenza R₂₃. Guardate il risultato nel box arancione: 20 ohm. Tenetelo a mente, ci servirà subito.</div>
+                            <div class="profile-badges">
+                                <span class="profile-badge dsa">Per DSA: concedi la calcolatrice. Il focus è sul ragionamento, non sul calcolo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">7</div>
+                        <div class="teach-step-content">
+                            <h4>Calcolo I₁</h4>
+                            <p>Legge di Ohm applicata al circuito semplificato. Fai scrivere la formula prima, poi i numeri. Verbalizza ogni passaggio.</p>
+                            <div class="teach-say">Formula: I = V diviso R. I numeri: 90 diviso 30 = 3. Scrivetelo: I₁ uguale 3 Ampere. Guardate: è apparso nel box arancione anche sullo schema!</div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">8</div>
+                        <div class="teach-step-content">
+                            <h4>V₂₃ e I₂</h4>
+                            <p>Due calcoli in sequenza. Se il gruppo è in difficoltà, spezza questo step in due pause. Fai notare che V₂₃ appare sullo schema come un box azzurro tra i due rami.</p>
+                            <div class="teach-say">Quanto vale la tensione sul parallelo? R₂₃ per I₁ = 20 × 3 = 60 Volt. Ora troviamo I₂: 60 diviso 30 = 2 Ampere. Vedete? Nel tubo largo passano 2 litri d'acqua, ehm, 2 Ampere!</div>
+                        </div>
+                    </div>
+
+                    <div class="teach-step">
+                        <div class="teach-step-num">9</div>
+                        <div class="teach-step-content">
+                            <h4>I₃ e verifica</h4>
+                            <p>La verifica è il momento didatticamente più potente: dimostra che la matematica "funziona". Per un alunno autistico, la coerenza interna è molto rassicurante.</p>
+                            <div class="teach-say">I₃ = 60 diviso 60 = 1 Ampere. E adesso la magia: 2 + 1 fa 3. Uguale a I₁! La corrente che si era divisa si è riunita tutta. Il conto torna.</div>
+                            <div class="profile-badges">
+                                <span class="profile-badge asd">Per autismo: la verifica 2+1=3=I₁ è rassicurante perché conferma la regola</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Dopo la lezione: consolidamento</h3>
+
+                    <div class="tip-card tip-purple">
+                        <h4>🔁 Ripetizione autonoma</h4>
+                        <p>Condividi il link della dashboard: gli alunni possono ripercorrere gli step al proprio ritmo. Per alunni ADHD, il formato interattivo mantiene l'engagement meglio di un foglio statico. Per alunni autistici, la possibilità di ripetere la stessa sequenza identica è confortante e consolida l'apprendimento.</p>
+                    </div>
+
+                    <div class="tip-card tip-orange">
+                        <h4>📝 Esercizio con variazione minima</h4>
+                        <p>Proponi lo stesso tipo di circuito ma con valori diversi (es. E = 60V, R₁ = 20Ω, R₂ = 40Ω, R₃ = 120Ω). La struttura è identica, cambiano solo i numeri. Questo permette il transfer senza lo shock del "problema nuovo".</p>
+                    </div>
+
+                    <div class="tip-card tip-green">
+                        <h4>🤔 Domanda di comprensione qualitativa</h4>
+                        <p>Prima del calcolo, chiedi: "Se aumento R₃ da 60 a 120 ohm, I₃ aumenta o diminuisce? E I₂?" Questa domanda misura la comprensione concettuale indipendentemente dalla competenza di calcolo — fondamentale per alunni con discalculia o disabilità intellettiva.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- =========================================
+                 SEZIONE 4: GLOSSARIO
+                 ========================================= -->
+            <section id="glossario" class="section">
+                <h2>📖 Glossario</h2>
+                <p>Tutti i termini tecnici usati nella dashboard con definizione e applicazione pratica.</p>
+
+                <input type="text" class="search-input mb-2" id="glossarySearch" placeholder="Cerca un termine...">
+
+                <div class="glossary-grid">
+                    <div class="glossary-item visible" data-term="resistenza ohm impedenza">
+                        <h4>Resistenza (Ω)</h4>
+                        <div class="definition">Ostacolo che un componente oppone al passaggio della corrente elettrica. Si misura in Ohm (Ω).</div>
+                        <div class="application"><strong>Nella dashboard:</strong> R₁ = 10Ω è in serie, R₂ = 30Ω e R₃ = 60Ω sono in parallelo.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="corrente ampere intensità">
+                        <h4>Corrente (A)</h4>
+                        <div class="definition">Flusso di cariche elettriche che scorre nel circuito. Si misura in Ampere (A). Nella metafora dell'acqua, è la quantità d'acqua che passa nei tubi.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> I₁ = 3A (totale), I₂ = 2A (in R₂), I₃ = 1A (in R₃).</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="tensione volt voltaggio differenza di potenziale">
+                        <h4>Tensione (V)</h4>
+                        <div class="definition">La "spinta" che fa muovere la corrente nel circuito. Si misura in Volt (V). Nella metafora, è la pressione della pompa.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> E = 90V (generatore), V₁ = 30V (ai capi di R₁), V₂₃ = 60V (ai capi del parallelo).</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="serie collegamento seriale sequenziale">
+                        <h4>Collegamento in Serie</h4>
+                        <div class="definition">I componenti sono collegati uno dopo l'altro sullo stesso percorso. La stessa corrente attraversa tutti i componenti. Le tensioni si sommano.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> R₁ è in serie con il parallelo R₂‖R₃. Tutta la corrente I₁ = 3A passa attraverso R₁.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="parallelo collegamento derivazione">
+                        <h4>Collegamento in Parallelo</h4>
+                        <div class="definition">I componenti sono collegati tra gli stessi due nodi, formando percorsi alternativi. La stessa tensione è ai capi di ogni ramo. Le correnti si dividono.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> R₂ e R₃ sono in parallelo. Hanno la stessa V₂₃ = 60V ma correnti diverse (I₂ = 2A, I₃ = 1A).</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="nodo giunzione punto divisione">
+                        <h4>Nodo</h4>
+                        <div class="definition">Punto del circuito dove confluiscono o si separano più correnti. In un nodo, la somma delle correnti entranti è uguale alla somma delle correnti uscenti (Legge di Kirchhoff).</div>
+                        <div class="application"><strong>Nella dashboard:</strong> Nodo A: I₁ entra, I₂ e I₃ escono. Nodo B: I₂ e I₃ entrano, I₁ esce. I nodi sono i cerchi viola.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="legge ohm formula relazione">
+                        <h4>Legge di Ohm</h4>
+                        <div class="definition">V = R × I. Collega tensione, resistenza e corrente. Si può riscrivere come I = V/R oppure R = V/I a seconda di cosa cerchiamo.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> Usata in ogni step di calcolo. Es: I₁ = E / R_tot = 90V / 30Ω = 3A.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="resistenza equivalente semplificazione riduzione">
+                        <h4>Resistenza Equivalente</h4>
+                        <div class="definition">Una singola resistenza che "equivale" a un gruppo di resistenze, producendo la stessa corrente a parità di tensione. Per il parallelo: 1/R_eq = 1/R₁ + 1/R₂.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> R₂₃ = 20Ω è la resistenza equivalente del parallelo R₂‖R₃.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="generatore batteria sorgente tensione">
+                        <h4>Generatore di Tensione</h4>
+                        <div class="definition">Dispositivo che fornisce una differenza di potenziale costante (tensione) al circuito. Nella metafora, è la pompa che spinge l'acqua.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> Il cerchio giallo con +/−, E = 90V.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="bes bisogni educativi speciali accessibilità">
+                        <h4>BES</h4>
+                        <div class="definition">Bisogni Educativi Speciali. Comprende DSA, ADHD, autismo, disabilità intellettiva e altre condizioni che richiedono personalizzazione didattica.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> Tutti gli accorgimenti grafici e interattivi sono progettati per essere accessibili a diversi profili BES.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="udl universal design learning progettazione universale">
+                        <h4>UDL (Universal Design for Learning)</h4>
+                        <div class="definition">Framework del CAST per progettare esperienze di apprendimento accessibili a tutti, basato su tre principi: rappresentazione multipla, coinvolgimento, azione ed espressione.</div>
+                        <div class="application"><strong>Nella dashboard:</strong> Il circuito è rappresentato sia come schema sia come metafora acqua (Principio 1). La navigazione offre mouse, tastiera e touch (Principio 3).</div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- =========================================
+                 SEZIONE 5: RIFERIMENTI
+                 ========================================= -->
+            <section id="riferimenti" class="section">
+                <h2>📚 Riferimenti</h2>
+
+                <div class="subsection">
+                    <h3>Fondamenti teorici</h3>
+                    <div class="card">
+                        <p><strong>Mayer, R. E.</strong> (2009). <em>Multimedia Learning</em> (2nd ed.). Cambridge University Press. — Principi di segmentazione, segnalazione, coerenza e ridondanza.</p>
+                        <p><strong>Paivio, A.</strong> (1986). <em>Mental Representations: A Dual Coding Approach</em>. Oxford University Press. — Dual coding: verbale + visivo migliora la ritenzione.</p>
+                        <p><strong>Miller, G. A.</strong> (1956). The magical number seven, plus or minus two. <em>Psychological Review</em>, 63(2), 81-97. — Limiti della working memory.</p>
+                        <p><strong>CAST</strong> (2018). <em>Universal Design for Learning Guidelines version 2.2.</em> — Framework UDL per la progettazione inclusiva.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Normativa italiana</h3>
+                    <div class="card">
+                        <p><strong>DM 153/2023</strong> — Modello nazionale PEI e indicazioni per la personalizzazione.</p>
+                        <p><strong>DM 5669/2011</strong> (Allegato — Linee Guida MIUR per DSA) — Strumenti compensativi e misure dispensative.</p>
+                        <p><strong>D.Lgs. 66/2017</strong> (modificato da D.Lgs. 96/2019) — Norme per la promozione dell'inclusione scolastica degli studenti con disabilità.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Standard di accessibilità</h3>
+                    <div class="card">
+                        <p><strong>WCAG 2.1</strong> (W3C, 2018) — Web Content Accessibility Guidelines, livello AA.</p>
+                        <p><strong>WAI-ARIA 1.2</strong> (W3C, 2023) — Accessible Rich Internet Applications.</p>
+                        <p><strong>British Dyslexia Association</strong> (2018). <em>Dyslexia Friendly Style Guide.</em></p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- FOOTER -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Risorsa creata da <a href="https://ivanferrero.it">Ivan Ferrero</a> — 2026<br>
+                    Circuito misto: R₁ serie + R₂‖R₃ parallelo — E = 90V
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity Scripts -->
+    <script>
+        // =============================================
+        // CIRCUIT INTERACTIVE LOGIC
+        // =============================================
+
+        const steps = [
+            {
+                stepLabel: "",
+                title: "Premi \"Avanti\" per iniziare",
+                text: "Costruiremo e risolveremo il circuito, un pezzo alla volta.",
+                show: [], water: false, result: null
+            },
+            {
+                stepLabel: "STEP 1 DI 9 — COSTRUZIONE",
+                title: "Il generatore di tensione",
+                text: "È la \"batteria\" del circuito. Fornisce una tensione E = 90 Volt e spinge la corrente a scorrere.",
+                show: ["gen"], water: false, result: null
+            },
+            {
+                stepLabel: "STEP 2 DI 9 — COSTRUZIONE",
+                title: "La resistenza R₁ è in SERIE",
+                text: "R₁ = 10 Ω. Tutta la corrente deve passare di qui: non ha alternative! È come un corridoio stretto obbligatorio.",
+                show: ["gen","w1","r1"], water: false, result: null
+            },
+            {
+                stepLabel: "STEP 3 DI 9 — COSTRUZIONE",
+                title: "Il nodo A: la corrente si divide!",
+                text: "Nel punto A la corrente incontra un bivio. Una parte va verso R₂, un'altra parte va verso R₃.",
+                show: ["gen","w1","r1","w2","nodeA","w3a","w3b"], water: false, result: null
+            },
+            {
+                stepLabel: "STEP 4 DI 9 — COSTRUZIONE",
+                title: "R₂ e R₃ sono in PARALLELO",
+                text: "Stessa tensione ai capi, ma correnti diverse. Dove la resistenza è minore, passa più corrente!",
+                show: ["gen","w1","r1","w2","nodeA","w3a","w3b","r2","r3","pBox","pLabel"], water: true, result: null
+            },
+            {
+                stepLabel: "STEP 5 DI 9 — COSTRUZIONE",
+                title: "Il circuito si chiude",
+                text: "Le correnti si riuniscono nel punto B e tornano al generatore. Ora il circuito è completo!",
+                show: ["gen","w1","r1","w2","nodeA","w3a","w3b","r2","r3","pBox","pLabel","w4a","w4b","nodeB","w5"], water: false, result: null
+            },
+            {
+                stepLabel: "STEP 6 DI 9 — CALCOLO",
+                title: "Resistenza equivalente del parallelo",
+                text: "Semplifichiamo R₂ e R₃ in un'unica resistenza R₂₃.",
+                show: ["gen","w1","r1","w2","nodeA","w3a","w3b","r2","r3","pBox","pLabel","w4a","w4b","nodeB","w5"],
+                water: false,
+                result: {
+                    title: "📐 Resistenza equivalente del parallelo",
+                    formula: "1/R₂₃ = 1/R₂ + 1/R₃ = 1/30 + 1/60 = 3/60  →  R₂₃ = 20 Ω",
+                    value: "R₂₃ = 20 Ω — R_tot = R₁ + R₂₃ = 10 + 20 = 30 Ω"
+                }
+            },
+            {
+                stepLabel: "STEP 7 DI 9 — CALCOLO",
+                title: "Corrente totale I₁",
+                text: "Circuito semplificato: R₁ (10Ω) in serie con R₂₃ (20Ω). Legge di Ohm!",
+                show: ["gen","w1","r1","w2","nodeA","w3a","w3b","r2","r3","pBox","pLabel","w4a","w4b","nodeB","w5","arrowI1","resI1"],
+                water: false,
+                result: {
+                    title: "⚡ Corrente totale I₁",
+                    formula: "I₁ = E ÷ R_tot = 90V ÷ 30Ω",
+                    value: "I₁ = 3 A"
+                }
+            },
+            {
+                stepLabel: "STEP 8 DI 9 — CALCOLO",
+                title: "Tensione V₂₃ e corrente I₂",
+                text: "Troviamo la tensione ai capi del parallelo, poi la corrente nel ramo di R₂.",
+                show: ["gen","w1","r1","w2","nodeA","w3a","w3b","r2","r3","pBox","pLabel","w4a","w4b","nodeB","w5","arrowI1","arrowI2","resI1","resI2","resV23"],
+                water: false,
+                result: {
+                    title: "📊 Tensione V₂₃ e corrente I₂",
+                    formula: "V₂₃ = R₂₃ × I₁ = 20 × 3 = 60V  →  I₂ = V₂₃ ÷ R₂ = 60 ÷ 30",
+                    value: "V₂₃ = 60 V — I₂ = 2 A"
+                }
+            },
+            {
+                stepLabel: "STEP 9 DI 9 — RISULTATO FINALE",
+                title: "Corrente I₃ e verifica!",
+                text: "Troviamo I₃ e controlliamo: I₂ + I₃ deve fare I₁.",
+                show: ["gen","w1","r1","w2","nodeA","w3a","w3b","r2","r3","pBox","pLabel","w4a","w4b","nodeB","w5","arrowI1","arrowI2","arrowI3","resI1","resI2","resI3","resV23"],
+                water: false,
+                result: {
+                    title: "✅ Corrente I₃ e verifica finale",
+                    formula: "I₃ = V₂₃ ÷ R₃ = 60 ÷ 60 = 1 A",
+                    value: "I₃ = 1 A — Verifica: I₂ + I₃ = 2 + 1 = 3 A = I₁ ✓"
+                }
+            }
+        ];
+
+        const allIds = [
+            "gen","w1","r1","w2","nodeA","w3a","w3b","r2","r3",
+            "pBox","pLabel","w4a","w4b","nodeB","w5",
+            "arrowI1","arrowI2","arrowI3",
+            "resI1","resI2","resI3","resV23"
+        ];
+
+        let current = 0;
+        const total = steps.length - 1;
+
+        function updateCircuit() {
+            const s = steps[current];
+
+            allIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove("visible");
+            });
+
+            s.show.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add("visible");
+            });
+
+            document.getElementById("instStep").textContent = s.stepLabel;
+            document.getElementById("instTitle").textContent = s.title;
+            document.getElementById("instText").textContent = s.text;
+
+            const wc = document.getElementById("waterCard");
+            s.water ? wc.classList.add("visible") : wc.classList.remove("visible");
+
+            const rb = document.getElementById("resultBox");
+            if (s.result) {
+                rb.classList.add("visible");
+                document.getElementById("resultTitle").textContent = s.result.title;
+                document.getElementById("resultFormula").textContent = s.result.formula;
+                document.getElementById("resultValue").textContent = s.result.value;
+            } else {
+                rb.classList.remove("visible");
+            }
+
+            for (let i = 1; i <= total; i++) {
+                const pn = document.getElementById(`pn${i}`);
+                const pl = document.getElementById(`pl${i}`);
+                pn.classList.remove("active","done");
+                if (pl) pl.classList.remove("done");
+                if (i < current) { pn.classList.add("done"); if (pl) pl.classList.add("done"); }
+                else if (i === current) { pn.classList.add("active"); }
+            }
+
+            document.getElementById("btnPrev").disabled = current === 0;
+            document.getElementById("btnNext").disabled = current === total;
+            document.getElementById("stepCounter").textContent = `Step ${current} di ${total}`;
+        }
+
+        document.getElementById("btnNext").addEventListener("click", () => { if (current < total) { current++; updateCircuit(); } });
+        document.getElementById("btnPrev").addEventListener("click", () => { if (current > 0) { current--; updateCircuit(); } });
+        document.getElementById("btnReset").addEventListener("click", () => { current = 0; updateCircuit(); });
+
+        document.addEventListener("keydown", (e) => {
+            // Only handle keyboard nav when circuit section is active
+            const circuitSection = document.getElementById("circuito");
+            if (!circuitSection.classList.contains("active")) return;
+
+            if (e.key === "ArrowRight" || e.key === " ") {
+                e.preventDefault();
+                if (current < total) { current++; updateCircuit(); }
+            } else if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                if (current > 0) { current--; updateCircuit(); }
+            }
+        });
+
+        updateCircuit();
+
+
+        // =============================================
+        // SIDEBAR NAVIGATION
+        // =============================================
+
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+
+        // =============================================
+        // EXPANDABLE CARDS
+        // =============================================
+
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+
+        // =============================================
+        // GLOSSARY SEARCH
+        // =============================================
+
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        glossarySearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (terms.includes(query) || text.includes(query) || query === '') {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
