@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normativa Scolastica PNRR 3 — Guida Completa | Ivan Ferrero</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+    
+    <style>
+        /* ============ PAGE-SPECIFIC STYLES ============ */
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--border-color);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .timeline-item:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.55rem;
+            top: 1.25rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+        .timeline-item.phase-exclusion::before { background: var(--accent-red); box-shadow: 0 0 10px var(--accent-red); }
+        .timeline-item.phase-integration::before { background: var(--accent-yellow); box-shadow: 0 0 10px var(--accent-yellow); }
+        .timeline-item.phase-inclusion::before { background: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
+        .timeline-item.phase-current::before { background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); }
+
+        .timeline-year {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0.25rem 0;
+        }
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Article / Constitution cards */
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-cyan);
+        }
+        .article-card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+        .article-card .article-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        .article-card .article-note {
+            font-size: 0.85rem;
+            color: var(--accent-yellow);
+        }
+
+        /* Phase badge */
+        .phase-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .phase-exclusion-badge { background: #f8514920; color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .phase-integration-badge { background: #d2992220; color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+        .phase-inclusion-badge { background: #3fb95020; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .phase-current-badge { background: var(--accent-cyan-dim); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+
+        /* Quote block */
+        .quote-block {
+            border-left: 3px solid var(--accent-purple);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            background: #a371f708;
+            border-radius: 0 8px 8px 0;
+        }
+        .quote-block p {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Key concept highlight */
+        .key-concept {
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        /* Comparison box */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .comparison-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+        .comparison-box h4 {
+            margin-bottom: 0.75rem;
+        }
+        .comparison-box p {
+            font-size: 0.9rem;
+        }
+
+        /* Study checklist */
+        .study-item {
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .study-item .study-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 4px;
+            margin-top: 2px;
+        }
+
+        /* Expandable card body spacing */
+        .card.expandable .card-body p {
+            margin-bottom: 0.75rem;
+        }
+        .card.expandable .card-body p:last-child {
+            margin-bottom: 0;
+        }
+        .card-summary {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Governance levels */
+        .governance-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .governance-level {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+        .governance-level .gov-badge {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            min-width: 60px;
+        }
+        .governance-level .gov-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Exam structure card */
+        .exam-detail {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .exam-detail h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .exam-detail p {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Max-height override for very long expandable content */
+        .card.expandable.expanded .card-body {
+            max-height: 10000px;
+        }
+
+        /* ============ MOBILE RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .sidebar {
+                top: 120px !important;
+            }
+            body {
+                padding-top: 200px !important;
+            }
+            main {
+                padding-top: 180px !important;
+            }
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+    
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a href="#panoramica" class="sidebar-link active" data-target="panoramica">📊 Panoramica</a>
+                <a href="#fondamenti" class="sidebar-link" data-target="fondamenti">⚖️ Fondamenti</a>
+                <a href="#evoluzione" class="sidebar-link" data-target="evoluzione">📜 Evoluzione Storica</a>
+                <a href="#sistema" class="sidebar-link" data-target="sistema">🏫 Sistema Attuale</a>
+                <a href="#autonomia" class="sidebar-link" data-target="autonomia">📐 Autonomia e Curricolo</a>
+                <a href="#indicazioni" class="sidebar-link" data-target="indicazioni">📘 Indicazioni Nazionali</a>
+                <a href="#inclusione" class="sidebar-link" data-target="inclusione">♿ Inclusione: L.104→66</a>
+                <a href="#dsabes" class="sidebar-link" data-target="dsabes">🧩 DSA e BES</a>
+                <a href="#riforme" class="sidebar-link" data-target="riforme">🔧 Riforme e Valutazione</a>
+                <a href="#internazionale" class="sidebar-link" data-target="internazionale">🌍 Quadro Internazionale</a>
+                <a href="#recente" class="sidebar-link" data-target="recente">🆕 Normativa 2024-25</a>
+                <a href="#concorso" class="sidebar-link" data-target="concorso">🎯 Concorso PNRR 3</a>
+                <a href="#glossario" class="sidebar-link" data-target="glossario">📖 Glossario</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+
+            <!-- ===================== PANORAMICA ===================== -->
+            <section id="panoramica" class="section active">
+                <h1>Normativa Scolastica Italiana</h1>
+                <p>Guida completa per il Concorso PNRR 3 — Sostegno</p>
+                <p>Il sistema scolastico italiano ha attraversato un secolo di trasformazioni legislative: dalla segregazione degli alunni con disabilità in scuole speciali alla piena inclusione nelle classi comuni. Questo percorso — dalla Riforma Gentile del 1923 ai decreti attuativi del 2025 — rappresenta il nucleo della preparazione normativa richiesta dalla prova orale del Concorso PNRR 3 per Insegnante di Sostegno.</p>
+
+                <div class="stat-grid mt-3">
+                    <div class="stat-card">
+                        <div class="stat-value">58.135</div>
+                        <div class="stat-label">Posti totali PNRR 3</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">30.759</div>
+                        <div class="stat-label">Posti secondaria</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">27.376</div>
+                        <div class="stat-label">Posti infanzia/primaria</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">70/100</div>
+                        <div class="stat-label">Soglia prove</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">250</div>
+                        <div class="stat-label">Punti max graduatoria</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">Feb 2026</div>
+                        <div class="stat-label">Prove orali in corso</div>
+                    </div>
+                </div>
+
+                <div class="subsection mt-4">
+                    <h3>Le tre grandi fasi dell'inclusione</h3>
+                    <div class="card-grid">
+                        <div class="card">
+                            <span class="phase-badge phase-exclusion-badge">Fase 1</span>
+                            <h3 style="margin-top: 0.75rem;">Esclusione/Separazione</h3>
+                            <p>1923 – 1971 · Scuole speciali, classi differenziali, logica elitaria. Da Gentile alla L. 118/1971.</p>
+                        </div>
+                        <div class="card">
+                            <span class="phase-badge phase-integration-badge">Fase 2</span>
+                            <h3 style="margin-top: 0.75rem;">Integrazione</h3>
+                            <p>1971 – 1992 · Inserimento nelle classi comuni, nascita del sostegno. Dal Documento Falcucci alla L. 517/1977.</p>
+                        </div>
+                        <div class="card">
+                            <span class="phase-badge phase-inclusion-badge">Fase 3</span>
+                            <h3 style="margin-top: 0.75rem;">Inclusione</h3>
+                            <p>1992 – oggi · Prospettiva multidimensionale, modello bio-psico-sociale. Dalla L. 104/1992 al D.Lgs. 66/2017.</p>
+                        </div>
+                    </div>
+                    <p class="mt-2">Un quarto passaggio è in atto: verso il <strong>modello bio-psico-sociale su base ICF</strong>, dove il funzionamento è risultato dell'interazione tra condizioni di salute, fattori ambientali e fattori personali.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Il filo conduttore</h3>
+                    <div class="quote-block">
+                        <p>Il passaggio dal focus sulla menomazione al focus sul <strong>funzionamento nella sua interazione con il contesto</strong> — facilitatori da attivare, barriere da rimuovere, potenzialità da sviluppare. Questa è la prospettiva che la commissione si aspetta di trovare nella lezione simulata e nel colloquio: non la mera elencazione delle norme, ma la comprensione del paradigma culturale e pedagogico che le anima.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== FONDAMENTI COSTITUZIONALI ===================== -->
+            <section id="fondamenti" class="section">
+                <h2>⚖️ Fondamenti del Sistema Educativo</h2>
+
+                <div class="subsection">
+                    <h3>Educazione, Istruzione e Formazione</h3>
+                    <p>Il termine normativo ufficiale è <span class="key-concept">SISTEMA EDUCATIVO NAZIONALE di ISTRUZIONE e di FORMAZIONE</span> (art. 1, DPR 275/99). Il sistema riunisce tre dimensioni con radici profonde:</p>
+
+                    <div class="card-grid">
+                        <div class="card">
+                            <h3>Educazione</h3>
+                            <p>Dal latino <em>educere</em> = "guidare o condurre un individuo, attraverso un processo incessante di aiuto, dallo stato in cui si trova ad uno più elevato". Riguarda la persona nei suoi rapporti con gli altri; è un compito che la società affida ai genitori o a quanti hanno in custodia il minore.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Istruzione</h3>
+                            <p>Dal latino <em>istruere</em> = "costruire dentro". Processo di costruzione dell'apprendimento, delle conoscenze e delle abilità specifiche. Per Comenio, l'istruzione è per tutti e favorisce la costruzione di una società migliore. Oggi, è un diritto umano fondamentale (art. 26 Dichiarazione universale dei diritti dell'uomo).</p>
+                        </div>
+                        <div class="card">
+                            <h3>Formazione</h3>
+                            <p>Alla base della formazione c'è l'insegnamento, inteso come l'insieme di comportamenti che l'insegnante mette in atto affinché l'alunno apprenda qualcosa, modificando il proprio comportamento.</p>
+                        </div>
+                    </div>
+
+                    <p class="mt-2">I decreti delegati (416/1974) hanno sancito l'ingresso della famiglia nella scuola, delineando i rispettivi compiti e, soprattutto, l'importanza del dialogo continuo tra scuola e famiglia per il <strong>successo formativo</strong>.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Società complessa e apprendimento permanente</h3>
+                    <p>La società descritta da <strong>Morin</strong> come sempre più complessa e da <strong>Bauman</strong> come liquida ha portato a ripensare l'approccio all'apprendimento: da un approccio per conoscenze a uno per <strong>competenze</strong>.</p>
+                    <p>La Commissione Europea nel 2000, con il <em>Memorandum sull'istruzione e formazione permanente</em>, sottolinea l'importanza delle competenze <strong>chiave</strong> che favoriscono realizzazione personale, inclusione, cittadinanza attiva e occupazione. Si parla di approccio olistico: <span class="key-concept">life-wide learning</span> (l'istruzione abbraccia tutti gli aspetti della vita).</p>
+                    <p>Il rapporto UNESCO 2020 <em>Futures of Education</em> sottolinea la centralità del <span class="key-concept">life-long learning</span>, considerandolo un nuovo diritto umano. Le <strong>soft skills</strong>, dal 2023, sono state introdotte in alcune scuole in via sperimentale (proposta di legge 2372/2020).</p>
+
+                    <div class="card expandable mt-2">
+                        <div class="card-header">
+                            <h3>Tipologie di apprendimento</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Apprendimento formale:</strong> avviene a scuola, all'università o in un istituto tecnico. Strutturato e guidato da un insegnante/formatore, si conclude con un certificato o diploma.</p>
+                            <p><strong>Apprendimento non formale:</strong> avviene in contesti diversi dalla scuola (lavoro, associazionismo, politica, attività culturali). Può includere corsi di istruzione artistica, musicale o corsi di preparazione ad esami.</p>
+                            <p><strong>Apprendimento informale:</strong> avviene in modo naturale e spontaneo nel corso della vita quotidiana. Guidato da esperienze personali, relazioni sociali, media e contesto culturale.</p>
+                            <p>Nella società della competenza, la sfida della scuola è coniugare curricolo formale, non formale ed informale.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Soggetti coinvolti nel sistema educativo</h3>
+                    <div class="governance-stack">
+                        <div class="governance-level">
+                            <span class="gov-badge">MIM</span>
+                            <span class="gov-desc"><strong>Sistema di Istruzione</strong> — Ministero dell'Istruzione e del Merito (ex MIUR)</span>
+                        </div>
+                        <div class="governance-level">
+                            <span class="gov-badge">Regioni</span>
+                            <span class="gov-desc"><strong>Sistema della Formazione Professionale</strong> — competenza regionale</span>
+                        </div>
+                        <div class="governance-level">
+                            <span class="gov-badge">Min.Lav.</span>
+                            <span class="gov-desc"><strong>Formazione, Apprendistato/Lavoro</strong> — Ministero del Lavoro e delle Politiche Sociali</span>
+                        </div>
+                    </div>
+                    <p class="mt-2">Questi soggetti operano in sincronia attraverso PON e PCTO: attività che favoriscono l'acquisizione di skills, competenze e orientamento, con maggiore consapevolezza di sé, senso di autoefficacia (Bandura) ed empowerment. La scuola, quale attore fondamentale della comunità educante, sviluppa un'azione didattica integrata mirata a potenziare le connessioni tra apprendimenti formali, informali e non formali, valorizzando l'aspetto emotivo e relazionale (Linee guida PCTO).</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Articoli della Costituzione</h3>
+                    <p>La Costituzione italiana del 1948 pone le basi giuridiche dell'intero edificio dell'inclusione scolastica.</p>
+
+                    <div class="article-card">
+                        <h4>Art. 3 — Uguaglianza</h4>
+                        <div class="article-text">Tutti i cittadini hanno pari dignità sociale e sono eguali davanti alla legge, senza distinzione di sesso, di razza, di lingua, di religione, di opinioni politiche, di condizioni personali e sociali.</div>
+                        <div class="article-text">È compito della Repubblica rimuovere gli ostacoli di ordine economico e sociale, che, limitando di fatto la libertà e l'eguaglianza dei cittadini, impediscono il pieno sviluppo della persona umana e l'effettiva partecipazione di tutti i lavoratori all'organizzazione politica, economica e sociale del Paese.</div>
+                        <div class="article-note">⚡ Il comma 2 fonda il dovere attivo dello Stato di garantire le condizioni per la piena partecipazione di ogni persona, incluse le persone con disabilità.</div>
+                    </div>
+
+                    <div class="article-card">
+                        <h4>Art. 9 — Cultura e ricerca</h4>
+                        <div class="article-text">La Repubblica promuove lo sviluppo della cultura e la ricerca scientifica e tecnica. Tutela il paesaggio e il patrimonio storico e artistico della Nazione. Tutela l'ambiente, la biodiversità e gli ecosistemi, anche nell'interesse delle future generazioni.</div>
+                    </div>
+
+                    <div class="article-card">
+                        <h4>Art. 33 — Libertà di insegnamento</h4>
+                        <div class="article-text">L'arte e la scienza sono libere e libero ne è l'insegnamento. La Repubblica detta le norme generali sull'istruzione ed istituisce scuole statali per tutti gli ordini e gradi. Enti e privati hanno il diritto di istituire scuole ed istituti di educazione, senza oneri per lo Stato. È prescritto un esame di Stato per l'ammissione ai vari ordini e gradi di scuole.</div>
+                    </div>
+
+                    <div class="article-card">
+                        <h4>Art. 34 — Scuola aperta a tutti</h4>
+                        <div class="article-text">La scuola è aperta a tutti. L'istruzione inferiore, impartita per almeno otto anni, è obbligatoria e gratuita. I capaci e meritevoli, anche se privi di mezzi, hanno diritto di raggiungere i gradi più alti degli studi.</div>
+                    </div>
+
+                    <div class="article-card">
+                        <h4>Art. 38 — Diritto all'educazione per inabili e minorati</h4>
+                        <div class="article-text">Ogni cittadino inabile al lavoro e sprovvisto dei mezzi necessari per vivere ha diritto al mantenimento e all'assistenza sociale. Gli inabili ed i minorati hanno diritto all'educazione e all'avviamento professionale.</div>
+                        <div class="article-note">⚡ La Corte Costituzionale (sent. 215/1987) ha esteso questo diritto anche all'istruzione secondaria superiore.</div>
+                    </div>
+
+                    <div class="article-card">
+                        <h4>Art. 117 — Riparto Stato-Regioni</h4>
+                        <div class="article-text">Lo Stato ha legislazione esclusiva sulle norme generali sull'istruzione. L'istruzione (salva l'autonomia delle istituzioni scolastiche e con esclusione della formazione professionale) è materia di legislazione concorrente.</div>
+                        <div class="article-note">⚡ Profondamente modificato dalla Legge Costituzionale n. 3/2001 (riforma Titolo V). Sentenza Corte Cost. 200/2009: competenza regionale esclusiva delle reti di scuole.</div>
+                    </div>
+
+                    <p class="mt-2">Questi articoli formano un <strong>sistema integrato</strong>: l'art. 3 comma 2 fornisce il motore, l'art. 34 il principio universale, l'art. 38 la tutela specifica.</p>
+                </div>
+            </section>
+
+            <!-- ===================== EVOLUZIONE STORICA ===================== -->
+            <section id="evoluzione" class="section">
+                <h2>📜 Evoluzione Storica del Sistema Scolastico</h2>
+
+                <div class="subsection">
+                    <h3>Fase 1 — Esclusione e Separazione (anni '20 – fine anni '60)</h3>
+                    <span class="phase-badge phase-exclusion-badge mb-2">Scuola elitaria · Separazione totale</span>
+
+                    <div class="card expandable mt-2">
+                        <div class="card-header">
+                            <div>
+                                <h3>Legge Casati (R.D. 3725/1859)</h3>
+                                <div class="card-summary">Prima imposizione dell'obbligo scolastico. Separazione "normali" vs "diversi".</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">In vigore dal 1862: impone per la prima volta l'obbligo scolastico. L'istruzione elementare (gratuita) ha durata di 4 anni, divisa in grado inferiore e superiore (2+2 anni). L'obbligo riguarda soltanto il primo grado. La gestione era delegata ai comuni.</p>
+                            <p>Due tipi di scuole: elementari rurali (formazione agricola) e urbane (formazione industriale). L'alunno "normale" viene separato dal "diverso": scuole normali vs sistema speciale per gli "anormali" (es. Casa dei Bambini di Montessori, 1907; Scuola Magistrale Ortofrenica di Montesano).</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Legge Coppino (L. 3961/1877)</h3>
+                                <div class="card-summary">Innalza obbligo d'istruzione a 3 anni, durata complessiva 5 anni.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">L'obbligo d'istruzione viene innalzato a 3 anni, per una durata complessiva di 5 anni di scuola elementare.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Legge Orlando (L. 407/1904)</h3>
+                                <div class="card-summary">Estende obbligo dal 9° al 12° anno, prevede corso popolare.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Estende l'obbligo scolastico (dal 9° al 12° anno) e prevede l'istituzione di un corso popolare (classi 5ª e 6ª).</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Legge Credaro (L. 487/1911)</h3>
+                                <div class="card-summary">Passa allo Stato la gestione delle scuole.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Trasferisce allo Stato la competenza nella gestione delle scuole, superando la precedente gestione comunale.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Riforma Gentile (R.D. 3126/1923, 1054/1923, 2185/1923)</h3>
+                                <div class="card-summary">Struttura elitaria. Separazione totale. Scuole speciali per ciechi e sordomuti. Classi differenziali.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Prima grande riforma organica dopo la Legge Casati. Giovanni Gentile, filosofo neoidealista e Ministro della Pubblica Istruzione nel primo governo Mussolini.</p>
+                            <p>Struttura dichiaratamente <strong>elitaria</strong>: scuola elementare di 5 anni seguita da rigida biforcazione — ginnasio-liceo classico unico percorso per tutte le facoltà; percorsi tecnici e magistrali come canali "terminali". Primato della cultura umanistica e filosofica, scuola "per i migliori".</p>
+                            <p><strong>Disabilità:</strong> logica della separazione totale. Obbligo scolastico innalzato a 14 anni, esteso a ciechi e sordomuti purché non abbiano altre "anormalità", in scuole speciali. Inserita la Scuola Materna (3 anni, facoltativa, non statale — statale dal 1968). Sistema a tre livelli: classi differenziali, scuole speciali, istituti speciali — in vigore per oltre 50 anni fino alla L. 517/1977.</p>
+                            <p><strong>R.D. 577/1928</strong> (poi 1297/1928, art. 457): istituite le <strong>classi differenziali</strong> per alunni con "lievi ritardi".</p>
+                            <p><strong>R.D. 786/1933:</strong> attribuito allo Stato l'obbligo di istituire scuole speciali.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Dopoguerra: da Washburne a Piaget (1943-1955)</h3>
+                                <div class="card-summary">Defascistizzazione, attivismo di Dewey, nuovi programmi basati su Piaget.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Dopo l'invasione degli Alleati (1943), <strong>Carleton Washburne</strong> fu nominato presidente di una commissione per defascistizzare la scuola elementare. Nel 1945, nuovi programmi basati sull'attivismo (Dewey): apprendimento attivo, sperimentazione, collaborazione tra studenti.</p>
+                            <p>Nel 1947, Ministro <strong>Gonella</strong> istituisce scuola popolare con corsi A (analfabeti), B (licenza 5ª elementare), C (post-elementare).</p>
+                            <p>Nel 1955, promulgati nuovi programmi della scuola elementare basati sulle teorie di <strong>Piaget</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Fase 2 — Integrazione (anni '70)</h3>
+                    <span class="phase-badge phase-integration-badge mb-2">Inserimento nelle classi comuni · Nascita del sostegno</span>
+
+                    <div class="card expandable mt-2">
+                        <div class="card-header">
+                            <div>
+                                <h3>Scuola Media Unica — L. 1859/1962</h3>
+                                <div class="card-summary">Fine della divisione scuola media/avviamento. In 10 anni: dal 46,8% all'82,3% di quattordicenni con licenza media.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Prima grande riforma democratica. Abolì la scuola di avviamento professionale e istituì la <strong>scuola media unica</strong> triennale, obbligatoria e gratuita, in attuazione dell'art. 34 Cost. Approvata sotto il governo Fanfani IV.</p>
+                            <p>Impatto rivoluzionario: in dieci anni i quattordicenni con licenza media passarono dal <strong>46,8% all'82,3%</strong>. Seicentomila nuovi iscritti, figli di operai e contadini, accedettero per la prima volta alla scuola secondaria.</p>
+                            <p>Tuttavia, gli artt. 11-12 prevedevano ancora <strong>classi di aggiornamento e classi differenziali</strong> per "disadattati scolastici" — contraddizione risolta dalla L. 517/1977. Modificata dalla L. 348/1977 (abolizione del latino come materia autonoma). Nel 1969: liberalizzato l'accesso all'università.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>L. 118/1971 — Primo inserimento</h3>
+                                <div class="card-summary">Art. 28: inserimento nelle classi comuni, ma solo fisico. Formula debole per le superiori.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Nata come normativa per mutilati e invalidi civili. L'art. 28 riconosce l'integrazione nelle classi normali ai soli minorati psicofisici, salvo deficienze intellettive gravi. Non prevede didattica speciale: erano gli alunni a doversi adeguare alla classe.</p>
+                            <p>Per le superiori la formula debole "sarà facilitata" (anziché "assicurata") fu dichiarata illegittima dalla <strong>Sentenza Corte Costituzionale 215/1987</strong> (legame tra istruzione e sviluppo della personalità, combinato disposto artt. 34 e 2 Cost.).</p>
+                            <p>L'art. 29 prevede sezioni distaccate ove impossibile frequentare la scuola pubblica. Si trattava di <strong>inserimento fisico</strong>, non di integrazione didattica.</p>
+                            <p><strong>Passaggio dal modello medico al modello sociale:</strong> l'handicap deriva dalle condizioni sociali/ambientali; l'allievo non va "guarito" ma sono gli ambienti e i servizi che vanno adeguati.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>DPR 416/1974 — Organi Collegiali</h3>
+                                <div class="card-summary">Consiglio di Istituto, Collegio Docenti, Consiglio di Classe. Principio della PARTECIPAZIONE.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Dalla Legge delega 477/1973. Istituisce e riordina gli organi collegiali: <strong>Consiglio di Istituto</strong> (presieduto da un genitore, competenze su bilancio, regolamento, criteri organizzativi), <strong>Collegio dei Docenti</strong> (programmazione educativa, adozione libri, formazione classi), <strong>Consiglio di Classe</strong> (con rappresentanti dei genitori e, nelle superiori, degli studenti), <strong>Giunta Esecutiva</strong>.</p>
+                            <p>Per la prima volta genitori e studenti nei processi decisionali. Principio della <strong>PARTECIPAZIONE</strong>. Disposizioni confluite nel D.Lgs. 297/1994 (Testo Unico), tuttora in vigore con modifiche.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Documento Falcucci (CM 227/1975) — La "Magna Charta"</h3>
+                                <div class="card-summary">Superamento delle classi differenziali. L'alunno protagonista della propria crescita.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La Commissione ministeriale presieduta dalla Sen. Franca Falcucci (istituita nel 1974, Ministro Malfatti) produsse quella che è definita la «Magna Charta dell'integrazione scolastica».</p>
+                            <div class="quote-block">
+                                <p>"Il superamento di qualsiasi forma di emarginazione degli handicappati passa attraverso un nuovo modo di concepire e di attuare la scuola, così da poter veramente accogliere ogni bambino ed ogni adolescente per favorirne lo sviluppo personale".</p>
+                            </div>
+                            <p><strong>Principi rivoluzionari:</strong> i soggetti con difficoltà devono essere protagonisti della propria crescita; la scuola deve accogliere ogni bambino senza imporre mete culturali minime comuni; le classi differenziali vanno superate; collegialità docente e collaborazione interistituzionale (scuola-sanità-enti locali) come condizioni essenziali.</p>
+                            <p>Superata la logica gentiliana assistenzialistica e di separazione, a favore di pianificazione individuale su tre livelli: <strong>sanitaria, scolastica e sociale</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>L. 517/1977 — La svolta dell'integrazione</h3>
+                                <div class="card-summary">Abolisce classi differenziali. Nasce l'insegnante di sostegno. Max 20 alunni per classe. Corresponsabilità educativa.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Segna il passaggio dall'inserimento all'<strong>integrazione scolastica</strong> — scelta controcorrente rispetto alla cultura pedagogica mondiale, che ancora sosteneva le scuole speciali. Contenuti rivoluzionari:</p>
+                            <p>• <strong>Abolizione delle classi differenziali</strong> (artt. 11-12 della L. 1859/1962)</p>
+                            <p>• Introduzione dell'<strong>insegnante specializzato per il sostegno</strong> (specializzazione biennale di 1.300 ore) per elementari e medie</p>
+                            <p>• Riduzione numero alunni per classe (max <strong>20</strong>) con portatori di handicap</p>
+                            <p>• Nuova valutazione con <strong>scheda personale</strong> e giudizi analitici al posto della pagella con voti numerici</p>
+                            <p>• Abolizione degli esami di riparazione</p>
+                            <p>• L'integrazione diviene responsabilità dell'intero consiglio di classe — principio di <strong>corresponsabilità educativa</strong> che resta centrale</p>
+                            <p>La concatenazione: <strong>Documento Falcucci + DPR 416/74 + CM 216/77</strong> rappresentano la via legislativa che condurrà alla L. 104/92.</p>
+                            <p>Nel 1985: nuovi programmi della scuola elementare influenzati da <strong>Bruner</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Sentenza Corte Cost. 215/1987</h3>
+                                <div class="card-summary">Illegittimità del "sarà facilitata" — l'istruzione secondaria dev'essere ASSICURATA.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Dichiara l'illegittimità dell'art. 28 della L. 118/1971 nella parte in cui la frequenza alle scuole medie superiori "sarà facilitata" anziché "assicurata". Sottolinea il legame tra istruzione e sviluppo della personalità (combinato disposto artt. 34 e 2 Cost.).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Fase 3 — Inclusione (dalla L. 104/1992 in poi)</h3>
+                    <span class="phase-badge phase-inclusion-badge mb-2">Prospettiva multidimensionale · Modello bio-psico-sociale</span>
+                    <p class="mt-2">Il processo di integrazione viene affrontato in una <strong>prospettiva multidimensionale</strong>: dall'integrazione sanitaria a quella sociale, educazione, istruzione, formazione professionale, eliminazione barriere architettoniche, agevolazioni fiscali, inserimento nel mondo del lavoro. I valori fondanti si basano sugli artt. 2 e 3 Cost.</p>
+
+                    <div class="comparison-grid mt-2">
+                        <div class="comparison-box">
+                            <h4 style="color: var(--accent-yellow);">Integrazione</h4>
+                            <p>Parte dai bisogni educativi speciali degli individui per definire meccanismi, strumenti e risorse necessarie a garantire l'effettivo godimento dei diritti. Indica il <strong>godimento di un diritto</strong>.</p>
+                        </div>
+                        <div class="comparison-box">
+                            <h4 style="color: var(--accent-green);">Inclusione</h4>
+                            <p>Partendo dalla Convenzione ONU, afferma che bisogna agire sul <strong>contesto</strong> sociale e scolastico per individuare e superare le barriere che generano esclusione. Indica un <strong>processo di accoglienza</strong>.</p>
+                        </div>
+                    </div>
+                    <p class="mt-2">Le sezioni successive approfondiscono le norme cardine di questa fase.</p>
+                </div>
+            </section>
+
+            <!-- ===================== SISTEMA ATTUALE ===================== -->
+            <section id="sistema" class="section">
+                <h2>🏫 Organizzazione Attuale del Sistema Scolastico</h2>
+                <p>N.B.: Il lessico e l'organizzazione cambiano con L. 53/2003, D.Lgs. 59/2004, DM 254/2012 + Indicazioni Nazionali 2012 (Nuovi scenari 2018).</p>
+
+                <div class="subsection">
+                    <h3>Sistema integrato 0-6 anni (D.Lgs. 65/2017)</h3>
+                    <p>Non obbligatorio, durata complessiva 6 anni.</p>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Servizi educativi e Scuola dell'infanzia</h3>
+                                <div class="card-summary">Dai 3 mesi ai 6 anni. Campi di esperienza. Orario 40h settimanali.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Servizi educativi per l'infanzia:</strong> pubblici o privati, bambini dai 3 ai 36 mesi. Gestiti da enti locali/pubblici o privati.</p>
+                            <p><strong>Scuola dell'infanzia:</strong> pubblica o privata, bambini dai 3 ai 6 anni. Orario di norma <strong>40 ore settimanali</strong>; riducibile a 25 o elevabile fino a 50. Monte orario annuo da 875 a 1.700 ore (D.Lgs. 59/2004). Aperta a tutti i bambini italiani e stranieri fra 3 e 5 anni. Durata triennale, non obbligatoria. Contribuisce alla formazione integrale e realizza la continuità educativa con la primaria (art. 2, L. 53/2003).</p>
+                            <p><strong>Iscrizione:</strong> bambini che compiono 3 anni entro il 31 dicembre; possibile anticipo fino al 30 aprile (se posti disponibili, locali idonei, valutazione pedagogica del CdD).</p>
+                            <p><strong>Sezioni:</strong> min 18, max 26, possibile fino a 29 (art. 9, DPR 81/2009). Con alunni con disabilità grave: max <strong>20</strong> (art. 5, DPR 81/2009).</p>
+                            <p>Dal 2007/2008 (L. 296/2006): <strong>sezioni primavera</strong> per bambini 24-36 mesi.</p>
+                            <p><strong>5 Campi di esperienza</strong> (Indicazioni Nazionali 2012): Il sé e l'altro; Il corpo e il movimento; Immagini, suoni, colori; I discorsi e le parole; La conoscenza del mondo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Primo Ciclo di Istruzione</h3>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Scuola Primaria (5 anni) + Scuola Secondaria I grado (3 anni)</h3>
+                                <div class="card-summary">Obbligo dai 6 ai 16 anni. Indicazioni Nazionali 2012. Valutazione con giudizi descrittivi.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Scuola Primaria:</strong> 5 anni. Iscrizione obbligatoria a 6 anni (anticipo possibile per nati entro il 30 aprile). Orari: 24-27-30 ore settimanali o 40 ore (tempo pieno). Classi: da 15 a 26 alunni (con disabilità: max 20). Valutazione: dal 2020/21 giudizi descrittivi (O.M. 172/2020).</p>
+                            <p><strong>Scuola Secondaria di I grado:</strong> 3 anni. Orario base 30 ore settimanali (36 o 40 con tempo prolungato). Conclusione con esame di Stato. Classi: da 18 a 27 alunni (con disabilità: max 20).</p>
+                            <p>Struttura unitaria favorita negli <strong>Istituti Comprensivi</strong>, che permettono il curricolo verticale 3-14 anni.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Secondo Ciclo di Istruzione</h3>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Licei (DPR 89/2010)</h3>
+                                <div class="card-summary">6 tipologie + opzioni. Durata 5 anni. PECUP unitario. CLIL nel quinto anno.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">6 tipologie: Classico, Scientifico (opz. Scienze Applicate), Linguistico, Scienze Umane (opz. Economico-Sociale), Artistico (6 indirizzi dal 3° anno), Musicale e Coreutico. Durata 5 anni (2+2+1). PECUP unitario allegato al D.Lgs. 226/2005.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Istituti Tecnici (DPR 88/2010)</h3>
+                                <div class="card-summary">2 settori, 11 indirizzi. Solida base culturale scientifico-tecnologica.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">2 settori: Economico (2 indirizzi) e Tecnologico (9 indirizzi). Durata 5 anni (2+2+1). L'identità si caratterizza per una solida base culturale scientifico-tecnologica in linea con le indicazioni UE. La L. 40/2007 ha rimesso al centro l'istruzione tecnica, superando la licealizzazione della L. 53/2003.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Istituti Professionali (DPR 87/2010, D.Lgs. 61/2017)</h3>
+                                <div class="card-summary">11 indirizzi dal 2022/23. Biennio + triennio. Alta personalizzazione (25-40%).</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Dal 2022/23 a regime <strong>11 indirizzi</strong> (prima 6 in 2 settori). Struttura: biennio + triennio (non più 2+2+1). Personalizzazione: 25% primo biennio, 35% secondo biennio, 40% quinto anno. Rilasciano diplomi quinquennali e, in accordo con le Regioni, qualifiche triennali e diplomi quadriennali.</p>
+                            <p>11 indirizzi dal D.Lgs. 61/2017: Agricoltura e sviluppo rurale; Pesca commerciale e produzioni ittiche; Industria e artigianato per il Made in Italy; Manutenzione e assistenza tecnica; Gestione delle acque e risanamento ambientale; Servizi commerciali; Enogastronomia e ospitalità alberghiera; Servizi culturali e dello spettacolo; Servizi per la sanità e l'assistenza sociale; Arti ausiliarie: odontotecnico; Arti ausiliarie: ottico.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Organizzazione comune al II grado</h3>
+                        <p>Quota ≤ 20% del monte ore annuale per attività e insegnamenti facoltativi coerenti col PECUP. Nel quinto anno: insegnamento di una disciplina non linguistica in lingua straniera (<span class="key-concept">CLIL</span>). Fine primo biennio: certificazione competenze relative agli assi culturali e competenze chiave. Conclusione con esame di Stato. Diploma integrato dalla certificazione competenze. Possibilità di dipartimenti, comitato scientifico, insegnamenti facoltativi (DM 139/2007 art. 10).</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Percorsi IeFP e CPIA</h3>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>IeFP — Istruzione e Formazione Professionale</h3>
+                                <div class="card-summary">Percorsi regionali triennali e quadriennali. Assolvimento obbligo (L. 296/2006).</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Percorsi triennali e quadriennali di competenza regionale, rivolti a studenti che hanno concluso il primo ciclo. La L. 296/2006 ha aperto la possibilità di assolvimento dell'obbligo presso i percorsi IeFP.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>CPIA — Centri Provinciali per l'Istruzione degli Adulti</h3>
+                                <div class="card-summary">L. 296/2006, DPR 263/2012. Tre percorsi: titolo, diploma, lingua A2.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Regolamentati dalla L. 296/2006, riorganizzati con DPR 263/2012. Autonomia amministrativa e didattica. Tre percorsi:</p>
+                            <p>• <strong>I livello:</strong> titolo di studio + certificazione competenze per assolvimento obbligo</p>
+                            <p>• <strong>II livello:</strong> tre periodi per diploma tecnico o professionale</p>
+                            <p>• <strong>III livello:</strong> per stranieri — livello A2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Obbligo scolastico e formativo</h3>
+                    <div class="card">
+                        <h3>DM 139/2007 — Obbligo di istruzione</h3>
+                        <p>Dal 2007/2008: obbligo di istruzione innalzato a <strong>10 anni</strong> complessivi (fino a 16 anni). Finalizzato al conseguimento di titolo di secondaria superiore o qualifica professionale almeno triennale entro il <strong>18° anno</strong> (L. 296/2006). L'istruzione obbligatoria è gratuita.</p>
+                        <p>Si assolve: nelle scuole statali e paritarie; nelle strutture accreditate dalle Regioni; attraverso l'istruzione parentale.</p>
+                        <p><strong>Obbligo formativo</strong> (diverso dall'obbligo scolastico): diritto/dovere di frequentare attività formative fino ai 18 anni. Si può proseguire nel sistema scolastico, nella formazione professionale regionale, nell'apprendistato o nei CPIA.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== AUTONOMIA E CURRICOLO ===================== -->
+            <section id="autonomia" class="section">
+                <h2>📐 Autonomia Scolastica e Curricolo</h2>
+
+                <div class="subsection">
+                    <h3>DPR 275/1999 — Autonomia scolastica</h3>
+                    <p>Attuativo dell'art. 21 L. 59/97 (Riforma Bassanini). Tre forme di autonomia:</p>
+                    <div class="card-grid">
+                        <div class="card">
+                            <h3>Didattica (art. 4)</h3>
+                            <p>Flessibilità oraria, percorsi individualizzati, aggregazione per aree disciplinari.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Organizzativa (art. 5)</h3>
+                            <p>Adattamento calendario, diversificazione impiego docenti.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Ricerca e sviluppo (art. 6)</h3>
+                            <p>Innovazione metodologica, formazione.</p>
+                        </div>
+                    </div>
+                    <p class="mt-2">Previste le reti di scuole e l'ampliamento dell'offerta formativa. L'art. 8 segna il passaggio dai Programmi nazionali alla progettazione curricolare di istituto. L'autonomia ha acquisito <strong>rango costituzionale</strong> con la L. Cost. 3/2001 (riforma Titolo V, art. 117).</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>D.Lgs. 297/1994 — Testo Unico</h3>
+                    <p>Raccolta organica della normativa scolastica in <strong>676 articoli</strong>: organi collegiali (artt. 5-15, recepimento del DPR 416/1974), stato giuridico del personale, ordinamento scolastico. Restano in vigore: art. 7 (Collegio dei Docenti), art. 10 (Consiglio di Istituto), art. 11 (Comitato di valutazione, modificato dalla L. 107/2015).</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Dal POF al PTOF</h3>
+                    <div class="card">
+                        <h3>POF → PTOF</h3>
+                        <p>Il <strong>POF</strong> (art. 3 DPR 275/99) è il documento fondamentale costitutivo dell'<strong>identità culturale e progettuale</strong> delle istituzioni scolastiche. Esplicita la progettazione curricolare, extracurricolare e organizzativa. Reso pubblico ("Scuola in chiaro"), consegnato alle famiglie all'atto dell'iscrizione. Elaborato dal Collegio dei Docenti sulla base degli indirizzi del DS, adottato dal Consiglio di Istituto.</p>
+                        <p>Diventa <span class="key-concept">PTOF</span> (triennale) con l'art. 14 della L. 107/2015. Approvato entro il 31 ottobre dell'anno scolastico precedente al triennio, rivedibile annualmente entro il 31 ottobre.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Il Curricolo</h3>
+                    <div class="card">
+                        <h3>Progettazione curricolare</h3>
+                        <div class="quote-block">
+                            <p>"Percorso formativo intenzionale progettato dalle singole istituzioni scolastiche, tenuto conto dei bisogni della popolazione scolastica e delle risorse del territorio, nel rispetto sia dell'autonomia delle singole scuole che degli obiettivi generali del sistema di istruzione" (F. Frabboni).</p>
+                        </div>
+                        <p>Se ne parla per la prima volta nel D.M. 234/2000. Inserito nel PTOF (L. 107/2015), è la <strong>carta di identità</strong> di un istituto. Fa riferimento alle Indicazioni Nazionali 2012 e Linee Guida (II grado). Introdotto con il DPR 275/99 (autonomia).</p>
+                        <p>Caratteristiche: progetto per raggiungere scopi dichiarati; luogo di scelte e priorità; considera i bisogni di apprendimento; seleziona contenuti disciplinari; organizza attività per promuovere competenze. Prevede gradualità, <strong>ricorsività</strong>, coniuga progressivamente capacità cognitiva con strutture disciplinari.</p>
+                        <p><strong>Curricolo verticale e orizzontale.</strong> Può essere <strong>implicito</strong> (valori, credenze e norme trasmessi in modo non intenzionale) o <strong>esplicito</strong> (conoscenze, abilità e competenze apprese mediante attuazione del PTOF).</p>
+                        <p>⚠️ <strong>IL CURRICOLO NON SI PROGRAMMA, SI PROGETTA!</strong></p>
+                        <p>Profilo in uscita: <span class="key-concept">PECUP</span> (Profilo Educativo, Culturale e Professionale).</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>L. 53/2003 — Riforma Moratti</h3>
+                    <p>Riorganizzazione del sistema in tre livelli (infanzia, primo ciclo 5+3, secondo ciclo licei+IeFP). Introdusse la personalizzazione dei percorsi, il portfolio delle competenze, il docente tutor, l'anticipo scolastico e l'alternanza scuola-lavoro. Il D.Lgs. 59/2004 attuò la riforma del primo ciclo; il D.Lgs. 226/2005 (secondo ciclo) fu bloccato dal governo Prodi II. Rimangono in vigore: anticipo scolastico, struttura 5+3, alternanza (potenziata dalla L. 107/2015).</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Riforma Gelmini (2008-2010)</h3>
+                    <p>I DPR 87, 88, 89 del 2010 riordinarono professionali, tecnici e licei. Da oltre 800 sperimentazioni si passò a <strong>23 indirizzi obbligatori</strong>. Il DPR 89/2009 riformò il primo ciclo con il ritorno al docente unico/prevalente nella primaria e la reintroduzione del voto in decimi. L'art. 1, comma 4, del DPR 89/2009 fornì la base giuridica per le nuove Indicazioni Nazionali (DM 254/2012).</p>
+                </div>
+            </section>
+
+            <!-- ===================== INDICAZIONI NAZIONALI ===================== -->
+            <section id="indicazioni" class="section">
+                <h2>📘 Indicazioni Nazionali e Competenze</h2>
+
+                <div class="subsection">
+                    <h3>Dai Programmi alle Indicazioni Nazionali</h3>
+                    <p>Dopo il DPR 275/1999, i Programmi nazionali sono stati sostituiti dalle Indicazioni Nazionali. Da una posizione direttiva e prescrittiva (trasmissiva) a una forma di orientamento che valorizza l'autonomia didattica:</p>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2004</div>
+                            <div class="timeline-title">Indicazioni per i piani di studio personalizzati (Moratti)</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2007</div>
+                            <div class="timeline-title">Indicazioni per il curricolo (Fioroni)</div>
+                        </div>
+                        <div class="timeline-item phase-inclusion">
+                            <div class="timeline-year">2012</div>
+                            <div class="timeline-title">Indicazioni Nazionali per il curricolo — DM 254/2012 (Profumo)</div>
+                            <div class="timeline-desc">Documento fondamentale tuttora vigente. Istituisce anche il CSN.</div>
+                        </div>
+                        <div class="timeline-item phase-current">
+                            <div class="timeline-year">2018</div>
+                            <div class="timeline-title">"Indicazioni Nazionali e nuovi scenari"</div>
+                            <div class="timeline-desc">Rilettura alla luce di competenze di cittadinanza, sviluppo sostenibile e pensiero computazionale (Nota MIUR 3645 del 1°/3/2018).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>DM 254/2012 — Contenuto</h3>
+                    <div class="card">
+                        <h3>Indicazioni Nazionali 2012</h3>
+                        <p>Costruite in allineamento con la Raccomandazione UE 2006/962/CE. Definiscono:</p>
+                        <p>• <strong>Profilo dello studente</strong> al termine del primo ciclo</p>
+                        <p>• <strong>Traguardi per lo sviluppo delle competenze</strong> (prescrittivi, riferimenti per la valutazione)</p>
+                        <p>• <strong>Obiettivi di apprendimento</strong> (abilità e conoscenze per periodi didattici)</p>
+                        <p>• <strong>Curricolo verticale</strong> 3-14 anni, con valorizzazione negli Istituti Comprensivi</p>
+                        <p><strong>Ambienti di apprendimento:</strong> valorizzazione dell'esperienza, attenzione alla diversità, apprendimento collaborativo, esplorazione e scoperta, consapevolezza metacognitiva, didattica laboratoriale.</p>
+                        <p>Documento aperto alla sperimentazione, punto di riferimento obbligatorio nel rispetto della libertà didattica dei docenti (art. 33 Cost.).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== INCLUSIONE L.104 → D.LGS. 66 ===================== -->
+            <section id="inclusione" class="section">
+                <h2>♿ Inclusione: dalla L. 104/1992 al D.Lgs. 66/2017</h2>
+
+                <div class="subsection">
+                    <h3>L. 104/1992 — Legge quadro sulla disabilità</h3>
+                    <p>Pilastro normativo dell'inclusione scolastica italiana, con <strong>44 articoli</strong> che sistematizzano l'intera materia.</p>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Art. 3 — Definizione e gravità</h3>
+                                <div class="card-summary">Definisce persona handicappata e situazione di gravità. Commissione medica ASL.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Definisce la persona handicappata come «colui che presenta una minorazione fisica, psichica o sensoriale, stabilizzata o progressiva, che è causa di difficoltà di apprendimento, di relazione o di integrazione lavorativa». Il <strong>comma 3</strong> qualifica la situazione di gravità quando la minorazione abbia ridotto l'autonomia personale in modo da rendere necessario un intervento assistenziale permanente, continuativo e globale. Accertamento affidato a commissione medica ASL (art. 4), integrata da medico INPS dopo L. 183/2010.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Artt. 12-16 — Diritto all'educazione e PEI</h3>
+                                <div class="card-summary">Diritto in ogni ordine e grado. Percorso: DF → PDF → PEI. Insegnante di sostegno alla classe.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il diritto all'educazione è garantito dagli <strong>artt. 12-16</strong> in ogni ordine e grado, dagli asili nido all'università. L'art. 12, comma 4: tale diritto «non può essere impedito da difficoltà di apprendimento né da altre difficoltà derivanti dalle disabilità».</p>
+                            <p>Percorso documentale originario in tre fasi: <strong>Diagnosi Funzionale</strong> (DF, redatta dall'ASL) → <strong>Profilo Dinamico Funzionale</strong> (PDF, redatto dal GLHO) → <strong>Piano Educativo Individualizzato</strong> (PEI).</p>
+                            <p><strong>Art. 13:</strong> obbligo dell'assistente all'autonomia e alla comunicazione a carico dell'ente locale. L'insegnante di sostegno è <strong>assegnato alla classe</strong>, non al singolo alunno.</p>
+                            <p><strong>Art. 15:</strong> istituiti i Gruppi di Lavoro: <strong>GLHI</strong> (d'istituto) e <strong>GLHO</strong> (operativo, sul singolo caso).</p>
+                            <p><strong>Art. 16:</strong> valutazione sulla base del PEI, con prove equipollenti e tempi più lunghi (comma 5-bis, aggiunto dalla L. 17/1999).</p>
+                            <p><strong>Sentenza 80/2010 della Corte Costituzionale:</strong> ove vi siano ostacoli all'inserimento, questi vadano rimossi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>D.Lgs. 66/2017 — Il nuovo paradigma inclusivo</h3>
+                    <p>Ridefinisce il quadro dell'inclusione con innovazioni strutturali. L'art. 1 afferma che l'inclusione è «impegno fondamentale di tutte le componenti della comunità scolastica» e si realizza attraverso l'<strong>accomodamento ragionevole</strong> — richiamo diretto alla Convenzione ONU.</p>
+
+                    <div class="card">
+                        <h3>Profilo di Funzionamento (art. 5)</h3>
+                        <p>Sostituisce DF e PDF. Redatto su base <span class="key-concept">ICF</span> dall'Unità di Valutazione Multidisciplinare dell'ASL. Il PEI (art. 7) è elaborato e approvato dal <strong>GLO</strong>.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Governance multilivello</h3>
+                        <div class="governance-stack">
+                            <div class="governance-level">
+                                <span class="gov-badge">GLIR</span>
+                                <span class="gov-desc"><strong>Livello regionale</strong> — presso ogni USR, consulenza e proposte</span>
+                            </div>
+                            <div class="governance-level">
+                                <span class="gov-badge">GIT</span>
+                                <span class="gov-desc"><strong>Livello ambito territoriale</strong> — conferma risorse sostegno, supporto ai GLI</span>
+                            </div>
+                            <div class="governance-level">
+                                <span class="gov-badge">GLI</span>
+                                <span class="gov-desc"><strong>Livello istituto</strong> — supporta il Collegio per il Piano per l'Inclusione</span>
+                            </div>
+                            <div class="governance-level">
+                                <span class="gov-badge">GLO</span>
+                                <span class="gov-desc"><strong>Livello singolo alunno</strong> — elabora e approva il PEI (CdC + genitori + ASL + ente locale)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>D.Lgs. 96/2019 — Integrazioni correttive</h3>
+                    <p>Terminologia: «accertata condizione di disabilità ai fini dell'inclusione scolastica». Il GLO viene istituzionalizzato formalmente. Lo studente partecipa attivamente («assicurata»); la famiglia partecipa «a pieno titolo». Il PEI va redatto <strong>in via provvisoria entro giugno e in via definitiva, di norma, non oltre il mese di ottobre</strong>.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>DI 182/2020 — Modello nazionale PEI</h3>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Quattro dimensioni del PEI e vicenda giudiziaria</h3>
+                                <div class="card-summary">Dimensioni A-B-C-D. Prospettiva bio-psico-sociale. TAR → Consiglio di Stato → DI 153/2023.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Quattro modelli per i diversi gradi scolastici, costruiti su <strong>quattro dimensioni</strong>:</p>
+                            <p>• <strong>(A)</strong> Socializzazione e Interazione</p>
+                            <p>• <strong>(B)</strong> Comunicazione e Linguaggio</p>
+                            <p>• <strong>(C)</strong> Autonomia e Orientamento</p>
+                            <p>• <strong>(D)</strong> Cognitiva, Neuropsicologica e dell'Apprendimento</p>
+                            <p>PEI costruito nella prospettiva <strong>bio-psico-sociale</strong> dell'ICF, con individuazione di facilitatori e barriere nel contesto.</p>
+                            <p><strong>Sentenza TAR Lazio 9795/2021:</strong> annullò integralmente il decreto per vizi formali (avrebbe dovuto essere un Regolamento ex L. 400/1988), per la limitazione degli esperti della famiglia, per la previsione dell'esonero generalizzato e per le tabelle predeterminate sulle ore di sostegno.</p>
+                            <p><strong>Sentenza Consiglio di Stato 3196/2022:</strong> riformò la decisione, riabilitando il DI 182/2020 pur evidenziando la necessità di correttivi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>DI 153/2023 — Decreto correttivo</h3>
+                    <div class="card">
+                        <h3>Operativo dall'a.s. 2023/2024</h3>
+                        <p>Recepisce le criticità emerse:</p>
+                        <p>• Eliminazione del limite a un solo esperto indicato dalla famiglia</p>
+                        <p>• <strong>Non è previsto l'esonero</strong> dall'insegnamento di una o più discipline per gli alunni con disabilità nella secondaria di II grado (eliminata l'opzione "C" del vecchio modello)</p>
+                        <p>• Sostituzione del termine «debito di funzionamento» con <span class="key-concept">supporto al funzionamento</span></p>
+                        <p>• Nuove tabelle per i fabbisogni di risorse (Allegato C1)</p>
+                        <p>• Norme transitorie: in assenza del Profilo di Funzionamento, fare riferimento alla DF e al PDF preesistenti</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== DSA E BES ===================== -->
+            <section id="dsabes" class="section">
+                <h2>🧩 DSA e Bisogni Educativi Speciali</h2>
+
+                <div class="subsection">
+                    <h3>L. 170/2010 — Riconoscimento dei DSA</h3>
+                    <div class="card">
+                        <h3>I 4 DSA riconosciuti</h3>
+                        <p>Riconosce come Disturbi Specifici dell'Apprendimento: <strong>dislessia, disgrafia, disortografia, discalculia</strong>, che si manifestano «in presenza di capacità cognitive adeguate, in assenza di patologie neurologiche e di deficit sensoriali». Interessa circa il <strong>3-5%</strong> della popolazione scolastica.</p>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Strumenti e misure</h3>
+                                <div class="card-summary">Compensativi + dispensativi. PDP obbligatorio. Nessun insegnante di sostegno. Diagnosi dal SSN.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Strumenti compensativi:</strong> calcolatrice, sintesi vocale, mappe concettuali, registratore, software con correttore ortografico.</p>
+                            <p><strong>Misure dispensative:</strong> dispensa dalla lettura ad alta voce, dallo studio mnemonico, dai tempi standard.</p>
+                            <p>Documentati nel <span class="key-concept">PDP</span> (Piano Didattico Personalizzato), obbligatorio per ogni alunno con diagnosi DSA, da predisporsi entro il primo trimestre.</p>
+                            <p>Diagnosi effettuata dal SSN — non dalla scuola — e non può essere formulata prima della fine della seconda classe primaria.</p>
+                            <p><strong>Differenza fondamentale rispetto alla L. 104/1992:</strong> non è previsto l'insegnante di sostegno per i DSA; si incide sul piano metodologico, non contenutistico.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>DM 5669/2011 e Linee Guida</h3>
+                                <div class="card-summary">Misure operative per ordine. Didattica individualizzata vs personalizzata. Referente DSA.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Definiscono le misure operative per ogni ordine di scuola e distinguono tra:</p>
+                            <p>• <strong>Didattica individualizzata:</strong> obiettivi comuni, metodi calibrati</p>
+                            <p>• <strong>Didattica personalizzata:</strong> obiettivi diversi per ciascun alunno</p>
+                            <p>Le Linee Guida prevedono la figura del <strong>Referente DSA</strong> d'istituto con compiti di consulenza e formazione dei colleghi. Le Linee Guida per il diritto allo studio degli alunni con DSA forniscono indicazioni operative dettagliate dall'infanzia all'università.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Direttiva BES 2012 e CM 8/2013</h3>
+                    <div class="card">
+                        <h3>Tre macro-aree dei BES</h3>
+                        <p>La Direttiva Ministeriale 27/12/2012 e la CM n. 8 del 6/3/2013 completano il quadro dell'inclusione estendendo le tutele a <strong>tutti</strong> gli alunni con Bisogni Educativi Speciali:</p>
+                        <p><strong>(1)</strong> Disabilità certificata ex L. 104/92 → <span class="key-concept">PEI</span></p>
+                        <p><strong>(2)</strong> Disturbi evolutivi specifici (DSA/L.170, ADHD, disturbi del linguaggio, funzionamento cognitivo limite QI 70-85) → <span class="key-concept">PDP</span></p>
+                        <p><strong>(3)</strong> Svantaggio socio-economico, linguistico, culturale → PDP eventuale, deliberato dal Consiglio di Classe</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>GLI e PAI</h3>
+                        <p>Il GLHI assume la denominazione di <strong>GLI</strong> (Gruppo di Lavoro per l'Inclusione) con competenze estese a tutti i BES. Viene istituito il <span class="key-concept">PAI</span> (Piano Annuale per l'Inclusività), elaborato dal GLI entro giugno, deliberato dal Collegio Docenti e inserito nel PTOF.</p>
+                        <p>La <strong>Nota 2563 del 22/11/2013</strong> chiarisce che il PDP non è obbligatorio per tutti i BES e che il Consiglio di Classe è pienamente autonomo nella valutazione.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Linee Guida 2009</h3>
+                    <p>Le <strong>Linee Guida per l'integrazione scolastica degli alunni con disabilità</strong> (Nota MIUR 4274 del 4/8/2009) definiscono il ruolo-chiave del Dirigente Scolastico, affermano il principio della <strong>corresponsabilità educativa</strong> di tutti i docenti (condannando la "delega" al solo insegnante di sostegno) e introducono il riferimento alla classificazione ICF dell'OMS.</p>
+                </div>
+            </section>
+
+            <!-- ===================== RIFORME E VALUTAZIONE ===================== -->
+            <section id="riforme" class="section">
+                <h2>🔧 La Buona Scuola e il Sistema di Valutazione</h2>
+
+                <div class="subsection">
+                    <h3>L. 107/2015 — La "Buona Scuola"</h3>
+                    <p>Un unico articolo di <strong>212 commi</strong> (Governo Renzi, Ministro Giannini).</p>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Novità principali</h3>
+                                <div class="card-summary">Organico dell'autonomia, PTOF triennale, formazione obbligatoria, PCTO, PNSD.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2"><strong>Organico dell'autonomia</strong> (commi 5, 63-68): integra posti comuni, sostegno e potenziamento, con circa 48.000 posti aggiuntivi.</p>
+                            <p><strong>PTOF triennale</strong> (comma 14): sostituisce il POF annuale. Elaborato dal Collegio Docenti sugli indirizzi del DS, approvato dal Consiglio di Istituto, rivedibile annualmente.</p>
+                            <p><strong>Formazione in servizio</strong> (commi 121-125): obbligatoria, permanente e strutturale. 40 milioni €/anno e Card docente da 500 €/anno.</p>
+                            <p><strong>Alternanza scuola-lavoro</strong> (commi 33-44): obbligatoria nel triennio del secondo ciclo, poi ridotta e ridenominata <span class="key-concept">PCTO</span> dalla L. 145/2018 (210 ore professionali, 150 tecnici, 90 licei).</p>
+                            <p><strong>Comitato di valutazione</strong> (comma 129): composizione allargata (DS + 3 docenti + 2 rappresentanti genitori/studenti + 1 esterno USR).</p>
+                            <p><strong>PNSD</strong> (commi 56-62): Piano Nazionale Scuola Digitale, animatore digitale in ogni scuola.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Gli 8 decreti legislativi del 2017</h3>
+                                <div class="card-summary">Commi 180-181: delega per 8 D.Lgs., tutti pubblicati il 16 maggio 2017.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">• <strong>D.Lgs. 59/2017</strong> — Formazione iniziale e accesso ai ruoli (FIT, poi superato)</p>
+                            <p>• <strong>D.Lgs. 60/2017</strong> — Promozione cultura umanistica e creatività</p>
+                            <p>• <strong>D.Lgs. 61/2017</strong> — Revisione istruzione professionale</p>
+                            <p>• <strong>D.Lgs. 62/2017</strong> — Valutazione e certificazione competenze</p>
+                            <p>• <strong>D.Lgs. 63/2017</strong> — Diritto allo studio</p>
+                            <p>• <strong>D.Lgs. 64/2017</strong> — Scuola italiana all'estero</p>
+                            <p>• <strong>D.Lgs. 65/2017</strong> — Sistema integrato 0-6 anni</p>
+                            <p>• <strong>D.Lgs. 66/2017</strong> — Inclusione scolastica studenti con disabilità</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>D.Lgs. 62/2017 — Valutazione</h3>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Riforma della valutazione</h3>
+                                <div class="card-summary">Giudizi descrittivi in primaria (O.M. 172/2020). INVALSI requisito ma non parte esame.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Riforma della valutazione nel primo ciclo (dal 1/9/2017) e nell'esame di Stato (dal 2018/2019).</p>
+                            <p><strong>Scuola primaria:</strong> dal 2020/2021 <strong>giudizi descrittivi</strong> (O.M. 172/2020) al posto dei voti in decimi.</p>
+                            <p><strong>Comportamento:</strong> giudizio sintetico riferito allo sviluppo delle competenze di cittadinanza.</p>
+                            <p><strong>Prove INVALSI</strong> nella terza media (italiano, matematica, inglese): requisito di ammissione all'esame ma non fanno più parte dell'esame.</p>
+                            <p><strong>Alunni con disabilità:</strong> prove differenziate coerenti con il PEI hanno valore equivalente e danno diritto al diploma.</p>
+                            <p><strong>Alunni con DSA:</strong> misure compensative e dispensative coerenti con il PDP; esonero lingue straniere solo in casi gravi di comorbilità, con rilascio del solo attestato di credito formativo.</p>
+                            <p><strong>Certificazione competenze</strong> (DM 742/2017): rilasciata a termine della primaria e della secondaria I grado; per disabilità: annotazioni rapportate al PEI.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>L. 150/2024 e DPR 134-135/2025</h3>
+                        <p>Nella secondaria di II grado il comportamento torna ad avere un <strong>voto in decimi</strong> con peso maggiore (voto &lt;6 = non ammissione; voto 6 = elaborato critico). I docenti di sostegno sono confermati <strong>contitolari della classe</strong> e partecipano alla valutazione di tutti gli studenti.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>DPR 80/2013 — Sistema Nazionale di Valutazione (SNV)</h3>
+                    <div class="card">
+                        <h3>Tre soggetti, quattro fasi</h3>
+                        <p><strong>Soggetti:</strong> INVALSI (coordinamento), INDIRE (innovazione), contingente ispettivo.</p>
+                        <p><strong>Quattro fasi:</strong> Autovalutazione (<span class="key-concept">RAV</span>) → Valutazione esterna (Nuclei di Valutazione Esterna) → <span class="key-concept">Piano di Miglioramento</span> (PdM, parte integrante del PTOF) → Rendicontazione sociale.</p>
+                        <p>L'art. 4 del D.Lgs. 66/2017 stabilisce che la qualità dell'inclusione è <strong>parte integrante</strong> della valutazione delle scuole.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>L. 92/2019 — Educazione Civica</h3>
+                    <p>Introdotta come insegnamento trasversale obbligatorio con almeno 33 ore annue.</p>
+                </div>
+            </section>
+
+            <!-- ===================== QUADRO INTERNAZIONALE ===================== -->
+            <section id="internazionale" class="section">
+                <h2>🌍 Quadro Europeo e Internazionale</h2>
+
+                <div class="subsection">
+                    <h3>Convenzione ONU sui diritti delle persone con disabilità</h3>
+                    <div class="card">
+                        <h3>Adottata 13/12/2006 · Ratificata con L. 18/2009</h3>
+                        <p>Definisce la disabilità come «risultato dell'interazione tra persone con menomazioni e barriere comportamentali e ambientali» — superando il modello medico in favore del <strong>modello sociale</strong>.</p>
+                        <p>L'<strong>art. 24</strong> garantisce il diritto a un «sistema di istruzione inclusivo a tutti i livelli», con l'obbligo per gli Stati di fornire <strong>accomodamento ragionevole</strong> e sostegno personalizzato.</p>
+                        <p>La L. 18/2009 ha istituito l'<strong>Osservatorio Nazionale sulla condizione delle persone con disabilità</strong> e ha influenzato profondamente il D.Lgs. 66/2017.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>ICF e Dichiarazione di Salamanca</h3>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>ICF — Classificazione Internazionale del Funzionamento (OMS, 2001)</h3>
+                                <div class="card-summary">Modello bio-psico-sociale. 5 componenti. Facilitatori e barriere. Base del nuovo PEI.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">L'ICF (ICF-CY per bambini e adolescenti, 2007) introduce il modello <strong>bio-psico-sociale</strong>: il funzionamento è il risultato dell'interazione tra condizioni di salute, fattori ambientali e fattori personali.</p>
+                            <p>Le cinque componenti: <strong>funzioni corporee, strutture corporee, attività e partecipazione, fattori ambientali, fattori personali</strong>.</p>
+                            <p>Il binomio <span class="key-concept">facilitatori/barriere</span> è alla base del nuovo PEI.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Dichiarazione di Salamanca (UNESCO, 1994)</h3>
+                        <p>Ufficializzò per la prima volta il termine «<strong>inclusione</strong>» in ambito educativo e introdusse il concetto di Bisogni Educativi Speciali.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Agenda 2030 (ONU, 25/9/2015)</h3>
+                        <p><strong>Obiettivo 4:</strong> istruzione di qualità. <strong>Target 4.5:</strong> eliminare disparità per le persone con disabilità.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Le 8 competenze chiave europee (Raccomandazione 2018)</h3>
+                    <div class="card">
+                        <h3>Raccomandazione del Consiglio del 22 maggio 2018</h3>
+                        <p>Aggiorna le competenze chiave per l'apprendimento permanente:</p>
+                        <p><strong>1.</strong> Competenza alfabetica funzionale · <strong>2.</strong> Competenza multilinguistica · <strong>3.</strong> Competenza matematica e in scienze, tecnologie e ingegneria · <strong>4.</strong> Competenza digitale · <strong>5.</strong> Competenza personale, sociale e capacità di imparare a imparare · <strong>6.</strong> Competenza in materia di cittadinanza · <strong>7.</strong> Competenza imprenditoriale · <strong>8.</strong> Competenza in materia di consapevolezza ed espressione culturali</p>
+                        <p>Rispetto alla versione 2006: unificazione della competenza sociale con "imparare a imparare" e autonomia della competenza di cittadinanza. Le Indicazioni Nazionali 2012 e il DM 742/2017 (certificazione competenze) ne costituiscono il recepimento italiano.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Legge delega sulla disabilità 227/2021</h3>
+                    <p>Arrivata con il PNRR, in attesa dei decreti attuativi.</p>
+                </div>
+            </section>
+
+            <!-- ===================== NORMATIVA RECENTE ===================== -->
+            <section id="recente" class="section">
+                <h2>🆕 Normativa Recentissima (2024-2025)</h2>
+
+                <div class="subsection">
+                    <h3>D.L. 71/2024 convertito in L. 106/2024</h3>
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Art. 6 — Percorsi straordinari INDIRE 30 CFU</h3>
+                                <div class="card-summary">Specializzazione sostegno per docenti con ≥3 anni servizio. Platea: ~71.788 docenti.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Percorsi straordinari INDIRE da <strong>30 CFU</strong> per specializzazione sul sostegno, per docenti con ≥3 anni di servizio su sostegno negli ultimi 5 anni (platea: circa <strong>71.788</strong> docenti), da completare entro 31/12/2025.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Art. 8 — Continuità didattica supplenti di sostegno</h3>
+                                <div class="card-summary">Su richiesta della famiglia, il DS propone conferma con precedenza assoluta da GPS.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Modifica art. 14 D.Lgs. 66/2017, aggiungendo commi sulla <strong>continuità didattica dei supplenti di sostegno</strong>: su richiesta della famiglia, il DS può proporre la conferma del supplente con <strong>precedenza assoluta</strong> nella nomina da GPS.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>DM 32/2025 — Procedura operativa per la continuità</h3>
+                    <div class="card">
+                        <h3>Prima applicazione: a.s. 2025/2026</h3>
+                        <p>La famiglia presenta richiesta entro il <strong>31 maggio 2025</strong>; il DS valuta sentendo il GLO ed entro il <strong>15 giugno</strong> comunica l'esito; il docente esprime volontà di conferma nella piattaforma POLIS; l'UST dispone la conferma entro il 31 agosto.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>TFA Sostegno IX Ciclo</h3>
+                    <div class="card">
+                        <h3>A.a. 2023/2024</h3>
+                        <p><strong>32.317 posti</strong> (DM 583/2024), percorso 60 CFU, riserva 35% per docenti con 3 anni di servizio. DM 75 del 24/04/2025: percorsi INDIRE (costi max 1.300€, fabbisogno regionale, esame finale).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== CONCORSO PNRR 3 ===================== -->
+            <section id="concorso" class="section">
+                <h2>🎯 Il Concorso PNRR 3: Struttura e Requisiti</h2>
+                <p>Bandi <strong>DDG 2938 e 2939 del 9 ottobre 2025</strong>: terzo concorso PNRR per 58.135 posti, nell'ambito del target M4C1R2.1 (almeno 70.000 assunzioni). Normativa: DM 205/2023 (secondaria) e DM 206/2023 (infanzia/primaria) con Allegati A (programmi) e B (titoli).</p>
+
+                <div class="subsection">
+                    <h3>Requisiti per il sostegno</h3>
+                    <div class="card">
+                        <h3>Titolo di accesso</h3>
+                        <p><strong>Requisito principale:</strong> specializzazione sul sostegno (TFA) per il grado specifico.</p>
+                        <p><strong>In alternativa</strong> (fase transitoria): almeno <strong>3 anni di servizio su sostegno</strong> nel grado.</p>
+                        <p>Ammessa partecipazione con riserva se titolo conseguito entro 31/01/2026.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Struttura delle prove</h3>
+                    <div class="exam-detail">
+                        <h4>Prova scritta (computer-based)</h4>
+                        <p>50 quesiti a risposta multipla in 100 minuti:</p>
+                        <p>• 10 pedagogia · 15 psicopedagogia/inclusione · 15 metodologia didattica · 5 inglese B2 · 5 digitale</p>
+                        <p>Max <strong>100 punti</strong>, soglia 70/100.</p>
+                    </div>
+                    <div class="exam-detail">
+                        <h4>Prova orale</h4>
+                        <p>Max 30 min (infanzia/primaria) o 45 min (secondaria). Comprende:</p>
+                        <p>• Quesiti disciplinari estratti a sorte</p>
+                        <p>• <strong>Lezione simulata</strong> su traccia assegnata 24h prima</p>
+                        <p>• Conversazione inglese (B2)</p>
+                        <p>• Progettazione didattica con tecnologie</p>
+                        <p><strong>Per il sostegno:</strong> competenza nelle attività di sostegno, progettazione su base ICF, capacità di definire ambienti di apprendimento inclusivi.</p>
+                        <p>Max <strong>100 punti</strong>, soglia 70/100.</p>
+                    </div>
+                    <div class="exam-detail">
+                        <h4>Titoli e graduatoria</h4>
+                        <p>Titoli: max <strong>50 punti</strong>.</p>
+                        <p><strong>Graduatoria finale: max 250 punti</strong> (scritto 100 + orale 100 + titoli 50).</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Programma d'esame — Normativa richiesta per il sostegno</h3>
+                    <div class="card">
+                        <h3>Riferimenti normativi espliciti (Allegato A)</h3>
+                        <p>L. 104/1992 · L. 18/2009 (Convenzione ONU) · Linee Guida 2009 · D.Lgs. 66/2017 · D.Lgs. 96/2019 · DI 182/2020 · L. 170/2010 · DM 5669/2011 · Direttiva BES 2012 · CM 8/2013 · DPR 275/1999 · DPR 80/2013 · D.Lgs. 76/2005</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Mappa prioritaria di studio</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Per tutti i gradi</h3>
+                                <div class="card-summary">Costituzione, autonomia, indicazioni, valutazione, inclusione, competenze chiave.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mt-2">
+                                <div class="study-item"><span class="study-icon"></span> Articoli della Costituzione (artt. 3, 9, 33, 34, 38 + art. 117 come modificato dalla L. Cost. 3/2001)</div>
+                                <div class="study-item"><span class="study-icon"></span> DPR 275/1999 (Autonomia scolastica)</div>
+                                <div class="study-item"><span class="study-icon"></span> Indicazioni Nazionali 2012 + DM 139/2007 (per il II grado: assi culturali e PECUP)</div>
+                                <div class="study-item"><span class="study-icon"></span> DPR 80/2013 (Sistema Nazionale di Valutazione)</div>
+                                <div class="study-item"><span class="study-icon"></span> L. 104/1992</div>
+                                <div class="study-item"><span class="study-icon"></span> L. 107/2015</div>
+                                <div class="study-item"><span class="study-icon"></span> D.Lgs. 66/2017 e 96/2019 + DI 182/2020 + DI 153/2023</div>
+                                <div class="study-item"><span class="study-icon"></span> L. 170/2010 + DM 5669/2011 + Direttiva BES 2012 + CM 8/2013</div>
+                                <div class="study-item"><span class="study-icon"></span> L. 92/2019 (Ed. Civica)</div>
+                                <div class="study-item"><span class="study-icon"></span> Raccomandazioni UE 2006 e 2018 (competenze chiave); EQF 2008; Raccomandazione qualità IeFP 2009</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Studio selettivo (primo ciclo)</h3>
+                                <div class="card-summary">D.Lgs. 59/2004, DPR 89/2009, valutazione primaria.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mt-2">
+                                <div class="study-item"><span class="study-icon"></span> D.Lgs. 59/2004, DPR 89/2009, DPR 122/2009</div>
+                                <div class="study-item"><span class="study-icon"></span> D.Lgs. 65/2017, L. 41/2020</div>
+                                <div class="study-item"><span class="study-icon"></span> OM + Linee guida valutazione primaria</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <div>
+                                <h3>Per il II grado in più</h3>
+                                <div class="card-summary">Riordino professionali/tecnici/licei, L. 296/2006.</div>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mt-2">
+                                <div class="study-item"><span class="study-icon"></span> DPR 87, 88, 89/2010 e D.Lgs. 61/2017</div>
+                                <div class="study-item"><span class="study-icon"></span> Indicazioni nazionali per i Licei, linee guida Istituti Tecnici e Professionali (2019/20)</div>
+                                <div class="study-item"><span class="study-icon"></span> L. 296/2006</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== GLOSSARIO ===================== -->
+            <section id="glossario" class="section">
+                <h2>📖 Glossario</h2>
+                <input type="text" class="search-input mb-3" id="glossarySearch" placeholder="🔍 Cerca termine, sigla o normativa...">
+                <div class="glossary-grid">
+                    <div class="glossary-item visible" data-term="pei piano educativo individualizzato">
+                        <h4>PEI — Piano Educativo Individualizzato</h4>
+                        <div class="definition">Documento che definisce gli interventi educativi per l'alunno con disabilità certificata (L. 104/92). Elaborato dal GLO su base ICF con quattro dimensioni (A-B-C-D). Modello nazionale dal DI 182/2020, corretto dal DI 153/2023.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pdp piano didattico personalizzato dsa bes">
+                        <h4>PDP — Piano Didattico Personalizzato</h4>
+                        <div class="definition">Documento per alunni con DSA (L. 170/2010, obbligatorio) o altri BES (Direttiva 2012, eventuale). Contiene strumenti compensativi e misure dispensative. Da predisporre entro il primo trimestre.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="glo gruppo lavoro operativo">
+                        <h4>GLO — Gruppo di Lavoro Operativo</h4>
+                        <div class="definition">Composto da CdC, genitori, professionisti ASL, rappresentante ente locale. Elabora e approva il PEI. Istituito formalmente dal D.Lgs. 96/2019.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="gli gruppo lavoro inclusione">
+                        <h4>GLI — Gruppo di Lavoro per l'Inclusione</h4>
+                        <div class="definition">A livello di istituto, supporta il Collegio Docenti nella definizione del Piano per l'Inclusione. Competenze estese a tutti i BES (CM 8/2013).</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="git gruppo inclusione territoriale">
+                        <h4>GIT — Gruppo per l'Inclusione Territoriale</h4>
+                        <div class="definition">A livello di ambito territoriale. Conferma le risorse di sostegno, supporta i GLI. Introdotto dal D.Lgs. 66/2017.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="glir gruppo lavoro interistituzionale regionale">
+                        <h4>GLIR — Gruppo di Lavoro Interistituzionale Regionale</h4>
+                        <div class="definition">Presso ogni USR. Funzioni di consulenza e proposte a livello regionale per l'inclusione.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="icf classificazione internazionale funzionamento">
+                        <h4>ICF — International Classification of Functioning</h4>
+                        <div class="definition">Classificazione OMS (2001, ICF-CY 2007). Modello bio-psico-sociale: funzionamento come interazione tra condizioni di salute, fattori ambientali e personali. Cinque componenti: funzioni corporee, strutture corporee, attività e partecipazione, fattori ambientali, fattori personali. Binomio facilitatori/barriere alla base del nuovo PEI.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="ptof piano triennale offerta formativa">
+                        <h4>PTOF — Piano Triennale dell'Offerta Formativa</h4>
+                        <div class="definition">Documento fondamentale dell'identità culturale e progettuale della scuola (ex POF, art. 3 DPR 275/99). Reso triennale dalla L. 107/2015. Elaborato dal CdD sugli indirizzi del DS, approvato dal CdI.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="rav rapporto autovalutazione">
+                        <h4>RAV — Rapporto di Autovalutazione</h4>
+                        <div class="definition">Prima fase del ciclo valutativo del SNV (DPR 80/2013). Strumento di autovalutazione della scuola.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pdm piano miglioramento">
+                        <h4>PdM — Piano di Miglioramento</h4>
+                        <div class="definition">Parte integrante del PTOF. Terza fase del ciclo SNV. Definisce obiettivi e azioni di miglioramento basate sul RAV.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pai piano annuale inclusività">
+                        <h4>PAI — Piano Annuale per l'Inclusività</h4>
+                        <div class="definition">Elaborato dal GLI entro giugno, deliberato dal Collegio Docenti, inserito nel PTOF. CM 8/2013.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pcto percorsi competenze trasversali orientamento">
+                        <h4>PCTO — Percorsi per le Competenze Trasversali e l'Orientamento</h4>
+                        <div class="definition">Ex alternanza scuola-lavoro. L. 145/2018. Obbligatori nel triennio: 210h professionali, 150h tecnici, 90h licei.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pecup profilo educativo culturale professionale">
+                        <h4>PECUP — Profilo Educativo, Culturale e Professionale</h4>
+                        <div class="definition">Profilo in uscita dello studente. Definisce le competenze attese al termine di un ciclo di istruzione.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="snv sistema nazionale valutazione invalsi indire">
+                        <h4>SNV — Sistema Nazionale di Valutazione</h4>
+                        <div class="definition">DPR 80/2013. Tre soggetti: INVALSI, INDIRE, contingente ispettivo. Quattro fasi: autovalutazione, valutazione esterna, miglioramento, rendicontazione.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dsa disturbi specifici apprendimento dislessia disgrafia discalculia">
+                        <h4>DSA — Disturbi Specifici dell'Apprendimento</h4>
+                        <div class="definition">Dislessia, disgrafia, disortografia, discalculia. Riconosciuti dalla L. 170/2010. 3-5% della popolazione scolastica. Non è previsto il sostegno; si interviene su metodi e strumenti.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="bes bisogni educativi speciali">
+                        <h4>BES — Bisogni Educativi Speciali</h4>
+                        <div class="definition">Direttiva 2012. Tre aree: (1) disabilità certificata → PEI; (2) disturbi evolutivi specifici → PDP; (3) svantaggio socio-economico/linguistico/culturale → PDP eventuale.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="clil content language integrated learning">
+                        <h4>CLIL — Content and Language Integrated Learning</h4>
+                        <div class="definition">Insegnamento di una disciplina non linguistica in lingua straniera. Obbligatorio nel quinto anno del II ciclo.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="curricolo verticale orizzontale progettazione">
+                        <h4>Curricolo</h4>
+                        <div class="definition">Percorso formativo intenzionale progettato dalle singole istituzioni scolastiche. Introdotto con DPR 275/99. Si progetta, non si programma. Può essere verticale (continuità 3-14 anni), orizzontale, implicito o esplicito.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="profilo funzionamento diagnosi funzionale pdf">
+                        <h4>Profilo di Funzionamento</h4>
+                        <div class="definition">Sostituisce DF e PDF (D.Lgs. 66/2017, art. 5). Redatto su base ICF dall'Unità di Valutazione Multidisciplinare dell'ASL. Norme transitorie: in assenza, si fa riferimento a DF e PDF preesistenti.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="tfa tirocinio formativo attivo sostegno specializzazione">
+                        <h4>TFA Sostegno</h4>
+                        <div class="definition">Tirocinio Formativo Attivo per la specializzazione sul sostegno. Percorso di 60 CFU. IX ciclo: 32.317 posti (DM 583/2024). Requisito principale per i posti di sostegno al concorso.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="gps graduatorie provinciali supplenze">
+                        <h4>GPS — Graduatorie Provinciali per le Supplenze</h4>
+                        <div class="definition">Sistema per l'assegnazione delle supplenze a livello provinciale. L'art. 8 del D.L. 71/2024 prevede la precedenza assoluta per la continuità didattica dei supplenti di sostegno.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pnsd piano nazionale scuola digitale animatore">
+                        <h4>PNSD — Piano Nazionale Scuola Digitale</h4>
+                        <div class="definition">L. 107/2015, commi 56-62. Prevede un animatore digitale in ogni scuola.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p style="margin: 0 0 0.5rem; color: var(--text-primary);">
+                    <strong>Normativa Scolastica PNRR 3 — Guida Completa per il Concorso Sostegno</strong>
+                </p>
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Risorsa creata da Ivan Ferrero — Febbraio 2026
+                </p>
+                <p class="text-muted" style="font-size: 0.8rem; margin-top: 0.5rem;">
+                    <em>"Non si arriva in alto superando gli altri… si arriva in alto superando se stessi! E comunque, siamo tutti BES!"</em>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+    
+    <!-- Interactivity Scripts -->
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabContainer = btn.closest('.subsection') || btn.closest('.section');
+                tabContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        glossarySearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (terms.includes(query) || text.includes(query) || query === '') {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
