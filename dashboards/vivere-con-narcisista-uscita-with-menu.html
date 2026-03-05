@@ -22,6 +22,7 @@
             --accent-yellow: #d29922;
             --accent-orange: #db6d28;
             --accent-purple: #a371f7;
+            --accent-red: #f85149;
             --text-primary: #e6edf3;
             --text-secondary: #8b949e;
             --border-color: #30363d;
@@ -205,16 +206,29 @@
         }
 
         .stat-card {
-            background-color: var(--bg-tertiary);
+            background: linear-gradient(135deg, var(--bg-tertiary), rgba(0, 217, 255, 0.05));
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             border-radius: 8px;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
         }
 
         .stat-card:hover {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .stat-label {
@@ -242,13 +256,75 @@
 
         /* Intro Text */
         .intro-text {
-            background-color: var(--bg-tertiary);
-            border-left: 3px solid var(--accent-cyan);
+            background: linear-gradient(135deg, var(--bg-tertiary), rgba(0, 217, 255, 0.08));
+            border-left: 4px solid var(--accent-cyan);
             padding: 2rem;
             margin-bottom: 3rem;
             border-radius: 0 8px 8px 0;
             font-size: 15px;
             line-height: 1.8;
+            position: relative;
+        }
+
+        .intro-text::before {
+            content: '▌';
+            position: absolute;
+            left: -4px;
+            top: 0;
+            color: var(--accent-cyan);
+            opacity: 0.5;
+        }
+
+        /* Icon Cards with Visual Elements */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(0, 217, 255, 0.1);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
         /* Expandable Cards */
@@ -326,25 +402,36 @@
 
         /* Quote Blocks */
         .quote-block {
-            border-left: 3px solid var(--accent-cyan);
+            border-left: 4px solid var(--accent-cyan);
             padding: 1rem 1.5rem;
             margin: 1rem 0;
-            background-color: rgba(0, 217, 255, 0.05);
+            background-color: rgba(0, 217, 255, 0.08);
             border-radius: 0 6px 6px 0;
             font-style: italic;
             color: var(--text-secondary);
             font-size: 13px;
+            position: relative;
+        }
+
+        .quote-block::before {
+            content: '"';
+            position: absolute;
+            left: -10px;
+            top: -5px;
+            font-size: 48px;
+            color: var(--accent-cyan);
+            opacity: 0.2;
         }
 
         /* Evidence Tags */
         .evidence-tag {
             display: inline-block;
-            padding: 0.15rem 0.5rem;
-            font-size: 0.7rem;
-            border-radius: 3px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
             font-family: var(--font-mono);
-            margin: 0 0.25rem;
-            margin-top: 0.5rem;
+            margin: 0.5rem 0.25rem 0 0;
+            font-weight: 600;
         }
 
         .evidence-strong {
@@ -371,6 +458,205 @@
             border: 1px solid var(--accent-purple);
         }
 
+        /* Visual Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            padding-left: 4rem;
+            position: relative;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: 3px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-size: 18px;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: var(--border-color);
+        }
+
+        .timeline-item:last-child:before {
+            display: none;
+        }
+
+        .timeline-content {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 6px;
+        }
+
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .process-step {
+            flex: 0 0 auto;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+
+        .process-step:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.1);
+        }
+
+        .process-step-icon {
+            font-size: 32px;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .process-arrow {
+            flex: 0 0 auto;
+            font-size: 24px;
+            color: var(--accent-cyan);
+            opacity: 0.6;
+        }
+
+        /* Visual Comparison Table */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .comparison-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .comparison-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Severity Scale */
+        .severity-scale {
+            margin: 1.5rem 0;
+        }
+
+        .severity-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .severity-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .severity-bar {
+            height: 24px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .severity-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Key-Value Pairs */
+        .key-value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-value-item {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        .key-value-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            letter-spacing: 1px;
+        }
+
+        .key-value-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
         /* Tabs */
         .tabs-container {
             margin-bottom: 2rem;
@@ -381,6 +667,7 @@
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 2rem;
             gap: 0;
+            overflow-x: auto;
         }
 
         .tab-button {
@@ -394,6 +681,7 @@
             font-weight: 500;
             position: relative;
             transition: color 0.3s;
+            white-space: nowrap;
         }
 
         .tab-button:hover {
@@ -458,6 +746,7 @@
             padding: 1.5rem;
             border-radius: 6px;
             display: none;
+            border-left: 3px solid var(--accent-cyan);
         }
 
         .glossary-item.visible {
@@ -547,13 +836,23 @@
             }
 
             .card-grid,
-            .glossary-items {
+            .glossary-items,
+            .feature-grid,
+            .comparison-grid {
                 grid-template-columns: 1fr;
             }
 
             .menu-items {
                 gap: 1rem;
                 font-size: 12px;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
             }
         }
 
@@ -630,6 +929,18 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-cyan);
         }
+
+        /* SVG Cycle Diagram */
+        .cycle-diagram {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -693,10 +1004,56 @@
             <section id="esperienza" class="section">
                 <h1>L'esperienza relazionale: un ciclo che riconfigura il cervello</h1>
 
+                <h2>Il ciclo idealizzazione-svalutazione-scarto-hoovering</h2>
+                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 2rem;">Visualizza il ciclo ricorrente che caratterizza la relazione narcisistica:</p>
+
+                <div class="cycle-diagram">
+                    <svg viewBox="0 0 400 400" width="400" height="400">
+                        <!-- Outer circle -->
+                        <circle cx="200" cy="200" r="150" fill="none" stroke="#30363d" stroke-width="2"/>
+
+                        <!-- Phase 1: Idealizzazione -->
+                        <circle cx="200" cy="80" r="45" fill="#3fb950" fill-opacity="0.2" stroke="#3fb950" stroke-width="2"/>
+                        <text x="200" y="80" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="700" fill="#3fb950">Idealizzazione</text>
+                        <text x="200" y="100" text-anchor="middle" font-size="11" fill="#8b949e">Adorazione</text>
+
+                        <!-- Arrow 1 -->
+                        <path d="M 245 110 Q 280 140 280 200" fill="none" stroke="#a371f7" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                        <!-- Phase 2: Svalutazione -->
+                        <circle cx="280" cy="240" r="45" fill="#d29922" fill-opacity="0.2" stroke="#d29922" stroke-width="2"/>
+                        <text x="280" y="240" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="700" fill="#d29922">Svalutazione</text>
+                        <text x="280" y="260" text-anchor="middle" font-size="11" fill="#8b949e">Critiche</text>
+
+                        <!-- Arrow 2 -->
+                        <path d="M 245 280 Q 200 310 155 280" fill="none" stroke="#a371f7" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                        <!-- Phase 3: Scarto -->
+                        <circle cx="120" cy="240" r="45" fill="#db6d28" fill-opacity="0.2" stroke="#db6d28" stroke-width="2"/>
+                        <text x="120" y="240" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="700" fill="#db6d28">Scarto</text>
+                        <text x="120" y="260" text-anchor="middle" font-size="11" fill="#8b949e">Abbandono</text>
+
+                        <!-- Arrow 3 -->
+                        <path d="M 120 190 Q 140 130 155 110" fill="none" stroke="#a371f7" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                        <!-- Phase 4: Hoovering -->
+                        <circle cx="200" cy="330" r="45" fill="#00d9ff" fill-opacity="0.2" stroke="#00d9ff" stroke-width="2"/>
+                        <text x="200" y="330" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="700" fill="#00d9ff">Hoovering</text>
+                        <text x="200" y="350" text-anchor="middle" font-size="11" fill="#8b949e">Riconciliazione</text>
+
+                        <!-- Marker definitions -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#a371f7"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+
                 <div class="card-grid">
                     <div class="expandable-card">
                         <div class="card-header" onclick="toggleCard(this)">
-                            <span class="card-title">Il ciclo idealizzazione-svalutazione-scarto-recupero</span>
+                            <span class="card-title">Il ciclo: dinamiche oscillatorie</span>
                             <div class="card-toggle">▼</div>
                         </div>
                         <div class="card-content">
@@ -715,12 +1072,27 @@
 
                     <div class="expandable-card">
                         <div class="card-header" onclick="toggleCard(this)">
-                            <span class="card-title">Effetti cumulativi sul partner: C-PTSD</span>
+                            <span class="card-title">Effetti cumulativi: C-PTSD</span>
                             <div class="card-toggle">▼</div>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <p>L'esposizione prolungata a queste dinamiche produce nel partner un quadro sintomatologico che corrisponde al Disturbo da Stress Post-Traumatico Complesso (C-PTSD), formalmente riconosciuto nell'ICD-11 con i tre cluster PTSD classici più tre Disturbi nell'Organizzazione del Sé: <strong>disregolazione affettiva, concetto negativo di sé e disturbi nelle relazioni</strong>.</p>
+
+                                <div class="key-value-grid">
+                                    <div class="key-value-item">
+                                        <div class="key-value-label">Controllo Coercitivo → PTSD</div>
+                                        <div class="key-value-value">r = .32</div>
+                                    </div>
+                                    <div class="key-value-item">
+                                        <div class="key-value-label">Controllo Coercitivo → Depressione</div>
+                                        <div class="key-value-value">r = .27</div>
+                                    </div>
+                                    <div class="key-value-item">
+                                        <div class="key-value-label">In strutture accoglienza</div>
+                                        <div class="key-value-value">r = .40</div>
+                                    </div>
+                                </div>
 
                                 <p>La meta-analisi di Lohmann et al. (2024), la prima specificamente focalizzata sul controllo coercitivo e la salute mentale (45 studi, 107 dimensioni degli effetti), ha documentato associazioni moderate tra controllo coercitivo e PTSD (r = .32; IC 95% [.28, .37]) e depressione (r = .27; IC 95% [.22, .31]). Nelle strutture di accoglienza, l'associazione saliva a r = .40, suggerendo effetti cumulativi legati alla severità. Criticamente, <strong>una sola inclusione nello studio esaminava specificamente il C-PTSD</strong>, evidenziando un gap significativo nella ricerca.</p>
 
@@ -740,6 +1112,23 @@
                             <div class="card-body">
                                 <p>Il meccanismo neurobiologico che rende il ciclo narcisistico così potente risiede nel <strong>rinforzo intermittente a rapporto variabile</strong>, lo stesso principio che rende il gioco d'azzardo compulsivo. L'alternanza imprevedibile tra affetto e abuso crea errori di predizione della ricompensa — il principale motore del comportamento additivo.</p>
 
+                                <div class="process-flow">
+                                    <div class="process-step">
+                                        <div class="process-step-icon">🧠</div>
+                                        <div class="process-step-title">VTA</div>
+                                    </div>
+                                    <div class="process-arrow">→</div>
+                                    <div class="process-step">
+                                        <div class="process-step-icon">💫</div>
+                                        <div class="process-step-title">Striato Ventrale</div>
+                                    </div>
+                                    <div class="process-arrow">→</div>
+                                    <div class="process-step">
+                                        <div class="process-step-icon">⚡</div>
+                                        <div class="process-step-title">Nucleo Accumbens</div>
+                                    </div>
+                                </div>
+
                                 <p>Fisher, Aron e Brown (2006) hanno dimostrato mediante fMRI che l'amore romantico attiva le stesse vie dopaminergiche mesolimbiche (area tegmentale ventrale → nucleo accumbens) coinvolte nella dipendenza da sostanze. In uno studio cruciale, Fisher et al. (2010) hanno esaminato con fMRI <strong>15 individui recentemente rifiutati</strong> che erano ancora innamorati: l'attivazione si concentrava nella VTA, nello striato ventrale e nel nucleo accumbens — aree associate a guadagni/perdite, craving e <strong>dipendenza da cocaina</strong>. Gli autori hanno concluso che "guardare un rifiutante romantico e il craving da cocaina hanno diversi correlati neurali in comune."</p>
 
                                 <p>Durante gli episodi abusivi, il <strong>cortisolo</strong> viene rilasciato creando ipervigilanza e paura. Durante la riconciliazione, <strong>dopamina e ossitocina</strong> aumentano creando sollievo e legame. Questo ciclo letteralmente riconfigura il sistema di ricompensa cerebrale per associare l'abusante sia al pericolo che alla ricompensa. Insel (2003) ha proposto che l'attaccamento sociale possiede potenzialmente proprietà additive, condividendo substrati neurobiologici (dopamina, oppioidi, ossitocina) tra legame di coppia e ricompensa da sostanze. Quiroz e De los Reyes (2023) hanno documentato differenze significative (p = .008) nelle funzioni mnestiche ed esecutive e nei livelli di cortisolo (p = .05) tra donne che avevano subito IPV psicologica e controlli, confermando che <strong>l'abuso psicologico da solo</strong> produce compromissione cognitiva paragonabile all'abuso combinato fisico/psicologico.</p>
@@ -754,6 +1143,8 @@
             <!-- Section 3: Vulnerabilità -->
             <section id="vulnerabilita" class="section">
                 <h1>Chi "accetta" la relazione: vulnerabilità, non debolezza</h1>
+
+                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 2rem;">I fattori che aumentano la vulnerabilità verso relazioni narcisistiche non indicano debolezza, ma piuttosto dinamiche psicologiche complesse radicate nella storia personale.</p>
 
                 <div class="card-grid">
                     <div class="expandable-card">
@@ -779,7 +1170,32 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <p>La meta-analisi di Uvelli et al. (2025) su 20 studi ha identificato gli schemi più prevalenti nelle sopravvissute alla violenza: <strong>Sottomissione, Deprivazione Emotiva, Sfiducia/Abuso e Isolamento Sociale</strong>. Specificamente, la Deprivazione Emotiva porta a cercare partner emotivamente non disponibili confermando le credenze nucleari; la Sottomissione causa la repressione dei bisogni e comportamenti compiacenti; lo schema di Abbandono crea comportamenti che confermano l'abbandono atteso; e lo schema di Vulnerabilità al Danno genera un ciclo dove la donna si percepisce fragile e cerca partner "forti" che si rivelano abusanti.</p>
+                                <p>La meta-analisi di Uvelli et al. (2025) su 20 studi ha identificato gli schemi più prevalenti nelle sopravvissute alla violenza:</p>
+
+                                <div class="feature-grid">
+                                    <div class="feature-card">
+                                        <div class="feature-icon">🔗</div>
+                                        <div class="feature-title">Sottomissione</div>
+                                        <div class="feature-text">Repressione dei bisogni e comportamenti compiacenti</div>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">💔</div>
+                                        <div class="feature-title">Deprivazione Emotiva</div>
+                                        <div class="feature-text">Cerca partner emotivamente non disponibili</div>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">⚠️</div>
+                                        <div class="feature-title">Sfiducia/Abuso</div>
+                                        <div class="feature-text">Aspettative di comportamenti dannosi</div>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">🚪</div>
+                                        <div class="feature-title">Isolamento Sociale</div>
+                                        <div class="feature-text">Allontanamento dalle fonti di supporto</div>
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 1.5rem;">Specificamente, la Deprivazione Emotiva porta a cercare partner emotivamente non disponibili confermando le credenze nucleari; la Sottomissione causa la repressione dei bisogni e comportamenti compiacenti; lo schema di Abbandono crea comportamenti che confermano l'abbandono atteso; e lo schema di Vulnerabilità al Danno genera un ciclo dove la donna si percepisce fragile e cerca partner "forti" che si rivelano abusanti.</p>
 
                                 <p>Pilkington et al. (2021), nella loro meta-analisi di 9 studi, hanno trovato associazioni moderate tra vittimizzazione da IPV e i domini Disconnessione/Rifiuto e Autonomia Compromessa, e associazioni piccole con il dominio Orientamento verso l'Altro (che include Sottomissione e Autosacrificio). Atmaca e Gençöz (2016) hanno dimostrato che il dominio Disconnessione/Rifiuto media l'associazione tra maltrattamento infantile e IPV in età adulta (N = 222), con gli schemi di Deprivazione Emotiva e Vulnerabilità al Danno come mediatori specifici del percorso di rivittimizzazione.</p>
 
@@ -810,7 +1226,28 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <p>Stark (2007) ha ridefinito la violenza domestica da una serie di incidenti discreti a un pattern di comportamento strategico che crea una "condizione di non-libertà." Il controllo coercitivo coinvolge: rendere la persona subordinata/dipendente, isolarla dalle fonti di supporto, sfruttare le risorse, privare dei mezzi per indipendenza, resistenza e fuga, e regolamentare la vita quotidiana. <strong>Il partner non "accetta" l'abuso — viene sistematicamente intrappolato.</strong> Day et al. (2025), in uno studio su 135 individui in relazioni con parenti narcisisti (71% partner romantici; durata media della relazione: 20 anni), hanno dimostrato che la severità dimensionale del disturbo di personalità era significativamente e moderatamente associata sia all'abuso che al controllo coercitivo, con lo sfruttamento, la fantasia grandiosa e la rabbia da diritto che mostravano associazioni positive specifiche.</p>
+                                <p>Stark (2007) ha ridefinito la violenza domestica da una serie di incidenti discreti a un pattern di comportamento strategico che crea una "condizione di non-libertà." Il controllo coercitivo coinvolge:</p>
+
+                                <div class="key-value-grid">
+                                    <div class="key-value-item">
+                                        <div class="key-value-label">Subordinazione</div>
+                                        <div class="key-value-value">Dipendenza</div>
+                                    </div>
+                                    <div class="key-value-item">
+                                        <div class="key-value-label">Isolamento</div>
+                                        <div class="key-value-value">Privazione</div>
+                                    </div>
+                                    <div class="key-value-item">
+                                        <div class="key-value-label">Sfruttamento</div>
+                                        <div class="key-value-value">Vulnerabilità</div>
+                                    </div>
+                                    <div class="key-value-item">
+                                        <div class="key-value-label">Regolamentazione</div>
+                                        <div class="key-value-value">Controllo</div>
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 1.5rem;"><strong>Il partner non "accetta" l'abuso — viene sistematicamente intrappolato.</strong> Day et al. (2025), in uno studio su 135 individui in relazioni con parenti narcisisti (71% partner romantici; durata media della relazione: 20 anni), hanno dimostrato che la severità dimensionale del disturbo di personalità era significativamente e moderatamente associata sia all'abuso che al controllo coercitivo, con lo sfruttamento, la fantasia grandiosa e la rabbia da diritto che mostravano associazioni positive specifiche.</p>
 
                                 <p>Tolmie, Smith e Wilson (2023) hanno argomentato che il controllo coercitivo deve essere collocato in un framework più ampio di <strong>intrappolamento sociale e sistemico</strong>: la coercizione individuale è aggravata da disuguaglianze strutturali, fallimenti istituzionali e barriere sociali. Concentrarsi solo sui fattori di vulnerabilità individuale rischia il victim-blaming. Le narrative culturali dell'amore romantico contribuiscono significativamente: Lelaurain et al. (2021) hanno dimostrato che le credenze nell'amore romantico legittimano l'IPV attraverso l'effetto mediatore delle ideologie patriarcali, mentre Papp et al. (2017) hanno confermato che l'adesione a ideologie romantiche positive è associata alla percezione di comportamenti controllanti come romantici.</p>
 
@@ -824,6 +1261,8 @@
             <!-- Section 4: Arsenale Manipolatorio -->
             <section id="arsenale" class="section">
                 <h1>L'arsenale manipolatorio: tassonomia e meccanismi psicologici</h1>
+
+                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 2rem;">Le tattiche di abuso psicologico utilizzate dai narcisisti patologici operano attraverso meccanismi sofisticati e ripetibili.</p>
 
                 <div class="card-grid">
                     <div class="expandable-card">
@@ -848,7 +1287,33 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <p>Freyd (1997) ha concettualizzato il DARVO (Deny, Attack, Reverse Victim and Offender) all'interno della teoria del trauma da tradimento. La ricerca empirica successiva è tra le più robuste nel campo. Harsey, Zurbriggen e Freyd (2017) hanno trovato nel primo studio empirico unitario (N = 138) che il <strong>72% dei perpetratori utilizzava il DARVO</strong> durante le contestazioni, e che maggiore esposizione al DARVO corrispondeva a maggiore autocolpevolizzazione nella vittima. Harsey e Freyd (2020) hanno dimostrato sperimentalmente che l'esposizione al DARVO riduce la credibilità percepita della vittima e aumenta la colpevolizzazione della stessa, mentre Harsey e Freyd (2023) hanno confermato che i partecipanti esposti al DARVO valutavano il perpetratore come meno abusivo e più credibile. L'educazione specifica sul DARVO ne mitiga significativamente gli effetti.</p>
+                                <p>Freyd (1997) ha concettualizzato il DARVO (Deny, Attack, Reverse Victim and Offender) all'interno della teoria del trauma da tradimento. La ricerca empirica successiva è tra le più robuste nel campo.</p>
+
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">1</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">DENY (Negare)</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">Il perpetratore nega categoricamente il comportamento abusivo</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">2</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">ATTACK (Attaccare)</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">Attacca la vittima per averlo accusato di abuso</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">3</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">REVERSE (Invertire)</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">Inverte i ruoli per apparire come la vera vittima</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 1.5rem;">Harsey, Zurbriggen e Freyd (2017) hanno trovato nel primo studio empirico unitario (N = 138) che il <strong>72% dei perpetratori utilizzava il DARVO</strong> durante le contestazioni, e che maggiore esposizione al DARVO corrispondeva a maggiore autocolpevolizzazione nella vittima. Harsey e Freyd (2020) hanno dimostrato sperimentalmente che l'esposizione al DARVO riduce la credibilità percepita della vittima e aumenta la colpevolizzazione della stessa, mentre Harsey e Freyd (2023) hanno confermato che i partecipanti esposti al DARVO valutavano il perpetratore come meno abusivo e più credibile. L'educazione specifica sul DARVO ne mitiga significativamente gli effetti.</p>
 
                                 <span class="evidence-tag evidence-strong">FORTE</span>
                             </div>
@@ -862,7 +1327,32 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <p>Il modello di Williams (2009) sulla minaccia ai bisogni temporali spiega il meccanismo del trattamento del silenzio: l'ostracismo minaccia quattro bisogni fondamentali — <strong>appartenenza, autostima, controllo ed esistenza significativa</strong>. La meta-analisi di 120 studi Cyberball (N = 11.869) ha mostrato un effetto medio dell'ostracismo superiore a d = |1.4|. Dvir, Besikçi e Williams (2025) hanno collegato esplicitamente la teoria dell'ostracismo all'IPV, argomentando che l'ostracismo dal partner produce danni paragonabili alla violenza fisica — e che le vittime che avevano sperimentato sia abuso fisico che ostracismo <strong>valutavano l'ostracismo come più dannoso</strong> quando proveniva dal partner romantico.</p>
+                                <p>Il modello di Williams (2009) sulla minaccia ai bisogni temporali spiega il meccanismo del trattamento del silenzio: l'ostracismo minaccia quattro bisogni fondamentali:</p>
+
+                                <div class="feature-grid">
+                                    <div class="feature-card">
+                                        <div class="feature-icon">👥</div>
+                                        <div class="feature-title">Appartenenza</div>
+                                        <div class="feature-text">Senso di connessione</div>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">⭐</div>
+                                        <div class="feature-title">Autostima</div>
+                                        <div class="feature-text">Valore di sé</div>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">🎛️</div>
+                                        <div class="feature-title">Controllo</div>
+                                        <div class="feature-text">Capacità decisionale</div>
+                                    </div>
+                                    <div class="feature-card">
+                                        <div class="feature-icon">🌟</div>
+                                        <div class="feature-title">Significato</div>
+                                        <div class="feature-text">Scopo esistenziale</div>
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 1.5rem;">La meta-analisi di 120 studi Cyberball (N = 11.869) ha mostrato un effetto medio dell'ostracismo superiore a d = |1.4|. Dvir, Besikçi e Williams (2025) hanno collegato esplicitamente la teoria dell'ostracismo all'IPV, argomentando che l'ostracismo dal partner produce danni paragonabili alla violenza fisica — e che le vittime che avevano sperimentato sia abuso fisico che ostracismo <strong>valutavano l'ostracismo come più dannoso</strong> quando proveniva dal partner romantico.</p>
 
                                 <span class="evidence-tag evidence-strong">FORTE</span>
                             </div>
@@ -890,6 +1380,8 @@
             <section id="paradosso" class="section">
                 <h1>Il paradosso della paralisi informata: perché la consapevolezza non basta</h1>
 
+                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 2rem;">La consapevolezza intellettuale dell'abuso non garantisce la capacità o la volontà di lasciare. Questo paradosso è spiegato da meccanismi neurobiologici e psicologici potenti.</p>
+
                 <div class="card-grid">
                     <div class="expandable-card">
                         <div class="card-header" onclick="toggleCard(this)">
@@ -900,7 +1392,40 @@
                             <div class="card-body">
                                 <p>Lo studio empirico seminale di Dutton e Painter (1993) su 75 donne che avevano recentemente lasciato relazioni abusive ha dimostrato che un modello includente dominanza/isolamento (β = .79), intermittenza dell'abuso (β = .70), abuso fisico (β = .55), abuso emotivo (β = .47) e spostamento di potere (β = .41) spiegava il <strong>76% della varianza</strong> nell'attaccamento. Crucialmente, <strong>la bassa autostima non prediceva indipendentemente l'attaccamento</strong> — erano le dinamiche relazionali, non la patologia individuale, a predire il legame. Anche 6 mesi dopo la separazione, l'attaccamento era diminuito solo del ~27%, con le variabili relazionali che spiegavano ancora il 55% della varianza.</p>
 
-                                <p>Bailey, Dugard, Smith e Porges (2023) hanno proposto di sostituire la "sindrome di Stoccolma" con il concetto di <strong>"appeasement"</strong> (acquiescenza), spiegato attraverso la Teoria Polivagale di Porges. Il meccanismo neurobiologico di sopravvivenza coinvolge il calmare il perpetratore attraverso un'apparente connessione emotiva — non un legame genuino ma un riflesso di sopravvivenza. Questo demistifica il comportamento contraddittorio della vittima senza patologizzarlo. Brandt e Rudden (2020) hanno proposto che il legame traumatico coinvolga un'identificazione inconscia con la visione proiettata dell'abusante, che sembra "psicologicamente essenziale" e non può essere facilmente superata attraverso il solo insight.</p>
+                                <div class="severity-scale">
+                                    <div class="severity-item">
+                                        <div class="severity-label">Dominanza/Isolamento</div>
+                                        <div class="severity-bar">
+                                            <div class="severity-fill" style="width: 79%;">β = .79</div>
+                                        </div>
+                                    </div>
+                                    <div class="severity-item">
+                                        <div class="severity-label">Intermittenza dell'abuso</div>
+                                        <div class="severity-bar">
+                                            <div class="severity-fill" style="width: 70%;">β = .70</div>
+                                        </div>
+                                    </div>
+                                    <div class="severity-item">
+                                        <div class="severity-label">Abuso fisico</div>
+                                        <div class="severity-bar">
+                                            <div class="severity-fill" style="width: 55%;">β = .55</div>
+                                        </div>
+                                    </div>
+                                    <div class="severity-item">
+                                        <div class="severity-label">Abuso emotivo</div>
+                                        <div class="severity-bar">
+                                            <div class="severity-fill" style="width: 47%;">β = .47</div>
+                                        </div>
+                                    </div>
+                                    <div class="severity-item">
+                                        <div class="severity-label">Spostamento di potere</div>
+                                        <div class="severity-bar">
+                                            <div class="severity-fill" style="width: 41%;">β = .41</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 1.5rem;">Bailey, Dugard, Smith e Porges (2023) hanno proposto di sostituire la "sindrome di Stoccolma" con il concetto di <strong>"appeasement"</strong> (acquiescenza), spiegato attraverso la Teoria Polivagale di Porges. Il meccanismo neurobiologico di sopravvivenza coinvolge il calmare il perpetratore attraverso un'apparente connessione emotiva — non un legame genuino ma un riflesso di sopravvivenza. Questo demistifica il comportamento contraddittorio della vittima senza patologizzarlo. Brandt e Rudden (2020) hanno proposto che il legame traumatico coinvolga un'identificazione inconscia con la visione proiettata dell'abusante, che sembra "psicologicamente essenziale" e non può essere facilmente superata attraverso il solo insight.</p>
 
                                 <span class="evidence-tag evidence-strong">FORTE</span>
                             </div>
@@ -969,7 +1494,32 @@
                     <div id="herman" class="tab-content active">
                         <div class="card-body">
                             <h3>Il modello trifasico di Herman: ancora valido ma non dogmatico</h3>
-                            <p>L'approccio terapeutico al C-PTSD da abuso narcisistico segue tradizionalmente il modello trifasico di Herman (1992): <strong>Fase 1</strong> — sicurezza, stabilizzazione, regolazione emotiva e alleanza terapeutica; <strong>Fase 2</strong> — elaborazione delle memorie traumatiche; <strong>Fase 3</strong> — integrazione e riconnessione. L'84% degli esperti ISTSS ha approvato la terapia fase-sequenziale per il C-PTSD (Cloitre et al., 2011). Tuttavia, evidenze recenti suggeriscono maggiore flessibilità: Bremer et al. (2023) in un RCT che confrontava STAIR+EMDR (approccio fase-sequenziale) versus EMDR diretto per PTSD da abuso infantile hanno trovato <strong>risultati equivalenti</strong> tra le condizioni. Farina, Dimaggio e Mosquera (2025) hanno commentato che l'ISTSS ha successivamente cambiato le linee guida per raccomandare <strong>approcci personalizzati</strong> piuttosto che protocolli fase-sequenziali universali.</p>
+
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker">1</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">SICUREZZA E STABILIZZAZIONE</div>
+                                        <p style="margin: 0.5rem 0 0; font-size: 13px;">Costruire un ambiente sicuro, stabilizzare i sintomi emotivi, sviluppare competenze di regolazione affettiva e costruire l'alleanza terapeutica.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker">2</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">ELABORAZIONE TRAUMATICA</div>
+                                        <p style="margin: 0.5rem 0 0; font-size: 13px;">Processare le memorie traumatiche, integrarle nella narrativa personale e ridurre i sintomi traumatici.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker">3</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">INTEGRAZIONE E RICONNESSIONE</div>
+                                        <p style="margin: 0.5rem 0 0; font-size: 13px;">Riconciliare con l'identità pre-traumatica, stabilire connessioni significative, ricostruire il significato di vita.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p style="margin-top: 1.5rem;">L'approccio terapeutico al C-PTSD da abuso narcisistico segue tradizionalmente il modello trifasico di Herman (1992). L'84% degli esperti ISTSS ha approvato la terapia fase-sequenziale per il C-PTSD (Cloitre et al., 2011). Tuttavia, evidenze recenti suggeriscono maggiore flessibilità: Bremer et al. (2023) in un RCT che confrontava STAIR+EMDR (approccio fase-sequenziale) versus EMDR diretto per PTSD da abuso infantile hanno trovato <strong>risultati equivalenti</strong> tra le condizioni. Farina, Dimaggio e Mosquera (2025) hanno commentato che l'ISTSS ha successivamente cambiato le linee guida per raccomandare <strong>approcci personalizzati</strong> piuttosto che protocolli fase-sequenziali universali.</p>
                             <span class="evidence-tag evidence-strong">FORTE</span>
                         </div>
                     </div>
@@ -997,6 +1547,7 @@
                     <div id="act" class="tab-content">
                         <div class="card-body">
                             <h3>ACT, IFS e competenze DBT: approcci complementari</h3>
+
                             <p>L'<strong>Acceptance and Commitment Therapy</strong> (ACT) mostra evidenze crescenti per il trauma: Rehman, Ghazali ed Elklit (2025), in una meta-analisi di 20 studi, hanno trovato un <strong>effetto terapeutico ampio</strong> (dimensione dell'effetto media = 1.274) per l'ACT sui sintomi PTSD. L'ACT è particolarmente rilevante per le sopravvissute a abuso narcisistico perché la defusione cognitiva permette di separarsi dalla narrativa del narcisista ("Non valgo niente" riconosciuto come un pensiero, non un fatto), e l'azione basata sui valori facilita la ricostruzione dell'identità.</p>
 
                             <p>L'<strong>Internal Family Systems</strong> (IFS) è promettente ma empiricamente limitata. La scoping review di Buys (2025) ha identificato 27 studi dal 2001 al 2024, di cui il 63% case studies e <strong>solo 2 RCT</strong> (7%). Comeau et al. (2024) in un programma online di 16 settimane (N = 15) hanno trovato riduzione significativa della severità PTSD (d = -0.7 alla Settimana 16; d = -0.9 alla Settimana 24), con il 53% che mostrava risposta clinicamente significativa. Il modello Esuli/Protettori/Manager offre un framework intuitivo per le sopravvissute, ma <strong>la ricerca controllata è urgentemente necessaria</strong>.</p>
@@ -1054,7 +1605,47 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <p>Khaw e Hardesty (2009) hanno adattato il Modello Transteorico di Prochaska per il processo di uscita dalle relazioni abusive: <strong>Precontemplazione</strong> (l'abuso non è percepito come problema), <strong>Contemplazione</strong> (si inizia a definire l'abuso), <strong>Preparazione</strong> (pianificazione attiva), <strong>Azione</strong> (messa in sicurezza), <strong>Mantenimento</strong> (almeno 6 mesi di separazione). Tuttavia, Khaw e Hardesty (2014), in uno studio qualitativo su 25 madri, hanno trovato che il processo di uscita è <strong>sistemico, fluido e non lineare</strong> — la maggior parte delle madri oscillava tra presenza e assenza fisica/psicologica attraverso multiple separazioni.</p>
+                                <p>Khaw e Hardesty (2009) hanno adattato il Modello Transteorico di Prochaska per il processo di uscita dalle relazioni abusive:</p>
+
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">1</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">PRECONTEMPLAZIONE</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">L'abuso non è percepito come problema</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">2</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">CONTEMPLAZIONE</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">Si inizia a definire l'abuso come problema</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">3</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">PREPARAZIONE</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">Pianificazione attiva della separazione</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">4</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">AZIONE</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">Messa in sicurezza e separazione fisica</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker">5</div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-title">MANTENIMENTO</div>
+                                            <p style="margin: 0.5rem 0 0; font-size: 13px;">Almeno 6 mesi di separazione</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 1.5rem;">Tuttavia, Khaw e Hardesty (2014), in uno studio qualitativo su 25 madri, hanno trovato che il processo di uscita è <strong>sistemico, fluido e non lineare</strong> — la maggior parte delle madri oscillava tra presenza e assenza fisica/psicologica attraverso multiple separazioni.</p>
 
                                 <p>Un dato critico: Schrager et al. (2013) hanno trovato che lo stadio di cambiamento al momento dell'arruolamento <strong>non era significativamente associato</strong> all'azione protettiva al follow-up tra 154 vittime di IPV, sfidando la predittività lineare del modello. Il processo di uscita deve essere compreso nel framework di Tolmie et al. (2023) sull'intrappolamento sociale e sistemico, dove la coercizione individuale è aggravata da disuguaglianze strutturali e barriere istituzionali.</p>
 
@@ -1084,7 +1675,7 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <p>La tecnica del grey rock — diventare emotivamente non reattivi per privare il narcisista delle reazioni emotive che cerca — <strong>non ha alcuna base nella letteratura peer-reviewed</strong>. Nessuna ricerca pubblicata ne ha valutato l'efficacia, se riduca l'abuso o come influenzi il comportamento degli abusanti. Tuttavia, è teoricamente fondata nei principi dell'estinzione operante (rimuovere il rinforzo dovrebbe diminuire il comportamento rinforzato) e nella teoria della fornitura narcisistica. I rischi includono la possibilità di <strong>escalation</strong> del comportamento abusivo quando il narcisista cerca di ristabilire il controllo, e gli effetti psicologici negativi della soppressione emotiva a lungo termine. È raccomandata come strategia a breve termine e <strong>non è indicata</strong> in situazioni di rischio per la sicurezza fisica.</p>
+                                <p>La tecnica del grey rock — diventare emotivamente non reattivi per privare il narcisista delle reazioni emotive che cerca — <strong>non ha alcuna base nella letteratura peer-reviewed</strong>. Nessuna ricerca pubblicata ne ha valutato l'efficacia, se riduca l'abuso o come influenzi il comportamento degli abusanti. Tuttavia, è teoricamente fondata nei principi dell'estinzione operante (rimuovere il rinforzo dovrebbe diminuire il comportamento rinforzato) e nella teoria della fornitura narcistica. I rischi includono la possibilità di <strong>escalation</strong> del comportamento abusivo quando il narcisista cerca di ristabilire il controllo, e gli effetti psicologici negativi della soppressione emotiva a lungo termine. È raccomandata come strategia a breve termine e <strong>non è indicata</strong> in situazioni di rischio per la sicurezza fisica.</p>
 
                                 <span class="evidence-tag evidence-limited">LIMITATA</span>
                             </div>
@@ -1133,7 +1724,7 @@
                     <h3>Un panorama di evidenze robuste ma con lacune significative</h3>
                     <p>Questa revisione rivela un campo in rapida evoluzione dove alcune aree hanno un solido fondamento empirico e altre richiedono urgentemente ricerca rigorosa. Il legame traumatico (Dutton & Painter), la neuroscienza dell'amore romantico come addizione (Fisher et al.), il DARVO (Harsey & Freyd) e gli effetti dell'ostracismo (Williams) dispongono di basi empiriche forti. Gli strumenti di screening per il narcisismo patologico (PNI, FFNI) sono psicometricamente solidi ma strutturalmente limitati dalla natura self-report.</p>
 
-                    <p>Le lacune più significative riguardano: l'assenza di studi di neuroimaging diretti sul legame traumatico in vittime di IPV; la mancanza di RCT per qualsiasi approccio terapeutico specificamente rivolto a sopravvissute di abuso narcisistico; l'assenza di evidenza peer-reviewed per la tecnica del grey rock e per il confronto no-contact vs. low-contact; e la carenza di studi longitudinali prospettici che seguano i partner di individui con NPD dall'inizio della relazione alla separazione.</p>
+                    <p>Le lacune più significative riguardano: l'assenza di studi di neuroimaging diretti sul legame traumatico in vittime di IPV; la mancanza di RCT per qualsiasi approccio terapeutico specificamente rivolto a sopravvissute di abuso narcisistico; l'assenza di evidenza peer-reviewed per la tecnica del grey rock e per il confronto no-contact vs. low-contact; e la carenza di studi longitudinali prospettivi che seguano i partner di individui con NPD dall'inizio della relazione alla separazione.</p>
 
                     <p><strong>Il messaggio clinico fondamentale è inequivocabile</strong>: il partner di un narcisista patologico non è complice della propria sofferenza. È vittima di un sistema di controllo coercitivo che sfrutta meccanismi neurobiologici evoluzionisticamente conservati, vulnerabilità dell'attaccamento spesso radicate nell'infanzia, e narrative culturali che normalizzano il sacrificio di sé. La via d'uscita richiede non solo consapevolezza intellettuale — che da sola produce il "paradosso della paralisi informata" — ma un percorso terapeutico strutturato che integri stabilizzazione emotiva, elaborazione traumatica e ricostruzione dell'identità, idealmente combinando approcci evidence-based come EMDR, Schema Therapy e competenze DBT in un framework personalizzato e fase-sensibile. La comprensione di questi meccanismi non è un lusso accademico: è lo strumento che permette al clinico di accompagnare la sopravvissuta dal legame traumatico alla libertà psicologica, e alla sopravvissuta di riconoscere che la difficoltà di lasciare non è un difetto di carattere ma la firma neurobiologica di un sistema di abuso sofisticato e deliberato.</p>
                 </div>
