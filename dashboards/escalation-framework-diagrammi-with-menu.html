@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framework Multi-Asse — Diagrammi | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+    <style>
+        /* =============================================
+           ESCALATION DIAGRAMS — SCOPED STYLES
+           ============================================= */
+
+        /* Custom vars for diagram accents (scoped) */
+        .esc-dashboard {
+            --esc-accent1: #6c5ce7;
+            --esc-accent1-light: #a29bfe;
+            --esc-accent2: #00cec9;
+            --esc-accent2-light: #55efc4;
+            --esc-accent3: #fd79a8;
+            --esc-accent3-light: #fab1c8;
+            --esc-warning: #fdcb6e;
+            --esc-danger: #e17055;
+            --esc-surface: #1a1d27;
+            --esc-surface2: #242836;
+            --esc-border: #2e3348;
+            --esc-text: #e8eaf0;
+            --esc-text-dim: #9498ab;
+        }
+
+        /* ---- Diagram Container ---- */
+        .esc-diagram {
+            background: var(--esc-surface);
+            border: 1px solid var(--esc-border);
+            border-radius: 16px;
+            padding: 40px;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .esc-diagram-badge {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--esc-accent2);
+            opacity: 0.7;
+        }
+
+        .esc-diagram-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--esc-text);
+        }
+
+        .esc-diagram-subtitle {
+            font-size: 14px;
+            color: var(--esc-text-dim);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        /* ---- DIAGRAM 1: Three-Axis Overview ---- */
+        .esc-axes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .esc-axis-column {
+            background: var(--esc-surface2);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--esc-border);
+        }
+
+        .esc-axis-header {
+            padding: 14px 18px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .esc-axis-header .esc-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .esc-axis1 .esc-axis-header { background: linear-gradient(135deg, #6c5ce7 0%, #4834d4 100%); color: #fff; }
+        .esc-axis1 .esc-icon { background: rgba(255,255,255,0.2); }
+        .esc-axis2 .esc-axis-header { background: linear-gradient(135deg, #00cec9 0%, #00b894 100%); color: #0f1117; }
+        .esc-axis2 .esc-icon { background: rgba(0,0,0,0.15); }
+        .esc-axis3 .esc-axis-header { background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%); color: #fff; }
+        .esc-axis3 .esc-icon { background: rgba(255,255,255,0.2); }
+
+        .esc-level-list { padding: 10px 0; }
+
+        .esc-level-item {
+            padding: 9px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border-bottom: 1px solid rgba(46,51,72,0.5);
+            transition: background 0.2s;
+        }
+        .esc-level-item:last-child { border-bottom: none; }
+        .esc-level-item:hover { background: rgba(255,255,255,0.02); }
+
+        .esc-level-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .esc-axis1 .esc-level-num { background: rgba(108,92,231,0.2); color: var(--esc-accent1-light); }
+        .esc-axis2 .esc-level-num { background: rgba(0,206,201,0.2); color: var(--esc-accent2-light); }
+        .esc-axis3 .esc-level-num { background: rgba(253,121,168,0.2); color: var(--esc-accent3-light); }
+
+        .esc-level-text {
+            font-size: 12.5px;
+            color: var(--esc-text-dim);
+            line-height: 1.5;
+        }
+        .esc-level-text strong {
+            color: var(--esc-text);
+            font-weight: 600;
+            display: block;
+            font-size: 13px;
+            margin-bottom: 1px;
+        }
+
+        .esc-clinical-note {
+            margin-top: 20px;
+            padding: 14px 18px;
+            background: rgba(108,92,231,0.08);
+            border-left: 3px solid var(--esc-accent1);
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: var(--esc-text-dim);
+            line-height: 1.6;
+        }
+        .esc-clinical-note em {
+            color: var(--esc-accent1-light);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* ---- DIAGRAM 2: Theoretical Foundations ---- */
+        .esc-theory-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .esc-theory-row {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .esc-theory-card {
+            flex: 1;
+            background: var(--esc-surface2);
+            border: 1px solid var(--esc-border);
+            border-radius: 12px;
+            padding: 18px 20px;
+        }
+
+        .esc-theory-card-tag {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .esc-theory-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--esc-text);
+        }
+
+        .esc-theory-card p {
+            font-size: 12.5px;
+            color: var(--esc-text-dim);
+            line-height: 1.55;
+            margin-bottom: 0;
+        }
+
+        .esc-theory-card .esc-ref {
+            font-size: 11px;
+            color: var(--esc-text-dim);
+            opacity: 0.6;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .esc-flow-arrow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 2px 0;
+        }
+
+        .esc-flow-arrow {
+            font-size: 22px;
+            color: var(--esc-accent2);
+            opacity: 0.6;
+        }
+
+        .esc-flow-arrow-label {
+            font-size: 11px;
+            color: var(--esc-accent2);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .esc-convergence-box {
+            background: linear-gradient(135deg, rgba(108,92,231,0.15), rgba(0,206,201,0.15));
+            border: 2px solid rgba(108,92,231,0.4);
+            border-radius: 12px;
+            padding: 22px 26px;
+            text-align: center;
+        }
+
+        .esc-convergence-box h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--esc-text);
+            margin-bottom: 6px;
+        }
+
+        .esc-convergence-box p {
+            font-size: 13px;
+            color: var(--esc-text-dim);
+            margin-bottom: 0;
+        }
+
+        /* ---- DIAGRAM 3: Radar Charts ---- */
+        .esc-radar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+        }
+
+        .esc-radar-card {
+            background: var(--esc-surface2);
+            border: 1px solid var(--esc-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .esc-radar-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .esc-radar-card .esc-age {
+            font-size: 12px;
+            color: var(--esc-text-dim);
+            margin-bottom: 12px;
+        }
+
+        .esc-radar-card canvas {
+            max-width: 260px;
+            margin: 0 auto;
+        }
+
+        .esc-radar-card .esc-profile-desc {
+            font-size: 12px;
+            color: var(--esc-text-dim);
+            margin-top: 14px;
+            line-height: 1.5;
+            text-align: left;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        .esc-radar-card .esc-profile-desc strong { color: var(--esc-text); }
+
+        /* ---- DIAGRAM 4: Habituation Cycle ---- */
+        .esc-cycle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin: 16px 0;
+        }
+
+        .esc-cycle-svg-wrap { flex-shrink: 0; }
+
+        .esc-cycle-phases {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-width: 440px;
+        }
+
+        .esc-cycle-phase {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: var(--esc-surface2);
+            border: 1px solid var(--esc-border);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+
+        .esc-cycle-phase-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .esc-cycle-phase h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .esc-cycle-phase p {
+            font-size: 12px;
+            color: var(--esc-text-dim);
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        /* ---- DIAGRAM 5: Axis Interactions ---- */
+        .esc-interaction-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .esc-interaction-nodes {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            position: relative;
+        }
+
+        .esc-interaction-node {
+            width: 190px;
+            padding: 22px 18px;
+            border-radius: 14px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .esc-interaction-node h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .esc-interaction-node p {
+            font-size: 11.5px;
+            opacity: 0.8;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+
+        .esc-node-fin {
+            background: linear-gradient(135deg, #6c5ce7 0%, #4834d4 100%);
+            color: #fff;
+            border: 2px solid var(--esc-accent1-light);
+        }
+
+        .esc-node-rel {
+            background: linear-gradient(135deg, #00cec9 0%, #00b894 100%);
+            color: #0f1117;
+            border: 2px solid var(--esc-accent2-light);
+        }
+
+        .esc-node-cont {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: #fff;
+            border: 2px solid var(--esc-accent3-light);
+        }
+
+        .esc-amplification-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .esc-amp-card {
+            background: var(--esc-surface2);
+            border: 1px solid var(--esc-border);
+            border-radius: 10px;
+            padding: 16px 18px;
+            font-size: 12.5px;
+            color: var(--esc-text-dim);
+            line-height: 1.5;
+        }
+
+        .esc-amp-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .esc-amp-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* ---- DIAGRAM 6: Assessment Integration ---- */
+        .esc-assess-flow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .esc-assess-card {
+            background: var(--esc-surface2);
+            border: 1px solid var(--esc-border);
+            border-radius: 12px;
+            padding: 20px 22px;
+        }
+
+        .esc-assess-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .esc-assess-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .esc-assess-card li {
+            font-size: 12.5px;
+            color: var(--esc-text-dim);
+            padding: 5px 0;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .esc-assess-card li::before {
+            content: '\203A';
+            position: absolute;
+            left: 0;
+            color: var(--esc-accent2);
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1.2;
+        }
+
+        .esc-assess-full {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.1));
+            border: 1px dashed rgba(108,92,231,0.4);
+            border-radius: 12px;
+        }
+
+        .esc-assess-step {
+            background: var(--esc-surface2);
+            border: 1px solid var(--esc-border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .esc-assess-step h5 {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--esc-accent2);
+            margin-bottom: 4px;
+        }
+
+        .esc-assess-step p {
+            font-size: 11.5px;
+            color: var(--esc-text-dim);
+            margin-bottom: 0;
+        }
+
+        .esc-step-arrow {
+            font-size: 20px;
+            color: var(--esc-accent2);
+            opacity: 0.5;
+            flex-shrink: 0;
+        }
+
+        .esc-footer-ref {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 11px;
+            color: var(--esc-text-dim);
+            opacity: 0.5;
+        }
+
+        .esc-warning-box {
+            background: rgba(253,203,110,0.08);
+            border: 1px solid rgba(253,203,110,0.3);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 12px;
+            color: var(--esc-warning);
+            line-height: 1.5;
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 1024px) {
+            .esc-axes-grid,
+            .esc-radar-grid,
+            .esc-amplification-cards {
+                grid-template-columns: 1fr;
+            }
+            .esc-theory-row {
+                flex-direction: column;
+            }
+            .esc-cycle-container {
+                flex-direction: column;
+            }
+            .esc-assess-flow {
+                grid-template-columns: 1fr;
+            }
+            .esc-interaction-nodes {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+            .esc-assess-full {
+                flex-direction: column;
+            }
+            .esc-step-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .esc-diagram {
+                padding: 24px 16px;
+            }
+            .esc-diagram-title {
+                font-size: 20px;
+            }
+            body {
+                padding-top: 200px !important;
+            }
+            .sidebar {
+                top: 120px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .esc-cycle-svg-wrap svg {
+                width: 280px;
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Diagrammi</div>
+                <a href="#overview" class="sidebar-link active" data-target="overview">Framework Multi-Asse</a>
+                <a href="#teoria" class="sidebar-link" data-target="teoria">Architettura Teorica</a>
+                <a href="#profili" class="sidebar-link" data-target="profili">Profili Clinici</a>
+                <a href="#ciclo" class="sidebar-link" data-target="ciclo">Ciclo Habituation</a>
+                <a href="#interazioni" class="sidebar-link" data-target="interazioni">Effetto Amplificatore</a>
+                <a href="#assessment" class="sidebar-link" data-target="assessment">Protocollo Assessment</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Info</div>
+                <a href="#riferimenti" class="sidebar-link" data-target="riferimenti">Riferimenti</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="esc-dashboard">
+
+            <!-- SECTION 1: Three-Axis Overview -->
+            <section id="overview" class="section active">
+                <div class="esc-diagram">
+                    <div class="esc-diagram-badge">Framework Originale</div>
+                    <div class="esc-diagram-title">Framework Multi-Asse dell'Escalation</div>
+                    <div class="esc-diagram-subtitle">Tre dimensioni indipendenti della progressione nel consumo di pornografia digitale</div>
+
+                    <div class="esc-axes-grid">
+                        <!-- ASSE 1 -->
+                        <div class="esc-axis-column esc-axis1">
+                            <div class="esc-axis-header">
+                                <div class="esc-icon">&#128176;</div>
+                                Asse 1 — Investimento Finanziario
+                            </div>
+                            <div class="esc-level-list">
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">0</div>
+                                    <div class="esc-level-text"><strong>Consumo gratuito passivo</strong>Tube sites, nessuna registrazione, massimo anonimato</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">1</div>
+                                    <div class="esc-level-text"><strong>Registrazione account gratuiti</strong>Cessione parziale di anonimato, identità digitale</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">2</div>
+                                    <div class="esc-level-text"><strong>Primo abbonamento</strong>Barriera psicologica del "pagare", transazione tracciabile</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">3</div>
+                                    <div class="esc-level-text"><strong>Abbonamenti multipli</strong>Spesa ricorrente, pattern di occultamento finanziario</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">4</div>
+                                    <div class="esc-level-text"><strong>Contenuti personalizzati</strong>Custom content, sessioni live, messaggistica premium</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">5</div>
+                                    <div class="esc-level-text"><strong>Spesa con impatto funzionale</strong>Debiti, conflitti finanziari, menzogne sul denaro</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ASSE 2 -->
+                        <div class="esc-axis-column esc-axis2">
+                            <div class="esc-axis-header">
+                                <div class="esc-icon">&#128279;</div>
+                                Asse 2 — Coinvolgimento Relazionale
+                            </div>
+                            <div class="esc-level-list">
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">0</div>
+                                    <div class="esc-level-text"><strong>Visione passiva anonima</strong>Spettatore puro, performer interscambiabili</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">1</div>
+                                    <div class="esc-level-text"><strong>Engagement di community</strong>Commenti, forum, subreddit — nessun legame con performer</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">2</div>
+                                    <div class="esc-level-text"><strong>Following di creator specifici</strong>Preferenze stabili, conoscenza della "persona" online</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">3</div>
+                                    <div class="esc-level-text"><strong>Interazione diretta asimmetrica</strong>Messaggistica a pagamento, richieste specifiche</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">4</div>
+                                    <div class="esc-level-text"><strong>Relazione parasociale strutturata</strong>"Girlfriend experience", gelosia, investimento emotivo</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">5</div>
+                                    <div class="esc-level-text"><strong>Sostituto relazionale</strong>Organizzazione della vita emotiva intorno alla relazione</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ASSE 3 -->
+                        <div class="esc-axis-column esc-axis3">
+                            <div class="esc-axis-header">
+                                <div class="esc-icon">&#128200;</div>
+                                Asse 3 — Escalation di Contenuto
+                            </div>
+                            <div class="esc-level-list">
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">0</div>
+                                    <div class="esc-level-text"><strong>Consumo mainstream congruente</strong>Categorie comuni, coerenti con preferenze pre-esistenti</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">1</div>
+                                    <div class="esc-level-text"><strong>Diversificazione esplorativa</strong>Curiosità senza distress — variabilità normale</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">2</div>
+                                    <div class="esc-level-text"><strong>Escalation novelty-driven</strong>Diminuzione dell'arousal, ricerca di "qualcosa in più"</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">3</div>
+                                    <div class="esc-level-text"><strong>Consumo dissonante</strong>Conflitto con valori personali, incongruenza morale</div>
+                                </div>
+                                <div class="esc-level-item">
+                                    <div class="esc-level-num">4</div>
+                                    <div class="esc-level-text"><strong>Escalation compulsiva</strong>La ricerca supera il consumo come fonte di gratificazione</div>
+                                </div>
+                                <div class="esc-level-item" style="visibility:hidden;">
+                                    <div class="esc-level-num">—</div>
+                                    <div class="esc-level-text"><strong>&nbsp;</strong>&nbsp;</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="esc-clinical-note">
+                        <em>Nota clinica:</em> Gli assi sono potenzialmente indipendenti — un individuo può trovarsi a livelli diversi su ciascuno. La combinazione specifica produce un profilo composito con implicazioni terapeutiche differenziate. La progressione non è né lineare né inevitabile.
+                    </div>
+
+                    <div class="esc-footer-ref">Ferrero, I. (2026) — Framework Multi-Asse dell'Escalation nel Consumo di Pornografia Digitale</div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Theoretical Foundations -->
+            <section id="teoria" class="section">
+                <div class="esc-diagram">
+                    <div class="esc-diagram-badge">Fondamenti Teorici</div>
+                    <div class="esc-diagram-title">Architettura Teorica del Framework</div>
+                    <div class="esc-diagram-subtitle">Dai modelli consolidati al framework multi-asse: come si integrano le basi teoriche</div>
+
+                    <div class="esc-theory-flow">
+                        <!-- Row 1: Foundational Models -->
+                        <div class="esc-theory-row">
+                            <div class="esc-theory-card" style="border-left: 3px solid var(--esc-accent1);">
+                                <div class="esc-theory-card-tag" style="color: var(--esc-accent1-light);">Condizioni Ambientali</div>
+                                <h3>Triple-A / Penta-A Engine</h3>
+                                <p>Accessibilità, Affordability, Anonimato + Accettabilità, Aloneness. L'escalation modifica questi fattori: pagare riduce l'Affordability, registrarsi riduce l'Anonimato.</p>
+                                <div class="esc-ref">Cooper et al. (1998); Barak & Fisher (2005)</div>
+                            </div>
+                            <div class="esc-theory-card" style="border-left: 3px solid var(--esc-accent2);">
+                                <div class="esc-theory-card-tag" style="color: var(--esc-accent2-light);">Processo Addittivo</div>
+                                <h3>Modello I-PACE</h3>
+                                <p>Coinvolgimento iniziale → Uso abituale → Dipendenza compulsiva. Cicli ripetuti di rinforzo su tutti gli assi. Meccanismi precoci (incentive) vs tardivi (habit).</p>
+                                <div class="esc-ref">Brand et al. (2016, 2019, 2025)</div>
+                            </div>
+                        </div>
+
+                        <div class="esc-flow-arrow-row">
+                            <span class="esc-flow-arrow">⬇</span>
+                            <span class="esc-flow-arrow-label">alimentano i meccanismi motore</span>
+                            <span class="esc-flow-arrow">⬇</span>
+                        </div>
+
+                        <!-- Row 2: Mechanisms -->
+                        <div class="esc-theory-row">
+                            <div class="esc-theory-card" style="border-left: 3px solid var(--esc-accent3);">
+                                <div class="esc-theory-card-tag" style="color: var(--esc-accent3-light);">Meccanismo Motore</div>
+                                <h3>Ciclo Habituation → Novelty-Seeking</h3>
+                                <p>Escapismo → Novelty-seeking → Habituation → Riavvio del ciclo. Opera su tutti e tre gli assi. La ricerca diventa più gratificante del consumo stesso.</p>
+                                <div class="esc-ref">Knack, Holmes & Fedoroff (2020)</div>
+                            </div>
+                            <div class="esc-theory-card" style="border-left: 3px solid var(--esc-warning);">
+                                <div class="esc-theory-card-tag" style="color: var(--esc-warning);">Dimensione Relazionale</div>
+                                <h3>Relazioni Parasociali</h3>
+                                <p>Illusione di intimità reciproca con creator. Le piattaforme subscription-based amplificano sistematicamente queste dinamiche. "Compro una relazione, non pornografia."</p>
+                                <div class="esc-ref">Horton & Wohl (1956); Tran et al. (2019)</div>
+                            </div>
+                            <div class="esc-theory-card" style="border-left: 3px solid var(--esc-danger);">
+                                <div class="esc-theory-card-tag" style="color: var(--esc-danger);">Dimensione Economica</div>
+                                <h3>Behavioral Economics della Domanda</h3>
+                                <p>Domanda elastica (controllo) vs inelastica (compulsione). Il passaggio alla spesa è un marker clinico: la maggioranza degli utenti non paga mai.</p>
+                                <div class="esc-ref">Hursh & Silberberg (2008); Mulhauser et al.</div>
+                            </div>
+                        </div>
+
+                        <div class="esc-flow-arrow-row">
+                            <span class="esc-flow-arrow">⬇</span>
+                            <span class="esc-flow-arrow-label">convergono nel</span>
+                            <span class="esc-flow-arrow">⬇</span>
+                        </div>
+
+                        <!-- Convergence -->
+                        <div class="esc-convergence-box">
+                            <h3>Framework Multi-Asse dell'Escalation</h3>
+                            <p>Asse 1 (Finanziario) × Asse 2 (Relazionale) × Asse 3 (Contenuto) — Profili compositi per assessment e formulazione del caso</p>
+                        </div>
+                    </div>
+
+                    <div class="esc-footer-ref">Ferrero, I. (2026) — Framework Multi-Asse dell'Escalation nel Consumo di Pornografia Digitale</div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: Clinical Profiles Radar -->
+            <section id="profili" class="section">
+                <div class="esc-diagram">
+                    <div class="esc-diagram-badge">Profili Clinici</div>
+                    <div class="esc-diagram-title">Pattern di Escalation per Profilo Target</div>
+                    <div class="esc-diagram-subtitle">Distribuzione tipica sui tre assi — ogni profilo ha un pattern di escalation dominante diverso</div>
+
+                    <div class="esc-radar-grid">
+                        <div class="esc-radar-card">
+                            <h3 style="color: var(--esc-accent1-light);">Giovane Iperconnesso</h3>
+                            <div class="esc-age">25–35 anni</div>
+                            <canvas id="radar1" width="260" height="260"></canvas>
+                            <div class="esc-profile-desc">
+                                <strong>Asse dominante: Contenuto.</strong>
+                                Escalation avanzata su Asse 3, moderata su Asse 1 (reddito limitato), variabile su Asse 2. Problematica primaria: desensibilizzazione, PIED.
+                            </div>
+                        </div>
+
+                        <div class="esc-radar-card">
+                            <h3 style="color: var(--esc-accent2-light);">Professionista Infedele</h3>
+                            <div class="esc-age">35–50 anni</div>
+                            <canvas id="radar2" width="260" height="260"></canvas>
+                            <div class="esc-profile-desc">
+                                <strong>Assi dominanti: Finanziario + Relazionale.</strong>
+                                Escalation avanzata su Asse 1 e 2, moderata su Asse 3 (stabilizzato su nicchie). Problematica primaria: doppia vita, crisi di coppia.
+                            </div>
+                        </div>
+
+                        <div class="esc-radar-card">
+                            <h3 style="color: var(--esc-accent3-light);">Maturo Disorientato</h3>
+                            <div class="esc-age">50–65 anni</div>
+                            <canvas id="radar3" width="260" height="260"></canvas>
+                            <div class="esc-profile-desc">
+                                <strong>Asse vulnerabile: Relazionale.</strong>
+                                Livelli intermedi su tutti gli assi, ma alta vulnerabilità su Asse 2 (isolamento → sostituto relazionale). Problematica primaria: solitudine.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="esc-clinical-note">
+                        <em>Nota:</em> I pattern rappresentano tendenze tipiche, non categorie rigide. Ogni paziente presenta una configurazione unica. L'assessment deve mappare la posizione specifica sui tre assi per orientare la formulazione del caso.
+                    </div>
+
+                    <div class="esc-footer-ref">Ferrero, I. (2026) — Framework Multi-Asse dell'Escalation nel Consumo di Pornografia Digitale</div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Habituation Cycle -->
+            <section id="ciclo" class="section">
+                <div class="esc-diagram">
+                    <div class="esc-diagram-badge">Meccanismo Motore</div>
+                    <div class="esc-diagram-title">Il Ciclo Habituation — Novelty-Seeking</div>
+                    <div class="esc-diagram-subtitle">Il meccanismo che alimenta l'escalation su tutti e tre gli assi (Knack, Holmes & Fedoroff, 2020)</div>
+
+                    <div class="esc-cycle-container">
+                        <!-- Circular SVG -->
+                        <div class="esc-cycle-svg-wrap">
+                            <svg width="380" height="380" viewBox="0 0 380 380">
+                                <circle cx="190" cy="190" r="160" fill="none" stroke="#2e3348" stroke-width="2" />
+
+                                <defs>
+                                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#00cec9" />
+                                    </marker>
+                                </defs>
+
+                                <path d="M 190 30 A 160 160 0 0 1 330 260" fill="none" stroke="#6c5ce7" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrowhead)" />
+                                <path d="M 320 275 A 160 160 0 0 1 60 275" fill="none" stroke="#fd79a8" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrowhead)" />
+                                <path d="M 50 260 A 160 160 0 0 1 190 30" fill="none" stroke="#00cec9" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#arrowhead)" />
+
+                                <!-- Nodes -->
+                                <circle cx="190" cy="30" r="42" fill="#242836" stroke="#6c5ce7" stroke-width="2.5" />
+                                <text x="190" y="24" text-anchor="middle" fill="#a29bfe" font-family="Outfit, sans-serif" font-size="11" font-weight="700">ESCAPISMO</text>
+                                <text x="190" y="40" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="9">Regolazione</text>
+                                <text x="190" y="50" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="9">emotiva</text>
+
+                                <circle cx="330" cy="275" r="42" fill="#242836" stroke="#fd79a8" stroke-width="2.5" />
+                                <text x="330" y="268" text-anchor="middle" fill="#fab1c8" font-family="Outfit, sans-serif" font-size="11" font-weight="700">NOVELTY-</text>
+                                <text x="330" y="282" text-anchor="middle" fill="#fab1c8" font-family="Outfit, sans-serif" font-size="11" font-weight="700">SEEKING</text>
+                                <text x="330" y="296" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="9">Esplorazione</text>
+
+                                <circle cx="50" cy="275" r="42" fill="#242836" stroke="#00cec9" stroke-width="2.5" />
+                                <text x="50" y="270" text-anchor="middle" fill="#55efc4" font-family="Outfit, sans-serif" font-size="11" font-weight="700">HABITUATION</text>
+                                <text x="50" y="286" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="9">Riduzione</text>
+                                <text x="50" y="296" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="9">arousal</text>
+
+                                <!-- Center text -->
+                                <text x="190" y="180" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="10" font-weight="600">CICLI RIPETUTI</text>
+                                <text x="190" y="196" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="10">Ogni passaggio</text>
+                                <text x="190" y="210" text-anchor="middle" fill="#9498ab" font-family="Outfit, sans-serif" font-size="10">spinge l'escalation</text>
+
+                                <!-- Axis labels on arcs -->
+                                <text x="285" y="130" text-anchor="middle" fill="#6c5ce7" font-family="Outfit, sans-serif" font-size="9" font-weight="600" transform="rotate(30, 285, 130)">Asse 3: Contenuto</text>
+                                <text x="190" y="345" text-anchor="middle" fill="#fd79a8" font-family="Outfit, sans-serif" font-size="9" font-weight="600">Asse 1: Finanziario</text>
+                                <text x="90" y="130" text-anchor="middle" fill="#00cec9" font-family="Outfit, sans-serif" font-size="9" font-weight="600" transform="rotate(-30, 90, 130)">Asse 2: Relazionale</text>
+                            </svg>
+                        </div>
+
+                        <div class="esc-cycle-phases">
+                            <div class="esc-cycle-phase">
+                                <div class="esc-cycle-phase-num" style="background: rgba(108,92,231,0.2); color: #a29bfe;">1</div>
+                                <div>
+                                    <h4 style="color: #a29bfe;">Escapismo</h4>
+                                    <p>Uso iniziale per regolazione emotiva o gratificazione sessuale. Lo stimolo è nuovo, l'arousal è elevato, il consumo è funzionale al sollievo.</p>
+                                </div>
+                            </div>
+                            <div class="esc-cycle-phase">
+                                <div class="esc-cycle-phase-num" style="background: rgba(253,121,168,0.2); color: #fab1c8;">2</div>
+                                <div>
+                                    <h4 style="color: #fab1c8;">Novelty-Seeking</h4>
+                                    <p>L'arousal ai contenuti precedenti diminuisce. L'utente esplora generi più ampi, piattaforme diverse, interazioni più coinvolgenti. "Ho bisogno di qualcosa in più."</p>
+                                </div>
+                            </div>
+                            <div class="esc-cycle-phase">
+                                <div class="esc-cycle-phase-num" style="background: rgba(0,206,201,0.2); color: #55efc4;">3</div>
+                                <div>
+                                    <h4 style="color: #55efc4;">Habituation</h4>
+                                    <p>Anche i nuovi stimoli perdono efficacia. L'arousal si riduce. Il ciclo si riavvia a un livello più alto. Punto critico: la ricerca diventa più eccitante del consumo.</p>
+                                </div>
+                            </div>
+
+                            <div class="esc-warning-box">
+                                <strong>Punto di svolta clinico:</strong> Quando l'atto della ricerca di nuovi stimoli supera il consumo stesso come fonte primaria di gratificazione — trasformazione qualitativa dell'esperienza motivazionale.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="esc-footer-ref">Ferrero, I. (2026) — Adattato da Knack, Holmes & Fedoroff (2020) e Brand et al. (2019)</div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: Axis Interactions -->
+            <section id="interazioni" class="section">
+                <div class="esc-diagram">
+                    <div class="esc-diagram-badge">Interazioni</div>
+                    <div class="esc-diagram-title">Effetto Amplificatore tra gli Assi</div>
+                    <div class="esc-diagram-subtitle">Gli assi non sono semplicemente indipendenti: possono amplificarsi reciprocamente creando circoli viziosi</div>
+
+                    <div class="esc-interaction-diagram">
+                        <div class="esc-interaction-nodes">
+                            <div class="esc-interaction-node esc-node-fin">
+                                <h4>Asse 1</h4>
+                                <p>Investimento Finanziario</p>
+                            </div>
+                            <div class="esc-interaction-node esc-node-rel">
+                                <h4>Asse 2</h4>
+                                <p>Coinvolgimento Relazionale</p>
+                            </div>
+                            <div class="esc-interaction-node esc-node-cont">
+                                <h4>Asse 3</h4>
+                                <p>Escalation di Contenuto</p>
+                            </div>
+                        </div>
+
+                        <div class="esc-amplification-cards">
+                            <div class="esc-amp-card">
+                                <div class="esc-amp-label"><span class="esc-amp-dot" style="background: #00cec9;"></span><span class="esc-amp-dot" style="background: #6c5ce7;"></span> Relazionale → Finanziario</div>
+                                La relazione parasociale alimenta la spesa: contenuti personalizzati, "mance", messaggistica premium hanno costi crescenti. L'investimento emotivo giustifica l'investimento economico.
+                            </div>
+                            <div class="esc-amp-card">
+                                <div class="esc-amp-label"><span class="esc-amp-dot" style="background: #fd79a8;"></span><span class="esc-amp-dot" style="background: #6c5ce7;"></span> Contenuto → Finanziario</div>
+                                L'escalation di genere spinge verso piattaforme a pagamento quando i contenuti ricercati non sono disponibili gratuitamente. Le nicchie specifiche hanno un mercato premium.
+                            </div>
+                            <div class="esc-amp-card">
+                                <div class="esc-amp-label"><span class="esc-amp-dot" style="background: #6c5ce7;"></span><span class="esc-amp-dot" style="background: #00cec9;"></span> Finanziario → Relazionale</div>
+                                L'effetto <em>sunk cost</em>: la spesa sostenuta rafforza il senso di investimento nella relazione, ostacolando il disengagement. "Ho già speso troppo per mollare."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="esc-clinical-note" style="margin-top: 24px;">
+                        <em>Implicazione terapeutica:</em> Identificare quale asse è il "motore primario" nel caso specifico. Intervenire sull'asse che alimenta gli altri può avere un effetto a cascata — ad esempio, affrontare l'isolamento (Asse 2) in un Maturo Disorientato può ridurre sia la spesa che la ricerca di contenuti.
+                    </div>
+
+                    <div class="esc-footer-ref">Ferrero, I. (2026) — Framework Multi-Asse dell'Escalation nel Consumo di Pornografia Digitale</div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: Assessment Integration -->
+            <section id="assessment" class="section">
+                <div class="esc-diagram">
+                    <div class="esc-diagram-badge">Assessment</div>
+                    <div class="esc-diagram-title">Integrazione nel Protocollo di Assessment</div>
+                    <div class="esc-diagram-subtitle">Come mappare la posizione del paziente sui tre assi durante la valutazione diagnostica</div>
+
+                    <div class="esc-assess-flow">
+                        <div class="esc-assess-card" style="border-top: 3px solid #6c5ce7;">
+                            <h4><span style="color: #a29bfe;">&#128176;</span> Asse 1 — Domande Finanziarie</h4>
+                            <ul>
+                                <li>Presenza/assenza di qualsiasi spesa per contenuti</li>
+                                <li>Tipo di piattaforme utilizzate (gratuite vs subscription)</li>
+                                <li>Ammontare mensile approssimativo</li>
+                                <li>Pattern di occultamento (carte dedicate, conti separati)</li>
+                                <li>Impatto percepito sulle risorse disponibili</li>
+                                <li>Proporzione spesa/reddito come indicatore di gravità</li>
+                            </ul>
+                        </div>
+
+                        <div class="esc-assess-card" style="border-top: 3px solid #00cec9;">
+                            <h4><span style="color: #55efc4;">&#128279;</span> Asse 2 — Domande Relazionali</h4>
+                            <ul>
+                                <li>"Ci sono creator che segui regolarmente?"</li>
+                                <li>"Ti capita di aspettare risposte o aggiornamenti?"</li>
+                                <li>"Come reagiresti se chiudessero il profilo?"</li>
+                                <li>Presenza di gelosia verso altri subscriber</li>
+                                <li>Attribuzione di reciprocità alle interazioni</li>
+                                <li>Impatto sulle relazioni reali (partner, intimità)</li>
+                            </ul>
+                        </div>
+
+                        <div class="esc-assess-card" style="border-top: 3px solid #fd79a8;">
+                            <h4><span style="color: #fab1c8;">&#128200;</span> Asse 3 — Domande sul Contenuto</h4>
+                            <ul>
+                                <li>Evoluzione dei generi consumati nel tempo</li>
+                                <li>Presenza di habituation percepita ("ho bisogno di più")</li>
+                                <li>Consumo dissonante con valori/preferenze dichiarate</li>
+                                <li>La ricerca supera il consumo come gratificazione?</li>
+                                <li>Distress legato al tipo di contenuti visionati</li>
+                                <li>Distinguere habituation da preferenze stabili (no giudizio)</li>
+                            </ul>
+                        </div>
+
+                        <div class="esc-assess-card" style="border-top: 3px solid #fdcb6e;">
+                            <h4><span style="color: #fdcb6e;">&#9889;</span> Vantaggi della Dimensione Finanziaria</h4>
+                            <ul>
+                                <li>Quantificabile oggettivamente (estratti conto, abbonamenti)</li>
+                                <li>Meno soggetta al bias di self-report vs tempo d'uso</li>
+                                <li>Meno carica di vergogna ("quanto spendi?" &lt; "cosa guardi?")</li>
+                                <li>Marker di inelasticità della domanda → gravità</li>
+                            </ul>
+                        </div>
+
+                        <div class="esc-assess-full">
+                            <div class="esc-assess-step">
+                                <h5>1. Mapping</h5>
+                                <p>Posizionare il paziente<br>su ciascun asse (0–5)</p>
+                            </div>
+                            <div class="esc-step-arrow">→</div>
+                            <div class="esc-assess-step">
+                                <h5>2. Profilo Composito</h5>
+                                <p>Identificare il pattern<br>e l'asse dominante</p>
+                            </div>
+                            <div class="esc-step-arrow">→</div>
+                            <div class="esc-assess-step">
+                                <h5>3. Formulazione</h5>
+                                <p>Orientare la scelta delle<br>priorità terapeutiche</p>
+                            </div>
+                            <div class="esc-step-arrow">→</div>
+                            <div class="esc-assess-step">
+                                <h5>4. Intervento Mirato</h5>
+                                <p>CBT (Asse 3), Relazionale (Asse 2),<br>Behavioral Econ (Asse 1)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="esc-footer-ref">Ferrero, I. (2026) — Framework Multi-Asse dell'Escalation nel Consumo di Pornografia Digitale</div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: References -->
+            <section id="riferimenti" class="section">
+                <h2>Riferimenti <span class="text-cyan">Bibliografici</span></h2>
+
+                <div class="subsection">
+                    <div class="bib-section">
+                        <h4>Modelli Fondamentali</h4>
+                        <div class="bib-item">Cooper, A. (1998). Sexuality and the Internet: Surfing into the new millennium. <em>CyberPsychology & Behavior, 1</em>(2), 187–193.</div>
+                        <div class="bib-item">Barak, A., & Fisher, W. A. (2005). Sex and the Internet: An Israeli perspective. <em>Sexual Addiction & Compulsivity, 12</em>(2-3), 127–148.</div>
+                        <div class="bib-item">Brand, M., Young, K. S., Laier, C., Wölfling, K., & Potenza, M. N. (2016). Integrating psychological and neurobiological considerations regarding the development and maintenance of specific Internet-use disorders: An Interaction of Person-Affect-Cognition-Execution (I-PACE) model. <em>Neuroscience & Biobehavioral Reviews, 71</em>, 252–266.</div>
+                        <div class="bib-item">Brand, M., Wegmann, E., Stark, R., Müller, A., Wölfling, K., Robbins, T. W., & Potenza, M. N. (2019). The Interaction of Person-Affect-Cognition-Execution (I-PACE) model for addictive behaviors: Update, generalization, and specification. <em>Neuroscience & Biobehavioral Reviews, 104</em>, 1–10.</div>
+                    </div>
+
+                    <div class="bib-section">
+                        <h4>Meccanismi di Escalation</h4>
+                        <div class="bib-item">Knack, N., Holmes, J. L., & Fedoroff, J. P. (2020). Motivational pathways underlying the onset and maintenance of viewing Internet pornography. <em>International Review of Psychiatry, 32</em>(3), 217–230.</div>
+                        <div class="bib-item">Hursh, S. R., & Silberberg, A. (2008). Economic demand and essential value. <em>Psychological Review, 115</em>(1), 186–198.</div>
+                    </div>
+
+                    <div class="bib-section">
+                        <h4>Relazioni Parasociali</h4>
+                        <div class="bib-item">Horton, D., & Wohl, R. R. (1956). Mass communication and para-social interaction. <em>Psychiatry, 19</em>(3), 215–229.</div>
+                        <div class="bib-item">Tran, A., Suharlim, C., Mattie, H., Davison, K., Agénor, M., & Austin, S. B. (2019). Dating app use and unhealthy weight control behaviors among a sample of US adults. <em>International Journal of Eating Disorders, 52</em>(12), 1378–1386.</div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card mt-4" style="text-align: center;">
+                    <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                        Framework originale: Ferrero, I. (2026)<br>
+                        <a href="/dashboards/">← Torna all'indice dashboard</a>
+                    </p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity Scripts -->
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Radar charts (initialize when section becomes visible)
+        let radarChartsInitialized = false;
+
+        function initRadarCharts() {
+            if (radarChartsInitialized) return;
+            radarChartsInitialized = true;
+
+            Chart.defaults.color = '#9498ab';
+            Chart.defaults.font.family = 'Outfit, sans-serif';
+            Chart.defaults.font.size = 11;
+
+            const radarOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 5,
+                        ticks: {
+                            stepSize: 1,
+                            backdropColor: 'transparent',
+                            color: '#666',
+                            font: { size: 10 }
+                        },
+                        grid: { color: 'rgba(46,51,72,0.6)' },
+                        angleLines: { color: 'rgba(46,51,72,0.6)' },
+                        pointLabels: {
+                            font: { size: 12, weight: '600' },
+                            color: '#9498ab'
+                        }
+                    }
+                }
+            };
+
+            const labels = ['Finanziario', 'Relazionale', 'Contenuto'];
+
+            new Chart(document.getElementById('radar1'), {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: [2, 2, 4],
+                        backgroundColor: 'rgba(108,92,231,0.2)',
+                        borderColor: '#a29bfe',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: '#a29bfe',
+                        pointBorderColor: '#a29bfe',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: radarOptions
+            });
+
+            new Chart(document.getElementById('radar2'), {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: [4, 4, 2.5],
+                        backgroundColor: 'rgba(0,206,201,0.2)',
+                        borderColor: '#55efc4',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: '#55efc4',
+                        pointBorderColor: '#55efc4',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: radarOptions
+            });
+
+            new Chart(document.getElementById('radar3'), {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: [2.5, 3.5, 2],
+                        backgroundColor: 'rgba(253,121,168,0.2)',
+                        borderColor: '#fab1c8',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: '#fab1c8',
+                        pointBorderColor: '#fab1c8',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: radarOptions
+            });
+        }
+
+        // Observe section activation for lazy chart init
+        const observer = new MutationObserver(() => {
+            const profiliSection = document.getElementById('profili');
+            if (profiliSection && profiliSection.classList.contains('active')) {
+                setTimeout(initRadarCharts, 100);
+            }
+        });
+
+        sections.forEach(s => observer.observe(s, { attributes: true, attributeFilter: ['class'] }));
+    </script>
+</body>
+</html>
