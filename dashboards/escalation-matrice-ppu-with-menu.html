@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrice di Escalation PPU | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* ========== PAGE-SPECIFIC STYLES ========== */
+
+        /* Level indicator dots */
+        .level-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        .level-0 { background: var(--accent-green); box-shadow: 0 0 8px #3fb95060; }
+        .level-1 { background: #7ecf6a; box-shadow: 0 0 8px #7ecf6a60; }
+        .level-2 { background: var(--accent-yellow); box-shadow: 0 0 8px #d2992260; }
+        .level-3 { background: var(--accent-orange); box-shadow: 0 0 8px #db6d2860; }
+        .level-4 { background: var(--accent-red); box-shadow: 0 0 8px #f8514960; }
+        .level-5 { background: #ff2040; box-shadow: 0 0 8px #ff204060; }
+
+        /* Axis cards */
+        .axis-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .axis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            border-radius: 8px 0 0 8px;
+        }
+        .axis-card.axis-1::before { background: var(--accent-cyan); }
+        .axis-card.axis-2::before { background: var(--accent-purple); }
+        .axis-card.axis-3::before { background: var(--accent-orange); }
+
+        .axis-card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+        .axis-card .axis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .axis-card .axis-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .axis-card .axis-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        .axis-card .axis-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .axis-card.expanded .axis-body {
+            max-height: 5000px;
+        }
+        .axis-card .expand-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        .axis-card.expanded .expand-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Level blocks inside axis cards */
+        .level-block {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+        .level-block:hover {
+            border-color: var(--border-accent);
+        }
+        .level-block-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .level-block-header h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .level-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .level-number.ln-0 { background: #3fb95020; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .level-number.ln-1 { background: #7ecf6a20; color: #7ecf6a; border: 1px solid #7ecf6a; }
+        .level-number.ln-2 { background: #d2992220; color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+        .level-number.ln-3 { background: #db6d2820; color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+        .level-number.ln-4 { background: #f8514920; color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .level-number.ln-5 { background: #ff204020; color: #ff2040; border: 1px solid #ff2040; }
+
+        .level-block p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+        .level-block .keyword {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Matrix table view */
+        .matrix-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem;
+        }
+        .matrix-table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.88rem;
+        }
+        .matrix-table th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .matrix-table th:first-child {
+            width: 60px;
+            text-align: center;
+        }
+        .matrix-table th.axis-1-col { border-bottom-color: var(--accent-cyan); }
+        .matrix-table th.axis-2-col { border-bottom-color: var(--accent-purple); }
+        .matrix-table th.axis-3-col { border-bottom-color: var(--accent-orange); }
+
+        .matrix-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+            background: var(--bg-card);
+            transition: background 0.2s ease;
+        }
+        .matrix-table tr:hover td {
+            background: var(--bg-hover);
+        }
+        .matrix-table td:first-child {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+        .matrix-table td .cell-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+        .matrix-table td .cell-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .matrix-table td.empty-cell {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            font-style: italic;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* View toggle */
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .view-btn {
+            padding: 0.5rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .view-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-cyan);
+        }
+        .view-btn.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+            border-color: var(--accent-cyan);
+        }
+
+        /* Level filter */
+        .level-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .level-filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.4rem 0.9rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+        .level-filter-btn:hover {
+            border-color: var(--text-muted);
+        }
+        .level-filter-btn.active {
+            background: var(--bg-hover);
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+        }
+
+        /* Severity meter */
+        .severity-meter {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            margin-top: 1rem;
+        }
+        .severity-bar {
+            height: 6px;
+            flex: 1;
+            border-radius: 3px;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        .severity-bar.filled {
+            opacity: 1;
+        }
+
+        /* Intro hero */
+        .hero-intro {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .hero-intro h1 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .hero-intro p {
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        /* Axis icon badges */
+        .axis-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .axis-badge.ab-1 { background: #00d9ff15; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .axis-badge.ab-2 { background: #a371f715; color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+        .axis-badge.ab-3 { background: #db6d2815; color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+
+        /* Stat cards row */
+        .axis-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .axis-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .axis-stat::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+        }
+        .axis-stat.as-1::after { background: var(--accent-cyan); }
+        .axis-stat.as-2::after { background: var(--accent-purple); }
+        .axis-stat.as-3::after { background: var(--accent-orange); }
+        .axis-stat .stat-value {
+            font-size: 1.5rem;
+        }
+
+        /* Note/disclaimer box */
+        .note-box {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-yellow);
+            border-radius: 0 6px 6px 0;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .note-box strong {
+            color: var(--accent-yellow);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            body { padding-top: 200px !important; }
+            main { padding-top: 180px !important; }
+            .axis-stats { grid-template-columns: 1fr; }
+            .hero-intro { padding: 1.25rem; }
+            .hero-intro h1 { font-size: 1.5rem; }
+            .level-filter { gap: 0.35rem; }
+            .view-toggle { flex-wrap: wrap; }
+        }
+        @media (max-width: 640px) {
+            .matrix-table { min-width: 600px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Main Container -->
+    <div class="main-container single-column" style="padding-top: 6rem;">
+        <main>
+
+            <!-- HERO INTRO -->
+            <div class="hero-intro">
+                <h1>Matrice di Escalation nel <span class="text-cyan">Problematic Pornography Use</span></h1>
+                <p>Framework Multi-Asse dell'Escalation — Matrice di progressione che mappa i livelli di coinvolgimento attraverso tre assi indipendenti: investimento finanziario, coinvolgimento relazionale e escalation di contenuto. Ogni asse rappresenta una dimensione distinta del Problematic Pornography Use (PPU), con livelli da 0 (baseline normativo) fino al massimo coinvolgimento clinico.</p>
+            </div>
+
+            <!-- STAT CARDS -->
+            <div class="axis-stats">
+                <div class="axis-stat as-1">
+                    <div class="stat-value" style="color: var(--accent-cyan);">6</div>
+                    <div class="stat-label">Livelli Asse 1</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Investimento Finanziario</div>
+                </div>
+                <div class="axis-stat as-2">
+                    <div class="stat-value" style="color: var(--accent-purple);">6</div>
+                    <div class="stat-label">Livelli Asse 2</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Coinvolgimento Relazionale</div>
+                </div>
+                <div class="axis-stat as-3">
+                    <div class="stat-value" style="color: var(--accent-orange);">5</div>
+                    <div class="stat-label">Livelli Asse 3</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Escalation di Contenuto</div>
+                </div>
+            </div>
+
+            <!-- VIEW TOGGLE -->
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div class="view-toggle" style="margin-bottom: 0;">
+                    <button class="view-btn active" data-view="cards" onclick="switchView('cards')">Per Asse</button>
+                    <button class="view-btn" data-view="table" onclick="switchView('table')">Tabella Comparativa</button>
+                    <button class="view-btn" data-view="level" onclick="switchView('level')">Per Livello</button>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- VIEW 1: CARDS PER ASSE                       -->
+            <!-- ============================================ -->
+            <div id="view-cards" class="view-content">
+
+                <!-- ASSE 1 -->
+                <div class="axis-card axis-1 expanded" onclick="toggleAxis(this)">
+                    <div class="axis-header">
+                        <div>
+                            <div class="axis-title">
+                                <span class="axis-badge ab-1">ASSE 1</span>
+                                Investimento Finanziario
+                            </div>
+                            <div class="axis-subtitle">Dal consumo gratuito alla spesa con conseguenze funzionali — 6 livelli (0-5)</div>
+                        </div>
+                        <span class="expand-arrow">▼</span>
+                    </div>
+                    <div class="axis-body">
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-0">0</span>
+                                <h4>Consumo gratuito passivo</h4>
+                            </div>
+                            <p>Tube sites, zero costi, pieno anonimato. <span class="keyword">Triple-A intatto</span> (Accessibility, Affordability, Anonymity). Popolazione generale.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-1">1</span>
+                                <h4>Registrazione con account gratuiti</h4>
+                            </div>
+                            <p>Costo zero ma <span class="keyword">cessione di anonimato</span> (email, dati). Identità digitale collegata al consumo.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-2">2</span>
+                                <h4>Primo abbonamento o acquisto</h4>
+                            </div>
+                            <p>Barriera "<span class="keyword">pagare per pornografia</span>" superata. Transazione tracciabile, inelasticità della domanda. <span class="keyword">Salto qualitativo</span>.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-3">3</span>
+                                <h4>Abbonamenti multipli o spesa ricorrente</h4>
+                            </div>
+                            <p>Spesa come voce di bilancio. Pattern di <span class="keyword">occultamento finanziario</span> (conti separati, prepagate).</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-4">4</span>
+                                <h4>Contenuti personalizzati e interazioni a pagamento</h4>
+                            </div>
+                            <p>Custom video/foto, sessioni live, mance. Spesa per generare <span class="keyword">contenuto esclusivo</span>. <span class="keyword">Attivazione parasociale</span>.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-5">5</span>
+                                <h4>Spesa con conseguenze funzionali</h4>
+                            </div>
+                            <p>Debiti, conflitti finanziari, menzogne. <span class="keyword">Criterio di gravità clinica</span> analogo al gambling disorder.</p>
+                        </div>
+                        <div class="severity-meter">
+                            <div class="severity-bar filled" style="background: var(--accent-green);"></div>
+                            <div class="severity-bar filled" style="background: #7ecf6a;"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-yellow);"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-orange);"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-red);"></div>
+                            <div class="severity-bar filled" style="background: #ff2040;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ASSE 2 -->
+                <div class="axis-card axis-2" onclick="toggleAxis(this)">
+                    <div class="axis-header">
+                        <div>
+                            <div class="axis-title">
+                                <span class="axis-badge ab-2">ASSE 2</span>
+                                Coinvolgimento Relazionale
+                            </div>
+                            <div class="axis-subtitle">Dalla visione anonima alla sostituzione relazionale — 6 livelli (0-5)</div>
+                        </div>
+                        <span class="expand-arrow">▼</span>
+                    </div>
+                    <div class="axis-body">
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-0">0</span>
+                                <h4>Visione passiva anonima</h4>
+                            </div>
+                            <p><span class="keyword">Spettatore puro</span>. Performer interscambiabile. Nessuna interazione.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-1">1</span>
+                                <h4>Engagement di community</h4>
+                            </div>
+                            <p>Commenti, forum, subreddit. Parte di una <span class="keyword">comunità di consumo</span>, non relazione con performer.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-2">2</span>
+                                <h4>Following di creator specifici</h4>
+                            </div>
+                            <p>Preferenze stabili, conoscenza della "storia" del creator. <span class="keyword">Dinamica parasociale di base</span>.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-3">3</span>
+                                <h4>Interazione diretta asimmetrica</h4>
+                            </div>
+                            <p>Messaggistica a pagamento, richieste specifiche. <span class="keyword">Percepita come personale ma standardizzata</span>.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-4">4</span>
+                                <h4>Relazione parasociale strutturata</h4>
+                            </div>
+                            <p><span class="keyword">GFE digitale</span>, comunicazioni regolari, contenuti ad personam. Gelosia, possessività, <span class="keyword">ansia abbandono</span>.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-5">5</span>
+                                <h4>Relazione parasociale come sostituto relazionale</h4>
+                            </div>
+                            <p>Organizzazione della vita emotiva intorno alla relazione. <span class="keyword">Sostituzione funzionale dell'intimità reale</span>.</p>
+                        </div>
+                        <div class="severity-meter">
+                            <div class="severity-bar filled" style="background: var(--accent-green);"></div>
+                            <div class="severity-bar filled" style="background: #7ecf6a;"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-yellow);"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-orange);"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-red);"></div>
+                            <div class="severity-bar filled" style="background: #ff2040;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ASSE 3 -->
+                <div class="axis-card axis-3" onclick="toggleAxis(this)">
+                    <div class="axis-header">
+                        <div>
+                            <div class="axis-title">
+                                <span class="axis-badge ab-3">ASSE 3</span>
+                                Escalation di Contenuto
+                            </div>
+                            <div class="axis-subtitle">Dal consumo mainstream alla compulsione con distress — 5 livelli (0-4)</div>
+                        </div>
+                        <span class="expand-arrow">▼</span>
+                    </div>
+                    <div class="axis-body">
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-0">0</span>
+                                <h4>Consumo mainstream congruente</h4>
+                            </div>
+                            <p>Contenuti allineati a <span class="keyword">preferenze pre-esistenti</span>. Categorie comuni.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-1">1</span>
+                                <h4>Diversificazione esplorativa</h4>
+                            </div>
+                            <p>Curiosità, esplorazione categorie diverse. <span class="keyword">Variabilità normale</span>, nessun distress.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-2">2</span>
+                                <h4>Escalation novelty-driven</h4>
+                            </div>
+                            <p>Diminuzione arousal, ricerca di categorie più niche/intense/tabù. <span class="keyword">Ciclo habituation attivo</span>.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-3">3</span>
+                                <h4>Consumo dissonante</h4>
+                            </div>
+                            <p>Conflitto con valori/identità. <span class="keyword">Modello incongruenza morale</span> (Grubbs). Distress dalla discrepanza.</p>
+                        </div>
+                        <div class="level-block">
+                            <div class="level-block-header">
+                                <span class="level-number ln-4">4</span>
+                                <h4>Escalation compulsiva con distress</h4>
+                            </div>
+                            <p>Ricerca > consumo come gratificazione. Shift da <span class="keyword">incentive-driven a habit-driven</span> (I-PACE). Riconoscimento ma non controllo.</p>
+                        </div>
+                        <div class="note-box">
+                            <strong>Nota:</strong> L'Asse 3 si arresta al livello 4. Non è previsto un livello 5 nel framework: l'escalation di contenuto raggiunge il suo massimo con il pattern compulsivo habit-driven descritto nel modello I-PACE.
+                        </div>
+                        <div class="severity-meter">
+                            <div class="severity-bar filled" style="background: var(--accent-green);"></div>
+                            <div class="severity-bar filled" style="background: #7ecf6a;"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-yellow);"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-orange);"></div>
+                            <div class="severity-bar filled" style="background: var(--accent-red);"></div>
+                            <div class="severity-bar" style="background: var(--text-muted);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- VIEW 2: TABELLA COMPARATIVA                  -->
+            <!-- ============================================ -->
+            <div id="view-table" class="view-content" style="display: none;">
+                <div class="matrix-table-wrapper">
+                    <table class="matrix-table">
+                        <thead>
+                            <tr>
+                                <th>Lv.</th>
+                                <th class="axis-1-col"><span class="axis-badge ab-1" style="font-size: 0.7rem;">ASSE 1</span> Investimento Finanziario</th>
+                                <th class="axis-2-col"><span class="axis-badge ab-2" style="font-size: 0.7rem;">ASSE 2</span> Coinvolgimento Relazionale</th>
+                                <th class="axis-3-col"><span class="axis-badge ab-3" style="font-size: 0.7rem;">ASSE 3</span> Escalation di Contenuto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="level-dot level-0"></span>0</td>
+                                <td>
+                                    <span class="cell-title">Consumo gratuito passivo</span>
+                                    <span class="cell-desc">Tube sites, zero costi, pieno anonimato. Triple-A intatto. Popolazione generale.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Visione passiva anonima</span>
+                                    <span class="cell-desc">Spettatore puro. Performer interscambiabile. Nessuna interazione.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Consumo mainstream congruente</span>
+                                    <span class="cell-desc">Contenuti allineati a preferenze pre-esistenti. Categorie comuni.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-dot level-1"></span>1</td>
+                                <td>
+                                    <span class="cell-title">Registrazione con account gratuiti</span>
+                                    <span class="cell-desc">Costo zero ma cessione di anonimato (email, dati). Identità digitale collegata al consumo.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Engagement di community</span>
+                                    <span class="cell-desc">Commenti, forum, subreddit. Parte di una comunità di consumo, non relazione con performer.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Diversificazione esplorativa</span>
+                                    <span class="cell-desc">Curiosità, esplorazione categorie diverse. Variabilità normale, nessun distress.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-dot level-2"></span>2</td>
+                                <td>
+                                    <span class="cell-title">Primo abbonamento o acquisto</span>
+                                    <span class="cell-desc">Barriera "pagare per pornografia" superata. Transazione tracciabile, inelasticità della domanda. Salto qualitativo.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Following di creator specifici</span>
+                                    <span class="cell-desc">Preferenze stabili, conoscenza della "storia" del creator. Dinamica parasociale di base.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Escalation novelty-driven</span>
+                                    <span class="cell-desc">Diminuzione arousal, ricerca di categorie più niche/intense/tabù. Ciclo habituation attivo.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-dot level-3"></span>3</td>
+                                <td>
+                                    <span class="cell-title">Abbonamenti multipli o spesa ricorrente</span>
+                                    <span class="cell-desc">Spesa come voce di bilancio. Pattern di occultamento finanziario (conti separati, prepagate).</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Interazione diretta asimmetrica</span>
+                                    <span class="cell-desc">Messaggistica a pagamento, richieste specifiche. Percepita come personale ma standardizzata.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Consumo dissonante</span>
+                                    <span class="cell-desc">Conflitto con valori/identità. Modello incongruenza morale (Grubbs). Distress dalla discrepanza.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-dot level-4"></span>4</td>
+                                <td>
+                                    <span class="cell-title">Contenuti personalizzati e interazioni a pagamento</span>
+                                    <span class="cell-desc">Custom video/foto, sessioni live, mance. Spesa per generare contenuto esclusivo. Attivazione parasociale.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Relazione parasociale strutturata</span>
+                                    <span class="cell-desc">GFE digitale, comunicazioni regolari, contenuti ad personam. Gelosia, possessività, ansia abbandono.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Escalation compulsiva con distress</span>
+                                    <span class="cell-desc">Ricerca > consumo come gratificazione. Shift da incentive-driven a habit-driven (I-PACE). Riconoscimento ma non controllo.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-dot level-5"></span>5</td>
+                                <td>
+                                    <span class="cell-title">Spesa con conseguenze funzionali</span>
+                                    <span class="cell-desc">Debiti, conflitti finanziari, menzogne. Criterio di gravità clinica analogo al gambling disorder.</span>
+                                </td>
+                                <td>
+                                    <span class="cell-title">Relazione parasociale come sostituto relazionale</span>
+                                    <span class="cell-desc">Organizzazione della vita emotiva intorno alla relazione. Sostituzione funzionale dell'intimità reale.</span>
+                                </td>
+                                <td class="empty-cell">
+                                    Non previsto nel framework<br><span style="font-size: 0.78rem;">(Asse 3 si arresta al livello 4)</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- VIEW 3: PER LIVELLO                          -->
+            <!-- ============================================ -->
+            <div id="view-level" class="view-content" style="display: none;">
+
+                <!-- Level filter -->
+                <div class="level-filter">
+                    <button class="level-filter-btn active" data-level="all" onclick="filterLevel('all')">
+                        Tutti
+                    </button>
+                    <button class="level-filter-btn" data-level="0" onclick="filterLevel('0')">
+                        <span class="level-dot level-0" style="width:10px;height:10px;margin:0;"></span> Lv 0
+                    </button>
+                    <button class="level-filter-btn" data-level="1" onclick="filterLevel('1')">
+                        <span class="level-dot level-1" style="width:10px;height:10px;margin:0;"></span> Lv 1
+                    </button>
+                    <button class="level-filter-btn" data-level="2" onclick="filterLevel('2')">
+                        <span class="level-dot level-2" style="width:10px;height:10px;margin:0;"></span> Lv 2
+                    </button>
+                    <button class="level-filter-btn" data-level="3" onclick="filterLevel('3')">
+                        <span class="level-dot level-3" style="width:10px;height:10px;margin:0;"></span> Lv 3
+                    </button>
+                    <button class="level-filter-btn" data-level="4" onclick="filterLevel('4')">
+                        <span class="level-dot level-4" style="width:10px;height:10px;margin:0;"></span> Lv 4
+                    </button>
+                    <button class="level-filter-btn" data-level="5" onclick="filterLevel('5')">
+                        <span class="level-dot level-5" style="width:10px;height:10px;margin:0;"></span> Lv 5
+                    </button>
+                </div>
+
+                <!-- Level 0 -->
+                <div class="level-group" data-level-group="0">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="level-dot level-0"></span> Livello 0 — Baseline Normativo
+                    </h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                            <span class="axis-badge ab-1" style="margin-bottom: 0.75rem;">ASSE 1</span>
+                            <h4 style="margin-top: 0.5rem;">Consumo gratuito passivo</h4>
+                            <p>Tube sites, zero costi, pieno anonimato. Triple-A intatto. Popolazione generale.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-purple);">
+                            <span class="axis-badge ab-2" style="margin-bottom: 0.75rem;">ASSE 2</span>
+                            <h4 style="margin-top: 0.5rem;">Visione passiva anonima</h4>
+                            <p>Spettatore puro. Performer interscambiabile. Nessuna interazione.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-orange);">
+                            <span class="axis-badge ab-3" style="margin-bottom: 0.75rem;">ASSE 3</span>
+                            <h4 style="margin-top: 0.5rem;">Consumo mainstream congruente</h4>
+                            <p>Contenuti allineati a preferenze pre-esistenti. Categorie comuni.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 1 -->
+                <div class="level-group" data-level-group="1">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="level-dot level-1"></span> Livello 1 — Prima Identificazione
+                    </h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                            <span class="axis-badge ab-1" style="margin-bottom: 0.75rem;">ASSE 1</span>
+                            <h4 style="margin-top: 0.5rem;">Registrazione con account gratuiti</h4>
+                            <p>Costo zero ma cessione di anonimato (email, dati). Identità digitale collegata al consumo.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-purple);">
+                            <span class="axis-badge ab-2" style="margin-bottom: 0.75rem;">ASSE 2</span>
+                            <h4 style="margin-top: 0.5rem;">Engagement di community</h4>
+                            <p>Commenti, forum, subreddit. Parte di una comunità di consumo, non relazione con performer.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-orange);">
+                            <span class="axis-badge ab-3" style="margin-bottom: 0.75rem;">ASSE 3</span>
+                            <h4 style="margin-top: 0.5rem;">Diversificazione esplorativa</h4>
+                            <p>Curiosità, esplorazione categorie diverse. Variabilità normale, nessun distress.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 2 -->
+                <div class="level-group" data-level-group="2">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="level-dot level-2"></span> Livello 2 — Salto Qualitativo
+                    </h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                            <span class="axis-badge ab-1" style="margin-bottom: 0.75rem;">ASSE 1</span>
+                            <h4 style="margin-top: 0.5rem;">Primo abbonamento o acquisto</h4>
+                            <p>Barriera "pagare per pornografia" superata. Transazione tracciabile, inelasticità della domanda. Salto qualitativo.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-purple);">
+                            <span class="axis-badge ab-2" style="margin-bottom: 0.75rem;">ASSE 2</span>
+                            <h4 style="margin-top: 0.5rem;">Following di creator specifici</h4>
+                            <p>Preferenze stabili, conoscenza della "storia" del creator. Dinamica parasociale di base.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-orange);">
+                            <span class="axis-badge ab-3" style="margin-bottom: 0.75rem;">ASSE 3</span>
+                            <h4 style="margin-top: 0.5rem;">Escalation novelty-driven</h4>
+                            <p>Diminuzione arousal, ricerca di categorie più niche/intense/tabù. Ciclo habituation attivo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 3 -->
+                <div class="level-group" data-level-group="3">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="level-dot level-3"></span> Livello 3 — Coinvolgimento Strutturato
+                    </h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                            <span class="axis-badge ab-1" style="margin-bottom: 0.75rem;">ASSE 1</span>
+                            <h4 style="margin-top: 0.5rem;">Abbonamenti multipli o spesa ricorrente</h4>
+                            <p>Spesa come voce di bilancio. Pattern di occultamento finanziario (conti separati, prepagate).</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-purple);">
+                            <span class="axis-badge ab-2" style="margin-bottom: 0.75rem;">ASSE 2</span>
+                            <h4 style="margin-top: 0.5rem;">Interazione diretta asimmetrica</h4>
+                            <p>Messaggistica a pagamento, richieste specifiche. Percepita come personale ma standardizzata.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-orange);">
+                            <span class="axis-badge ab-3" style="margin-bottom: 0.75rem;">ASSE 3</span>
+                            <h4 style="margin-top: 0.5rem;">Consumo dissonante</h4>
+                            <p>Conflitto con valori/identità. Modello incongruenza morale (Grubbs). Distress dalla discrepanza.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 4 -->
+                <div class="level-group" data-level-group="4">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="level-dot level-4"></span> Livello 4 — Gravità Clinica
+                    </h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                            <span class="axis-badge ab-1" style="margin-bottom: 0.75rem;">ASSE 1</span>
+                            <h4 style="margin-top: 0.5rem;">Contenuti personalizzati e interazioni a pagamento</h4>
+                            <p>Custom video/foto, sessioni live, mance. Spesa per generare contenuto esclusivo. Attivazione parasociale.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-purple);">
+                            <span class="axis-badge ab-2" style="margin-bottom: 0.75rem;">ASSE 2</span>
+                            <h4 style="margin-top: 0.5rem;">Relazione parasociale strutturata</h4>
+                            <p>GFE digitale, comunicazioni regolari, contenuti ad personam. Gelosia, possessività, ansia abbandono.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-orange);">
+                            <span class="axis-badge ab-3" style="margin-bottom: 0.75rem;">ASSE 3</span>
+                            <h4 style="margin-top: 0.5rem;">Escalation compulsiva con distress</h4>
+                            <p>Ricerca > consumo come gratificazione. Shift da incentive-driven a habit-driven (I-PACE). Riconoscimento ma non controllo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 5 -->
+                <div class="level-group" data-level-group="5">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="level-dot level-5"></span> Livello 5 — Massima Gravità
+                    </h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+                            <span class="axis-badge ab-1" style="margin-bottom: 0.75rem;">ASSE 1</span>
+                            <h4 style="margin-top: 0.5rem;">Spesa con conseguenze funzionali</h4>
+                            <p>Debiti, conflitti finanziari, menzogne. Criterio di gravità clinica analogo al gambling disorder.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--accent-purple);">
+                            <span class="axis-badge ab-2" style="margin-bottom: 0.75rem;">ASSE 2</span>
+                            <h4 style="margin-top: 0.5rem;">Relazione parasociale come sostituto relazionale</h4>
+                            <p>Organizzazione della vita emotiva intorno alla relazione. Sostituzione funzionale dell'intimità reale.</p>
+                        </div>
+                        <div class="card" style="border-top: 3px solid var(--text-muted); opacity: 0.6;">
+                            <span class="axis-badge ab-3" style="margin-bottom: 0.75rem; opacity: 0.5;">ASSE 3</span>
+                            <h4 style="margin-top: 0.5rem; color: var(--text-muted);">Non previsto nel framework</h4>
+                            <p style="color: var(--text-muted);">L'Asse 3 si arresta al livello 4.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Framework Multi-Asse dell'Escalation nel PPU — Risorsa creata da Ivan Ferrero, 2026<br>
+                    <a href="/dashboards/">← Torna all'indice dashboard</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity -->
+    <script>
+        // Toggle axis card expansion
+        function toggleAxis(card) {
+            card.classList.toggle('expanded');
+        }
+
+        // Switch between views
+        function switchView(view) {
+            document.querySelectorAll('.view-content').forEach(v => v.style.display = 'none');
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById('view-' + view).style.display = 'block';
+            document.querySelector(`.view-btn[data-view="${view}"]`).classList.add('active');
+        }
+
+        // Filter by level
+        function filterLevel(level) {
+            document.querySelectorAll('.level-filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.level-filter-btn[data-level="${level}"]`).classList.add('active');
+
+            document.querySelectorAll('.level-group').forEach(group => {
+                if (level === 'all' || group.dataset.levelGroup === level) {
+                    group.style.display = 'block';
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
