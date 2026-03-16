@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA per Studenti Neurodiversi nella VET — Best Practice OECD | Ivan Ferrero</title>
+    <meta name="description" content="68 best practice dall'OECD (2026) su IA e tecnologie a supporto di studenti neurodiversi nella formazione professionale. Dashboard interattiva.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* === DIAGRAM STYLES === */
+        .diagram-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+        .diagram-container svg { display: block; margin: 0 auto; }
+
+        /* === PRACTICE CARD === */
+        .practice-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        .practice-card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-glow); }
+        .practice-card .p-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding: 1.25rem 1.5rem; cursor: pointer; gap: 1rem;
+        }
+        .practice-card .p-header h4 { margin: 0; font-size: 1rem; color: var(--text-primary); flex: 1; }
+        .practice-card .p-header .p-meta { display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0; }
+        .practice-card .p-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
+            padding: 0 1.5rem;
+        }
+        .practice-card.expanded .p-body { max-height: 1000px; padding-bottom: 1.25rem; }
+        .practice-card .p-body p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75; }
+        .practice-card .expand-icon {
+            color: var(--accent-cyan); font-size: 1.2rem; transition: transform 0.2s ease;
+            font-family: var(--font-mono); user-select: none;
+        }
+        .practice-card.expanded .expand-icon { transform: rotate(45deg); }
+        .practice-card .p-num {
+            font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);
+            background: var(--bg-secondary); padding: 0.15rem 0.5rem; border-radius: 4px;
+        }
+
+        /* === HERO BANNER === */
+        .hero-banner {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-banner::after {
+            content: ''; position: absolute; top: -50%; right: -10%;
+            width: 300px; height: 300px; border-radius: 50%;
+            background: radial-gradient(circle, #00d9ff08 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-banner h1 { font-size: 2.2rem; margin-bottom: 0.75rem; }
+        .hero-banner .source-ref {
+            font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;
+            border-top: 1px solid var(--border-color); padding-top: 0.75rem;
+        }
+        .hero-banner .source-ref a { color: var(--accent-cyan); }
+
+        /* === FLOW DIAGRAM === */
+        .flow-row {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; flex-wrap: wrap; margin: 1.5rem 0;
+        }
+        .flow-node {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 0.75rem 1.25rem; text-align: center;
+            min-width: 120px; transition: all 0.2s ease;
+        }
+        .flow-node:hover { border-color: var(--accent-cyan); box-shadow: var(--shadow-glow); }
+        .flow-node .flow-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .flow-node .flow-label { font-size: 0.8rem; color: var(--text-secondary); }
+        .flow-arrow { color: var(--accent-cyan); font-size: 1.2rem; font-family: var(--font-mono); }
+
+        /* === SECTION COUNTER === */
+        .section-counter {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: var(--font-mono); font-size: 0.8rem;
+            color: var(--accent-cyan); margin-bottom: 0.5rem;
+        }
+        .section-counter .count-badge {
+            background: var(--accent-cyan-dim); color: var(--accent-cyan);
+            padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600;
+        }
+
+        /* === RISK METER === */
+        .risk-meter {
+            display: flex; gap: 0.25rem; margin: 0.5rem 0;
+        }
+        .risk-bar {
+            height: 6px; border-radius: 3px; flex: 1;
+            background: var(--bg-hover); transition: background 0.3s;
+        }
+        .risk-bar.active-red { background: var(--accent-red); }
+        .risk-bar.active-yellow { background: var(--accent-yellow); }
+        .risk-bar.active-green { background: var(--accent-green); }
+
+        /* === EXPAND ALL BUTTON === */
+        .expand-all-btn {
+            background: transparent; border: 1px solid var(--border-color);
+            color: var(--text-secondary); padding: 0.4rem 0.8rem;
+            border-radius: 6px; font-family: var(--font-display);
+            font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+            float: right;
+        }
+        .expand-all-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+        /* === FILTER BAR === */
+        .filter-bar {
+            display: flex; gap: 0.5rem; flex-wrap: wrap;
+            margin-bottom: 1.5rem; padding: 1rem;
+            background: var(--bg-secondary); border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .filter-btn {
+            padding: 0.35rem 0.75rem; background: transparent;
+            border: 1px solid var(--border-color); color: var(--text-secondary);
+            font-family: var(--font-display); font-size: 0.8rem;
+            cursor: pointer; border-radius: 4px; transition: all 0.2s;
+        }
+        .filter-btn:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
+        .filter-btn.active { background: var(--accent-cyan-dim); color: var(--accent-cyan); border-color: var(--accent-cyan); }
+
+        /* === MOBILE === */
+        @media (max-width: 1024px) {
+            .sidebar { padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+        }
+        @media (max-width: 768px) {
+            .hero-banner { padding: 1.5rem; }
+            .hero-banner h1 { font-size: 1.6rem; }
+            .flow-row { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+            .filter-bar { gap: 0.35rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-menu"></div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a href="#panoramica" class="sidebar-link active" data-target="panoramica">Panoramica</a>
+                <a href="#ia-personalizzazione" class="sidebar-link" data-target="ia-personalizzazione">IA & Personalizzazione</a>
+                <a href="#xr-immersiva" class="sidebar-link" data-target="xr-immersiva">XR Immersiva</a>
+                <a href="#accessibilita" class="sidebar-link" data-target="accessibilita">Accessibilità</a>
+                <a href="#funzioni-esecutive" class="sidebar-link" data-target="funzioni-esecutive">Funzioni Esecutive</a>
+                <a href="#comunicazione-robotica" class="sidebar-link" data-target="comunicazione-robotica">Comunicazione & Robotica</a>
+                <a href="#sistemi-vet" class="sidebar-link" data-target="sistemi-vet">Sistemi VET & Transizione</a>
+                <a href="#governance-etica" class="sidebar-link" data-target="governance-etica">Governance & Rischi</a>
+                <a href="#formazione-ecosistema" class="sidebar-link" data-target="formazione-ecosistema">Formazione & Ecosistema</a>
+                <a href="#glossario" class="sidebar-link" data-target="glossario">Glossario</a>
+                <a href="#riferimenti" class="sidebar-link" data-target="riferimenti">Riferimenti</a>
+            </div>
+        </aside>
+
+        <main>
+            <!-- ===================== PANORAMICA ===================== -->
+            <section id="panoramica" class="section active">
+                <div class="hero-banner">
+                    <div class="mb-2">
+                        <span class="tag tag-cyan">OECD 2026</span>
+                        <span class="tag tag-green">Educazione Inclusiva</span>
+                        <span class="tag tag-purple">Intelligenza Artificiale</span>
+                    </div>
+                    <h1>IA per Studenti <span class="text-cyan">Neurodiversi</span> nella VET</h1>
+                    <p style="color: var(--text-secondary); max-width: 700px;">
+                        68 best practice estratte dal rapporto OECD su come IA, XR e tecnologie assistive possano supportare studenti con ASD, ADHD e disturbi dell'apprendimento nella formazione professionale — dall'aula al posto di lavoro.
+                    </p>
+                    <div class="source-ref">
+                        Fonte: OECD (2026), <em>AI to Support Neurodivergent Learners in Vocational Education and Training</em>, OECD Publishing, Paris.
+                        <a href="https://doi.org/10.1787/718d7522-en" target="_blank" rel="noopener">doi.org/10.1787/718d7522-en</a>
+                    </div>
+                </div>
+
+                <!-- Stat grid -->
+                <div class="stat-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+                    <div class="stat-card">
+                        <div class="stat-value">68</div>
+                        <div class="stat-label">Best Practice</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">11</div>
+                        <div class="stat-label">Macroaree</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Interviste</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Capitoli analizzati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">43</div>
+                        <div class="stat-label">Esplicite</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">25</div>
+                        <div class="stat-label">Inferite</div>
+                    </div>
+                </div>
+
+                <!-- Mappa concettuale - flow diagram -->
+                <div class="subsection mt-3">
+                    <h3>Architettura delle Best Practice</h3>
+                    <p class="text-secondary">Il rapporto copre l'intero ciclo: dalla personalizzazione tecnologica all'interno dell'aula VET, fino alla transizione verso il mondo del lavoro, passando per governance etica e formazione degli attori coinvolti.</p>
+
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" style="max-width:860px;width:100%;">
+                            <!-- Layer 1: Tecnologie -->
+                            <text x="450" y="28" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="13" font-weight="600" letter-spacing="0.1em">TECNOLOGIE</text>
+                            <rect x="30" y="40" width="170" height="70" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="1.5"/>
+                            <text x="115" y="68" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="12" font-weight="600">IA & Personalizzazione</text>
+                            <text x="115" y="88" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">6 practice</text>
+
+                            <rect x="230" y="40" width="170" height="70" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="1.5"/>
+                            <text x="315" y="68" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="12" font-weight="600">XR Immersiva</text>
+                            <text x="315" y="88" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">5 practice</text>
+
+                            <rect x="430" y="40" width="170" height="70" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="1.5"/>
+                            <text x="515" y="68" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Accessibilità</text>
+                            <text x="515" y="88" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">7 practice</text>
+
+                            <rect x="630" y="40" width="230" height="70" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="1.5"/>
+                            <text x="745" y="68" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Funzioni Esecutive &amp; Benessere</text>
+                            <text x="745" y="88" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">7 practice</text>
+
+                            <!-- Arrows down -->
+                            <line x1="450" y1="110" x2="450" y2="140" stroke="#00d9ff" stroke-width="1" stroke-dasharray="4,3"/>
+                            <polygon points="446,138 450,148 454,138" fill="#00d9ff"/>
+
+                            <!-- Layer 2: Applicazione -->
+                            <text x="450" y="168" text-anchor="middle" fill="#3fb950" font-family="Outfit,sans-serif" font-size="13" font-weight="600" letter-spacing="0.1em">APPLICAZIONE</text>
+                            <rect x="100" y="180" width="230" height="70" rx="8" fill="#1a222d" stroke="#3fb950" stroke-width="1.5"/>
+                            <text x="215" y="208" text-anchor="middle" fill="#3fb950" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Comunicazione &amp; Robotica</text>
+                            <text x="215" y="228" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">4 practice</text>
+
+                            <rect x="370" y="180" width="180" height="70" rx="8" fill="#1a222d" stroke="#3fb950" stroke-width="1.5"/>
+                            <text x="460" y="208" text-anchor="middle" fill="#3fb950" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Sistemi VET Inclusivi</text>
+                            <text x="460" y="228" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">6 practice</text>
+
+                            <rect x="590" y="180" width="180" height="70" rx="8" fill="#1a222d" stroke="#3fb950" stroke-width="1.5"/>
+                            <text x="680" y="208" text-anchor="middle" fill="#3fb950" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Transizione VET→Lavoro</text>
+                            <text x="680" y="228" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">4 practice</text>
+
+                            <!-- Arrows down -->
+                            <line x1="450" y1="250" x2="450" y2="280" stroke="#3fb950" stroke-width="1" stroke-dasharray="4,3"/>
+                            <polygon points="446,278 450,288 454,278" fill="#3fb950"/>
+
+                            <!-- Layer 3: Governance -->
+                            <text x="450" y="308" text-anchor="middle" fill="#d29922" font-family="Outfit,sans-serif" font-size="13" font-weight="600" letter-spacing="0.1em">GOVERNANCE</text>
+                            <rect x="50" y="320" width="230" height="70" rx="8" fill="#1a222d" stroke="#d29922" stroke-width="1.5"/>
+                            <text x="165" y="348" text-anchor="middle" fill="#d29922" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Governance, Etica &amp; Rischi</text>
+                            <text x="165" y="368" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">12 practice</text>
+
+                            <rect x="330" y="320" width="250" height="70" rx="8" fill="#1a222d" stroke="#d29922" stroke-width="1.5"/>
+                            <text x="455" y="348" text-anchor="middle" fill="#d29922" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Formazione Docenti &amp; Innovazione</text>
+                            <text x="455" y="368" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">5 practice</text>
+
+                            <rect x="630" y="320" width="230" height="70" rx="8" fill="#1a222d" stroke="#d29922" stroke-width="1.5"/>
+                            <text x="745" y="342" text-anchor="middle" fill="#d29922" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Governance Strumenti,</text>
+                            <text x="745" y="358" text-anchor="middle" fill="#d29922" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Design &amp; Interoperabilità</text>
+                            <text x="745" y="378" text-anchor="middle" fill="#8b949e" font-family="JetBrains Mono,monospace" font-size="11">12 practice</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Target population diagram -->
+                <div class="subsection">
+                    <h3>Popolazioni Target</h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                        <div class="card" style="border-left: 3px solid var(--accent-cyan);">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">ASD</h4>
+                            <p style="font-size: 0.9rem;">Disturbo dello Spettro Autistico — difficoltà socio-comunicative, preferenza per routine, sovraccarico sensoriale.</p>
+                        </div>
+                        <div class="card" style="border-left: 3px solid var(--accent-green);">
+                            <h4 style="color: var(--accent-green); margin-bottom: 0.5rem;">ADHD</h4>
+                            <p style="font-size: 0.9rem;">Deficit di Attenzione e Iperattività — difficoltà di concentrazione, funzioni esecutive, gestione del tempo.</p>
+                        </div>
+                        <div class="card" style="border-left: 3px solid var(--accent-purple);">
+                            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">DSA</h4>
+                            <p style="font-size: 0.9rem;">Disturbi Specifici dell'Apprendimento — dislessia, discalculia, disgrafia con impatto su lettura, scrittura e calcolo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Method note -->
+                <div class="card" style="border-left: 3px solid var(--accent-yellow);">
+                    <h4 style="color: var(--accent-yellow);">Nota Metodologica</h4>
+                    <p style="font-size: 0.9rem;">Le practice sono classificate come <span class="tag tag-cyan" style="font-size:0.7rem;">Esplicita</span> quando direttamente enunciate nel testo, e <span class="tag tag-yellow" style="font-size:0.7rem;">Inferita</span> quando derivate dalla descrizione di barriere, rischi o casi studio. L'analisi copre i 5 capitoli del rapporto: Introduzione (pp. 8-15), Potenziale dell'IA (pp. 16-28), Barriere (pp. 29-38), Rischi (pp. 39-45), Linee guida politiche (pp. 46-52).</p>
+                </div>
+            </section>
+
+            <!-- ===================== IA & PERSONALIZZAZIONE ===================== -->
+            <section id="ia-personalizzazione" class="section">
+                <div class="section-counter"><span class="count-badge">6</span> best practice in questa sezione</div>
+                <h2>Adattività e <span class="text-cyan">Personalizzazione</span> abilitata dall'IA</h2>
+                <p class="text-secondary">L'IA generativa consente livelli di personalizzazione prima impensabili: adattamento automatico dei contenuti, conversione multi-formato e feedback in tempo reale, trasformando il ruolo del docente da erogatore a facilitatore.</p>
+
+                <!-- Flow: come funziona la personalizzazione IA -->
+                <div class="diagram-container">
+                    <p style="text-align:center; color: var(--text-muted); font-size:0.8rem; margin-bottom:1rem;">CICLO DI PERSONALIZZAZIONE IA</p>
+                    <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" style="max-width:780px;width:100%;">
+                        <rect x="10" y="25" width="140" height="65" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="1.5"/>
+                        <text x="80" y="52" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="11" font-weight="600">Profilo Studente</text>
+                        <text x="80" y="72" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="10">ASD · ADHD · DSA</text>
+
+                        <line x1="150" y1="57" x2="185" y2="57" stroke="#00d9ff" stroke-width="1.5"/>
+                        <polygon points="183,53 193,57 183,61" fill="#00d9ff"/>
+
+                        <rect x="193" y="25" width="140" height="65" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="1.5"/>
+                        <text x="263" y="52" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="11" font-weight="600">IA Generativa</text>
+                        <text x="263" y="72" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="10">Adatta contenuti</text>
+
+                        <line x1="333" y1="57" x2="368" y2="57" stroke="#00d9ff" stroke-width="1.5"/>
+                        <polygon points="366,53 376,57 366,61" fill="#00d9ff"/>
+
+                        <rect x="376" y="25" width="140" height="65" rx="8" fill="#1a222d" stroke="#3fb950" stroke-width="1.5"/>
+                        <text x="446" y="52" text-anchor="middle" fill="#3fb950" font-family="Outfit,sans-serif" font-size="11" font-weight="600">Multi-formato</text>
+                        <text x="446" y="72" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="10">Testo·Audio·Video·Visual</text>
+
+                        <line x1="516" y1="57" x2="551" y2="57" stroke="#3fb950" stroke-width="1.5"/>
+                        <polygon points="549,53 559,57 549,61" fill="#3fb950"/>
+
+                        <rect x="559" y="25" width="140" height="65" rx="8" fill="#1a222d" stroke="#a371f7" stroke-width="1.5"/>
+                        <text x="629" y="52" text-anchor="middle" fill="#a371f7" font-family="Outfit,sans-serif" font-size="11" font-weight="600">Feedback IA</text>
+                        <text x="629" y="72" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="10">Tempestivo · Qualitativo</text>
+
+                        <!-- Loop back arrow -->
+                        <path d="M699,57 Q750,57 750,10 Q750,-15 400,-15 Q80,-15 80,25" stroke="#d29922" stroke-width="1" stroke-dasharray="4,3" fill="none"/>
+                        <polygon points="76,23 80,13 84,23" fill="#d29922"/>
+                        <text x="400" y="-2" text-anchor="middle" fill="#d29922" font-family="Outfit,sans-serif" font-size="9">Ciclo iterativo di adattamento</text>
+                    </svg>
+                </div>
+
+                <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                <div style="clear:both;"></div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">1.1</span></div>
+                        <h4>Adattamento automatico dei contenuti didattici ai diversi profili di apprendimento</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>L'IA generativa consente ai docenti di produrre rapidamente varianti di materiali didattici (esercizi, fogli di lavoro, quiz) calibrate su profili diversi. Il centro di riabilitazione vocazionale <strong>Astangu (Estonia)</strong> usa ChatGPT per adattare esercizi in base alle necessità linguistiche. <strong>Ellen Damianidou (Cipro)</strong> utilizza IA per evitare linguaggio astratto, fornendo esempi concreti e realistici — un livello di personalizzazione che prima dell'aprile 2024 sarebbe stato impraticabile.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">1.2</span></div>
+                        <h4>Trasformazione automatica di contenuti in formati accessibili</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>L'IA può convertire contenuti tra formati (testo → audio → video → visual) in base alle preferenze individuali. Questo è particolarmente potente per contenuti vocazionali pratici come saldatura, idraulica ed elettricità, dove la dimostrazione visiva e uditiva spesso supera il testo scritto.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">1.3</span></div>
+                        <h4>Feedback qualitativo AI-generato tempestivo e regolare</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Bud Systems</strong> (piattaforma di gestione dell'apprendimento UK) sviluppa prodotti che forniscono feedback qualitativo generato dall'IA su elaborati scritti in PDF o Word. La tempestività e regolarità del feedback è un fattore critico per mantenere coinvolti gli studenti VET, specialmente quelli neurodiversi che beneficiano di cicli di feedback più brevi.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">1.4</span></div>
+                        <h4>Percorsi modulari, flessibili e contestualmente rilevanti</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Secondo l'approccio "Design for Neurodiversity" (proposto da <strong>Ultragenius consultancy</strong>), i percorsi formativi devono essere modulari e adattati allo stile di elaborazione individuale — tattile, visuale, uditivo. L'IA abilita questa modularità su scala, trasformando il ruolo dell'insegnante da erogatore di contenuti a facilitatore dell'apprendimento.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">1.5</span></div>
+                        <h4>Supporto continuo tramite dispositivi mobili nel passaggio VET-lavoro</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Thomas Köhler (TU Dresden)</strong> prefigura dispositivi mobili integrati con IA che forniscono istruzioni personalizzate in workshop e ambienti di lavoro, adattandosi ai comportamenti osservati del singolo apprendista. La portabilità è cruciale: molti ruoli VET si svolgono "on-the-feet", non alla scrivania.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">1.6</span></div>
+                        <h4>Podcast generati da materiali didattici</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Google Notebook LM</strong> può generare podcast leggibili a partire da materiali di input forniti dagli insegnanti. Particolarmente utile per studenti con dislessia che hanno difficoltà con la velocità di lettura, offre un canale di apprendimento alternativo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== XR IMMERSIVA ===================== -->
+            <section id="xr-immersiva" class="section">
+                <div class="section-counter"><span class="count-badge">5</span> best practice in questa sezione</div>
+                <h2>Tecnologie <span class="text-cyan">XR</span> per Ambienti Immersivi e Sicuri</h2>
+                <p class="text-secondary">Virtual Reality, Augmented Reality e Mixed Reality creano ambienti dove errori non hanno conseguenze reali — particolarmente prezioso per studenti neurodiversi che beneficiano di pratica ripetuta, gradualità controllata e familiarizzazione preventiva.</p>
+
+                <!-- XR Spectrum diagram -->
+                <div class="diagram-container">
+                    <p style="text-align:center; color: var(--text-muted); font-size:0.8rem; margin-bottom:1rem;">SPETTRO XR: DAL VIRTUALE AL REALE</p>
+                    <svg viewBox="0 0 800 100" xmlns="http://www.w3.org/2000/svg" style="max-width:780px;width:100%;">
+                        <!-- Gradient bar -->
+                        <defs>
+                            <linearGradient id="xrGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#a371f7;stop-opacity:1"/>
+                                <stop offset="50%" style="stop-color:#00d9ff;stop-opacity:1"/>
+                                <stop offset="100%" style="stop-color:#3fb950;stop-opacity:1"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="50" y="45" width="700" height="6" rx="3" fill="url(#xrGrad)" opacity="0.4"/>
+
+                        <circle cx="120" cy="48" r="8" fill="#a371f7"/>
+                        <text x="120" y="28" text-anchor="middle" fill="#a371f7" font-family="Outfit,sans-serif" font-size="12" font-weight="600">VR</text>
+                        <text x="120" y="78" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Ambienti virtuali</text>
+                        <text x="120" y="92" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">immersivi completi</text>
+
+                        <circle cx="350" cy="48" r="8" fill="#00d9ff"/>
+                        <text x="350" y="28" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="12" font-weight="600">MR</text>
+                        <text x="350" y="78" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Mondo reale +</text>
+                        <text x="350" y="92" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">overlay interattivi</text>
+
+                        <circle cx="550" cy="48" r="8" fill="#00d9ff"/>
+                        <text x="550" y="28" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="12" font-weight="600">AR 360°</text>
+                        <text x="550" y="78" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Pre-visite ambienti</text>
+                        <text x="550" y="92" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">con smart glasses</text>
+
+                        <circle cx="700" cy="48" r="8" fill="#3fb950"/>
+                        <text x="700" y="28" text-anchor="middle" fill="#3fb950" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Reale</text>
+                        <text x="700" y="78" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Ambiente lavorativo</text>
+                        <text x="700" y="92" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">fisico</text>
+                    </svg>
+                </div>
+
+                <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                <div style="clear:both;"></div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">2.1</span></div>
+                        <h4>Ambienti virtuali per pratica ripetuta in sicurezza</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>La XR (Virtual Reality, Augmented Reality, Mixed Reality) crea ambienti immersivi e practice-oriented dove errori non hanno conseguenze reali. Esempi: giardini virtuali ricreati con fotografia droni e machine learning per l'orticoltura, simulatori di guida trattori per evitare costi di riparazione reali.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">2.2</span></div>
+                        <h4>Simulatori adattivi con feedback biometrico in tempo reale</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Il simulatore <strong>SANDI</strong> adatta scenari di guida in base alle prestazioni, registrando frequenza cardiaca e sudorazione per catturare lo stato emotivo dell'apprendente. Costruisce fiducia e supporta il percorso verso l'indipendenza, specialmente per chi sperimenta ansia.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">2.3</span></div>
+                        <h4>Filtraggio di distrazioni per studenti ADHD</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Gli ambienti virtuali possono essere semplificati "oscurando" parti del mondo per studenti con difficoltà di concentrazione, poi aumentando gradualmente la complessità. <strong>Kevin Gonyop Kim</strong> descrive ricerche su filtraggio di suoni e informazioni non necessarie tramite XR.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">2.4</span></div>
+                        <h4>Pre-visite e costruzione di familiarità con ambienti 360°</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Piia Jokalainen (Finlandia)</strong> usa ambienti 360° con AR smart glasses per pre-visite di ambienti lavorativi: lo studente prova sequenze di compiti e costruisce un senso di sicurezza prima di entrare fisicamente nel contesto. Applicabile anche a simulazioni di shopping per studenti con ASD che hanno difficoltà sociali.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">2.5</span></div>
+                        <h4>XR Action Plan come politica pubblica</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Il Dipartimento finlandese dell'Educazione ha implementato un <strong>XR Action Plan</strong> per il prestito di attrezzature VR alle istituzioni VET — un modello replicabile di politica pubblica per democratizzare l'accesso.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== ACCESSIBILITÀ ===================== -->
+            <section id="accessibilita" class="section">
+                <div class="section-counter"><span class="count-badge">7</span> best practice in questa sezione</div>
+                <h2>Accessibilità dei Materiali e <span class="text-cyan">dell'Istruzione</span></h2>
+                <p class="text-secondary">Strumenti di accessibilità — dal text-to-speech ai chatbot esplicativi — che trasformano l'esperienza di apprendimento per studenti con dislessia, discalculia e ASD. La chiave: incorporarli di default, non come opzione nascosta.</p>
+
+                <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                <div style="clear:both;"></div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">3.1</span></div>
+                        <h4>Text-to-speech come strumento di impatto profondo</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Christopher Patnoe (Cisco)</strong> definisce il text-to-speech "profoundly impactful". <strong>Clayton Lewis (University of Colorado)</strong> riporta che studenti con dislessia che avevano faticato per anni hanno prosperato dopo l'introduzione del text-to-speech. I recenti miglioramenti in LLM e cloud computing hanno reso questi strumenti significativamente più fluidi e naturali.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">3.2</span></div>
+                        <h4>Speech-to-text per espressione fluida</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Dragon Speech Recognition</strong> e strumenti simili permettono a chi ha difficoltà di scrittura di esprimere idee verbalmente. Strumenti come <strong>Plaud</strong> e <strong>Limitless</strong> combinano live captioning con LLM per riassumere note e generare azioni.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">3.3</span></div>
+                        <h4>Live captioning durante lezioni</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Il captioning in tempo reale fornisce rinforzo visivo del linguaggio parlato, aiutando studenti ADHD e con difficoltà di apprendimento a seguire il discorso. Riduce la necessità di prendere note estensive.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">3.4</span></div>
+                        <h4>Strumenti di lettura assistita combinati</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>ReadWrite</strong> combina voice input con screen filtering. <strong>EyeJustRead</strong> (Lorenzo Desideri) combina eye-tracking, speech recognition e metadati da e-book per insight personalizzati sulle strategie di lettura — pronuncia immediata, feedback sulla pronuncia, ridotta dipendenza dall'istruttore umano.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">3.5</span></div>
+                        <h4>Chatbot IA per spiegazione di concetti astratti</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Christopher Patnoe</strong> riporta che studenti con ASD usano chatbot per farsi spiegare metafore, battute e riferimenti culturali. <strong>Lorenzo Desideri</strong> descrive studenti con dislessia che usano ChatGPT per generare quiz personalizzati per testare la propria comprensione.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">3.6</span></div>
+                        <h4>Strumenti per difficoltà matematiche con visualizzazione</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Il <strong>Luovi Vocational College (Finlandia)</strong> usa schermi di disegno per rendere la matematica più visiva e tattile. <strong>Clayton Lewis</strong> suggerisce software che accetta input scritto a mano, corregge errori e produce output valutabile dagli insegnanti — rendendo la notazione algebrica più naturale.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">3.7</span></div>
+                        <h4>Accessibilità quotidiana incorporata negli strumenti</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Funzioni di accessibilità alimentate dall'IA — sottotitoli in tempo reale, sintesi vocale, controlli di livello di lettura, riscritture in linguaggio semplice, traduzioni istantanee — devono essere incorporate di default negli strumenti didattici, non aggiunte come opzione nascosta.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== FUNZIONI ESECUTIVE ===================== -->
+            <section id="funzioni-esecutive" class="section">
+                <div class="section-counter"><span class="count-badge">7</span> best practice in questa sezione</div>
+                <h2>Supporto alle <span class="text-cyan">Funzioni Esecutive</span> e al Benessere</h2>
+                <p class="text-secondary">Pianificazione, gestione del tempo, avvio di compiti e regolazione emotiva: le aree dove studenti ADHD e neurodiversi incontrano le maggiori difficoltà quotidiane. L'IA offre strumenti per esternalizzare queste funzioni cognitive.</p>
+
+                <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                <div style="clear:both;"></div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">4.1</span></div>
+                        <h4>Strumenti per pianificazione e gestione del tempo</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Goblin Tools</strong> crea to-do list e suddivide compiti in parti gestibili; <strong>Tiimo</strong> supporta la gestione del tempo. <strong>Nwanneka Udeka</strong> sottolinea l'accessibilità di Goblin Tools: nessun login, gratuito, interfaccia semplice, accetta input speech-to-text.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">4.2</span></div>
+                        <h4>Notifiche intelligenti e adattive</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Oltre a semplici alarm su smartwatch e app calendario, <strong>David Banes</strong> suggerisce sistemi IA che adattano notifiche in base ai pattern di comportamento dell'utente e alle routine individuali. Dispositivi come <strong>Ray-Ban Meta glasses</strong> potrebbero fornire reminder incorporati alle più recenti innovazioni IA.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">4.3</span></div>
+                        <h4>Mind-mapping AI-assistito</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Ayoa</strong> genera immagini e mind map da prompt testuali; <strong>MindView</strong> usa IA generativa per semplificare e trasformare input. <strong>Marius Frank (Microlink)</strong> nota che questi strumenti sono utili per tutti gli studenti, non solo i neurodiversi — un esempio naturale di Universal Design.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">4.4</span></div>
+                        <h4>Musica e soundscape adattivi per focus</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Endel</strong> utilizza IA per generare soundscape che si adattano alla frequenza cardiaca e al momento della giornata, regolando i battiti per promuovere calma e concentrazione. Suggerito da <strong>Alisdair Gurling</strong> per studenti con difficoltà di focus.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">4.5</span></div>
+                        <h4>Gestione dello stress con supporto digitale</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Brain In Hand</strong> offre strategie pre-definite accessibili nei momenti di stress ("work, call home, wait for next bus"). <strong>David Banes</strong> prefigura il collegamento a wearables per rilevare indicatori fisiologici di stress e abilitare intervento precoce.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">4.6</span></div>
+                        <h4>Framework PASTA AI per scrittura guidata</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>Il framework <strong>PASTA AI</strong> (Deborah Millar, Hull College) guida studenti con bisogni educativi speciali nell'uso deliberato dei chatbot specificando <strong>P</strong>rofession, <strong>A</strong>udience, <strong>S</strong>tyle, <strong>T</strong>one, <strong>A</strong>ction. Migliora la qualità dell'output e coinvolge lo studente nel processo metacognitivo della scrittura.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">4.7</span></div>
+                        <h4>IA generativa per superare il "blank page syndrome"</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>David Voss</strong> descrive l'uso di IA generativa per fornire template e passi suggeriti a studenti ADHD che lottano con l'avvio della scrittura. La struttura iniziale riduce il sovraccarico cognitivo del "da dove comincio?".</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== COMUNICAZIONE & ROBOTICA ===================== -->
+            <section id="comunicazione-robotica" class="section">
+                <div class="section-counter"><span class="count-badge">4</span> best practice in questa sezione</div>
+                <h2>Comunicazione Sociale e <span class="text-cyan">Robotica</span></h2>
+                <p class="text-secondary">Robot sociali, app AAC e simulatori di interviste: tecnologie che costruiscono competenze comunicative in ambienti controllati, dove l'errore non ha conseguenze sociali reali — ma la supervisione umana resta imprescindibile.</p>
+
+                <!-- Triangolazione diagram -->
+                <div class="diagram-container">
+                    <p style="text-align:center; color: var(--text-muted); font-size:0.8rem; margin-bottom:1rem;">MODELLO DI TRIANGOLAZIONE ROBOT-STUDENTE-ADULTO</p>
+                    <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg" style="max-width:480px;width:100%;">
+                        <!-- Triangle -->
+                        <line x1="250" y1="40" x2="80" y2="230" stroke="#30363d" stroke-width="1.5"/>
+                        <line x1="250" y1="40" x2="420" y2="230" stroke="#30363d" stroke-width="1.5"/>
+                        <line x1="80" y1="230" x2="420" y2="230" stroke="#00d9ff" stroke-width="2"/>
+
+                        <!-- Nodes -->
+                        <circle cx="250" cy="40" r="30" fill="#1a222d" stroke="#a371f7" stroke-width="2"/>
+                        <text x="250" y="36" text-anchor="middle" fill="#a371f7" font-family="Outfit,sans-serif" font-size="10" font-weight="600">Robot</text>
+                        <text x="250" y="50" text-anchor="middle" fill="#a371f7" font-family="Outfit,sans-serif" font-size="10" font-weight="600">Sociale</text>
+
+                        <circle cx="80" cy="230" r="30" fill="#1a222d" stroke="#00d9ff" stroke-width="2"/>
+                        <text x="80" y="234" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="10" font-weight="600">Studente</text>
+
+                        <circle cx="420" cy="230" r="30" fill="#1a222d" stroke="#3fb950" stroke-width="2"/>
+                        <text x="420" y="234" text-anchor="middle" fill="#3fb950" font-family="Outfit,sans-serif" font-size="10" font-weight="600">Adulto</text>
+
+                        <!-- Labels on edges -->
+                        <text x="145" y="125" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9" transform="rotate(-53, 145, 125)">Interazione guidata</text>
+                        <text x="355" y="125" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9" transform="rotate(53, 355, 125)">Supervisione</text>
+                        <text x="250" y="255" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="10" font-weight="500">Relazione umana primaria</text>
+                    </svg>
+                </div>
+
+                <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                <div style="clear:both;"></div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">5.1</span></div>
+                        <h4>App AAC per comunicazione alternativa</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Proloquo2Go</strong> e <strong>TouchChat</strong> permettono di precaricare vocabolario rilevante per contesti specifici (richiedere una pausa, rispondere a domande, salutare i compagni). <strong>Nwanneka Udeka</strong> sottolinea il ruolo critico di queste app nella comunicazione inclusiva in contesti VET.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">5.2</span></div>
+                        <h4>Robot sociali per sviluppo di competenze socio-emotive</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>QTrobot (LuxAI)</strong> monitora espressioni facciali e comportamenti per personalizzare interazioni; usato per pratica con receptionist, dottore, operatore call center. <strong>Felix (Happy Robots)</strong> monitora emozioni e aiuta a identificare pattern emozionali nel tempo — applicabile sia a contesti educativi sia di internship.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">5.3</span></div>
+                        <h4>Robot sociali con supervisione umana (triangolazione)</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>LuxAI</strong> struttura l'uso dei robot in una relazione triangolare robot-bambino-adulto per garantire che l'interazione con la macchina non sostituisca quella umana. <strong>Aida Nazari (LuxAI)</strong> riconosce il rischio che studenti con ASD possano preferire l'interazione con robot a tal punto da perdere disponibilità verso gli umani.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">5.4</span></div>
+                        <h4>Simulazione di interviste in ambienti a basso stress</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Vanderbilt University</strong> e <strong>Neurodiverse Technologies</strong> sviluppano simulatori di interviste che riproducono l'esperienza completa — dalla sala d'attesa alle situazioni inaspettate — tracciando eye gaze e dati fisiologici. Costruiscono competenza e fiducia prima di affrontare interviste reali.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== SISTEMI VET & TRANSIZIONE ===================== -->
+            <section id="sistemi-vet" class="section">
+                <div class="section-counter"><span class="count-badge">10</span> best practice in questa sezione</div>
+                <h2>Sistemi VET Inclusivi e <span class="text-cyan">Transizione Lavoro</span></h2>
+                <p class="text-secondary">Dall'automazione amministrativa che libera tempo docente, all'intelligence delle competenze, fino agli strumenti per candidature e onboarding: come rendere l'intero ecosistema VET più inclusivo e la transizione verso il lavoro più accessibile.</p>
+
+                <!-- Tabs: Sistemi VET vs Transizione -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="vet-sistemi">Sistemi VET Inclusivi</button>
+                    <button class="tab-btn" data-tab="vet-transizione">Transizione VET→Lavoro</button>
+                </div>
+
+                <div class="tab-content active" id="tab-vet-sistemi">
+                    <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                    <div style="clear:both;"></div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">6.1</span></div>
+                            <h4>Automazione amministrativa per liberare tempo docente</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>TeacherMate (Jisc)</strong> aiuta insegnanti a costruire prompt IA per generare risorse didattiche, con un risparmio medio di <strong>2 ore e 10 minuti</strong> per insegnante a settimana. Il tempo risparmiato può essere reinvestito nel supporto individuale a studenti che ne hanno più bisogno.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">6.2</span></div>
+                            <h4>Piattaforme di gestione che documentano esigenze di supporto</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Bud Systems</strong> documenta le esigenze di apprendimento aggiuntivo: quando un insegnante assegna un esercizio, vede che uno studente necessita di tempo aggiuntivo o formato specifico. La partnership con <strong>Neurodiversity Assessment Tool (Udacity)</strong> abilita una profilazione strutturata dei bisogni.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="inferita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">6.3</span></div>
+                            <h4>Assistente organizzativo IA per navigare ambienti VET</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Thomas Köhler</strong> esplora lo sviluppo di un assistente IA che risponde a domande come "dove trovo le mie risorse?", "abbiamo un esame lunedì?", "chi può aiutarmi su questo argomento?". Potrebbe migliorare significativamente la ritenzione degli studenti neurodiversi.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">6.4</span></div>
+                            <h4>Intelligence delle competenze con IA</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>L'<strong>Estonia</strong> ha integrato la previsione delle competenze nel sistema di qualificazioni, collegando record degli studenti agli esiti occupazionali. Il machine learning e l'analisi dei big data permettono di anticipare cambiamenti nelle esigenze di competenze, aggiornare qualifiche e orientare servizi verso dove la domanda cresce.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">6.5</span></div>
+                            <h4>Diagnostica automatizzata per percorsi personalizzati</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>Sistemi basati su e-portfolio possono dirigere gli apprendenti verso moduli raccomandati più efficienti e allineati con le loro competenze attuali, riconoscendo risultati pregressi e offrendo credenziali modulari.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">6.6</span></div>
+                            <h4>Co-progettazione curricolare VET-datori di lavoro</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>L'<strong>ILO</strong> sostiene l'espansione di apprendistati dove istituti VET e datori di lavoro co-progettano curricula, valutazioni e mentoring in contesti reali. Questo assicura che ciò che gli studenti praticano corrisponda a come il lavoro viene effettivamente svolto — incluso l'uso di tecnologie assistive.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-vet-transizione">
+                    <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                    <div style="clear:both;"></div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">7.1</span></div>
+                            <h4>Strumenti IA per candidature e onboarding</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Goblin Tools</strong> include "Formalizer" per adattare il tono del linguaggio (rendere una cover letter formale, amichevole o sofisticata). <strong>Auticon</strong> (consulenza IT a maggioranza neurodiversa) usa AI-enabled matching per associare consulenti a progetti basandosi su skill ed esperienza.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">7.2</span></div>
+                            <h4>Democratizzazione dell'accesso alle tecnologie assistive</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>Quando strumenti come text-to-speech, speech-to-text e chatbot IA vengono resi disponibili a <strong>tutti i dipendenti</strong> (non solo a chi ha diagnosi), lo stigma associato al loro uso si riduce. <strong>Special Olympics con Copilot</strong> ha documentato un raddoppio della produttività (12 ore/settimana in più rispetto a colleghi senza disabilità).</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="inferita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">7.3</span></div>
+                            <h4>Continuità degli strumenti assistivi nella transizione</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Susan Scott-Parker (Business Disability International)</strong> riporta che l'accesso agli strumenti assistivi è spesso legato all'istituzione: gli studenti perdono accesso quando lasciano la VET. Eccezione virtuosa: il programma <strong>Cuimsín (FIT Ireland)</strong> fornisce licenze annuali e mentoring post-impiego. La portabilità degli strumenti è un fattore critico.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="inferita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">7.4</span></div>
+                            <h4>Programmi di design pratico per costruire fiducia</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Thorkil Sonne (Square Foundation)</strong> usa Lego Mindstorm robot kit e Scrum project management per insegnare competenze di progettazione a studenti con ASD, portandoli poi in uffici reali di aziende che potrebbero offrire placement. Il programma costruisce fiducia e familiarità con ambienti lavorativi reali.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== GOVERNANCE & ETICA ===================== -->
+            <section id="governance-etica" class="section">
+                <div class="section-counter"><span class="count-badge">12</span> best practice in questa sezione</div>
+                <h2>Governance, Etica e <span class="text-cyan">Mitigazione dei Rischi</span></h2>
+                <p class="text-secondary">La sezione più densa del rapporto: privacy, bias algoritmici, misinformazione, sovra-dipendenza e rischi socio-emotivi. Ogni tecnologia porta opportunità e rischi amplificati per studenti neurodiversi — chi è meno in grado di riconoscere l'errore è più vulnerabile.</p>
+
+                <!-- Risk landscape diagram -->
+                <div class="diagram-container">
+                    <p style="text-align:center; color: var(--text-muted); font-size:0.8rem; margin-bottom:1rem;">MAPPA DEI RISCHI — 5 DIMENSIONI</p>
+                    <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" style="max-width:780px;width:100%;">
+                        <!-- 5 risk pillars -->
+                        <rect x="20" y="40" width="140" height="130" rx="8" fill="#1a222d" stroke="#f85149" stroke-width="1.5"/>
+                        <text x="90" y="68" text-anchor="middle" fill="#f85149" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Privacy</text>
+                        <text x="90" y="90" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">GDPR, dati sensibili,</text>
+                        <text x="90" y="104" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">sorveglianza wearable,</text>
+                        <text x="90" y="118" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">consenso informato</text>
+                        <text x="90" y="148" text-anchor="middle" fill="#f85149" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600">3 practice</text>
+
+                        <rect x="175" y="40" width="140" height="130" rx="8" fill="#1a222d" stroke="#d29922" stroke-width="1.5"/>
+                        <text x="245" y="68" text-anchor="middle" fill="#d29922" font-family="Outfit,sans-serif" font-size="12" font-weight="600">Bias</text>
+                        <text x="245" y="90" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Bias ableisti, video-</text>
+                        <text x="245" y="104" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">interviste IA, equità</text>
+                        <text x="245" y="118" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">linguistica modelli</text>
+                        <text x="245" y="148" text-anchor="middle" fill="#d29922" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600">3 practice</text>
+
+                        <rect x="330" y="40" width="140" height="130" rx="8" fill="#1a222d" stroke="#db6d28" stroke-width="1.5"/>
+                        <text x="400" y="68" text-anchor="middle" fill="#db6d28" font-family="Outfit,sans-serif" font-size="11" font-weight="600">Misinformazione</text>
+                        <text x="400" y="90" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Allucinazioni IA,</text>
+                        <text x="400" y="104" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">compiacenza, media</text>
+                        <text x="400" y="118" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">literacy, deepfake</text>
+                        <text x="400" y="148" text-anchor="middle" fill="#db6d28" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600">1 practice</text>
+
+                        <rect x="485" y="40" width="140" height="130" rx="8" fill="#1a222d" stroke="#a371f7" stroke-width="1.5"/>
+                        <text x="555" y="62" text-anchor="middle" fill="#a371f7" font-family="Outfit,sans-serif" font-size="11" font-weight="600">Sovra-</text>
+                        <text x="555" y="78" text-anchor="middle" fill="#a371f7" font-family="Outfit,sans-serif" font-size="11" font-weight="600">dipendenza</text>
+                        <text x="555" y="100" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Competenze critiche,</text>
+                        <text x="555" y="114" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">abilità sociali,</text>
+                        <text x="555" y="128" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">ragionamento</text>
+                        <text x="555" y="148" text-anchor="middle" fill="#a371f7" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600">2 practice</text>
+
+                        <rect x="640" y="40" width="140" height="130" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="1.5"/>
+                        <text x="710" y="62" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="11" font-weight="600">Socio-emotivo</text>
+                        <text x="710" y="78" text-anchor="middle" fill="#00d9ff" font-family="Outfit,sans-serif" font-size="11" font-weight="600">&amp; Valutazioni</text>
+                        <text x="710" y="100" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">Abbandono digitale,</text>
+                        <text x="710" y="114" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">linee guida esami,</text>
+                        <text x="710" y="128" text-anchor="middle" fill="#8b949e" font-family="Outfit,sans-serif" font-size="9">telepresenza</text>
+                        <text x="710" y="148" text-anchor="middle" fill="#00d9ff" font-family="JetBrains Mono,monospace" font-size="11" font-weight="600">3 practice</text>
+                    </svg>
+                </div>
+
+                <!-- Filter bar -->
+                <div class="filter-bar" id="govFilterBar">
+                    <span style="font-size:0.8rem; color: var(--text-muted); margin-right: 0.5rem;">Filtra:</span>
+                    <button class="filter-btn active" data-filter="all" onclick="filterGov('all', this)">Tutte</button>
+                    <button class="filter-btn" data-filter="privacy" onclick="filterGov('privacy', this)">Privacy</button>
+                    <button class="filter-btn" data-filter="bias" onclick="filterGov('bias', this)">Bias</button>
+                    <button class="filter-btn" data-filter="misinfo" onclick="filterGov('misinfo', this)">Misinformazione</button>
+                    <button class="filter-btn" data-filter="sovra" onclick="filterGov('sovra', this)">Sovra-dipendenza</button>
+                    <button class="filter-btn" data-filter="socio" onclick="filterGov('socio', this)">Socio-emotivo</button>
+                </div>
+
+                <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                <div style="clear:both;"></div>
+
+                <div class="practice-card" data-type="esplicita" data-category="privacy">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.1</span></div>
+                        <h4>Privacy — Trasparenza nella raccolta dati</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-red" style="font-size:0.7rem; margin:0;">Privacy</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>I dati su neurotipo, stato di disabilità e condizioni emotive/fisiche sono "sensibili" secondo il GDPR. La DPIA condotta da <strong>SURF (2024)</strong> su Microsoft 365 Copilot illustra la necessità di valutazioni d'impatto prima del deployment. Strumenti come <strong>Goblin Tools</strong> dimostrano che è possibile offrire supporto efficace senza raccolta dati personali.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita" data-category="privacy">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.2</span></div>
+                        <h4>Privacy — Limitare sorveglianza tramite wearables</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-red" style="font-size:0.7rem; margin:0;">Privacy</span>
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Robert McLaren</strong> avverte che wearables abilitati dall'IA catturano dettagli specifici su come una persona lavora — posizione, attività, momento. Per studenti neurodiversi questo crea rischi di disparità valutativa. È necessario regolamentare l'uso di questi dispositivi in contesti formativi.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita" data-category="privacy">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.3</span></div>
+                        <h4>Privacy — Strumenti senza raccolta dati come modello</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-red" style="font-size:0.7rem; margin:0;">Privacy</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Geena Vabulas</strong> sottolinea il valore di strumenti che funzionano senza account e senza consenso da spuntare — riducono attrito amministrativo e legale. Questo approccio è particolarmente importante quando la capacità di fornire consenso informato è complessa (minori, disabilità intellettive, tutori).</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita" data-category="bias">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.4</span></div>
+                        <h4>Bias — Audit regolari dei sistemi IA per bias ableisti</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-orange" style="font-size:0.7rem; margin:0;">Bias</span>
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>I sistemi IA tendono a replicare bias storici: <strong>Neil Milliken</strong> spiega che le persone con disabilità sono "statisticamente insignificanti" nei dataset, quindi escluse o classificate con meno precisione. <strong>Nathaniel Cook (Special Olympics)</strong> osserva che l'IA generativa tende a offrire aiuto su "competenze di vita" anziché professionali a chi ha disabilità intellettive — un'assunzione ableista implicita nei dati di addestramento.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita" data-category="bias">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.5</span></div>
+                        <h4>Bias — Scrutinio dei sistemi di video-interviste IA</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-orange" style="font-size:0.7rem; margin:0;">Bias</span>
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>I sistemi di video-intervista IA che valutano contatto oculare e linguaggio del corpo possono discriminare candidati neurodiversi. <strong>Neil Milliken</strong> e <strong>David Banes</strong> esprimono preoccupazione per l'esclusione sistematica dalla fase di selezione. Questi strumenti devono essere validati specificamente per profili neurodiversi.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita" data-category="bias">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.6</span></div>
+                        <h4>Bias — Equità linguistica nei modelli IA</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-orange" style="font-size:0.7rem; margin:0;">Bias</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>ChatGPT è addestrato su <strong>400 miliardi</strong> di testi in inglese vs <strong>400 milioni</strong> in ungherese — <strong>1000x</strong> di differenza. L'accuratezza crolla per lingue con meno risorse. Strumenti sviluppati per la comunità neurodiversa statunitense possono non adattarsi ai contesti VET europei.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita" data-category="misinfo">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.7</span></div>
+                        <h4>Misinformazione — Validazione dei contenuti generati</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-orange" style="font-size:0.7rem; margin:0;">Misinfo</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p>L'IA generativa "allucina" e tende a compiacere l'utente piuttosto che ammettere incertezza. Il rischio è amplificato per studenti neurodiversi che potrebbero essere meno in grado di riconoscere l'inesattezza. Servono processi rigorosi di verifica e formazione specifica su media literacy e deepfake.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita" data-category="sovra">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.8</span></div>
+                        <h4>Sovra-dipendenza — Preservare competenze critiche</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-purple" style="font-size:0.7rem; margin:0;">Sovra-dip.</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Pierre Dillenbourg</strong> avverte: se un apprendista carpentiere usa sempre uno strumento per calcolare le forze su una trave, rischia di non imparare il ragionamento sottostante. L'IA deve supportare, non sostituire, il pensiero critico e le competenze fondamentali.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita" data-category="sovra">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.9</span></div>
+                        <h4>Sovra-dipendenza — Preservare competenze sociali</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-purple" style="font-size:0.7rem; margin:0;">Sovra-dip.</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>David Voss</strong> nota che i chatbot forniscono risposte monovocali, non contraddittorie, mai ambigue — un modello comunicativo irrealistico. Gli studenti neurodiversi che si affidano eccessivamente ai chatbot rischiano di arrivare impreparati alla complessità della comunicazione umana sul lavoro.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita" data-category="socio">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.10</span></div>
+                        <h4>Rischi socio-emotivi — Monitoraggio continuo</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Socio-em.</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Lorenzo Desideri</strong> avverte che se un robot umanoide si spegne o un abbonamento a un chatbot cessa, lo studente può sperimentare sentimenti di abbandono. L'impatto psicologico dell'interazione con IA su studenti neurodiversi non è ancora pienamente compreso — servono ricerche longitudinali prima dell'adozione diffusa.</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="esplicita" data-category="socio">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.11</span></div>
+                        <h4>Valutazioni — Linee guida chiare per strumenti assistivi</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Socio-em.</span>
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Rohan Slaughter</strong> descrive come le decisioni sull'uso di tecnologie assistive variano tra soggetti, sessioni d'esame e persino tra l'istituto VET e l'ente valutatore. Servono linee guida esplicite e coerenti che distinguano cosa viene valutato (se competenza tecnica → strumento autorizzato; se literacy → no).</p>
+                    </div>
+                </div>
+
+                <div class="practice-card" data-type="inferita" data-category="socio">
+                    <div class="p-header" onclick="toggleCard(this)">
+                        <div><span class="p-num">8.12</span></div>
+                        <h4>Esclusione — Telepresenza come complemento, non sostituto</h4>
+                        <div class="p-meta">
+                            <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Socio-em.</span>
+                            <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                            <span class="expand-icon">+</span>
+                        </div>
+                    </div>
+                    <div class="p-body">
+                        <p><strong>Michael Fembek</strong> avverte che la telepresenza robotica non deve essere una scorciatoia per evitare di affrontare le barriere strutturali all'inclusione. È inferiore alla presenza fisica per il senso di appartenenza. Deve accompagnare, non sostituire, sforzi genuini di adattamento.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== FORMAZIONE & ECOSISTEMA ===================== -->
+            <section id="formazione-ecosistema" class="section">
+                <div class="section-counter"><span class="count-badge">17</span> best practice in questa sezione</div>
+                <h2>Formazione, Ecosistema e <span class="text-cyan">Design Inclusivo</span></h2>
+                <p class="text-secondary">Tre pilastri interconnessi: formare i docenti e la cultura dell'innovazione, finanziare e governare gli strumenti in modo sostenibile, progettare tecnologie che funzionino per tutti fin dall'inizio.</p>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="eco-formazione">Formazione Docenti</button>
+                    <button class="tab-btn" data-tab="eco-governance">Governance & Finanziamento</button>
+                    <button class="tab-btn" data-tab="eco-design">Design Inclusivo</button>
+                </div>
+
+                <!-- TAB: Formazione Docenti -->
+                <div class="tab-content active" id="tab-eco-formazione">
+                    <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                    <div style="clear:both;"></div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">9.1</span></div>
+                            <h4>Integrazione nella formazione iniziale</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Susan Scott-Parker</strong> sostiene che la formazione iniziale degli insegnanti VET deve includere requisiti su strumenti assistivi e IA inclusivi. <strong>Pierre Dillenbourg (Svizzera)</strong> nota che la formazione VET raramente include contenuti su neurodivergenza. L'<strong>Estonia</strong> offre formazione su IA con workshop introduttivi e prevede l'estensione ai docenti VET entro il 2026.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">9.2</span></div>
+                            <h4>Formazione continua pratica e mirata</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>Il <strong>Luovi Vocational College (Finlandia)</strong> offre sessioni di formazione mensili online, un hub di conoscenze interno ed eventi digitali aperti. <strong>Piia Jokalainen</strong> riporta che solo il <strong>10%</strong> dei docenti finlandesi usa attivamente strumenti IA, mentre oltre la metà manifesta interesse ma trova gli strumenti troppo complessi.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">9.3</span></div>
+                            <h4>Collaborazione sistemica tra tutti gli stakeholder</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Lorenzo Desideri</strong> e <strong>Nwanneka Udeka</strong> sottolineano che senza collaborazione strutturata tra docenti, genitori, professionisti sanitari e specialisti, le tecnologie restano dormienti. Solo il <strong>30%</strong> dei dispositivi AAC forniti da logopedisti viene poi utilizzato dai docenti in aula.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="inferita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">9.4</span></div>
+                            <h4>Cultura organizzativa dell'innovazione controllata</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-yellow" style="font-size:0.7rem; margin:0;">Inferita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Thomas Köhler</strong> descrive come la rigidità istituzionale in alcuni paesi europei centrali limita l'esplorazione dei docenti. La <strong>Finlandia</strong> offre un modello virtuoso: <strong>44 linee guida ministeriali</strong> che supportano l'uso dell'IA in educazione, promuovendo piattaforme di collaborazione e condivisione.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">9.5</span></div>
+                            <h4>Formazione dei developer su accessibilità e bias</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Teach Access</strong> integra principi di accessibilità nella formazione universitaria di designer, ingegneri e ricercatori. La progettazione incentrata sull'utente e l'interazione uomo-computer devono far parte della formazione in informatica fin dall'inizio.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Governance & Finanziamento -->
+                <div class="tab-content" id="tab-eco-governance">
+                    <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                    <div style="clear:both;"></div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">10.1</span></div>
+                            <h4>Cataloghi centralizzati e orientamento alla selezione</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Alisdair Gurling (Monash University)</strong> ha dovuto iniziare un dottorato di ricerca per mappare sistematicamente gli strumenti per ADHD — questo illustra la mancanza di mappatura strutturata. Il <strong>Governo delle Fiandre</strong> applica 7 principi di valutazione (trasparenza, privacy, sicurezza informatica). Serve un approccio "guida dell'acquirente" centralizzato.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">10.2</span></div>
+                            <h4>Procurement coordinato tra istituzioni VET</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>In <strong>Svezia</strong>, 5 istituti VET speciali partecipano a un network finanziato dal governo per coordinare la selezione degli strumenti. Nel <strong>Regno Unito</strong>, Jisc gestisce partnership di licenza con fornitori di tecnologie assistive per ottenere prezzi inferiori. Modello replicabile che riduce duplicazione e costi.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">10.3</span></div>
+                            <h4>Finanziamento pubblico sostenibile e dedicato</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>In UK, il Disabled Students Allowance copre solo l'higher education, non la VET. In Cile, il finanziamento pubblico è insufficiente per scalare. <strong>Italia e Portogallo</strong> hanno finanziamento superiore alla Spagna ma sotto la soglia critica. <strong>Carlos Pereira (Livox)</strong> denuncia che i dispositivi assistivi vengono acquistati dalle città "solo se rimangono soldi in bilancio".</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">10.4</span></div>
+                            <h4>Ecosistemi ibridi pubblico-privato-filantropico</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Yonah Welker</strong> descrive il percorso tipico: startup bootstrap con grants → compliance → venture capital (tardivo per assistive tech). <strong>Pavan Konanur (Hoja AI)</strong> ha iniziato con risparmi personali. Servono venture verticals dove aziende pharma/medical/educational collaborano con startup accelerators per incubare cohort di assistive tech.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">10.5</span></div>
+                            <h4>Progetti pilota misurabili come gateway all'innovazione</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>Approccio conservativo ma proattivo: pilota su piccola scala con misurazione dei risultati. In <strong>Finlandia (SEATS)</strong>, scuole co-sviluppano strumenti con partner tech basandosi su esigenze locali e sfide della classe reale, testando in ambienti di apprendimento autentici.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">10.6</span></div>
+                            <h4>Coordinamento internazionale per evitare duplicazioni</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Ricardo Rosas</strong> sottolinea l'importanza della governance internazionale (es. UNESCO) per evitare sforzi duplicati, soprattutto dove le popolazioni target sono piccole. Si suggerisce un consorzio globale per standard tecnici aperti, dataset condivisi e guida dei processi. I programmi UE funzionano bene perché consentono a diversi laboratori di collaborare su una singola tecnologia.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Design Inclusivo -->
+                <div class="tab-content" id="tab-eco-design">
+                    <button class="expand-all-btn" onclick="toggleAllCards(this)">Espandi tutto</button>
+                    <div style="clear:both;"></div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">11.1</span></div>
+                            <h4>Universal Design fin dall'inizio, non come retrofit</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>David Banes</strong> avverte che molti sviluppatori non pensano a use cases per persone neurodivergenti. Ma <strong>Alisdair Gurling</strong> aggiunge una complessità: servire bisogni ASD e ADHD contemporaneamente può essere in tensione (sovraccarico sensoriale vs. desiderio di novità). Il Universal Design può essere insufficiente — servono soluzioni multi-livello.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">11.2</span></div>
+                            <h4>Co-design con utenti neurodiversi</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Microsoft</strong> coinvolge dipendenti neurodiversi attraverso l'<strong>EY Neurodiversity Centre of Excellence</strong> nel testing di Copilot. <strong>Kellie Mote</strong> sottolinea la necessità di impiegare persone neurodivergenti nell'industria tech e compensarle per i contributi. Un prodotto "minimo viabile" dovrebbe essere validato da un gruppo di utenti diversi prima dell'immissione sul mercato.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">11.3</span></div>
+                            <h4>LLM configurabili per output semplificati</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p>Messaging, social media e productivity suite assumono utenti neurotipici con interfaccia "one-size-fits-all". <strong>Special Olympics</strong> ha costruito prompt libraries per istruire chatbot a semplificare il linguaggio — un workaround che non sarebbe necessario se le configurazioni rilevanti fossero native.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">11.4</span></div>
+                            <h4>Interoperabilità tra AAC e strumenti mainstream</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Elisabetta Bertola (Irisbond)</strong> descrive la "stark divide" tra AAC specialist software e piattaforme mainstream — silos separati con poco crossover. <strong>Alisdair Gurling</strong> parla di "little walled gardens": voice assistants potrebbero offrire funzionalità molto più ricche se i muri fossero abbattuti.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">11.5</span></div>
+                            <h4>Soluzioni portatili e edge-optimized</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>Yonah Welker</strong> suggerisce adaptive scaling, inferenza offline e ottimizzazione edge per deployment affidabile in ambienti con bassa connettività. <strong>Robert McLaren</strong> fornisce un esempio: un hospital porter che riceve task reminder personalizzati tramite smart glasses, calibrati sulla posizione e sui comportamenti.</p>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-type="esplicita">
+                        <div class="p-header" onclick="toggleCard(this)">
+                            <div><span class="p-num">11.6</span></div>
+                            <h4>Inclusione delle voci neurodivergenti nella governance</h4>
+                            <div class="p-meta">
+                                <span class="tag tag-cyan" style="font-size:0.7rem; margin:0;">Esplicita</span>
+                                <span class="expand-icon">+</span>
+                            </div>
+                        </div>
+                        <div class="p-body">
+                            <p><strong>David Banes</strong> avverte che il rapporto rischi-benefici per l'IA è diverso per neurodiversi e neurotipici. Se la legislazione si basa solo sulla popolazione neurotipica, potrebbe impedire ai neurodiversi di accedere a strumenti utili. Serve rappresentanza strutturata nei tavoli di governance dell'IA.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== GLOSSARIO ===================== -->
+            <section id="glossario" class="section">
+                <h2>Glossario <span class="text-cyan">Tecnico</span></h2>
+                <p class="text-secondary">Terminologia chiave utilizzata nel rapporto OECD e in questa dashboard.</p>
+
+                <input type="text" class="search-input mb-2" id="glossarySearch" placeholder="Cerca termine...">
+                <div class="glossary-grid">
+                    <div class="glossary-item visible" data-term="vet formazione professionale vocational">
+                        <h4>VET</h4>
+                        <div class="definition">Vocational Education and Training — formazione professionale. Include apprendistato, work-based learning e percorsi tecnici post-secondari.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Contesto principale di analisi. La VET è particolarmente rilevante perché combina apprendimento teorico e pratico, con transizione diretta al lavoro.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="asd autismo spettro autistico">
+                        <h4>ASD</h4>
+                        <div class="definition">Autism Spectrum Disorder — Disturbo dello Spettro Autistico. Condizione del neurosviluppo con impatto su comunicazione sociale, interessi ristretti e sensibilità sensoriali.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Popolazione target primaria. Le sfide specifiche includono comunicazione sociale in contesti lavorativi, ansia per ambienti nuovi, sovraccarico sensoriale.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="adhd deficit attenzione iperattività">
+                        <h4>ADHD</h4>
+                        <div class="definition">Attention Deficit Hyperactivity Disorder — Disturbo da Deficit di Attenzione e Iperattività. Impatto su funzioni esecutive, concentrazione, gestione del tempo.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Le tecnologie IA supportano le funzioni esecutive carenti (pianificazione, avvio compiti, gestione temporale) e il filtraggio delle distrazioni.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dsa dislessia discalculia disgrafia apprendimento">
+                        <h4>DSA</h4>
+                        <div class="definition">Disturbi Specifici dell'Apprendimento — dislessia (lettura), discalculia (calcolo), disgrafia (scrittura). Intelligenza nella norma con difficoltà specifiche.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Text-to-speech e speech-to-text sono identificati come gli strumenti a maggior impatto per questa popolazione.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="xr extended reality realtà estesa virtuale aumentata mista">
+                        <h4>XR (Extended Reality)</h4>
+                        <div class="definition">Termine ombrello che comprende VR (Virtual Reality), AR (Augmented Reality) e MR (Mixed Reality).</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Usata per ambienti sicuri di pratica, filtraggio distrazioni ADHD, pre-visite lavorative con ambienti 360° e simulazioni di compiti.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="aac comunicazione aumentativa alternativa">
+                        <h4>AAC</h4>
+                        <div class="definition">Augmentative and Alternative Communication — sistemi di comunicazione per chi non usa il linguaggio verbale in modo funzionale. Include app, dispositivi e simboli.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Proloquo2Go e TouchChat come strumenti chiave. Problema critico: solo il 30% dei dispositivi AAC forniti viene poi utilizzato in classe.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="llm large language model modello linguistico">
+                        <h4>LLM</h4>
+                        <div class="definition">Large Language Model — modello di linguaggio di grandi dimensioni (es. GPT, Claude). Alla base di chatbot e strumenti di IA generativa.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Abilitano adattamento contenuti, feedback qualitativo, semplificazione linguistica. Rischi: allucinazioni, bias linguistici (1000x più dati in inglese vs ungherese).</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="universal design progettazione universale">
+                        <h4>Universal Design</h4>
+                        <div class="definition">Approccio progettuale che mira a rendere prodotti e ambienti utilizzabili dal maggior numero possibile di persone, senza necessità di adattamenti successivi.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Raccomandato come principio guida, ma con avvertenza: per la neurodiversità può essere insufficiente — servono soluzioni multi-livello perché ASD e ADHD hanno bisogni in tensione.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="gdpr privacy dati protezione">
+                        <h4>GDPR</h4>
+                        <div class="definition">General Data Protection Regulation — regolamento europeo sulla protezione dei dati personali. I dati su neurotipo e disabilità sono classificati come "dati sensibili".</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Richiede DPIA (Data Protection Impact Assessment) prima del deployment di strumenti IA che trattano dati di studenti neurodiversi.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dpia valutazione impatto protezione dati">
+                        <h4>DPIA</h4>
+                        <div class="definition">Data Protection Impact Assessment — valutazione d'impatto sulla protezione dei dati. Obbligatoria per trattamenti ad alto rischio sotto il GDPR.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> SURF (2024) ha condotto una DPIA su Microsoft 365 Copilot come esempio di buona pratica prima dell'adozione in ambito educativo.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="pasta ai framework scrittura prompt">
+                        <h4>PASTA AI</h4>
+                        <div class="definition">Framework per prompt engineering: Profession, Audience, Style, Tone, Action. Sviluppato da Deborah Millar (Hull College).</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Guida studenti BES nell'uso metacognitivo dei chatbot, migliorando la qualità dell'output e il coinvolgimento nel processo di scrittura.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="co-design progettazione partecipata">
+                        <h4>Co-design</h4>
+                        <div class="definition">Progettazione partecipata che coinvolge gli utenti finali — in questo caso persone neurodivergenti — nel processo di sviluppo del prodotto.</div>
+                        <div class="application"><strong>Nel rapporto:</strong> Microsoft coinvolge dipendenti neurodiversi nel testing di Copilot. Principio: "nulla su di noi senza di noi".</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== RIFERIMENTI ===================== -->
+            <section id="riferimenti" class="section">
+                <h2>Riferimenti e <span class="text-cyan">Fonti</span></h2>
+
+                <div class="subsection">
+                    <h3>Fonte Primaria</h3>
+                    <div class="bib-section">
+                        <div class="bib-item">
+                            OECD (2026), <em>AI to Support Neurodivergent Learners in Vocational Education and Training</em>, OECD Publishing, Paris. <a href="https://doi.org/10.1787/718d7522-en" target="_blank" rel="noopener">https://doi.org/10.1787/718d7522-en</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Strumenti e Piattaforme Citati</h3>
+                    <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                        <div class="card">
+                            <h4 style="color: var(--accent-cyan); font-size: 0.95rem;">IA & Personalizzazione</h4>
+                            <p style="font-size: 0.85rem;">ChatGPT · Google Notebook LM · Bud Systems · TeacherMate (Jisc) · Microsoft Copilot</p>
+                        </div>
+                        <div class="card">
+                            <h4 style="color: var(--accent-green); font-size: 0.95rem;">Accessibilità</h4>
+                            <p style="font-size: 0.85rem;">Dragon Speech Recognition · ReadWrite · EyeJustRead · Plaud · Limitless</p>
+                        </div>
+                        <div class="card">
+                            <h4 style="color: var(--accent-purple); font-size: 0.95rem;">Funzioni Esecutive</h4>
+                            <p style="font-size: 0.85rem;">Goblin Tools · Tiimo · Ayoa · MindView · Endel · Brain In Hand</p>
+                        </div>
+                        <div class="card">
+                            <h4 style="color: var(--accent-orange); font-size: 0.95rem;">Comunicazione & Robotica</h4>
+                            <p style="font-size: 0.85rem;">Proloquo2Go · TouchChat · QTrobot (LuxAI) · Felix (Happy Robots) · SANDI</p>
+                        </div>
+                        <div class="card">
+                            <h4 style="color: var(--accent-yellow); font-size: 0.95rem;">VET & Transizione</h4>
+                            <p style="font-size: 0.85rem;">Auticon · Neurodiversity Assessment Tool · Cuimsín (FIT Ireland) · Livox</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Esperti e Organizzazioni Citati</h3>
+                    <div class="card" style="font-size: 0.9rem;">
+                        <p><strong>Ricercatori e Professionisti:</strong> Christopher Patnoe (Cisco) · Clayton Lewis (U. Colorado) · Lorenzo Desideri · Pierre Dillenbourg (Svizzera) · Thomas Köhler (TU Dresden) · Ellen Damianidou (Cipro) · David Banes · Neil Milliken · David Voss · Deborah Millar (Hull College) · Kevin Gonyop Kim · Piia Jokalainen (Finlandia) · Alisdair Gurling (Monash U.) · Susan Scott-Parker · Kellie Mote · Yonah Welker · Ricardo Rosas · Elisabetta Bertola (Irisbond) · Nwanneka Udeka · Robert McLaren · Nathaniel Cook · Thorkil Sonne · Geena Vabulas · Aida Nazari · Rohan Slaughter · Michael Fembek · Marius Frank · Carlos Pereira · Pavan Konanur</p>
+                        <p style="margin-top: 0.75rem;"><strong>Organizzazioni:</strong> OECD · Special Olympics · Microsoft · Cisco · LuxAI · Auticon · Jisc · SURF · ILO · UNESCO · Vanderbilt University · Square Foundation · Business Disability International · EY Neurodiversity Centre of Excellence · Teach Access · Astangu (Estonia) · Luovi Vocational College (Finlandia) · Hull College (UK)</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Paesi con Casi Studio</h3>
+                    <div class="flow-row" style="justify-content: flex-start; gap: 0.5rem;">
+                        <span class="tag tag-cyan">Estonia</span>
+                        <span class="tag tag-cyan">Finlandia</span>
+                        <span class="tag tag-cyan">Cipro</span>
+                        <span class="tag tag-cyan">Regno Unito</span>
+                        <span class="tag tag-cyan">Svizzera</span>
+                        <span class="tag tag-cyan">Svezia</span>
+                        <span class="tag tag-cyan">Germania</span>
+                        <span class="tag tag-cyan">Irlanda</span>
+                        <span class="tag tag-green">USA</span>
+                        <span class="tag tag-green">Cile</span>
+                        <span class="tag tag-yellow">Italia</span>
+                        <span class="tag tag-yellow">Portogallo</span>
+                        <span class="tag tag-yellow">Spagna</span>
+                        <span class="tag tag-purple">Fiandre (Belgio)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Fonte: OECD (2026), <em>AI to Support Neurodivergent Learners in Vocational Education and Training</em>, OECD Publishing, Paris.
+                    <a href="https://doi.org/10.1787/718d7522-en" target="_blank" rel="noopener">doi.org/10.1787/718d7522-en</a><br>
+                    Dashboard realizzata da Ivan Ferrero — 2026<br>
+                    <a href="/dashboards/">← Torna alle Dashboard</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script src="/assets/menu.js"></script>
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Expandable practice cards
+        function toggleCard(header) {
+            header.closest('.practice-card').classList.toggle('expanded');
+        }
+
+        function toggleAllCards(btn) {
+            const section = btn.closest('.section');
+            const cards = section.querySelectorAll('.practice-card');
+            const allExpanded = Array.from(cards).every(c => c.classList.contains('expanded'));
+            cards.forEach(c => {
+                if (allExpanded) c.classList.remove('expanded');
+                else c.classList.add('expanded');
+            });
+            btn.textContent = allExpanded ? 'Espandi tutto' : 'Comprimi tutto';
+        }
+
+        // Governance filter
+        function filterGov(category, btn) {
+            const section = document.getElementById('governance-etica');
+            const cards = section.querySelectorAll('.practice-card');
+            const btns = document.querySelectorAll('#govFilterBar .filter-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+        glossarySearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (terms.includes(query) || text.includes(query) || query === '') {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabContainer = btn.closest('.section');
+                const tabGroup = btn.closest('.tabs');
+                tabGroup.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
