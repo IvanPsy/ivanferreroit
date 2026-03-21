@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecniche di Comunicazione Madre-Figlio | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* Page-specific styles */
+        .technique-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 50%;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        .card-header-with-number {
+            display: flex;
+            align-items: center;
+        }
+        .card-header-with-number h3 {
+            margin-bottom: 0;
+        }
+        .evidence-block {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+            margin: 1rem 0;
+        }
+        .evidence-block h4 {
+            color: var(--accent-purple);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .why-block {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-yellow);
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+            margin: 1rem 0;
+        }
+        .why-block h4 {
+            color: var(--accent-yellow);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .practice-block {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-green);
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+            margin: 1rem 0;
+        }
+        .practice-block h4 {
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .timing-badge {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            background: var(--bg-hover);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+        }
+        .timing-badge strong {
+            color: var(--accent-cyan);
+        }
+        .example-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 0.75rem 0;
+        }
+        .example-dont {
+            background: #f8514915;
+            border: 1px solid #f8514940;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+        }
+        .example-dont::before {
+            content: '✗ Invece di';
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-red);
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .example-do {
+            background: #3fb95015;
+            border: 1px solid #3fb95040;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+        }
+        .example-do::before {
+            content: '✓ Prova';
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .step-list {
+            counter-reset: steps;
+            list-style: none;
+            padding: 0;
+        }
+        .step-list li {
+            counter-increment: steps;
+            padding: 0.5rem 0 0.5rem 2.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+        .step-list li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .note-box {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-yellow);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+        }
+        .note-box p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .note-box strong {
+            color: var(--accent-yellow);
+        }
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .timeline-table th {
+            background: var(--bg-hover);
+            color: var(--accent-cyan);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent-cyan);
+        }
+        .timeline-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+        .timeline-table tr:hover td {
+            background: var(--bg-hover);
+        }
+        .bib-list {
+            list-style: none;
+            padding: 0;
+        }
+        .bib-list li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .bib-list li:last-child {
+            border-bottom: none;
+        }
+        .bib-list em {
+            color: var(--text-primary);
+        }
+        .bib-list a {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+        @media (max-width: 768px) {
+            .example-pair {
+                grid-template-columns: 1fr;
+            }
+            .main-container {
+                padding-top: 8rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a href="#panoramica" class="sidebar-link active" data-target="panoramica">Panoramica</a>
+                <a href="#comunicazione-base" class="sidebar-link" data-target="comunicazione-base">Comunicazione Base</a>
+                <a href="#ruoli-motivazione" class="sidebar-link" data-target="ruoli-motivazione">Ruoli e Motivazione</a>
+                <a href="#struttura-accordi" class="sidebar-link" data-target="struttura-accordi">Struttura e Accordi</a>
+                <a href="#tecniche-avanzate" class="sidebar-link" data-target="tecniche-avanzate">Tecniche Avanzate</a>
+                <a href="#sequenza" class="sidebar-link" data-target="sequenza">Sequenza Implementativa</a>
+                <a href="#riferimenti" class="sidebar-link" data-target="riferimenti">Riferimenti</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- PANORAMICA -->
+            <section id="panoramica" class="section active">
+                <h1>10 Tecniche di Comunicazione <span class="text-cyan">Evidence-Based</span></h1>
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Per la relazione madre-figlio adulto nella transizione all'autonomia</p>
+                <p class="text-muted" style="font-size: 0.85rem;">Contesto: Supporto alla genitorialità — comunicazione con figlio adulto (27 anni)</p>
+
+                <div class="stat-grid mt-3 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Tecniche</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Framework Teorici</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">25</div>
+                        <div class="stat-label">Riferimenti</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Fasi di Percorso</div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Premessa Clinica</h3>
+                    <div class="card">
+                        <p>Questo documento raccoglie 10 tecniche di comunicazione selezionate dalla letteratura scientifica e contestualizzate al caso specifico: madre separata da 10 anni, unica figura genitoriale presente, con un figlio adulto (27 anni) che convive con lei e presenta pattern di impulsività nella gestione economica, disregolazione del ciclo sonno-veglia e scarsa autonomia organizzativa. È in corso una valutazione dell'ipotesi ADHD (non ancora confermata).</p>
+                        <p>La comunicazione madre-figlio è attualmente limitata da scarsi momenti privati e da un pattern relazionale in cui la madre oscilla tra over-parenting silenzioso e stanchezza inespressa.</p>
+                        <p>Le tecniche sono organizzate in ordine di implementazione progressiva: dalle più accessibili (coerenti con il canale pragmatico-concreto) a quelle che richiedono un lavoro terapeutico più avanzato. Ogni tecnica include il framework teorico di riferimento, le evidenze scientifiche a supporto e un'applicazione pratica contestualizzata.</p>
+                    </div>
+
+                    <div class="note-box">
+                        <p><strong>Nota per il terapeuta:</strong> La paziente processa prevalentemente attraverso fatti e situazioni concrete. Le formulazioni astratte ("come ti senti?") tendono a chiuderla. Ogni tecnica è stata formulata con linguaggio concreto e orientato all'azione.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Framework Teorici Utilizzati</h3>
+                    <div class="card-grid">
+                        <div class="card">
+                            <span class="tag tag-cyan">NVC</span>
+                            <h3>Comunicazione Nonviolenta</h3>
+                            <p>Rosenberg (1960s/2003) — Osservazione, sentimenti, bisogni, richieste. Separa il fatto dal giudizio per ridurre la reattività difensiva.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-green">MI</span>
+                            <h3>Colloquio Motivazionale</h3>
+                            <p>Miller &amp; Rollnick (2002/2013) — Approccio collaborativo ed evocativo. Empatia, discrepanza, auto-efficacia, rotolare con la resistenza.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-yellow">ACT</span>
+                            <h3>Acceptance &amp; Commitment Therapy</h3>
+                            <p>Hayes, Strosahl &amp; Wilson (1999/2012) — Flessibilità psicologica, defusione cognitiva, azione orientata ai valori.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-orange">CPS</span>
+                            <h3>Collaborative Problem Solving</h3>
+                            <p>Greene (2014) — I comportamenti problematici derivano da competenze mancanti, non da mancanza di volontà.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-purple">Sistemico</span>
+                            <h3>Terapia Sistemico-Relazionale</h3>
+                            <p>Bowen (1978) — La famiglia come sistema. Conflitti cronici mantenuti da aspettative implicite non verbalizzate.</p>
+                        </div>
+                        <div class="card">
+                            <span class="tag tag-red">EFFT</span>
+                            <h3>Emotion-Focused Family Therapy</h3>
+                            <p>Lafrance et al. (2019) — Intimate Safety Model (Córdova, 2014). Riduzione delle paure genitoriali basate sull'amore.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COMUNICAZIONE BASE: T1, T2, T3 -->
+            <section id="comunicazione-base" class="section">
+                <h2>Comunicazione <span class="text-cyan">Base</span></h2>
+                <p class="text-secondary mb-3">Le tre tecniche fondamentali per costruire un linguaggio comunicativo diverso: osservare senza giudicare, ascoltare senza risolvere, esprimere senza accusare.</p>
+
+                <!-- Tecnica 1 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">1</span>
+                            <div>
+                                <h3>Comunicazione Descrittiva Non-Valutativa</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">NVC (Rosenberg, 1960s/2003) — componente osservazione</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>La NVC è stata sviluppata dal psicologo clinico Marshall Rosenberg per integrare empatia e compassione nel linguaggio quotidiano. Kansky &amp; Maassarani (2022) hanno documentato 36 esempi di cambiamento attitudinale e 71 di cambiamento comportamentale in partecipanti formati alla NVC, dimostrando un aumento dell'empatia e della capacità di risolvere conflitti (<a href="https://doi.org/10.1111/conl.12862" target="_blank">DOI: 10.1111/conl.12862</a>). Il principio cardine è separare l'osservazione dalla valutazione: descrivere ciò che accade senza giudizio, per ridurre la reattività difensiva dell'interlocutore.</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>La dinamica attuale è carica di risentimento inespresso — la madre fa, il figlio non risponde, la frustrazione cresce in silenzio. Quando la comunicazione avviene, rischia di partire dalla valutazione ("sei irresponsabile") anziché dalla descrizione ("lo stipendio è finito il secondo giorno"). Separare il fatto dal giudizio riduce la probabilità che il figlio si chiuda.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <div class="example-pair">
+                                <div class="example-dont">
+                                    <p style="margin:0; color: var(--text-primary);">"Non ti importa niente dei soldi"</p>
+                                </div>
+                                <div class="example-do">
+                                    <p style="margin:0; color: var(--text-primary);">"Ho visto che lo stipendio è finito venerdì sera. Lunedì hai dovuto chiedermi di anticipare la rata"</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 0.75rem;"><strong style="color: var(--text-primary);">Struttura:</strong> Osservazione specifica + conseguenza concreta, senza aggettivi valutativi</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 2</strong> (OB-02, OB-05) — Tecnica più accessibile per il canale pragmatico: le chiede di fare ciò che sa già fare (descrivere fatti), ma con intenzionalità comunicativa.</div>
+                    </div>
+                </div>
+
+                <!-- Tecnica 2 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">2</span>
+                            <div>
+                                <h3>Ascolto Riflessivo e Validazione Emotiva</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Colloquio Motivazionale (Miller &amp; Rollnick, 2002/2013) — espressione di empatia</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>Il MI è un approccio collaborativo, evocativo e rispettoso dell'autonomia del cliente, fondato su quattro principi: rotolare con la resistenza, esprimere empatia, sostenere l'auto-efficacia, sviluppare la discrepanza tra valori e comportamento attuale (Miller &amp; Rollnick, 2013). Meta-analisi consolidate lo confermano come intervento evidence-based (Britt, Blampied &amp; Hudson, 2004).</p>
+                            <p>Davis et al. (2023) hanno sviluppato il MILO (Motivational Interviewing for Loved Ones), un protocollo specifico per insegnare competenze MI ai genitori, con l'obiettivo di ridurre l'espressione emotiva critica e aiutare i familiari ad adottare una postura non-giudicante ed esplorativa (<a href="https://doi.org/10.1111/eip.13376" target="_blank">DOI: 10.1111/eip.13376</a>).</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>La madre tende a comunicare in modalità problem-solving ("devi fare così"). Il figlio adulto, di fronte a direttive, si chiude o non risponde. L'ascolto riflessivo inverte la dinamica: invece di dire al figlio cosa fare, lo aiuta a esplorare i propri pensieri e motivazioni.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <p><strong style="color: var(--text-primary);">Struttura base:</strong> Riformulazione → Domanda aperta → Silenzio</p>
+                            <p><strong style="color: var(--text-primary);">Esempio:</strong></p>
+                            <p>Figlio: "Tanto non riesco a tenere i soldi."</p>
+                            <p>Madre: "Mi stai dicendo che senti di non riuscire a controllarti con i soldi. Cosa pensi che succeda quando li spendi?" <em>(poi silenzio — lasciare spazio)</em></p>
+                            <p><strong style="color: var(--accent-yellow);">Regola d'oro:</strong> Non offrire soluzioni per almeno 60 secondi dopo che il figlio ha finito di parlare</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 2-3</strong> — Richiede che la madre abbia iniziato a ridurre l'over-parenting e accetti una postura più "da roadie" (cfr. Tecnica 4).</div>
+                    </div>
+                </div>
+
+                <!-- Tecnica 3 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">3</span>
+                            <div>
+                                <h3>Dichiarazione dei Propri Bisogni con Messaggi-Io</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">NVC (Rosenberg, 2003) + PET (Gordon, 1970) — sentimenti e bisogni</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>La struttura "Io sento... quando... perché ho bisogno di..." è il nucleo della NVC e del PET (Parent Effectiveness Training di Gordon). La ricerca sui messaggi-Io mostra che sostituire le accuse in seconda persona ("tu non fai mai") con espressioni in prima persona riduce la reattività difensiva e aumenta la probabilità di cooperazione.</p>
+                            <p>Yoo &amp; Córdova (2022) hanno dimostrato che la percezione di "sicurezza intima" con i genitori — cioè la possibilità di essere autentici e vulnerabili nella relazione — predice la connessione sociale e riduce ruminazione e rabbia negli emerging adults (<a href="https://doi.org/10.1111/fare.12803" target="_blank">DOI: 10.1111/fare.12803</a>). Lo studio evidenzia che il supporto emotivo empatico dei genitori (nurturant support), definito come supporto senza problem-solving, è associato a maggiore soddisfazione relazionale.</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>La madre non esprime ciò di cui ha bisogno — lo agisce (sveglia il figlio, paga la rata) oppure lo sopprime (stanchezza generalizzata). Il messaggio-Io le chiede di verbalizzare ciò che sente e ciò di cui ha bisogno, creando una comunicazione più autentica.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <p><strong style="color: var(--text-primary);">Struttura:</strong> "Quando [fatto osservabile], io mi sento [emozione], perché ho bisogno di [bisogno concreto]"</p>
+                            <p><strong style="color: var(--text-primary);">Esempio:</strong> "Quando la mattina ti chiamo tre volte e non ti alzi, mi sento frustrata e impotente, perché ho bisogno di sapere che posso contare sul fatto che gestisci le tue cose da solo"</p>
+                            <p><strong style="color: var(--accent-yellow);">Attenzione:</strong> Le prime volte suonerà artificiale. Va bene. La struttura è un'impalcatura — col tempo diventa naturale.</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 2</strong> — Dopo che la paziente ha praticato la Tecnica 1 e si sente più sicura nel separare fatti da giudizi.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RUOLI E MOTIVAZIONE: T4, T5 -->
+            <section id="ruoli-motivazione" class="section">
+                <h2>Ruoli e <span class="text-cyan">Motivazione</span></h2>
+                <p class="text-secondary mb-3">Rinegoziare la posizione genitoriale e stimolare la motivazione intrinseca del figlio, senza direttive dall'alto.</p>
+
+                <!-- Tecnica 4 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">4</span>
+                            <div>
+                                <h3>Transizione dal Ruolo di "Manager" a "Roadie"</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Tipologia ruoli genitoriali ADHD (Janssens et al., 2022)</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>Janssens, Blake, Eke, Price &amp; Ford (2022) hanno condotto 28 interviste semi-strutturate con genitori di giovani con ADHD (14-25 anni) e 64 con i giovani stessi, identificando una tipologia a tre ruoli: <strong style="color:var(--text-primary);">Manager</strong> (gestisce attivamente), <strong style="color:var(--text-primary);">Roadie</strong> (supporta da dietro le quinte), <strong style="color:var(--text-primary);">Superfan</strong> (rinforza l'immagine positiva).</p>
+                            <p>I genitori passano dal ruolo di Manager a quello di Roadie man mano che il figlio matura. Tuttavia, il ruolo di Superfan — benché protettivo per l'autostima — può impedire il ritiro dal ruolo manageriale, perché il genitore fatica a identificare realisticamente i comportamenti che necessitano di essere affrontati (<a href="https://doi.org/10.1111/dmcn.15320" target="_blank">DOI: 10.1111/dmcn.15320</a>).</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>La madre è attualmente nel ruolo di Manager pieno (sveglia, paga, monitora). Questo framework le offre un modello concreto e graduato per rinegoziare la propria posizione senza sentire di "abbandonare" il figlio. Non si tratta di smettere di essere presente, ma di cambiare il tipo di presenza.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <p><strong style="color: var(--text-primary);">Manager → Roadie per la sveglia:</strong> Smette di svegliare il figlio. Se il figlio chiede aiuto, lo aiuta a trovare una strategia (sveglia multipla, app) ma non esegue lei.</p>
+                            <p><strong style="color: var(--text-primary);">Manager → Roadie per le finanze:</strong> Non anticipa più la rata. Dice: "La rata è una tua responsabilità. Se hai bisogno di aiuto per organizzarti, ne parliamo. Ma non la pago io"</p>
+                            <p><strong style="color: var(--accent-cyan);">Comunicazione chiave:</strong> "Io ci sono. Ma il mio ruolo sta cambiando. Ti aiuto a trovare soluzioni, non le faccio al posto tuo"</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 2</strong> (OB-02) — Richiede che la psicoeducazione su ADHD (se confermato) sia già avvenuta, così il ritiro non viene vissuto come punizione ma come fiducia.</div>
+                    </div>
+                </div>
+
+                <!-- Tecnica 5 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">5</span>
+                            <div>
+                                <h3>Sviluppare la Discrepanza tra Valori e Comportamento</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Colloquio Motivazionale (Miller &amp; Rollnick, 2013) — sviluppo della discrepanza</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>Il MI è stato incorporato in approcci genitoriali per adolescenti e genitori di bambini con ADHD (Dishion &amp; Kavanagh, 2003; Stormshak et al., 2011). Stormshak et al. (2011) hanno dimostrato in un RCT con 593 famiglie che un approccio family-centered con componenti motivazionali riduceva il comportamento antisociale e l'uso di sostanze negli adolescenti (<a href="https://doi.org/10.1111/j.1467-8624.2010.01551.x" target="_blank">DOI: 10.1111/j.1467-8624.2010.01551.x</a>).</p>
+                            <p>Il principio della discrepanza non consiste nel criticare il comportamento, ma nell'aiutare la persona a riconoscere lo scarto tra ciò che desidera essere e ciò che sta facendo.</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>Piuttosto che dire al figlio "stai sbagliando", questa tecnica gli chiede: "Cosa vorresti per te stesso? E quello che stai facendo ti ci sta portando?" È particolarmente potente se il figlio ha ADHD, perché il problema non è la mancanza di volontà ma la difficoltà a regolare il comportamento verso obiettivi a lungo termine.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <p><strong style="color: var(--text-primary);">Domanda chiave:</strong> "Dove ti vedi fra due anni? Ti piacerebbe avere un appartamento tuo? Una macchina pagata? E come pensi di arrivarci partendo da dove sei adesso?"</p>
+                            <p><strong style="color: var(--accent-yellow);">Non dare la risposta.</strong> Se il figlio dice "non lo so", lasciare lo spazio. Se dice "certo che mi piacerebbe", chiedere: "Cosa pensi che dovrebbe cambiare perché succeda?"</p>
+                            <p><strong style="color: var(--text-primary);">Timing:</strong> Questa conversazione va fatta "in tempi non sospetti" — non dopo un litigio, non durante una crisi. A cena, in macchina, in un momento tranquillo.</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 2-3</strong> (OB-05) — Richiede che la paziente abbia già praticato l'ascolto riflessivo (Tecnica 2) e che il clima comunicativo sia meno carico.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STRUTTURA E ACCORDI: T6, T7 -->
+            <section id="struttura-accordi" class="section">
+                <h2>Struttura e <span class="text-cyan">Accordi</span></h2>
+                <p class="text-secondary mb-3">Creare una comprensione condivisa (psicoeducazione) e tradurla in accordi espliciti che sostituiscano le aspettative implicite.</p>
+
+                <!-- Tecnica 7 (prima perché va introdotta prima nella sequenza) -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">7</span>
+                            <div>
+                                <h3>Psicoeducazione Condivisa sull'ADHD come Reframing Relazionale</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Psicoeducazione familiare evidence-based — Modello biopsicosociale</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>La psicoeducazione familiare sull'ADHD è un componente centrale di tutti i trattamenti family-based validati. Corona et al. (2020) hanno dimostrato che un intervento che integra strategie familiari di comunicazione nel trattamento ADHD aumenta la coesione familiare e la comunicazione sugli argomenti difficili (<a href="https://doi.org/10.1007/s10802-020-00689-6" target="_blank">DOI: 10.1007/s10802-020-00689-6</a>).</p>
+                            <p>Moen, Hall-Lord &amp; Hedelin (2014) hanno documentato che le famiglie con ADHD sviluppano competenze e strategie specifiche per "salvaguardare il funzionamento familiare", e che la condivisione di una comprensione comune del disturbo tra tutti i membri è precondizione per ridurre i conflitti (<a href="https://doi.org/10.1111/jocn.12559" target="_blank">DOI: 10.1111/jocn.12559</a>).</p>
+                            <p>Il reframing cognitivo da "pigrizia/irresponsabilità" a "difficoltà di regolazione" ha un effetto terapeutico documentato sulla riduzione del senso di colpa genitoriale e del risentimento.</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>Se l'ipotesi ADHD si confermerà, condividere questa comprensione con il figlio trasforma la dinamica relazionale. Non si tratta più di "io ti dico cosa fare e tu non lo fai", ma di "ora sappiamo entrambi perché è difficile, e possiamo trovare strategie insieme". È un atto di comunicazione che riduce il potere asimmetrico e crea alleanza.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <ol class="step-list">
+                                <li><strong style="color: var(--text-primary);">Preparazione:</strong> La madre legge materiale sull'ADHD adulto (fornito dal terapeuta) prima della conversazione</li>
+                                <li><strong style="color: var(--text-primary);">Apertura:</strong> "Ho parlato col mio terapeuta di una cosa che potrebbe spiegare alcune delle tue difficoltà. Non è una diagnosi, è una possibilità. Ti va se ne parliamo?"</li>
+                                <li><strong style="color: var(--text-primary);">Frame:</strong> "Se fosse ADHD, significherebbe che il tuo cervello funziona in modo diverso con gli impulsi e la pianificazione. Non vuol dire che sei sbagliato — vuol dire che certe strategie funzionerebbero meglio di altre per te"</li>
+                                <li><strong style="color: var(--text-primary);">Invito (non imposizione):</strong> "Se ti va, potremmo fare una valutazione insieme. Non per etichettarti, ma per capire meglio come funzioni e come aiutarti nel modo giusto"</li>
+                            </ol>
+                        </div>
+                        <div class="timing-badge"><strong>Fine Fase 1 / Inizio Fase 2</strong> (OB-01) — Solo se la raccolta anamnestica e la valutazione clinica confermano la plausibilità dell'ipotesi. Non prima.</div>
+                    </div>
+                </div>
+
+                <!-- Tecnica 6 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">6</span>
+                            <div>
+                                <h3>Accordi Espliciti e Negoziazione Strutturata</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Terapia Sistemico-Relazionale (Bowen, 1978) + Problem-Solving Strutturato</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>La ricerca sulla famiglia come sistema (Bowen Family Systems Theory) evidenzia che i conflitti relazionali cronici sono spesso mantenuti da aspettative implicite non verbalizzate.</p>
+                            <p>Babinski &amp; Sibley (2021), in una review di RCT su trattamenti family-based per ADHD (2010-2019), hanno documentato che gli interventi che includono accordi espliciti genitore-figlio sulle responsabilità migliorano il funzionamento familiare in modo significativo, e sono considerati "well-established interventions" (<a href="https://doi.org/10.1111/jmft.12572" target="_blank">DOI: 10.1111/jmft.12572</a>).</p>
+                            <p>Altszuler et al. (2016) e Pelham et al. (2019) confermano che gli adulti con ADHD hanno maggiore probabilità di vivere con i genitori e ricevere supporto finanziario, rendendo necessari accordi espliciti su confini e responsabilità.</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>La dinamica attuale è fatta di regole implicite che nessuno ha mai negoziato. Il figlio vive in casa, usa risorse familiari, ma non esiste un "contratto" su cosa è responsabilità sua e cosa no. L'assenza di accordi espliciti alimenta il risentimento silenzioso della madre e l'irresponsabilità percepita del figlio.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <ol class="step-list">
+                                <li><strong style="color: var(--text-primary);">Identificare le aree:</strong> Sonno/sveglia, contributo economico, spazi domestici, logistica (macchina, spese)</li>
+                                <li><strong style="color: var(--text-primary);">Negoziare:</strong> "Quello che ti propongo è di sederci e decidere insieme: cosa è responsabilità tua, cosa è responsabilità mia, dove ci aiutiamo a vicenda"</li>
+                                <li><strong style="color: var(--text-primary);">Scrivere:</strong> Un foglio su cui entrambi firmano. Non come punizione, ma come chiarezza</li>
+                                <li><strong style="color: var(--text-primary);">Revisione:</strong> Ogni mese, 15 minuti per rivedere come sta andando</li>
+                            </ol>
+                            <p class="mt-2"><strong style="color: var(--text-primary);">Esempio concreto:</strong> "Tu sei responsabile della sveglia e della puntualità al lavoro. Io non ti sveglio. La rata della macchina la paghi tu dal tuo stipendio. Se hai bisogno di aiuto per organizzarti, me lo chiedi"</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 4</strong> (OB-05) — Punto di arrivo della comunicazione diretta. Richiede che la paziente abbia già lavorato su confini (T4) e messaggi-Io (T3).</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TECNICHE AVANZATE: T8, T9, T10 -->
+            <section id="tecniche-avanzate" class="section">
+                <h2>Tecniche <span class="text-cyan">Avanzate</span></h2>
+                <p class="text-secondary mb-3">Lavoro sulla flessibilità psicologica interna, apertura alla vulnerabilità e costruzione collaborativa di soluzioni.</p>
+
+                <!-- Tecnica 8 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">8</span>
+                            <div>
+                                <h3>Riduzione dell'Over-Parenting tramite Flessibilità Psicologica</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">ACT (Hayes, Strosahl &amp; Wilson, 1999/2012)</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>Brown, Whittingham, Boyd, McKinlay &amp; Sofronoff (2014) hanno condotto un RCT (n=59) dimostrando che l'integrazione di un workshop ACT in un programma genitoriale (Stepping Stones Triple P) riduce significativamente i problemi comportamentali del figlio e gli stili genitoriali disfunzionali (permissività e iperreattività), con effect sizes da medi a grandi mantenuti a 6 mesi (<a href="https://doi.org/10.1111/jcpp.12227" target="_blank">DOI: 10.1111/jcpp.12227</a>).</p>
+                            <p>Il meccanismo è la riduzione dell'evitamento esperienziale: i genitori che accettano le emozioni difficili (paura, colpa, impotenza) senza agire compulsivamente sono più efficaci nelle interazioni col figlio.</p>
+                            <p>Xie, Yang &amp; Li (2025) hanno confermato che l'inflessibilità psicologica è il mediatore più forte (32-38%) tra sintomi di salute mentale dei genitori e riduzione dell'autoefficacia genitoriale (<a href="https://doi.org/10.1002/nop2.70180" target="_blank">DOI: 10.1002/nop2.70180</a>).</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>L'over-parenting (svegliare il figlio, pagare le rate) è probabilmente guidato da paure non elaborate: "Se non lo faccio io, lui crolla"; "Se lo lascio fare, sono una cattiva madre"; "Se smetto di controllare, perderò anche lui come ho perso il padre". La flessibilità psicologica le permette di sentire queste paure senza che diventino comandi d'azione automatici.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <p><strong style="color: var(--text-primary);">Esercizio "Cosa temo che succeda":</strong> Ogni volta che sente l'impulso di intervenire per il figlio (svegliarlo, pagare, risolvere), si ferma e si chiede: "Cosa temo che succeda se non lo faccio?" Poi scrive la risposta.</p>
+                            <p><strong style="color: var(--text-primary);">Defusione:</strong> Impara a dire: "Sto avendo il pensiero che se non lo sveglio, perderà il lavoro" — aggiungere "sto avendo il pensiero che..." crea distanza tra il pensiero e l'azione automatica.</p>
+                            <p><strong style="color: var(--text-primary);">Azione orientata ai valori:</strong> "Qual è il mio valore qui? Proteggere mio figlio? O aiutarlo a diventare adulto? Quale azione serve il secondo valore?"</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 2-3</strong> (OB-02, OB-04) — Lavoro terapeutico in seduta, non homework diretto. Questa tecnica cambia la comunicazione cambiando prima il funzionamento interno.</div>
+                    </div>
+                </div>
+
+                <!-- Tecnica 9 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">9</span>
+                            <div>
+                                <h3>Comunicazione Emotivamente Sicura — Creare Spazi di Vulnerabilità</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Intimate Safety Model (Córdova, 2014) + EFFT (Lafrance et al., 2019)</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>Yoo &amp; Córdova (2022), in uno studio su 216 emerging adults, hanno dimostrato che la percezione di "sicurezza intima" con i genitori — cioè la possibilità di essere autenticamente vulnerabili — predice la connessione sociale degli emerging adults e media la riduzione di ruminazione e rabbia (<a href="https://doi.org/10.1111/fare.12803" target="_blank">DOI: 10.1111/fare.12803</a>).</p>
+                            <p>Crucialmente, lo studio documenta che lo stile di attaccamento adulto media la relazione tra sicurezza intima genitoriale e connessione sociale, suggerendo che la comunicazione emotivamente aperta dei genitori influenza la capacità del figlio di costruire relazioni sane anche fuori dalla famiglia.</p>
+                            <p>Sabey, Stillar &amp; Lafrance (2021) hanno dimostrato che l'intervento EFFT riduce le paure genitoriali basate sull'amore (love-based fears) e aumenta la fiducia dei genitori nel sostenere i figli (<a href="https://doi.org/10.1111/jmft.12580" target="_blank">DOI: 10.1111/jmft.12580</a>).</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>La comunicazione attuale è funzionale ("svegliati", "paga la rata") ma non emotiva. Il figlio non sa come sta sua madre — e la madre non sa come sta il figlio al di là dei comportamenti visibili. Creare momenti di vulnerabilità condivisa cambia la qualità della relazione, non solo la gestione dei problemi.</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <p><strong style="color: var(--text-primary);">Apertura vulnerabile (non accusa):</strong> "Sai, a volte mi preoccupo per te. Non perché penso che stai sbagliando — perché ti voglio bene e vorrei che le cose andassero bene per te"</p>
+                            <p><strong style="color: var(--text-primary);">Chiedere la prospettiva del figlio:</strong> "Come stai tu? Non quello che fai — come stai dentro. Sei contento? C'è qualcosa che ti pesa?"</p>
+                            <p><strong style="color: var(--text-primary);">Condividere la propria stanchezza (senza colpevolizzare):</strong> "Sono stanca. Non è colpa tua — è che in questi anni ho portato tanto da sola. Vorrei che potessimo essere una squadra, non io che tiro e tu che segui"</p>
+                            <p><strong style="color: var(--accent-yellow);">Timing:</strong> Momento privato, tranquillo, senza urgenza. Non dopo un litigio.</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 3-4</strong> (OB-05, OB-04) — Richiede che la paziente abbia già accesso al proprio registro emotivo (lavoro fatto in Fasi 1-3).</div>
+                    </div>
+                </div>
+
+                <!-- Tecnica 10 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <div class="card-header-with-number">
+                            <span class="technique-number">10</span>
+                            <div>
+                                <h3>Problem-Solving Collaborativo — Costruire Soluzioni Insieme</h3>
+                                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">CPS (Greene, 2014) + Behavioral Family Management (Falloon, 1984)</p>
+                            </div>
+                        </div>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="evidence-block mt-2">
+                            <h4>Evidenze Scientifiche</h4>
+                            <p>Il modello CPS di Ross Greene (originariamente "Collaborative Problem Solving") è stato validato in contesti con bambini e adolescenti con difficoltà di regolazione emotiva e comportamentale, includendo presentazioni ADHD. Il principio cardine è che i comportamenti problematici derivano da competenze mancanti (lagging skills), non da mancanza di volontà.</p>
+                            <p>Burke, Dittman, Forbes &amp; Eggins (2021), nel protocollo di una revisione sistematica e meta-analisi Campbell, confermano che gli interventi genitoriali che forniscono supporto emotivo e sviluppano competenze comunicative producono outcome positivi per adolescenti e giovani adulti (<a href="https://doi.org/10.1002/cl2.1146" target="_blank">DOI: 10.1002/cl2.1146</a>).</p>
+                            <p>Il problem-solving collaborativo capovolge la dinamica: non è il genitore che impone la soluzione, ma genitore e figlio che la costruiscono insieme, riconoscendo entrambi i bisogni.</p>
+                        </div>
+                        <div class="why-block">
+                            <h4>Perché per questo caso</h4>
+                            <p>La frustrazione nasce anche dal fatto che le soluzioni proposte (o imposte) non funzionano. Il figlio non le segue, e la madre si sente impotente. Il problem-solving collaborativo sposta il controllo: non è "io ti dico cosa fare", ma "abbiamo un problema condiviso — come lo risolviamo?".</p>
+                        </div>
+                        <div class="practice-block">
+                            <h4>Applicazione Pratica</h4>
+                            <ol class="step-list">
+                                <li><strong style="color: var(--text-primary);">Empatia:</strong> "Ho notato che [situazione concreta]. Come la vedi tu? Cosa succede dalla tua parte?"</li>
+                                <li><strong style="color: var(--text-primary);">Definire il bisogno del genitore:</strong> "Il mio problema è che [bisogno concreto — es. non riuscire a contare sul contributo economico]"</li>
+                                <li><strong style="color: var(--text-primary);">Brainstorming condiviso:</strong> "Cosa possiamo fare perché funzioni per tutti e due? Proviamo a trovare qualcosa insieme"</li>
+                                <li><strong style="color: var(--text-primary);">Accordo e verifica:</strong> Scegliere una soluzione, provarla per due settimane, rivalutare</li>
+                            </ol>
+                            <p class="mt-2"><strong style="color: var(--text-primary);">Esempio:</strong> "I 100 euro del weekend: tu vuoi uscire, io ho bisogno che la rata sia coperta. Come facciamo? Cosa proponi?"</p>
+                        </div>
+                        <div class="timing-badge"><strong>Fase 4</strong> (OB-05, consolidamento OB-02) — Tecnica più complessa: richiede che entrambe le parti siano disposte a negoziare. Funziona solo se le tecniche precedenti hanno creato un clima comunicativo diverso.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEQUENZA IMPLEMENTATIVA -->
+            <section id="sequenza" class="section">
+                <h2>Sequenza <span class="text-cyan">Implementativa</span></h2>
+                <p class="text-secondary mb-3">Roadmap del percorso terapeutico: dalle tecniche più accessibili a quelle che richiedono un lavoro più avanzato.</p>
+
+                <div class="card">
+                    <table class="timeline-table">
+                        <thead>
+                            <tr>
+                                <th>Fase del Percorso</th>
+                                <th>Tecniche</th>
+                                <th>Razionale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong style="color: var(--text-primary);">Fase 1</strong><br><span class="text-muted" style="font-size:0.8rem;">Sessioni 3-5</span></td>
+                                <td><span class="tag tag-cyan" style="font-size:0.7rem;">T7</span> Psicoeducazione ADHD (se confermato)</td>
+                                <td>Reframing diagnostico come base per il cambiamento comunicativo</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--text-primary);">Fase 2</strong><br><span class="text-muted" style="font-size:0.8rem;">Sessioni 5-7</span></td>
+                                <td><span class="tag tag-cyan" style="font-size:0.7rem;">T1</span> <span class="tag tag-cyan" style="font-size:0.7rem;">T4</span> <span class="tag tag-cyan" style="font-size:0.7rem;">T8</span></td>
+                                <td>Comunicazione non-valutativa + transizione di ruolo + flessibilità psicologica</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--text-primary);">Fase 2-3</strong><br><span class="text-muted" style="font-size:0.8rem;">Sessioni 7-10</span></td>
+                                <td><span class="tag tag-cyan" style="font-size:0.7rem;">T2</span> <span class="tag tag-cyan" style="font-size:0.7rem;">T3</span> <span class="tag tag-cyan" style="font-size:0.7rem;">T5</span></td>
+                                <td>Ascolto riflessivo + messaggi-Io + sviluppo discrepanza</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--text-primary);">Fase 3-4</strong><br><span class="text-muted" style="font-size:0.8rem;">Sessioni 10-15</span></td>
+                                <td><span class="tag tag-cyan" style="font-size:0.7rem;">T9</span> <span class="tag tag-cyan" style="font-size:0.7rem;">T6</span></td>
+                                <td>Vulnerabilità condivisa + accordi espliciti</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--text-primary);">Fase 4</strong><br><span class="text-muted" style="font-size:0.8rem;">Sessioni 15+</span></td>
+                                <td><span class="tag tag-cyan" style="font-size:0.7rem;">T10</span> Problem-solving collaborativo</td>
+                                <td>Modalità stabile di comunicazione collaborativa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="note-box mt-3">
+                    <p><strong>Nota:</strong> Le tecniche devono essere introdotte nel percorso terapeutico in accordo con la scaletta e il giudizio clinico del terapeuta. La sequenza è indicativa e va adattata alla risposta della paziente e all'evoluzione del caso.</p>
+                </div>
+            </section>
+
+            <!-- RIFERIMENTI -->
+            <section id="riferimenti" class="section">
+                <h2>Riferimenti <span class="text-cyan">Bibliografici</span></h2>
+                <p class="text-secondary mb-3">25 fonti peer-reviewed a supporto delle tecniche proposte.</p>
+
+                <input type="text" class="search-input mb-2" id="bibSearch" placeholder="Cerca autore, titolo o anno...">
+
+                <div class="card">
+                    <ol class="bib-list" id="bibList">
+                        <li data-bib="altszuler 2016 financial dependence adhd">Altszuler, A. R., et al. (2016). Financial dependence of young adults with childhood ADHD. <em>Journal of Abnormal Child Psychology</em>, 44(6), 1217-1229.</li>
+                        <li data-bib="arnett 2000 emerging adulthood theory">Arnett, J. J. (2000). Emerging adulthood: A theory of development from the late teens through the twenties. <em>American Psychologist</em>, 55(5), 469-480.</li>
+                        <li data-bib="babinski sibley 2021 family treatments adhd rct">Babinski, D. E., &amp; Sibley, M. H. (2021). Family-based treatments for ADHD: A review of family functioning outcomes in RCTs from 2010 to 2019. <em>Journal of Marital and Family Therapy</em>, 48(1), 83-106. <a href="https://doi.org/10.1111/jmft.12572" target="_blank">DOI: 10.1111/jmft.12572</a></li>
+                        <li data-bib="bowen 1978 family therapy clinical practice">Bowen, M. (1978). <em>Family Therapy in Clinical Practice</em>. Jason Aronson.</li>
+                        <li data-bib="brown whittingham 2014 stepping stones triple p act rct">Brown, F. L., Whittingham, K., Boyd, R. N., McKinlay, L., &amp; Sofronoff, K. (2014). Improving child and parenting outcomes following paediatric ABI: A RCT of Stepping Stones Triple P plus ACT. <em>Journal of Child Psychology and Psychiatry</em>, 55(10), 1172-1183. <a href="https://doi.org/10.1111/jcpp.12227" target="_blank">DOI: 10.1111/jcpp.12227</a></li>
+                        <li data-bib="burke dittman 2021 systematic review parenting adolescents campbell">Burke, K., Dittman, C. K., Forbes, E. J., &amp; Eggins, E. (2021). A systematic review and meta-analysis of RCTs evaluating parenting programmes for parents of adolescents. <em>Campbell Systematic Reviews</em>, 17(1). <a href="https://doi.org/10.1002/cl2.1146" target="_blank">DOI: 10.1002/cl2.1146</a></li>
+                        <li data-bib="cordova 2014 marriage checkup intimate safety">Córdova, J. V. (2014). <em>The Marriage Checkup: A Scientific Program for Sustaining and Strengthening Marital Health</em>. Jason Aronson. (Intimate Safety Model)</li>
+                        <li data-bib="corona 2020 adhd family communication tobacco">Corona, R., et al. (2020). Integrating tobacco prevention into an evidence-based ADHD intervention. <em>Journal of Abnormal Child Psychology</em>, 48(11), 1439-1453. <a href="https://doi.org/10.1007/s10802-020-00689-6" target="_blank">DOI: 10.1007/s10802-020-00689-6</a></li>
+                        <li data-bib="davis 2023 milo motivational interviewing loved ones">Davis, B. J., et al. (2023). Development of the MILO-SA. <em>Early Intervention in Psychiatry</em>, 17(8), 792-797. <a href="https://doi.org/10.1111/eip.13376" target="_blank">DOI: 10.1111/eip.13376</a></li>
+                        <li data-bib="dzurilla goldfried 1971 problem solving behavior">D'Zurilla, T. J., &amp; Goldfried, M. R. (1971). Problem solving and behavior modification. <em>Journal of Abnormal Psychology</em>, 78(1), 107-126.</li>
+                        <li data-bib="gordon 1970 parent effectiveness training pet">Gordon, T. (1970). <em>Parent Effectiveness Training</em>. Wyden.</li>
+                        <li data-bib="greene 2014 explosive child collaborative problem solving">Greene, R. W. (2014). <em>The Explosive Child</em> (5th ed.). Harper.</li>
+                        <li data-bib="janssens blake 2022 parenting roles adhd transition">Janssens, A., Blake, S., Eke, H., Price, A., &amp; Ford, T. (2022). Parenting roles for young people with ADHD transitioning to adult services. <em>Developmental Medicine &amp; Child Neurology</em>, 65(1), 136-144. <a href="https://doi.org/10.1111/dmcn.15320" target="_blank">DOI: 10.1111/dmcn.15320</a></li>
+                        <li data-bib="jiao cui fincham 2024 overparenting romantic relationships emerging adulthood">Jiao, C., Cui, M., &amp; Fincham, F. D. (2024). Overparenting and romantic relationships in emerging adulthood. <em>Family Relations</em>, 73(5), 3015-3030. <a href="https://doi.org/10.1111/fare.13070" target="_blank">DOI: 10.1111/fare.13070</a></li>
+                        <li data-bib="kansky maassarani 2022 nvc empathy conservation">Kansky, R., &amp; Maassarani, T. (2022). Teaching NVC to increase empathy. <em>Conservation Letters</em>, 15(1). <a href="https://doi.org/10.1111/conl.12862" target="_blank">DOI: 10.1111/conl.12862</a></li>
+                        <li data-bib="lafrance dolhanty greenberg 2019 efft eating disorders">Lafrance Robinson, A., Dolhanty, J., &amp; Greenberg, L. (2019). Emotion-Focused Family Therapy for eating disorders across the lifespan. <em>Current Opinion in Psychiatry</em>, 32(6), 483-489.</li>
+                        <li data-bib="mikolajczak 2019 parental burnout">Mikolajczak, M., et al. (2019). Parental burnout: What is it, and why does it matter? <em>Clinical Psychological Science</em>, 7(6), 1319-1329.</li>
+                        <li data-bib="miller rollnick 2013 motivational interviewing helping people change">Miller, W. R., &amp; Rollnick, S. (2013). <em>Motivational Interviewing: Helping People Change</em> (3rd ed.). Guilford Press.</li>
+                        <li data-bib="moen hall-lord hedelin 2014 family adhd strategies functioning">Moen, Ø. L., Hall-Lord, M. L., &amp; Hedelin, B. (2014). Living in a family with a child with ADHD. <em>Journal of Clinical Nursing</em>, 23(21-22), 3166-3176. <a href="https://doi.org/10.1111/jocn.12559" target="_blank">DOI: 10.1111/jocn.12559</a></li>
+                        <li data-bib="pelham 2019 long-term financial outcome adhd">Pelham, W. E., et al. (2019). The long-term financial outcome of children diagnosed with ADHD. <em>Journal of Consulting and Clinical Psychology</em>, 88(2), 160-171.</li>
+                        <li data-bib="rosenberg 2003 nonviolent communication nvc language life">Rosenberg, M. B. (2003). <em>Nonviolent Communication: A Language of Life</em>. PuddleDancer Press.</li>
+                        <li data-bib="sabey stillar lafrance 2021 efft two-chair love fears">Sabey, A. K., Stillar, A., &amp; Lafrance, A. (2021). Processes and outcomes of an EFFT two-chair intervention. <em>Journal of Marital and Family Therapy</em>, 48(3), 738-757. <a href="https://doi.org/10.1111/jmft.12580" target="_blank">DOI: 10.1111/jmft.12580</a></li>
+                        <li data-bib="stormshak 2011 ecological approach adolescent mental health rct">Stormshak, E. A., et al. (2011). An ecological approach to promoting early adolescent mental health. <em>Child Development</em>, 82(1), 209-225. <a href="https://doi.org/10.1111/j.1467-8624.2010.01551.x" target="_blank">DOI: 10.1111/j.1467-8624.2010.01551.x</a></li>
+                        <li data-bib="xie yang li 2025 psychological flexibility parenting mindfulness">Xie, J., Yang, L., &amp; Li, S. (2025). Parental psychological flexibility, mindfulness, and self-compassion. <em>Nursing Open</em>, 12(4). <a href="https://doi.org/10.1002/nop2.70180" target="_blank">DOI: 10.1002/nop2.70180</a></li>
+                        <li data-bib="yoo cordova 2022 intimate safety emerging adults connectedness">Yoo, D., &amp; Córdova, J. (2022). Intimate safety with parents as a key to emerging adults' social connectedness. <em>Family Relations</em>, 72(4), 2234-2250. <a href="https://doi.org/10.1111/fare.12803" target="_blank">DOI: 10.1111/fare.12803</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Risorsa creata da Ivan Ferrero — 2026<br>
+                    <a href="/dashboards/">← Torna alle Dashboard</a> · <a href="/">Homepage</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity Scripts -->
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Bibliography search
+        const bibSearch = document.getElementById('bibSearch');
+        const bibItems = document.querySelectorAll('#bibList li');
+
+        bibSearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            bibItems.forEach(item => {
+                const bibData = item.dataset.bib?.toLowerCase() || '';
+                const text = item.textContent.toLowerCase();
+                if (bibData.includes(query) || text.includes(query) || query === '') {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
