@@ -1696,108 +1696,6 @@
         </div>
     </div>
 
-    <script>
-        // Navigation and Section Management
-        const sidebarItems = document.querySelectorAll('.sidebar-item');
-        const sections = document.querySelectorAll('.section');
-        const sidebar = document.getElementById('sidebar');
-        const menuToggle = document.getElementById('menuToggle');
-
-        sidebarItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const sectionId = item.getAttribute('data-section');
-
-                // Update active sidebar item
-                sidebarItems.forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-
-                // Update active section
-                sections.forEach(section => section.classList.remove('active'));
-                document.getElementById(sectionId).classList.add('active');
-
-                // Close sidebar on mobile
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('open');
-                }
-
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-
-        // Mobile menu toggle
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('open');
-            }
-        });
-
-        // Card expansion toggle
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const header = card.querySelector('.card-header');
-            header.addEventListener('click', () => {
-                card.classList.toggle('expanded');
-            });
-        });
-
-        // Tab functionality
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabName = btn.getAttribute('data-tab');
-                const container = btn.closest('[data-tab-container]');
-
-                container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-                btn.classList.add('active');
-                container.querySelector(`[data-tab-content="${tabName}"]`).classList.add('active');
-            });
-        });
-
-        // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filter = btn.getAttribute('data-filter');
-                const cards = document.querySelectorAll('[data-activity-type]');
-
-                cards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-activity-type').includes(filter)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Search functionality
-        const searchInputs = document.querySelectorAll('.search-input');
-        searchInputs.forEach(input => {
-            input.addEventListener('keyup', () => {
-                const query = input.value.toLowerCase();
-                const container = input.closest('.section') || document.body;
-                const cards = container.querySelectorAll('[data-searchable]');
-
-                cards.forEach(card => {
-                    const text = card.textContent.toLowerCase();
-                    card.style.display = text.includes(query) ? 'block' : 'none';
-                });
-            });
-        });
-
-        // Load site menu (if file exists)
-        // Note: This will only work if /assets/menu.js is available
 <!-- SEZIONE 5: IA GENERATIVA -->
 <section id="genai" class="section">
     <h2 class="section-title">🤖 IA Generativa e Disinformazione</h2>
@@ -3924,6 +3822,109 @@
     </div>
 </section>
 
+
+    <script>
+        // Navigation and Section Management
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const sections = document.querySelectorAll('.section');
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const sectionId = item.getAttribute('data-section');
+
+                // Update active sidebar item
+                sidebarItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                // Update active section
+                sections.forEach(section => section.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+
+                // Close sidebar on mobile
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('open');
+                }
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Card expansion toggle
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const header = card.querySelector('.card-header');
+            if (header) {
+                header.addEventListener('click', () => {
+                    card.classList.toggle('expanded');
+                });
+            }
+        });
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.getAttribute('data-tab');
+                const container = btn.closest('[data-tab-container]');
+
+                container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                btn.classList.add('active');
+                container.querySelector(`[data-tab-content="${tabName}"]`).classList.add('active');
+            });
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+                const activityCards = document.querySelectorAll('[data-activity-type]');
+
+                activityCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-activity-type').includes(filter)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        const searchInputs = document.querySelectorAll('.search-input');
+        searchInputs.forEach(input => {
+            input.addEventListener('keyup', () => {
+                const query = input.value.toLowerCase();
+                const container = input.closest('.section') || document.body;
+                const searchCards = container.querySelectorAll('[data-searchable]');
+
+                searchCards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(query) ? 'block' : 'none';
+                });
+            });
+        });
+    </script>
 
     <script src="/assets/menu.js"></script>
 </body>
