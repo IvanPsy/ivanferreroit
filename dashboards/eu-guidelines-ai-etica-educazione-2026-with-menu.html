@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linee Guida UE 2026 — Uso Etico dell'AI nell'Educazione | Ivan Ferrero</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0e14;
+            color: #e6edf3;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        code, .monospace {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            width: 280px;
+            height: calc(100vh - 70px);
+            background: #0f1419;
+            border-right: 1px solid #30363d;
+            padding: 20px 0;
+            overflow-y: auto;
+            z-index: 900;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #00d9ff;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 12px;
+            color: #8b949e;
+        }
+
+        .nav-section {
+            margin-bottom: 10px;
+        }
+
+        .nav-section-title {
+            padding: 12px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #6e7681;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            font-size: 13px;
+            color: #8b949e;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            border-left-color: #00d9ff;
+        }
+
+        .nav-item.active {
+            background: rgba(0, 217, 255, 0.15);
+            color: #00d9ff;
+            border-left-color: #00d9ff;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0a0e14 0%, #1a222d 100%);
+            border-bottom: 2px solid #00d9ff;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d9ff, #a371f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #8b949e;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 280px;
+            right: 0;
+            height: 3px;
+            background: rgba(0, 217, 255, 0.1);
+            z-index: 999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d9ff, #3fb950, #d29922);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .content {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #00d9ff;
+            border-bottom: 2px solid #30363d;
+            padding-bottom: 15px;
+        }
+
+        .card {
+            background: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #00d9ff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title:hover {
+            color: #58a6ff;
+        }
+
+        .toggle-icon {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .card.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .card-content {
+            display: none;
+            padding-top: 15px;
+            border-top: 1px solid #30363d;
+        }
+
+        .card.expanded .card-content {
+            display: block;
+        }
+
+        /* Stat Cards */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #30363d;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover {
+            color: #00d9ff;
+        }
+
+        .tab.active {
+            color: #00d9ff;
+            border-bottom-color: #00d9ff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: rgba(0, 217, 255, 0.1);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #00d9ff;
+            border-bottom: 2px solid #30363d;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        /* Glossary */
+        .glossary-search {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e6edf3;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+        }
+
+        .search-input::placeholder {
+            color: #6e7681;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00d9ff;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+        }
+
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .glossary-term {
+            background: #1a222d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .glossary-term:hover {
+            border-color: #00d9ff;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.1);
+        }
+
+        .glossary-term.hidden {
+            display: none;
+        }
+
+        .term-title {
+            font-weight: 600;
+            color: #00d9ff;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .term-definition {
+            font-size: 13px;
+            color: #8b949e;
+            margin-bottom: 10px;
+        }
+
+        .term-context {
+            font-size: 12px;
+            color: #6e7681;
+            font-style: italic;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #e6edf3;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 5px;
+        }
+
+        .badge-highlight {
+            background: rgba(0, 217, 255, 0.2);
+            color: #00d9ff;
+        }
+
+        .badge-danger {
+            background: rgba(248, 81, 73, 0.2);
+            color: #f85149;
+        }
+
+        .badge-success {
+            background: rgba(63, 185, 80, 0.2);
+            color: #3fb950;
+        }
+
+        .badge-warning {
+            background: rgba(210, 153, 34, 0.2);
+            color: #d29922;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                top: 120px;
+                height: calc(100vh - 120px);
+                width: 250px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding-top: 140px !important;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .glossary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-bar {
+                left: 0;
+                top: 120px;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table-wrapper table {
+                min-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso del sito -->
+    <div id="site-menu"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">AI Educazione</div>
+            <div class="sidebar-subtitle">Linee Guida Etiche UE 2026</div>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <div class="nav-section-title">Dashboard</div>
+                <div class="nav-item active" onclick="goToSection('overview')">📊 Quadro d'Insieme</div>
+                <div class="nav-item" onclick="goToSection('contesto')">🌍 Contesto UE</div>
+                <div class="nav-item" onclick="goToSection('esempi')">💡 Esempi di Utilizzo</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Normativa</div>
+                <div class="nav-item" onclick="goToSection('framework')">⚖️ Framework Normativo</div>
+                <div class="nav-item" onclick="goToSection('etica')">🔬 Considerazioni Etiche</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Implementazione</div>
+                <div class="nav-item" onclick="goToSection('domande')">❓ Domande Guida</div>
+                <div class="nav-item" onclick="goToSection('scenari')">🎬 Scenari Pratici</div>
+                <div class="nav-item" onclick="goToSection('pianificazione')">📋 Pianificazione</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Competenze</div>
+                <div class="nav-item" onclick="goToSection('literacy')">🎓 AI Literacy</div>
+                <div class="nav-item" onclick="goToSection('glossario')">📖 Glossario</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Risorse</div>
+                <div class="nav-item" onclick="goToSection('riferimenti')">📚 Riferimenti</div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="header">
+            <h1>AI nell'Educazione UE 2026</h1>
+            <p>Linee Guida Etiche per Docenti e Leader Scolastici</p>
+        </div>
+
+        <div class="content">
+            <!-- Section 1: Quadro d'Insieme -->
+            <section class="section active" id="overview">
+                <h2 class="section-title">📊 Il Quadro d'Insieme</h2>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">46</div>
+                        <div class="stat-label">Pagine</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Principi Etici</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Aree di Domande Guida</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">Scenari Pratici</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">87%</div>
+                        <div class="stat-label">Europei: docenti devono conoscere AI</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Livelli di Rischio AI Act</div>
+                    </div>
+                </div>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Lo Stato dell'AI nell'Educazione UE
+                    </div>
+                    <div class="card-content">
+                        <p>Queste linee guida sono la <strong>versione aggiornata (2026)</strong> delle Guidelines pubblicate nel 2022 sotto il Digital Education Action Plan. L'aggiornamento riflette l'esplosione dell'AI generativa (GenAI) e l'entrata in vigore dell'<strong>EU Artificial Intelligence Act (2024)</strong>. Sono <em>non vincolanti</em> ma profondamente pratiche, pensate per docenti e dirigenti scolastici che prendono decisioni quotidiane sull'uso dell'AI in classe.</p>
+                        <p style="margin-top:12px;"><strong>Architettura del documento:</strong> Le linee guida si organizzano su tre strati interconnessi:</p>
+                        <ul>
+                            <li><strong>Strato 1 — Principi e contesto legale:</strong> AI Act, GDPR, e le 5 considerazioni etiche che fondano l'uso responsabile dell'AI nell'educazione</li>
+                            <li><strong>Strato 2 — Domande guida e scenari:</strong> 8 aree di domande (docenti + scuola) e 11 scenari pratici con indicazioni etiche contestualizzate</li>
+                            <li><strong>Strato 3 — Risorse di sfondo:</strong> glossario tecnico, framework di competenze (DigComp, AILit), bibliografia</li>
+                        </ul>
+                        <p style="margin-top:12px;">Il punto di forza del documento è che non dice semplicemente ai docenti <em>cosa fare</em> — fornisce <strong>domande da porsi</strong> per ogni contesto specifico, riconoscendo che ogni scuola, ogni classe, ogni comunità è diversa.</p>
+                        <p style="margin-top:12px;"><strong>Dati chiave dalla premessa:</strong> L'87% degli europei ritiene che tutti i docenti debbano avere competenze per usare e comprendere l'AI. L'85% dei cittadini afferma che le competenze digitali sono necessarie per usare l'AI generativa in modo sicuro. Il 75% crede che tutti dovranno essere AI literate entro il 2030.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Chi Dovrebbe Leggere Questa Guida
+                    </div>
+                    <div class="card-content">
+                        <p>Questa risorsa è stata progettata per:</p>
+                        <ul>
+                            <li><strong>Docenti:</strong> che devono comprendere il quadro normativo, integrare l'AI in classe in modo etico e consapevole</li>
+                            <li><strong>Dirigenti scolastici:</strong> che pianificano l'adozione di sistemi AI a livello istituzionale</li>
+                            <li><strong>Genitori:</strong> che desiderano comprendere come l'AI viene utilizzato nel percorso educativo dei figli</li>
+                            <li><strong>Policymaker:</strong> che sviluppano normative locali/nazionali su AI in educazione</li>
+                            <li><strong>Ricercatori:</strong> interessati all'intersezione AI-etica-educazione</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Contesto UE -->
+            <section class="section" id="contesto">
+                <h2 class="section-title">🌍 AI nell'Educazione UE: Contesto e Definizioni</h2>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Cosa Intendiamo per AI nell'Educazione
+                    </div>
+                    <div class="card-content">
+                        <p>Per "AI nell'educazione" intendiamo l'utilizzo di sistemi di intelligenza artificiale per supportare, automatizzare o migliorare qualsiasi aspetto della pratica educativa, dalla programmazione didattica al monitoraggio del comportamento.</p>
+                        <p><strong>Esempi concretissimi:</strong></p>
+                        <ul>
+                            <li>Sistemi di tutoring personalizzato (es. piattaforme come Khan Academy con ML)</li>
+                            <li>Riconoscimento automatico di pattern di abbandono scolastico</li>
+                            <li>Chatbot per supporto amministrativo/didattico</li>
+                            <li>Analisi biometrica di attenzione in classe</li>
+                            <li>Proctoring automatico agli esami</li>
+                            <li>Sistemi di raccomandazione per percorsi didattici</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Malintesi Comuni
+                    </div>
+                    <div class="card-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mito</th>
+                                    <th>Realtà</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>"L'AI risolve tutti i problemi educativi"</td>
+                                    <td>L'AI è uno strumento; risolve specifici problemi se ben progettato e usato consapevolmente</td>
+                                </tr>
+                                <tr>
+                                    <td>"L'AI può sostituire l'insegnante"</td>
+                                    <td>L'AI supporta l'insegnante; la relazione umana resta centrale</td>
+                                </tr>
+                                <tr>
+                                    <td>"L'AI è completamente neutrale"</td>
+                                    <td>L'AI riflette i dati e le scelte di chi l'ha progettata; contiene bias</td>
+                                </tr>
+                                <tr>
+                                    <td>"L'AI in classe non ha rischi privacy"</td>
+                                    <td>Raccoglie dati sensibili (minorenni); GDPR + AI Act s'applicano</td>
+                                </tr>
+                                <tr>
+                                    <td>"Più AI = più equità educativa"</td>
+                                    <td>L'AI può amplificare disuguaglianze senza oversight</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Esempi di Utilizzo -->
+            <section class="section" id="esempi">
+                <h2 class="section-title">💡 Esempi di Utilizzo dell'AI in Classe</h2>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Matrice di Utilizzo: Docente, Studenti, Scuola
+                    </div>
+                    <div class="card-content">
+                        <div class="tabs">
+                            <button class="tab active" onclick="switchTab(event, 'tab-docente')">👨‍🏫 Docente</button>
+                            <button class="tab" onclick="switchTab(event, 'tab-studenti')">👥 Studenti</button>
+                            <button class="tab" onclick="switchTab(event, 'tab-scuola')">🏢 Scuola</button>
+                        </div>
+
+                        <div id="tab-docente" class="tab-content active">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Attività</th>
+                                        <th>Strumento AI</th>
+                                        <th>Beneficio</th>
+                                        <th>Rischio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Preparazione lezione</td>
+                                        <td>LLM (ChatGPT, Claude)</td>
+                                        <td>Genera esercizi, scenari, spiegazioni alternative</td>
+                                        <td>Riduzione della riflessione pedagogica personale</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Correzione compiti</td>
+                                        <td>Sistemi OCR + feedback automatico</td>
+                                        <td>Riduce carico amministrativo</td>
+                                        <td>Feedback generico; perde la dimensione personale</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Identificazione studenti a rischio</td>
+                                        <td>Predictive analytics</td>
+                                        <td>Interventi precoci su drop-out</td>
+                                        <td>Stigmatizzazione; privacy; bias di genere/etnia</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Personalizzazione curriculum</td>
+                                        <td>Adaptive learning systems</td>
+                                        <td>Ritmi individuali rispettati</td>
+                                        <td>Segregazione educativa; frammentazione</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="tab-studenti" class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Attività</th>
+                                        <th>Strumento AI</th>
+                                        <th>Beneficio</th>
+                                        <th>Rischio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Apprendimento personalizzato</td>
+                                        <td>Piattaforme adaptive (Khan Academy, etc.)</td>
+                                        <td>Ritmo autodeterminato; adattamento al profilo</td>
+                                        <td>Isolamento; poca interazione con pari</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Assistenza compiti</td>
+                                        <td>Chatbot educativi</td>
+                                        <td>Disponibilità 24/7; riduce ansia</td>
+                                        <td>Rischio di copiatura; dipendenza cognitiva</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Supporto per disabilità</td>
+                                        <td>Text-to-speech, speech-to-text, visual aids</td>
+                                        <td>Accessibilità inclusiva</td>
+                                        <td>Stigmatizzazione; segregazione tecnologica</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valutazione e proctoring</td>
+                                        <td>Sistemi AI di sorveglianza</td>
+                                        <td>Oggettività; riduce frodi</td>
+                                        <td>Monitoraggio invasivo; ansia; disparità accesso</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="tab-scuola" class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Attività</th>
+                                        <th>Strumento AI</th>
+                                        <th>Beneficio</th>
+                                        <th>Rischio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Gestione risorse educative</td>
+                                        <td>Sistemi di scheduling AI</td>
+                                        <td>Ottimizzazione orari, aule, docenti</td>
+                                        <td>Rigidità; riduce flessibilità pedagogica</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Identificazione talenti/difficoltà</td>
+                                        <td>Predictive analytics su dataset scolastici</td>
+                                        <td>Interventi mirati; equità potenziale</td>
+                                        <td>Profiling etnico/socioeconomico; segregazione</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Monitoraggio comportamento</td>
+                                        <td>Computer vision + analytics</td>
+                                        <td>Sicurezza; dati per formazione docenti</td>
+                                        <td>Sorveglianza di minori; violazione privacy; chilling effect</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Analisi performance scuola</td>
+                                        <td>Data analytics su risultati INVALSI, etc.</td>
+                                        <td>Benchmarking; identificazione aree miglioramento</td>
+                                        <td>Teaching to the test; enfasi su metriche riduttive</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Framework Normativo -->
+            <section class="section" id="framework">
+                <h2 class="section-title">⚖️ Framework Normativo UE</h2>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        EU AI Act 2024 — Principi Fondamentali per l'Educazione
+                    </div>
+                    <div class="card-content">
+                        <p>L'AI Act classifica i sistemi AI per livello di rischio. Per l'educazione, le categorie rilevanti sono:</p>
+                        <ul>
+                            <li><span class="badge badge-danger">Rischio Proibito</span> Sistemi vietati:</li>
+                            <ul>
+                                <li>Manipolazione cognitiva mediante AI per minori (es. design psicologico per indurre dipendenza)</li>
+                                <li>Classificazione biometrica basata su attributi sensibili (etnia, disabilità)</li>
+                                <li>Monitoraggio emozionale discriminatorio</li>
+                            </ul>
+                            <li><span class="badge badge-warning">Rischio Alto</span> Sistemi soggetti a strict compliance:</li>
+                            <ul>
+                                <li>Sistemi di valutazione automatizzata degli studenti</li>
+                                <li>Predictive analytics per identificazione drop-out (se usati per decisioni vincolanti)</li>
+                                <li>Proctoring biometrico (riconoscimento volto, tracciamento occhi)</li>
+                                <li>Sistemi che influenzano percorsi educativi (orientamento, selezione)</li>
+                            </ul>
+                        </ul>
+                        <p><strong>Requisiti per Rischio Alto:</strong></p>
+                        <ul>
+                            <li>Documentazione tecnica completa</li>
+                            <li>Valutazione d'impatto su diritti fondamentali</li>
+                            <li>Audit di bias e robustezza pre-deployment</li>
+                            <li>Monitoraggio e logging continuo</li>
+                            <li>Trasparenza verso utenti/interessati</li>
+                            <li>Umana supervisione significativa</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        GDPR e Protezione Dati dei Minori
+                    </div>
+                    <div class="card-content">
+                        <p>Il GDPR (con specifiche più stringenti per minori &lt;16 anni) richiede:</p>
+                        <ul>
+                            <li><strong>Consenso parental</strong> esplicito per raccolta/trattamento dati educativi</li>
+                            <li><strong>Minimizzazione dati:</strong> raccogliete solo ciò che serve per finalità specifiche, legittime</li>
+                            <li><strong>Data protection by design:</strong> privacy inclusa da zero nella progettazione</li>
+                            <li><strong>Diritto di accesso, rettifica, oblio:</strong> genitori e studenti devono poter richiedere</li>
+                            <li><strong>Profiling limitato:</strong> non potete usare dati educativi per profilazione aggressiva</li>
+                            <li><strong>Secure transfer:</strong> dati non trasmessi a terzi (USA, server non-UE) senza garanzie adeguate</li>
+                        </ul>
+                        <p><strong>Criticità comuni:</strong> Piattaforme cloud (Microsoft, Google) spesso trasferiscono dati fuori UE. Verificate contratti DPA (Data Processing Agreements).</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Normativa Nazionale (Italia come Caso Studio)
+                    </div>
+                    <div class="card-content">
+                        <p>In Italia, oltre AI Act e GDPR:</p>
+                        <ul>
+                            <li><strong>Decreto Legislativo 101/2018:</strong> adattamento GDPR. Autorità Garante della Privacy ha giurisdizione diretta</li>
+                            <li><strong>Linee Guida Agid 2021 su AI nella PA:</strong> principi di trasparenza, accountability, non-discriminazione per servizi pubblici (istruzione inclusa)</li>
+                            <li><strong>Codice della Privacy (Art. 96, 97):</strong> restrizioni specifiche su dati biometrici di minori</li>
+                            <li><strong>Decreti MIUR/MIM:</strong> ciclicamente aggiornati su digital literacy, cybersecurity in scuola</li>
+                        </ul>
+                        <p>In pratica: una scuola italiana che implementa un sistema AI deve:
+                        <ul>
+                            <li>Documentare la necessità educativa e legittimità</li>
+                            <li>Notificare al Garante se c'è rischio particolarmente elevato</li>
+                            <li>Coinvolgere genitori, studenti, personale in scelte</li>
+                            <li>Periodicamente auditare per discriminazione e bias</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Considerazioni Etiche -->
+            <section class="section" id="etica">
+                <h2 class="section-title">🔬 Considerazioni Etiche Fondamentali</h2>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        I 5 Principi Etici per l'AI nell'Educazione
+                    </div>
+                    <div class="card-content">
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #00d9ff; margin-bottom: 15px;">1. 🤝 Umano-Centralità (Human Centrality)</h4>
+                            <p>L'AI è serviziale all'insegnante e allo studente, non sostitutiva. La relazione educativa rimane prioritaria.</p>
+                            <ul>
+                                <li>L'AI accelera, supporta, ma non decide autonomamente sul percorso educativo</li>
+                                <li>Docenti e studenti conservano agency e capacità di contestazione</li>
+                                <li>Feedback umano rimane cruciale nel ciclo di apprendimento</li>
+                            </ul>
+
+                            <h4 style="color: #00d9ff; margin-bottom: 15px; margin-top: 25px;">2. ⚖️ Equità e Non-Discriminazione</h4>
+                            <p>L'AI non deve amplificare o creare nuove disuguaglianze.</p>
+                            <ul>
+                                <li>Audit periodico su bias di genere, etnia, neurodiversità, SES</li>
+                                <li>Rappresentatività nei dati di training</li>
+                                <li>Accessibilità garantita per tutti (disabilità, lingue, contesti)</li>
+                                <li>Monitoraggio outcome disaggregati per sottogruppi</li>
+                            </ul>
+
+                            <h4 style="color: #00d9ff; margin-bottom: 15px; margin-top: 25px;">3. 🔒 Privacy e Trasparenza</h4>
+                            <p>Minorenni meritano protezione speciale. Dati educativi sono sensibilissimi.</p>
+                            <ul>
+                                <li>Consent parental informato e granulare (no black-box collection)</li>
+                                <li>Data minimization: raccogliete solo essenziale</li>
+                                <li>Spiegabilità: docenti e genitori capiscono cosa l'AI fa e perché</li>
+                                <li>Diritto all'oblio: studenti possono chiedere cancellazione dati dopo conclusione ciclo</li>
+                            </ul>
+
+                            <h4 style="color: #00d9ff; margin-bottom: 15px; margin-top: 25px;">4. 🛡️ Robustezza e Sicurezza</h4>
+                            <p>L'AI in educazione deve essere affidabile e resiliente.</p>
+                            <ul>
+                                <li>Test rigorosi pre-deployment e monitoraggio live</li>
+                                <li>Piani di fallback se sistema si guasta</li>
+                                <li>Protezione da attacchi (adversarial examples, data poisoning)</li>
+                                <li>Versioning e rollback se problemi emergono</li>
+                            </ul>
+
+                            <h4 style="color: #00d9ff; margin-bottom: 15px; margin-top: 25px;">5. 📣 Accountability e Governo</h4>
+                            <p>Chiare responsabilità e meccanismi di ricorso.</p>
+                            <ul>
+                                <li>Chi ha deciso di adottare questo sistema? Chi lo monitora?</li>
+                                <li>Canali di reclamo per docenti, studenti, genitori</li>
+                                <li>Audit esterni periodici</li>
+                                <li>Trasparenza su costi, fornitori, performance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Domande Guida -->
+            <section class="section" id="domande">
+                <h2 class="section-title">❓ Domande Guida per Docenti e Leader Scolastici</h2>
+
+                <p style="margin-bottom: 15px; color: #8b949e;">Quando usati in modo appropriato, gli strumenti AI possono portare valore migliorando insegnamento, apprendimento e valutazione, nonché supportando l'inclusione. Tuttavia, il loro impatto dipende dal contesto, dal livello di autonomia e da come interagiscono con il giudizio umano. Docenti e leader scolastici devono considerare non solo <em>come</em> uno strumento sarà usato, ma anche il <em>livello di rischio potenziale</em> che rappresenta.</p>
+                <p style="margin-bottom: 30px; color: #8b949e;">Le domande possono essere usate quando si valuta uno strumento AI prima della sua adozione o durante l'uso. Possono essere poste ai docenti stessi o a chi prende decisioni a livello gestionale. Servono come requisiti chiave per un'AI affidabile e per un dialogo costruttivo sull'uso etico.</p>
+
+                <!-- 1. Agenzia Umana e Supervisione -->
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        1. Agenzia Umana e Supervisione
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: diritti fondamentali, diritti dei minori, agenzia umana e supervisione umana.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">So cosa devo <strong>verificare negli output</strong> dello strumento AI e come controllarlo prima di usarli nel mio insegnamento?</td><td style="padding:10px; border:1px solid #30363d;">Quale <strong>funzione educativa</strong> svolge la tecnologia AI (es. raccomandazione, valutazione, previsione, creazione contenuti)?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Posso <strong>verificare e adattare ciò che l'AI propone</strong> prima che uno studente lo usi, e <strong>intervenire</strong> se osservo effetti inattesi o inappropriati durante l'uso?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha fornito ai docenti <strong>formazione professionale</strong> sull'uso di strumenti supportati da AI in contesti educativi?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Sono in grado di rilevare se l'AI ha commesso un <strong>errore</strong> o ha fatto un suggerimento inappropriato?</td><td style="padding:10px; border:1px solid #30363d;">Lo strumento AI è stato <strong>verificato per l'affidabilità</strong> nel vostro contesto?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Lo strumento AI <strong>supporta il mio processo decisionale</strong>, e posso verificare i suoi suggerimenti in base al mio giudizio professionale?</td><td style="padding:10px; border:1px solid #30363d;">Chi è <strong>responsabile della verifica e validazione</strong> degli output AI?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Incoraggio gli studenti a <strong>pensare criticamente</strong> agli output AI e li aiuto a riflettere su perché l'AI ha fatto un certo suggerimento o decisione?</td><td style="padding:10px; border:1px solid #30363d;">Esiste una <strong>policy scolastica sull'uso di strumenti AI</strong> nel lavoro scolastico, e i docenti possono ignorare o intervenire nelle decisioni generate dall'AI?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Se gli studenti si sentono <strong>a disagio</strong> con i suggerimenti AI, permetto la <strong>discussione</strong>?</td><td style="padding:10px; border:1px solid #30363d;">Studenti e genitori sono <strong>informati</strong> sul ruolo dell'AI nelle attività supportate e nel processo decisionale, e hanno la possibilità di <strong>esprimere preoccupazioni o rifiutare</strong> quando appropriato?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- 2. Trasparenza e Spiegabilità -->
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        2. Trasparenza e Spiegabilità
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: tracciabilità, spiegabilità e comunicazione.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Capisco <strong>perché lo strumento AI fa certe raccomandazioni</strong> o suggerisce attività specifiche agli studenti?</td><td style="padding:10px; border:1px solid #30363d;">Il fornitore ha fornito <strong>documentazione chiara su come funziona</strong> lo strumento AI, inclusa la logica decisionale, l'uso previsto nell'educazione, e il trattamento della proprietà intellettuale nei dati di addestramento e input degli utenti?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Posso vedere <strong>esempi chiari di come vengono prese le decisioni</strong> nel sistema (es. perché uno studente riceve una certa attività e un altro no)?</td><td style="padding:10px; border:1px solid #30363d;">La scuola può <strong>valutare se gli strumenti AI si comportano diversamente</strong> tra diversi gruppi di studenti e documentare eventuali gap emergenti?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">I <strong>suggerimenti dell'AI hanno senso pedagogico</strong> nel contesto della mia pianificazione didattica e sono allineati al curricolo?</td><td style="padding:10px; border:1px solid #30363d;">Ci sono <strong>responsabilità chiaramente definite per gestire i casi</strong> in cui gli output AI sono opachi o difficili da interpretare?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">I messaggi del sistema sono spiegati in modo <strong>chiaro e accessibile</strong> per me e per i miei studenti?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha una <strong>policy per verificare regolarmente</strong> se le pratiche supportate da AI sono comprensibili e accettate da docenti, studenti e genitori?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Richiedo agli studenti di <strong>dichiarare come hanno usato l'AI</strong>, e posso fornire esempi di come citare o riconoscere propriamente l'assistenza AI nel loro lavoro?</td><td style="padding:10px; border:1px solid #30363d;">Esistono procedure per <strong>spiegare le decisioni supportate da AI</strong> in modo comprensibile e non tecnico a docenti, studenti e genitori?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- 3. Diversità e Inclusione -->
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        3. Diversità e Inclusione
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: accessibilità, design universale e partecipazione degli stakeholder.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Il mio uso dello strumento AI <strong>risponde ai bisogni diversi dei miei studenti</strong>, e in caso contrario posso adattare il compito o fornire alternative inclusive?</td><td style="padding:10px; border:1px solid #30363d;">Lo strumento AI è <strong>progettato per trattare gli studenti con rispetto</strong> adattandosi ai loro bisogni individuali?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Ho verificato gli output dell'AI per <strong>bias culturali o sociali</strong>, e stimolo gli studenti a riconoscere e questionare eventuali bias?</td><td style="padding:10px; border:1px solid #30363d;">Sono <strong>lingue diverse, contesti culturali, generi e abilità</strong> adeguatamente rappresentati nei materiali assistiti da AI?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Verifico con gli studenti, ad un livello appropriato per la loro età, che lo strumento AI <strong>sia rilevante, inclusivo e rispettoso</strong> delle loro identità, background e preferenze?</td><td style="padding:10px; border:1px solid #30363d;">Come vengono incorporate <strong>le voci diverse degli studenti</strong> nella valutazione e miglioramento degli strumenti AI?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Mi assicuro che gli studenti che non hanno accesso allo strumento fuori dalla scuola <strong>non siano svantaggiati</strong> (es. offrendo alternative offline)?</td><td style="padding:10px; border:1px solid #30363d;">Come affronta la scuola i <strong>gap di alfabetizzazione digitale</strong> che possono impedire ad alcuni studenti di usare pienamente gli strumenti AI?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Se lo strumento offre feedback o supporto, <strong>accoglie diverse lingue, livelli di lettura e bisogni di accessibilità</strong>, o devo integrarlo con risorse più inclusive?</td><td style="padding:10px; border:1px solid #30363d;">Esiste un'<strong>opzione per bassa connettività o accesso offline</strong>, e sono fornite risorse alternative per studenti senza connettività affidabile a casa?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- 4. Equità e Non-Discriminazione -->
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        4. Equità e Non-Discriminazione
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: evitare bias ingiusti, indipendentemente da età, genere, abilità o altre caratteristiche storicamente svantaggiate.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Credo che lo strumento AI <strong>si adatti ai bisogni individuali</strong> (es. difficoltà di apprendimento o disabilità) per supportare l'apprendimento di tutti, non solo per evitare che restino indietro?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha verificato che <strong>lo strumento AI sia stato testato per bias</strong> su diversi gruppi di studenti prima dell'adozione?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Posso verificare che lo strumento AI tenga conto dell'<strong>età e livello di comprensione</strong> degli studenti?</td><td style="padding:10px; border:1px solid #30363d;">I docenti sono incoraggiati e supportati a <strong>segnalare qualsiasi caso</strong> in cui l'AI sembra travisare, stereotipare o escludere gruppi specifici?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Noto <strong>output dallo strumento AI che travisano, escludono o rappresentano negativamente</strong> gruppi particolari?</td><td style="padding:10px; border:1px solid #30363d;">Il sistema tiene conto dell'<strong>età e livello di comprensione</strong> degli studenti?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Posso valutare se lo <strong>strumento AI influenza diverse popolazioni studentesche in modi equi</strong>, in particolare quelle già marginalizzate?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha verificato che l'uso dello strumento AI <strong>sia conforme agli obblighi legali</strong> sulla non-discriminazione?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Posso <strong>intervenire facilmente se noto che il sistema si comporta in modo ingiusto</strong> o inappropriato verso uno studente o un gruppo?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha procedure chiare per <strong>rispondere se si identifica bias o trattamento ingiusto</strong> di particolari gruppi di studenti dopo l'adozione?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- 5. Benessere Sociale e Ambientale -->
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        5. Benessere Sociale e Ambientale
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: sostenibilità, responsabilità sociale, democrazia e benessere psicosociale.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Ho notato se l'uso dell'AI <strong>influenza la motivazione o l'umore</strong> dei miei studenti in qualsiasi modo (es. causare ansia, disinteresse o dipendenza)?</td><td style="padding:10px; border:1px solid #30363d;">La scuola valuta come l'uso di strumenti AI possa <strong>influenzare l'interazione sociale, il benessere emotivo o il senso di appartenenza</strong> degli studenti?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Quali confini posso stabilire per l'uso dell'AI per <strong>mantenere interazioni umane significative</strong> e prevenire comportamenti che minano l'apprendimento o il benessere?</td><td style="padding:10px; border:1px solid #30363d;">Docenti e studenti hanno <strong>opportunità di esprimere preoccupazioni</strong> su come gli strumenti AI influenzano le dinamiche di apprendimento o il clima di classe?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Ho <strong>discusso l'uso dell'AI in classe con le famiglie</strong> dei miei studenti?</td><td style="padding:10px; border:1px solid #30363d;">La scuola considera l'<strong>impatto ambientale e sociale degli strumenti AI</strong> quando li seleziona o usa?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Ho informazioni sull'<strong>impatto ambientale e sociale dello strumento AI</strong>, e ho discusso alternative o casi d'uso per minimizzare gli impatti negativi con gli studenti?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha implementato <strong>policy o campagne di sensibilizzazione</strong> relative all'impatto ambientale e sociale degli strumenti digitali, inclusa l'AI?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Come può lo strumento AI essere usato per aiutare gli studenti a sviluppare <strong>competenze per contribuire positivamente alla società</strong>?</td><td style="padding:10px; border:1px solid #30363d;">I curricoli o programmi scolastici includono opportunità per gli studenti di usare l'AI per <strong>affrontare questioni reali sociali o ambientali</strong>?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Lo strumento AI può supportare gli studenti nell'<strong>esplorare e comprendere sfide complesse sociali o ambientali</strong>?</td><td style="padding:10px; border:1px solid #30363d;">Gli studenti sono incoraggiati a riflettere sulle <strong>dimensioni etiche, sociali e ambientali dell'AI</strong>, come parte della loro educazione alla cittadinanza digitale responsabile?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- 6. Privacy e Governance dei Dati -->
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        6. Privacy e Governance dei Dati
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: rispetto per la privacy, qualità e integrità dei dati, e accesso ai dati.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">So <strong>quali dati personali o di apprendimento</strong> lo strumento AI raccoglie sui miei studenti?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha messo in atto misure per <strong>garantire che i dati sensibili siano anonimizzati</strong> e accessibili solo al personale autorizzato?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Ho spiegato ai miei studenti <strong>come i loro dati saranno usati e conservati</strong> quando usano lo strumento AI?</td><td style="padding:10px; border:1px solid #30363d;">Studenti e docenti sono <strong>chiaramente informati su come i loro dati</strong> sono raccolti, usati, conservati e per quali scopi?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;"><strong>Evito di inserire informazioni sensibili o personalmente identificabili</strong> negli strumenti AI, in linea con le regole sulla privacy della scuola?</td><td style="padding:10px; border:1px solid #30363d;">I dati degli studenti sono <strong>conservati in modo sicuro e usati esclusivamente</strong> per il loro scopo educativo previsto?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Posso <strong>regolare le impostazioni di privacy</strong> dello strumento AI per adattarle alle esigenze della mia classe?</td><td style="padding:10px; border:1px solid #30363d;">La scuola può <strong>personalizzare o limitare le impostazioni di privacy</strong> dello strumento AI per proteggere meglio i dati degli studenti?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">So <strong>chi contattare se noto un problema di privacy</strong> o protezione dati con uno strumento AI?</td><td style="padding:10px; border:1px solid #30363d;">Esiste un processo chiaro per segnalare e <strong>ricevere supporto sulle preoccupazioni</strong> relative alla protezione dati?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Posso fornire un'<strong>alternativa per studenti o famiglie che sono a disagio</strong> con il modo in cui i dati vengono raccolti o usati?</td><td style="padding:10px; border:1px solid #30363d;">La scuola può confermare che tutti gli strumenti AI usati <strong>sono conformi a GDPR, AI Act e leggi nazionali</strong> sulla protezione dati?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- 7. Robustezza Tecnica e Sicurezza -->
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        7. Robustezza Tecnica e Sicurezza
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: resilienza agli attacchi, cybersicurezza, sicurezza generale, accuratezza, affidabilità e riproducibilità.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Lo strumento AI <strong>funziona in modo affidabile in classe</strong>, o noto frequenti errori, crash o disconnessioni?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha <strong>verificato che lo strumento AI sia stato testato</strong> per garantire un funzionamento affidabile prima dell'uso?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Le <strong>risposte o suggerimenti generati dall'AI sembrano appropriati</strong>, o a volte appaiono scorretti o fuori contesto?</td><td style="padding:10px; border:1px solid #30363d;">La scuola <strong>verifica regolarmente gli strumenti AI</strong> per assicurarsi che funzionino come previsto e in linea con gli obiettivi educativi?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Sono <strong>consapevole della policy di protezione dati della scuola</strong> e dei passaggi da seguire per rispondere a una violazione dei dati che coinvolga uno strumento AI?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha predisposto una <strong>procedura chiara per docenti e studenti per segnalare guasti</strong> e escalare preoccupazioni quando necessario?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">So come <strong>segnalare un sospetto malfunzionamento</strong> o problema tecnico con lo strumento AI?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha stabilito una <strong>procedura formale per segnalare guasti tecnici o output non sicuri</strong>, e un piano di risposta per guasti di sistema, incluso manutenzione, backup e tutela degli studenti?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Esiste un <strong>processo chiaro per monitorare e verificare le prestazioni</strong> dello strumento AI per ridurre futuri problemi tecnici?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha <strong>confermato che lo strumento AI sia conforme alle normative su cybersicurezza e protezione dati</strong>, e che il fornitore rispetti gli standard pertinenti (es. EU Cybersecurity Act, Cyber Resilience Act)?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- 8. Accountability -->
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        8. Accountability
+                    </div>
+                    <div class="card-content">
+                        <p style="color:#00d9ff; margin-bottom:12px; font-weight:600;">Include: verificabilità, minimizzazione dell'impatto negativo, compromessi e risarcimento.</p>
+                        <div class="table-wrapper"><table style="width:100%; border-collapse:collapse;">
+                            <tr style="background:#151b23;"><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per i Docenti</th><th style="padding:10px; border:1px solid #30363d; color:#00d9ff; width:50%;">Per la Scuola</th></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">So cosa fare se il <strong>sistema suggerisce qualcosa che non soddisfa i bisogni</strong> dei miei studenti?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha una chiara <strong>divisione di responsabilità tra docenti, studenti e altri stakeholder</strong> in relazione all'uso degli strumenti AI?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Ho l'opportunità e i mezzi per <strong>dare feedback o suggerire miglioramenti</strong> su come viene usato il sistema?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha una <strong>struttura organizzativa chiara</strong> che definisce chi è responsabile del supporto, della manutenzione e del follow-up quando vengono segnalati problemi?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">Mi sento sicuro di poter <strong>agire se il sistema non funziona come previsto</strong> o sembra inappropriato per la classe?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha un <strong>processo di valutazione per verificare se lo strumento AI è allineato</strong> con i valori educativi chiave, e per incorporare input di docenti e studenti?</td></tr>
+                            <tr><td style="padding:10px; border:1px solid #30363d;">So <strong>chi contattare se devo segnalare una preoccupazione</strong> o fare un reclamo sull'uso dello strumento AI?</td><td style="padding:10px; border:1px solid #30363d;">La scuola ha una strategia per <strong>aggiornare responsabilità e procedure</strong> man mano che i bisogni cambiano o emergono nuove questioni di accountability?</td></tr>
+                        </table></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7: Scenari Pratici -->
+            <section class="section" id="scenari">
+                <h2 class="section-title">🎬 Scenari Pratici e Linee di Azione</h2>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 1: Chatbot AI in Classe per Supporto Compiti
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Una scuola secondaria vuole usare un chatbot (es. ChatGPT, Claude) per permettere agli studenti di chiedere aiuto sui compiti 24/7.</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Copiatura: studenti chiedono la risposta diretta, non l'aiuto</li>
+                            <li>Dipendenza cognitiva: non imparano più a risolvere da soli</li>
+                            <li>Privacy: dati dei compiti finiscono su server (OpenAI, etc.) fuori UE</li>
+                            <li>Equità: solo chi ha accesso device/internet beneficia</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Uso consapevole: docente spiega come usare il chatbot (chiedi spiegazioni, non risposte)</li>
+                            <li>✓ Istanza locale: usa modello open-source hostato on-premise (Ollama, etc.), non cloud esterno</li>
+                            <li>✓ Filtri: blocca prompt che chiedono direttamente "rispondi al compito"</li>
+                            <li>✓ Monitoraggio: docente controlla periodicamente cosa gli studenti chiedono</li>
+                            <li>✓ Integrazione pedagogica: il chatbot è uno strumento, non la cura-tutto</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 2: Predictive Analytics per Identificare Drop-Out
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Una scuola implementa un sistema che analizza dati (presenze, voti, coinvolgimento in piattaforma) per predire chi è a rischio di abbandono.</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Profiling: il sistema potrebbe identificare studenti per etnia, SES, profilando loro in modo invasivo</li>
+                            <li>Stigmatizzazione: essere etichettato "a rischio" può auto-avverarsi (self-fulfilling prophecy)</li>
+                            <li>Discriminazione: se il modello ha bias nel dataset, amplifica disuguaglianze</li>
+                            <li>Privacy: centralizza dati sensibili di minori</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Audit bias: testare il modello su diverse sottopopolazioni prima di usare</li>
+                            <li>✓ Transparency: dire esplicitamente quali feature usa, mostrare logica (es. "alto assenteismo + basso engagement = risk score 7/10")</li>
+                            <li>✓ Umana supervisione: un counselor o docente interpreta il score, non lo tratta come verità assoluta</li>
+                            <li>✓ Intervento supportivo non punitivo: se identificato a rischio, offri supporto, non punizione</li>
+                            <li>✓ Diritti: studenti/genitori possono chiedere perché sono stati flaggati e contestare</li>
+                            <li>✓ Data minimization: raccogli solo feature educative (presenze, voti), non dati biometrici</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 3: Valutazione Automatizzata di Saggi Scritti
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Implementare un sistema AI (es. Turnitin, EssayJig) che automaticamente valuta saggi scritti su grammatica, struttura, originalità.</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Riduttività: valuta superficie (grammatica, plagio), non comprensione, creatività, pensiero critico</li>
+                            <li>Bias linguistico: penalizza stili di scrittura non-standard, non-anglofoni, neurodivergenti</li>
+                            <li>Perdita di feedback umano: gli studenti ricevono score numerico, non commenti pedagogici</li>
+                            <li>Incentivo perverso: studenti imparano a "scrivere per l'AI", non per comunicare</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Supporto, non sostituzione: AI identifica errori di superficie, docente aggiunge feedback critico</li>
+                            <li>✓ Trasparenza criteri: spiegare che cosa l'AI misura e che cosa NON misura</li>
+                            <li>✓ Contestazione: studenti possono chiedere revisione umana del voto</li>
+                            <li>✓ Diversità: valorizzare anche stili non-standard, creatività, voci diverse</li>
+                            <li>✓ Training continuo: se il modello mostra bias, aggiorna e ri-valida</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 4: Proctoring Biometrico per Esami Online
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Usare software che monitora occhi, volto, ambiente tramite webcam durante esami online per prevenire frodi.</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Privacy invasiva: registrazione continua di minori in ambiente domestico</li>
+                            <li>Ansia: monitoraggio aumenta stress, può peggiorare performance</li>
+                            <li>Bias: riconoscimento volto meno accurato per persone non-bianche, donne</li>
+                            <li>Falsi positivi: "movimento sospetto" flaggato come cheating quando è solo tic nervoso</li>
+                            <li>Dati sensibili: biometria è categoria speciale di dati (GDPR Art. 9)</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Alternativa first: considera modalità non-biometriche (randomizzazione domande, supervisore umano remoto via Zoom, ambiente controllato)</li>
+                            <li>✓ Se biometrico: audit rigoroso su bias prima di implementare, test su popolazione diversa</li>
+                            <li>✓ Consent esplicito: genitori e studenti sanno cosa viene registrato e dove</li>
+                            <li>✓ Umana review: un proctore umano esamina flag dell'AI, non applica automaticamente sanzione</li>
+                            <li>✓ Data security: registrazioni crittografate, cancellate dopo periodo retention breve</li>
+                            <li>✓ Diritto di contestazione: studente può contestare accusa di frode</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 5: Piattaforma Adaptive Learning Personalizzato
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Sistema che personalizza automaticamente difficoltà, ritmo, stile di contenuto in base a profilo dello studente (es. Khan Academy, Duolingo).</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Segregazione educativa: studenti "lenti" rimangono segregati su contenuti semplificati, non interagiscono con pari</li>
+                            <li>Self-fulfilling prophecy: se algoritmo assegna percorso "basso", studente interiorizza autopercezione negativa</li>
+                            <li>Mancanza interazione: personalizzazione spesso comporta isolamento dal gruppo</li>
+                            <li>Gaming the system: algoritmo può essere ingannato (risposte random per cambiare percorso)</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Integrazione con insegnamento tradizionale: il sistema personalizza esercizi, ma lezioni frontali rimangono collettive</li>
+                            <li>✓ Trasparenza algoritmo: docente capisce perché è stato assegnato questo percorso</li>
+                            <li>✓ Contestabilità: studente può chiedere "voglio provare contenuto più difficile" e non è bloccato dall'algoritmo</li>
+                            <li>✓ Sociale: momento di presentazione, discussione collettiva sugli insegnamenti</li>
+                            <li>✓ Monitoraggio outcome disaggregato: differenze di performance tra sottogruppi non aumentano</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 6: Sistema di Monitoraggio Comportamento in Aula
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Telecamere + computer vision per monitorare "attenzione" (head pose, eye gaze), "comportamento disruptivo" in tempo reale.</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Sorveglianza di minori: monitoraggio continuo in spazio pubblico (aula) della loro attenzione</li>
+                            <li>Falsi positivi: guarda fuori dalla finestra ≠ non attento; può stare elaborando</li>
+                            <li>Chilling effect: studenti ansiosi per essere costantemente valutati</li>
+                            <li>Bias: sistema potrebbe etichettare certi stili comportamentali (es. neurodiversi) come "disruptivi"</li>
+                            <li>Stigmatizzazione: se risultati condivisi, studenti flaggati subiscono segregazione</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ No monitoraggio continuo: se usi video, usa per analisi aggregate, non individuale</li>
+                            <li>✓ Astensione: considera di non usare biometria (riconoscimento attenzione è pseudoscienza)</li>
+                            <li>✓ Se implementato: audit bias, test su neurodiversi, non correlazione diretta con voto</li>
+                            <li>✓ Anonimato: analizza pattern classe, non individui</li>
+                            <li>✓ Umana interpretazione: risultati sono input per docente, non automatismi</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 7: Uso di ChatGPT/LLM per Generare Materiali Didattici
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Docenti usano LLM per generare quiz, scenari, spiegazioni alternative, materiali didattici.</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Qualità incoerente: LLM produce contenuto plausibile ma errato (hallucination)</li>
+                            <li>Bias implicito: LLM riflette bias dei suoi dati di training</li>
+                            <li>Loss di pedagogia: generare materiale non è uguale a progettare curriculum consapevolmente</li>
+                            <li>Copyright: dati di training includono materiali protetti da copyright</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Fact-checking: docente sempre esamina output, corregge errori</li>
+                            <li>✓ Pedagogia prima: LLM è strumento di supporto, non decisore di contenuto</li>
+                            <li>✓ Citazione: se usi contenuto generato, spiega agli studenti che viene da AI</li>
+                            <li>✓ Critical thinking: insegna agli studenti come LLM produce contenuto, dove può sbagliare</li>
+                            <li>✓ Modello open-source: considera Ollama, LLaMA, ecc. hosted localmente anziché cloud proprietario</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 8: Orientamento Vocazionale Basato su AI
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Sistema che raccomanda percorsi scolastici/vocazionali basati su dati (risultati, interessi, profilo psicologico).</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Determinismo: algoritmo dice "sei destinato al percorso tecnico" — studente abbandona aspettative diverse</li>
+                            <li>Riproduzione disuguaglianze: se dati riflettono segregazione storica, sistema la amplifica</li>
+                            <li>Agentività: studente passa da attore a ricettore di raccomandazione</li>
+                            <li>Impossibilità contestazione: "così dice l'algoritmo" blocca dialogo educativo</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Raccomandazione non vincolante: AI suggerisce percorsi multipli, non un solo "best path"</li>
+                            <li>✓ Dialogo umano: combinare output AI con colloqui con orientatore/docente</li>
+                            <li>✓ Educazione ai sogni: insegna che percorsi non sono predeterminati, che cambiano</li>
+                            <li>✓ Audit continuo: monitora se studenti seguono/respingono raccomandazioni, se equità nella copertura</li>
+                            <li>✓ Umana supervisione: orientatore interpreta output AI, non lo applica automaticamente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 9: Automatizzazione Amministrativa (Scheduling, Allocazione Risorse)
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Algoritmi che ottimizzano orari, aule, assegnazione docenti per minimizzare costi.</p>
+                        <p><strong>Rischi identificati:</strong></p>
+                        <ul>
+                            <li>Rigidità pedagogica: optimization numerica non tiene conto di esigenze educative</li>
+                            <li>Invisibilità: docenti non sanno perché orario è così, non possono contestare</li>
+                            <li>Diseguaglianza: alcuni docenti/classi sistematicamente svantaggiati (orari peggiori, meno risorse)</li>
+                        </ul>
+                        <p><strong>Linea di azione:</strong></p>
+                        <ul>
+                            <li>✓ Supporto decisionale: AI genera opzioni, preside/staff decidono finale</li>
+                            <li>✓ Trasparenza vincoli: esplicita che cosa l'algoritmo ottimizza, quali vincoli ha</li>
+                            <li>✓ Override umano: possibilità di correggere decisioni algoritmo se ragioni pedagogiche lo giustificano</li>
+                            <li>✓ Partecipazione: coinvolgi staff nella definizione dei parametri di optimization</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Scenario 10: Educazione Digitale e AI Literacy per Studenti
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Contesto:</strong> Insegnare agli studenti come funziona AI, dove è usata, rischi e opportunità.</p>
+                        <p><strong>Benefici e linee d'azione:</strong></p>
+                        <ul>
+                            <li>✓ Demistificazione: AI non è magia; è matematica + dati + scelte umane</li>
+                            <li>✓ Critical literacy: studenti imparano a riconoscere bias, fallibilità, usi critici di AI</li>
+                            <li>✓ Agency: sanno quando contestare algoritmo ("questo score non mi rappresenta"), quando fidarsi</li>
+                            <li>✓ Cittadinanza digitale: preparati a vivere in società sempre più guidata da algoritmi</li>
+                            <li>✓ Carriera: competenze AI literacy + umanità (creatività, empatia, pensiero critico) = professionisti ricercati</li>
+                            <li>✓ Curriculum: integra moduli su AI, etica, biometria, algoritmi anche in materie classiche (storia, letteratura, scienze)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 8: Pianificazione -->
+            <section class="section" id="pianificazione">
+                <h2 class="section-title">📋 Guida alla Pianificazione per Docenti e Leader</h2>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Step 1: Assessment e Visione
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Per i Leader Scolastici:</strong></p>
+                        <ul>
+                            <li>Identifica problem statement: che cosa vuoi risolvere? (accessibilità, personalizzazione, burden amministrativo?)</li>
+                            <li>Consulta stakeholder: Collegio Docenti, genitori, studenti, specialisti ICT/pedagogia</li>
+                            <li>Visione: come AI dovrebbe integrarsi nella pedagogia della scuola?</li>
+                            <li>Risorse: budget, formazione, supporto tecnico, tempo?</li>
+                        </ul>
+                        <p><strong>Per i Docenti:</strong></p>
+                        <ul>
+                            <li>Rifletti su pratica attuale: dove potrebbero strumenti AI supportarti senza sostituirti?</li>
+                            <li>Obiettivo didattico: cosa vuoi i tuoi studenti imparino? Aggiungo AI se aiuta?</li>
+                            <li>Competenza: mi sento a mio agio con tecnologia? Che formazione mi serve?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Step 2: Conformità Normativa e Due Diligence Legale
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li>Classifica il sistema AI: è rischio basso, medio, alto secondo AI Act?</li>
+                            <li>GDPR: esecuzione valutazione d'impatto (DPIA); identificazione base legale (legittimità, consenso)</li>
+                            <li>Privacy: DPA con provider; data flow mapping (dati dove vanno?)</li>
+                            <li>Consulenza legale: meglio investire in audit preventivo che rincorrere problemi dopo</li>
+                            <li>Documentazione: Policy scolastica su uso AI; comunicazione genitori; procedure di reclamo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Step 3: Selezione e Pilota
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li>Valuta opzioni (closed-source vs. open-source, cloud vs. on-premise, fornitori di fiducia)</li>
+                            <li>Pilot project: non implementare subito a livello scuola; test con un gruppo, una classe, un caso d'uso</li>
+                            <li>Metriche pilot: cosa misuri per dire se funziona? (engagement, apprendimento, soddisfazione, equity metrics)</li>
+                            <li>Timeline: 3-6 mesi di sperimentazione consapevole</li>
+                            <li>Exit strategy: se non funziona, come torniamo indietro?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Step 4: Formazione e Change Management
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li>Docenti: training tecnico (come usare sistema) + pedagogico (come integrare in lezione) + etico (bias, privacy, rischi)</li>
+                            <li>Studenti: AI Literacy — comprendere che cos'è AI, come funziona, dove ha limiti</li>
+                            <li>Genitori: comunicazione trasparente su che cosa state facendo, perché, quali garanzie avete</li>
+                            <li>Leadership: supporto visibile; superamento resistenze; celebrazione quick wins</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Step 5: Implementazione Responsabile
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li>Graduale: non tutto contemporaneamente; classare per classare, docente per docente</li>
+                            <li>Monitore: metriche concordate; feedback loops con utenti</li>
+                            <li>Audit per bias: specialmente se system fa raccomandazioni o valutazioni, test su sottogruppi</li>
+                            <li>Umana supervisione: docenti/leader sempre controllano output AI, non lo applicano ciecamente</li>
+                            <li>Trasparenza continua: comunicazioni regolari su cosa state imparando, cosa cambia</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Step 6: Monitoraggio e Adattamento
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li>Raccolta dati continua: engagement, outcomes, feedback qualitativo</li>
+                            <li>Audit periodici: almeno annuali; revisione per bias, security, compliance</li>
+                            <li>Canali di reclamo: studenti, genitori, docenti sanno come segnalare problemi</li>
+                            <li>Iteration: che cosa imparato dal pilot? Cosa funziona? Cosa aggiustiamo?</li>
+                            <li>Aggiornamenti: sistema AI evolve; assicurati di seguire aggiornamenti, security patches</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Step 7: Valutazione d'Impatto Lungo Termine
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li>Ha l'AI davvero migliorato l'apprendimento? (misure di outcome, non solo soddisfazione)</li>
+                            <li>Equità: benefici distribuiti equamente o amplificati disuguaglianze?</li>
+                            <li>Agentività studentesca: studenti hanno più o meno voce in capitolo?</li>
+                            <li>Relazioni umane: interazioni insegnante-studente, peer-to-peer, migliorate o peggiorate?</li>
+                            <li>Wellness: ansia, stress, dipendenza cognitiva aumentati?</li>
+                            <li>Decisione go/no-go: se bilancio negativo, sei disposto a disattivare il sistema?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 9: AI Literacy e Competenze -->
+            <section class="section" id="literacy">
+                <h2 class="section-title">🎓 AI Literacy e Competenze Digitali</h2>
+
+                <div class="card expanded">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Competenze AI per Docenti (DigComp + AILit)
+                    </div>
+                    <div class="card-content">
+                        <p>L'UE ha definito framework di competenze digitali e AI per docenti:</p>
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #00d9ff; margin-bottom: 15px;">DigComp Framework (Competenze Digitali Generali)</h4>
+                            <ul>
+                                <li><strong>Area 1: Information & Data Literacy:</strong> trovare, valutare, gestire info digitale</li>
+                                <li><strong>Area 2: Communication & Collaboration:</strong> comunicare, collaborare via piattaforme digitali</li>
+                                <li><strong>Area 3: Digital Content Creation:</strong> creare, modificare, integrare contenuto digitale</li>
+                                <li><strong>Area 4: Safety:</strong> proteggere dati, privacy, security personale e di studenti</li>
+                                <li><strong>Area 5: Problem-Solving:</strong> usare tecnologie per risolvere problemi educativi</li>
+                            </ul>
+
+                            <h4 style="color: #00d9ff; margin-bottom: 15px; margin-top: 25px;">AI Literacy (Competenze AI Specifiche)</h4>
+                            <ul>
+                                <li><strong>Comprensione base:</strong> che cos'è AI? Machine Learning, Deep Learning, LLM? Differenze?</li>
+                                <li><strong>Funzionamento:</strong> come un sistema ML impara dai dati? Che cos'è training, inference?</li>
+                                <li><strong>Limitazioni:</strong> dove fallisce l'AI? Che cos'è overfitting, underfitting, bias?</li>
+                                <li><strong>Etica:</strong> diritti, privacy, discriminazione, accountability nell'AI</li>
+                                <li><strong>Uso consapevole:</strong> scegliere strumenti, valutare output, integrare umano-AI</li>
+                                <li><strong>Cittadinanza:</strong> impatto socio-politico dell'AI su società, lavoro, educazione</li>
+                            </ul>
+                        </div>
+                        <p style="margin-top: 20px;"><strong>Livelli proposti:</strong></p>
+                        <ul>
+                            <li>🟢 Base: capire che cos'è AI, riconoscere quando è usata, usare strumenti AI supportati</li>
+                            <li>🟡 Intermedio: comprendere logica funzionamento, identifi care bias, valutare criticamente output</li>
+                            <li>🔴 Avanzato: progettare integrazione responsabile AI in curriculum, formare altri docenti</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        AI Literacy per Studenti: Che Cosa Insegnare
+                    </div>
+                    <div class="card-content">
+                        <p>Gli studenti dovrebbero sviluppare:</p>
+                        <ul>
+                            <li><strong>Riconoscimento:</strong> dove l'AI è già presente nella loro vita (social media, videogame, assistenti vocali)?</li>
+                            <li><strong>Curiosità critica:</strong> come funziona? Chi l'ha progettato? Con quali dati?</li>
+                            <li><strong>Sbagliamento:</strong> che cosa può andare male? Chi è responsabile?</li>
+                            <li><strong>Uso consapevole:</strong> quando è utile usare AI, quando è meglio farlo da soli?</li>
+                            <li><strong>Creatività + AI:</strong> come collaborare con sistemi AI per amplificare creatività?</li>
+                            <li><strong>Scetticismo costruttivo:</strong> non "AI è male" né "AI risolve tutto", ma "dipende"</li>
+                        </ul>
+                        <p style="margin-top: 20px;"><strong>Percorsi curriculari suggeriti:</strong></p>
+                        <ul>
+                            <li>Moduli trasversali in Tecnologia, Informatica, Scienze</li>
+                            <li>Laboratori pratici: addestrare modelli semplici, giocare con AI tools</li>
+                            <li>Case study etici: analizzare casi reali di AI in medicina, giustizia, educazione</li>
+                            <li>Progetti creativi: usare AI per creare arte, musica, testo; valutare risultati criticamente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" onclick="toggleCard(this)">
+                        <span class="toggle-icon">▼</span>
+                        Risorse di Formazione Disponibili
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Per docenti (online, gratuiti o low-cost):</strong></p>
+                        <ul>
+                            <li>Elements of AI (University of Helsinki): https://www.elementsofai.com/ — corso interattivo gratuito</li>
+                            <li>AI for Everyone (Coursera, Andrew Ng): visione d'insieme per non-tecnici</li>
+                            <li>European Commission AI4All: risorse per educatori</li>
+                            <li>Khan Academy AI courses: per imparare insieme agli studenti</li>
+                            <li>Rapporto UNESCO su AI & Educazione 2023: fondamentale per policy makers</li>
+                        </ul>
+                        <p style="margin-top: 20px;"><strong>Per studenti:</strong></p>
+                        <ul>
+                            <li>Code.org: corsi di informatica, includono moduli AI</li>
+                            <li>Google AI Experiments: gioca con modelli ML semplici</li>
+                            <li>Teachable Machine (Google): train ML model senza coding</li>
+                            <li>Papers with Code: leggere paper di ricerca con implementazioni</li>
+                            <li>AI4K12: curricula per K-12 su AI (USA-centric, ma modelli trasferibili)</li>
+                        </ul>
+                        <p style="margin-top: 20px;"><strong>Per leader scolastici:</strong></p>
+                        <ul>
+                            <li>School Leaders' Guide to AI (vari editori): governance, compliance, change management</li>
+                            <li>OECD Education Working Papers: ricerca su AI in educazione</li>
+                            <li>Networked Learning Collaborative: community of practice per integrazione AI</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 10: Glossario -->
+            <section class="section" id="glossario">
+                <h2 class="section-title">📖 Glossario Interattivo</h2>
+
+                <div class="glossary-search">
+                    <input type="text" class="search-input" id="glossarySearch"
+                           placeholder="Cerca termini... (es: bias, GDPR, machine learning)">
+                </div>
+
+                <div class="glossary-grid" id="glossaryGrid">
+                    <!-- Terms populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Section 11: Riferimenti -->
+            <section class="section" id="riferimenti">
+                <h2 class="section-title">📚 Riferimenti e Bibliografia</h2>
+
+                <p style="margin-bottom:20px; color:#8b949e;">Bibliografia completa dal documento originale. Tutti i link sono cliccabili.</p>
+
+                <div class="card expanded" style="padding:20px;">
+                    <div style="margin-bottom:20px; padding:15px; border-left:3px solid #00d9ff; background:#151b23; border-radius:4px;">
+                        <p style="color:#00d9ff; font-weight:600; margin-bottom:8px;">📄 Citazione di questo documento</p>
+                        <p style="font-size:0.9rem;">European Commission: Directorate-General for Education, Youth, Sport and Culture. (2026). <em>Guidelines on the ethical use of artificial intelligence and data in teaching and learning for educators.</em> Publications Office of the European Union.<br><a href="https://data.europa.eu/doi/10.2766/7967834" style="color:#00d9ff;" target="_blank">https://data.europa.eu/doi/10.2766/7967834</a></p>
+                        <p style="font-size:0.85rem; color:#6e7681; margin-top:8px;">ISBN 978-92-68-33189-7 (PDF) • CC BY 4.0 • Revised edition, manuscript completed November 2025</p>
+                    </div>
+
+                    <ul style="list-style:none; padding:0;">
+                        <li style="margin-bottom:15px;"><strong>Council of Europe (2022).</strong> <em>Artificial Intelligence and education - A critical view through the lens of human rights, democracy and the rule of law.</em><br><a href="https://rm.coe.int/1680a956e3" style="color:#00d9ff;" target="_blank">https://rm.coe.int/1680a956e3</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Commission (2022).</strong> <em>Ethical guidelines on the use of artificial intelligence (AI) and data in teaching and learning for educators.</em><br><a href="https://data.europa.eu/doi/10.2766/153756" style="color:#00d9ff;" target="_blank">https://data.europa.eu/doi/10.2766/153756</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Commission (2020).</strong> <em>A European strategy for data.</em><br><a href="https://digital-strategy.ec.europa.eu/en/policies/data" style="color:#00d9ff;" target="_blank">https://digital-strategy.ec.europa.eu/en/policies/data</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Commission (2020).</strong> <em>Assessment List for Trustworthy Artificial Intelligence (ALTAI).</em><br><a href="https://digital-strategy.ec.europa.eu/en/library/assessment-list-trustworthy-artificial-intelligence-altai-self-assessment" style="color:#00d9ff;" target="_blank">https://digital-strategy.ec.europa.eu/.../altai-self-assessment</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Commission (2020).</strong> <em>Digital Education Action Plan (2021-2027).</em><br><a href="https://education.ec.europa.eu/focus-topics/digital-education/about/digital-education-action-plan" style="color:#00d9ff;" target="_blank">https://education.ec.europa.eu/.../digital-education-action-plan</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Commission (2019).</strong> <em>Ethics Guidelines for Trustworthy AI.</em><br><a href="https://op.europa.eu/en/publication-detail/-/publication/d3988569-0434-11ea-8c1f-01aa75ed71a1" style="color:#00d9ff;" target="_blank">https://op.europa.eu/.../d3988569-0434-11ea</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Data Protection Supervisor.</strong> <em>AI Act Regulation (EU) 2024/1689.</em><br><a href="https://data.europa.eu/doi/10.2804/4225375" style="color:#00d9ff;" target="_blank">https://data.europa.eu/doi/10.2804/4225375</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Education and Culture Executive Agency (2025).</strong> <em>Explainable AI in education – Fostering human oversight and shared responsibility.</em><br><a href="https://data.europa.eu/doi/10.2797/6780469" style="color:#00d9ff;" target="_blank">https://data.europa.eu/doi/10.2797/6780469</a></li>
+                        <li style="margin-bottom:15px;"><strong>European Education and Culture Executive Agency (2023).</strong> <em>AI report – By the European Digital Education Hub's Squad on artificial intelligence in education.</em><br><a href="https://data.europa.eu/doi/10.2797/828281" style="color:#00d9ff;" target="_blank">https://data.europa.eu/doi/10.2797/828281</a></li>
+                        <li style="margin-bottom:15px;"><strong>JRC (2025).</strong> <em>Generative AI Outlook Report - Exploring the Intersection of Technology, Society and Policy.</em><br><a href="https://data.europa.eu/doi/10.2760/1109679" style="color:#00d9ff;" target="_blank">https://data.europa.eu/doi/10.2760/1109679</a></li>
+                        <li style="margin-bottom:15px;"><strong>JRC (2025).</strong> <em>European Digital Competence Framework (DigComp).</em><br><a href="https://publications.jrc.ec.europa.eu/repository/handle/JRC144121" style="color:#00d9ff;" target="_blank">https://publications.jrc.ec.europa.eu/.../JRC144121</a></li>
+                        <li style="margin-bottom:15px;"><strong>JRC (2017).</strong> <em>Digital Competence Framework for Educators (DigCompEdu).</em><br><a href="https://publications.jrc.ec.europa.eu/repository/handle/JRC107466" style="color:#00d9ff;" target="_blank">https://publications.jrc.ec.europa.eu/.../JRC107466</a></li>
+                        <li style="margin-bottom:15px;"><strong>OECD (2025).</strong> <em>Empowering Learners for the Age of AI. An AI Literacy Framework for Primary and Secondary Education (Review draft).</em><br><a href="https://ailiteracyframework.org/" style="color:#00d9ff;" target="_blank">https://ailiteracyframework.org/</a></li>
+                        <li style="margin-bottom:15px;"><strong>OECD (2023).</strong> <em>OECD Digital Education Outlook 2023: Towards an Effective Digital Education Ecosystem.</em><br><a href="https://doi.org/10.1787/c74f03de-en" style="color:#00d9ff;" target="_blank">https://doi.org/10.1787/c74f03de-en</a></li>
+                        <li style="margin-bottom:15px;"><strong>UNESCO (2025).</strong> <em>AI and the future of education: disruptions, dilemmas and directions.</em><br><a href="https://unesdoc.unesco.org/ark:/48223/pf0000395236" style="color:#00d9ff;" target="_blank">https://unesdoc.unesco.org/.../pf0000395236</a></li>
+                        <li style="margin-bottom:15px;"><strong>UNESCO (2024).</strong> <em>AI competency framework for students / for teachers.</em><br><a href="https://www.unesco.org/en/articles/what-you-need-know-about-unescos-new-ai-competency-frameworks-students-and-teachers?hub=32618" style="color:#00d9ff;" target="_blank">https://www.unesco.org/.../ai-competency-frameworks</a></li>
+                        <li style="margin-bottom:15px;"><strong>UNESCO (2021).</strong> <em>Recommendation on the Ethics of Artificial Intelligence.</em><br><a href="https://unesdoc.unesco.org/ark:/48223/pf0000381137.locale=en" style="color:#00d9ff;" target="_blank">https://unesdoc.unesco.org/.../pf0000381137</a></li>
+                        <li style="margin-bottom:15px;"><strong>UNICEF (2021).</strong> <em>Policy guidance on AI for children. Version 2.0 | Recommendations for building AI policies and systems that uphold child rights.</em><br><a href="https://www.unicef.org/innocenti/reports/policy-guidance-ai-children" style="color:#00d9ff;" target="_blank">https://www.unicef.org/innocenti/reports/policy-guidance-ai-children</a></li>
+                    </ul>
+                </div>
+
+                <!-- Footer/Citation -->
+                <div style="margin-top:30px; padding:20px; text-align:center; background:#0f1419; border-radius:8px; border:1px solid #30363d;">
+                    <p style="color:#8b949e; font-size:0.85rem;">Dashboard creata da <strong style="color:#e6edf3;">Ivan Ferrero</strong> — Marzo 2026</p>
+                    <p style="color:#6e7681; font-size:0.8rem; margin-top:8px;">Basata su: European Commission (2026). <em>Guidelines on the ethical use of artificial intelligence and data in teaching and learning for educators.</em> CC BY 4.0</p>
+                    <p style="margin-top:12px;"><a href="/dashboards/" style="color:#00d9ff;">← Torna all'indice dashboard</a></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const glossaryTerms = [
+            {title: "AI (Artificial Intelligence)", definition: "Capacità di sistemi informatici di svolgere compiti che normalmente richiedono intelligenza umana", context: "Termine ombrello; include ML, NLP, computer vision"},
+            {title: "Machine Learning", definition: "Sottodisciplina dell'AI dove sistemi imparano dai dati senza essere esplicitamente programmati", context: "Es: un modello che impara a riconoscere handwriting da esempi"},
+            {title: "Deep Learning", definition: "Reti neurali artificiali con più strati; particolarmente potenti per immagini, testo, speech", context: "Base dei modelli moderni come ChatGPT"},
+            {title: "Large Language Model (LLM)", definition: "Modelli addestrati su grandi quantità di testo per generare testo coerente", context: "Es: ChatGPT, Claude, Gemini"},
+            {title: "Bias (Bias Algoritmico)", definition: "Sistemi AI che producono output diseguali per gruppi diversi, spesso riflettendo bias nei dati", context: "Es: sistema che nega credito a donne; riconosce volti più accuratamente per bianchi"},
+            {title: "GDPR", definition: "Regolamento UE sulla protezione dati personali; obbligatorio per tutte le istituzioni che trattano dati di cittadini UE", context: "Protegge minori (<16) con vincoli ancora più stringenti"},
+            {title: "AI Act", definition: "Legge UE (2024-2025) che regola sviluppo, deployment, uso di sistemi AI; classifica per livello di rischio", context: "Principale strumento normativo europeo su AI"},
+            {title: "High-Risk AI System", definition: "Secondo AI Act, sistemi che rischiano di danneggiare diritti fondamentali; richiedono compliance rigorosa", context: "Es: valutazione automatica studenti, predictive analytics drop-out"},
+            {title: "Transparency", definition: "Capacità di spiegare come e perché un sistema AI fa certe decisioni", context: "Opposto di 'black box'"},
+            {title: "Explainability (XAI)", definition: "Capacità di un modello AI di fornire spiegazioni interpretabili delle sue decisioni", context: "Es: 'questo studente è flaggato perché assenze >25% + voti <6'"},
+            {title: "Data Protection by Design", definition: "Integrare privacy in tutte le fasi di sviluppo di un sistema, non come aggiunta posteriore", context: "Principio GDPR Art. 25"},
+            {title: "Consent", definition: "Accordo libero, informato, specifico e revocabile di una persona a trattamento dati", context: "Per minori <16, consenso genitoriale obbligatorio"},
+            {title: "DPIA (Data Protection Impact Assessment)", definition: "Valutazione sistematica di rischi a privacy/diritti fondamentali di un trattamento dati", context: "Obbligatoria per AI ad alto rischio"},
+            {title: "Fairness", definition: "Principio che sistemi AI trattino equamente individui e gruppi senza discriminazioni", context: "Includes equità di accesso, outcome, rappresentazione"},
+            {title: "Accountability", definition: "Responsabilità chiara di chi ha deciso, implementato, monitora un sistema AI", context: "Chi è colpevole se l'AI commette errore discriminatorio?"},
+            {title: "Overfitting", definition: "Modello ML che memorizza dati training invece di generalizzare; performa male su dati nuovi", context: "Rischio se modello troppo complesso rispetto a dati disponibili"},
+            {title: "Underfitting", definition: "Modello ML troppo semplice; non cattura pattern nei dati", context: "Rischio opposto di overfitting"},
+            {title: "Training Data", definition: "Dataset usato per addestrare un modello ML", context: "Qualità dati training = qualità modello finale"},
+            {title: "Inference", definition: "Fase in cui modello addestrato fa prediczioni su dati nuovi", context: "Es: sistema che predice se studente è a rischio drop-out"},
+            {title: "Proctoring (Automated)", definition: "Sorveglianza automatizzata durante esami via webcam + biometria per prevenire frodi", context: "Invasivo su privacy; bias riconoscimento volto"},
+            {title: "Adaptive Learning", definition: "Sistemi che personalizzano difficoltà, ritmo, contenuto basati su profilo studente", context: "Beneficio: personalizzazione; rischio: isolamento, segregazione"},
+            {title: "Predictive Analytics", definition: "Uso di dati storici per predire future outcomes (es: chi abbandonerà scuola)", context: "Utile se combinato con intervento umano; rischioso se deterministico"}
+        ];
+
+        function initGlossary() {
+            const grid = document.getElementById('glossaryGrid');
+            grid.innerHTML = '';
+            glossaryTerms.forEach(term => {
+                const div = document.createElement('div');
+                div.className = 'glossary-term';
+                div.innerHTML = `
+                    <div class="term-title">${term.title}</div>
+                    <div class="term-definition">${term.definition}</div>
+                    <div class="term-context">📍 ${term.context}</div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        document.getElementById('glossarySearch').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const terms = document.querySelectorAll('.glossary-term');
+            terms.forEach(term => {
+                if (query === '' || term.innerText.toLowerCase().includes(query)) {
+                    term.classList.remove('hidden');
+                } else {
+                    term.classList.add('hidden');
+                }
+            });
+        });
+
+        function goToSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            window.scrollTo(0, 0);
+            updateProgress();
+        }
+
+        function toggleCard(element) {
+            const card = element.parentElement;
+            card.classList.toggle('expanded');
+        }
+
+        function switchTab(event, tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function updateProgress() {
+            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressFill').style.width = scrollPercentage + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Initialize
+        initGlossary();
+    </script>
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
