@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Piano Cartesiano — Esercitazione Interattiva | Ivan Ferrero</title>
-    <!-- Fonts per menu sito -->
+    <title>Piano Cartesiano — Esercitazione e Verifica Interattiva | Ivan Ferrero</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -401,12 +401,111 @@
             color: white;
         }
 
+        /* ── FORM DATI ── */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            font-family: var(--font);
+            font-size: 18px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            color: var(--text);
+            min-height: 48px;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59,111,182,0.2);
+        }
+        .form-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .form-row .form-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        /* ── RESULT TABLE ── */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        .result-table th, .result-table td {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            text-align: center;
+            font-size: 16px;
+        }
+        .result-table th {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .result-table .correct-row { background: var(--success-light); }
+        .result-table .wrong-row { background: var(--error-light); }
+
+        .final-score {
+            text-align: center;
+            padding: 24px;
+            margin: 16px 0;
+            border-radius: 8px;
+        }
+        .final-score.great {
+            background: var(--success-light);
+            border: 2px solid var(--success);
+        }
+        .final-score.ok {
+            background: #FFF8E1;
+            border: 2px solid #F0C040;
+        }
+        .final-score.retry {
+            background: var(--error-light);
+            border: 2px solid var(--error);
+        }
+        .final-score .big-number {
+            font-size: 48px;
+            font-weight: 700;
+        }
+        .final-score .big-label {
+            font-size: 18px;
+            color: var(--text-light);
+        }
+
+        /* ── NAV: non-clickable steps for verifica ── */
+        .pc-nav-btn.locked {
+            cursor: default;
+            opacity: 0.5;
+        }
+        .pc-nav-btn.done-step {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+            opacity: 1;
+            cursor: default;
+        }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 700px) {
             .main-container { padding: 12px; }
             .pc-card { padding: 16px; }
             .pc-nav-btn { padding: 10px 16px; font-size: 14px; }
             .coord-display .coords { font-size: 26px; }
+            .form-row { flex-direction: column; }
         }
 
         /* ── RESPONSIVE: menu sito mobile ── */
@@ -435,6 +534,15 @@
     </button>
     <button class="pc-nav-btn" onclick="showSection('multi')">
         <span class="nav-number">3</span>Cinque punti
+    </button>
+    <button class="pc-nav-btn" onclick="showSection('verifica')">
+        <span class="nav-number">4</span>Verifica
+    </button>
+    <button class="pc-nav-btn locked" id="nav-form">
+        <span class="nav-number">5</span>Dati alunno
+    </button>
+    <button class="pc-nav-btn locked" id="nav-results">
+        <span class="nav-number">6</span>Risultato
     </button>
 </nav>
 
@@ -605,6 +713,106 @@
     </div>
 </div>
 
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 4: VERIFICA 10 PUNTI                  -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-verifica" class="section">
+    <div class="pc-card">
+        <h2>Verifica: 10 punti</h2>
+        <div class="instruction-box">
+            <p><span class="step-number">1</span> Leggi le coordinate del punto qui sotto.</p>
+            <p><span class="step-number">2</span> Clicca con il mouse sul punto giusto nel piano cartesiano.</p>
+            <p><span class="step-number">3</span> Dopo ogni risposta si passa al punto successivo.</p>
+            <p style="margin-top:10px; color: #C0392B;"><strong>Attenzione: non puoi tornare indietro. Pensa bene prima di cliccare!</strong></p>
+        </div>
+    </div>
+
+    <div class="pc-card">
+        <div class="coord-display">
+            <div class="label">Punto <span id="ver-current-num">1</span> di 10 — Metti il punto qui:</div>
+            <div class="coords" id="ver-coords">(0, 0)</div>
+            <div class="coord-explain" id="ver-explain"></div>
+        </div>
+        <div class="canvas-wrapper">
+            <canvas id="ver-canvas" width="660" height="660"></canvas>
+        </div>
+        <div id="ver-feedback" class="pc-feedback hidden">.</div>
+    </div>
+
+    <div class="pc-card">
+        <div class="pc-progress-bar"><div class="pc-progress-fill" id="ver-progress" style="width:0%"></div></div>
+        <div class="progress-text" id="ver-progress-text">0 di 10 completati</div>
+        <div class="score-box">
+            <div class="score-item score-correct"><div class="score-val" id="ver-correct">0</div><div class="score-label">Corretti</div></div>
+            <div class="score-item score-wrong"><div class="score-val" id="ver-wrong">0</div><div class="score-label">Sbagliati</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 5: FORM DATI ALUNNO                   -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-form" class="section">
+    <div class="pc-card">
+        <h2>I tuoi dati</h2>
+        <p>Scrivi i tuoi dati qui sotto. Servono per il foglio dei risultati.</p>
+        <div style="margin-top: 16px;">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="field-cognome">Cognome</label>
+                    <input type="text" id="field-cognome" placeholder="Scrivi il tuo cognome">
+                </div>
+                <div class="form-group">
+                    <label for="field-nome">Nome</label>
+                    <input type="text" id="field-nome" placeholder="Scrivi il tuo nome">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="field-classe">Classe</label>
+                    <input type="text" id="field-classe" placeholder="Esempio: 1BE">
+                </div>
+                <div class="form-group">
+                    <label for="field-data">Data</label>
+                    <input type="date" id="field-data">
+                </div>
+            </div>
+        </div>
+        <div id="form-error" style="color: #C0392B; font-weight: 600; margin-top: 12px; display: none;">
+            Compila tutti i campi prima di continuare.
+        </div>
+        <div style="text-align: center; margin-top: 24px;">
+            <button class="btn btn-primary" onclick="submitForm()">Vai ai risultati</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 6: RISULTATI + PDF                    -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-results" class="section">
+    <div class="pc-card">
+        <h2>Risultati della verifica</h2>
+        <div id="student-info" style="margin-bottom: 16px; font-size: 16px; color: var(--text-light);"></div>
+        <div id="final-score-box"></div>
+        <table class="result-table" id="result-table">
+            <thead>
+                <tr>
+                    <th>Punto</th>
+                    <th>Coordinate richieste</th>
+                    <th>La tua risposta</th>
+                    <th>Risultato</th>
+                </tr>
+            </thead>
+            <tbody id="result-tbody"></tbody>
+        </table>
+    </div>
+    <div class="pc-card" style="text-align: center;">
+        <p style="margin-bottom: 16px;">Clicca il bottone per scaricare il PDF con i risultati.</p>
+        <button class="btn btn-success" onclick="downloadPDF()">Scarica PDF</button>
+    </div>
+</div>
+
 </div><!-- main-container -->
 
 <script>
@@ -624,12 +832,31 @@ function showSection(name) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById('section-' + name).classList.add('active');
     document.querySelectorAll('.pc-nav-btn').forEach(b => b.classList.remove('active'));
-    const idx = { tutorial: 0, single: 1, multi: 2 }[name];
+    const idx = { tutorial: 0, single: 1, multi: 2, verifica: 3, form: 4, results: 5 }[name];
     document.querySelectorAll('.pc-nav-btn')[idx].classList.add('active');
 
     if (name === 'single' && !singleState.initialized) initSingle();
     if (name === 'multi' && !multiState.initialized) initMulti();
+    if (name === 'verifica' && !verState.initialized) initVerifica();
     if (name === 'tutorial') drawTutorialCanvases();
+}
+
+// Navigate verifica flow (locked sections)
+function goToVerificaStep(name) {
+    showSection(name);
+    // Mark previous steps as done
+    const navBtns = document.querySelectorAll('.pc-nav-btn');
+    const idx = { tutorial: 0, single: 1, multi: 2, verifica: 3, form: 4, results: 5 }[name];
+    if (idx === 4) {
+        navBtns[3].classList.add('done-step');
+        navBtns[3].classList.remove('active');
+        navBtns[4].classList.remove('locked');
+    }
+    if (idx === 5) {
+        navBtns[4].classList.add('done-step');
+        navBtns[4].classList.remove('active');
+        navBtns[5].classList.remove('locked');
+    }
 }
 
 // ═══════════════════════════════════════════
@@ -1295,6 +1522,356 @@ function updateMultiProgress() {
     document.getElementById('multi-progress').style.width = pct + '%';
     document.getElementById('multi-progress-text').textContent = done + ' di 5 completati';
     document.getElementById('multi-correct').textContent = multiState.totalCorrect;
+}
+
+// ═══════════════════════════════════════════
+// HOVER SNAP — NO COORDINATES (for verifica)
+// ═══════════════════════════════════════════
+
+function setupHoverSnapNoCoords(canvas, getGridFn, redrawFn) {
+    let lastSnap = null;
+    canvas.addEventListener('mousemove', (e) => {
+        const info = getGridFn(e);
+        if (!info) return;
+        const { gx, gy, margin, step } = info;
+        const key = gx + ',' + gy;
+        if (lastSnap === key) return;
+        lastSnap = key;
+        redrawFn();
+        const ctx = canvas.getContext('2d');
+        const cx = margin + gx * step;
+        const cy = canvas.height - margin - gy * step;
+        // Crosshair lines only — NO coordinate label
+        ctx.strokeStyle = 'rgba(59,111,182,0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath(); ctx.moveTo(cx, 40); ctx.lineTo(cx, canvas.height - 40); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(40, cy); ctx.lineTo(canvas.width - 40, cy); ctx.stroke();
+        ctx.setLineDash([]);
+        // Dot only — no text
+        ctx.beginPath();
+        ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(59,111,182,0.35)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(59,111,182,0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+    });
+    canvas.addEventListener('mouseleave', () => {
+        lastSnap = null;
+        redrawFn();
+    });
+}
+
+// ═══════════════════════════════════════════
+// SECTION 4: VERIFICA (10 points, no retry)
+// ═══════════════════════════════════════════
+
+const verState = {
+    initialized: false,
+    grid: null,
+    points: [],
+    answers: [],
+    results: [],
+    current: 0,
+    total: 10,
+    correct: 0,
+    wrong: 0,
+    locked: false
+};
+
+function initVerifica() {
+    verState.initialized = true;
+    verState.points = [];
+    verState.answers = [];
+    verState.results = [];
+    verState.current = 0;
+    verState.correct = 0;
+    verState.wrong = 0;
+    verState.locked = false;
+
+    // Generate 10 distinct points
+    const usedKeys = new Set();
+    while (verState.points.length < verState.total) {
+        const p = { x: randInt(1, 30), y: randInt(1, 30) };
+        const key = p.x + ',' + p.y;
+        if (!usedKeys.has(key)) {
+            usedKeys.add(key);
+            verState.points.push(p);
+        }
+    }
+
+    verShowCurrentPoint();
+    verRedrawCanvas();
+
+    const canvas = document.getElementById('ver-canvas');
+    canvas.addEventListener('click', verClick);
+
+    // Hover snap WITHOUT coordinates
+    setupHoverSnapNoCoords(canvas,
+        (e) => {
+            if (verState.locked || !verState.grid) return null;
+            const g = verState.grid;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const mx = (e.clientX - rect.left) * scaleX;
+            const my = (e.clientY - rect.top) * scaleY;
+            const gx = Math.max(0, Math.min(30, Math.round((mx - g.margin) / g.step)));
+            const gy = Math.max(0, Math.min(30, Math.round((canvas.height - g.margin - my) / g.step)));
+            return { gx, gy, margin: g.margin, step: g.step, maxVal: 30 };
+        },
+        () => verRedrawCanvas()
+    );
+
+    // Set today's date as default
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    document.getElementById('field-data').value = yyyy + '-' + mm + '-' + dd;
+}
+
+function verShowCurrentPoint() {
+    const t = verState.points[verState.current];
+    document.getElementById('ver-current-num').textContent = verState.current + 1;
+    document.getElementById('ver-coords').textContent = '(' + t.x + ', ' + t.y + ')';
+    document.getElementById('ver-explain').innerHTML =
+        '<span class="highlight-x">' + t.x + ' a destra</span>, poi <span class="highlight-y">' + t.y + ' in alto</span>';
+    const fb = document.getElementById('ver-feedback');
+    fb.classList.add('hidden');
+    fb.classList.remove('success', 'error', 'info');
+}
+
+function verRedrawCanvas() {
+    const canvas = document.getElementById('ver-canvas');
+    const ctx = canvas.getContext('2d');
+    verState.grid = drawGrid(ctx, 660, 660, 30, { margin: 40 });
+    const g = verState.grid;
+    // Draw all previous answers
+    for (let i = 0; i < verState.current; i++) {
+        const t = verState.points[i];
+        const a = verState.answers[i];
+        const ok = verState.results[i];
+        if (ok) {
+            drawPoint(ctx, 660, g.margin, g.step, t.x, t.y, '#2E8B57', 7);
+        } else {
+            drawPoint(ctx, 660, g.margin, g.step, t.x, t.y, 'rgba(46,139,87,0.4)', 6);
+            drawPoint(ctx, 660, g.margin, g.step, a.x, a.y, 'rgba(192,57,43,0.4)', 6);
+        }
+    }
+}
+
+function verClick(e) {
+    if (verState.locked) return;
+    if (verState.current >= verState.total) return;
+
+    const canvas = document.getElementById('ver-canvas');
+    const g = verState.grid;
+    const coords = getGridCoords(canvas, e, g.margin, g.step, 30);
+    const t = verState.points[verState.current];
+    const ctx = canvas.getContext('2d');
+    const fb = document.getElementById('ver-feedback');
+    fb.classList.remove('hidden', 'success', 'error', 'info');
+
+    const isCorrect = (coords.x === t.x && coords.y === t.y);
+
+    verState.answers.push({ x: coords.x, y: coords.y });
+    verState.results.push(isCorrect);
+
+    if (isCorrect) {
+        verState.correct++;
+        fb.classList.add('success');
+        fb.textContent = 'Punto ' + (verState.current + 1) + ': Giusto!';
+        drawPoint(ctx, 660, g.margin, g.step, t.x, t.y, '#2E8B57', 8);
+    } else {
+        verState.wrong++;
+        fb.classList.add('error');
+        fb.textContent = 'Punto ' + (verState.current + 1) + ': Sbagliato. Hai messo (' + coords.x + ', ' + coords.y + '), il punto era (' + t.x + ', ' + t.y + ').';
+        drawPoint(ctx, 660, g.margin, g.step, coords.x, coords.y, 'rgba(192,57,43,0.5)', 6);
+        drawPoint(ctx, 660, g.margin, g.step, t.x, t.y, 'rgba(46,139,87,0.5)', 6);
+    }
+
+    verState.current++;
+    verUpdateProgress();
+
+    if (verState.current >= verState.total) {
+        verState.locked = true;
+        setTimeout(() => goToVerificaStep('form'), 2000);
+    } else {
+        verState.locked = true;
+        setTimeout(() => {
+            verState.locked = false;
+            verShowCurrentPoint();
+            verRedrawCanvas();
+        }, 1500);
+    }
+}
+
+function verUpdateProgress() {
+    const pct = Math.round((verState.current / verState.total) * 100);
+    document.getElementById('ver-progress').style.width = pct + '%';
+    document.getElementById('ver-progress-text').textContent = verState.current + ' di ' + verState.total + ' completati';
+    document.getElementById('ver-correct').textContent = verState.correct;
+    document.getElementById('ver-wrong').textContent = verState.wrong;
+}
+
+// ═══════════════════════════════════════════
+// SECTION 5: FORM
+// ═══════════════════════════════════════════
+
+let studentData = {};
+
+function submitForm() {
+    const cognome = document.getElementById('field-cognome').value.trim();
+    const nome = document.getElementById('field-nome').value.trim();
+    const classe = document.getElementById('field-classe').value.trim();
+    const data = document.getElementById('field-data').value;
+
+    if (!cognome || !nome || !classe || !data) {
+        document.getElementById('form-error').style.display = 'block';
+        return;
+    }
+    document.getElementById('form-error').style.display = 'none';
+
+    studentData = { cognome, nome, classe, data };
+    buildResults();
+    goToVerificaStep('results');
+}
+
+function formatDate(dateStr) {
+    const parts = dateStr.split('-');
+    return parts[2] + '/' + parts[1] + '/' + parts[0];
+}
+
+// ═══════════════════════════════════════════
+// SECTION 6: RESULTS
+// ═══════════════════════════════════════════
+
+function buildResults() {
+    const d = studentData;
+    document.getElementById('student-info').innerHTML =
+        '<strong>' + d.cognome + ' ' + d.nome + '</strong> — Classe ' + d.classe + ' — Data: ' + formatDate(d.data);
+
+    const pct = Math.round((verState.correct / verState.total) * 100);
+    let scoreClass, label;
+    if (pct >= 80) { scoreClass = 'great'; label = 'Ottimo lavoro!'; }
+    else if (pct >= 50) { scoreClass = 'ok'; label = 'Buon lavoro, puoi migliorare!'; }
+    else { scoreClass = 'retry'; label = 'Devi esercitarti ancora.'; }
+
+    document.getElementById('final-score-box').innerHTML =
+        '<div class="final-score ' + scoreClass + '">' +
+        '<div class="big-number">' + verState.correct + ' / ' + verState.total + '</div>' +
+        '<div class="big-label">' + label + '</div>' +
+        '</div>';
+
+    const tbody = document.getElementById('result-tbody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < verState.total; i++) {
+        const t = verState.points[i];
+        const a = verState.answers[i];
+        const ok = verState.results[i];
+        const tr = document.createElement('tr');
+        tr.className = ok ? 'correct-row' : 'wrong-row';
+        tr.innerHTML =
+            '<td>' + (i + 1) + '</td>' +
+            '<td>(' + t.x + ', ' + t.y + ')</td>' +
+            '<td>(' + a.x + ', ' + a.y + ')</td>' +
+            '<td>' + (ok ? 'Corretto' : 'Sbagliato') + '</td>';
+        tbody.appendChild(tr);
+    }
+}
+
+// ═══════════════════════════════════════════
+// PDF GENERATION
+// ═══════════════════════════════════════════
+
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const d = studentData;
+    const pageW = 210;
+    let y = 20;
+
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Verifica — Piano Cartesiano', pageW / 2, y, { align: 'center' });
+    y += 12;
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Cognome: ' + d.cognome, 20, y);
+    doc.text('Nome: ' + d.nome, 110, y);
+    y += 7;
+    doc.text('Classe: ' + d.classe, 20, y);
+    doc.text('Data: ' + formatDate(d.data), 110, y);
+    y += 10;
+
+    doc.setDrawColor(180);
+    doc.setLineWidth(0.5);
+    doc.line(20, y, 190, y);
+    y += 8;
+
+    const pct = Math.round((verState.correct / verState.total) * 100);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Punteggio: ' + verState.correct + ' / ' + verState.total + '  (' + pct + '%)', pageW / 2, y, { align: 'center' });
+    y += 12;
+
+    // Table header
+    const colX = [20, 40, 80, 125, 165];
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setFillColor(214, 228, 245);
+    doc.rect(20, y - 5, 170, 8, 'F');
+    doc.setTextColor(59, 111, 182);
+    doc.text('#', colX[0] + 5, y);
+    doc.text('Coordinate', colX[1] + 10, y);
+    doc.text('Risposta', colX[2] + 10, y);
+    doc.text('Risultato', colX[3] + 8, y);
+    y += 8;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    for (let i = 0; i < verState.total; i++) {
+        const t = verState.points[i];
+        const a = verState.answers[i];
+        const ok = verState.results[i];
+
+        if (ok) {
+            doc.setFillColor(212, 237, 218);
+        } else {
+            doc.setFillColor(248, 215, 218);
+        }
+        doc.rect(20, y - 5, 170, 7, 'F');
+
+        doc.setTextColor(45, 45, 45);
+        doc.text('' + (i + 1), colX[0] + 5, y);
+        doc.text('(' + t.x + ', ' + t.y + ')', colX[1] + 10, y);
+        doc.text('(' + a.x + ', ' + a.y + ')', colX[2] + 10, y);
+        doc.text(ok ? 'Corretto' : 'Sbagliato', colX[3] + 8, y);
+        y += 7;
+    }
+
+    y += 10;
+    doc.setDrawColor(180);
+    doc.line(20, y, 190, y);
+    y += 12;
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(90, 90, 90);
+    doc.text('Firma alunno: ___________________________', 20, y);
+    y += 10;
+    doc.text('Firma docente: ___________________________', 20, y);
+    y += 16;
+
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text('Generato automaticamente — Piano Cartesiano Verifica', pageW / 2, 285, { align: 'center' });
+
+    const fileName = 'Verifica_PianoCartesiano_' + d.cognome + '_' + d.nome + '.pdf';
+    doc.save(fileName);
 }
 
 </script>
