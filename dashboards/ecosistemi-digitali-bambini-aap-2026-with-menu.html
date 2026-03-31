@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosistemi Digitali e Bambini — AAP 2026 | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* ===== PAGE-SPECIFIC STYLES ===== */
+
+        /* Hero section */
+        .hero-banner {
+            background: linear-gradient(135deg, #0f1419 0%, #1a222d 50%, #0f1419 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #00d9ff08 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-banner .hero-tag {
+            display: inline-block;
+            background: #3fb95025;
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .hero-banner h1 {
+            font-size: 2.2rem;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+        .hero-banner h1 .accent { color: var(--accent-cyan); }
+        .hero-banner h1 .accent-green { color: var(--accent-green); }
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            line-height: 1.7;
+        }
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .meta-row span { display: flex; align-items: center; gap: 0.4rem; }
+
+        /* Key message callout */
+        .key-message {
+            background: linear-gradient(135deg, #00d9ff08 0%, #3fb95008 100%);
+            border-left: 3px solid var(--accent-green);
+            border-radius: 0 8px 8px 0;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .key-message p { color: var(--text-primary); margin: 0; font-size: 1rem; }
+        .key-message strong { color: var(--accent-green); }
+
+        /* Visual diagram - Bronfenbrenner */
+        .eco-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+        }
+        .eco-rings {
+            position: relative;
+            width: 420px;
+            height: 420px;
+        }
+        .eco-ring {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .eco-ring:hover {
+            transform: scale(1.02);
+        }
+        .eco-ring .ring-label {
+            position: absolute;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: center;
+            width: 140px;
+        }
+        .ring-outer {
+            width: 420px; height: 420px;
+            top: 0; left: 0;
+            background: #a371f712;
+            border: 2px solid #a371f740;
+        }
+        .ring-outer .ring-label { top: 15px; left: 50%; transform: translateX(-50%); color: var(--accent-purple); }
+        .ring-mid {
+            width: 310px; height: 310px;
+            top: 55px; left: 55px;
+            background: #00d9ff10;
+            border: 2px solid #00d9ff35;
+        }
+        .ring-mid .ring-label { top: 12px; left: 50%; transform: translateX(-50%); color: var(--accent-cyan); }
+        .ring-inner {
+            width: 200px; height: 200px;
+            top: 110px; left: 110px;
+            background: #d2992215;
+            border: 2px solid #d2992240;
+        }
+        .ring-inner .ring-label { top: 12px; left: 50%; transform: translateX(-50%); color: var(--accent-yellow); }
+        .ring-core {
+            width: 100px; height: 100px;
+            top: 160px; left: 160px;
+            background: #3fb95020;
+            border: 2px solid #3fb95050;
+        }
+        .ring-core .ring-label { top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--accent-green); font-size: 0.7rem; width: 80px; }
+
+        /* Ring tooltip */
+        .ring-tooltip {
+            display: none;
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            width: 320px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            z-index: 10;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .eco-ring:hover .ring-tooltip { display: block; }
+
+        /* Age bands */
+        .age-bands {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+        .age-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .age-card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+        }
+        .age-card-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .age-card-header h3 { margin: 0; font-size: 1.15rem; }
+        .age-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+        .age-card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .age-card.expanded .age-card-body {
+            max-height: 3000px;
+        }
+        .age-card-content {
+            padding: 0 1.5rem 1.5rem;
+        }
+        .age-card .expand-icon {
+            color: var(--accent-cyan);
+            font-size: 1.4rem;
+            transition: transform 0.2s ease;
+        }
+        .age-card.expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Risk-Opportunity mini bars */
+        .risk-opp-list { list-style: none; padding: 0; margin: 0.75rem 0; }
+        .risk-opp-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .risk-opp-list li:last-child { border-bottom: none; }
+        .risk-icon { flex-shrink: 0; font-size: 0.85rem; margin-top: 2px; }
+        .risk-icon.warn { color: var(--accent-yellow); }
+        .risk-icon.ok { color: var(--accent-green); }
+        .risk-icon.danger { color: var(--accent-red); }
+
+        /* Design table */
+        .design-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem;
+        }
+        .design-table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+        .design-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.85rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 2px solid var(--accent-cyan);
+            position: sticky;
+            top: 0;
+        }
+        .design-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            vertical-align: top;
+        }
+        .design-table tr:hover td {
+            background: var(--bg-hover);
+        }
+        .design-table .row-label {
+            color: var(--text-primary);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .design-table .impact-tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .impact-negative { background: #f8514920; color: var(--accent-red); }
+        .impact-positive { background: #3fb95020; color: var(--accent-green); }
+
+        /* 5C Framework */
+        .fivec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .fivec-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .fivec-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+        .fivec-letter {
+            font-family: var(--font-mono);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+        .fivec-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .fivec-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Stakeholder tabs */
+        .stakeholder-content { display: none; }
+        .stakeholder-content.active { display: block; }
+
+        /* Recommendation cards */
+        .rec-list { list-style: none; padding: 0; margin: 0; }
+        .rec-list li {
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            line-height: 1.5;
+        }
+        .rec-list li .rec-bullet {
+            color: var(--accent-cyan);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* SCREEN OUT visual */
+        .screenout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 0.75rem;
+        }
+        .screenout-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .screenout-item:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 15px #f8514915;
+        }
+        .screenout-letter {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-red);
+        }
+        .screenout-word {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+        }
+        .screenout-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Critique section */
+        .critique-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-yellow);
+            border-radius: 0 8px 8px 0;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .critique-card h4 { color: var(--accent-yellow); margin-bottom: 0.5rem; }
+        .critique-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0; }
+
+        /* Positive action cards */
+        .action-card {
+            background: linear-gradient(135deg, #3fb95008 0%, #00d9ff05 100%);
+            border: 1px solid #3fb95030;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .action-card h4 { color: var(--accent-green); margin-bottom: 0.5rem; }
+        .action-card p { font-size: 0.9rem; color: var(--text-secondary); }
+
+        /* Puzzle / quality content */
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .quality-piece {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+        }
+        .quality-piece:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 15px #3fb95015;
+        }
+        .quality-num {
+            font-family: var(--font-mono);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+        .quality-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0.25rem 0;
+        }
+        .quality-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Verdict meter */
+        .verdict-bar {
+            display: flex;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .verdict-segment {
+            transition: width 0.5s ease;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            body { padding-top: 120px !important; }
+            .main-container { padding-top: 8rem !important; }
+            .hero-banner { padding: 1.5rem; }
+            .hero-banner h1 { font-size: 1.5rem; }
+            .eco-rings { width: 300px; height: 300px; }
+            .ring-outer { width: 300px; height: 300px; }
+            .ring-mid { width: 220px; height: 220px; top: 40px; left: 40px; }
+            .ring-inner { width: 140px; height: 140px; top: 80px; left: 80px; }
+            .ring-core { width: 70px; height: 70px; top: 115px; left: 115px; }
+            .ring-core .ring-label { font-size: 0.6rem; width: 60px; }
+            .ring-tooltip { width: 250px; font-size: 0.8rem; }
+            .fivec-grid { grid-template-columns: repeat(2, 1fr); }
+            .screenout-grid { grid-template-columns: repeat(2, 1fr); }
+            .tabs { flex-wrap: wrap; }
+        }
+        @media (max-width: 480px) {
+            .eco-rings { width: 260px; height: 260px; }
+            .ring-outer { width: 260px; height: 260px; }
+            .ring-mid { width: 190px; height: 190px; top: 35px; left: 35px; }
+            .ring-inner { width: 120px; height: 120px; top: 70px; left: 70px; }
+            .ring-core { width: 60px; height: 60px; top: 100px; left: 100px; }
+            .fivec-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu del sito -->
+    <div id="site-menu"></div>
+
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a href="#overview" class="sidebar-link active" data-target="overview">Overview</a>
+                <a href="#modello" class="sidebar-link" data-target="modello">Modello Socioecologico</a>
+                <a href="#fasce" class="sidebar-link" data-target="fasce">Fasce d'Età</a>
+                <a href="#design" class="sidebar-link" data-target="design">Design & Impatto</a>
+                <a href="#screenout" class="sidebar-link" data-target="screenout">SCREEN OUT</a>
+                <a href="#framework5c" class="sidebar-link" data-target="framework5c">Framework 5 C's</a>
+                <a href="#raccomandazioni" class="sidebar-link" data-target="raccomandazioni">Raccomandazioni</a>
+                <a href="#qualita" class="sidebar-link" data-target="qualita">Contenuti di Qualità</a>
+                <a href="#critica" class="sidebar-link" data-target="critica">Analisi Critica</a>
+                <a href="#azione" class="sidebar-link" data-target="azione">Verso un Digitale Etico</a>
+                <a href="#glossario" class="sidebar-link" data-target="glossario">Glossario</a>
+                <a href="#biblio" class="sidebar-link" data-target="biblio">Bibliografia</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+
+            <!-- ========== OVERVIEW ========== -->
+            <section id="overview" class="section active">
+
+                <div class="hero-banner">
+                    <div class="hero-tag">Policy Statement AAP — Pediatrics 2026</div>
+                    <h1>Ecosistemi Digitali, <span class="accent">Bambini</span> e <span class="accent-green">Adolescenti</span></h1>
+                    <p class="hero-subtitle">
+                        Non è il digitale in sé il problema. Sono le piattaforme progettate per catturare l'attenzione — non per far crescere chi le usa. Questo policy statement dell'American Academy of Pediatrics mostra che <strong style="color: var(--accent-green);">un digitale etico, centrato sui bambini, è possibile e necessario</strong>.
+                    </p>
+                    <div class="meta-row">
+                        <span>📄 Munzer T, Parga-Belinkie J, et al.</span>
+                        <span>📰 Pediatrics, 2026; 157(2)</span>
+                        <span>🔗 DOI: 10.1542/peds.2025-075320</span>
+                        <span>📚 152 riferimenti</span>
+                    </div>
+                </div>
+
+                <div class="key-message">
+                    <p><strong>Il messaggio chiave:</strong> Il problema non è lo schermo. È come le piattaforme sono costruite: algoritmi che massimizzano l'engagement, design che crea dipendenza, pubblicità invasiva. Ma esiste un'alternativa — il <em>child-centered design</em> — che rispetta lo sviluppo dei più piccoli e può trasformare il digitale in un alleato.</p>
+                </div>
+
+                <!-- Stat cards -->
+                <div class="stat-grid" style="margin-top: 1.5rem;">
+                    <div class="stat-card">
+                        <div class="stat-value">152</div>
+                        <div class="stat-label">Studi citati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0–18</div>
+                        <div class="stat-label">Fasce d'età coperte</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Stakeholder coinvolti</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5 C's</div>
+                        <div class="stat-label">Framework operativo</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Design type analizzati</div>
+                    </div>
+                </div>
+
+                <div class="subsection" style="margin-top: 2rem;">
+                    <h3>Di cosa parla questo documento</h3>
+                    <p>L'AAP ha prodotto il policy statement più completo ad oggi sull'influenza degli ecosistemi digitali sullo sviluppo di bambini e adolescenti. Non è il solito "limitare il tempo schermo": è un framework multilivello che riconosce la complessità del tema.</p>
+                    <p>Il documento abbandona la dicotomia "schermo buono/cattivo" e adotta un <strong style="color: var(--accent-cyan);">modello socioecologico</strong> ispirato a Bronfenbrenner: il bambino non è un'isola esposta a uno schermo — è immerso in cerchi concentrici di influenza (famiglia, ecosistema digitale, istituzioni, cultura). L'impatto del digitale dipende dalla qualità di ogni cerchio, non dalla semplice esposizione.</p>
+                    <p>Tre innovazioni rispetto ai precedenti documenti AAP: (1) <strong>la qualità del contenuto prevale sulla quantità</strong> di tempo; (2) <strong>il design delle piattaforme è il vero nodo</strong>, non il comportamento del bambino; (3) <strong>servono azioni coordinate</strong> da famiglie, pediatri, industria e politica — non basta il counselling individuale.</p>
+                </div>
+            </section>
+
+            <!-- ========== MODELLO SOCIOECOLOGICO ========== -->
+            <section id="modello" class="section">
+                <h2>Modello <span class="text-cyan">Socioecologico</span></h2>
+                <p>Il framework concettuale del policy statement è costruito su cerchi concentrici nidificati, ispirati alla teoria ecologica di Bronfenbrenner (1979). Ogni livello influenza e viene influenzato dagli altri — il comportamento del bambino non emerge dal vuoto.</p>
+
+                <div class="eco-diagram">
+                    <div class="eco-rings">
+                        <div class="eco-ring ring-outer">
+                            <span class="ring-label">Sistemi & Strutture</span>
+                            <div class="ring-tooltip">Governo, politiche, scuole, comunità, incentivi economici, norme culturali. Determinano l'ambiente in cui tutto il resto opera.</div>
+                        </div>
+                        <div class="eco-ring ring-mid">
+                            <span class="ring-label">Ecosistema Digitale</span>
+                            <div class="ring-tooltip">Piattaforme, algoritmi, design, contenuti, pubblicità, privacy. Progettato dall'industria tech — ma subìto da famiglie e bambini.</div>
+                        </div>
+                        <div class="eco-ring ring-inner">
+                            <span class="ring-label">Caregiver</span>
+                            <div class="ring-tooltip">Genitori, educatori, insegnanti. Mediano l'accesso al digitale, modellano comportamenti, stabiliscono confini — ma con risorse e supporti spesso insufficienti.</div>
+                        </div>
+                        <div class="eco-ring ring-core">
+                            <span class="ring-label">Bambino</span>
+                            <div class="ring-tooltip">Temperamento, regolazione emotiva, età, neurodiversità. Ogni bambino reagisce diversamente allo stesso ambiente digitale.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-message" style="margin-top: 2rem;">
+                    <p><strong>Perché è importante:</strong> questo modello sposta la responsabilità. Non è "il bambino che usa troppo il telefono" — è un <em>sistema intero</em> che lo circonda. Chiedere al genitore di "ridurre screen time" mentre algoritmi, pubblicità e design predatorio spingono nella direzione opposta è come chiedere di nuotare controcorrente senza insegnare a nuotare.</p>
+                </div>
+
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h3>La gerarchia di responsabilità</h3>
+                    <p>Il policy statement è <strong>normativo</strong>: ogni cerchio genera raccomandazioni specifiche. I sistemi esterni (politiche, regolazione industriale) hanno il potere strutturale maggiore. Le famiglie hanno meno potere strutturale ma il contatto più diretto. L'intervento efficace richiede azione su <em>tutti</em> i livelli simultaneamente.</p>
+                    <ul class="rec-list" style="margin-top: 1rem;">
+                        <li><span class="rec-bullet">→</span> <strong>Sistemi & Strutture:</strong> regolazione algoritmica, finanziamento terze spazi, curricula digitali obbligatori</li>
+                        <li><span class="rec-bullet">→</span> <strong>Ecosistema Digitale:</strong> child-centered design di default, trasparenza algoritmica, veto su dark patterns per minori</li>
+                        <li><span class="rec-bullet">→</span> <strong>Caregiver:</strong> media plan familiare, joint engagement, modeling comportamentale, digital literacy</li>
+                        <li><span class="rec-bullet">→</span> <strong>Bambino:</strong> valutazione dello sviluppo, fattori di rischio individuali (ADHD, ansia, neurodiversità)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ========== FASCE D'ETÀ ========== -->
+            <section id="fasce" class="section">
+                <h2>Evidenze per <span class="text-cyan">Fascia d'Età</span></h2>
+                <p>Il documento differenzia evidenze e raccomandazioni per tre gruppi — rifiutando il mantra "screen time è sempre male" e contestualizzando rischi <em>e</em> opportunità per fase di sviluppo.</p>
+
+                <div class="age-bands">
+
+                    <!-- 0-5 -->
+                    <div class="age-card" id="age-0-5">
+                        <div class="age-card-header" onclick="toggleAge('age-0-5')">
+                            <div>
+                                <span class="age-badge" style="background: #3fb95020; color: var(--accent-green);">0–5 anni</span>
+                                <h3 style="margin-top: 0.5rem;">Early Childhood</h3>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="age-card-body">
+                            <div class="age-card-content">
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Il cervello in formazione è ipersensibile a stimoli ad alta velocità. L'interazione, non il contenuto passivo, è la chiave.</p>
+
+                                <h4 style="color: var(--accent-red); margin-top: 1rem;">Rischi evidenziati</h4>
+                                <ul class="risk-opp-list">
+                                    <li><span class="risk-icon warn">⚠</span> Ritardi linguistici correlati alla TV passiva e all'uso solitario</li>
+                                    <li><span class="risk-icon warn">⚠</span> Sviluppo socio-emotivo compromesso da scarsa interazione face-to-face</li>
+                                    <li><span class="risk-icon warn">⚠</span> Ridotta capacità attentiva per stimoli rapidi / dipendenza da ritorno sensoriale immediato</li>
+                                    <li><span class="risk-icon warn">⚠</span> Uso di dispositivi mobili per calmarsi associato a minore capacità di regolazione emotiva</li>
+                                    <li><span class="risk-icon warn">⚠</span> Uso intenso di tablet collegato a maggiori scoppi di rabbia nel tempo</li>
+                                    <li><span class="risk-icon warn">⚠</span> Meno lettura, meno gioco simbolico, minore sviluppo motorio fine</li>
+                                </ul>
+
+                                <h4 style="color: var(--accent-green); margin-top: 1rem;">Opportunità</h4>
+                                <ul class="risk-opp-list">
+                                    <li><span class="risk-icon ok">✓</span> Contenuti educativi di qualità (PBS Kids, Sesame Street) associati a linguaggio e prosocialità migliori</li>
+                                    <li><span class="risk-icon ok">✓</span> App educative promuovono STEM e linguaggio se ben progettate</li>
+                                    <li><span class="risk-icon ok">✓</span> <strong>Joint media engagement</strong> con caregiver potenzia significativamente l'apprendimento</li>
+                                    <li><span class="risk-icon ok">✓</span> Videochiamate: interazione bidirezionale con familiari lontani</li>
+                                </ul>
+
+                                <div class="key-message" style="margin-top: 1rem;">
+                                    <p><strong>Raccomandazione chiave:</strong> Non "vietare lo schermo", ma <strong>accompagnare la visione</strong>. Il joint engagement (guardare insieme, commentare, fare domande) trasforma una visione passiva in un dialogo educativo.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6-12 -->
+                    <div class="age-card" id="age-6-12">
+                        <div class="age-card-header" onclick="toggleAge('age-6-12')">
+                            <div>
+                                <span class="age-badge" style="background: #00d9ff20; color: var(--accent-cyan);">6–12 anni</span>
+                                <h3 style="margin-top: 0.5rem;">School-Aged</h3>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="age-card-body">
+                            <div class="age-card-content">
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Il consolidamento del controllo esecutivo è vulnerabile a interruzioni frequenti (notifiche). Ma contenuti di qualità possono sostenere l'apprendimento.</p>
+
+                                <h4 style="color: var(--accent-red); margin-top: 1rem;">Rischi evidenziati</h4>
+                                <ul class="risk-opp-list">
+                                    <li><span class="risk-icon warn">⚠</span> Uso eccessivo associato a rendimento scolastico inferiore, attenzione più debole, cognizione cristallizzata ridotta</li>
+                                    <li><span class="risk-icon warn">⚠</span> Interferenza con sonno, attività fisica, tempo per amicizie offline</li>
+                                    <li><span class="risk-icon warn">⚠</span> Rischio aumentato di miopia progressiva</li>
+                                    <li><span class="risk-icon warn">⚠</span> Esposizione a cibi ipercalorici e rischio cardiometabolico elevato</li>
+                                    <li><span class="risk-icon warn">⚠</span> Tecnologie digitali disturbano durata, insorgenza e qualità del sonno</li>
+                                </ul>
+
+                                <h4 style="color: var(--accent-green); margin-top: 1rem;">Opportunità</h4>
+                                <ul class="risk-opp-list">
+                                    <li><span class="risk-icon ok">✓</span> Media digitali di qualità, con obiettivi di apprendimento, associati a migliori competenze in matematica e lettura</li>
+                                    <li><span class="risk-icon ok">✓</span> Ricerca autonoma e curiosità esplorativa</li>
+                                    <li><span class="risk-icon ok">✓</span> Early digital literacy: base per pensiero critico</li>
+                                    <li><span class="risk-icon ok">✓</span> Attività extracurricolari e movimento come "crowding out" positivo del digitale</li>
+                                </ul>
+
+                                <div class="key-message" style="margin-top: 1rem;">
+                                    <p><strong>Raccomandazione chiave:</strong> Proteggere gli spazi sacri — sonno, pasti, gioco fisico — e insegnare a riconoscere la differenza tra contenuti di qualità e contenuti progettati per catturare l'attenzione.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 13-18 -->
+                    <div class="age-card" id="age-13-18">
+                        <div class="age-card-header" onclick="toggleAge('age-13-18')">
+                            <div>
+                                <span class="age-badge" style="background: #a371f720; color: var(--accent-purple);">13–18 anni</span>
+                                <h3 style="margin-top: 0.5rem;">Teenagers</h3>
+                            </div>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="age-card-body">
+                            <div class="age-card-content">
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Maturazione prefrontale ancora incompleta + neuroadattamento alla dopamina = vulnerabilità specifica ai meccanismi di reward variabile dei social media.</p>
+
+                                <h4 style="color: var(--accent-red); margin-top: 1rem;">Rischi evidenziati</h4>
+                                <ul class="risk-opp-list">
+                                    <li><span class="risk-icon warn">⚠</span> Piccole ma consistenti associazioni tra durata d'uso e peggior benessere psicologico — la prima adolescenza (11-14) è particolarmente vulnerabile</li>
+                                    <li><span class="risk-icon warn">⚠</span> Amplificazione algoritmica e confronto sociale: rischio disturbi alimentari, depressione, ansia, autolesionismo</li>
+                                    <li><span class="risk-icon warn">⚠</span> Cyberbullismo associato a peggior benessere psicologico</li>
+                                    <li><span class="risk-icon warn">⚠</span> TV prolungata, videogiochi, multitasking mediale associati a rendimento scolastico inferiore</li>
+                                    <li><span class="risk-icon warn">⚠</span> Ragazzi con ADHD, ansia, autismo a maggior rischio di effetti negativi</li>
+                                    <li><span class="risk-icon warn">⚠</span> Possesso precoce dello smartphone: per le ragazze, associato a peggiore adattamento comportamentale</li>
+                                </ul>
+
+                                <h4 style="color: var(--accent-green); margin-top: 1rem;">Opportunità</h4>
+                                <ul class="risk-opp-list">
+                                    <li><span class="risk-icon ok">✓</span> Associazioni positive con apprendimento, formazione dell'identità, espressione, benessere — quando c'è supporto genitoriale e contenuti di qualità</li>
+                                    <li><span class="risk-icon ok">✓</span> Creatività, peer connection, advocacy civica online</li>
+                                    <li><span class="risk-icon ok">✓</span> Per giovani LGBTQ+ e minoranze marginalizzate: connessione sociale e comunità di appartenenza</li>
+                                    <li><span class="risk-icon ok">✓</span> Influenza positiva dei pari online quando il contesto è supportivo</li>
+                                </ul>
+
+                                <div class="key-message" style="margin-top: 1rem;">
+                                    <p><strong>Raccomandazione chiave:</strong> Non demonizzare, ma insegnare a <strong>riconoscere la manipolazione</strong>. Literacy algoritmica, consapevolezza dei dark pattern, protezione della privacy. L'adolescente come agente attivo, non vittima passiva.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== DESIGN & IMPATTO (TABELLA) ========== -->
+            <section id="design" class="section">
+                <h2>Design Digitale & <span class="text-cyan">Impatto sui Bambini</span></h2>
+                <p>Il cuore del policy statement è questa tabella (Table 1): una mappatura delle scelte di design delle piattaforme e del loro impatto diretto sul benessere dei bambini, con raccomandazioni per famiglie e policy maker.</p>
+
+                <div class="key-message">
+                    <p><strong>Lettura chiave:</strong> ogni riga della tabella mostra che il design non è neutro. Infinite scroll, autoplay, notifiche variabili, profilazione — non sono errori tecnici, sono <strong>scelte ingegneristiche</strong> che generano conseguenze prevedibili.</p>
+                </div>
+
+                <div class="design-table-wrapper">
+                    <table class="design-table">
+                        <thead>
+                            <tr>
+                                <th>Design Type</th>
+                                <th>Esempi nel Gioco Digitale</th>
+                                <th>Impatto sul Benessere</th>
+                                <th>Per Famiglie & Pediatri</th>
+                                <th>Per Policy & Industria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="row-label">Contenuti di bassa qualità</td>
+                                <td>Contenuti user-generated veloci su piattaforme streaming video. App che dichiarano valore educativo ma usano design che incentivano acquisti in-app.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Contenuti veloci e di bassa qualità associati a maggiore iperattività nei bambini in età prescolare. Bambini a basso reddito più esposti.</td>
+                                <td>Orientare verso piattaforme di qualità (PBS Kids). Le app possono de-enfatizzare certi tipi di contenuto.</td>
+                                <td>Rating system per contenuti UGC, audit, formazione per creator, più contenuti gratuiti di alta qualità.</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label">Contenuti dannosi</td>
+                                <td>Contenuti su disturbi alimentari, autolesionismo, contatto da sconosciuti, notizie violente. Profilazione che inferisce interessi in attività pericolose.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Bambini persuasi ad adottare comportamenti rischiosi. Esposizione a violenza associata a maggiore aggressività.</td>
+                                <td>Curiosità aperta: parlare di ciò che incontrano online. Sicurezza come impostazione di default. Segnalazione contenuti facile.</td>
+                                <td>Metodi di segnalazione presenti e accessibili. Contenuto rimosso rapidamente. Erasure laws universali per minori.</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label">Contenuti commerciali e pubblicità</td>
+                                <td>Piattaforme video UGC con contenuti fortemente commercializzati. Product placement, influencer marketing.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Bambini più propensi a chiedere giocattoli e cibi promossi. Incapaci di distinguere pubblicità da contenuti.</td>
+                                <td>Orientare verso piattaforme senza pubblicità (TV a pagamento, PBS Kids). Co-visione e discussione degli annunci.</td>
+                                <td>Contenuto commercializzato UGC soggetto alle stesse regole della TV. De-incentivare esposizione dei minori.</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label">Algoritmi automatizzati</td>
+                                <td>Algoritmi che possono elevare contenuti rischiosi o pericolosi. Feed e algoritmi che contengono o elevano contenuti sessuali espliciti.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Algoritmi plasmano apprendimento ed esperienze. Contenuti biased possono perpetuare stereotipi. Esposizione a contenuti sessuali può contribuire a comportamenti rischiosi.</td>
+                                <td>Insegnare agli adolescenti come funzionano gli algoritmi e <em>perché</em> vedono certi contenuti. Parlare dei feed di raccomandazione.</td>
+                                <td>Framework regolatori per proteggere i giovani durante il processo di design. Accountability per algoritmi manipolatori.</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label">Design engagement-prolonging</td>
+                                <td>Social media con scroll infiniti e autoplay. Funzionalità che limitano la capacità di uscire dall'app.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Scroll e autoplay rendono più difficile staccarsi dai dispositivi e prolungano il tempo speso.</td>
+                                <td>Chiedere ai bambini come decidono quando "hanno finito" con il digitale. Parlare dei design che rendono difficile smettere.</td>
+                                <td>Social media dovrebbe avere click per avanzare e check-in periodici. Autoplay disattivato di default.</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label">Rinforzi comportamentali</td>
+                                <td>App di gioco con avanzamento facile, badge frequenti, trofei. Streak e sfide quotidiane.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Bambini trovano difficile resistere a queste esche digitali. Difficoltà a smettere di giocare.</td>
+                                <td>Creare opportunità di rinforzo positivo nel mondo offline. Scambiare dispositivo con un libro, un gioco, un'attività creativa.</td>
+                                <td>App di gioco con meno rinforzi frequenti e più opportunità di check-in e disengagement.</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label">Disinformazione</td>
+                                <td>Social media con contenuti non verificati che plasmano le prospettive di bambini e adolescenti.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Bambini trovano difficile distinguere vero da falso nelle informazioni online.</td>
+                                <td>Insegnare a riflettere sulla qualità dell'informazione, come valutare le fonti, quali motivazioni ci sono dietro un contenuto.</td>
+                                <td>Algoritmi per account bambini che prioritizzino informazioni da fonti verificate e ben rispettate.</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label">Privacy</td>
+                                <td>Aziende social e piattaforme online che tracciano e raccolgono dati sui bambini.</td>
+                                <td><span class="impact-tag impact-negative">rischio</span> Bambini non comprendono come vengono raccolte le loro informazioni e non possono dare consenso significativo.</td>
+                                <td>Conversazioni frequenti su dove vanno i dati e cosa significa avere privacy digitale.</td>
+                                <td>Privacy dei minori come valore centrale. Sorveglianza e pubblicità mirata per bambini da evitare.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ========== SCREEN OUT ========== -->
+            <section id="screenout" class="section">
+                <h2><span class="text-red">SCREEN OUT</span> — Riconoscere Contenuti di Bassa Qualità</h2>
+                <p>L'AAP propone un acronimo pratico per identificare rapidamente contenuti digitali di bassa qualità da cui "fare screen out" — uscire. Ogni lettera è un segnale d'allarme.</p>
+
+                <div class="screenout-grid">
+                    <div class="screenout-item">
+                        <div class="screenout-letter">S</div>
+                        <div class="screenout-word">Streaks</div>
+                        <div class="screenout-desc">Sfide che incentivano il gioco quotidiano</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">C</div>
+                        <div class="screenout-word">Creepy Content</div>
+                        <div class="screenout-desc">Contenuti inquietanti, violenti, discriminatori</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">R</div>
+                        <div class="screenout-word">Rewards</div>
+                        <div class="screenout-desc">Rinforzi frequenti (stelle, token, badge)</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">E</div>
+                        <div class="screenout-word">Escape is hard</div>
+                        <div class="screenout-desc">Difficile uscire o cambiare contenuto</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">E</div>
+                        <div class="screenout-word">Excessive ads</div>
+                        <div class="screenout-desc">Pop-up frequenti, pubblicità invadente</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">N</div>
+                        <div class="screenout-word">Nagging</div>
+                        <div class="screenout-desc">Insistenza per abbonamenti o engagement</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">O</div>
+                        <div class="screenout-word">Over-the-top</div>
+                        <div class="screenout-desc">Sfide eccessive, tattiche acchiappa-attenzione</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">U</div>
+                        <div class="screenout-word">Unwanted contact</div>
+                        <div class="screenout-desc">Contatti non desiderati da sconosciuti</div>
+                    </div>
+                    <div class="screenout-item">
+                        <div class="screenout-letter">T</div>
+                        <div class="screenout-word">Toys</div>
+                        <div class="screenout-desc">Promozione eccessiva di giocattoli e consumi</div>
+                    </div>
+                </div>
+
+                <div class="key-message" style="margin-top: 1.5rem;">
+                    <p><strong>Uno strumento pratico:</strong> se un'app o un video presenta molti di questi segnali, probabilmente non è progettata pensando al benessere del bambino ma all'engagement e al profitto. È il momento di fare <em>screen out</em>.</p>
+                </div>
+            </section>
+
+            <!-- ========== FRAMEWORK 5 C's ========== -->
+            <section id="framework5c" class="section">
+                <h2>Framework delle <span class="text-cyan">5 C's</span></h2>
+                <p>Un framework operativo per pediatri, educatori e genitori. Cinque domande-guida per valutare la relazione di un bambino con il digitale, andando oltre il semplice conteggio delle ore.</p>
+
+                <div class="fivec-grid">
+                    <div class="fivec-card">
+                        <div class="fivec-letter">C</div>
+                        <div class="fivec-title">Child</div>
+                        <div class="fivec-desc">Quali sono i punti di forza del bambino? Quali i fattori di rischio individuali (ADHD, ansia, neurodiversità)?</div>
+                    </div>
+                    <div class="fivec-card">
+                        <div class="fivec-letter">C</div>
+                        <div class="fivec-title">Content</div>
+                        <div class="fivec-desc">Con quale contenuto interagisce? La qualità prevale sulla quantità — contenuti educativi vs. engagement-driven.</div>
+                    </div>
+                    <div class="fivec-card">
+                        <div class="fivec-letter">C</div>
+                        <div class="fivec-title">Calm</div>
+                        <div class="fivec-desc">Il bambino usa i media per calmarsi? Se sì, sta sviluppando o meno strategie alternative di regolazione emotiva?</div>
+                    </div>
+                    <div class="fivec-card">
+                        <div class="fivec-letter">C</div>
+                        <div class="fivec-title">Crowding out</div>
+                        <div class="fivec-desc">Il digitale sta spiazzando sonno, movimento, gioco creativo, relazioni faccia a faccia, tempo in famiglia?</div>
+                    </div>
+                    <div class="fivec-card">
+                        <div class="fivec-letter">C</div>
+                        <div class="fivec-title">Communication</div>
+                        <div class="fivec-desc">Come comunica la famiglia sul digitale? C'è dialogo aperto su norme, rischi, esperienze online?</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h3>Come usare le 5 C's nella pratica</h3>
+                    <p>Le 5 C's non sono una checklist ma un framework conversazionale. In una visita pediatrica, in un colloquio scuola-famiglia, o anche in una riflessione genitoriale, queste cinque domande aiutano a spostare il focus dalla quantità (ore di schermo) alla qualità dell'esperienza digitale del bambino.</p>
+                    <p><strong style="color: var(--accent-cyan);">Esempio pratico:</strong> Un bambino con ADHD (<em>Child</em>) che guarda video educativi insieme al genitore (<em>Content</em> + <em>Communication</em>) per 45 minuti, dopo aver giocato all'aperto (<em>Crowding out</em> assente) e senza usare lo schermo per autoregolarsi (<em>Calm</em>) ha un profilo completamente diverso da un coetaneo che passa 45 minuti di scroll solitario su contenuti ad alta stimolazione.</p>
+                </div>
+            </section>
+
+            <!-- ========== RACCOMANDAZIONI ========== -->
+            <section id="raccomandazioni" class="section">
+                <h2><span class="text-cyan">Raccomandazioni</span> per Stakeholder</h2>
+                <p>Il policy statement si rivolge a quattro attori principali con raccomandazioni specifiche e stratificate. L'azione su un singolo livello non basta — servono interventi coordinati.</p>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="stk-pediatri">Pediatri & Educatori</button>
+                    <button class="tab-btn" data-tab="stk-famiglie">Famiglie</button>
+                    <button class="tab-btn" data-tab="stk-industria">Industria Tech</button>
+                    <button class="tab-btn" data-tab="stk-policy">Policy Makers</button>
+                </div>
+
+                <div class="tab-content active" id="tab-stk-pediatri">
+                    <div class="card">
+                        <h3>Pediatri, Educatori, Professionisti</h3>
+                        <ul class="rec-list">
+                            <li><span class="rec-bullet">→</span> Usare le <strong>5 C's</strong> per capire gli obiettivi familiari attorno ai media digitali nelle visite preventive</li>
+                            <li><span class="rec-bullet">→</span> <strong>Supportare i caregiver</strong>: il framing sociale intorno ai media digitali può generare senso di colpa. Evidenziare il design engagement-based e promuovere comunicazione basata sui punti di forza</li>
+                            <li><span class="rec-bullet">→</span> Esplorare le <strong>ragioni d'uso</strong>: chiedere le cause sottostanti (noia, solitudine, ansia) e co-creare strategie pratiche</li>
+                            <li><span class="rec-bullet">→</span> Integrare le conversazioni sui media nelle <strong>discussioni sulla salute</strong> (HEADSS assessment: Home, Education, Activities, Drugs, Suicidality, Sex)</li>
+                            <li><span class="rec-bullet">→</span> Usare strategie per <strong>regolazione emotiva al di fuori dei media digitali</strong>: aiutare famiglie che usano schermi per calmare i bambini a trovare alternative</li>
+                            <li><span class="rec-bullet">→</span> Chiedere dell'<strong>uso digitale del caregiver</strong> stesso: modelling comportamentale dall'infanzia all'adolescenza</li>
+                            <li><span class="rec-bullet">→</span> Indagare <strong>condizioni sottostanti</strong>: screening per ADHD, ansia, depressione quando emergono sintomi di uso problematico</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-stk-famiglie">
+                    <div class="card">
+                        <h3>Famiglie, Bambini e Adolescenti</h3>
+                        <ul class="rec-list">
+                            <li><span class="rec-bullet">→</span> <strong>Digital literacy</strong>: riconoscere pubblicità, contenuto vs. sponsorizzazione, FOMO, permanenza dei contenuti online. Le scuole dovrebbero includere literacy digitale nel curricolo</li>
+                            <li><span class="rec-bullet">→</span> <strong>Essere intenzionali su quando dare il primo telefono:</strong> non c'è un'età specifica consigliata — considerare media literacy, capacità di gestire conflitti sociali, bisogni pratici. Il questionario AAP PhoneReady può aiutare</li>
+                            <li><span class="rec-bullet">→</span> <strong>Trovare contenuti di qualità</strong>: PBS Kids, Sesame Workshop, Daniel Tiger — contenuti con design child-centered, obiettivi di apprendimento, pensiero critico, agency. Common Sense Media e AAP per le valutazioni</li>
+                            <li><span class="rec-bullet">→</span> <strong>Creare un Family Media Plan</strong>: confini espliciti per tutta la famiglia, non solo per i figli</li>
+                            <li><span class="rec-bullet">→</span> <strong>Screen-free time</strong>: zone senza telefono durante pasti, in camera da letto, un'ora prima di dormire, durante i compiti</li>
+                            <li><span class="rec-bullet">→</span> <strong>Crowding in</strong> attività offline: sport, musica, arte, volontariato, natura, avventura al parco giochi</li>
+                            <li><span class="rec-bullet">→</span> <strong>Controlli parentali</strong>: monitorare tempo, download, contatti, acquisti su tutti i dispositivi</li>
+                            <li><span class="rec-bullet">→</span> <strong>Proteggere il sonno</strong>: no schermi un'ora prima di dormire, "non disturbare" notturno, app di meditazione per addormentarsi</li>
+                            <li><span class="rec-bullet">→</span> <strong>Relazione e joint engagement</strong>: visione condivisa rafforza sia il legame che l'apprendimento</li>
+                            <li><span class="rec-bullet">→</span> <strong>Insegnare la sicurezza</strong>: conversazioni aperte su pornografia, sexting, conseguenze delle immagini inviate</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-stk-industria">
+                    <div class="card">
+                        <h3>Industria Tech — Digital Media</h3>
+                        <ul class="rec-list">
+                            <li><span class="rec-bullet">→</span> <strong>Child-centered design</strong>: prioritizzare salute e benessere dei bambini rispetto a design basato su engagement, dataficazione e commercializzazione</li>
+                            <li><span class="rec-bullet">→</span> <strong>Differenziare gli utenti bambini</strong>: le piattaforme usate da minori dovrebbero avere team di sicurezza dedicati con potere e accesso diretto alla leadership</li>
+                            <li><span class="rec-bullet">→</span> <strong>Safety e privacy by default</strong>: disattivare autoplay, non usare pubblicità mirata su minori, opzioni per disattivare feed algoritmici, prevenire contenuti dannosi, minimizzare design che prolunga l'engagement, disattivare chat</li>
+                            <li><span class="rec-bullet">→</span> <strong>Aumentare la trasparenza</strong>: permettere feedback su contenuti problematici, trasparenza algoritmica perché gli utenti sappiano come vengono plasmate le loro preferenze</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-stk-policy">
+                    <div class="card">
+                        <h3>Policy Makers — Governi e Istituzioni</h3>
+                        <ul class="rec-list">
+                            <li><span class="rec-bullet">→</span> <strong>Terze spazi prosociali</strong>: investire in asili, attività extracurricolari, congedi parentali, biblioteche, spazi verdi, centri comunitari che forniscano arricchimento e attività fisica e "crowdino out" il digitale</li>
+                            <li><span class="rec-bullet">→</span> <strong>Finanziare media child-centered</strong>: organizzazioni nonprofit come PBS Kids e Sesame Workshop hanno la base di evidenze più forte. Media nonprofit = esperienze di qualità superiore con meno pubblicità</li>
+                            <li><span class="rec-bullet">→</span> <strong>Supportare relazioni sane</strong>: programmi che promuovono intenzionalmente relazioni caregiver-bambino forti</li>
+                            <li><span class="rec-bullet">→</span> <strong>Proteggere l'apprendimento</strong>: politiche scolastiche sugli smartphone evidence-based, con supporto ai docenti e design tecnologico che minimizzi le distrazioni</li>
+                            <li><span class="rec-bullet">→</span> <strong>Creare un consenso</strong>: convocazione di famiglie diverse, esperti dello sviluppo, pediatri, policy makers e aziende digitali per un documento condiviso</li>
+                            <li><span class="rec-bullet">→</span> <strong>Age assurance efficace</strong>: verifica dell'età che preservi la privacy e prevenga accesso dei minori a contenuti illegali e dannosi</li>
+                            <li><span class="rec-bullet">→</span> <strong>Contenuto dannoso</strong>: regolazione del design che raccomanda contenuto sessualizzato, commercializzato o dannoso ai giovani. Algoritmi non devono inferire interesse dei ragazzi in contenuti nocivi</li>
+                            <li><span class="rec-bullet">→</span> <strong>Erasure universale</strong>: leggi perché i ragazzi possano rimuovere contenuti e immagini che li riguardano rapidamente</li>
+                            <li><span class="rec-bullet">→</span> <strong>Finanziare la ricerca</strong>: comprendere l'ecosistema digitale (inclusi formati innovativi), identificare design child-centered, promuovere abitudini digitali sane</li>
+                            <li><span class="rec-bullet">→</span> <strong>Trasparenza e certificazione</strong>: aziende digitali soggette agli stessi standard di sicurezza di cibo, auto, dispositivi medici. Metriche di safety e wellbeing integrate nei report finanziari</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== QUALITÀ DEI CONTENUTI ========== -->
+            <section id="qualita" class="section">
+                <h2>Come Riconoscere <span class="text-green">Contenuti di Qualità</span></h2>
+                <p>L'AAP propone 5 criteri per scegliere contenuti digitali di alta qualità per bambini — un puzzle dove ogni pezzo conta.</p>
+
+                <div class="quality-grid">
+                    <div class="quality-piece">
+                        <div class="quality-num">1</div>
+                        <div class="quality-title">Pensiero critico e prosocialità</div>
+                        <div class="quality-desc">Incoraggia il ragionamento, la riflessione e i temi prosociali — non solo l'intrattenimento passivo.</div>
+                    </div>
+                    <div class="quality-piece">
+                        <div class="quality-num">2</div>
+                        <div class="quality-title">Agency e autonomia</div>
+                        <div class="quality-desc">Il bambino può decidere di passare ad altre attività dopo la visione — senza meccanismi che lo trattengano.</div>
+                    </div>
+                    <div class="quality-piece">
+                        <div class="quality-num">3</div>
+                        <div class="quality-title">Libero da commercializzazione</div>
+                        <div class="quality-desc">Assenza di contenuti commercializzati, altamente filtrati o violenti. Nessun product placement nascosto.</div>
+                    </div>
+                    <div class="quality-piece">
+                        <div class="quality-num">4</div>
+                        <div class="quality-title">Ritmo rilassante</div>
+                        <div class="quality-desc">Non frenetico. Il contenuto non dovrebbe sembrare troppo veloce o iper-stimolante.</div>
+                    </div>
+                    <div class="quality-piece">
+                        <div class="quality-num">5</div>
+                        <div class="quality-title">Libero da contatti negativi</div>
+                        <div class="quality-desc">Nessun contatto indesiderato o esperienze interpersonali negative (cyberbullismo, grooming).</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h3>Risorse consigliate dall'AAP</h3>
+                    <p><strong style="color: var(--accent-cyan);">PBS Kids</strong> (Daniel Tiger, Sesame Street) e <strong style="color: var(--accent-cyan);">Sesame Workshop</strong> — contenuti con la base di evidenze più solida per design child-centered. <strong>Common Sense Media</strong> e il <strong>AAP Center of Excellence on Social Media and Youth Mental Health</strong> offrono valutazioni indipendenti di app e contenuti.</p>
+                </div>
+            </section>
+
+            <!-- ========== ANALISI CRITICA ========== -->
+            <section id="critica" class="section">
+                <h2><span class="text-yellow">Analisi Critica</span> del Policy Statement</h2>
+                <p>Ogni documento ha i suoi limiti. Riconoscerli non indebolisce il messaggio — lo rende più onesto e utilizzabile.</p>
+
+                <div class="critique-card">
+                    <h4>Correlazione ≠ Causalità</h4>
+                    <p>La maggior parte degli studi citati è osservazionale. "Uso intenso associato ad ansia" non significa che l'uso <em>causa</em> l'ansia — potrebbe essere l'inverso (adolescenti ansiosi cercano conforto negli schermi). Il documento riconosce questo limite, ma la distinzione si perde nella retorica delle raccomandazioni.</p>
+                </div>
+
+                <div class="critique-card">
+                    <h4>Campioni prevalentemente WEIRD</h4>
+                    <p>La maggior parte della ricerca proviene da paesi occidentali, ricchi, industrializzati. Come cambia la situazione quando 5 fratelli condividono uno smartphone? O quando il digitale è l'unico accesso a istruzione e sanità? Il digital divide merita più attenzione.</p>
+                </div>
+
+                <div class="critique-card">
+                    <h4>Neurodiversità sottorappresentata</h4>
+                    <p>Per bambini con autismo, lo schermo può essere strumento di autoregolazione sensoriale. Per bambini sordi, i sottotitoli video sono tecnologia di accesso. Per chi ha fobia sociale grave, le community Discord sono un ponte verso la socialità. Il documento rischia un approccio "taglia unica" che non fa giustizia a questa complessità.</p>
+                </div>
+
+                <div class="critique-card">
+                    <h4>Il business model non viene messo in discussione</h4>
+                    <p>Il documento raccomanda "trasparenza" e "safety by default", ma non affronta il nodo strutturale: se il profitto si basa sul tempo-attenzione dell'utente, ogni ottimizzazione algoritmica punterà all'engagement, non al benessere. Il modello economico pubblicitario è il feature, non il bug.</p>
+                </div>
+
+                <div class="critique-card">
+                    <h4>Granularità inconsistente</h4>
+                    <p>"Screen time" come categoria unitaria è fuorviante. 2 ore di videochiamata con la nonna ≠ 2 ore di autoplay YouTube. Il documento lo riconosce in teoria (qualità > quantità) ma il framework operativo non integra ancora questa distinzione in modo misurabile.</p>
+                </div>
+
+                <div class="critique-card">
+                    <h4>Investimento pubblico: il non-detto</h4>
+                    <p>Il documento parla di "terze spazi" (parchi, biblioteche, centri giovanili) come alternativa al digitale, ma l'austerità fiscale ha devastato questi servizi. Raccomandare ai genitori di "portare i figli al parco" è vuoto se il parco non esiste più. Proteggere l'infanzia richiede investimento pubblico massivo, non solo counselling.</p>
+                </div>
+            </section>
+
+            <!-- ========== VERSO UN DIGITALE ETICO ========== -->
+            <section id="azione" class="section">
+                <h2>Verso un <span class="text-green">Digitale Etico</span></h2>
+                <p>Il messaggio più potente di questo policy statement non è "il digitale fa male" — è che <strong>esiste un'alternativa reale</strong>. Ecco cosa sappiamo e cosa possiamo fare.</p>
+
+                <div class="action-card">
+                    <h4>Il design child-centered funziona</h4>
+                    <p>Piattaforme come PBS Kids e Sesame Workshop dimostrano che è possibile creare contenuti digitali che supportano linguaggio, apprendimento e prosocialità. La differenza non sta nella tecnologia, ma nell'<strong>intenzione di progettazione</strong>. Design centrato sul bambino = sicurezza, privacy, contenuti di qualità, nessun dark pattern. Esiste già — va scalato.</p>
+                </div>
+
+                <div class="action-card">
+                    <h4>La qualità batte la quantità — sempre</h4>
+                    <p>Il dato più consistente della letteratura: non è <em>quanto</em> tempo un bambino passa con lo schermo, ma <em>come</em>. Joint media engagement (guardare insieme), contenuti con obiettivi educativi, interattività bidirezionale — tutto questo trasforma il digitale da rischio in opportunità. Il focus deve spostarsi dal cronometro al contenuto.</p>
+                </div>
+
+                <div class="action-card">
+                    <h4>L'adolescente è un agente, non una vittima</h4>
+                    <p>Le direzioni di ricerca più promettenti non chiedono "come proteggiamo i ragazzi dal digitale?" ma "come li rendiamo capaci di navigarlo criticamente?". Digital literacy, immunizzazione cognitiva contro i dark pattern, riconoscimento degli engagement hooks — l'adolescente come protagonista consapevole, non soggetto passivo da proteggere.</p>
+                </div>
+
+                <div class="action-card">
+                    <h4>Servono azioni sistemiche, non individuali</h4>
+                    <p>La responsabilità non può ricadere solo sulle famiglie. Serve: regolazione algoritmica (autoplay off di default per minori), trasparenza obbligatoria, investimento in terze spazi fisici (biblioteche, centri giovanili, parchi), curricula di digital literacy nelle scuole, finanziamento della ricerca. Un ecosistema sano richiede intervento su <em>tutti</em> i cerchi — dal bambino fino alle istituzioni.</p>
+                </div>
+
+                <div class="key-message" style="margin-top: 1.5rem;">
+                    <p><strong>La conclusione dell'AAP:</strong> "I bambini e gli adolescenti meritano di esplorare spazi digitali pieni di arricchimento e comunità. I design engagement-based sono diffusi ma <strong>potrebbero essere ri-orientati verso il benessere dei bambini</strong>. I design child-centered sono raggiungibili, migliori per la società, e possono portare a prodotti digitali che promuovono il benessere dei bambini."</p>
+                </div>
+            </section>
+
+            <!-- ========== GLOSSARIO ========== -->
+            <section id="glossario" class="section">
+                <h2><span class="text-cyan">Glossario</span></h2>
+                <input type="text" class="search-input mb-2" id="glossarySearch" placeholder="Cerca un termine...">
+                <div class="glossary-grid">
+                    <div class="glossary-item visible" data-term="child-centered design progettazione bambino">
+                        <h4>Child-Centered Design</h4>
+                        <div class="definition">Design digitale appropriato allo sviluppo che fornisce privacy, sicurezza, esperienze significative e supporta apprendimento e benessere dei giovani.</div>
+                        <div class="application"><strong>In pratica:</strong> PBS Kids, Sesame Workshop — nessun dark pattern, nessuna pubblicità mirata, contenuti con obiettivi educativi verificati.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="engagement-based design persuasivo profitto">
+                        <h4>Engagement-Based Design</h4>
+                        <div class="definition">Design digitale che compete per attenzione, interazione e dati dell'utente, spesso incentivato da modelli di ricavo. Include design persuasivo, profit-driven o manipolativo.</div>
+                        <div class="application"><strong>In pratica:</strong> Infinite scroll, autoplay, notifiche variabili, badge/streak, difficoltà nell'uscire dall'app.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="ecosistema digitale piattaforme algoritmi">
+                        <h4>Ecosistema Digitale</h4>
+                        <div class="definition">Ambienti digitali che includono (ma non sono limitati a) internet, algoritmi, intelligenza artificiale, social media, app, videogiochi, TV, agenti interattivi, tablet e dispositivi mobili.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dark pattern manipolazione interfaccia ux">
+                        <h4>Dark Pattern</h4>
+                        <div class="definition">Interfacce utente progettate intenzionalmente per ingannare, manipolare o costringere gli utenti a fare cose che non farebbero volontariamente — come acquisti in-app, condivisione di dati, prolungamento dell'uso.</div>
+                        <div class="application"><strong>In pratica:</strong> Infinite scroll, difficoltà nell'annullare abbonamenti, confetti celebrativi per like, timer di scarsità.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="joint media engagement visione condivisa genitore">
+                        <h4>Joint Media Engagement</h4>
+                        <div class="definition">La pratica di guardare, usare o interagire con media digitali <em>insieme</em> — caregiver e bambino. Include guardare insieme, commentare, fare domande, insegnare.</div>
+                        <div class="application"><strong>In pratica:</strong> Guardare un episodio di Daniel Tiger e poi discutere le emozioni dei personaggi. Esplorare un'app educativa insieme.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="screen out qualità contenuto bassa">
+                        <h4>SCREEN OUT</h4>
+                        <div class="definition">Acronimo AAP per identificare contenuti di bassa qualità: Streaks, Creepy Content, Rewards, Escape is hard, Excessive ads, Nagging, Over-the-top, Unwanted contact, Toys.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="crowding out spiazzamento attività offline">
+                        <h4>Crowding Out</h4>
+                        <div class="definition">Quando il tempo digitale "spiazza" attività essenziali per lo sviluppo: sonno, movimento fisico, gioco creativo, relazioni faccia a faccia, tempo in famiglia, lettura.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="rinforzo variabile slot machine dopamina">
+                        <h4>Variable Reinforcement Schedule</h4>
+                        <div class="definition">Schema di rinforzo in cui la ricompensa arriva a intervalli imprevedibili (come nelle slot machine). Produce il comportamento più resistente all'estinzione — l'utente continua a controllare "per vedere se c'è qualcosa".</div>
+                        <div class="application"><strong>In pratica:</strong> Like sui social, notifiche, refresh del feed. Non sai quando arriverà la prossima gratificazione — per questo continui a scorrere.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="bronfenbrenner socioecologico cerchi concentrici">
+                        <h4>Modello Socioecologico (Bronfenbrenner)</h4>
+                        <div class="definition">Framework teorico che descrive lo sviluppo umano come risultato di interazioni tra cerchi concentrici nidificati: individuo, microsistema (famiglia), mesosistema (scuola, comunità), esosistema (media, politiche), macrosistema (cultura, norme).</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="technoference interferenza tecnologia genitore">
+                        <h4>Technoference</h4>
+                        <div class="definition">Interferenza della tecnologia nelle interazioni genitore-bambino. Quando il caregiver è assorbito dal proprio dispositivo durante i momenti di interazione con il figlio.</div>
+                        <div class="application"><strong>In pratica:</strong> Controllare il telefono durante i pasti, al parco giochi, durante il gioco condiviso. Associato a sfide comportamentali nel bambino.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="family media plan piano familiare digitale">
+                        <h4>Family Media Plan</h4>
+                        <div class="definition">Strumento AAP per famiglie: un piano esplicito e condiviso che definisce confini, orari, contenuti e regole sui media digitali per tutta la famiglia — non solo per i figli.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="erasure universale diritto oblio cancellazione dati">
+                        <h4>Universal Erasure</h4>
+                        <div class="definition">Leggi che garantiscono ai minori il diritto di rimuovere contenuti e immagini che li riguardano dal web in modo rapido e definitivo. Riduce la permanenza non desiderata di contenuti online.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== BIBLIOGRAFIA ========== -->
+            <section id="biblio" class="section">
+                <h2><span class="text-cyan">Bibliografia</span></h2>
+
+                <div class="card">
+                    <h3>Documento originale</h3>
+                    <div class="bib-item">Munzer T, Parga-Belinkie J, Milkovich LM, et al; American Academy of Pediatrics, Council on Communications and Media. <em>Digital Ecosystems, Children, and Adolescents: Policy Statement.</em> Pediatrics. 2026;157(2):e2025075320. doi: <a href="https://doi.org/10.1542/peds.2025-075320" target="_blank">10.1542/peds.2025-075320</a></div>
+                </div>
+
+                <div class="card">
+                    <h3>Riferimenti chiave citati nel policy statement</h3>
+                    <div class="bib-item">Bronfenbrenner U. <em>The ecology of human development: Experiments by nature and design.</em> Harvard University Press; 1979.</div>
+                    <div class="bib-item">Madigan S, McArthur BA, et al. Associations between screen use and child language skills: A systematic review and meta-analysis. <em>JAMA Pediatr.</em> 2020;174(7):665-675.</div>
+                    <div class="bib-item">McCabe MA, Prinstein MJ, et al. <em>Health advisory on social media use in adolescence.</em> American Psychological Association. 2023.</div>
+                    <div class="bib-item">Radesky JS, Hiniker A, et al. Prevalence and Characteristics of Manipulative Design in Mobile Applications Used by Children. <em>JAMA Netw Open.</em> 2022;5(6):e2217641.</div>
+                    <div class="bib-item">Kidron B. <em>Disrupted Childhood. The Cost of Persuasive Design.</em> 5Rights Foundation; 2023.</div>
+                    <div class="bib-item">Moreno MA, Radesky J. Putting Forward a New Narrative for Adolescent Media. <em>J Adolesc Health.</em> 2023;73(2):227-229.</div>
+                </div>
+
+                <div class="card">
+                    <h3>Per approfondimento critico</h3>
+                    <div class="bib-item">Orben A, Przybylski AK. The association between adolescent well-being and digital technology use. <em>Nature Human Behaviour.</em> 2019;3(2).</div>
+                    <div class="bib-item">Livingstone S. Reframing 'screen time': A view from European media regulation. <em>Journal of Children and Media.</em> 2020;14(2).</div>
+                    <div class="bib-item">Susser D, Roessler B, Nissenbaum H. Technology, autonomy, and manipulation. <em>Georgetown Law Technology Review.</em> 2019;8.</div>
+                    <div class="bib-item">Gray CM, et al. Dark Patterns: Past, Present, and Future. <em>ACM Queue.</em> 2018.</div>
+                    <div class="bib-item">Zuboff S. <em>The Age of Surveillance Capitalism.</em> PublicAffairs; 2019.</div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Dashboard creata da Ivan Ferrero — Marzo 2026<br>
+                    Basata su: AAP Policy Statement, Pediatrics 2026;157(2)<br>
+                    <a href="/dashboards/">← Torna all'indice dashboard</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity Scripts -->
+    <script>
+        // Navigation between sections
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Age cards toggle
+        function toggleAge(id) {
+            document.getElementById(id)?.classList.toggle('expanded');
+        }
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const section = btn.closest('.section');
+                section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+        glossarySearch?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                if (terms.includes(query) || text.includes(query) || query === '') {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
