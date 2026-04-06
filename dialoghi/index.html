@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialoghi con una AI | Ivan Ferrero</title>
+    <meta name="description" content="Conversazioni tra Ivan Ferrero e Sheila Darkrose su architettura cognitiva, identità professionale, e il digitale che cambia il modo in cui pensiamo.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0e14;
+            color: #e6edf3;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            padding-top: 5rem;
+        }
+
+        .index-container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* Header */
+        .index-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #e6edf3;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+        }
+
+        .index-subtitle {
+            color: #8b949e;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            max-width: 640px;
+        }
+
+        /* Lista dialoghi — stile terminale */
+        .dialoghi-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .dialogo-entry {
+            display: flex;
+            align-items: baseline;
+            gap: 0;
+            line-height: 1.6;
+            flex-wrap: wrap;
+        }
+
+        .entry-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #6e7681;
+            flex-shrink: 0;
+        }
+
+        .entry-dash {
+            color: #6e7681;
+            margin: 0 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .entry-title {
+            color: #e6edf3;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .entry-title:hover {
+            color: #00d9ff;
+        }
+
+        .entry-tags {
+            margin-left: 0.6rem;
+            display: inline;
+        }
+
+        .entry-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(0, 217, 255, 0.6);
+            margin-left: 0.25rem;
+        }
+
+        /* Empty state */
+        .empty-state {
+            color: #6e7681;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 8rem;
+            }
+
+            .index-container {
+                padding: 1.5rem 1rem 3rem;
+            }
+
+            .index-title {
+                font-size: 1.6rem;
+            }
+
+            .dialogo-entry {
+                flex-direction: column;
+                gap: 0.15rem;
+            }
+
+            .entry-dash {
+                display: none;
+            }
+
+            .entry-tags {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<main class="index-container">
+
+    <h1 class="index-title">Dialoghi con una AI</h1>
+    <p class="index-subtitle">Conversazioni tra Ivan Ferrero e Sheila Darkrose su architettura cognitiva, identità professionale, e il digitale che cambia il modo in cui pensiamo.</p>
+
+    <div class="dialoghi-list">
+        {% assign dialoghi = site.dialoghi | sort: "date" | reverse %}
+        {% for d in dialoghi %}
+        <div class="dialogo-entry">
+            <span class="entry-date">{{ d.date | date: "%Y.%m.%d" }}</span>
+            <span class="entry-dash">—</span>
+            <a href="{{ d.url }}" class="entry-title">{{ d.title }}</a>
+            {% if d.tags %}
+            <span class="entry-tags">
+                {% for tag in d.tags %}
+                <span class="entry-tag">[{{ tag }}]</span>
+                {% endfor %}
+            </span>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        {% if site.dialoghi.size == 0 %}
+        <p class="empty-state">> nessun dialogo pubblicato</p>
+        {% endif %}
+    </div>
+
+</main>
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

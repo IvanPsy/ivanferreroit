@@ -1,0 +1,7 @@
+# Ivan Ferrero — ivanferrero.it
+# Jekyll config per GitHub Pages
+
+collections:
+  dialoghi:
+    output: true
+    permalink: /dialoghi/:title/

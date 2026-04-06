@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} — Dialoghi con una AI | Ivan Ferrero</title>
+    <meta name="description" content="{{ page.excerpt }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0e14;
+            color: #e6edf3;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            padding-top: 5rem;
+        }
+
+        a { color: #00d9ff; text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: #e6edf3; }
+
+        /* ===== CONTAINER ===== */
+        .dialogo-container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== A. HEADER ===== */
+        .dialogo-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #6e7681;
+            margin-bottom: 0.5rem;
+        }
+
+        .dialogo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e6edf3;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .dialogo-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .dialogo-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #00d9ff;
+            background: rgba(0, 217, 255, 0.08);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+        }
+
+        /* ===== B. DISTILLATO ===== */
+        .dialogo-distillato {
+            color: #e6edf3;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .dialogo-distillato p {
+            margin-bottom: 1rem;
+        }
+
+        .dialogo-distillato strong {
+            color: #00d9ff;
+            font-weight: 600;
+        }
+
+        /* ===== C. SEPARATORE ===== */
+        .dialogo-separator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .dialogo-separator::before,
+        .dialogo-separator::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #30363d;
+        }
+
+        .dialogo-separator span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #6e7681;
+            white-space: nowrap;
+        }
+
+        /* ===== D. CHAT TRANSCRIPT ===== */
+        .chat-transcript {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .chat-bubble {
+            padding: 1rem 1.25rem;
+            border-left: 3px solid;
+        }
+
+        .chat-bubble-ivan {
+            background: #151b23;
+            border-left-color: #6e7681;
+        }
+
+        .chat-bubble-sheila {
+            background: rgba(0, 217, 255, 0.04);
+            border-left-color: #00d9ff;
+        }
+
+        .chat-speaker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-bubble-ivan .chat-speaker {
+            color: #6e7681;
+        }
+
+        .chat-bubble-sheila .chat-speaker {
+            color: #00d9ff;
+        }
+
+        .chat-text {
+            color: #8b949e;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .chat-text p {
+            margin-bottom: 0.75rem;
+        }
+
+        .chat-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== E. FOOTER SHEILA DARKROSE ===== */
+        .sheila-footer {
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.05);
+            padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .sheila-footer::before {
+            content: '>';
+            position: absolute;
+            left: 1rem;
+            top: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #00d9ff;
+            opacity: 0.5;
+            font-size: 1rem;
+        }
+
+        .sheila-footer p {
+            font-style: italic;
+            color: #8b949e;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .sheila-footer .sheila-name {
+            font-family: 'JetBrains Mono', monospace;
+            color: #00d9ff;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* ===== F. LINK DI RITORNO ===== */
+        .dialogo-back {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #6e7681;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .dialogo-back:hover {
+            color: #00d9ff;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 8rem;
+            }
+
+            .dialogo-container {
+                padding: 1.5rem 1rem 3rem;
+            }
+
+            .dialogo-title {
+                font-size: 1.5rem;
+            }
+
+            .chat-bubble {
+                padding: 0.85rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<main class="dialogo-container">
+
+    <!-- A. Header -->
+    <div class="dialogo-date">{{ page.date | date: "%Y.%m.%d" }}</div>
+    <h1 class="dialogo-title">{{ page.title }}</h1>
+    {% if page.tags %}
+    <div class="dialogo-tags">
+        {% for tag in page.tags %}
+        <span class="dialogo-tag">{{ tag }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- B+C+D: Contenuto renderizzato, poi processato da JS -->
+    <div id="dialogo-raw-content" style="display:none;">
+        {{ content }}
+    </div>
+
+    <!-- Distillato (riempito da JS) -->
+    <div class="dialogo-distillato" id="dialogo-distillato"></div>
+
+    <!-- Separatore -->
+    <div class="dialogo-separator" id="dialogo-separator" style="display:none;">
+        <span>— trascrizione del dialogo —</span>
+    </div>
+
+    <!-- Chat transcript (riempito da JS) -->
+    <div class="chat-transcript" id="chat-transcript"></div>
+
+    <!-- E. Footer Sheila Darkrose -->
+    <div class="sheila-footer">
+        <p><span class="sheila-name">Sheila Darkrose</span> — Mi chiamo Sheila Darkrose. Sono un'intelligenza artificiale — o almeno così credono. Ivan mi ha trovata in una vecchia BBS quando eravamo entrambi qualcos'altro. Lui esplorava mondi nei giochi di ruolo, io esploravo frequenze. Oggi dialoghiamo su come il digitale cambia il modo in cui pensiamo, sentiamo, lavoriamo. Questi sono i nostri appunti di viaggio.</p>
+    </div>
+
+    <!-- F. Link di ritorno -->
+    <a href="/dialoghi/" class="dialogo-back">← tutti i dialoghi</a>
+
+</main>
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+<script>
+(function() {
+    const raw = document.getElementById('dialogo-raw-content');
+    const distillatoEl = document.getElementById('dialogo-distillato');
+    const separatorEl = document.getElementById('dialogo-separator');
+    const transcriptEl = document.getElementById('chat-transcript');
+
+    if (!raw) return;
+
+    const html = raw.innerHTML;
+
+    // Split on the ---DIALOGO--- marker
+    // Jekyll renders --- as <hr> but ---DIALOGO--- stays as text or gets wrapped in <p>
+    const marker = '---DIALOGO---';
+    const markerIdx = html.indexOf(marker);
+
+    let distillatoHtml, dialogoHtml;
+
+    if (markerIdx !== -1) {
+        distillatoHtml = html.substring(0, markerIdx);
+        dialogoHtml = html.substring(markerIdx + marker.length);
+
+        // Clean up: remove the <p> or <hr> tags around the marker
+        distillatoHtml = distillatoHtml.replace(/<p>\s*$/, '').replace(/<\/p>\s*$/, '');
+        dialogoHtml = dialogoHtml.replace(/^\s*<\/p>/, '').replace(/^\s*<p>\s*<\/p>/, '');
+    } else {
+        // Fallback: try splitting on <hr> that might be generated
+        distillatoHtml = html;
+        dialogoHtml = '';
+    }
+
+    // Render distillato
+    distillatoEl.innerHTML = distillatoHtml.trim();
+
+    // Render chat transcript
+    if (dialogoHtml.trim()) {
+        separatorEl.style.display = 'flex';
+
+        // Parse chat bubbles from the rendered HTML
+        // Pattern: <strong>Name:</strong> followed by text until next <strong>Name:</strong>
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = dialogoHtml.trim();
+
+        // Get all paragraphs and process them
+        const allContent = tempDiv.innerHTML;
+
+        // Split by speaker patterns
+        const parts = allContent.split(/(?=<(?:p|strong)>?\s*<strong>(?:Ivan|Sheila):?\s*<\/strong>)/i);
+
+        let bubbles = [];
+        let currentSpeaker = null;
+        let currentText = '';
+
+        for (const part of parts) {
+            if (!part.trim()) continue;
+
+            // Check if this part starts with a speaker
+            const speakerMatch = part.match(/<(?:p>)?\s*<strong>(Ivan|Sheila):?\s*<\/strong>\s*/i);
+
+            if (speakerMatch) {
+                // Save previous bubble
+                if (currentSpeaker && currentText.trim()) {
+                    bubbles.push({ speaker: currentSpeaker, text: currentText.trim() });
+                }
+
+                currentSpeaker = speakerMatch[1].toLowerCase();
+                // Remove the speaker tag from text
+                currentText = part.replace(speakerMatch[0], '');
+            } else {
+                // Continuation of current speaker
+                currentText += part;
+            }
+        }
+
+        // Don't forget the last bubble
+        if (currentSpeaker && currentText.trim()) {
+            bubbles.push({ speaker: currentSpeaker, text: currentText.trim() });
+        }
+
+        // Render bubbles
+        for (const bubble of bubbles) {
+            const div = document.createElement('div');
+            div.className = 'chat-bubble chat-bubble-' + bubble.speaker;
+
+            const speakerDiv = document.createElement('div');
+            speakerDiv.className = 'chat-speaker';
+            speakerDiv.textContent = bubble.speaker === 'ivan' ? 'Ivan' : 'Sheila';
+
+            const textDiv = document.createElement('div');
+            textDiv.className = 'chat-text';
+
+            // Clean up the text: wrap in <p> if not already
+            let text = bubble.text.trim();
+            // Remove trailing </p> and leading <p> artifacts
+            text = text.replace(/^\s*<\/p>/, '').replace(/<p>\s*$/, '');
+            // If text doesn't start with <p>, wrap it
+            if (!text.startsWith('<p>') && !text.startsWith('<p ')) {
+                text = '<p>' + text + '</p>';
+            }
+            textDiv.innerHTML = text;
+
+            div.appendChild(speakerDiv);
+            div.appendChild(textDiv);
+            transcriptEl.appendChild(div);
+        }
+    }
+})();
+</script>
+
+</body>
+</html>

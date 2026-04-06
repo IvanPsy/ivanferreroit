@@ -22,6 +22,7 @@ const menuConfig = {
     items: [
         { label: 'Home', href: '/' },
         { label: 'Dashboard', href: '/dashboards/' },
+        { label: 'Dialoghi', href: '/dialoghi/' },
         { label: 'Chi Sono', href: '/#chi-sono' },
         { label: 'Contatti', href: '/#contatti' }
     ]
