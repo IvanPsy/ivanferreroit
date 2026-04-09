@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riduzione Circuiti — Serie, Parallelo, Misto | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* =============================================
+           RIDUZIONE CIRCUITI — LEZIONE ACCESSIBILE
+           ============================================= */
+
+        :root {
+            --cir-r1: #4A9EE8;
+            --cir-r2: #3DA86B;
+            --cir-r3: #E58A2E;
+            --cir-r4: #9B5DE5;
+            --cir-gen: #C49A2E;
+            --cir-nodo: #9B5DE5;
+            --cir-corrente: #CC3D33;
+            --cir-filo: #666;
+            --cir-parallelo: #4A9EE8;
+            --cir-calcolato: #E07000;
+            --cir-light-bg: #FAF8F5;
+            --cir-light-card: #FFFFFF;
+            --cir-light-text: #2D2D2D;
+            --cir-light-border: #D4D0CC;
+            --cir-result-bg: #FFF5EB;
+            --cir-result-border: #E07000;
+            --cir-success: #2E7D32;
+            --cir-success-bg: #E8F5E9;
+            --cir-error: #C62828;
+            --cir-error-bg: #FFEBEE;
+        }
+
+        /* --- Layout --- */
+        .lesson-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 100px 16px 60px;
+        }
+
+        /* --- Header area (dark, site-consistent) --- */
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .lesson-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-header .lesson-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .lesson-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #00d9ff15;
+            color: var(--accent-cyan);
+            border: 1px solid #00d9ff30;
+            margin: 0 4px 8px;
+        }
+
+        /* --- Progress bar (fixed top on mobile) --- */
+        .lesson-progress-wrap {
+            position: sticky;
+            top: 70px;
+            z-index: 50;
+            background: var(--bg-primary);
+            padding: 10px 0 8px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-progress {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .lp-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: #30363d;
+            color: #6e7681;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .lp-num.active {
+            background: var(--cir-calcolato);
+            color: #FFF;
+            border-color: var(--cir-calcolato);
+            box-shadow: 0 0 0 3px rgba(224,112,0,0.25);
+        }
+
+        .lp-num.done {
+            background: var(--cir-success);
+            color: #FFF;
+            border-color: var(--cir-success);
+        }
+
+        .lp-line {
+            width: 16px;
+            height: 3px;
+            background: #30363d;
+            border-radius: 2px;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .lp-line.done { background: var(--cir-success); }
+
+        .lp-label {
+            width: 100%;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* --- Step sections --- */
+        .step-section {
+            display: none;
+        }
+
+        .step-section.active {
+            display: block;
+        }
+
+        /* --- Light area for didactic content --- */
+        .light-area {
+            background: var(--cir-light-bg);
+            border-radius: 12px;
+            padding: 24px 20px;
+            color: var(--cir-light-text);
+            margin-bottom: 1.5rem;
+        }
+
+        .light-area h2 {
+            font-size: 1.35rem;
+            color: var(--cir-light-text);
+            margin-bottom: 0.75rem;
+            border-bottom: 3px solid var(--cir-calcolato);
+            padding-bottom: 8px;
+        }
+
+        .light-area h3 {
+            font-size: 1.1rem;
+            color: var(--cir-light-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .light-area p,
+        .light-area span,
+        .light-area div,
+        .light-area label {
+            color: var(--cir-light-text);
+        }
+
+        .light-area p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        /* --- Concept card --- */
+        .concept-card {
+            background: var(--cir-light-card);
+            border: 2px solid var(--cir-r1);
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+
+        .concept-card.green { border-color: var(--cir-r2); }
+        .concept-card.orange { border-color: var(--cir-r3); }
+        .concept-card.purple { border-color: var(--cir-r4); }
+
+        .concept-card .card-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 4px;
+        }
+
+        .concept-card .card-label.blue { color: var(--cir-r1); }
+        .concept-card .card-label.green { color: var(--cir-r2); }
+        .concept-card .card-label.orange { color: var(--cir-r3); }
+        .concept-card .card-label.purple { color: var(--cir-r4); }
+
+        .concept-card .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--cir-light-text);
+            margin-bottom: 6px;
+        }
+
+        .concept-card .card-text {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* --- SVG wrapper --- */
+        .svg-wrap {
+            background: var(--cir-light-card);
+            border: 1px solid var(--cir-light-border);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        .svg-wrap svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .svg-caption {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* --- Water metaphor --- */
+        .water-card {
+            background: #E3F2FD;
+            border: 2px solid #64B5F6;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .water-card .water-icon {
+            font-size: 1.3rem;
+            margin-right: 6px;
+        }
+
+        .water-card .water-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1565C0;
+            margin-bottom: 6px;
+        }
+
+        .water-card p {
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Formula box --- */
+        .formula-box {
+            background: var(--cir-light-card);
+            border: 2px solid var(--cir-calcolato);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .formula-box .formula-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--cir-calcolato);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .formula-box .formula-main {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--cir-light-text);
+            padding: 12px;
+            background: var(--cir-result-bg);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .formula-box .formula-explain {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* --- Remember box --- */
+        .remember-box {
+            background: #FFF8E1;
+            border: 2px solid #FFB300;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .remember-box .remember-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 6px;
+        }
+
+        .remember-box p, .remember-box li {
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .remember-box ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .remember-box li {
+            margin-bottom: 6px;
+        }
+
+        /* --- Interactive exercise --- */
+        .exercise-area {
+            background: var(--cir-light-card);
+            border: 2px solid var(--cir-r2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .exercise-area .ex-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--cir-r2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .exercise-area .ex-question {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--cir-light-text);
+            margin-bottom: 12px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .input-row label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            min-width: 120px;
+        }
+
+        .input-row input[type="number"] {
+            width: 100px;
+            padding: 10px 12px;
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 2px solid var(--cir-light-border);
+            border-radius: 8px;
+            text-align: center;
+            background: #FAFAFA;
+            color: var(--cir-light-text);
+        }
+
+        .input-row input:focus {
+            outline: none;
+            border-color: var(--cir-r1);
+            box-shadow: 0 0 0 3px rgba(74,158,232,0.2);
+        }
+
+        .input-row .unit {
+            font-size: 0.95rem;
+            color: #888;
+            font-weight: 600;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            min-height: 48px;
+            min-width: 48px;
+            padding: 12px 28px;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
+
+        .btn:focus {
+            outline: 3px solid var(--cir-r1);
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: var(--cir-r1);
+            color: #FFF;
+        }
+        .btn-primary:hover:not(:disabled) { background: #3580C0; }
+
+        .btn-success {
+            background: var(--cir-success);
+            color: #FFF;
+        }
+        .btn-success:hover:not(:disabled) { background: #1B5E20; }
+
+        .btn-secondary {
+            background: #EEEEEE;
+            color: var(--cir-light-text);
+            border-color: var(--cir-light-border);
+        }
+        .btn-secondary:hover:not(:disabled) { background: #DDD; }
+
+        .btn-orange {
+            background: var(--cir-calcolato);
+            color: #FFF;
+        }
+        .btn-orange:hover:not(:disabled) { background: #C06000; }
+
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        /* --- Feedback messages --- */
+        .feedback {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: var(--cir-success-bg);
+            border: 2px solid var(--cir-success);
+            color: var(--cir-success);
+            display: block;
+        }
+
+        .feedback.wrong {
+            background: var(--cir-error-bg);
+            border: 2px solid var(--cir-error);
+            color: var(--cir-error);
+            display: block;
+        }
+
+        .feedback.hint {
+            background: #FFF8E1;
+            border: 2px solid #FFB300;
+            color: #E65100;
+            display: block;
+        }
+
+        /* --- Step reveal (guided exercise) --- */
+        .reveal-step {
+            display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .reveal-step.visible {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Comparison visual --- */
+        .compare-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .compare-item {
+            background: var(--cir-light-card);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            border: 2px solid var(--cir-light-border);
+        }
+
+        .compare-item.highlight-blue { border-color: var(--cir-r1); }
+        .compare-item.highlight-green { border-color: var(--cir-r2); }
+
+        .compare-item h4 {
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: var(--cir-light-text);
+        }
+
+        .compare-item .big-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* --- Navigation bottom --- */
+        .nav-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            margin-top: 1rem;
+        }
+
+        /* --- Final summary --- */
+        .summary-card {
+            background: var(--cir-light-card);
+            border: 2px solid var(--cir-calcolato);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .summary-card h3 {
+            color: var(--cir-calcolato);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .summary-card .formula-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            padding: 8px 14px;
+            background: var(--cir-result-bg);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            color: var(--cir-light-text);
+        }
+
+        /* --- Mobile --- */
+        @media (max-width: 768px) {
+            .lesson-container {
+                padding: 90px 12px 40px;
+            }
+            .lesson-header h1 {
+                font-size: 1.4rem;
+            }
+            .lp-num {
+                width: 28px;
+                height: 28px;
+                font-size: 0.68rem;
+            }
+            .lp-line {
+                width: 10px;
+            }
+            .light-area {
+                padding: 18px 14px;
+            }
+            .light-area h2 {
+                font-size: 1.15rem;
+            }
+            .light-area p {
+                font-size: 0.98rem;
+            }
+            .formula-box .formula-main {
+                font-size: 1.1rem;
+            }
+            .compare-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .lesson-progress-wrap {
+                top: 60px;
+            }
+            .lp-num {
+                width: 26px;
+                height: 26px;
+                font-size: 0.62rem;
+            }
+            .lp-line {
+                width: 6px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <div class="lesson-container">
+
+        <!-- HEADER -->
+        <div class="lesson-header">
+            <h1>Riduzione dei Circuiti Elettrici</h1>
+            <p class="lesson-subtitle">Serie, Parallelo e Circuito Misto — Guida interattiva passo dopo passo</p>
+            <span class="lesson-tag">Didattica Inclusiva</span>
+            <span class="lesson-tag">Tecnica Professionale</span>
+            <span class="lesson-tag">Classe 1ª</span>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="lesson-progress-wrap">
+            <div class="lesson-progress" role="progressbar" aria-label="Avanzamento lezione">
+                <div class="lp-num active" id="lp1" onclick="goToStep(1)" title="Passo 1">1</div><div class="lp-line" id="ll1"></div>
+                <div class="lp-num" id="lp2" onclick="goToStep(2)" title="Passo 2">2</div><div class="lp-line" id="ll2"></div>
+                <div class="lp-num" id="lp3" onclick="goToStep(3)" title="Passo 3">3</div><div class="lp-line" id="ll3"></div>
+                <div class="lp-num" id="lp4" onclick="goToStep(4)" title="Passo 4">4</div><div class="lp-line" id="ll4"></div>
+                <div class="lp-num" id="lp5" onclick="goToStep(5)" title="Passo 5">5</div><div class="lp-line" id="ll5"></div>
+                <div class="lp-num" id="lp6" onclick="goToStep(6)" title="Passo 6">6</div><div class="lp-line" id="ll6"></div>
+                <div class="lp-num" id="lp7" onclick="goToStep(7)" title="Passo 7">7</div><div class="lp-line" id="ll7"></div>
+                <div class="lp-num" id="lp8" onclick="goToStep(8)" title="Passo 8">8</div>
+            </div>
+            <div class="lp-label" id="lpLabel">Passo 1 di 8</div>
+        </div>
+
+        <!-- =============================================
+             STEP 1: Cosa vuol dire "ridurre un circuito"
+             ============================================= -->
+        <div class="step-section active" id="step1">
+            <div class="light-area">
+                <h2>Cosa vuol dire "ridurre" un circuito?</h2>
+
+                <p>Un circuito elettrico può avere tante resistenze. Ridurre il circuito significa <strong>trovare una sola resistenza che si comporta come tutte le altre messe insieme</strong>.</p>
+
+                <div class="water-card">
+                    <div class="water-title"><span class="water-icon">💧</span> Pensa all'acqua</div>
+                    <p>Immagina un sistema di tubi con tante strozzature. Ridurre il circuito è come dire: "Se dovessi sostituire tutte queste strozzature con <strong>una sola</strong>, quanto grande dovrebbe essere perché l'acqua scorra allo stesso modo?"</p>
+                </div>
+
+                <div class="svg-wrap">
+                    <svg viewBox="0 0 600 180" role="img" aria-label="Un circuito con tante resistenze diventa un circuito con una sola resistenza equivalente">
+                        <!-- Circuito complesso a sinistra -->
+                        <g>
+                            <!-- Generatore -->
+                            <circle cx="60" cy="90" r="22" fill="#FFF" stroke="#C49A2E" stroke-width="2.5"/>
+                            <text x="52" y="86" font-size="16" font-weight="bold" fill="#C49A2E">+</text>
+                            <text x="62" y="100" font-size="12" fill="#C49A2E">−</text>
+                            <!-- Fili -->
+                            <line x1="60" y1="68" x2="60" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <line x1="60" y1="30" x2="100" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <!-- R1 -->
+                            <rect x="100" y="16" width="50" height="28" rx="4" fill="#4A9EE8"/>
+                            <text x="125" y="35" text-anchor="middle" font-size="11" fill="#FFF" font-weight="bold" font-family="Verdana">R₁</text>
+                            <!-- Fili dopo R1 -->
+                            <line x1="150" y1="30" x2="185" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <!-- Ramo parallelo -->
+                            <line x1="185" y1="30" x2="185" y2="15" stroke="#666" stroke-width="2.5"/>
+                            <line x1="185" y1="30" x2="185" y2="55" stroke="#666" stroke-width="2.5"/>
+                            <line x1="185" y1="15" x2="200" y2="15" stroke="#666" stroke-width="2.5"/>
+                            <line x1="185" y1="55" x2="200" y2="55" stroke="#666" stroke-width="2.5"/>
+                            <!-- R2 -->
+                            <rect x="200" y="2" width="50" height="26" rx="4" fill="#3DA86B"/>
+                            <text x="225" y="20" text-anchor="middle" font-size="10" fill="#FFF" font-weight="bold" font-family="Verdana">R₂</text>
+                            <!-- R3 -->
+                            <rect x="200" y="42" width="50" height="26" rx="4" fill="#E58A2E"/>
+                            <text x="225" y="60" text-anchor="middle" font-size="10" fill="#FFF" font-weight="bold" font-family="Verdana">R₃</text>
+                            <!-- Fili dopo parallelo -->
+                            <line x1="250" y1="15" x2="270" y2="15" stroke="#666" stroke-width="2.5"/>
+                            <line x1="250" y1="55" x2="270" y2="55" stroke="#666" stroke-width="2.5"/>
+                            <line x1="270" y1="15" x2="270" y2="55" stroke="#666" stroke-width="2.5"/>
+                            <line x1="270" y1="35" x2="270" y2="150" stroke="#666" stroke-width="2.5"/>
+                            <line x1="270" y1="150" x2="60" y2="150" stroke="#666" stroke-width="2.5"/>
+                            <line x1="60" y1="150" x2="60" y2="112" stroke="#666" stroke-width="2.5"/>
+                            <!-- Trattini parallelo -->
+                            <rect x="177" y="-2" width="102" height="72" rx="6" fill="none" stroke="#4A9EE8" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+                        </g>
+
+                        <!-- Freccia -->
+                        <g>
+                            <text x="320" y="80" font-size="30" fill="#E07000" font-weight="bold">=</text>
+                        </g>
+
+                        <!-- Circuito semplice a destra -->
+                        <g>
+                            <!-- Generatore -->
+                            <circle cx="410" cy="90" r="22" fill="#FFF" stroke="#C49A2E" stroke-width="2.5"/>
+                            <text x="402" y="86" font-size="16" font-weight="bold" fill="#C49A2E">+</text>
+                            <text x="412" y="100" font-size="12" fill="#C49A2E">−</text>
+                            <!-- Fili -->
+                            <line x1="410" y1="68" x2="410" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <line x1="410" y1="30" x2="460" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <!-- Req -->
+                            <rect x="460" y="14" width="80" height="32" rx="6" fill="#E07000"/>
+                            <text x="500" y="35" text-anchor="middle" font-size="13" fill="#FFF" font-weight="bold" font-family="Verdana">R_eq</text>
+                            <!-- Fili dopo Req -->
+                            <line x1="540" y1="30" x2="560" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <line x1="560" y1="30" x2="560" y2="150" stroke="#666" stroke-width="2.5"/>
+                            <line x1="560" y1="150" x2="410" y2="150" stroke="#666" stroke-width="2.5"/>
+                            <line x1="410" y1="150" x2="410" y2="112" stroke="#666" stroke-width="2.5"/>
+                        </g>
+                    </svg>
+                    <div class="svg-caption">Tante resistenze → una sola resistenza equivalente (R_eq)</div>
+                </div>
+
+                <div class="remember-box">
+                    <div class="remember-title">Da ricordare</div>
+                    <p>Ci sono solo <strong>due modi</strong> in cui le resistenze possono essere collegate: <strong>in serie</strong> (una dopo l'altra) oppure <strong>in parallelo</strong> (affiancate). Impara questi due modi e saprai risolvere qualsiasi circuito!</p>
+                </div>
+
+                <div class="nav-bottom">
+                    <span></span>
+                    <button class="btn btn-primary" onclick="goToStep(2)">Avanti →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             STEP 2: Resistenze in serie — Il concetto
+             ============================================= -->
+        <div class="step-section" id="step2">
+            <div class="light-area">
+                <h2>Resistenze in Serie</h2>
+
+                <p>Due o più resistenze sono <strong>in serie</strong> quando sono collegate una dopo l'altra, come perle su una collana. La corrente passa attraverso tutte, una alla volta.</p>
+
+                <div class="svg-wrap">
+                    <svg viewBox="0 0 520 140" role="img" aria-label="Due resistenze in serie: la corrente passa prima da R1 poi da R2">
+                        <!-- Generatore -->
+                        <circle cx="50" cy="70" r="22" fill="#FFF" stroke="#C49A2E" stroke-width="2.5"/>
+                        <text x="42" y="66" font-size="16" font-weight="bold" fill="#C49A2E">+</text>
+                        <text x="52" y="80" font-size="12" fill="#C49A2E">−</text>
+                        <!-- Filo superiore -->
+                        <line x1="50" y1="48" x2="50" y2="20" stroke="#666" stroke-width="3"/>
+                        <line x1="50" y1="20" x2="140" y2="20" stroke="#666" stroke-width="3"/>
+                        <!-- R1 -->
+                        <rect x="140" y="4" width="80" height="32" rx="5" fill="#4A9EE8"/>
+                        <text x="180" y="25" text-anchor="middle" font-size="14" fill="#FFF" font-weight="bold" font-family="Verdana">R₁</text>
+                        <!-- Filo tra R1 e R2 -->
+                        <line x1="220" y1="20" x2="290" y2="20" stroke="#666" stroke-width="3"/>
+                        <!-- R2 -->
+                        <rect x="290" y="4" width="80" height="32" rx="5" fill="#3DA86B"/>
+                        <text x="330" y="25" text-anchor="middle" font-size="14" fill="#FFF" font-weight="bold" font-family="Verdana">R₂</text>
+                        <!-- Filo ritorno -->
+                        <line x1="370" y1="20" x2="470" y2="20" stroke="#666" stroke-width="3"/>
+                        <line x1="470" y1="20" x2="470" y2="120" stroke="#666" stroke-width="3"/>
+                        <line x1="470" y1="120" x2="50" y2="120" stroke="#666" stroke-width="3"/>
+                        <line x1="50" y1="120" x2="50" y2="92" stroke="#666" stroke-width="3"/>
+                        <!-- Frecce corrente -->
+                        <polygon points="105,14 117,20 105,26" fill="#CC3D33"/>
+                        <text x="108" y="48" font-size="12" font-weight="bold" fill="#CC3D33" font-family="Verdana">I</text>
+                        <polygon points="255,14 267,20 255,26" fill="#CC3D33"/>
+                        <text x="258" y="48" font-size="12" font-weight="bold" fill="#CC3D33" font-family="Verdana">I</text>
+                        <!-- Etichetta -->
+                        <text x="260" y="95" text-anchor="middle" font-size="13" fill="#CC3D33" font-weight="bold" font-family="Verdana">La corrente I è la stessa ovunque!</text>
+                    </svg>
+                </div>
+
+                <div class="water-card">
+                    <div class="water-title"><span class="water-icon">💧</span> Pensa all'acqua</div>
+                    <p>L'acqua in un tubo passa per ogni strozzatura, una dopo l'altra. Se metti più strozzature in fila, l'acqua fa più fatica: la resistenza <strong>aumenta</strong>.</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="card-label blue">Regola della serie</div>
+                    <div class="card-title">La corrente è la stessa in tutti i componenti</div>
+                    <div class="card-text">Se R₁ e R₂ sono in serie, la corrente che passa in R₁ è <strong>identica</strong> a quella che passa in R₂. Non c'è altra strada: l'acqua deve passare di lì.</div>
+                </div>
+
+                <div class="nav-bottom">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(3)">Avanti →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             STEP 3: Resistenze in serie — Formula e calcolo
+             ============================================= -->
+        <div class="step-section" id="step3">
+            <div class="light-area">
+                <h2>Serie: La Formula</h2>
+
+                <p>Calcolare la resistenza equivalente in serie è semplicissimo: <strong>basta sommare</strong>.</p>
+
+                <div class="formula-box">
+                    <div class="formula-label">Formula — Resistenze in serie</div>
+                    <div class="formula-main">R_eq = R₁ + R₂ + R₃ + ...</div>
+                    <div class="formula-explain">Prendi il valore di ogni resistenza e sommali. Il totale è la resistenza equivalente.</div>
+                </div>
+
+                <div class="concept-card green">
+                    <div class="card-label green">Esempio con i numeri</div>
+                    <div class="card-title">R₁ = 10 Ω e R₂ = 20 Ω in serie</div>
+                    <div class="card-text">
+                        R_eq = 10 + 20 = <strong>30 Ω</strong><br>
+                        Semplice! Una sola resistenza da 30 Ω si comporta come le due messe insieme.
+                    </div>
+                </div>
+
+                <!-- Esercizio interattivo -->
+                <div class="exercise-area">
+                    <div class="ex-label">Prova tu</div>
+                    <div class="ex-question">R₁ = 15 Ω e R₂ = 25 Ω sono in serie. Quanto vale R_eq?</div>
+                    <div class="input-row">
+                        <label>R_eq =</label>
+                        <input type="number" id="ex3a" placeholder="?" min="0" step="1" aria-label="Risposta in Ohm">
+                        <span class="unit">Ω</span>
+                        <button class="btn btn-success" onclick="checkEx3a()">Verifica</button>
+                    </div>
+                    <div class="feedback" id="fb3a"></div>
+                </div>
+
+                <div class="exercise-area">
+                    <div class="ex-label">Un altro</div>
+                    <div class="ex-question">R₁ = 100 Ω, R₂ = 50 Ω, R₃ = 30 Ω in serie. Quanto vale R_eq?</div>
+                    <div class="input-row">
+                        <label>R_eq =</label>
+                        <input type="number" id="ex3b" placeholder="?" min="0" step="1" aria-label="Risposta in Ohm">
+                        <span class="unit">Ω</span>
+                        <button class="btn btn-success" onclick="checkEx3b()">Verifica</button>
+                    </div>
+                    <div class="feedback" id="fb3b"></div>
+                </div>
+
+                <div class="remember-box">
+                    <div class="remember-title">Da ricordare</div>
+                    <p>In <strong>serie</strong>: somma tutto. La R equivalente è <strong>sempre più grande</strong> di qualsiasi singola resistenza.</p>
+                </div>
+
+                <div class="nav-bottom">
+                    <button class="btn btn-secondary" onclick="goToStep(2)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(4)">Avanti →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             STEP 4: Resistenze in parallelo — Il concetto
+             ============================================= -->
+        <div class="step-section" id="step4">
+            <div class="light-area">
+                <h2>Resistenze in Parallelo</h2>
+
+                <p>Due o più resistenze sono <strong>in parallelo</strong> quando sono collegate affiancate: la corrente si divide e ognuna prende la sua strada.</p>
+
+                <div class="svg-wrap">
+                    <svg viewBox="0 0 460 200" role="img" aria-label="Due resistenze in parallelo: la corrente si divide in due rami">
+                        <!-- Generatore -->
+                        <circle cx="50" cy="100" r="22" fill="#FFF" stroke="#C49A2E" stroke-width="2.5"/>
+                        <text x="42" y="96" font-size="16" font-weight="bold" fill="#C49A2E">+</text>
+                        <text x="52" y="110" font-size="12" fill="#C49A2E">−</text>
+                        <!-- Filo superiore in -->
+                        <line x1="50" y1="78" x2="50" y2="30" stroke="#666" stroke-width="3"/>
+                        <line x1="50" y1="30" x2="160" y2="30" stroke="#666" stroke-width="3"/>
+                        <!-- Nodo A -->
+                        <circle cx="160" cy="30" r="7" fill="#9B5DE5" stroke="#FFF" stroke-width="2"/>
+                        <text x="160" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="#9B5DE5" font-family="Verdana">A</text>
+                        <!-- Rami -->
+                        <line x1="160" y1="30" x2="200" y2="30" stroke="#666" stroke-width="2.5"/>
+                        <line x1="160" y1="30" x2="160" y2="100" stroke="#666" stroke-width="2.5"/>
+                        <line x1="160" y1="100" x2="200" y2="100" stroke="#666" stroke-width="2.5"/>
+                        <!-- R1 (ramo alto) -->
+                        <rect x="200" y="14" width="80" height="32" rx="5" fill="#4A9EE8"/>
+                        <text x="240" y="35" text-anchor="middle" font-size="14" fill="#FFF" font-weight="bold" font-family="Verdana">R₁</text>
+                        <!-- R2 (ramo basso) -->
+                        <rect x="200" y="84" width="80" height="32" rx="5" fill="#3DA86B"/>
+                        <text x="240" y="105" text-anchor="middle" font-size="14" fill="#FFF" font-weight="bold" font-family="Verdana">R₂</text>
+                        <!-- Fili uscita rami -->
+                        <line x1="280" y1="30" x2="320" y2="30" stroke="#666" stroke-width="2.5"/>
+                        <line x1="280" y1="100" x2="320" y2="100" stroke="#666" stroke-width="2.5"/>
+                        <!-- Nodo B -->
+                        <line x1="320" y1="30" x2="320" y2="100" stroke="#666" stroke-width="2.5"/>
+                        <circle cx="320" cy="65" r="7" fill="#9B5DE5" stroke="#FFF" stroke-width="2"/>
+                        <text x="320" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#9B5DE5" font-family="Verdana">B</text>
+                        <!-- Filo ritorno -->
+                        <line x1="320" y1="72" x2="320" y2="170" stroke="#666" stroke-width="3"/>
+                        <line x1="320" y1="170" x2="50" y2="170" stroke="#666" stroke-width="3"/>
+                        <line x1="50" y1="170" x2="50" y2="122" stroke="#666" stroke-width="3"/>
+                        <!-- Frecce corrente -->
+                        <polygon points="100,24 112,30 100,36" fill="#CC3D33"/>
+                        <text x="95" y="18" font-size="11" font-weight="bold" fill="#CC3D33" font-family="Verdana">I_tot</text>
+                        <polygon points="185,24 197,30 185,36" fill="#CC3D33"/>
+                        <text x="190" y="58" font-size="10" font-weight="bold" fill="#CC3D33" font-family="Verdana">I₁</text>
+                        <polygon points="185,94 197,100 185,106" fill="#CC3D33"/>
+                        <text x="190" y="128" font-size="10" font-weight="bold" fill="#CC3D33" font-family="Verdana">I₂</text>
+                        <!-- Box parallelo -->
+                        <rect x="150" y="6" width="180" height="128" rx="8" fill="none" stroke="#4A9EE8" stroke-width="2" stroke-dasharray="6,3" opacity="0.4"/>
+                        <!-- Tensione -->
+                        <text x="240" y="155" text-anchor="middle" font-size="12" fill="#4A9EE8" font-weight="bold" font-family="Verdana">V è la stessa su R₁ e R₂!</text>
+                    </svg>
+                </div>
+
+                <div class="water-card">
+                    <div class="water-title"><span class="water-icon">💧</span> Pensa all'acqua</div>
+                    <p>L'acqua arriva a un bivio e si divide in due tubi. Più tubi paralleli ci sono, <strong>più facile</strong> è per l'acqua passare: la resistenza <strong>diminuisce</strong>!</p>
+                </div>
+
+                <div class="compare-row">
+                    <div class="compare-item highlight-blue">
+                        <h4>Serie</h4>
+                        <p style="color:#555;font-size:0.9rem;">Corrente <strong>uguale</strong></p>
+                        <p style="color:#555;font-size:0.9rem;">Tensione <strong>si divide</strong></p>
+                        <p style="color:#555;font-size:0.9rem;">R_eq <strong>aumenta</strong></p>
+                    </div>
+                    <div class="compare-item highlight-green">
+                        <h4>Parallelo</h4>
+                        <p style="color:#555;font-size:0.9rem;">Corrente <strong>si divide</strong></p>
+                        <p style="color:#555;font-size:0.9rem;">Tensione <strong>uguale</strong></p>
+                        <p style="color:#555;font-size:0.9rem;">R_eq <strong>diminuisce</strong></p>
+                    </div>
+                </div>
+
+                <div class="nav-bottom">
+                    <button class="btn btn-secondary" onclick="goToStep(3)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(5)">Avanti →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             STEP 5: Resistenze in parallelo — Formula e calcolo
+             ============================================= -->
+        <div class="step-section" id="step5">
+            <div class="light-area">
+                <h2>Parallelo: La Formula</h2>
+
+                <p>Questa formula è un po' più complicata, ma la impariamo un passo alla volta.</p>
+
+                <div class="formula-box">
+                    <div class="formula-label">Formula — Due resistenze in parallelo</div>
+                    <div class="formula-main">R_eq = (R₁ × R₂) / (R₁ + R₂)</div>
+                    <div class="formula-explain">Moltiplica le due resistenze tra loro (sopra), poi sommale (sotto). Dividi il risultato sopra per quello sotto.</div>
+                </div>
+
+                <div class="concept-card orange">
+                    <div class="card-label orange">Esempio passo passo</div>
+                    <div class="card-title">R₁ = 30 Ω e R₂ = 60 Ω in parallelo</div>
+                    <div class="card-text">
+                        <strong>Passo 1:</strong> Moltiplica: 30 × 60 = 1800<br>
+                        <strong>Passo 2:</strong> Somma: 30 + 60 = 90<br>
+                        <strong>Passo 3:</strong> Dividi: 1800 ÷ 90 = <strong>20 Ω</strong><br><br>
+                        Nota: 20 Ω è <strong>meno</strong> di entrambe! In parallelo la R equivalente è sempre più piccola.
+                    </div>
+                </div>
+
+                <div class="remember-box">
+                    <div class="remember-title">Trucco veloce — Due resistenze uguali</div>
+                    <p>Se R₁ = R₂, allora R_eq = <strong>R ÷ 2</strong>. Esempio: due resistenze da 100 Ω in parallelo → R_eq = 50 Ω.</p>
+                </div>
+
+                <!-- Calcolatrice guidata -->
+                <div class="exercise-area">
+                    <div class="ex-label">Calcolatrice guidata</div>
+                    <div class="ex-question">Inserisci i valori e segui ogni passaggio:</div>
+                    <div class="input-row">
+                        <label>R₁ =</label>
+                        <input type="number" id="calcR1" value="20" min="1" step="1" aria-label="R1 in Ohm">
+                        <span class="unit">Ω</span>
+                    </div>
+                    <div class="input-row">
+                        <label>R₂ =</label>
+                        <input type="number" id="calcR2" value="30" min="1" step="1" aria-label="R2 in Ohm">
+                        <span class="unit">Ω</span>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-orange" onclick="calcParallel()">Calcola passo passo</button>
+                    </div>
+                    <div id="calcResult" style="margin-top:16px;"></div>
+                </div>
+
+                <!-- Esercizio -->
+                <div class="exercise-area">
+                    <div class="ex-label">Prova tu</div>
+                    <div class="ex-question">R₁ = 40 Ω e R₂ = 40 Ω in parallelo. Quanto vale R_eq?</div>
+                    <div class="input-row">
+                        <label>R_eq =</label>
+                        <input type="number" id="ex5a" placeholder="?" min="0" step="1" aria-label="Risposta in Ohm">
+                        <span class="unit">Ω</span>
+                        <button class="btn btn-success" onclick="checkEx5a()">Verifica</button>
+                    </div>
+                    <div class="feedback" id="fb5a"></div>
+                </div>
+
+                <div class="nav-bottom">
+                    <button class="btn btn-secondary" onclick="goToStep(4)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(6)">Avanti →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             STEP 6: Circuito misto — Come leggerlo
+             ============================================= -->
+        <div class="step-section" id="step6">
+            <div class="light-area">
+                <h2>Il Circuito Misto</h2>
+
+                <p>Un circuito misto ha resistenze sia in serie che in parallelo. Per risolverlo, lavoriamo <strong>un pezzo alla volta</strong>: prima il parallelo, poi la serie.</p>
+
+                <div class="concept-card purple">
+                    <div class="card-label purple">Strategia in 3 mosse</div>
+                    <div class="card-title">Come affrontare un circuito misto</div>
+                    <div class="card-text">
+                        <strong>Mossa 1:</strong> Trova le resistenze in parallelo e calcolane l'equivalente<br>
+                        <strong>Mossa 2:</strong> Sostituisci il parallelo con R_eq trovata<br>
+                        <strong>Mossa 3:</strong> Ora hai solo resistenze in serie — sommale!
+                    </div>
+                </div>
+
+                <div class="svg-wrap">
+                    <svg viewBox="0 0 580 260" role="img" aria-label="Circuito misto: R1 in serie con il parallelo di R2 e R3">
+                        <!-- Generatore -->
+                        <circle cx="60" cy="130" r="24" fill="#FFF" stroke="#C49A2E" stroke-width="2.5"/>
+                        <text x="52" y="126" font-size="18" font-weight="bold" fill="#C49A2E">+</text>
+                        <text x="62" y="142" font-size="14" fill="#C49A2E">−</text>
+                        <text x="60" y="172" text-anchor="middle" font-size="13" font-weight="bold" fill="#C49A2E" font-family="Verdana">E</text>
+                        <!-- Filo sup -->
+                        <line x1="60" y1="106" x2="60" y2="40" stroke="#666" stroke-width="3"/>
+                        <line x1="60" y1="40" x2="140" y2="40" stroke="#666" stroke-width="3"/>
+                        <!-- R1 (serie) -->
+                        <rect x="140" y="22" width="90" height="36" rx="5" fill="#4A9EE8"/>
+                        <text x="185" y="42" text-anchor="middle" font-size="15" fill="#FFF" font-weight="bold" font-family="Verdana">R₁ = 10Ω</text>
+                        <!-- Filo R1 → nodo A -->
+                        <line x1="230" y1="40" x2="300" y2="40" stroke="#666" stroke-width="3"/>
+                        <!-- Nodo A -->
+                        <circle cx="300" cy="40" r="8" fill="#9B5DE5" stroke="#FFF" stroke-width="2"/>
+                        <text x="300" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#9B5DE5" font-family="Verdana">A</text>
+                        <!-- Rami parallelo -->
+                        <line x1="300" y1="40" x2="340" y2="40" stroke="#666" stroke-width="2.5"/>
+                        <line x1="300" y1="40" x2="300" y2="110" stroke="#666" stroke-width="2.5"/>
+                        <line x1="300" y1="110" x2="340" y2="110" stroke="#666" stroke-width="2.5"/>
+                        <!-- R2 (ramo alto) -->
+                        <rect x="340" y="22" width="90" height="36" rx="5" fill="#3DA86B"/>
+                        <text x="385" y="42" text-anchor="middle" font-size="15" fill="#FFF" font-weight="bold" font-family="Verdana">R₂ = 30Ω</text>
+                        <!-- R3 (ramo basso) -->
+                        <rect x="340" y="92" width="90" height="36" rx="5" fill="#E58A2E"/>
+                        <text x="385" y="112" text-anchor="middle" font-size="15" fill="#FFF" font-weight="bold" font-family="Verdana">R₃ = 60Ω</text>
+                        <!-- Fili uscita rami -->
+                        <line x1="430" y1="40" x2="470" y2="40" stroke="#666" stroke-width="2.5"/>
+                        <line x1="430" y1="110" x2="470" y2="110" stroke="#666" stroke-width="2.5"/>
+                        <!-- Nodo B -->
+                        <line x1="470" y1="40" x2="470" y2="110" stroke="#666" stroke-width="2.5"/>
+                        <circle cx="470" cy="75" r="8" fill="#9B5DE5" stroke="#FFF" stroke-width="2"/>
+                        <text x="470" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#9B5DE5" font-family="Verdana">B</text>
+                        <!-- Filo ritorno -->
+                        <line x1="470" y1="83" x2="470" y2="220" stroke="#666" stroke-width="3"/>
+                        <line x1="470" y1="220" x2="60" y2="220" stroke="#666" stroke-width="3"/>
+                        <line x1="60" y1="220" x2="60" y2="154" stroke="#666" stroke-width="3"/>
+                        <!-- Box parallelo -->
+                        <rect x="288" y="12" width="196" height="146" rx="8" fill="none" stroke="#4A9EE8" stroke-width="2" stroke-dasharray="6,3" opacity="0.5"/>
+                        <text x="386" y="175" text-anchor="middle" font-size="12" fill="#4A9EE8" font-weight="bold" font-family="Verdana">PARALLELO</text>
+                        <!-- Etichetta serie -->
+                        <text x="185" y="75" text-anchor="middle" font-size="12" fill="#4A9EE8" font-weight="bold" font-family="Verdana">SERIE</text>
+                    </svg>
+                    <div class="svg-caption">R₁ è in serie con il parallelo di R₂ e R₃</div>
+                </div>
+
+                <div class="water-card">
+                    <div class="water-title"><span class="water-icon">💧</span> Pensa all'acqua</div>
+                    <p>L'acqua esce dal serbatoio, passa per una strozzatura (R₁), poi arriva a un bivio dove i due tubi (R₂ e R₃) le permettono di scegliere la strada. Dopo il bivio, l'acqua si riunisce e torna al serbatoio.</p>
+                </div>
+
+                <div class="nav-bottom">
+                    <button class="btn btn-secondary" onclick="goToStep(5)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(7)">Avanti →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             STEP 7: Esercizio guidato completo
+             ============================================= -->
+        <div class="step-section" id="step7">
+            <div class="light-area">
+                <h2>Esercizio Guidato</h2>
+
+                <p>Risolviamo insieme il circuito misto dello step precedente. Premi "Avanti" per vedere ogni passaggio.</p>
+
+                <div class="remember-box">
+                    <div class="remember-title">Dati del circuito</div>
+                    <p>E = 90V — R₁ = 10Ω (serie) — R₂ = 30Ω (parallelo) — R₃ = 60Ω (parallelo)</p>
+                </div>
+
+                <!-- Step rivelati progressivamente -->
+                <div class="reveal-step visible" id="gs0">
+                    <div class="concept-card purple">
+                        <div class="card-label purple">Mossa 1 — Trova il parallelo</div>
+                        <div class="card-title">R₂ e R₃ sono in parallelo. Calcoliamo la loro equivalente.</div>
+                        <div class="card-text">Usa la formula: R_p = (R₂ × R₃) / (R₂ + R₃)</div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-orange" onclick="revealGuided(1)">Avanti: vedi il calcolo →</button>
+                    </div>
+                </div>
+
+                <div class="reveal-step" id="gs1">
+                    <div class="concept-card orange">
+                        <div class="card-label orange">Calcolo del parallelo</div>
+                        <div class="card-title">R_p = (30 × 60) / (30 + 60)</div>
+                        <div class="card-text">
+                            <strong>Sopra:</strong> 30 × 60 = 1800<br>
+                            <strong>Sotto:</strong> 30 + 60 = 90<br>
+                            <strong>Dividi:</strong> 1800 ÷ 90 = <strong>20 Ω</strong>
+                        </div>
+                    </div>
+                    <div class="svg-wrap">
+                        <svg viewBox="0 0 460 100" role="img" aria-label="Il parallelo diventa una resistenza da 20 Ohm">
+                            <text x="30" y="55" font-size="14" fill="#555" font-weight="bold" font-family="Verdana">R₂ ∥ R₃</text>
+                            <text x="140" y="55" font-size="22" fill="#E07000" font-weight="bold">=</text>
+                            <rect x="180" y="30" width="100" height="40" rx="6" fill="#E07000"/>
+                            <text x="230" y="55" text-anchor="middle" font-size="15" fill="#FFF" font-weight="bold" font-family="Verdana">R_p = 20Ω</text>
+                        </svg>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-orange" onclick="revealGuided(2)">Avanti: Mossa 2 →</button>
+                    </div>
+                </div>
+
+                <div class="reveal-step" id="gs2">
+                    <div class="concept-card">
+                        <div class="card-label blue">Mossa 2 — Somma in serie</div>
+                        <div class="card-title">Ora R₁ e R_p sono in serie!</div>
+                        <div class="card-text">
+                            R_eq = R₁ + R_p = 10 + 20 = <strong>30 Ω</strong>
+                        </div>
+                    </div>
+                    <div class="svg-wrap">
+                        <svg viewBox="0 0 520 120" role="img" aria-label="Circuito ridotto a una sola resistenza equivalente da 30 Ohm">
+                            <!-- Generatore -->
+                            <circle cx="50" cy="60" r="22" fill="#FFF" stroke="#C49A2E" stroke-width="2.5"/>
+                            <text x="42" y="56" font-size="16" font-weight="bold" fill="#C49A2E">+</text>
+                            <text x="52" y="70" font-size="12" fill="#C49A2E">−</text>
+                            <text x="50" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#C49A2E" font-family="Verdana">90V</text>
+                            <!-- Fili -->
+                            <line x1="50" y1="38" x2="50" y2="15" stroke="#666" stroke-width="3"/>
+                            <line x1="50" y1="15" x2="200" y2="15" stroke="#666" stroke-width="3"/>
+                            <!-- Req -->
+                            <rect x="200" y="-1" width="120" height="32" rx="6" fill="#E07000"/>
+                            <text x="260" y="20" text-anchor="middle" font-size="14" fill="#FFF" font-weight="bold" font-family="Verdana">R_eq = 30Ω</text>
+                            <!-- Ritorno -->
+                            <line x1="320" y1="15" x2="420" y2="15" stroke="#666" stroke-width="3"/>
+                            <line x1="420" y1="15" x2="420" y2="105" stroke="#666" stroke-width="3"/>
+                            <line x1="420" y1="105" x2="50" y2="105" stroke="#666" stroke-width="3"/>
+                            <line x1="50" y1="105" x2="50" y2="82" stroke="#666" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-orange" onclick="revealGuided(3)">Avanti: calcoliamo la corrente →</button>
+                    </div>
+                </div>
+
+                <div class="reveal-step" id="gs3">
+                    <div class="concept-card green">
+                        <div class="card-label green">Mossa 3 — Legge di Ohm</div>
+                        <div class="card-title">Ora possiamo trovare la corrente totale!</div>
+                        <div class="card-text">
+                            <strong>Legge di Ohm:</strong> I = V / R<br><br>
+                            I = E / R_eq = 90 / 30 = <strong>3 A</strong><br><br>
+                            Nel circuito scorrono 3 Ampere.
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Riepilogo completo</h3>
+                        <div class="formula-line"><strong>1.</strong> Parallelo: R_p = (30 × 60) / (30 + 60) = <strong>20 Ω</strong></div>
+                        <div class="formula-line"><strong>2.</strong> Serie: R_eq = 10 + 20 = <strong>30 Ω</strong></div>
+                        <div class="formula-line"><strong>3.</strong> Corrente: I = 90 / 30 = <strong>3 A</strong></div>
+                    </div>
+                </div>
+
+                <div class="nav-bottom">
+                    <button class="btn btn-secondary" onclick="goToStep(6)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(8)">Mettiti alla prova →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             STEP 8: Mettiti alla prova
+             ============================================= -->
+        <div class="step-section" id="step8">
+            <div class="light-area">
+                <h2>Mettiti alla Prova!</h2>
+
+                <p>Ecco tre esercizi. Risolvili usando quello che hai imparato. Se ti blocchi, premi "Aiuto" per un suggerimento.</p>
+
+                <!-- Esercizio 1 -->
+                <div class="exercise-area" id="final1">
+                    <div class="ex-label">Esercizio 1 — Solo serie</div>
+                    <div class="ex-question">R₁ = 12 Ω, R₂ = 8 Ω, R₃ = 10 Ω — tutte in serie.<br>Quanto vale R_eq?</div>
+                    <div class="input-row">
+                        <label>R_eq =</label>
+                        <input type="number" id="fin1" placeholder="?" min="0" step="1">
+                        <span class="unit">Ω</span>
+                        <button class="btn btn-success" onclick="checkFin(1, 30)">Verifica</button>
+                    </div>
+                    <div class="feedback" id="fbFin1"></div>
+                    <div style="margin-top:8px;">
+                        <button class="btn btn-secondary" onclick="showHint(1)" style="font-size:0.85rem;padding:8px 16px;">Aiuto</button>
+                    </div>
+                    <div class="feedback hint" id="hint1" style="display:none;">In serie basta sommare: 12 + 8 + 10 = ?</div>
+                </div>
+
+                <!-- Esercizio 2 -->
+                <div class="exercise-area" id="final2">
+                    <div class="ex-label">Esercizio 2 — Solo parallelo</div>
+                    <div class="ex-question">R₁ = 60 Ω e R₂ = 60 Ω in parallelo.<br>Quanto vale R_eq?</div>
+                    <div class="input-row">
+                        <label>R_eq =</label>
+                        <input type="number" id="fin2" placeholder="?" min="0" step="1">
+                        <span class="unit">Ω</span>
+                        <button class="btn btn-success" onclick="checkFin(2, 30)">Verifica</button>
+                    </div>
+                    <div class="feedback" id="fbFin2"></div>
+                    <div style="margin-top:8px;">
+                        <button class="btn btn-secondary" onclick="showHint(2)" style="font-size:0.85rem;padding:8px 16px;">Aiuto</button>
+                    </div>
+                    <div class="feedback hint" id="hint2" style="display:none;">Trucco: due resistenze uguali in parallelo → R_eq = R ÷ 2. Quindi 60 ÷ 2 = ?</div>
+                </div>
+
+                <!-- Esercizio 3 -->
+                <div class="exercise-area" id="final3">
+                    <div class="ex-label">Esercizio 3 — Circuito misto</div>
+                    <div class="ex-question">R₁ = 20 Ω in serie con il parallelo di R₂ = 40 Ω e R₃ = 40 Ω.<br>Quanto vale R_eq totale?</div>
+
+                    <div class="svg-wrap">
+                        <svg viewBox="0 0 500 190" role="img" aria-label="Circuito misto: R1 in serie con R2 parallelo R3">
+                            <!-- Generatore -->
+                            <circle cx="50" cy="95" r="20" fill="#FFF" stroke="#C49A2E" stroke-width="2"/>
+                            <text x="43" y="92" font-size="14" font-weight="bold" fill="#C49A2E">+</text>
+                            <text x="51" y="104" font-size="11" fill="#C49A2E">−</text>
+                            <!-- Fili -->
+                            <line x1="50" y1="75" x2="50" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <line x1="50" y1="30" x2="110" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <!-- R1 -->
+                            <rect x="110" y="14" width="70" height="32" rx="5" fill="#4A9EE8"/>
+                            <text x="145" y="34" text-anchor="middle" font-size="12" fill="#FFF" font-weight="bold" font-family="Verdana">R₁=20Ω</text>
+                            <!-- Filo → nodo -->
+                            <line x1="180" y1="30" x2="230" y2="30" stroke="#666" stroke-width="2.5"/>
+                            <!-- Nodo A -->
+                            <circle cx="230" cy="30" r="6" fill="#9B5DE5" stroke="#FFF" stroke-width="1.5"/>
+                            <!-- Rami -->
+                            <line x1="230" y1="30" x2="265" y2="30" stroke="#666" stroke-width="2"/>
+                            <line x1="230" y1="30" x2="230" y2="90" stroke="#666" stroke-width="2"/>
+                            <line x1="230" y1="90" x2="265" y2="90" stroke="#666" stroke-width="2"/>
+                            <!-- R2 -->
+                            <rect x="265" y="14" width="70" height="32" rx="5" fill="#3DA86B"/>
+                            <text x="300" y="34" text-anchor="middle" font-size="12" fill="#FFF" font-weight="bold" font-family="Verdana">R₂=40Ω</text>
+                            <!-- R3 -->
+                            <rect x="265" y="74" width="70" height="32" rx="5" fill="#E58A2E"/>
+                            <text x="300" y="94" text-anchor="middle" font-size="12" fill="#FFF" font-weight="bold" font-family="Verdana">R₃=40Ω</text>
+                            <!-- Fili uscita -->
+                            <line x1="335" y1="30" x2="380" y2="30" stroke="#666" stroke-width="2"/>
+                            <line x1="335" y1="90" x2="380" y2="90" stroke="#666" stroke-width="2"/>
+                            <line x1="380" y1="30" x2="380" y2="90" stroke="#666" stroke-width="2.5"/>
+                            <!-- Nodo B -->
+                            <circle cx="380" cy="60" r="6" fill="#9B5DE5" stroke="#FFF" stroke-width="1.5"/>
+                            <!-- Ritorno -->
+                            <line x1="380" y1="66" x2="380" y2="160" stroke="#666" stroke-width="2.5"/>
+                            <line x1="380" y1="160" x2="50" y2="160" stroke="#666" stroke-width="2.5"/>
+                            <line x1="50" y1="160" x2="50" y2="115" stroke="#666" stroke-width="2.5"/>
+                            <!-- Box parallelo -->
+                            <rect x="220" y="6" width="170" height="114" rx="6" fill="none" stroke="#4A9EE8" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.4"/>
+                        </svg>
+                    </div>
+
+                    <div class="input-row">
+                        <label>R_eq totale =</label>
+                        <input type="number" id="fin3" placeholder="?" min="0" step="1">
+                        <span class="unit">Ω</span>
+                        <button class="btn btn-success" onclick="checkFin(3, 40)">Verifica</button>
+                    </div>
+                    <div class="feedback" id="fbFin3"></div>
+                    <div style="margin-top:8px;">
+                        <button class="btn btn-secondary" onclick="showHint(3)" style="font-size:0.85rem;padding:8px 16px;">Aiuto</button>
+                    </div>
+                    <div class="feedback hint" id="hint3" style="display:none;">
+                        Prima il parallelo: R₂ e R₃ sono uguali (40Ω), quindi R_p = 40 ÷ 2 = 20Ω.<br>
+                        Poi la serie: R_eq = R₁ + R_p = 20 + 20 = ?
+                    </div>
+                </div>
+
+                <!-- Riepilogo formule -->
+                <div class="summary-card" style="margin-top:24px;">
+                    <h3>Le tue formule — Da ricordare</h3>
+                    <div class="formula-line"><strong>Serie:</strong> R_eq = R₁ + R₂ + R₃ + ...</div>
+                    <div class="formula-line"><strong>Parallelo (2 resistenze):</strong> R_eq = (R₁ × R₂) / (R₁ + R₂)</div>
+                    <div class="formula-line"><strong>Parallelo (trucco):</strong> Se R₁ = R₂ → R_eq = R ÷ 2</div>
+                    <div class="formula-line"><strong>Legge di Ohm:</strong> I = V / R &nbsp;&nbsp;|&nbsp;&nbsp; V = R × I &nbsp;&nbsp;|&nbsp;&nbsp; R = V / I</div>
+                    <div class="formula-line"><strong>Circuito misto:</strong> Prima riduci il parallelo → poi somma in serie</div>
+                </div>
+
+                <div class="nav-bottom">
+                    <button class="btn btn-secondary" onclick="goToStep(7)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(1)">Ricomincia dall'inizio</button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /lesson-container -->
+
+    <!-- Menu condiviso -->
+    <script src="/assets/menu.js"></script>
+
+    <script>
+        /* =============================================
+           NAVIGATION — Step management
+           ============================================= */
+        const TOTAL_STEPS = 8;
+        let currentStep = 1;
+        let maxReached = 1;
+
+        function goToStep(n) {
+            if (n < 1 || n > TOTAL_STEPS) return;
+
+            // Track max reached for progress coloring
+            if (n > maxReached) maxReached = n;
+
+            // Hide current, show target
+            document.getElementById('step' + currentStep).classList.remove('active');
+            document.getElementById('step' + n).classList.add('active');
+            currentStep = n;
+
+            // Update progress bar
+            for (let i = 1; i <= TOTAL_STEPS; i++) {
+                const num = document.getElementById('lp' + i);
+                const line = document.getElementById('ll' + i);
+                num.classList.remove('active', 'done');
+                if (line) line.classList.remove('done');
+
+                if (i === n) {
+                    num.classList.add('active');
+                } else if (i < n) {
+                    num.classList.add('done');
+                    if (line) line.classList.add('done');
+                }
+            }
+
+            document.getElementById('lpLabel').textContent = 'Passo ' + n + ' di ' + TOTAL_STEPS;
+
+            // Scroll to top of step
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* =============================================
+           EXERCISES — Step 3 (Serie)
+           ============================================= */
+        function checkEx3a() {
+            const val = parseFloat(document.getElementById('ex3a').value);
+            const fb = document.getElementById('fb3a');
+            if (val === 40) {
+                fb.className = 'feedback correct';
+                fb.textContent = 'Esatto! 15 + 25 = 40 Ω. Basta sommare!';
+            } else if (isNaN(val)) {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Inserisci un numero.';
+            } else {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Non proprio. Ricorda: in serie basta sommare. Prova: 15 + 25 = ?';
+            }
+        }
+
+        function checkEx3b() {
+            const val = parseFloat(document.getElementById('ex3b').value);
+            const fb = document.getElementById('fb3b');
+            if (val === 180) {
+                fb.className = 'feedback correct';
+                fb.textContent = 'Perfetto! 100 + 50 + 30 = 180 Ω.';
+            } else if (isNaN(val)) {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Inserisci un numero.';
+            } else {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Riprova. Somma tutti i valori: 100 + 50 + 30 = ?';
+            }
+        }
+
+        /* =============================================
+           EXERCISES — Step 5 (Parallelo)
+           ============================================= */
+        function calcParallel() {
+            const r1 = parseFloat(document.getElementById('calcR1').value);
+            const r2 = parseFloat(document.getElementById('calcR2').value);
+            const div = document.getElementById('calcResult');
+
+            if (isNaN(r1) || isNaN(r2) || r1 <= 0 || r2 <= 0) {
+                div.innerHTML = '<div class="feedback wrong">Inserisci due valori positivi.</div>';
+                return;
+            }
+
+            const top = r1 * r2;
+            const bottom = r1 + r2;
+            const req = top / bottom;
+
+            div.innerHTML = `
+                <div class="concept-card orange" style="margin:0;">
+                    <div class="card-label orange">Calcolo passo passo</div>
+                    <div class="card-text">
+                        <strong>Passo 1 — Moltiplica:</strong> ${r1} × ${r2} = <strong>${top}</strong><br>
+                        <strong>Passo 2 — Somma:</strong> ${r1} + ${r2} = <strong>${bottom}</strong><br>
+                        <strong>Passo 3 — Dividi:</strong> ${top} ÷ ${bottom} = <strong>${parseFloat(req.toFixed(2))} Ω</strong>
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkEx5a() {
+            const val = parseFloat(document.getElementById('ex5a').value);
+            const fb = document.getElementById('fb5a');
+            if (val === 20) {
+                fb.className = 'feedback correct';
+                fb.textContent = 'Giusto! Due resistenze uguali da 40Ω in parallelo → 40 ÷ 2 = 20 Ω.';
+            } else if (isNaN(val)) {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Inserisci un numero.';
+            } else {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Riprova. Trucco: due resistenze uguali → R_eq = R ÷ 2. Quindi 40 ÷ 2 = ?';
+            }
+        }
+
+        /* =============================================
+           GUIDED EXERCISE — Step 7
+           ============================================= */
+        function revealGuided(n) {
+            const el = document.getElementById('gs' + n);
+            if (el) {
+                el.classList.add('visible');
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        /* =============================================
+           FINAL EXERCISES — Step 8
+           ============================================= */
+        function checkFin(num, answer) {
+            const val = parseFloat(document.getElementById('fin' + num).value);
+            const fb = document.getElementById('fbFin' + num);
+            if (val === answer) {
+                fb.className = 'feedback correct';
+                if (num === 1) fb.textContent = 'Perfetto! 12 + 8 + 10 = 30 Ω. La serie non ha segreti per te!';
+                if (num === 2) fb.textContent = 'Esatto! 60 ÷ 2 = 30 Ω. Il trucco delle resistenze uguali funziona!';
+                if (num === 3) fb.textContent = 'Bravissimo! Parallelo: 40÷2 = 20Ω, poi serie: 20+20 = 40Ω. Hai risolto un circuito misto!';
+            } else if (isNaN(val)) {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Inserisci un numero.';
+            } else {
+                fb.className = 'feedback wrong';
+                fb.textContent = 'Non è la risposta giusta. Prova a usare il bottone "Aiuto" per un suggerimento.';
+            }
+        }
+
+        function showHint(num) {
+            const hint = document.getElementById('hint' + num);
+            hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
+        }
+
+        /* =============================================
+           KEYBOARD NAVIGATION
+           ============================================= */
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT') return;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                goToStep(currentStep + 1);
+            }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                goToStep(currentStep - 1);
+            }
+        });
+    </script>
+</body>
+</html>
