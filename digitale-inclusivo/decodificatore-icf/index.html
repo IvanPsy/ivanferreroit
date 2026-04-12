@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decodificatore ICF — Digitale Inclusivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-tertiary: #151b23;
+            --bg-card: #1a222d;
+            --bg-hover: #222c3a;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --border-color: #30363d;
+            --accent-cyan: #00d9ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 49px, var(--border-color) 49px, var(--border-color) 50px),
+                repeating-linear-gradient(90deg, transparent, transparent 49px, var(--border-color) 49px, var(--border-color) 50px);
+            background-size: 50px 50px;
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            padding-top: 140px;
+        }
+
+        #site-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+            background: rgba(10, 14, 20, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(63, 185, 80, 0.05));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
+        }
+
+        .intro-box p {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .author {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background: var(--bg-hover);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            border-color: var(--accent-cyan);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .search-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .search-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .result-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .result-item:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.15);
+        }
+
+        .result-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-name {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-preview {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .tree-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tree-component {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .tree-component-header {
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-card));
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tree-component-header:hover {
+            background: var(--bg-hover);
+        }
+
+        .tree-component-code {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 217, 255, 0.1);
+            border-radius: 4px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .tree-toggle {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .tree-chapter-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .tree-chapter-list.expanded {
+            max-height: 2000px;
+        }
+
+        .tree-chapter {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tree-chapter:hover {
+            background: var(--bg-hover);
+            padding-left: 1.5rem;
+        }
+
+        .tree-chapter-code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-weight: 500;
+            min-width: 80px;
+        }
+
+        .tree-chapter-name {
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .code-card {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(63, 185, 80, 0.02));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
+        }
+
+        .code-card-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .code-card-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .code-card-component {
+            font-size: 0.9rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .component-b { background: rgba(0, 217, 255, 0.2); color: var(--accent-cyan); }
+        .component-s { background: rgba(163, 113, 247, 0.2); color: var(--accent-purple); }
+        .component-d { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); }
+        .component-e { background: rgba(210, 153, 34, 0.2); color: var(--accent-yellow); }
+
+        .code-card-official {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .code-card-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .code-card-section-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .code-card-section-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb-item {
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-sep {
+            color: var(--text-muted);
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(163, 113, 247, 0.1));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .cta-box p {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .cta-link:hover {
+            color: var(--accent-green);
+            text-decoration: underline;
+        }
+
+        .qualifier-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .qualifier-table th,
+        .qualifier-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .qualifier-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .qualifier-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .qualifier-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            min-width: 80px;
+        }
+
+        .qualifier-description {
+            color: var(--text-secondary);
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .final-cta h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .final-cta p {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .footer {
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            margin-top: 4rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .footer p {
+            margin-bottom: 1rem;
+        }
+
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.4);
+            z-index: 999;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.6);
+        }
+
+        .close-card {
+            display: inline-block;
+            background: var(--bg-hover);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .close-card:hover {
+            background: var(--border-color);
+            color: var(--accent-cyan);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(0, 217, 255, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 200px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .code-card {
+                padding: 1.5rem;
+            }
+
+            .code-card-code {
+                font-size: 1.3rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+                text-align: left;
+            }
+
+            .qualifier-table {
+                font-size: 0.9rem;
+            }
+
+            .qualifier-table th,
+            .qualifier-table td {
+                padding: 0.75rem;
+            }
+
+            .final-cta {
+                padding: 1.5rem 1rem;
+            }
+
+            .floating-btn {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-menu"></div>
+
+    <div class="container">
+        <!-- INTRO SECTION -->
+        <div class="section">
+            <h1>Decodificatore ICF</h1>
+            <p class="tagline">Strumenti per genitori che vogliono capire</p>
+
+            <div class="intro-box">
+                <h3>Cos'è l'ICF e perché è nel documento di tuo figlio</h3>
+                <p>L'ICF (Classificazione Internazionale del Funzionamento, della Disabilità e della Salute) è il linguaggio che medici, psicologi e insegnanti usano per descrivere come funziona tuo figlio — non "cosa c'è che non va", ma come interagisce con il mondo.</p>
+                <p>L'approccio è bio-psico-sociale: descrive il corpo (Body Functions e Structures), quello che tuo figlio riesce a fare nella vita quotidiana (Activities and Participation), e l'ambiente che lo circonda (Environmental Factors). Non è un'etichetta — è una mappa.</p>
+                <p>Ogni codice ICF nel "Profilo di Funzionamento" di tuo figlio racconta una parte della storia. Qui puoi scoprire cosa significano, con parole semplici.</p>
+
+                <div class="cta-box" style="margin-top: 1.5rem; text-align: left;">
+                    <p><strong>Come usare questo strumento:</strong></p>
+                    <p style="margin-bottom: 0;">Cerca il codice per numero, per parola chiave, o naviga l'albero. Ogni codice ha una spiegazione accessibile e esempi. Se vuoi capire il Profilo nel contesto specifico di tuo figlio, scrivimi per una consulenza personalizzata.</p>
+                </div>
+
+                <p class="author">A cura di <strong>Ivan Ferrero</strong> — Psicologo Psicoterapeuta, Docente di Sostegno, Esperto in Inclusione Digitale</p>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="section">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab(event, 'search-tab')">Cerca per Codice</button>
+                <button class="tab-btn" onclick="switchTab(event, 'keyword-tab')">Cerca per Parola</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tree-tab')">Naviga per Categoria</button>
+                <button class="tab-btn" onclick="switchTab(event, 'qualifiers-tab')">Guida ai Qualificatori</button>
+            </div>
+
+            <!-- SEARCH BY CODE TAB -->
+            <div id="search-tab" class="tab-content active">
+                <div class="search-group">
+                    <label class="search-label">Inserisci il codice ICF (es: b140, B140, b140.2, d220.31)</label>
+                    <input type="text" id="codeSearchInput" class="search-input" placeholder="b140..." oninput="searchByCode()">
+                </div>
+                <div id="codeSearchResults"></div>
+            </div>
+
+            <!-- KEYWORD SEARCH TAB -->
+            <div id="keyword-tab" class="tab-content">
+                <div class="search-group">
+                    <label class="search-label">Cerca per parola chiave (es: memoria, scuola, movimento)</label>
+                    <input type="text" id="keywordSearchInput" class="search-input" placeholder="memoria..." oninput="searchByKeyword()">
+                </div>
+                <div id="keywordSearchResults"></div>
+            </div>
+
+            <!-- TREE TAB -->
+            <div id="tree-tab" class="tab-content">
+                <div class="tree-view" id="treeView"></div>
+            </div>
+
+            <!-- QUALIFIERS TAB -->
+            <div id="qualifiers-tab" class="tab-content">
+                <div class="section">
+                    <h3>Guida ai Qualificatori</h3>
+                    <p>I qualificatori sono i numeri che seguono il codice ICF (es: <strong>b140.2</strong> — il <strong>.2</strong> è il qualificatore). Descrivono il grado di difficoltà o il tipo di impatto. Ecco come leggerli.</p>
+
+                    <h3 style="margin-top: 2rem;">Funzioni del Corpo (b) e Strutture del Corpo (s)</h3>
+                    <p>Il qualificatore unico descrive il grado di compromissione della funzione o della struttura.</p>
+                    <table class="qualifier-table">
+                        <thead>
+                            <tr>
+                                <th>Qualificatore</th>
+                                <th>Significato</th>
+                                <th>Cosa significa per tuo figlio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="qualifier-code">.0</td>
+                                <td class="qualifier-description">Nessuna compromissione (0–4%)</td>
+                                <td class="qualifier-description">La funzione è sostanzialmente nella norma</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.1</td>
+                                <td class="qualifier-description">Compromissione lieve (5–24%)</td>
+                                <td class="qualifier-description">C'è una piccola difficoltà, presente ma che non impatta molto</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.2</td>
+                                <td class="qualifier-description">Compromissione moderata (25–49%)</td>
+                                <td class="qualifier-description">La difficoltà è presente e si nota — tuo figlio riesce ma con più fatica</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.3</td>
+                                <td class="qualifier-description">Compromissione grave (50–95%)</td>
+                                <td class="qualifier-description">La difficoltà è significativa — tuo figlio ha bisogno di supporto importante</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.4</td>
+                                <td class="qualifier-description">Compromissione completa (96–100%)</td>
+                                <td class="qualifier-description">La funzione è quasi o del tutto assente</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.8</td>
+                                <td class="qualifier-description">Non specificato</td>
+                                <td class="qualifier-description">Non ci sono informazioni sufficienti per determinare il livello</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.9</td>
+                                <td class="qualifier-description">Non applicabile</td>
+                                <td class="qualifier-description">Questo codice non si applica al caso specifico</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 style="margin-top: 2rem;">Attività e Partecipazione (d) — Performance e Capacità</h3>
+                    <p>Per i codici d (attività), ci sono <strong>due qualificatori</strong: il primo descrive la <strong>Performance</strong> (quello che tuo figlio riesce a fare nel suo ambiente reale), il secondo la <strong>Capacità</strong> (quello che potrebbe fare in condizioni ideali, con supporto). Esempio: <strong>d220.31</strong> = difficoltà grave in performance (.3), difficoltà lieve in capacità (.1).</p>
+                    <table class="qualifier-table">
+                        <thead>
+                            <tr>
+                                <th>Qualificatore</th>
+                                <th>Significato</th>
+                                <th>Cosa significa per tuo figlio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="qualifier-code">.0</td>
+                                <td class="qualifier-description">Nessuna difficoltà (0–4%)</td>
+                                <td class="qualifier-description">Tuo figlio riesce senza problemi</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.1</td>
+                                <td class="qualifier-description">Difficoltà lieve (5–24%)</td>
+                                <td class="qualifier-description">Riesce ma con un po' più di fatica</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.2</td>
+                                <td class="qualifier-description">Difficoltà moderata (25–49%)</td>
+                                <td class="qualifier-description">Ci riesce ma con fatica visibile</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.3</td>
+                                <td class="qualifier-description">Difficoltà grave (50–95%)</td>
+                                <td class="qualifier-description">Ha molta difficoltà — ha bisogno di supporto</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.4</td>
+                                <td class="qualifier-description">Difficoltà completa (96–100%)</td>
+                                <td class="qualifier-description">Non riesce senza assistenza completa</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.8</td>
+                                <td class="qualifier-description">Non specificato</td>
+                                <td class="qualifier-description">Non ci sono informazioni sufficienti</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">.9</td>
+                                <td class="qualifier-description">Non applicabile</td>
+                                <td class="qualifier-description">Non si applica</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="cta-box">
+                        <p><strong>Informazione preziosa:</strong> La differenza tra performance e capacità è una delle informazioni più importanti del Profilo di Funzionamento. Se la performance è molto peggiore della capacità, significa che <strong>l'ambiente non sta aiutando abbastanza</strong> — e su questo si può intervenire!</p>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Fattori Ambientali (e) — Facilitatori e Barriere</h3>
+                    <p>Per i codici e, il qualificatore ha un segno: <strong>+</strong> per facilitatore (aiuta), <strong>.</strong> per barriera (ostacola).</p>
+                    <table class="qualifier-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Facilitatori (+)</th>
+                                <th colspan="2">Barriere (.)</th>
+                            </tr>
+                            <tr>
+                                <th>Codice</th>
+                                <th>Livello</th>
+                                <th>Codice</th>
+                                <th>Livello</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="qualifier-code">+0</td>
+                                <td class="qualifier-description">Nessun facilitatore</td>
+                                <td class="qualifier-code">.0</td>
+                                <td class="qualifier-description">Nessuna barriera</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">+1</td>
+                                <td class="qualifier-description">Facilitatore lieve</td>
+                                <td class="qualifier-code">.1</td>
+                                <td class="qualifier-description">Barriera lieve</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">+2</td>
+                                <td class="qualifier-description">Facilitatore moderato</td>
+                                <td class="qualifier-code">.2</td>
+                                <td class="qualifier-description">Barriera moderata</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">+3</td>
+                                <td class="qualifier-description">Facilitatore importante</td>
+                                <td class="qualifier-code">.3</td>
+                                <td class="qualifier-description">Barriera importante</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">+4</td>
+                                <td class="qualifier-description">Facilitatore totale</td>
+                                <td class="qualifier-code">.4</td>
+                                <td class="qualifier-description">Barriera totale</td>
+                            </tr>
+                            <tr>
+                                <td class="qualifier-code">+8</td>
+                                <td class="qualifier-description">Facilitatore non specificato</td>
+                                <td class="qualifier-code">.8</td>
+                                <td class="qualifier-description">Barriera non specificata</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="cta-box">
+                        <p><strong>Ricorda:</strong> Un fattore può essere barriera perché è presente (es. atteggiamenti negativi) o perché è assente (es. manca un servizio di supporto). I facilitatori sono i lati su cui puoi lavorare per aiutare tuo figlio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DETAIL CARD (Modal) -->
+        <div class="modal-overlay" id="detailModal">
+            <div class="modal-content" id="detailContent"></div>
+        </div>
+
+        <!-- FINAL CTA -->
+        <div class="section">
+            <div class="final-cta">
+                <h2>Vuoi una lettura personalizzata del Profilo di Funzionamento di tuo figlio?</h2>
+                <p>I codici ICF descrivono il funzionamento, ma ogni bambino è unico. Posso aiutarti a leggere il profilo nel contesto specifico di tuo figlio, individuare le aree su cui intervenire e orientarti verso i servizi più adatti.</p>
+                <p><strong>Scrivimi:</strong> <a href="mailto:ivan@ivanferrero.it" class="cta-link">ivan@ivanferrero.it</a></p>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">Ivan Ferrero — Psicologo Psicoterapeuta, Docente di Sostegno, Esperto in Inclusione Digitale</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>Classificazione ICF:</strong> © Organizzazione Mondiale della Sanità. ICF — Classificazione Internazionale del Funzionamento, della Disabilità e della Salute, versione 2018. Licenza: CC BY-ND 3.0 IGO.</p>
+            <p><strong>Spiegazioni accessibili:</strong> © Ivan Ferrero — Digitale Inclusivo.</p>
+            <p>I codici e le definizioni ICF sono proprietà dell'Organizzazione Mondiale della Sanità (OMS), utilizzati sotto licenza CC BY-ND 3.0 IGO. Le spiegazioni in linguaggio accessibile sono contenuto originale di Digitale Inclusivo / Ivan Ferrero. Questo strumento ha scopo informativo e orientativo: non sostituisce la valutazione di uno specialista.</p>
+        </div>
+    </footer>
+
+    <!-- FLOATING BUTTON -->
+    <button class="floating-btn" onclick="document.getElementById('qualifiers-tab').click(); switchTab({target: document.querySelector('[onclick*=qualifiers-tab]')}, 'qualifiers-tab')">?</button>
+
+    <script>
+        // COMPLETE ICF DATABASE
+const icfDatabase = [
+    // COMPONENT B - FUNZIONI DEL CORPO
+    // Chapter b1 - Funzioni mentali
+    { code: 'b110', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Coscienza', parentExplanation: 'Riguarda lo stato di veglia e consapevolezza di tuo figlio — se è sveglio, presente, reattivo a quello che succede intorno. Non si tratta di "quanto è intelligente" ma di quanto è in grado di essere "connesso" con l\'ambiente.', examples: '' },
+    { code: 'b114', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Orientamento', parentExplanation: 'La capacità di sapere dove si è, che giorno è, chi sono le persone intorno. Potresti notarlo quando tuo figlio fatica a orientarsi in posti nuovi o si confonde sui momenti della giornata.', examples: '' },
+    { code: 'b117', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni intellettive', parentExplanation: 'Riguarda le capacità cognitive generali — comprendere situazioni, ragionare, risolvere problemi quotidiani. Non è il "voto a scuola": è la capacità complessiva di capire e affrontare le situazioni.', examples: '' },
+    { code: 'b122', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni psicosociali globali', parentExplanation: 'Come tuo figlio si rapporta con gli altri nel complesso — se riesce a interagire in modo adeguato con le persone, se capisce le "regole non scritte" delle situazioni sociali.', examples: '' },
+    { code: 'b126', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni del temperamento e della personalità', parentExplanation: 'Le caratteristiche stabili del modo di essere di tuo figlio: se è più estroverso o introverso, più cauto o impulsivo, più costante o variabile nell\'umore. Non è un giudizio: è una descrizione di come è fatto.', examples: '' },
+    { code: 'b130', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni dell\'energia e della pulsione', parentExplanation: 'Il livello di energia, motivazione e spinta interiore. Potresti notarlo nel fatto che tuo figlio è sempre attivissimo oppure sempre stanco, molto motivato o apparentemente indifferente. Riguarda anche il controllo degli impulsi.', examples: '' },
+    { code: 'b134', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni del sonno', parentExplanation: 'Come dorme tuo figlio — se si addormenta facilmente, se dorme tutta la notte, se si sveglia riposato. I problemi di sonno possono influire su quasi tutto il resto del funzionamento.', examples: '' },
+    { code: 'b139', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni mentali globali, altro specificato e non specificato', parentExplanation: 'Altre funzioni mentali generali non descritte nei codici precedenti.', examples: '' },
+    { code: 'b140', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Attenzione', parentExplanation: 'La capacità di concentrarsi su qualcosa — mantenerla nel tempo, spostarla quando serve, dividerla tra più cose. Se tuo figlio "si distrae facilmente" o "non riesce a stare attento", questo codice descrive quella funzione.', examples: '' },
+    { code: 'b144', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Memoria', parentExplanation: 'Registrare, trattenere e richiamare informazioni. Potresti notarlo quando tuo figlio dimentica le consegne, fatica a ricordare cosa ha fatto ieri, o non riesce a imparare sequenze. Esistono diversi tipi di memoria (a breve termine, a lungo termine, di lavoro).', examples: '' },
+    { code: 'b147', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni psicomotorie', parentExplanation: 'Il collegamento tra mente e movimento — la capacità di controllare e coordinare i movimenti in risposta a ciò che si pensa o si percepisce. Riguarda anche la velocità con cui tuo figlio reagisce motoriamente.', examples: '' },
+    { code: 'b152', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni emotive', parentExplanation: 'Come tuo figlio vive e gestisce le emozioni — se le prova in modo proporzionato alla situazione, se riesce a regolarle, se passa da un\'emozione all\'altra molto rapidamente. Non c\'è un modo "giusto" di provare emozioni: si descrive come funziona per lui/lei.', examples: '' },
+    { code: 'b156', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni percettive', parentExplanation: 'Come il cervello interpreta ciò che arriva dai sensi — non se tuo figlio ci vede o ci sente (quella è un\'altra sezione), ma come il cervello elabora quello che vede, sente, tocca. Include il riconoscimento di volti, suoni, forme.', examples: '' },
+    { code: 'b160', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Pensiero', parentExplanation: 'Le funzioni del pensiero: avere idee, seguire un ragionamento, pensare in modo logico o creativo. Potresti notare difficoltà quando tuo figlio fatica a "ragionare su" un problema o a seguire un filo logico.', examples: '' },
+    { code: 'b164', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni cognitive superiori', parentExplanation: 'Le funzioni mentali più complesse: pianificare, organizzare, prendere decisioni, essere flessibili nel pensiero, imparare dall\'esperienza. Sono le funzioni che a scuola servono per affrontare compiti complessi e nella vita per gestire situazioni nuove.', examples: '' },
+    { code: 'b167', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni mentali del linguaggio', parentExplanation: 'La capacità della mente di comprendere e produrre il linguaggio — capire parole e frasi, trovare le parole giuste, costruire frasi. Non riguarda la pronuncia (quella è un altro codice) ma il "motore linguistico" nel cervello.', examples: '' },
+    { code: 'b172', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni di calcolo', parentExplanation: 'La capacità di lavorare con i numeri — contare, fare calcoli, capire le quantità. Se tuo figlio fatica con la matematica a un livello che sembra andare oltre la normale difficoltà scolastica, questo codice potrebbe comparire.', examples: '' },
+    { code: 'b176', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni mentali di sequenziazione di movimenti complessi', parentExplanation: 'La capacità di pianificare e mettere in sequenza movimenti complessi — ad esempio allacciarsi le scarpe, che richiede una serie precisa di gesti coordinati. Riguarda la programmazione mentale del gesto, non la forza muscolare.', examples: '' },
+    { code: 'b180', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni dell\'esperienza di sé e del tempo', parentExplanation: 'La percezione di sé stessi, del proprio corpo, della propria identità, e del tempo che passa. Potresti notarlo se tuo figlio ha una percezione alterata del tempo (non si rende conto di quanto è passato) o fatica a percepire i confini del proprio corpo.', examples: '' },
+    { code: 'b189', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni mentali specifiche, altro specificato e non specificato', parentExplanation: 'Altre funzioni mentali specifiche non descritte nei codici precedenti.', examples: '' },
+    { code: 'b198', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni mentali, altro specificato', parentExplanation: 'Funzioni mentali specificate ma non classificate altrove.', examples: '' },
+    { code: 'b199', component: 'B', chapter: 'b1', chapterName: 'Funzioni mentali', subcategory: '', officialName: 'Funzioni mentali, non specificato', parentExplanation: 'Funzioni mentali non meglio definite.', examples: '' },
+    // Chapter b2 - Funzioni sensoriali e dolore
+    { code: 'b210', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Vista', parentExplanation: 'Come funziona la vista di tuo figlio — quanto vede, la nitidezza, la capacità di vedere da vicino e da lontano, di percepire la profondità e i colori.', examples: '' },
+    { code: 'b215', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Funzioni delle strutture accessorie dell\'occhio', parentExplanation: 'Come funzionano le parti che "supportano" la vista — le palpebre, le ghiandole lacrimali, i muscoli che muovono gli occhi.', examples: '' },
+    { code: 'b220', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Sensazioni connesse all\'occhio e alle strutture accessorie', parentExplanation: 'Sensazioni come occhi secchi, prurito, bruciore, pressione oculare — quello che tuo figlio potrebbe descrivere come "gli occhi che fanno male o danno fastidio".', examples: '' },
+    { code: 'b229', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Vista e funzioni correlate, altro specificato e non specificato', parentExplanation: 'Altre funzioni visive non descritte nei codici precedenti.', examples: '' },
+    { code: 'b230', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Udito', parentExplanation: 'Come funziona l\'udito — quanto sente, la capacità di distinguere i suoni, di sentire da un orecchio o da entrambi.', examples: '' },
+    { code: 'b235', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Funzioni vestibolari', parentExplanation: 'L\'equilibrio — la capacità di percepire la posizione del corpo nello spazio, di mantenersi in equilibrio. Se tuo figlio è "goffo" o ha vertigini, questa funzione potrebbe essere coinvolta.', examples: '' },
+    { code: 'b240', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Sensazioni connesse all\'udito e alle funzioni vestibolari', parentExplanation: 'Sensazioni come ronzii, fischi nelle orecchie (acufeni), vertigini, nausea legata al movimento.', examples: '' },
+    { code: 'b249', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Udito e funzioni vestibolari, altro specificato e non specificato', parentExplanation: 'Altre funzioni uditive e vestibolari non descritte nei codici precedenti.', examples: '' },
+    { code: 'b250', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Gusto', parentExplanation: 'La capacità di percepire i sapori — dolce, salato, amaro, acido. Se tuo figlio è molto selettivo col cibo, questa funzione potrebbe essere descritta nel profilo.', examples: '' },
+    { code: 'b255', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Olfatto', parentExplanation: 'La capacità di percepire gli odori. Alcuni bambini sono ipersensibili agli odori (li infastidiscono odori che altri non notano) o al contrario non li percepiscono.', examples: '' },
+    { code: 'b260', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Funzione propriocettiva', parentExplanation: 'La capacità di percepire la posizione del proprio corpo senza guardarlo — sapere dove sono le mani, i piedi, quanto forza si sta usando. Se tuo figlio "non misura la forza" o urta le cose spesso, potrebbe riguardare questa funzione.', examples: '' },
+    { code: 'b265', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Tatto', parentExplanation: 'La sensibilità al tocco — percepire consistenze, pressione, vibrazioni. Alcuni bambini sono ipersensibili al tatto (non sopportano certe stoffe o etichette) o iposensibili (cercano stimoli tattili forti).', examples: '' },
+    { code: 'b270', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Funzioni sensoriali relative a temperatura e ad altri stimoli', parentExplanation: 'La capacità di percepire caldo, freddo e altri stimoli sensoriali (es. pressione profonda).', examples: '' },
+    { code: 'b279', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Altre funzioni sensoriali, altro specificato e non specificato', parentExplanation: 'Altre funzioni sensoriali non descritte nei codici precedenti.', examples: '' },
+    { code: 'b280', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Sensazione di dolore', parentExplanation: 'Come tuo figlio percepisce il dolore — se lo sente in modo molto intenso (ipersensibilità) o al contrario sembra non sentirlo (iposensibilità), se è localizzato o diffuso.', examples: '' },
+    { code: 'b289', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Sensazione di dolore, altro specificato e non specificato', parentExplanation: 'Altre caratteristiche della percezione del dolore.', examples: '' },
+    { code: 'b298', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Funzioni sensoriali e dolore, altro specificato', parentExplanation: 'Altre funzioni sensoriali specificate ma non classificate altrove.', examples: '' },
+    { code: 'b299', component: 'B', chapter: 'b2', chapterName: 'Funzioni sensoriali e dolore', subcategory: '', officialName: 'Funzioni sensoriali e dolore, non specificato', parentExplanation: 'Funzioni sensoriali non meglio definite.', examples: '' },
+    // Chapter b3 - Funzioni fonatorie e di produzione del parlato
+    { code: 'b310', component: 'B', chapter: 'b3', chapterName: 'Funzioni fonatorie e di produzione del parlato', subcategory: '', officialName: 'Funzioni fonatorie', parentExplanation: 'La produzione della voce — il volume, il tono (acuto o grave), la qualità della voce. Se tuo figlio ha una voce molto particolare, molto flebile o molto forte, questa funzione potrebbe essere descritta.', examples: '' },
+    { code: 'b320', component: 'B', chapter: 'b3', chapterName: 'Funzioni fonatorie e di produzione del parlato', subcategory: '', officialName: 'Funzioni articolatorie', parentExplanation: 'La capacità di pronunciare i suoni e le parole chiaramente — se tuo figlio "mangia le parole", sostituisce certi suoni o è difficile da capire, si tratta di questa funzione.', examples: '' },
+    { code: 'b330', component: 'B', chapter: 'b3', chapterName: 'Funzioni fonatorie e di produzione del parlato', subcategory: '', officialName: 'Funzioni relative alla fluidità e al ritmo verbale', parentExplanation: 'Il flusso del parlato — se tuo figlio balbetta, parla troppo veloce o troppo lento, fa pause lunghe, o ha un ritmo di parlato insolito.', examples: '' },
+    { code: 'b340', component: 'B', chapter: 'b3', chapterName: 'Funzioni fonatorie e di produzione del parlato', subcategory: '', officialName: 'Funzioni relative ad altri modi di usare la voce', parentExplanation: 'Altri usi della voce: cantare, gridare, modulare il tono per esprimere emozioni.', examples: '' },
+    { code: 'b398', component: 'B', chapter: 'b3', chapterName: 'Funzioni fonatorie e di produzione del parlato', subcategory: '', officialName: 'Funzioni fonatorie e di produzione del parlato, altro specificato', parentExplanation: 'Altre funzioni fonatorie specificate ma non classificate altrove.', examples: '' },
+    { code: 'b399', component: 'B', chapter: 'b3', chapterName: 'Funzioni fonatorie e di produzione del parlato', subcategory: '', officialName: 'Funzioni fonatorie e di produzione del parlato, non specificato', parentExplanation: 'Funzioni fonatorie non meglio definite.', examples: '' },
+    // Chapter b4 - Funzioni degli apparati cardiovascolare e respiratorio
+    { code: 'b410', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni del cuore', parentExplanation: 'Come funziona il cuore di tuo figlio — ritmo, regolarità, capacità di pompare il sangue adeguatamente.', examples: '' },
+    { code: 'b415', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni dei vasi sanguigni', parentExplanation: 'Come funziona la circolazione sanguigna nelle arterie, vene e capillari.', examples: '' },
+    { code: 'b420', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni della pressione arteriosa', parentExplanation: 'Il livello della pressione del sangue — se è regolare, troppo alta o troppo bassa.', examples: '' },
+    { code: 'b429', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni dell\'apparato cardiovascolare, altro specificato e non specificato', parentExplanation: 'Altre funzioni cardiovascolari non descritte nei codici precedenti.', examples: '' },
+    { code: 'b430', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni del sistema ematologico', parentExplanation: 'Come funziona il sangue — la produzione di globuli rossi, bianchi, piastrine, la coagulazione.', examples: '' },
+    { code: 'b435', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni del sistema immunitario', parentExplanation: 'Le difese del corpo contro le malattie — se tuo figlio si ammala molto spesso o ha reazioni allergiche importanti, questa funzione potrebbe essere coinvolta.', examples: '' },
+    { code: 'b439', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni dei sistemi ematologico e immunitario, altro specificato e non specificato', parentExplanation: 'Altre funzioni ematologiche e immunitarie non descritte nei codici precedenti.', examples: '' },
+    { code: 'b440', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni respiratorie', parentExplanation: 'Come tuo figlio respira — il ritmo, la profondità, la regolarità del respiro.', examples: '' },
+    { code: 'b445', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni dei muscoli respiratori', parentExplanation: 'La forza e la resistenza dei muscoli che servono per respirare — il diaframma e i muscoli intercostali.', examples: '' },
+    { code: 'b449', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni dell\'apparato respiratorio, altro specificato e non specificato', parentExplanation: 'Altre funzioni respiratorie non descritte nei codici precedenti.', examples: '' },
+    { code: 'b450', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Ulteriori funzioni dell\'apparato respiratorio', parentExplanation: 'Funzioni come tossire, starnutire — i meccanismi protettivi delle vie respiratorie.', examples: '' },
+    { code: 'b455', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni di tolleranza all\'attività fisica', parentExplanation: 'Quanto tuo figlio "regge" lo sforzo fisico — la resistenza, il fiato, la capacità di fare attività senza affaticarsi eccessivamente. Se si stanca molto prima dei coetanei, questa funzione è coinvolta.', examples: '' },
+    { code: 'b460', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Sensazioni connesse alle funzioni cardiovascolari e respiratorie', parentExplanation: 'Sensazioni come il fiatone, il cuore che batte forte, la sensazione di oppressione al petto.', examples: '' },
+    { code: 'b469', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Altre funzioni e sensazioni degli apparati cardiovascolare e respiratorio, altro specificato e non specificato', parentExplanation: 'Altre funzioni non descritte nei codici precedenti.', examples: '' },
+    { code: 'b498', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni degli apparati cardiovascolare e respiratorio e dei sistemi ematologico e immunitario, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+    { code: 'b499', component: 'B', chapter: 'b4', chapterName: 'Funzioni degli apparati cardiovascolare e respiratorio', subcategory: '', officialName: 'Funzioni degli apparati cardiovascolare e respiratorio e dei sistemi ematologico e immunitario, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+    // Chapter b5 - Funzioni dell'apparato digerente
+    { code: 'b510', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni ingestive', parentExplanation: 'La capacità di mangiare e bere — masticare, deglutire, succhiare. Se tuo figlio ha difficoltà a mangiare certi cibi per ragioni fisiche (non per preferenza), questa funzione è coinvolta.', examples: '' },
+    { code: 'b515', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni digestive', parentExplanation: 'Come il corpo digerisce il cibo — la trasformazione del cibo in nutrienti.', examples: '' },
+    { code: 'b520', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni di assimilazione', parentExplanation: 'La capacità del corpo di assorbire i nutrienti dal cibo digerito.', examples: '' },
+    { code: 'b525', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni di defecazione', parentExplanation: 'Le funzioni intestinali — regolarità, controllo.', examples: '' },
+    { code: 'b530', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni di mantenimento del peso', parentExplanation: 'La capacità del corpo di mantenere un peso adeguato — se tuo figlio tende a perdere o prendere peso in modo anomalo.', examples: '' },
+    { code: 'b535', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Sensazioni connesse all\'apparato digerente', parentExplanation: 'Nausea, gonfiore, crampi, sensazione di fame o sazietà — quello che tuo figlio sente "nella pancia".', examples: '' },
+    { code: 'b539', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni dell\'apparato digerente, altro specificato e non specificato', parentExplanation: 'Altre funzioni digestive non descritte nei codici precedenti.', examples: '' },
+    { code: 'b540', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni metaboliche generali', parentExplanation: 'Come il corpo trasforma il cibo in energia — il metabolismo. Include la gestione degli zuccheri nel sangue (es. diabete).', examples: '' },
+    { code: 'b545', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni del bilancio idrico, minerale ed elettrolitico', parentExplanation: 'L\'equilibrio di acqua, sali e minerali nel corpo.', examples: '' },
+    { code: 'b550', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni termoregolatorie', parentExplanation: 'La capacità del corpo di mantenere la temperatura giusta — se tuo figlio ha spesso troppo caldo o troppo freddo senza motivo apparente.', examples: '' },
+    { code: 'b555', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni delle ghiandole endocrine', parentExplanation: 'Come funzionano gli ormoni — crescita, pubertà, tiroide. Se tuo figlio ha una condizione ormonale, questo codice la descrive.', examples: '' },
+    { code: 'b559', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni metaboliche e del sistema endocrino, altro specificato e non specificato', parentExplanation: 'Altre funzioni metaboliche ed endocrine non descritte nei codici precedenti.', examples: '' },
+    { code: 'b598', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni dell\'apparato digerente e dei sistemi metabolico ed endocrino, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+    { code: 'b599', component: 'B', chapter: 'b5', chapterName: 'Funzioni dell\'apparato digerente', subcategory: '', officialName: 'Funzioni dell\'apparato digerente e dei sistemi metabolico ed endocrino, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+    // Chapter b6 - Funzioni genitourinarie
+    { code: 'b610', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni relative all\'escrezione dell\'urina', parentExplanation: 'Come il corpo produce e filtra l\'urina.', examples: '' },
+    { code: 'b620', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni relative alla minzione', parentExplanation: 'Il controllo e la gestione della pipì — la frequenza, la capacità di trattenerla, di svuotare completamente la vescica. L\'enuresi (pipì a letto) è collegata a questa funzione.', examples: '' },
+    { code: 'b630', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Sensazioni associate alle funzioni urinarie', parentExplanation: 'Lo stimolo a fare pipì, eventuali bruciori o fastidi.', examples: '' },
+    { code: 'b639', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni urinarie, altro specificato e non specificato', parentExplanation: 'Altre funzioni urinarie non descritte nei codici precedenti.', examples: '' },
+    { code: 'b640', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni sessuali', parentExplanation: 'Le funzioni legate alla sessualità — negli adolescenti, può riguardare lo sviluppo puberale.', examples: '' },
+    { code: 'b650', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni mestruali', parentExplanation: 'Il ciclo mestruale — regolarità, intensità, sintomi associati.', examples: '' },
+    { code: 'b660', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni procreative', parentExplanation: 'Le funzioni riproduttive.', examples: '' },
+    { code: 'b670', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Sensazioni connesse alle funzioni genitali e riproduttive', parentExplanation: 'Sensazioni fisiche associate a queste funzioni.', examples: '' },
+    { code: 'b679', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni genitali e riproduttive, altro specificato e non specificato', parentExplanation: 'Altre funzioni non descritte nei codici precedenti.', examples: '' },
+    { code: 'b698', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni genitourinarie e riproduttive, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+    { code: 'b699', component: 'B', chapter: 'b6', chapterName: 'Funzioni genitourinarie', subcategory: '', officialName: 'Funzioni genitourinarie e riproduttive, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+    // Chapter b7 - Funzioni neuromuscoloscheletriche
+    { code: 'b710', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni della mobilità articolare', parentExplanation: 'Quanto le articolazioni si muovono — l\'ampiezza dei movimenti. Se tuo figlio ha articolazioni molto rigide o al contrario troppo "morbide" (ipermobilità), questo codice lo descrive.', examples: '' },
+    { code: 'b715', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni della stabilità articolare', parentExplanation: 'Quanto le articolazioni sono stabili e sicure durante il movimento.', examples: '' },
+    { code: 'b720', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni di mobilità delle ossa', parentExplanation: 'Il movimento delle ossa — particolarmente della scapola e del bacino, che sono fondamentali per i movimenti di braccia e gambe.', examples: '' },
+    { code: 'b729', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni delle articolazioni e delle ossa, altro specificato e non specificato', parentExplanation: 'Altre funzioni articolari e ossee non descritte nei codici precedenti.', examples: '' },
+    { code: 'b730', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni della forza muscolare', parentExplanation: 'La forza dei muscoli — quanto tuo figlio riesce a spingere, tirare, sollevare, stringere.', examples: '' },
+    { code: 'b735', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni del tono muscolare', parentExplanation: 'La tensione "di base" dei muscoli a riposo — se i muscoli di tuo figlio sono troppo tesi (ipertono) o troppo rilassati (ipotono). Un bambino con ipotono può sembrare "molle" o stancarsi facilmente a stare seduto.', examples: '' },
+    { code: 'b740', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni della resistenza muscolare', parentExplanation: 'Quanto a lungo i muscoli reggono uno sforzo prima di stancarsi.', examples: '' },
+    { code: 'b749', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni muscolari, altro specificato e non specificato', parentExplanation: 'Altre funzioni muscolari non descritte nei codici precedenti.', examples: '' },
+    { code: 'b750', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni del riflesso motorio', parentExplanation: 'I riflessi automatici del corpo — la risposta involontaria a uno stimolo (es. il riflesso rotuleo).', examples: '' },
+    { code: 'b755', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni di reazione motoria involontaria', parentExplanation: 'Le reazioni automatiche che mantengono la posizione del corpo — ad esempio le risposte di equilibrio quando si sta per cadere.', examples: '' },
+    { code: 'b760', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni di controllo del movimento volontario', parentExplanation: 'La capacità di controllare e coordinare i movimenti fatti di proposito — se tuo figlio fa movimenti "imprecisi", fatica a dosare la forza, o ha tremori, questa funzione è coinvolta.', examples: '' },
+    { code: 'b761', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Movimenti spontanei', parentExplanation: 'I movimenti che avvengono senza uno scopo preciso — come i movimenti che fa un neonato o i movimenti involontari.', examples: '' },
+    { code: 'b765', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni motorie involontarie', parentExplanation: 'Movimenti non controllati dalla volontà — tic, tremori, stereotipie (movimenti ripetitivi). Se tuo figlio ha tic o movimenti ripetitivi, questo codice li descrive.', examples: '' },
+    { code: 'b770', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni del pattern del cammino', parentExplanation: 'Come tuo figlio cammina — il modo in cui appoggia i piedi, l\'andatura, il ritmo del passo.', examples: '' },
+    { code: 'b780', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Sensazioni relative alle funzioni muscolari e motorie', parentExplanation: 'Sensazioni come rigidità muscolare, pesantezza, crampi, tensione.', examples: '' },
+    { code: 'b789', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni motorie, altro specificato e non specificato', parentExplanation: 'Altre funzioni motorie non descritte nei codici precedenti.', examples: '' },
+    { code: 'b798', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni neuromuscoloscheletriche e correlate al movimento, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+    { code: 'b799', component: 'B', chapter: 'b7', chapterName: 'Funzioni neuromuscoloscheletriche', subcategory: '', officialName: 'Funzioni neuromuscoloscheletriche e correlate al movimento, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+    // Chapter b8 - Funzioni della pelle
+    { code: 'b810', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni protettive della pelle', parentExplanation: 'Come la pelle protegge il corpo — barriera contro infezioni, raggi solari, sostanze.', examples: '' },
+    { code: 'b820', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni riparative della pelle', parentExplanation: 'Come la pelle guarisce — la capacità di cicatrizzazione.', examples: '' },
+    { code: 'b830', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Altre funzioni della pelle', parentExplanation: 'Altre funzioni come la sudorazione, la produzione di sebo.', examples: '' },
+    { code: 'b840', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Sensazioni relative alla pelle', parentExplanation: 'Sensazioni come prurito, bruciore, formicolio sulla pelle.', examples: '' },
+    { code: 'b849', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni della pelle, altro specificato e non specificato', parentExplanation: 'Altre funzioni cutanee non descritte nei codici precedenti.', examples: '' },
+    { code: 'b850', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni di peli e capelli', parentExplanation: 'Le funzioni di peli e capelli — crescita, distribuzione, consistenza.', examples: '' },
+    { code: 'b860', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni delle unghie', parentExplanation: 'Le funzioni delle unghie — crescita, consistenza, protezione.', examples: '' },
+    { code: 'b869', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni di peli, capelli e unghie, altro specificato e non specificato', parentExplanation: 'Altre funzioni non descritte nei codici precedenti.', examples: '' },
+    { code: 'b898', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni della pelle e delle strutture correlate, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+    { code: 'b899', component: 'B', chapter: 'b8', chapterName: 'Funzioni della pelle', subcategory: '', officialName: 'Funzioni della pelle e delle strutture correlate, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+
+    // COMPONENT S - STRUTTURE DEL CORPO
+    // Chapter s1 - Strutture del sistema nervoso
+    { code: 's110', component: 'S', chapter: 's1', chapterName: 'Strutture del sistema nervoso', subcategory: '', officialName: 'Struttura del cervello', parentExplanation: 'La struttura fisica del cervello — la sua conformazione, le sue parti. Se nel profilo compare questo codice, significa che è stata rilevata una caratteristica nella struttura cerebrale che influisce sul funzionamento.', examples: '' },
+    { code: 's120', component: 'S', chapter: 's1', chapterName: 'Strutture del sistema nervoso', subcategory: '', officialName: 'Midollo spinale e strutture correlate', parentExplanation: 'Il midollo spinale — il "cavo" che collega il cervello al resto del corpo, trasportando i segnali nervosi.', examples: '' },
+    { code: 's130', component: 'S', chapter: 's1', chapterName: 'Strutture del sistema nervoso', subcategory: '', officialName: 'Struttura delle meningi', parentExplanation: 'Le membrane che avvolgono e proteggono il cervello e il midollo spinale.', examples: '' },
+    { code: 's140', component: 'S', chapter: 's1', chapterName: 'Strutture del sistema nervoso', subcategory: '', officialName: 'Struttura del sistema nervoso simpatico', parentExplanation: 'La parte del sistema nervoso che gestisce le reazioni di "allerta" — la risposta allo stress, l\'accelerazione del cuore, la sudorazione.', examples: '' },
+    { code: 's150', component: 'S', chapter: 's1', chapterName: 'Strutture del sistema nervoso', subcategory: '', officialName: 'Struttura del sistema nervoso parasimpatico', parentExplanation: 'La parte del sistema nervoso che gestisce il "rilassamento" — rallentare il cuore, favorire la digestione, il riposo.', examples: '' },
+    { code: 's198', component: 'S', chapter: 's1', chapterName: 'Strutture del sistema nervoso', subcategory: '', officialName: 'Struttura del sistema nervoso, altro specificato', parentExplanation: 'Altre strutture nervose specificate ma non classificate altrove.', examples: '' },
+    { code: 's199', component: 'S', chapter: 's1', chapterName: 'Strutture del sistema nervoso', subcategory: '', officialName: 'Struttura del sistema nervoso, non specificato', parentExplanation: 'Strutture nervose non meglio definite.', examples: '' },
+    // Chapter s2 - Occhio e orecchio
+    { code: 's210', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Struttura dell\'orbita', parentExplanation: 'La cavità ossea in cui si trova l\'occhio.', examples: '' },
+    { code: 's220', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Struttura del bulbo oculare', parentExplanation: 'L\'occhio stesso — la sua struttura fisica.', examples: '' },
+    { code: 's230', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Strutture accessorie dell\'occhio', parentExplanation: 'Le strutture intorno all\'occhio — palpebre, ghiandole lacrimali, muscoli oculari.', examples: '' },
+    { code: 's240', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Struttura dell\'orecchio esterno', parentExplanation: 'La parte visibile dell\'orecchio e il condotto uditivo.', examples: '' },
+    { code: 's250', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Struttura dell\'orecchio medio', parentExplanation: 'La parte dell\'orecchio dietro il timpano — contiene i piccoli ossicini che trasmettono il suono.', examples: '' },
+    { code: 's260', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Struttura dell\'orecchio interno', parentExplanation: 'La parte più profonda dell\'orecchio — gestisce sia l\'udito (coclea) sia l\'equilibrio (sistema vestibolare).', examples: '' },
+    { code: 's298', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Occhio, orecchio e strutture correlate, altro specificato', parentExplanation: 'Altre strutture specificate ma non classificate altrove.', examples: '' },
+    { code: 's299', component: 'S', chapter: 's2', chapterName: 'Occhio e orecchio', subcategory: '', officialName: 'Occhio, orecchio e strutture correlate, non specificato', parentExplanation: 'Strutture non meglio definite.', examples: '' },
+    // Chapter s3 - Strutture fonazione
+    { code: 's310', component: 'S', chapter: 's3', chapterName: 'Strutture fonazione', subcategory: '', officialName: 'Struttura del naso', parentExplanation: 'La struttura fisica del naso — rilevante per la respirazione e la risonanza della voce.', examples: '' },
+    { code: 's320', component: 'S', chapter: 's3', chapterName: 'Strutture fonazione', subcategory: '', officialName: 'Struttura della bocca', parentExplanation: 'La struttura della bocca — labbra, lingua, palato, denti. Rilevante per la pronuncia e l\'alimentazione.', examples: '' },
+    { code: 's330', component: 'S', chapter: 's3', chapterName: 'Strutture fonazione', subcategory: '', officialName: 'Struttura della faringe', parentExplanation: 'La gola — il passaggio tra bocca/naso e laringe/esofago.', examples: '' },
+    { code: 's340', component: 'S', chapter: 's3', chapterName: 'Strutture fonazione', subcategory: '', officialName: 'Struttura della laringe', parentExplanation: 'La "scatola della voce" — contiene le corde vocali che producono il suono.', examples: '' },
+    { code: 's398', component: 'S', chapter: 's3', chapterName: 'Strutture fonazione', subcategory: '', officialName: 'Strutture coinvolte nella fonazione e nella produzione del parlato, altro specificato', parentExplanation: 'Altre strutture specificate ma non classificate altrove.', examples: '' },
+    { code: 's399', component: 'S', chapter: 's3', chapterName: 'Strutture fonazione', subcategory: '', officialName: 'Strutture coinvolte nella fonazione e nella produzione del parlato, non specificato', parentExplanation: 'Strutture non meglio definite.', examples: '' },
+    // Chapter s4 - Strutture cardiovascolari
+    { code: 's410', component: 'S', chapter: 's4', chapterName: 'Strutture cardiovascolari', subcategory: '', officialName: 'Struttura dell\'apparato cardiovascolare', parentExplanation: 'La struttura fisica del cuore e dei vasi sanguigni.', examples: '' },
+    { code: 's420', component: 'S', chapter: 's4', chapterName: 'Strutture cardiovascolari', subcategory: '', officialName: 'Struttura del sistema immunitario', parentExplanation: 'Le strutture delle difese del corpo — linfonodi, milza, midollo osseo, timo.', examples: '' },
+    { code: 's430', component: 'S', chapter: 's4', chapterName: 'Strutture cardiovascolari', subcategory: '', officialName: 'Struttura dell\'apparato respiratorio', parentExplanation: 'La struttura fisica dei polmoni, bronchi, trachea.', examples: '' },
+    { code: 's498', component: 'S', chapter: 's4', chapterName: 'Strutture cardiovascolari', subcategory: '', officialName: 'Strutture dell\'apparato cardiovascolare, del sistema immunitario e dell\'apparato respiratorio, altro specificato', parentExplanation: 'Altre strutture specificate ma non classificate altrove.', examples: '' },
+    { code: 's499', component: 'S', chapter: 's4', chapterName: 'Strutture cardiovascolari', subcategory: '', officialName: 'Strutture dell\'apparato cardiovascolare, del sistema immunitario e dell\'apparato respiratorio, non specificato', parentExplanation: 'Strutture non meglio definite.', examples: '' },
+    // Chapter s5 - Strutture digerenti
+    { code: 's510', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura delle ghiandole salivari', parentExplanation: 'Le ghiandole che producono la saliva.', examples: '' },
+    { code: 's520', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura dell\'esofago', parentExplanation: 'Il tubo che collega la gola allo stomaco.', examples: '' },
+    { code: 's530', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura dello stomaco', parentExplanation: 'La struttura dello stomaco.', examples: '' },
+    { code: 's540', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura dell\'intestino', parentExplanation: 'La struttura di intestino tenue e crasso.', examples: '' },
+    { code: 's550', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura del pancreas', parentExplanation: 'L\'organo che produce insulina e enzimi digestivi.', examples: '' },
+    { code: 's560', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura del fegato', parentExplanation: 'La struttura del fegato.', examples: '' },
+    { code: 's570', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura della cistifellea e dei dotti biliari', parentExplanation: 'La cistifellea e i canali che trasportano la bile.', examples: '' },
+    { code: 's580', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Struttura delle ghiandole endocrine', parentExplanation: 'Le ghiandole che producono ormoni — tiroide, surrene, ipofisi.', examples: '' },
+    { code: 's598', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Strutture dell\'apparato digerente e dei sistemi metabolico ed endocrino, altro specificato', parentExplanation: 'Altre strutture specificate ma non classificate altrove.', examples: '' },
+    { code: 's599', component: 'S', chapter: 's5', chapterName: 'Strutture digerenti', subcategory: '', officialName: 'Strutture dell\'apparato digerente e dei sistemi metabolico ed endocrino, non specificato', parentExplanation: 'Strutture non meglio definite.', examples: '' },
+    // Chapter s6 - Strutture genitourinarie
+    { code: 's610', component: 'S', chapter: 's6', chapterName: 'Strutture genitourinarie', subcategory: '', officialName: 'Struttura dell\'apparato urinario', parentExplanation: 'Reni, ureteri, vescica, uretra.', examples: '' },
+    { code: 's620', component: 'S', chapter: 's6', chapterName: 'Strutture genitourinarie', subcategory: '', officialName: 'Struttura del pavimento pelvico', parentExplanation: 'I muscoli e i tessuti che sostengono gli organi pelvici — importanti per il controllo sfinterico.', examples: '' },
+    { code: 's630', component: 'S', chapter: 's6', chapterName: 'Strutture genitourinarie', subcategory: '', officialName: 'Struttura dell\'apparato riproduttivo', parentExplanation: 'Gli organi riproduttivi.', examples: '' },
+    { code: 's698', component: 'S', chapter: 's6', chapterName: 'Strutture genitourinarie', subcategory: '', officialName: 'Strutture degli apparati genitourinario e riproduttivo, altro specificato', parentExplanation: 'Altre strutture specificate ma non classificate altrove.', examples: '' },
+    { code: 's699', component: 'S', chapter: 's6', chapterName: 'Strutture genitourinarie', subcategory: '', officialName: 'Strutture degli apparati genitourinario e riproduttivo, non specificato', parentExplanation: 'Strutture non meglio definite.', examples: '' },
+    // Chapter s7 - Strutture movimento
+    { code: 's710', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Struttura della testa e della regione del collo', parentExplanation: 'Le ossa e le strutture di testa e collo.', examples: '' },
+    { code: 's720', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Struttura della regione della spalla', parentExplanation: 'Le ossa, articolazioni e strutture della spalla.', examples: '' },
+    { code: 's730', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Struttura dell\'arto superiore', parentExplanation: 'Braccio, avambraccio, mano — le strutture fisiche dell\'arto superiore.', examples: '' },
+    { code: 's740', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Struttura della regione pelvica', parentExplanation: 'Le ossa e le strutture del bacino.', examples: '' },
+    { code: 's750', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Struttura dell\'arto inferiore', parentExplanation: 'Coscia, gamba, piede — le strutture fisiche dell\'arto inferiore.', examples: '' },
+    { code: 's760', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Struttura del tronco', parentExplanation: 'La struttura della colonna vertebrale e del torace.', examples: '' },
+    { code: 's770', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Altre strutture muscoloscheletriche correlate al movimento', parentExplanation: 'Altre strutture coinvolte nel movimento non specificate altrove.', examples: '' },
+    { code: 's798', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Strutture correlate al movimento, altro specificato', parentExplanation: 'Altre strutture specificate ma non classificate altrove.', examples: '' },
+    { code: 's799', component: 'S', chapter: 's7', chapterName: 'Strutture movimento', subcategory: '', officialName: 'Strutture correlate al movimento, non specificato', parentExplanation: 'Strutture non meglio definite.', examples: '' },
+    // Chapter s8 - Strutture cute
+    { code: 's810', component: 'S', chapter: 's8', chapterName: 'Strutture cute', subcategory: '', officialName: 'Struttura di aree cutanee', parentExplanation: 'La struttura della pelle nelle diverse zone del corpo.', examples: '' },
+    { code: 's820', component: 'S', chapter: 's8', chapterName: 'Strutture cute', subcategory: '', officialName: 'Struttura delle ghiandole cutanee', parentExplanation: 'Le ghiandole nella pelle — sudoripare, sebacee.', examples: '' },
+    { code: 's830', component: 'S', chapter: 's8', chapterName: 'Strutture cute', subcategory: '', officialName: 'Struttura delle unghie', parentExplanation: 'La struttura fisica delle unghie.', examples: '' },
+    { code: 's840', component: 'S', chapter: 's8', chapterName: 'Strutture cute', subcategory: '', officialName: 'Struttura dei peli e dei capelli', parentExplanation: 'La struttura fisica di peli e capelli.', examples: '' },
+    { code: 's898', component: 'S', chapter: 's8', chapterName: 'Strutture cute', subcategory: '', officialName: 'Cute e strutture correlate, altro specificato', parentExplanation: 'Altre strutture specificate ma non classificate altrove.', examples: '' },
+    { code: 's899', component: 'S', chapter: 's8', chapterName: 'Strutture cute', subcategory: '', officialName: 'Cute e strutture correlate, non specificato', parentExplanation: 'Strutture non meglio definite.', examples: '' }
+// COMPONENT D - ATTIVITÀ E PARTECIPAZIONE
+// Chapter d1 - Imparare
+{ code: 'd110', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Guardare', parentExplanation: 'Guardare di proposito per imparare — osservare un oggetto, una persona, un evento. Non è la funzione visiva (quella è b210), ma l\'uso attivo della vista per capire e imparare.', examples: '' },
+{ code: 'd115', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Ascoltare', parentExplanation: 'Ascoltare di proposito per imparare — prestare attenzione a un suono, una voce, una musica. Non è l\'udito (b230), ma l\'uso attivo dell\'ascolto.', examples: '' },
+{ code: 'd120', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Usare intenzionalmente gli altri sensi', parentExplanation: 'Toccare, annusare, assaggiare di proposito per esplorare e capire — ad esempio toccare un materiale per capirne la consistenza.', examples: '' },
+{ code: 'd129', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Esperienze intenzionali con gli organi di senso, altro specificato e non specificato', parentExplanation: 'Altre esperienze sensoriali intenzionali.', examples: '' },
+{ code: 'd130', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imitare/copiare', parentExplanation: 'Imparare osservando e ripetendo ciò che fanno gli altri — un gesto, un suono, un\'azione. È una delle forme più antiche di apprendimento.', examples: '' },
+{ code: 'd131', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare per mezzo di azioni con oggetti', parentExplanation: 'Imparare facendo — esplorando oggetti, costruendo, smontando, sperimentando. Il classico "impara toccando" dei bambini.', examples: '' },
+{ code: 'd132', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare una lingua', parentExplanation: 'Acquisire la prima lingua — capire e usare parole, frasi, costruire il vocabolario.', examples: '' },
+{ code: 'd133', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare una lingua aggiuntiva', parentExplanation: 'Imparare una seconda lingua o altre lingue oltre alla prima.', examples: '' },
+{ code: 'd135', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Ripetere', parentExplanation: 'Ripetere una sequenza di azioni, parole o concetti per impararli — la strategia di studio basata sulla ripetizione.', examples: '' },
+{ code: 'd137', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Acquisire concetti', parentExplanation: 'Imparare concetti astratti — grande/piccolo, prima/dopo, uguale/diverso, causa/effetto. Le basi del pensiero.', examples: '' },
+{ code: 'd138', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Acquisire informazioni', parentExplanation: 'Cercare e ottenere informazioni — fare domande, osservare, cercare su un libro o su internet.', examples: '' },
+{ code: 'd140', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare a leggere', parentExplanation: 'Il processo di imparare a leggere — decodificare lettere, parole, frasi. Se tuo figlio ha una diagnosi di dislessia, questo codice descrive l\'area di difficoltà.', examples: '' },
+{ code: 'd145', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare a scrivere', parentExplanation: 'Il processo di imparare a scrivere — produrre lettere, parole, testi. Riguarda la disgrafia e la disortografia.', examples: '' },
+{ code: 'd150', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare a calcolare', parentExplanation: 'Il processo di imparare a lavorare con i numeri — contare, fare operazioni, capire i concetti matematici. Riguarda la discalculia.', examples: '' },
+{ code: 'd155', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Acquisire abilità', parentExplanation: 'Imparare abilità complesse che richiedono pratica — guidare la bicicletta, suonare uno strumento, usare un programma al computer.', examples: '' },
+{ code: 'd159', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare, altro specificato e non specificato', parentExplanation: 'Altre forme di apprendimento non descritte nei codici precedenti.', examples: '' },
+{ code: 'd160', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Focalizzare l\'attenzione', parentExplanation: 'Concentrarsi di proposito su uno stimolo specifico — ascoltare l\'insegnante ignorando i rumori di fondo, leggere senza distrarsi. Diverso dalla funzione attenzione (b140): qui si tratta di mettere in pratica la capacità attentiva.', examples: '' },
+{ code: 'd163', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Pensare', parentExplanation: 'Elaborare idee, riflettere, ragionare — usare il pensiero per affrontare situazioni.', examples: '' },
+{ code: 'd166', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Leggere', parentExplanation: 'Leggere e comprendere testi scritti — non solo decodificare le lettere (quello è d140), ma capire il significato di quello che si legge.', examples: '' },
+{ code: 'd170', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Scrivere', parentExplanation: 'Scrivere testi con significato — comporre frasi, scrivere un tema, prendere appunti. Non solo la capacità di tracciare lettere (d145) ma di esprimersi per iscritto.', examples: '' },
+{ code: 'd172', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Calcolare', parentExplanation: 'Usare i numeri nella pratica — fare calcoli, risolvere problemi matematici, gestire il denaro.', examples: '' },
+{ code: 'd175', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Risolvere problemi', parentExplanation: 'Trovare soluzioni a situazioni nuove o complesse — identificare il problema, pensare alle opzioni, scegliere una strategia. Una competenza fondamentale a scuola e nella vita.', examples: '' },
+{ code: 'd177', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Prendere decisioni', parentExplanation: 'Scegliere tra opzioni — valutare le conseguenze e fare una scelta. Se tuo figlio fatica a decidere anche cose semplici, o decide sempre impulsivamente, questo codice è rilevante.', examples: '' },
+{ code: 'd179', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Applicare le conoscenze, altro specificato e non specificato', parentExplanation: 'Altre applicazioni delle conoscenze non descritte nei codici precedenti.', examples: '' },
+{ code: 'd198', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare e applicare le conoscenze, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+{ code: 'd199', component: 'D', chapter: 'd1', chapterName: 'Imparare e applicare le conoscenze', subcategory: '', officialName: 'Imparare e applicare le conoscenze, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+// Chapter d2 - Compiti e richieste generali
+{ code: 'd210', component: 'D', chapter: 'd2', chapterName: 'Compiti e richieste generali', subcategory: '', officialName: 'Svolgere un compito singolo', parentExplanation: 'La capacità di iniziare, portare avanti e completare un\'attività da solo — un compito per casa, riordinare la stanza, preparare lo zaino.', examples: '' },
+{ code: 'd220', component: 'D', chapter: 'd2', chapterName: 'Compiti e richieste generali', subcategory: '', officialName: 'Svolgere compiti multipli', parentExplanation: 'Gestire più attività insieme o in sequenza — preparare lo zaino E vestirsi E fare colazione senza perdersi. Se tuo figlio "si blocca" quando deve fare più cose, questo codice è molto rilevante.', examples: '' },
+{ code: 'd230', component: 'D', chapter: 'd2', chapterName: 'Compiti e richieste generali', subcategory: '', officialName: 'Organizzare e svolgere la routine quotidiana', parentExplanation: 'Pianificare la propria giornata e seguire una routine — sapere cosa viene prima e cosa dopo, gestire il tempo, adattarsi ai cambiamenti di programma.', examples: '' },
+{ code: 'd240', component: 'D', chapter: 'd2', chapterName: 'Compiti e richieste generali', subcategory: '', officialName: 'Gestire lo stress e altre tensioni psicologiche', parentExplanation: 'Affrontare situazioni stressanti — una verifica, un litigio, un imprevisto — in modo adeguato. Se tuo figlio reagisce in modo esplosivo a piccole frustrazioni o si chiude completamente, questo codice descrive quell\'area.', examples: '' },
+{ code: 'd298', component: 'D', chapter: 'd2', chapterName: 'Compiti e richieste generali', subcategory: '', officialName: 'Compiti e richieste generali, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+{ code: 'd299', component: 'D', chapter: 'd2', chapterName: 'Compiti e richieste generali', subcategory: '', officialName: 'Compiti e richieste generali, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+// Chapter d3 - Comunicazione
+{ code: 'd310', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicare con — ricevere — messaggi nella lingua parlata', parentExplanation: 'Capire quello che le persone dicono — comprendere parole, frasi, istruzioni, racconti. Se tuo figlio "non ascolta" o "non capisce le consegne", potrebbe essere coinvolta questa area.', examples: '' },
+{ code: 'd315', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicare con — ricevere — messaggi non verbali', parentExplanation: 'Capire la comunicazione non verbale — gesti, espressioni facciali, tono della voce, linguaggio del corpo. Se tuo figlio "non coglie" il sarcasmo o non capisce quando qualcuno è arrabbiato dalla faccia, questa area è coinvolta.', examples: '' },
+{ code: 'd320', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicare con — ricevere — messaggi nella lingua dei segni', parentExplanation: 'Comprendere la lingua dei segni.', examples: '' },
+{ code: 'd325', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicare con — ricevere — messaggi scritti', parentExplanation: 'Capire messaggi scritti — leggere e comprendere testi, cartelli, istruzioni scritte.', examples: '' },
+{ code: 'd329', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicare — ricevere, altro specificato e non specificato', parentExplanation: 'Altre forme di ricezione comunicativa.', examples: '' },
+{ code: 'd330', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Parlare', parentExplanation: 'Produrre messaggi verbali — esprimere pensieri, bisogni, idee attraverso le parole. Non è la pronuncia (b320) ma la capacità di usare il linguaggio per comunicare.', examples: '' },
+{ code: 'd331', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Esprimersi vocalmente senza usare parole', parentExplanation: 'Usare la voce per comunicare senza parole — piangere, ridere, urlare, emettere suoni espressivi. Particolarmente rilevante per bambini che non hanno ancora il linguaggio verbale o che comunicano anche attraverso vocalizzazioni.', examples: '' },
+{ code: 'd332', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Cantare', parentExplanation: 'La capacità di cantare — usare la voce per produrre melodie.', examples: '' },
+{ code: 'd335', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Produrre messaggi non verbali', parentExplanation: 'Comunicare senza parole — usare gesti, espressioni del viso, linguaggio del corpo per farsi capire.', examples: '' },
+{ code: 'd340', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Produrre messaggi nella lingua dei segni', parentExplanation: 'Comunicare usando la lingua dei segni.', examples: '' },
+{ code: 'd345', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Scrivere messaggi', parentExplanation: 'Comunicare per iscritto — scrivere messaggi, email, biglietti, testi con uno scopo comunicativo.', examples: '' },
+{ code: 'd349', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicare — produrre, altro specificato e non specificato', parentExplanation: 'Altre forme di produzione comunicativa.', examples: '' },
+{ code: 'd350', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Conversare', parentExplanation: 'Avere una conversazione — prendere la parola, ascoltare, rispondere a turno, mantenere il filo del discorso. Se tuo figlio "parla sopra gli altri", "cambia sempre argomento" o "non risponde alle domande", questa area è coinvolta.', examples: '' },
+{ code: 'd355', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Discutere', parentExplanation: 'Partecipare a una discussione — argomentare, esprimere opinioni, confrontarsi. Un livello più complesso della semplice conversazione.', examples: '' },
+{ code: 'd360', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Usare dispositivi e tecniche di comunicazione', parentExplanation: 'Usare strumenti per comunicare — telefono, tablet con app di comunicazione, dispositivi di comunicazione aumentativa alternativa (CAA).', examples: '' },
+{ code: 'd369', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Conversare e usare dispositivi e tecniche di comunicazione, altro specificato e non specificato', parentExplanation: 'Altre modalità non descritte nei codici precedenti.', examples: '' },
+{ code: 'd398', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicazione, altro specificato', parentExplanation: 'Altre funzioni comunicative specificate ma non classificate altrove.', examples: '' },
+{ code: 'd399', component: 'D', chapter: 'd3', chapterName: 'Comunicazione', subcategory: '', officialName: 'Comunicazione, non specificato', parentExplanation: 'Funzioni comunicative non meglio definite.', examples: '' },
+// Chapter d4 - Mobilità
+{ code: 'd410', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Cambiare posizione corporea', parentExplanation: 'Passare da una posizione all\'altra — alzarsi, sedersi, sdraiarsi, girarsi.', examples: '' },
+{ code: 'd415', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Mantenere una posizione corporea', parentExplanation: 'Restare nella stessa posizione — stare seduto a lungo (a scuola!), stare in piedi in fila, mantenere una posizione specifica. Se tuo figlio "non sta fermo sulla sedia", questa area è rilevante.', examples: '' },
+{ code: 'd420', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Trasferire il proprio corpo', parentExplanation: 'Spostarsi da una superficie all\'altra — dalla sedia alla carrozzina, dal letto alla sedia, dalla carrozzina al bagno.', examples: '' },
+{ code: 'd429', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Cambiare e mantenere una posizione corporea, altro specificato e non specificato', parentExplanation: 'Altre posizioni non descritte nei codici precedenti.', examples: '' },
+{ code: 'd430', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Sollevare e trasportare oggetti', parentExplanation: 'Prendere in mano e portare oggetti — lo zaino, un libro, un vassoio alla mensa.', examples: '' },
+{ code: 'd435', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Spostare oggetti con gli arti inferiori', parentExplanation: 'Usare i piedi e le gambe per spostare oggetti — calciare un pallone, spingere qualcosa con il piede.', examples: '' },
+{ code: 'd440', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Usare le mani per movimenti fini', parentExplanation: 'La motricità fine delle mani — scrivere, disegnare, abbottonare, usare le forbici, allacciarsi le scarpe, manipolare piccoli oggetti. Un\'area molto importante per le attività scolastiche.', examples: '' },
+{ code: 'd445', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Usare le mani e le braccia', parentExplanation: 'Movimenti più ampi con mani e braccia — tirare, spingere, raggiungere oggetti, girare maniglie.', examples: '' },
+{ code: 'd446', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Usare il piede per movimenti fini', parentExplanation: 'Movimenti precisi con il piede — ad esempio usare i pedali.', examples: '' },
+{ code: 'd449', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Portare, spostare e maneggiare oggetti, altro specificato e non specificato', parentExplanation: 'Altre abilità manuali non descritte nei codici precedenti.', examples: '' },
+{ code: 'd450', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Camminare', parentExplanation: 'Camminare — su superfici piane, in salita, in discesa, su terreni irregolari.', examples: '' },
+{ code: 'd451', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Salire e scendere', parentExplanation: 'Salire e scendere gradini, scale, rampe, marciapiedi.', examples: '' },
+{ code: 'd455', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Spostarsi', parentExplanation: 'Muoversi in modi diversi dal camminare — strisciare, arrampicarsi, correre, saltare, nuotare.', examples: '' },
+{ code: 'd460', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Spostarsi in luoghi diversi', parentExplanation: 'Muoversi in ambienti diversi — in casa, a scuola, all\'aperto, in posti nuovi. Se tuo figlio si muove bene in ambienti conosciuti ma si disorienta in quelli nuovi, questo codice è rilevante.', examples: '' },
+{ code: 'd465', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Spostarsi usando strumenti e attrezzature', parentExplanation: 'Muoversi con ausili — carrozzina, deambulatore, stampelle, protesi.', examples: '' },
+{ code: 'd469', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Camminare e spostarsi, altro specificato e non specificato', parentExplanation: 'Altre forme di spostamento non descritte nei codici precedenti.', examples: '' },
+{ code: 'd470', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Usare mezzi di trasporto', parentExplanation: 'Usare un mezzo di trasporto come passeggero — autobus, treno, auto. Include capire gli orari, salire e scendere, comportarsi adeguatamente sul mezzo.', examples: '' },
+{ code: 'd475', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Essere alla guida di un mezzo di trasporto', parentExplanation: 'Guidare un veicolo — per gli adolescenti, include motorino e auto.', examples: '' },
+{ code: 'd480', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Cavalcare animali come mezzo di trasporto', parentExplanation: 'Cavalcare — rilevante per chi fa ippoterapia o equitazione.', examples: '' },
+{ code: 'd489', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Spostarsi usando un mezzo di trasporto, altro specificato e non specificato', parentExplanation: 'Altre modalità non descritte nei codici precedenti.', examples: '' },
+{ code: 'd498', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Mobilità, altro specificato', parentExplanation: 'Altre funzioni di mobilità specificate ma non classificate altrove.', examples: '' },
+{ code: 'd499', component: 'D', chapter: 'd4', chapterName: 'Mobilità', subcategory: '', officialName: 'Mobilità, non specificato', parentExplanation: 'Funzioni di mobilità non meglio definite.', examples: '' },
+// Chapter d5 - Cura di sé
+{ code: 'd510', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Lavarsi', parentExplanation: 'Lavarsi il corpo — fare la doccia, il bagno, lavarsi le mani, i denti, i capelli. Include sapere quando è necessario lavarsi.', examples: '' },
+{ code: 'd520', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Prendersi cura di singole parti del corpo', parentExplanation: 'Prendersi cura di pelle, capelli, unghie, denti — pettinarsi, tagliarsi le unghie, mettere la crema solare.', examples: '' },
+{ code: 'd530', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Andare in bagno', parentExplanation: 'Tutto ciò che riguarda l\'andare in bagno — riconoscere il bisogno, raggiungere il bagno, espletare le funzioni fisiologiche, pulirsi, rivestirsi. Include la gestione del ciclo mestruale.', examples: '' },
+{ code: 'd540', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Vestirsi', parentExplanation: 'Scegliere i vestiti adatti e indossarli — incluso abbottonare, usare la cerniera, allacciarsi le scarpe, e svestirsi. Include anche scegliere vestiti adeguati al tempo e alla situazione.', examples: '' },
+{ code: 'd550', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Mangiare', parentExplanation: 'Mangiare in modo indipendente — usare le posate, portare il cibo alla bocca, masticare, gestire diversi tipi di cibo.', examples: '' },
+{ code: 'd560', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Bere', parentExplanation: 'Bere in modo indipendente — afferrare il bicchiere, portarlo alla bocca, bere senza versare.', examples: '' },
+{ code: 'd570', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Prendersi cura della propria salute', parentExplanation: 'Gestire la propria salute — prendere le medicine, seguire una dieta, fare attività fisica, evitare rischi. Per i più grandi: gestire visite mediche, riconoscere quando si sta male.', examples: '' },
+{ code: 'd598', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Cura di sé, altro specificato', parentExplanation: 'Altre attività di cura di sé specificate ma non classificate altrove.', examples: '' },
+{ code: 'd599', component: 'D', chapter: 'd5', chapterName: 'Cura di sé', subcategory: '', officialName: 'Cura di sé, non specificato', parentExplanation: 'Attività di cura di sé non meglio definite.', examples: '' }
+// Chapter d6 - Vita domestica
+{ code: 'd610', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Acquisire un posto in cui vivere', parentExplanation: 'Trovare e mantenere una casa — più rilevante per adolescenti e giovani adulti in percorso di autonomia.', examples: '' },
+{ code: 'd620', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Acquisire beni e servizi', parentExplanation: 'Fare acquisti — andare a comprare qualcosa, scegliere, pagare, gestire il denaro. Per i più piccoli: comprare la merenda, per i più grandi: fare la spesa.', examples: '' },
+{ code: 'd629', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Acquisire quanto necessario per vivere, altro specificato e non specificato', parentExplanation: 'Altre attività non descritte nei codici precedenti.', examples: '' },
+{ code: 'd630', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Preparare i pasti', parentExplanation: 'Cucinare — pianificare un pasto, preparare gli ingredienti, cucinare, servire. Dal farsi un panino al preparare un pasto completo.', examples: '' },
+{ code: 'd640', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Fare i lavori di casa', parentExplanation: 'Le faccende domestiche — pulire, riordinare, lavare, stirare, occuparsi della manutenzione della casa.', examples: '' },
+{ code: 'd649', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Compiti domestici, altro specificato e non specificato', parentExplanation: 'Altre faccende non descritte nei codici precedenti.', examples: '' },
+{ code: 'd650', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Prendersi cura degli oggetti domestici', parentExplanation: 'Prendersi cura delle proprie cose — manutenere oggetti, riparare, tenere in ordine i propri spazi.', examples: '' },
+{ code: 'd660', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Aiutare altre persone', parentExplanation: 'Aiutare gli altri — fratelli, familiari, compagni. Dare una mano con i compiti, assistere chi ne ha bisogno.', examples: '' },
+{ code: 'd669', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Prendersi cura degli oggetti domestici e aiutare gli altri, altro specificato e non specificato', parentExplanation: 'Altre attività non descritte nei codici precedenti.', examples: '' },
+{ code: 'd698', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Vita domestica, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+{ code: 'd699', component: 'D', chapter: 'd6', chapterName: 'Vita domestica', subcategory: '', officialName: 'Vita domestica, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+// Chapter d7 - Interazioni e relazioni
+{ code: 'd710', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Interazioni interpersonali semplici', parentExplanation: 'Le basi dell\'interazione — salutare, fare un contatto visivo adeguato, rispettare lo spazio personale, mostrare rispetto, rispondere in modo appropriato. Se tuo figlio "non sa come comportarsi con gli altri" nelle situazioni basilari, questa area è coinvolta.', examples: '' },
+{ code: 'd720', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Interazioni interpersonali complesse', parentExplanation: 'Interazioni più sofisticate — gestire relazioni nel tempo, regolare il proprio comportamento nelle relazioni, seguire le regole sociali non scritte, gestire i conflitti.', examples: '' },
+{ code: 'd729', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Interazioni interpersonali generali, altro specificato e non specificato', parentExplanation: 'Altre interazioni non descritte nei codici precedenti.', examples: '' },
+{ code: 'd730', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Relazionarsi con estranei', parentExplanation: 'Come tuo figlio si comporta con persone sconosciute — se è molto timoroso, eccessivamente espansivo, o se riesce a calibrare il comportamento con chi non conosce.', examples: '' },
+{ code: 'd740', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Relazioni formali', parentExplanation: 'Relazioni basate su ruoli — con l\'insegnante, il medico, l\'allenatore. Capire che con queste persone ci si comporta diversamente che con gli amici.', examples: '' },
+{ code: 'd750', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Relazioni sociali informali', parentExplanation: 'Le relazioni amicali — fare amicizia, mantenere le amicizie, stare in gruppo. Se tuo figlio fatica a fare amicizia o a mantenere le relazioni, questa è l\'area.', examples: '' },
+{ code: 'd760', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Relazioni familiari', parentExplanation: 'Le relazioni in famiglia — con genitori, fratelli, nonni. Come tuo figlio vive e gestisce le dinamiche familiari.', examples: '' },
+{ code: 'd770', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Relazioni intime', parentExplanation: 'Le relazioni più strette — per gli adolescenti, include le prime relazioni affettive/sentimentali.', examples: '' },
+{ code: 'd779', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Relazioni interpersonali particolari, altro specificato e non specificato', parentExplanation: 'Altre relazioni non descritte nei codici precedenti.', examples: '' },
+{ code: 'd798', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Interazioni e relazioni interpersonali, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+{ code: 'd799', component: 'D', chapter: 'd7', chapterName: 'Interazioni e relazioni', subcategory: '', officialName: 'Interazioni e relazioni interpersonali, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+// Chapter d8 - Principali aree di vita
+{ code: 'd810', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Istruzione informale', parentExplanation: 'Imparare in casa o fuori dalla scuola — quello che si impara giocando, esplorando, in famiglia.', examples: '' },
+{ code: 'd815', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Istruzione prescolastica', parentExplanation: 'Partecipare alla scuola dell\'infanzia — le attività, le routine, le interazioni nell\'ambiente prescolastico.', examples: '' },
+{ code: 'd820', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Istruzione scolastica', parentExplanation: 'Partecipare alla scuola — frequentare le lezioni, svolgere i compiti, rispettare le regole scolastiche, seguire il programma educativo. Il codice più rilevante per la maggior parte dei bambini in età scolare.', examples: '' },
+{ code: 'd825', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Formazione professionale', parentExplanation: 'Partecipare a percorsi di formazione professionale — rilevante per gli adolescenti in istituti professionali o percorsi IeFP.', examples: '' },
+{ code: 'd830', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Istruzione superiore', parentExplanation: 'Partecipare all\'istruzione superiore — università, alta formazione.', examples: '' },
+{ code: 'd835', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Partecipare alla vita scolastica', parentExplanation: 'Partecipare alla vita della comunità scolastica oltre le lezioni — intervallo, gita, assemblea, attività extracurricolari, relazioni con i compagni durante la vita scolastica.', examples: '' },
+{ code: 'd838', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Istruzione, altro specificato', parentExplanation: 'Altre forme di istruzione specificate ma non classificate altrove.', examples: '' },
+{ code: 'd839', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Istruzione, non specificato', parentExplanation: 'Forme di istruzione non meglio definite.', examples: '' },
+{ code: 'd840', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Apprendistato', parentExplanation: 'Partecipare a un periodo di apprendistato o tirocinio.', examples: '' },
+{ code: 'd845', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Acquisire, mantenere e concludere un rapporto di lavoro', parentExplanation: 'Trovare e mantenere un lavoro — rilevante per adolescenti e giovani adulti.', examples: '' },
+{ code: 'd850', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Lavoro remunerato', parentExplanation: 'Svolgere un lavoro retribuito.', examples: '' },
+{ code: 'd855', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Lavoro non remunerato', parentExplanation: 'Svolgere lavoro volontario o non retribuito.', examples: '' },
+{ code: 'd859', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Lavorare e avere un impiego, altro specificato e non specificato', parentExplanation: 'Altre forme di lavoro non descritte nei codici precedenti.', examples: '' },
+{ code: 'd860', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Transazioni economiche semplici', parentExplanation: 'Gestire il denaro nelle situazioni semplici — comprare qualcosa, dare il resto, capire il valore dei soldi.', examples: '' },
+{ code: 'd865', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Transazioni economiche complesse', parentExplanation: 'Operazioni finanziarie più complesse — gestire un conto, capire un contratto, amministrare risorse.', examples: '' },
+{ code: 'd870', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Autosufficienza economica', parentExplanation: 'La capacità di provvedere economicamente a se stessi — rilevante per il percorso verso l\'autonomia adulta.', examples: '' },
+{ code: 'd879', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Vita economica, altro specificato e non specificato', parentExplanation: 'Altre attività economiche non descritte nei codici precedenti.', examples: '' },
+{ code: 'd898', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Principali aree di vita, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+{ code: 'd899', component: 'D', chapter: 'd8', chapterName: 'Principali aree di vita', subcategory: '', officialName: 'Principali aree di vita, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+// Chapter d9 - Vita comunitaria
+{ code: 'd910', component: 'D', chapter: 'd9', chapterName: 'Vita comunitaria', subcategory: '', officialName: 'Partecipare alla vita comunitaria', parentExplanation: 'Partecipare alla vita del quartiere, del paese, della comunità — attività di gruppo, eventi locali, centri di aggregazione.', examples: '' },
+{ code: 'd920', component: 'D', chapter: 'd9', chapterName: 'Vita comunitaria', subcategory: '', officialName: 'Svago e tempo libero', parentExplanation: 'Attività ricreative — giocare, fare sport, hobbies, guardare film, uscire con gli amici. Se tuo figlio fatica a partecipare alle attività del tempo libero dei coetanei, questo codice è rilevante.', examples: '' },
+{ code: 'd930', component: 'D', chapter: 'd9', chapterName: 'Vita comunitaria', subcategory: '', officialName: 'Religione e spiritualità', parentExplanation: 'Partecipare ad attività religiose o spirituali — catechismo, preghiera, pratiche spirituali.', examples: '' },
+{ code: 'd940', component: 'D', chapter: 'd9', chapterName: 'Vita comunitaria', subcategory: '', officialName: 'Diritti umani', parentExplanation: 'Godere dei propri diritti fondamentali — dignità, uguaglianza, autonomia.', examples: '' },
+{ code: 'd950', component: 'D', chapter: 'd9', chapterName: 'Vita comunitaria', subcategory: '', officialName: 'Vita politica e cittadinanza', parentExplanation: 'Partecipare alla vita civica — per i più grandi, votare, essere informati, partecipare attivamente alla comunità.', examples: '' },
+{ code: 'd998', component: 'D', chapter: 'd9', chapterName: 'Vita comunitaria', subcategory: '', officialName: 'Vita comunitaria, sociale e civica, altro specificato', parentExplanation: 'Altre funzioni specificate ma non classificate altrove.', examples: '' },
+{ code: 'd999', component: 'D', chapter: 'd9', chapterName: 'Vita comunitaria', subcategory: '', officialName: 'Vita comunitaria, sociale e civica, non specificato', parentExplanation: 'Funzioni non meglio definite.', examples: '' },
+
+// COMPONENT E - FATTORI AMBIENTALI
+// Chapter e1 - Prodotti e tecnologia
+{ code: 'e110', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti o sostanze per il consumo personale', parentExplanation: 'Cibo, farmaci, integratori — tutto ciò che tuo figlio consuma. Include anche adattamenti dietetici (diete speciali, alimenti senza glutine, ecc.).', examples: '' },
+{ code: 'e115', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per uso personale e quotidiano', parentExplanation: 'Oggetti di uso quotidiano — vestiti adattati, posate ergonomiche, scarpe ortopediche, orologi con promemoria, supporti per la routine.', examples: '' },
+{ code: 'e120', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per la mobilità e il trasporto', parentExplanation: 'Ausili per muoversi — carrozzina, deambulatore, passeggino posturale, adattamenti per l\'auto, rampe.', examples: '' },
+{ code: 'e125', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per la comunicazione', parentExplanation: 'Strumenti per comunicare — dispositivi di comunicazione aumentativa alternativa (CAA), tablet con app comunicative, libri simbolici, sintesi vocale.', examples: '' },
+{ code: 'e130', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per l\'istruzione', parentExplanation: 'Materiali scolastici adattati — software didattici, libri in formato accessibile, mappe concettuali, calcolatrice, sintesi vocale per lo studio, LIM, computer con software compensativi.', examples: '' },
+{ code: 'e135', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per il lavoro', parentExplanation: 'Strumenti e adattamenti per il lavoro — rilevante per adolescenti in alternanza scuola-lavoro o percorsi professionali.', examples: '' },
+{ code: 'e140', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per la cultura, il tempo libero e lo sport', parentExplanation: 'Attrezzature adattate per attività ricreative — giochi modificati, strumenti musicali adattati, attrezzi sportivi speciali.', examples: '' },
+{ code: 'e145', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per la pratica religiosa e spirituale', parentExplanation: 'Materiali adattati per le pratiche religiose.', examples: '' },
+{ code: 'e150', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per la progettazione e la costruzione di edifici pubblici', parentExplanation: 'Come sono fatti gli edifici pubblici — accessibilità di scuole, ospedali, uffici. Ascensori, rampe, porte automatiche, segnaletica accessibile.', examples: '' },
+{ code: 'e155', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per la progettazione e la costruzione di edifici privati', parentExplanation: 'Come è fatta la casa — adattamenti domestici, bagno accessibile, organizzazione degli spazi.', examples: '' },
+{ code: 'e160', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia per lo sviluppo del territorio', parentExplanation: 'Come è organizzato il territorio — marciapiedi, piste ciclabili, segnaletica, trasporto pubblico accessibile.', examples: '' },
+{ code: 'e165', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Beni', parentExplanation: 'I beni materiali e finanziari della famiglia — le risorse economiche disponibili per supportare tuo figlio.', examples: '' },
+{ code: 'e198', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia, altro specificato', parentExplanation: 'Altre tecnologie specificate ma non classificate altrove.', examples: '' },
+{ code: 'e199', component: 'E', chapter: 'e1', chapterName: 'Prodotti e tecnologia', subcategory: '', officialName: 'Prodotti e tecnologia, non specificato', parentExplanation: 'Prodotti e tecnologie non meglio definiti.', examples: '' },
+// Chapter e2 - Ambiente naturale
+{ code: 'e210', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Geografia fisica', parentExplanation: 'Le caratteristiche del territorio — pianura, collina, montagna, distanza dai servizi.', examples: '' },
+{ code: 'e215', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Popolazione', parentExplanation: 'La densità di popolazione — vivere in una grande città o in un piccolo paese influenza le opportunità e i servizi disponibili per tuo figlio.', examples: '' },
+{ code: 'e220', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Flora e fauna', parentExplanation: 'Piante e animali nell\'ambiente — rilevante per allergie, fobie, o interventi assistiti con animali (pet therapy).', examples: '' },
+{ code: 'e225', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Clima', parentExplanation: 'Il clima della zona — caldo, freddo, umidità. Per alcuni bambini, le condizioni climatiche influenzano significativamente il funzionamento (es. bambini con condizioni reumatiche, epilessia fotosensibile).', examples: '' },
+{ code: 'e230', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Eventi naturali', parentExplanation: 'Disastri naturali e fenomeni climatici estremi.', examples: '' },
+{ code: 'e235', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Eventi causati dall\'uomo', parentExplanation: 'Inquinamento, incidenti, conflitti — fattori ambientali creati dall\'uomo che possono influenzare la salute.', examples: '' },
+{ code: 'e240', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Luce', parentExplanation: 'L\'illuminazione degli ambienti — molto rilevante per bambini con sensibilità alla luce (fotosensibilità) o con difficoltà visive. Le luci al neon, ad esempio, possono essere molto disturbanti per alcuni bambini autistici.', examples: '' },
+{ code: 'e245', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Cambiamenti temporali', parentExplanation: 'Le variazioni legate al tempo — il ciclo giorno/notte, i cambiamenti stagionali. Rilevante per bambini il cui funzionamento varia con le stagioni o con il ritmo circadiano.', examples: '' },
+{ code: 'e250', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Suono', parentExplanation: 'Il rumore nell\'ambiente — molto importante per bambini con ipersensibilità uditiva. Una classe rumorosa può essere una barriera significativa. L\'uso di cuffie antirumore può trasformare questa barriera in un facilitatore.', examples: '' },
+{ code: 'e255', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Vibrazione', parentExplanation: 'Le vibrazioni nell\'ambiente — rilevante per bambini con sensibilità tattile o vestibolare.', examples: '' },
+{ code: 'e260', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Qualità dell\'aria', parentExplanation: 'La qualità dell\'aria — rilevante per bambini con asma o allergie respiratorie.', examples: '' },
+{ code: 'e298', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Ambiente naturale e cambiamenti ambientali effettuati dall\'uomo, altro specificato', parentExplanation: 'Fattori ambientali specifici non classificati altrove.', examples: '' },
+{ code: 'e299', component: 'E', chapter: 'e2', chapterName: 'Ambiente naturale', subcategory: '', officialName: 'Ambiente naturale e cambiamenti ambientali effettuati dall\'uomo, non specificato', parentExplanation: 'Fattori ambientali non meglio definiti.', examples: '' },
+// Chapter e3 - Supporto e relazioni
+{ code: 'e310', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Nucleo familiare', parentExplanation: 'Il supporto della famiglia più stretta — genitori, fratelli, conviventi. Quanto la famiglia capisce, supporta e si adatta ai bisogni di tuo figlio.', examples: '' },
+{ code: 'e315', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Famiglia estesa', parentExplanation: 'Il supporto della famiglia allargata — nonni, zii, cugini.', examples: '' },
+{ code: 'e320', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Amici', parentExplanation: 'Il supporto degli amici — avere amici che capiscono e accettano tuo figlio è un facilitatore potentissimo. L\'assenza di amici o la presenza di relazioni negative è una barriera significativa.', examples: '' },
+{ code: 'e325', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Conoscenti, pari, colleghi, vicini di casa, membri della comunità', parentExplanation: 'Le persone della comunità — compagni di classe, vicini, genitori degli amici, allenatori, catechisti.', examples: '' },
+{ code: 'e330', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Persone in posizioni di autorità', parentExplanation: 'Le persone che hanno autorità su tuo figlio — insegnanti, dirigente scolastico, medici, educatori. Il loro atteggiamento, la loro formazione e la loro disponibilità possono fare un\'enorme differenza.', examples: '' },
+{ code: 'e335', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Persone in posizioni subordinate', parentExplanation: 'Persone che assistono tuo figlio sotto la direzione di altri — assistenti educativi, collaboratori scolastici, tirocinanti.', examples: '' },
+{ code: 'e340', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Persone che forniscono assistenza alla persona e assistenti personali', parentExplanation: 'Chi si prende cura direttamente di tuo figlio — educatore, assistente alla comunicazione, assistente personale, baby-sitter specializzata.', examples: '' },
+{ code: 'e345', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Estranei', parentExplanation: 'Come le persone sconosciute interagiscono con tuo figlio — se sono comprensive, curiose, indifferenti o ostili.', examples: '' },
+{ code: 'e350', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Animali domestici', parentExplanation: 'Gli animali di casa — possono essere un facilitatore importante per il benessere emotivo e la responsabilizzazione.', examples: '' },
+{ code: 'e355', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Operatori sanitari', parentExplanation: 'Medici, terapisti, logopedisti, psicomotricisti, psicologi — i professionisti della salute che seguono tuo figlio.', examples: '' },
+{ code: 'e360', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Altri professionisti', parentExplanation: 'Altri professionisti coinvolti — assistenti sociali, mediatori culturali, tutor per i compiti.', examples: '' },
+{ code: 'e398', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Supporto e relazioni, altro specificato', parentExplanation: 'Altre forme di supporto specificate ma non classificate altrove.', examples: '' },
+{ code: 'e399', component: 'E', chapter: 'e3', chapterName: 'Supporto e relazioni', subcategory: '', officialName: 'Supporto e relazioni, non specificato', parentExplanation: 'Forme di supporto non meglio definite.', examples: '' }
+{ code: 'e410', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali del nucleo familiare', parentExplanation: 'Come i familiari stretti vedono e trattano tuo figlio — aspettative, accettazione, comprensione. Include anche le tue aspettative come genitore.', examples: '' },
+{ code: 'e415', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali della famiglia estesa', parentExplanation: 'Come la famiglia allargata vede tuo figlio — comprensione, accettazione, o al contrario minimizzazione, negazione, giudizio.', examples: '' },
+{ code: 'e420', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali degli amici', parentExplanation: 'Come gli amici vedono e trattano tuo figlio — accoglienza, inclusione, oppure esclusione, bullismo.', examples: '' },
+{ code: 'e425', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali di conoscenti, pari, colleghi, vicini di casa e membri della comunità', parentExplanation: 'Come le persone della comunità vedono tuo figlio — compagni di classe, genitori degli altri bambini, vicini.', examples: '' },
+{ code: 'e430', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali di persone in posizioni di autorità', parentExplanation: 'Come le figure di autorità vedono tuo figlio — l\'insegnante che crede in lui vs. quello che "lo ha etichettato", il dirigente che supporta l\'inclusione vs. quello che la vive come un problema.', examples: '' },
+{ code: 'e435', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali di persone in posizioni subordinate', parentExplanation: 'Come le figure di supporto vedono tuo figlio — l\'educatore motivato vs. quello che "fa le ore".', examples: '' },
+{ code: 'e440', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali di quanti forniscono assistenza personale e di assistenti personali', parentExplanation: 'L\'atteggiamento dei caregiver professionali verso tuo figlio.', examples: '' },
+{ code: 'e445', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali di estranei', parentExplanation: 'Come le persone sconosciute reagiscono a tuo figlio — la cassiera del supermercato, le persone al parco, i passeggeri sull\'autobus.', examples: '' },
+{ code: 'e450', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali di operatori sanitari', parentExplanation: 'Come i professionisti della salute si rapportano con tuo figlio — empatia, competenza, disponibilità ad ascoltare.', examples: '' },
+{ code: 'e455', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti individuali di altri operatori', parentExplanation: 'L\'atteggiamento di altri professionisti coinvolti nella vita di tuo figlio.', examples: '' },
+{ code: 'e460', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti della società', parentExplanation: 'L\'atteggiamento generale della società verso la disabilità e la diversità — quanto la comunità in cui vivete è inclusiva, informata, accogliente.', examples: '' },
+{ code: 'e465', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Norme sociali, usanze e ideologie', parentExplanation: 'Le regole non scritte della società — cosa è considerato "normale", quali aspettative ci sono verso i bambini, come viene vista la disabilità nella cultura di appartenenza.', examples: '' },
+{ code: 'e498', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti, altro specificato', parentExplanation: 'Atteggiamenti specifici non classificati altrove.', examples: '' },
+{ code: 'e499', component: 'E', chapter: 'e4', chapterName: 'Atteggiamenti', subcategory: '', officialName: 'Atteggiamenti, non specificato', parentExplanation: 'Atteggiamenti non meglio definiti.', examples: '' },
+// Chapter e5 - Servizi, sistemi e politiche
+{ code: 'e510', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche per la produzione di beni di consumo', parentExplanation: 'Come vengono prodotti beni accessibili — abbigliamento adattato, giocattoli inclusivi, tecnologia assistiva sul mercato.', examples: '' },
+{ code: 'e515', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche per l\'architettura e l\'edilizia', parentExplanation: 'Le norme sull\'accessibilità degli edifici — la scuola è accessibile? Il centro sportivo ha le rampe?', examples: '' },
+{ code: 'e520', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche per la pianificazione del territorio', parentExplanation: 'Come è organizzato il territorio — piste ciclabili sicure, percorsi pedonali, vicinanza ai servizi.', examples: '' },
+{ code: 'e525', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche per la casa', parentExplanation: 'Servizi abitativi — housing sociale, contributi per adattamenti domestici, comunità alloggio.', examples: '' },
+{ code: 'e530', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche di pubblica utilità', parentExplanation: 'Servizi essenziali — acqua, luce, gas, telecomunicazioni, raccolta rifiuti.', examples: '' },
+{ code: 'e535', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche per le comunicazioni', parentExplanation: 'I servizi di comunicazione accessibili — sottotitoli TV, servizi di interpretariato LIS, accessibilità web.', examples: '' },
+{ code: 'e540', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche dei trasporti', parentExplanation: 'I trasporti accessibili — trasporto scolastico adattato, agevolazioni per i trasporti pubblici, parcheggi riservati.', examples: '' },
+{ code: 'e545', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche di protezione civile', parentExplanation: 'I servizi di emergenza — quanto sono preparati a gestire persone con disabilità.', examples: '' },
+{ code: 'e550', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche della giustizia', parentExplanation: 'Il sistema giudiziario — protezione legale, diritti, tutela.', examples: '' },
+{ code: 'e555', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche delle associazioni e delle organizzazioni', parentExplanation: 'Le associazioni disponibili — associazioni di genitori, associazioni per specifiche disabilità, gruppi di mutuo aiuto.', examples: '' },
+{ code: 'e560', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche dei media', parentExplanation: 'Come i media rappresentano la disabilità — visibilità, stereotipi, rappresentazione.', examples: '' },
+{ code: 'e565', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche economici', parentExplanation: 'Le politiche economiche — agevolazioni fiscali, contributi, assegno di invalidità, Legge 104 art. 3 comma 3.', examples: '' },
+{ code: 'e570', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche di sicurezza sociale', parentExplanation: 'La protezione sociale — pensione di invalidità, indennità di accompagnamento, indennità di frequenza.', examples: '' },
+{ code: 'e575', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche sociali', parentExplanation: 'I servizi sociali territoriali — assistente sociale, servizi domiciliari, centri diurni, progetti di vita indipendente.', examples: '' },
+{ code: 'e580', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche per la salute', parentExplanation: 'Il sistema sanitario — ASL, ospedali, servizi di riabilitazione, NPIA (Neuropsichiatria dell\'Infanzia e dell\'Adolescenza), UONPIA. Come accedere, tempi di attesa, qualità del servizio.', examples: '' },
+{ code: 'e585', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche dell\'istruzione e della formazione', parentExplanation: 'Il sistema scolastico e formativo — diritto al sostegno, PEI, PDP, GLO, GLHI, inclusione scolastica, formazione dei docenti.', examples: '' },
+{ code: 'e590', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche per il lavoro e l\'occupazione', parentExplanation: 'Le politiche per il lavoro — collocamento mirato (L. 68/99), centri per l\'impiego, progetti di inserimento lavorativo. Rilevante per il futuro.', examples: '' },
+{ code: 'e595', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche della politica', parentExplanation: 'Le politiche pubbliche sulla disabilità a livello locale e nazionale.', examples: '' },
+{ code: 'e598', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche, altro specificato', parentExplanation: 'Servizi specifici non classificati altrove.', examples: '' },
+{ code: 'e599', component: 'E', chapter: 'e5', chapterName: 'Servizi, sistemi e politiche', subcategory: '', officialName: 'Servizi, sistemi e politiche, non specificato', parentExplanation: 'Servizi non meglio definiti.', examples: '' }
+];
+
+        // Initialize tree view
+        function initializeTree() {
+            const treeView = document.getElementById('treeView');
+            const components = ['B', 'S', 'D', 'E'];
+            const componentNames = {
+                'B': 'Funzioni del Corpo',
+                'S': 'Strutture del Corpo',
+                'D': 'Attività e Partecipazione',
+                'E': 'Fattori Ambientali'
+            };
+            const componentClasses = {
+                'B': 'component-b',
+                'S': 'component-s',
+                'D': 'component-d',
+                'E': 'component-e'
+            };
+
+            components.forEach(comp => {
+                const codes = icfDatabase.filter(c => c.component === comp);
+                if (codes.length === 0) return;
+
+                const chapters = {};
+                codes.forEach(code => {
+                    if (!chapters[code.chapter]) {
+                        chapters[code.chapter] = { name: code.chapterName, codes: [] };
+                    }
+                    chapters[code.chapter].codes.push(code);
+                });
+
+                const compDiv = document.createElement('div');
+                compDiv.className = 'tree-component';
+
+                const header = document.createElement('div');
+                header.className = 'tree-component-header';
+                header.onclick = (e) => {
+                    e.stopPropagation();
+                    const list = compDiv.querySelector('.tree-chapter-list');
+                    list.classList.toggle('expanded');
+                    const toggle = header.querySelector('.tree-toggle');
+                    toggle.textContent = list.classList.contains('expanded') ? '−' : '+';
+                };
+
+                header.innerHTML = `
+                    <span class="tree-toggle">+</span>
+                    <span style="flex: 1;">${componentNames[comp]}</span>
+                    <span class="tree-component-code">${comp}</span>
+                `;
+
+                const chaptersDiv = document.createElement('div');
+                chaptersDiv.className = 'tree-chapter-list';
+
+                Object.entries(chapters).forEach(([chapCode, chap]) => {
+                    chap.codes.forEach(code => {
+                        const codeDiv = document.createElement('div');
+                        codeDiv.className = 'tree-chapter';
+                        codeDiv.onclick = () => showCodeCard(code);
+                        codeDiv.innerHTML = `
+                            <span class="tree-chapter-code">${code.code}</span>
+                            <span class="tree-chapter-name">${code.officialName}</span>
+                        `;
+                        chaptersDiv.appendChild(codeDiv);
+                    });
+                });
+
+                compDiv.appendChild(header);
+                compDiv.appendChild(chaptersDiv);
+                treeView.appendChild(compDiv);
+            });
+        }
+
+        // Search functions
+        function searchByCode() {
+            const input = document.getElementById('codeSearchInput').value.toLowerCase().trim();
+            const results = document.getElementById('codeSearchResults');
+
+            if (!input) {
+                results.innerHTML = '';
+                return;
+            }
+
+            const matches = icfDatabase.filter(code =>
+                code.code.toLowerCase() === input ||
+                code.code.toLowerCase().startsWith(input)
+            );
+
+            if (matches.length === 0) {
+                results.innerHTML = '<div class="empty-state"><p>Nessun codice trovato. Prova con un codice come "b140" o "d220".</p></div>';
+                return;
+            }
+
+            results.innerHTML = matches.map(code => `
+                <div class="result-item" onclick="showCodeCard({code: '${code.code}', component: '${code.component}', chapter: '${code.chapter}', chapterName: '${code.chapterName}', officialName: '${code.officialName}', parentExplanation: '${code.parentExplanation.replace(/'/g, "\\'")}', examples: '${code.examples.replace(/'/g, "\\'")}'})">
+                    <div class="result-code">${code.code}</div>
+                    <div class="result-name">${code.officialName}</div>
+                    <div class="result-preview">${code.parentExplanation.substring(0, 120)}...</div>
+                </div>
+            `).join('');
+        }
+
+        function searchByKeyword() {
+            const input = document.getElementById('keywordSearchInput').value.toLowerCase().trim();
+            const results = document.getElementById('keywordSearchResults');
+
+            if (!input) {
+                results.innerHTML = '';
+                return;
+            }
+
+            const matches = icfDatabase.filter(code =>
+                code.officialName.toLowerCase().includes(input) ||
+                code.parentExplanation.toLowerCase().includes(input) ||
+                code.examples.toLowerCase().includes(input)
+            );
+
+            if (matches.length === 0) {
+                results.innerHTML = '<div class="empty-state"><p>Nessun risultato trovato. Prova con parole come "memoria", "movimento", "scuola".</p></div>';
+                return;
+            }
+
+            results.innerHTML = matches.map(code => `
+                <div class="result-item" onclick="showCodeCard({code: '${code.code}', component: '${code.component}', chapter: '${code.chapter}', chapterName: '${code.chapterName}', officialName: '${code.officialName}', parentExplanation: '${code.parentExplanation.replace(/'/g, "\\'")}', examples: '${code.examples.replace(/'/g, "\\'")}'})">
+                    <div class="result-code">${code.code}</div>
+                    <div class="result-name">${code.officialName}</div>
+                    <div class="result-preview">${code.parentExplanation.substring(0, 120)}...</div>
+                </div>
+            `).join('');
+        }
+
+        function showCodeCard(code) {
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('detailContent');
+            const componentLabels = { 'B': 'Funzioni del Corpo', 'S': 'Strutture del Corpo', 'D': 'Attività e Partecipazione', 'E': 'Fattori Ambientali' };
+
+            content.innerHTML = `
+                <div class="code-card">
+                    <div class="code-card-header">
+                        <div class="code-card-code">${code.code}</div>
+                        <div class="code-card-component ${`component-${code.component.toLowerCase()}`}">${componentLabels[code.component]}</div>
+                    </div>
+
+                    <div class="breadcrumb">
+                        <span class="breadcrumb-item">${componentLabels[code.component]}</span>
+                        <span class="breadcrumb-sep">/</span>
+                        <span class="breadcrumb-item">${code.chapterName}</span>
+                        <span class="breadcrumb-sep">/</span>
+                        <span class="breadcrumb-item">${code.code}</span>
+                    </div>
+
+                    <div class="code-card-official">${code.officialName}</div>
+
+                    <div class="code-card-section">
+                        <div class="code-card-section-label">Spiegazione per i genitori</div>
+                        <div class="code-card-section-content">${code.parentExplanation}</div>
+                    </div>
+
+                    <div class="code-card-section">
+                        <div class="code-card-section-label">Esempi</div>
+                        <div class="code-card-section-content">${code.examples}</div>
+                    </div>
+
+                    <div class="cta-box">
+                        <p>Vuoi capire meglio cosa significa questo codice per tuo figlio?</p>
+                        <p><a href="mailto:ivan@ivanferrero.it?subject=Domanda su codice ICF ${code.code}" class="cta-link">Scrivimi per una lettura personalizzata del suo profilo</a></p>
+                    </div>
+
+                    <button class="close-card" onclick="document.getElementById('detailModal').classList.remove('active')">Chiudi</button>
+                </div>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        function switchTab(event, tabId) {
+            event.preventDefault();
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Close modal on click outside
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initializeTree);
+    </script>
+
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
