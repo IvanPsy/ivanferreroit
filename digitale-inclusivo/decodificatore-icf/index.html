@@ -35,30 +35,32 @@
         }
 
         body {
-            background-color: var(--bg-primary);
-            background-image:
-                repeating-linear-gradient(0deg, transparent, transparent 49px, var(--border-color) 49px, var(--border-color) 50px),
-                repeating-linear-gradient(90deg, transparent, transparent 49px, var(--border-color) 49px, var(--border-color) 50px);
-            background-size: 50px 50px;
-            background-attachment: fixed;
+            background: var(--bg-primary);
             color: var(--text-primary);
             font-family: 'Outfit', sans-serif;
             font-weight: 400;
-            line-height: 1.6;
+            line-height: 1.7;
+            min-height: 100vh;
             padding-top: 140px;
         }
 
-        #site-menu {
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            z-index: 1000;
-            height: 70px;
-            background: rgba(10, 14, 20, 0.95);
-            border-bottom: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
         }
+
+        /* site-menu styles are injected by menu.js */
 
         .container {
             max-width: 1200px;
@@ -675,11 +677,11 @@
 
         <!-- TABS -->
         <div class="section">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab(event, 'search-tab')">Cerca per Codice</button>
-                <button class="tab-btn" onclick="switchTab(event, 'keyword-tab')">Cerca per Parola</button>
-                <button class="tab-btn" onclick="switchTab(event, 'tree-tab')">Naviga per Categoria</button>
-                <button class="tab-btn" onclick="switchTab(event, 'qualifiers-tab')">Guida ai Qualificatori</button>
+            <div class="tabs" id="tabBar">
+                <button class="tab-btn active" data-tab="search-tab">Cerca per Codice</button>
+                <button class="tab-btn" data-tab="keyword-tab">Cerca per Parola</button>
+                <button class="tab-btn" data-tab="tree-tab">Naviga per Categoria</button>
+                <button class="tab-btn" data-tab="qualifiers-tab">Guida ai Qualificatori</button>
             </div>
 
             <!-- SEARCH BY CODE TAB -->
@@ -761,7 +763,7 @@
                     </table>
 
                     <h3 style="margin-top: 2rem;">Attività e Partecipazione (d) — Performance e Capacità</h3>
-                    <p>Per i codici d (attività), ci sono <strong>due qualificatori</strong: il primo descrive la <strong>Performance</strong> (quello che tuo figlio riesce a fare nel suo ambiente reale), il secondo la <strong>Capacità</strong> (quello che potrebbe fare in condizioni ideali, con supporto). Esempio: <strong>d220.31</strong> = difficoltà grave in performance (.3), difficoltà lieve in capacità (.1).</p>
+                    <p>Per i codici d (attività), ci sono <strong>due qualificatori</strong>: il primo descrive la <strong>Performance</strong> (quello che tuo figlio riesce a fare nel suo ambiente reale), il secondo la <strong>Capacità</strong> (quello che potrebbe fare in condizioni ideali, con supporto). Esempio: <strong>d220.31</strong> = difficoltà grave in performance (.3), difficoltà lieve in capacità (.1).</p>
                     <table class="qualifier-table">
                         <thead>
                             <tr>
@@ -901,7 +903,7 @@
     </footer>
 
     <!-- FLOATING BUTTON -->
-    <button class="floating-btn" onclick="document.getElementById('qualifiers-tab').click(); switchTab({target: document.querySelector('[onclick*=qualifiers-tab]')}, 'qualifiers-tab')">?</button>
+    <button class="floating-btn" id="floatingHelpBtn">?</button>
 
     <script>
         // COMPLETE ICF DATABASE
@@ -1387,74 +1389,75 @@ const icfDatabase = [
             });
         }
 
-        // Search functions
+        // Build a code-lookup map for fast access
+        const icfMap = {};
+        icfDatabase.forEach((code, idx) => { icfMap[code.code] = idx; });
+
+        const componentLabels = {
+            'B': 'Funzioni del Corpo',
+            'S': 'Strutture del Corpo',
+            'D': 'Attività e Partecipazione',
+            'E': 'Fattori Ambientali'
+        };
+
+        // Render a list of result items (used by both search functions)
+        function renderResults(matches, container) {
+            if (matches.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>Nessun risultato trovato. Prova con parole come "memoria", "movimento", "scuola" o codici come "b140", "d220".</p></div>';
+                return;
+            }
+            container.innerHTML = matches.map(code => `
+                <div class="result-item" data-code="${code.code}">
+                    <div class="result-code">${code.code}</div>
+                    <div class="result-name">${code.officialName}</div>
+                    <div class="result-preview">${code.parentExplanation.substring(0, 150)}${code.parentExplanation.length > 150 ? '...' : ''}</div>
+                </div>
+            `).join('');
+        }
+
+        // Search by code
         function searchByCode() {
             const input = document.getElementById('codeSearchInput').value.toLowerCase().trim();
             const results = document.getElementById('codeSearchResults');
+            if (!input) { results.innerHTML = ''; return; }
 
-            if (!input) {
-                results.innerHTML = '';
-                return;
-            }
-
-            const matches = icfDatabase.filter(code =>
-                code.code.toLowerCase() === input ||
-                code.code.toLowerCase().startsWith(input)
+            const matches = icfDatabase.filter(c =>
+                c.code.toLowerCase() === input || c.code.toLowerCase().startsWith(input)
             );
-
-            if (matches.length === 0) {
-                results.innerHTML = '<div class="empty-state"><p>Nessun codice trovato. Prova con un codice come "b140" o "d220".</p></div>';
-                return;
-            }
-
-            results.innerHTML = matches.map(code => `
-                <div class="result-item" onclick="showCodeCard({code: '${code.code}', component: '${code.component}', chapter: '${code.chapter}', chapterName: '${code.chapterName}', officialName: '${code.officialName}', parentExplanation: '${code.parentExplanation.replace(/'/g, "\\'")}', examples: '${code.examples.replace(/'/g, "\\'")}'})">
-                    <div class="result-code">${code.code}</div>
-                    <div class="result-name">${code.officialName}</div>
-                    <div class="result-preview">${code.parentExplanation.substring(0, 120)}...</div>
-                </div>
-            `).join('');
+            renderResults(matches, results);
         }
 
+        // Search by keyword
         function searchByKeyword() {
             const input = document.getElementById('keywordSearchInput').value.toLowerCase().trim();
             const results = document.getElementById('keywordSearchResults');
+            if (!input) { results.innerHTML = ''; return; }
 
-            if (!input) {
-                results.innerHTML = '';
-                return;
-            }
-
-            const matches = icfDatabase.filter(code =>
-                code.officialName.toLowerCase().includes(input) ||
-                code.parentExplanation.toLowerCase().includes(input) ||
-                code.examples.toLowerCase().includes(input)
+            const matches = icfDatabase.filter(c =>
+                c.officialName.toLowerCase().includes(input) ||
+                c.parentExplanation.toLowerCase().includes(input) ||
+                c.examples.toLowerCase().includes(input)
             );
-
-            if (matches.length === 0) {
-                results.innerHTML = '<div class="empty-state"><p>Nessun risultato trovato. Prova con parole come "memoria", "movimento", "scuola".</p></div>';
-                return;
-            }
-
-            results.innerHTML = matches.map(code => `
-                <div class="result-item" onclick="showCodeCard({code: '${code.code}', component: '${code.component}', chapter: '${code.chapter}', chapterName: '${code.chapterName}', officialName: '${code.officialName}', parentExplanation: '${code.parentExplanation.replace(/'/g, "\\'")}', examples: '${code.examples.replace(/'/g, "\\'")}'})">
-                    <div class="result-code">${code.code}</div>
-                    <div class="result-name">${code.officialName}</div>
-                    <div class="result-preview">${code.parentExplanation.substring(0, 120)}...</div>
-                </div>
-            `).join('');
+            renderResults(matches, results);
         }
 
+        // Show code detail modal
         function showCodeCard(code) {
             const modal = document.getElementById('detailModal');
             const content = document.getElementById('detailContent');
-            const componentLabels = { 'B': 'Funzioni del Corpo', 'S': 'Strutture del Corpo', 'D': 'Attività e Partecipazione', 'E': 'Fattori Ambientali' };
+
+            const examplesSection = code.examples
+                ? `<div class="code-card-section">
+                        <div class="code-card-section-label">Esempi</div>
+                        <div class="code-card-section-content">${code.examples}</div>
+                   </div>`
+                : '';
 
             content.innerHTML = `
-                <div class="code-card">
+                <div class="code-card" style="margin-bottom: 0;">
                     <div class="code-card-header">
                         <div class="code-card-code">${code.code}</div>
-                        <div class="code-card-component ${`component-${code.component.toLowerCase()}`}">${componentLabels[code.component]}</div>
+                        <div class="code-card-component component-${code.component.toLowerCase()}">${componentLabels[code.component]}</div>
                     </div>
 
                     <div class="breadcrumb">
@@ -1472,36 +1475,71 @@ const icfDatabase = [
                         <div class="code-card-section-content">${code.parentExplanation}</div>
                     </div>
 
-                    <div class="code-card-section">
-                        <div class="code-card-section-label">Esempi</div>
-                        <div class="code-card-section-content">${code.examples}</div>
-                    </div>
+                    ${examplesSection}
 
                     <div class="cta-box">
                         <p>Vuoi capire meglio cosa significa questo codice per tuo figlio?</p>
                         <p><a href="mailto:ivan@ivanferrero.it?subject=Domanda su codice ICF ${code.code}" class="cta-link">Scrivimi per una lettura personalizzata del suo profilo</a></p>
                     </div>
 
-                    <button class="close-card" onclick="document.getElementById('detailModal').classList.remove('active')">Chiudi</button>
+                    <button class="close-card" id="closeModalBtn">Chiudi</button>
                 </div>
             `;
 
             modal.classList.add('active');
+
+            document.getElementById('closeModalBtn').addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
         }
 
-        function switchTab(event, tabId) {
-            event.preventDefault();
+        // Tab switching
+        function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 
-            event.target.classList.add('active');
+            const targetBtn = document.querySelector('[data-tab="' + tabId + '"]');
+            if (targetBtn) targetBtn.classList.add('active');
             document.getElementById(tabId).classList.add('active');
         }
+
+        // Event delegation for result clicks (no more fragile inline onclick!)
+        document.addEventListener('click', function(e) {
+            const resultItem = e.target.closest('.result-item[data-code]');
+            if (resultItem) {
+                const codeStr = resultItem.getAttribute('data-code');
+                const idx = icfMap[codeStr];
+                if (idx !== undefined) {
+                    showCodeCard(icfDatabase[idx]);
+                }
+            }
+        });
 
         // Close modal on click outside
         document.getElementById('detailModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 this.classList.remove('active');
+            }
+        });
+
+        // Close modal on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('detailModal').classList.remove('active');
+            }
+        });
+
+        // Floating help button
+        document.getElementById('floatingHelpBtn').addEventListener('click', function() {
+            switchTab('qualifiers-tab');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 160, behavior: 'smooth' });
+        });
+
+        // Tab bar click delegation
+        document.getElementById('tabBar').addEventListener('click', function(e) {
+            const btn = e.target.closest('.tab-btn[data-tab]');
+            if (btn) {
+                switchTab(btn.getAttribute('data-tab'));
             }
         });
 
