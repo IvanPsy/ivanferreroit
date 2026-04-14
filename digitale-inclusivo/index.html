@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitale Inclusivo — Ivan Ferrero | Risorse per BES, DSA e Neurodiversità</title>
+    <meta name="description" content="Risorse, strumenti e dashboard per docenti, genitori e professionisti che lavorano con studenti BES, DSA, ADHD e autismo. Il canale dove digitale e inclusione si incontrano.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* ── Hero ── */
+        .di-hero {
+            padding: 8rem 0 4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .di-hero .brand-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+        }
+
+        .di-hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+        }
+
+        .di-hero .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .di-hero .targets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .di-hero .target-pill {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* ── Stats bar ── */
+        .stats-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 3.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .num {
+            display: block;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-item .lbl {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ── Section headings ── */
+        .section-di {
+            padding: 3.5rem 0 1rem;
+        }
+
+        .section-di h2 {
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .section-di .section-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.75rem;
+            max-width: 680px;
+            line-height: 1.7;
+        }
+
+        /* ── Card grid ── */
+        .di-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .di-card {
+            display: block;
+            text-decoration: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.4rem;
+            transition: all 0.2s ease;
+        }
+
+        .di-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.08);
+        }
+
+        .di-card .card-tag {
+            font-size: 0.72rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.85rem;
+        }
+
+        .di-card h3 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 0 0 0.6rem;
+            line-height: 1.4;
+        }
+
+        .di-card p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .di-card .arrow-link {
+            margin-top: 0.85rem;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Tag colors */
+        .tag-bes    { background: rgba(0, 212, 255, 0.12); color: #00d4ff; }
+        .tag-ia     { background: rgba(138, 43, 226, 0.15); color: #b06bff; }
+        .tag-norm   { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+        .tag-lezione { background: rgba(251, 191, 36, 0.12); color: #fbbf24; }
+
+        /* ── Divider ── */
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 1rem 0 0;
+        }
+
+        /* ── Coming Soon banner ── */
+        .coming-soon {
+            margin: 3.5rem 0 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(138, 43, 226, 0.05) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .coming-soon h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            grid-column: 1 / -1;
+        }
+
+        .cs-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .cs-item .cs-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .cs-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .cs-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .cs-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── Footer ── */
+        .di-footer {
+            text-align: center;
+            padding: 3rem 0 2.5rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        .di-footer p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .di-hero {
+                padding: 7rem 0 3rem;
+            }
+
+            .stats-bar {
+                gap: 1.25rem;
+                padding: 1.2rem 1.2rem;
+            }
+
+            .coming-soon {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <div class="container" style="max-width: 1100px;">
+
+        <!-- ── HERO ── -->
+        <section class="di-hero">
+            <div class="brand-label">
+                <span>◈</span> Digitale Inclusivo — con Ivan Ferrero
+            </div>
+
+            <h1>Dove il <span class="text-cyan">digitale</span> incontra<br>l'<span class="text-cyan">inclusione</span></h1>
+
+            <p class="subtitle">
+                Risorse, strumenti e dashboard per docenti, genitori e professionisti che lavorano con studenti BES, DSA, ADHD e autismo. Non "tecnologia malgrado la diversità", ma tecnologia <em>per</em> la diversità.
+            </p>
+
+            <div class="targets">
+                <span class="target-pill">🎓 Docenti di sostegno</span>
+                <span class="target-pill">🏫 Docenti curricolari</span>
+                <span class="target-pill">👨‍👩‍👧 Genitori di figli BES</span>
+                <span class="target-pill">🧑‍⚕️ Professionisti clinici</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="num">17</span>
+                    <span class="lbl">risorse interattive</span>
+                </div>
+                <div class="stat-item">
+                    <span class="num">4</span>
+                    <span class="lbl">aree tematiche</span>
+                </div>
+                <div class="stat-item">
+                    <span class="num">374</span>
+                    <span class="lbl">codici ICF decodificati</span>
+                </div>
+                <div class="stat-item">
+                    <span class="num">68</span>
+                    <span class="lbl">best practice OECD IA</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- SEZIONE 1 — PROFILI BES              -->
+        <!-- ══════════════════════════════════════ -->
+        <section class="section-di">
+            <h2>🧠 Profili BES — Teoria e Ricerca</h2>
+            <p class="section-desc">
+                Dashboard evidence-based su ADHD, autismo, DSA e funzioni cognitive. Costruite sulle evidenze più recenti, pensate per l'uso pratico in classe e in studio.
+            </p>
+
+            <div class="di-grid">
+
+                <a href="/dashboards/2026-adhd-dsa-school-best-practices-dashboard-with-menu.html" class="di-card">
+                    <span class="card-tag tag-bes">ADHD · DSA · ODD</span>
+                    <h3>ADHD • DSA • ODD — Dashboard Operativa</h3>
+                    <p>Gestione evidence-based di ADHD con comorbilità ODD e DSA a scuola. Vademecum pratico, script pronti all'uso, dinamiche coi pari, errori comuni da evitare.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/neuroscienze-adhd-autismo-with-menu.html" class="di-card">
+                    <span class="card-tag tag-bes">Neuroscienze</span>
+                    <h3>Neuroscienze, ADHD, Autismo e Dopamina</h3>
+                    <p>Come funzionano davvero il sistema dopaminergico e i circuiti attentivi nei profili neurodivergenti. Base teorica per interventi informati dalle neuroscienze.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/cognitivo-attenzione-performance-with-menu.html" class="di-card">
+                    <span class="card-tag tag-bes">Funzioni Cognitive</span>
+                    <h3>Cognitivo, Attenzione e Performance Accademica</h3>
+                    <p>Relazione tra carico cognitivo, attenzione sostenuta e rendimento scolastico. Evidenze su strategie di modulazione e supporto per profili con difficoltà attentive.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/literacy-interventi-mediazione-with-menu.html" class="di-card">
+                    <span class="card-tag tag-bes">Literacy · Mediazione</span>
+                    <h3>Literacy, Interventi e Mediazione</h3>
+                    <p>Competenze di lettura, mediazione linguistica e interventi evidence-based per studenti BES. Strategie per docenti e professionisti, con focus su accessibilità dei testi.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/ashby-dashboard-with-menu.html" class="di-card">
+                    <span class="card-tag tag-bes">Framework</span>
+                    <h3>Ashby & Didattica Inclusiva</h3>
+                    <p>La Legge della Varietà Necessaria di Ashby applicata all'inclusione. Un framework cibernetico per pensare attenuatori, amplificatori e adattamento nei sistemi educativi.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+            </div>
+        </section>
+        <hr class="section-divider">
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- SEZIONE 2 — IA & TECNOLOGIE          -->
+        <!-- ══════════════════════════════════════ -->
+        <section class="section-di">
+            <h2>🤖 IA & Tecnologie per l'Inclusione</h2>
+            <p class="section-desc">
+                Come l'intelligenza artificiale, le tecnologie assistive e gli strumenti digitali possono diventare alleati concreti per studenti con BES, DSA e profili neurodivergenti.
+            </p>
+
+            <div class="di-grid">
+
+                <a href="/dashboards/oecd-ai-neurodivergent-vet-with-menu.html" class="di-card">
+                    <span class="card-tag tag-ia">OECD 2026</span>
+                    <h3>IA per Studenti Neurodiversi — Best Practice OECD</h3>
+                    <p>68 best practice su IA, XR e tecnologie assistive per studenti con ASD, ADHD e DSA nella formazione professionale. Dal rapporto OECD 2026. Filtri per categoria, glossario ricercabile.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/eu-guidelines-ai-etica-educazione-2026-with-menu.html" class="di-card">
+                    <span class="card-tag tag-ia">UE 2026</span>
+                    <h3>Linee Guida UE — Uso Etico dell'AI nell'Educazione</h3>
+                    <p>5 principi etici, 8 aree di domande guida per docenti e scuole, 11 scenari pratici, AI Act e GDPR. Dashboard completa delle Guidelines aggiornate della Commissione Europea.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/guida-macbook-bes-with-menu.html" class="di-card">
+                    <span class="card-tag tag-ia">Tecnologie Assistive</span>
+                    <h3>🖥️ Guida MacBook per Studenti con Disabilità</h3>
+                    <p>28 configurazioni macOS per ASD, ADHD, DSA e disabilità motorie, visive e intellettive. Principi UDL, razionali evidence-based, istruzioni step-by-step per genitori e docenti.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/digitale-inclusivo/decodificatore-icf/" class="di-card">
+                    <span class="card-tag tag-ia">Strumento Interattivo</span>
+                    <h3>🔍 Decodificatore ICF per Genitori</h3>
+                    <p>374 codici ICF con spiegazioni accessibili. Ricerca per codice o parola chiave, navigazione ad albero per categoria, linguaggio semplificato. Per capire il Profilo di Funzionamento senza un dizionario clinico.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+            </div>
+        </section>
+        <hr class="section-divider">
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- SEZIONE 3 — NORMATIVA & FRAMEWORK    -->
+        <!-- ══════════════════════════════════════ -->
+        <section class="section-di">
+            <h2>📋 Normativa & Framework</h2>
+            <p class="section-desc">
+                Il quadro normativo italiano e internazionale sull'inclusione scolastica, reso navigabile e comprensibile.
+            </p>
+
+            <div class="di-grid">
+
+                <a href="/dashboards/normativa-scolastica-pnrr3-with-menu.html" class="di-card">
+                    <span class="card-tag tag-norm">Normativa Italiana</span>
+                    <h3>Normativa Scolastica — Guida all'Inclusione</h3>
+                    <p>Dalla Riforma Gentile al D.Lgs. 66/2017: Costituzione, evoluzione storica, DSA/BES, autonomia, valutazione, quadro internazionale. Una guida completa alla legislazione sull'inclusione.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/linee-guida-ue-disinformazione-2026-with-menu.html" class="di-card">
+                    <span class="card-tag tag-norm">UE 2026</span>
+                    <h3>Linee Guida UE — Alfabetizzazione Digitale</h3>
+                    <p>Dashboard operativa delle Guidelines della Commissione Europea per docenti ed educatori. 24 attività, 21 consigli, 8 piani lezione su prebunking, IA generativa, social media. Tutto tradotto e navigabile.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+            </div>
+        </section>
+        <hr class="section-divider">
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- SEZIONE 4 — LEZIONI ACCESSIBILI       -->
+        <!-- ══════════════════════════════════════ -->
+        <section class="section-di">
+            <h2>📚 Lezioni Accessibili</h2>
+            <p class="section-desc">
+                Materiali didattici progettati con principi UDL e design inclusivo. Utilizzabili direttamente in classe, pensati per studenti con BES ma efficaci per tutti.
+            </p>
+
+            <div class="di-grid">
+
+                <a href="/dashboards/abbecedario-notazione-matematica-with-menu.html" class="di-card">
+                    <span class="card-tag tag-lezione">Matematica · DSA</span>
+                    <h3>Abbecedario della Notazione Matematica</h3>
+                    <p>47 simboli matematici con significato, contesto e trabocchetti comuni. Decodifica della definizione di limite, quiz di verifica. Riduce il carico cognitivo per studenti con DSA.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/limite-interattivo-with-menu.html" class="di-card">
+                    <span class="card-tag tag-lezione">Matematica · Interattivo</span>
+                    <h3>Esplora i Limiti — Matematica Interattiva</h3>
+                    <p>Grafico interattivo con slider di avvicinamento e 5 funzioni per esplorare visivamente il concetto di limite. Approccio esplorativo per studenti con stili di apprendimento visivi.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/circuito-misto-accessibile-with-menu.html" class="di-card">
+                    <span class="card-tag tag-lezione">Fisica · BES</span>
+                    <h3>⚡ Circuito Misto Accessibile</h3>
+                    <p>9 step progressivi per costruire e risolvere un circuito misto (serie + parallelo). Metafora dell'acqua, sezione accessibilità per docenti, guida step-by-step per alunni con BES.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/riduzione-circuiti-equivalente-with-menu.html" class="di-card">
+                    <span class="card-tag tag-lezione">Fisica · BES</span>
+                    <h3>⚡ Riduzione Circuiti — Serie, Parallelo, Misto</h3>
+                    <p>8 step sulla riduzione dei circuiti all'equivalente. Resistenze in serie e parallelo, circuito misto, esercizi con feedback immediato. Calcolatrice guidata, schemi SVG. Ottimizzata per mobile.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/piano-cartesiano-with-menu.html" class="di-card">
+                    <span class="card-tag tag-lezione">Matematica · ASD-friendly</span>
+                    <h3>Piano Cartesiano — Esercitazione e Verifica</h3>
+                    <p>Design ASD-friendly con tutorial guidato, esercizi liberi e modalità verifica. Form dati alunno e PDF scaricabile con risultati. Utilizzabile come verifica formativa inclusiva.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/funzioni-continue-discontinuita-with-menu.html" class="di-card">
+                    <span class="card-tag tag-lezione">Matematica · BES</span>
+                    <h3>Funzioni Continue e Discontinuità</h3>
+                    <p>Continuità e i 3 tipi di discontinuità con navigazione lineare: un concetto per passo, grafici SVG, quiz finale con feedback. Design accessibile per studenti con BES.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+                <a href="/dashboards/timeline-percorso-umanita-accessibile-with-menu.html" class="di-card">
+                    <span class="card-tag tag-lezione">Storia · ASD-friendly</span>
+                    <h3>La Storia dell'Umanità — Versione Accessibile</h3>
+                    <p>Percorso step-by-step ASD-friendly: 11 periodi con navigazione guidata, linguaggio semplificato e struttura prevedibile. Alternativa accessibile alla timeline completa.</p>
+                    <div class="arrow-link">Apri →</div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- COMING SOON                           -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="coming-soon">
+            <h2>🚀 In arrivo — <span class="text-cyan">Digitale Inclusivo</span></h2>
+
+            <div class="cs-item">
+                <span class="cs-badge">YOUTUBE · PROSSIMAMENTE</span>
+                <span class="cs-icon">▶</span>
+                <h3>Canale YouTube</h3>
+                <p>Video pratici su IA e inclusione, strumenti digitali per BES, strategie per docenti e genitori. Dal PEI con AI alle app per ADHD.</p>
+            </div>
+
+            <div class="cs-item">
+                <span class="cs-badge">NEWSLETTER · PROSSIMAMENTE</span>
+                <span class="cs-icon">📬</span>
+                <h3>Tra Banchi e Schermi</h3>
+                <p>Newsletter sul digitale per l'inclusione. Ricerche, strumenti, casi pratici — per chi lavora ogni giorno con studenti neurodivergenti.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="di-footer">
+            <p>Risorse create da <a href="/">Ivan Ferrero</a> — Psicologo del Digitale · 2026</p>
+            <p style="margin-top: 0.5rem;"><a href="/dashboards/">← Tutte le Dashboard</a> &nbsp;·&nbsp; <a href="/">Homepage</a></p>
+        </div>
+
+    </div>
+
+    <!-- Script menu -->
+    <script src="/assets/menu.js"></script>
+</body>
+</html>
