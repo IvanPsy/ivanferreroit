@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI e Inclusione — Framework e Strumenti | Ivan Ferrero</title>
+<meta name="description" content="Dashboard interattiva sulle opportunità dell'Intelligenza Artificiale per l'educazione inclusiva: framework teorici, strumenti specifici, evidenze scientifiche.">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base-styles.css">
+<style>
+:root {
+  --bg-primary: #0a0e14;
+  --bg-secondary: #0f1419;
+  --bg-tertiary: #151b23;
+  --bg-card: #1a222d;
+  --bg-hover: #222c3a;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
+  --border-color: #30363d;
+  --accent-cyan: #00d9ff;
+  --accent-green: #3fb950;
+  --accent-yellow: #d29922;
+  --accent-orange: #db6d28;
+  --accent-red: #f85149;
+  --accent-purple: #a371f7;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Outfit', -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  padding-top: 90px;
+  background-image:
+    linear-gradient(rgba(0, 217, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.015) 1px, transparent 1px);
+  background-size: 50px 50px;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* HERO */
+.hero {
+  padding: 3rem 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(63, 185, 80, 0.04) 100%);
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.15) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(135deg, #e6edf3 0%, #00d9ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 860px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.hero-meta span { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+/* NAV INTERNA */
+.dashboard-nav {
+  position: sticky;
+  top: 80px;
+  z-index: 900;
+  background: rgba(10, 14, 20, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-pill {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+
+.nav-pill:hover { background: var(--bg-hover); color: var(--text-primary); }
+.nav-pill.active { background: var(--accent-cyan); color: var(--bg-primary); }
+
+/* SECTIONS */
+section { margin-bottom: 3.5rem; scroll-margin-top: 160px; }
+
+.section-header { margin-bottom: 1.5rem; }
+
+.section-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.section-intro {
+  color: var(--text-secondary);
+  max-width: 800px;
+  font-size: 1.02rem;
+}
+
+/* STAT GRID */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.75rem 1.5rem;
+  transition: 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent-cyan);
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.stat-card.green::before { background: var(--accent-green); }
+.stat-card.green .stat-value { color: var(--accent-green); }
+.stat-card.yellow::before { background: var(--accent-yellow); }
+.stat-card.yellow .stat-value { color: var(--accent-yellow); }
+.stat-card.purple::before { background: var(--accent-purple); }
+.stat-card.purple .stat-value { color: var(--accent-purple); }
+
+/* CARDS */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  transition: 0.2s ease;
+}
+
+.card:hover { border-color: rgba(0, 217, 255, 0.3); }
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.card p { color: var(--text-secondary); margin-bottom: 0.75rem; }
+.card p:last-child { margin-bottom: 0; }
+.card strong { color: var(--text-primary); font-weight: 600; }
+.card em { color: var(--accent-cyan); font-style: normal; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+
+/* TAGS */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.tag-cyan { background: rgba(0, 217, 255, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 217, 255, 0.3); }
+.tag-green { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); border: 1px solid rgba(63, 185, 80, 0.3); }
+.tag-yellow { background: rgba(210, 153, 34, 0.15); color: var(--accent-yellow); border: 1px solid rgba(210, 153, 34, 0.3); }
+.tag-orange { background: rgba(219, 109, 40, 0.15); color: var(--accent-orange); border: 1px solid rgba(219, 109, 40, 0.3); }
+.tag-red { background: rgba(248, 81, 73, 0.15); color: var(--accent-red); border: 1px solid rgba(248, 81, 73, 0.3); }
+.tag-purple { background: rgba(163, 113, 247, 0.15); color: var(--accent-purple); border: 1px solid rgba(163, 113, 247, 0.3); }
+
+/* TOOL CARD */
+.tool-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.tool-card:hover {
+  border-color: var(--accent-cyan);
+  background: var(--bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.08);
+}
+
+.tool-card .tool-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.tool-card .tool-category {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.tool-card .tool-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.tool-card .tool-target {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-top: 1px dashed var(--border-color);
+  padding-top: 0.5rem;
+  margin-top: auto;
+}
+
+.tool-target strong { color: var(--accent-green); }
+
+/* EXPANDABLE */
+.expandable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.expandable .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.expandable .expand-icon {
+  color: var(--accent-cyan);
+  font-size: 1.5rem;
+  transition: 0.2s ease;
+  line-height: 1;
+}
+
+.expandable.open .expand-icon { transform: rotate(45deg); }
+
+.expandable .card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, margin-top 0.3s ease;
+}
+
+.expandable.open .card-body {
+  max-height: 3000px;
+  margin-top: 1rem;
+}
+
+/* TABLE */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th {
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--accent-cyan);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-hover); color: var(--text-primary); }
+
+/* CALLOUTS */
+.callout {
+  border-left: 3px solid var(--accent-cyan);
+  background: rgba(0, 217, 255, 0.05);
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+.callout.warning { border-color: var(--accent-orange); background: rgba(219, 109, 40, 0.05); }
+.callout.danger { border-color: var(--accent-red); background: rgba(248, 81, 73, 0.05); }
+.callout.success { border-color: var(--accent-green); background: rgba(63, 185, 80, 0.05); }
+
+.callout-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.callout.warning .callout-title { color: var(--accent-orange); }
+.callout.danger .callout-title { color: var(--accent-red); }
+.callout.success .callout-title { color: var(--accent-green); }
+
+/* APA CITATION */
+.citation {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border-left: 2px solid var(--accent-purple);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.cite-inline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: var(--accent-purple);
+  background: rgba(163, 113, 247, 0.1);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+}
+
+/* ROADMAP */
+.roadmap {
+  display: grid;
+  gap: 1rem;
+  counter-reset: step;
+}
+
+.roadmap-step {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  padding-left: 4.5rem;
+  position: relative;
+  transition: 0.2s ease;
+}
+
+.roadmap-step:hover { border-color: var(--accent-cyan); }
+
+.roadmap-step::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 1.25rem;
+  top: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-green) 100%);
+  color: var(--bg-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.roadmap-step h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+/* CATEGORIA BES CARD */
+.need-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: 0.2s ease;
+}
+
+.need-card:hover { border-color: var(--accent-cyan); }
+
+.need-card h4 {
+  color: var(--accent-cyan);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.need-card ul { list-style: none; padding: 0; }
+
+.need-card li {
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed rgba(48, 54, 61, 0.5);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.need-card li:last-child { border-bottom: none; }
+
+.need-card li strong { color: var(--text-primary); }
+
+/* BIBLIO */
+.biblio-entry {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.biblio-entry:last-child { border-bottom: none; }
+.biblio-entry strong { color: var(--text-primary); }
+.biblio-entry em { color: var(--accent-cyan); font-style: italic; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  body { padding-top: 130px; }
+  .dashboard-container { padding: 1rem; }
+  .dashboard-nav { top: 130px; }
+  .hero { padding: 2rem 1.25rem; }
+  .hero h1 { font-size: 1.8rem; }
+  .section-title { font-size: 1.4rem; }
+  .stat-value { font-size: 1.8rem; }
+  .roadmap-step { padding-left: 4rem; }
+  .roadmap-step::before { width: 2rem; height: 2rem; font-size: 0.95rem; left: 1rem; }
+  table { min-width: 520px; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 1.5rem; }
+  .stat-value { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<div class="dashboard-container">
+
+<!-- NAV INTERNA -->
+<nav class="dashboard-nav" aria-label="Navigazione dashboard">
+  <button class="nav-pill active" data-target="overview">Overview</button>
+  <button class="nav-pill" data-target="fonti">Fonti</button>
+  <button class="nav-pill" data-target="framework">Framework</button>
+  <button class="nav-pill" data-target="lingue">Lingue</button>
+  <button class="nav-pill" data-target="strumenti">Strumenti BES</button>
+  <button class="nav-pill" data-target="mappa-bisogni">Mappa Bisogni</button>
+  <button class="nav-pill" data-target="evidenze">Evidenze</button>
+  <button class="nav-pill" data-target="rischi">Rischi</button>
+  <button class="nav-pill" data-target="raccomandazioni">Raccomandazioni</button>
+  <button class="nav-pill" data-target="roadmap">Roadmap</button>
+  <button class="nav-pill" data-target="bibliografia">Bibliografia</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="overview">
+  <div class="hero-eyebrow">DASHBOARD · Ricerca & Pratica</div>
+  <h1>AI e Inclusione: framework e strumenti per un'educazione che non lascia indietro nessuno</h1>
+  <p class="hero-subtitle">Una mappa ragionata delle opportunità che l'Intelligenza Artificiale apre per l'educazione inclusiva. Framework teorici, strumenti operativi, evidenze quantitative e cautele critiche: tutto a partire da due revisioni scientifiche del 2025-2026.</p>
+  <div class="hero-meta">
+    <span>📅 Aggiornato: Aprile 2026</span>
+    <span>📚 Basato su: 2 review (Fitas 2025; Belay &amp; Alamneh 2026)</span>
+    <span>🎯 Target: docenti, dirigenti, operatori, policy maker</span>
+  </div>
+  <div class="stat-grid" style="margin-top: 2rem; margin-bottom: 0;">
+    <div class="stat-card">
+      <div class="stat-value">240M</div>
+      <div class="stat-label">Bambini nel mondo con disabilità (UNICEF, 2021). Uno su dieci è escluso dai percorsi formativi ordinari.</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-value">40%</div>
+      <div class="stat-label">Popolazione mondiale senza accesso all'istruzione nella propria lingua madre (UNESCO, 2016). L'AI è un ponte, non un sostituto.</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="stat-value">19/245</div>
+      <div class="stat-label">Studi inclusi nella systematic review di Belay &amp; Alamneh (2026) dopo screening PRISMA su 245 record iniziali.</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-value">9</div>
+      <div class="stat-label">Categorie tecnologiche AI mappate per l'inclusione: ITS, STT/TTS, adaptive learning, VR/AR, riconoscimento emotivo, robot, diagnostica precoce, blended learning, strumenti di accessibilità.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPOSTATA QUI DOPO HERO, PRIMA DI FONTI -->
+<section id="fonti">
+  <div class="section-header">
+    <div class="section-number">01 · Fonti primarie</div>
+    <h2 class="section-title">Le due review alla base di questa mappa</h2>
+    <p class="section-intro">Questa dashboard sintetizza e integra due pubblicazioni scientifiche complementari: una review narrativa con prospettiva etica e un'analisi sistematica PRISMA. Insieme coprono dominio teorico, strumenti operativi e criticità trasversali dell'AI in contesti inclusivi.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <span class="tag tag-purple">Review narrativa · etica</span>
+      <h3>Paper 1 — Fitas (2025)</h3>
+      <p><strong>Titolo:</strong> <em>Inclusive education with AI: supporting special needs and tackling language barriers</em></p>
+      <p><strong>Contesto:</strong> review sistemica che esamina come l'AI possa rimuovere barriere linguistiche e di disabilità, con forte cornice etica (UNCRPD, SDG 4, UDL). Esplora benefici, rischi e framework di governance.</p>
+      <p><strong>Focus distintivo:</strong> bilanciamento tra tecno-ottimismo e cautela etica. Introduce o discute AIPACK, AIAS, explainable AI, human-in-the-loop, digital divide.</p>
+      <div class="citation">
+        Fitas, R. (2025). Inclusive education with AI: supporting special needs and tackling language barriers. <em>AI and Ethics</em>, 5, 5729–5757. https://doi.org/10.1007/s43681-025-00824-3
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-green">Systematic review · PRISMA</span>
+      <h3>Paper 2 — Belay &amp; Alamneh (2026)</h3>
+      <p><strong>Titolo:</strong> <em>The Inclusive Algorithm: A Systematic Review of Artificial Intelligence Applications and Outcomes in Special Education and Inclusive Learning Environments</em></p>
+      <p><strong>Contesto:</strong> revisione sistematica conforme a PRISMA 2020 che analizza 19 studi selezionati su 245 identificati (2019-2024). Paesi: Saudi Arabia, India, Stati Uniti, Corea del Sud, Cina, Europa.</p>
+      <p><strong>Focus distintivo:</strong> evidenze quantitative sull'efficacia dei sistemi AI per bisogni specifici (ASD, DSA, ADHD, disabilità sensoriali). Cataloga strumenti, outcome e gap di ricerca.</p>
+      <div class="citation">
+        Belay, M. A., &amp; Alamneh, E. A. (2026). The Inclusive Algorithm: A Systematic Review of Artificial Intelligence Applications and Outcomes in Special Education and Inclusive Learning Environments. <em>American Journal of Medical Education</em>, 2(1), 1–14. https://doi.org/10.11648/j.mededu.20260201.11
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Perché due paper insieme</div>
+    <p>Il lavoro di Fitas offre la <strong>cornice concettuale</strong> (etica, framework, governance) e un inventario ampio di strumenti. Belay &amp; Alamneh forniscono <strong>evidenza empirica filtrata</strong> con metodologia PRISMA. Incrociandoli si ottiene una mappa che regge sia in aula sia in un tavolo di policy.</p>
+  </div>
+</section>
+
+<!-- SEZIONE FRAMEWORK -->
+<section id="framework">
+  <div class="section-header">
+    <div class="section-number">02 · Cornice teorica</div>
+    <h2 class="section-title">Framework che guidano un uso inclusivo dell'AI</h2>
+    <p class="section-intro">Nessuno strumento è neutrale. La scelta e l'implementazione dell'AI in ambito educativo devono poggiare su architetture concettuali che mettono al centro diritti, accessibilità universale e responsabilità umana. Queste sono le otto cornici più citate nei due paper.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-purple">Framework pedagogico</span>
+          <h3>Universal Design for Learning (UDL)</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Framework che mira a progettare ambienti di apprendimento flessibili fin dall'origine, non aggiunti <em>a posteriori</em> come accomodamenti. Tre principi: (1) fornire molteplici mezzi di rappresentazione, (2) molteplici mezzi di azione ed espressione, (3) molteplici mezzi di coinvolgimento.</p>
+        <p><strong>Ruolo dell'AI:</strong> rende UDL scalabile. Gli strumenti AI moltiplicano automaticamente formati (testo ↔ audio ↔ immagine), livelli di difficoltà, canali di espressione. Un docente non può da solo preparare 25 versioni di un materiale; un sistema AI sì <span class="cite-inline">(Fitas, 2025)</span>.</p>
+        <p><strong>Esempio operativo:</strong> un testo di storia convertito in audio per uno studente con dislessia, in versione semplificata per uno con disabilità intellettiva, in quiz interattivo per uno con ADHD, in mappa concettuale per un apprendente visivo — tutto partendo dalla stessa fonte.</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-red">Framework giuridico</span>
+          <h3>UNCRPD + SDG 4</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>La <strong>Convenzione ONU sui Diritti delle Persone con Disabilità</strong> (UNCRPD, art. 24) sancisce il diritto a un'istruzione inclusiva di qualità. Il <strong>Sustainable Development Goal 4</strong> dell'Agenda 2030 chiede di "garantire un'istruzione di qualità inclusiva ed equa e promuovere opportunità di apprendimento permanente per tutti".</p>
+        <p><strong>Ruolo dell'AI:</strong> diventa misurabile rispetto a obiettivi sovranazionali. Non è più "innovazione" ma <em>strumento per adempiere a obblighi di diritto internazionale</em> <span class="cite-inline">(Fitas, 2025)</span>.</p>
+        <p><strong>Implicazione politica:</strong> stanziare risorse per AI inclusiva non è optional, è adempimento. Lo stesso per la formazione docenti sugli strumenti digitali accessibili.</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-cyan">Framework operativo</span>
+          <h3>AIPACK (AI Pedagogy and Content Knowledge)</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Evoluzione del TPACK di Mishra &amp; Koehler, AIPACK integra la competenza sull'AI nel triangolo tecnologia-pedagogia-contenuto. I docenti inclusivi devono padroneggiare: <strong>(1)</strong> contenuto disciplinare, <strong>(2)</strong> pedagogia speciale, <strong>(3)</strong> tecnologia AI e i suoi limiti <span class="cite-inline">(Fitas, 2025)</span>.</p>
+        <p><strong>Perché conta:</strong> senza AIPACK il docente delega ciecamente al sistema o lo respinge in blocco. Con AIPACK discrimina quando l'AI aggiunge valore, quando distorce, quando va corretta.</p>
+        <p><strong>Implicazione formativa:</strong> serve formazione continua specifica, non generica "alfabetizzazione digitale". Il docente inclusivo deve saper leggere il bias di un algoritmo tanto quanto sa leggere la diagnosi ICF di un alunno.</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-green">Principio di design</span>
+          <h3>Human-in-the-Loop (HITL)</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Principio di governance secondo cui ogni decisione AI che impatta una persona vulnerabile deve essere supervisionabile, correggibile e annullabile da un operatore umano qualificato. Non è solo un <em>nice-to-have</em>: è requisito dell'AI Act europeo per i sistemi "ad alto rischio", categoria in cui rientrano gli strumenti educativi.</p>
+        <p><strong>Applicazione:</strong> un sistema ITS propone un esercizio; il docente lo approva, modifica o rifiuta. Un modello diagnostico segnala un possibile DSA; solo lo specialista umano conferma. Un chatbot offre supporto emotivo; la presa in carico clinica resta umana <span class="cite-inline">(Fitas, 2025; Belay &amp; Alamneh, 2026)</span>.</p>
+        <p><strong>Rischio senza HITL:</strong> automazione di decisioni educative = riproduzione automatizzata di bias, perdita di responsabilità, disumanizzazione.</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-cyan">Principio di trasparenza</span>
+          <h3>Explainable AI (XAI)</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Un sistema è <em>explainable</em> quando le sue decisioni sono interpretabili da chi le subisce o le usa. In educazione inclusiva significa: un alunno con disabilità cognitiva (e la sua famiglia) ha diritto a sapere <strong>perché</strong> l'algoritmo ha suggerito un certo percorso, non solo che l'ha fatto.</p>
+        <p><strong>Controindicazione del "black box":</strong> molti modelli deep learning sono opachi. Fitas (2025) sottolinea che per applicazioni educative serve preferire modelli interpretabili anche a costo di minore accuratezza.</p>
+        <p><strong>Implicazione pratica:</strong> chiedere ai fornitori documentazione sul funzionamento del modello, sui dataset di training, sui test di bias. Rifiutare sistemi non auditabili per minori.</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-yellow">Standard tecnico</span>
+          <h3>WCAG 2.1 / 2.2</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Le <strong>Web Content Accessibility Guidelines</strong> del W3C definiscono requisiti tecnici per rendere contenuti digitali accessibili. Quattro principi POUR: Perceivable, Operable, Understandable, Robust. Livelli di conformità A, AA, AAA.</p>
+        <p><strong>L'AI aiuta a scalare WCAG:</strong> generazione automatica di alt-text per immagini, sottotitoli in tempo reale, descrizioni audio, traduzione in lingua dei segni. Ma anche qui vale HITL — la verifica umana resta <span class="cite-inline">(Fitas, 2025)</span>.</p>
+        <p><strong>Per le scuole:</strong> piattaforme e materiali digitali dovrebbero rispettare almeno il livello AA. L'AI può diventare "WCAG-as-a-service".</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-purple">Modello concettuale</span>
+          <h3>Social &amp; Rights-based Model of Disability</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Superamento del modello medico della disabilità: la disabilità non è nella persona, è nell'interazione tra caratteristiche individuali e barriere ambientali/sociali. Il <em>rights-based model</em> aggiunge la dimensione politica: accesso all'istruzione come diritto umano, non beneficenza.</p>
+        <p><strong>Implicazione per l'AI:</strong> il design dello strumento parte dalle barriere da rimuovere, non dal deficit da "riparare". La logica compensativa evolve in logica di progettazione universale <span class="cite-inline">(Fitas, 2025)</span>.</p>
+        <p><strong>Esempio:</strong> un'app di riconoscimento vocale non serve a "curare" un alunno non udente, serve a rendere accessibile un ambiente progettato per udenti.</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-cyan">Strumento di assessment</span>
+          <h3>AIAS (AI Assessment Scale)</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Scala a 5 livelli per valutare l'uso accettabile dell'AI in attività educative e di valutazione, dal <em>Level 1 - No AI</em> (AI vietata) al <em>Level 5 - AI Exploration</em> (AI come partner creativo), passando per livelli intermedi di assistenza e co-costruzione.</p>
+        <p><strong>A cosa serve:</strong> dà ai docenti un linguaggio condiviso per comunicare agli alunni e alle famiglie <em>quanto</em> e <em>come</em> l'AI può essere usata in un compito, evitando ambiguità o "uso clandestino" <span class="cite-inline">(Fitas, 2025)</span>.</p>
+        <p><strong>Per l'inclusione:</strong> permette di calibrare su base individuale. Uno studente con DSA può avere un livello 3 nell'attività di scrittura (AI come assistente) mentre i compagni sono al livello 2. Esplicitare elimina lo stigma.</p>
+      </div>
+    </div>
+
+    <div class="card expandable">
+      <div class="card-header">
+        <div>
+          <span class="tag tag-green">Metodologia di review</span>
+          <h3>PRISMA 2020</h3>
+        </div>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="card-body">
+        <p>Preferred Reporting Items for Systematic Reviews and Meta-Analyses, versione 2020. Standard internazionale per la conduzione e il reporting di revisioni sistematiche. 27 item + flowchart a 4 fasi (identification, screening, eligibility, inclusion).</p>
+        <p><strong>Applicazione in Belay &amp; Alamneh (2026):</strong> 245 record iniziali → 210 dopo rimozione duplicati → 92 dopo screening di titolo e abstract → 47 full-text reviewed → 19 inclusi. Criteri: anno 2019-2024, contesto educativo inclusivo, intervento AI esplicito, outcome quantitativi o qualitativi sistematici.</p>
+        <p><strong>Per il lettore:</strong> il flow PRISMA è la garanzia di tracciabilità. Quando un paper dichiara PRISMA, ogni scelta di inclusione/esclusione è giustificata e replicabile.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE LINGUE -->
+<section id="lingue">
+  <div class="section-header">
+    <div class="section-number">03 · Barriere linguistiche</div>
+    <h2 class="section-title">L'AI come ponte tra lingue, non muro tra culture</h2>
+    <p class="section-intro">Fitas (2025) dedica un intero asse della sua analisi al multilinguismo come dimensione cruciale dell'inclusione. In classi multiculturali, in aule rifugiate, in territori con minoranze linguistiche, l'AI può rendere fruibili contenuti altrimenti inaccessibili. Con una condizione: preservare la lingua madre, non sostituirla.</p>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-title">Il dato che inquadra tutto</div>
+    <p>Il <strong>40% della popolazione mondiale</strong> non ha accesso all'istruzione nella propria lingua madre (UNESCO, 2016). In Italia, nell'a.s. 2022-2023, sono stati registrati oltre <strong>860.000 alunni con background migratorio</strong>, di cui una quota rilevante in fase di apprendimento dell'italiano L2 (Fondazione ISMU).</p>
+  </div>
+
+  <h3 style="font-size: 1.3rem; margin: 2rem 0 1rem; color: var(--accent-cyan);">Strumenti di traduzione e interpretariato</h3>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Traduzione · NMT</span>
+      <span class="tool-name">Google Translate</span>
+      <div class="tool-desc">Traduzione neurale in 130+ lingue. Modalità conversazione, fotocamera (OCR), offline. Integrato nel workflow scolastico per comunicazione immediata docente-famiglia.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> comunicazioni scuola-famiglia, supporto studenti NAI</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Traduzione · premium</span>
+      <span class="tool-name">DeepL</span>
+      <div class="tool-desc">Qualità superiore su lingue europee. Preserva sfumature e registro. Versione Pro con glossari personalizzati — utile per terminologia disciplinare.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> traduzione materiali didattici complessi</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Speech-to-text</span>
+      <span class="tool-name">Otter.ai</span>
+      <div class="tool-desc">Trascrizione in tempo reale di lezioni con identificazione speaker. Inglese nativo, altre lingue in espansione. Sottotitoli live utili per alunni non udenti e NAI.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> lezioni accessibili, note condivise</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Trascrizione</span>
+      <span class="tool-name">Rev.com</span>
+      <div class="tool-desc">Trascrizione AI + revisione umana. Alta accuratezza per contenuti educativi in inglese. Utile per creare materiali accessibili da video/audio.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> materiali didattici accessibili</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">LLM generalista</span>
+      <span class="tool-name">ChatGPT</span>
+      <div class="tool-desc">Riformulazione in L2, semplificazione testi, conversazione guidata, generazione di esercizi personalizzati. Supporta oltre 50 lingue con qualità variabile.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> tutoring L2, scaffolding linguistico</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Apprendimento L2</span>
+      <span class="tool-name">Duolingo Max</span>
+      <div class="tool-desc">Apprendimento linguistico gamificato con AI conversazionale (GPT-4). Adatta difficoltà in tempo reale. Modalità Roleplay per esercitarsi in situazioni realistiche.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> L2 autonoma, apprendimento ludico</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Apprendimento L2</span>
+      <span class="tool-name">Rosetta Stone</span>
+      <div class="tool-desc">Immersione linguistica con riconoscimento vocale AI per correzione pronuncia. 25 lingue. Approccio visuale senza traduzione — utile per apprendenti analfabeti funzionali in L1.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> L2 per apprendenti con bassa scolarizzazione L1</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Apprendimento L2</span>
+      <span class="tool-name">Babbel</span>
+      <div class="tool-desc">Lezioni brevi con AI di feedback personalizzato. 14 lingue. Focus sulla comunicazione pratica quotidiana, utile per studenti adulti e famiglie NAI.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> alfabetizzazione L2 per adulti/famiglie</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Preservazione lingue</span>
+      <span class="tool-name">PictoAndes</span>
+      <div class="tool-desc">Esempio citato da Fitas (2025): sistema per preservare e insegnare lingue indigene andine (Quechua, Aymara) usando pittogrammi AI-generati. Caso d'uso: non estinguere le lingue mentre si traduce.</div>
+      <div class="tool-target"><strong>Uso inclusivo:</strong> minoranze linguistiche, L1 a rischio</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Principio di vigilanza linguistica</div>
+    <p>L'AI traduce, non <em>capisce</em> contesti culturali. Una traduzione tecnicamente corretta può veicolare contenuti inadatti o offensivi. Il docente resta mediatore interculturale, l'AI è supporto. Inoltre, <strong>l'uso intensivo di traduzione automatica può rallentare l'apprendimento della lingua di scolarizzazione</strong> — va dosato come l'insulina: necessario ma calibrato <span class="cite-inline">(Fitas, 2025)</span>.</p>
+  </div>
+</section>
+
+<!-- SEZIONE STRUMENTI BES -->
+<section id="strumenti">
+  <div class="section-header">
+    <div class="section-number">04 · Catalogo strumenti</div>
+    <h2 class="section-title">AI per bisogni educativi speciali: nove famiglie tecnologiche</h2>
+    <p class="section-intro">Catalogo completo dei sistemi AI mappati nei due paper, raggruppati per finalità. Per ciascuno: cosa fa, per chi, riferimento scientifico. Nessuno è una soluzione universale; molti, combinati con progettualità inclusiva, accorciano distanze altrimenti incolmabili.</p>
+  </div>
+
+  <!-- GRUPPO 1: ITS -->
+  <h3 style="font-size: 1.3rem; margin: 2rem 0 1rem; color: var(--accent-cyan);">1. Sistemi di Tutoring Intelligente (ITS)</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Sistemi che personalizzano il percorso di apprendimento in tempo reale in base alle risposte dello studente, al suo stile cognitivo, ai tempi di risposta. Utili per alunni con DSA, ADHD, disabilità intellettiva lieve, plusdotazione (che richiedono arricchimento).</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">ITS · matematica</span>
+      <span class="tool-name">ALEKS</span>
+      <div class="tool-desc">McGraw-Hill. Sistema di assessment e apprendimento adattivo per matematica K-16. Identifica gap e propone percorsi personalizzati. Adotta modello "knowledge space theory".</div>
+      <div class="tool-target"><strong>Target:</strong> DSA discalculia, ADHD, disabilità intellettiva lieve</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Assessment clinico</span>
+      <span class="tool-name">Q-interactive</span>
+      <div class="tool-desc">Pearson. Piattaforma digitale per la somministrazione di test psicometrici (WISC-V, NEPSY-II, WIAT). Adatta presentazione stimoli per esigenze sensoriali.</div>
+      <div class="tool-target"><strong>Target:</strong> valutazione diagnostica alunni con sospette difficoltà</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">ITS · multidisciplinare</span>
+      <span class="tool-name">Carnegie Learning (MATHia)</span>
+      <div class="tool-desc">ITS basato su Cognitive Tutor con 30+ anni di ricerca CMU. Modelli cognitivi della risoluzione di problemi matematici. Feedback step-by-step.</div>
+      <div class="tool-target"><strong>Target:</strong> difficoltà specifiche di apprendimento matematico</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Adaptive learning</span>
+      <span class="tool-name">DreamBox Learning</span>
+      <div class="tool-desc">Matematica K-8 adattiva. Cattura non solo la risposta ma anche il processo (clic, esitazioni). Modifica difficoltà in tempo reale. Usato in studi citati da Belay &amp; Alamneh (2026).</div>
+      <div class="tool-target"><strong>Target:</strong> scuola primaria, DSA emergenti</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">ITS generalista</span>
+      <span class="tool-name">Squirrel AI</span>
+      <div class="tool-desc">Piattaforma cinese con oltre 10 milioni di utenti. Scompone materie in migliaia di micro-concetti, ogni studente ha un grafo di competenze aggiornato in tempo reale.</div>
+      <div class="tool-target"><strong>Target:</strong> personalizzazione di massa, recupero apprendimenti</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Tutoring AI</span>
+      <span class="tool-name">Khanmigo (Khan Academy)</span>
+      <div class="tool-desc">Tutor AI basato su GPT-4 integrato con il curriculum Khan Academy. Socratico: non dà risposte ma guida con domande. Disponibile in italiano.</div>
+      <div class="tool-target"><strong>Target:</strong> apprendimento autonomo, scaffolding</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 2: STT/TTS -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">2. Speech-to-text (STT) e Text-to-speech (TTS)</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Tecnologie di conversione voce-testo e testo-voce. Canale bidirezionale di accessibilità per alunni con disabilità sensoriali, motorie, disturbi della comunicazione, dislessia.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Disturbi fluenza</span>
+      <span class="tool-name">Stamurai</span>
+      <div class="tool-desc">App citata da Fitas (2025) per terapia della balbuzie. Esercizi di respirazione, feedback vocale AI, tracciamento progressi. Usa analisi prosodica in tempo reale.</div>
+      <div class="tool-target"><strong>Target:</strong> alunni con balbuzie (1% popolazione)</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">CAA digitale</span>
+      <span class="tool-name">Proloquo2Go / AAC Apps</span>
+      <div class="tool-desc">Comunicazione Aumentativa Alternativa. App con pittogrammi, sintesi vocale di alta qualità, predizione parole AI. Per alunni non verbali o con linguaggio emergente.</div>
+      <div class="tool-target"><strong>Target:</strong> ASD non verbale, disabilità intellettiva grave, paralisi cerebrale</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Screen reader AI</span>
+      <span class="tool-name">Seeing AI (Microsoft)</span>
+      <div class="tool-desc">App gratuita iOS. Descrive scene, legge testi (stampato e manoscritto), riconosce persone, prodotti, valuta luminosità e colori. Motore di computer vision + NLP.</div>
+      <div class="tool-target"><strong>Target:</strong> ipovedenti, ciechi</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">TTS avanzato</span>
+      <span class="tool-name">ElevenLabs / Murf</span>
+      <div class="tool-desc">Sintesi vocale con voci AI naturali in italiano. Permette di creare audiolibri di materiali didattici personalizzati. Clonazione voce del docente per continuità affettiva.</div>
+      <div class="tool-target"><strong>Target:</strong> DSA dislessia, ciechi, difficoltà di lettura</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Sottotitoli live</span>
+      <span class="tool-name">Google Live Caption / Ava</span>
+      <div class="tool-desc">Sottotitoli automatici in tempo reale su qualsiasi contenuto audio/video. Ava è specializzato per contesti multi-speaker (riunioni, lezioni). Italiano disponibile.</div>
+      <div class="tool-target"><strong>Target:</strong> alunni sordi/ipoudenti, NAI</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Voice banking</span>
+      <span class="tool-name">Voiceitt</span>
+      <div class="tool-desc">Riconoscimento vocale addestrato su voci atipiche (disartria, paralisi cerebrale, SLA). Dove Google e Apple falliscono, Voiceitt riconosce. Personalizzato per lo speaker.</div>
+      <div class="tool-target"><strong>Target:</strong> disartria, paralisi cerebrale, disabilità motorie</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 3: VR/AR -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">3. Realtà virtuale e aumentata</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Ambienti immersivi e sovrapposizioni digitali che permettono simulazione, esposizione graduale, gamification terapeutica. Potenti per ASD, fobie specifiche, social skills training, dislessia.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Social skills</span>
+      <span class="tool-name">Google Glass + Brain Power</span>
+      <div class="tool-desc">Citato da Fitas (2025). Smart glasses con AI che aiutano bambini con ASD a riconoscere emozioni facciali in tempo reale durante interazioni reali. Feedback discreto tramite display laterale.</div>
+      <div class="tool-target"><strong>Target:</strong> ASD — riconoscimento emozioni, eye contact</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Dislessia · AR</span>
+      <span class="tool-name">Augmenta11y</span>
+      <div class="tool-desc">App AR citata da Fitas (2025). Riformatta testi stampati con font, spaziatura e colori ottimizzati per dislessia, sovrapponendo l'overlay alla pagina reale attraverso la fotocamera.</div>
+      <div class="tool-target"><strong>Target:</strong> DSA dislessia, leggere libri cartacei scolastici</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Diagnosi dislessia</span>
+      <span class="tool-name">Lexplore</span>
+      <div class="tool-desc">Sistema svedese citato in entrambi i paper. Eye-tracking AI per screening precoce dei disturbi di lettura in 3 minuti. Identifica pattern oculari tipici della dislessia prima della diagnosi formale.</div>
+      <div class="tool-target"><strong>Target:</strong> screening DSA scuola primaria</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Terapia espositiva</span>
+      <span class="tool-name">Floreo VR</span>
+      <div class="tool-desc">Lezioni di abilità sociali in VR per bambini con ASD. Ambienti sicuri per esercitare scenari difficili (mensa, attraversamento strada, interazioni nuove) con caregiver in co-presenza.</div>
+      <div class="tool-target"><strong>Target:</strong> ASD — social skills, autonomie</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Storytelling immersivo</span>
+      <span class="tool-name">CoSpaces Edu</span>
+      <div class="tool-desc">Piattaforma no-code per creare ambienti VR/AR didattici. Con AI integrata per generare mondi virtuali accessibili. Utile per progetti inclusivi collaborativi.</div>
+      <div class="tool-target"><strong>Target:</strong> inclusione generale, espressione alternativa</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Riabilitazione motoria</span>
+      <span class="tool-name">MindMotion GO</span>
+      <div class="tool-desc">VR per riabilitazione motoria post-ictus o paralisi cerebrale. AI adatta esercizi in base ai progressi. Usabile anche in contesto scolastico per alunni con disabilità motoria.</div>
+      <div class="tool-target"><strong>Target:</strong> disabilità motorie, coordinazione</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 4: ROBOT -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">4. Robot sociali e educativi</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Robot fisici con capacità AI di interazione. Utili soprattutto con ASD (prevedibilità rassicurante), ospedalizzazione, disabilità gravi.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Robot sociale ASD</span>
+      <span class="tool-name">Emorobot</span>
+      <div class="tool-desc">Citato da Fitas (2025). Robot progettato per emotion recognition training con bambini autistici. Espressioni facciali semplificate e prevedibili facilitano l'apprendimento emotivo.</div>
+      <div class="tool-target"><strong>Target:</strong> ASD — riconoscimento emozioni</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Robot didattico</span>
+      <span class="tool-name">Sahayak</span>
+      <div class="tool-desc">Progetto citato da Fitas (2025), India. Robot a basso costo per supporto didattico in classi rurali e inclusive. Multilingue, ripete contenuti infinite volte senza frustrazione.</div>
+      <div class="tool-target"><strong>Target:</strong> contesti a basse risorse, disabilità intellettiva</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Telepresenza</span>
+      <span class="tool-name">AV1 / NAO / Pepper</span>
+      <div class="tool-desc">Robot di telepresenza per alunni con patologie croniche o immunodepressi. L'alunno controlla il robot in classe da casa/ospedale. AI facilita gestione delle interazioni.</div>
+      <div class="tool-target"><strong>Target:</strong> alunni ospedalizzati, immunodepressi</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Coding inclusivo</span>
+      <span class="tool-name">Cubetto / Ozobot</span>
+      <div class="tool-desc">Robot educativi con interfacce tangibili per introdurre il coding a bambini con disabilità intellettiva o pre-scolari. AI adatta difficoltà. Apprendimento senza schermo.</div>
+      <div class="tool-target"><strong>Target:</strong> disabilità intellettiva, pensiero computazionale</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 5: EMOTION RECOGNITION -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">5. Riconoscimento facciale ed emotivo</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Computer vision + deep learning per analizzare espressioni facciali, postura, attenzione. Area a massimo potenziale e massimo rischio — va usata con estrema cautela su minori.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Deep learning</span>
+      <span class="tool-name">VGG-16 / ResNet-18</span>
+      <div class="tool-desc">Architetture di reti neurali convoluzionali citate da Belay &amp; Alamneh (2026) come backbone di molti sistemi di riconoscimento emozioni. Accuratezza fino al 95% su espressioni base, minore su emozioni miste.</div>
+      <div class="tool-target"><strong>Target:</strong> ricerca, sistemi di ausilio ASD</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Attenzione in aula</span>
+      <span class="tool-name">ClassIn / EngageEye</span>
+      <div class="tool-desc">Sistemi di monitoraggio engagement in DAD e aule ibride. Analizzano direzione sguardo e postura. <strong>Alto rischio privacy</strong>: da usare solo con consenso informato e finalità esplicita.</div>
+      <div class="tool-target"><strong>Target:</strong> adattamento lezione, early warning disengagement</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">ASD · emotion coaching</span>
+      <span class="tool-name">Affectiva (Smart Eye)</span>
+      <div class="tool-desc">Emotion AI per applicazioni cliniche e di ricerca. Riconosce 7 emozioni base + stati complessi. Usato in protocolli di supporto per bambini ASD con accompagnamento terapeutico.</div>
+      <div class="tool-target"><strong>Target:</strong> ASD in contesto terapeutico strutturato</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 6: DIAGNOSTICA PRECOCE -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">6. Diagnostica precoce e screening</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Sistemi AI che analizzano pattern comportamentali, vocali, oculari per identificare precocemente disturbi del neurosviluppo. Diagnosi resta compito dello specialista umano — qui si parla di screening.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Screening ASD</span>
+      <span class="tool-name">Cognoa</span>
+      <div class="tool-desc">Primo device AI approvato FDA per diagnosi ausiliaria ASD nei bambini 18-72 mesi. Analizza video di comportamento + questionari genitoriali. Riduce tempi di diagnosi da anni a settimane.</div>
+      <div class="tool-target"><strong>Target:</strong> screening precoce ASD</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Screening DSA</span>
+      <span class="tool-name">DytectiveU</span>
+      <div class="tool-desc">Screening dislessia via gaming AI. 15 minuti di gioco analizzano pattern cognitivi correlati a DSA. Validato scientificamente in Spagna e UK. Accessibile anche a scuole pubbliche.</div>
+      <div class="tool-target"><strong>Target:</strong> screening DSA scuola primaria</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Analisi vocale</span>
+      <span class="tool-name">Winterlight Labs / Canary Speech</span>
+      <div class="tool-desc">Analizzano pattern vocali per identificare precocemente disturbi del linguaggio, demenze, depressione. Applicabili in screening scolastico con cautela etica forte.</div>
+      <div class="tool-target"><strong>Target:</strong> disturbi linguaggio, afasia</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 7: ADAPTIVE LEARNING -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">7. Adaptive learning e personalizzazione cognitiva</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Piattaforme che modellano il profilo cognitivo di ogni studente e adattano materiali, ritmo, difficoltà. Base per un'UDL scalabile.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Content adaptation</span>
+      <span class="tool-name">Century Tech</span>
+      <div class="tool-desc">Piattaforma UK-based con Intelligent Tutoring per matematica, scienze, inglese. Micro-learning con 50.000+ oggetti didattici. Modello cognitivo individuale per ogni studente.</div>
+      <div class="tool-target"><strong>Target:</strong> secondaria I-II, BES ampia definizione</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Assessment adattivo</span>
+      <span class="tool-name">Smart Sparrow</span>
+      <div class="tool-desc">Permette ai docenti di costruire percorsi adattivi senza coding. Branching logic basata su risposte studente. Utile per differenziazione in classi inclusive.</div>
+      <div class="tool-target"><strong>Target:</strong> differenziazione didattica</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Piattaforma integrata</span>
+      <span class="tool-name">Knewton Alta</span>
+      <div class="tool-desc">Sistema adattivo che ricostruisce prerequisiti mancanti. Se uno studente sbaglia algebra, il sistema torna indietro a identificare il concetto lacunoso e lo rinforza prima di riprovare.</div>
+      <div class="tool-target"><strong>Target:</strong> DSA, recupero apprendimenti</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 8: BLENDED -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">8. Blended learning e gestione classe inclusiva</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Strumenti che supportano il docente nella gestione di classi con profili misti, automatizzando task a basso valore per liberare tempo di relazione.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">LMS con AI</span>
+      <span class="tool-name">Google Classroom + Gemini</span>
+      <div class="tool-desc">Integrazione AI per generazione materiali differenziati, feedback automatico, suggerimenti individuali. Italiano supportato.</div>
+      <div class="tool-target"><strong>Target:</strong> gestione classe inclusiva quotidiana</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Pianificazione UDL</span>
+      <span class="tool-name">Eduaide.AI / MagicSchool.ai</span>
+      <div class="tool-desc">Assistenti AI per docenti. Generano versioni differenziate di uno stesso contenuto (semplificata, arricchita, visuale, audio), quiz personalizzati, feedback descrittivi.</div>
+      <div class="tool-target"><strong>Target:</strong> preparazione materiali UDL</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Valutazione formativa</span>
+      <span class="tool-name">Formative AI / Edpuzzle</span>
+      <div class="tool-desc">Valutazione continua con AI che identifica chi sta faticando e su cosa. Report aggregati e individuali. Riduce il carico di correzione, aumenta tempo di intervento mirato.</div>
+      <div class="tool-target"><strong>Target:</strong> monitoraggio classi numerose eterogenee</div>
+    </div>
+  </div>
+
+  <!-- GRUPPO 9: ACCESSIBILITY -->
+  <h3 style="font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--accent-cyan);">9. Strumenti AI di accessibilità generica</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 1rem;">Sistemi trasversali che rendono accessibili materiali, ambienti e comunicazioni. Da integrare in modo strutturale nei workflow scolastici.</p>
+  <div class="grid-3">
+    <div class="tool-card">
+      <span class="tool-category">Lingua dei segni</span>
+      <span class="tool-name">SignAll / HandTalk</span>
+      <div class="tool-desc">Traduzione bidirezionale lingua parlata ↔ lingua dei segni. HandTalk supporta LIBRAS (portoghese), versioni in sviluppo per altre lingue. Non sostituisce interpreti umani.</div>
+      <div class="tool-target"><strong>Target:</strong> alunni sordi, scuole dell'infanzia</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Navigazione ciechi</span>
+      <span class="tool-name">Be My Eyes + GPT-4o</span>
+      <div class="tool-desc">App gratuita con "Virtual Volunteer" AI. Descrive ambiente, legge etichette, orienta in spazi sconosciuti. Utile per autonomie in percorsi scolastici (mensa, laboratori, cortile).</div>
+      <div class="tool-target"><strong>Target:</strong> ciechi, ipovedenti — autonomie</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Lettura facilitata</span>
+      <span class="tool-name">ReadSpeaker / Helperbird</span>
+      <div class="tool-desc">Browser extension che rende ogni pagina web accessibile: TTS di qualità, font per dislessia, rimozione distrazioni, riassunti AI. Da installare come standard su device scolastici.</div>
+      <div class="tool-target"><strong>Target:</strong> DSA, disabilità visive, ADHD</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Accessibilità automatica</span>
+      <span class="tool-name">Equidox / AllyGator</span>
+      <div class="tool-desc">Rendono PDF e materiali digitali conformi a WCAG in modo automatico: alt-text, tag semantici, ordine di lettura. Riducono lavoro del docente di sostegno su 80% dei documenti.</div>
+      <div class="tool-target"><strong>Target:</strong> conformità WCAG materiali didattici</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Note-taking assistito</span>
+      <span class="tool-name">Glean / Notability AI</span>
+      <div class="tool-desc">Registrano lezione sincronizzando audio, slide, appunti. Trascrizione e sintesi AI. Lo studente con DSA, ADHD o non udente riprende solo il pezzo dove si è perso.</div>
+      <div class="tool-target"><strong>Target:</strong> DSA, ADHD, NAI, alunni ipoudenti</div>
+    </div>
+    <div class="tool-card">
+      <span class="tool-category">Scrittura assistita</span>
+      <span class="tool-name">Grammarly + Quillbot</span>
+      <div class="tool-desc">Correzione ortografica e grammaticale AI, riformulazione, spiegazione regole. Fitas (2025) segnala l'importanza per studenti disgrafici e NAI, con la cautela di non sostituire l'apprendimento.</div>
+      <div class="tool-target"><strong>Target:</strong> DSA disortografia/disgrafia, NAI</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE MAPPA BISOGNI -->
+<section id="mappa-bisogni">
+  <div class="section-header">
+    <div class="section-number">05 · Mappa applicativa</div>
+    <h2 class="section-title">Quale AI per quale bisogno: matrice per profili</h2>
+    <p class="section-intro">Rovescio della prospettiva: si parte dal profilo dell'alunno, non dallo strumento. Otto categorie di bisogni e, per ciascuna, gli strumenti più supportati dalla letteratura. Punto di partenza per il PDP o PEI, non sostituto.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="need-card">
+      <h4>👁️ Disabilità visive</h4>
+      <ul>
+        <li><strong>Descrizione ambiente:</strong> Seeing AI, Be My Eyes + GPT-4o</li>
+        <li><strong>Lettura testi:</strong> ReadSpeaker, ElevenLabs (TTS), OCR Google Lens</li>
+        <li><strong>Accessibilità documenti:</strong> Equidox, AllyGator (auto-WCAG)</li>
+        <li><strong>Navigazione:</strong> GPS audio + computer vision su smartphone</li>
+        <li><strong>Evidenza:</strong> studi inclusi in Belay &amp; Alamneh (2026) mostrano miglioramento autonomie</li>
+      </ul>
+    </div>
+
+    <div class="need-card">
+      <h4>👂 Disabilità uditive</h4>
+      <ul>
+        <li><strong>Sottotitoli live:</strong> Google Live Caption, Ava, Otter.ai</li>
+        <li><strong>Lingua dei segni:</strong> SignAll, HandTalk (non sostitutivi di interpreti)</li>
+        <li><strong>Note-taking condiviso:</strong> Glean, Notability AI (audio ↔ testo)</li>
+        <li><strong>Comunicazione famiglia:</strong> DeepL, Google Translate per genitori sordi segnanti</li>
+        <li><strong>Fitas (2025)</strong> cita l'importanza di una pipeline accessibile end-to-end</li>
+      </ul>
+    </div>
+
+    <div class="need-card">
+      <h4>📖 DSA — Dislessia / Disortografia</h4>
+      <ul>
+        <li><strong>Screening:</strong> Lexplore, DytectiveU</li>
+        <li><strong>Lettura facilitata:</strong> Augmenta11y, Helperbird, ReadSpeaker</li>
+        <li><strong>TTS avanzato:</strong> ElevenLabs, Murf per audio materiali didattici</li>
+        <li><strong>Scrittura:</strong> Grammarly, Quillbot (uso esplicito, non nascosto)</li>
+        <li><strong>Belay &amp; Alamneh (2026):</strong> 4 studi su 19 evidenziano efficacia adaptive learning per DSA</li>
+      </ul>
+    </div>
+
+    <div class="need-card">
+      <h4>🎯 ADHD / Difficoltà attentive</h4>
+      <ul>
+        <li><strong>Strutturazione task:</strong> Khanmigo, Eduaide.AI (micro-step)</li>
+        <li><strong>Rimozione distrazioni:</strong> Helperbird, modalità focus</li>
+        <li><strong>Feedback immediato:</strong> ITS come ALEKS, DreamBox (rinforzi ravvicinati)</li>
+        <li><strong>Note-taking:</strong> Glean, recupero automatico punti persi</li>
+        <li><strong>Nota:</strong> vigilare su gamification che può aumentare dipendenza da stimoli forti</li>
+      </ul>
+    </div>
+
+    <div class="need-card">
+      <h4>🧩 Spettro Autistico (ASD)</h4>
+      <ul>
+        <li><strong>Emotion recognition:</strong> Google Glass + Brain Power, Emorobot</li>
+        <li><strong>Social skills VR:</strong> Floreo VR, esposizione graduale a situazioni</li>
+        <li><strong>CAA digitale:</strong> Proloquo2Go per alunni non verbali</li>
+        <li><strong>Screening precoce:</strong> Cognoa (FDA approved)</li>
+        <li><strong>Belay &amp; Alamneh (2026):</strong> ASD è il bisogno più studiato (8/19 studi), con outcome positivi su social skills</li>
+      </ul>
+    </div>
+
+    <div class="need-card">
+      <h4>🧠 Disabilità intellettive</h4>
+      <ul>
+        <li><strong>Robot educativi:</strong> Sahayak, Cubetto (ripetizione senza frustrazione)</li>
+        <li><strong>Semplificazione testi:</strong> ChatGPT/Claude per riscrittura in CAA-like</li>
+        <li><strong>TTS + pittogrammi:</strong> pipeline personalizzate</li>
+        <li><strong>Adaptive learning:</strong> DreamBox, Century Tech (micro-passi)</li>
+        <li><strong>Principio di Fitas (2025):</strong> AI moltiplica tempo dedicato del docente, non lo sostituisce</li>
+      </ul>
+    </div>
+
+    <div class="need-card">
+      <h4>♿ Disabilità motorie</h4>
+      <ul>
+        <li><strong>Riconoscimento vocale dedicato:</strong> Voiceitt (disartria, SLA)</li>
+        <li><strong>Controllo dispositivi:</strong> eye-tracking AI, switch scanning intelligenti</li>
+        <li><strong>Riabilitazione:</strong> MindMotion GO (VR motoria in classe)</li>
+        <li><strong>Telepresenza:</strong> AV1 per ospedalizzazioni prolungate</li>
+        <li><strong>Accessibilità:</strong> ogni strumento va testato con input alternativi</li>
+      </ul>
+    </div>
+
+    <div class="need-card">
+      <h4>🌍 NAI / Bisogni linguistici</h4>
+      <ul>
+        <li><strong>Traduzione:</strong> DeepL, Google Translate (con vigilanza culturale)</li>
+        <li><strong>Apprendimento L2:</strong> Duolingo Max, Rosetta Stone (adulti)</li>
+        <li><strong>LLM generalisti:</strong> ChatGPT per scaffolding in L1 e L2</li>
+        <li><strong>Sottotitoli live:</strong> Ava per accessibilità lezioni</li>
+        <li><strong>Preservazione L1:</strong> PictoAndes come modello replicabile</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-title">Principio guida</div>
+    <p>Il PDP/PEI è il luogo dove l'AI entra in didattica inclusiva. Ogni strumento scelto dovrebbe essere nominato esplicitamente, con livello AIAS esplicitato, consenso informato della famiglia, e piano di monitoraggio. <strong>Lo strumento entra nella documentazione non come optional, ma come strumento compensativo o misura dispensativa strutturata</strong>.</p>
+  </div>
+</section>
+
+<!-- SEZIONE EVIDENZE -->
+<section id="evidenze">
+  <div class="section-header">
+    <div class="section-number">06 · Evidenze empiriche</div>
+    <h2 class="section-title">Cosa dicono i dati della review sistematica</h2>
+    <p class="section-intro">Belay &amp; Alamneh (2026) hanno analizzato 19 studi superstiti dopo filtro PRISMA su 245 iniziali. Ecco la sintesi quantitativa e qualitativa di ciò che la ricerca scientifica 2019-2024 ha documentato con rigore.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">19</div>
+      <div class="stat-label">Studi inclusi su 245 identificati — tasso di inclusione 7,8% dopo screening PRISMA 2020.</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-value">8/19</div>
+      <div class="stat-label">Studi focalizzati su ASD — il bisogno più rappresentato nella letteratura AI&amp;Inclusion.</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="stat-value">2019-24</div>
+      <div class="stat-label">Finestra temporale. Indice di un campo scientifico giovane ma in rapida crescita.</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Paesi principali: Saudi Arabia, India, USA, Sud Corea, Cina, Europa — geografia diseguale.</div>
+    </div>
+  </div>
+
+  <h3 style="font-size: 1.2rem; margin: 2rem 0 1rem;">Tabella sintetica outcome per dominio</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Dominio di bisogno</th>
+          <th>Tecnologie studiate</th>
+          <th>Outcome principali</th>
+          <th>Livello di evidenza</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ASD</strong><br>(8 studi)</td>
+          <td>Robot sociali, VR, emotion AI, screening (Cognoa)</td>
+          <td>Miglioramento social skills, riconoscimento emozioni, diminuzione stress comunicativo</td>
+          <td><span class="tag tag-green">Moderato</span></td>
+        </tr>
+        <tr>
+          <td><strong>DSA</strong><br>(4 studi)</td>
+          <td>Adaptive learning, TTS, screening (Lexplore, DytectiveU)</td>
+          <td>Aumento accuratezza lettura, tempi di risposta, motivazione</td>
+          <td><span class="tag tag-green">Moderato</span></td>
+        </tr>
+        <tr>
+          <td><strong>ADHD</strong><br>(3 studi)</td>
+          <td>ITS con feedback immediato, gamification</td>
+          <td>Miglioramento focus, completion rate, ma effetti di mantenimento non ancora chiari</td>
+          <td><span class="tag tag-yellow">Limitato</span></td>
+        </tr>
+        <tr>
+          <td><strong>Disab. sensoriali</strong><br>(2 studi)</td>
+          <td>STT/TTS, CAA, AR (Seeing AI)</td>
+          <td>Autonomia in compiti quotidiani, partecipazione in aula</td>
+          <td><span class="tag tag-yellow">Limitato</span></td>
+        </tr>
+        <tr>
+          <td><strong>Disab. intellettive</strong><br>(2 studi)</td>
+          <td>Robot educativi, adaptive learning</td>
+          <td>Mantenimento apprendimenti, riduzione stigma</td>
+          <td><span class="tag tag-yellow">Limitato</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-top: 2rem;">
+    <div class="card">
+      <h3>✅ Pattern positivi ricorrenti</h3>
+      <p><strong>1. Personalizzazione</strong> — Studi mostrano guadagni significativi quando l'AI adatta contenuti e ritmo a profili individuali, specie in classi eterogenee.</p>
+      <p><strong>2. Diminuzione stigma</strong> — L'uso generalizzato di AI (non solo per i "BES") riduce la percezione di diversità e aumenta l'accettazione tra pari.</p>
+      <p><strong>3. Liberazione di tempo docente</strong> — Automatizzare correzioni, feedback base, preparazione materiali differenziati libera tempo di relazione, che è il vero fattore terapeutico.</p>
+      <p><strong>4. Diagnosi precoce</strong> — Screening AI riducono età di identificazione, aumentando finestra di efficacia degli interventi.</p>
+    </div>
+    <div class="card">
+      <h3>⚠️ Pattern problematici ricorrenti</h3>
+      <p><strong>1. Eterogeneità metodologica</strong> — I 19 studi usano outcome diversi, rendendo meta-analisi difficili. Serve standardizzazione.</p>
+      <p><strong>2. Campioni piccoli</strong> — Molti studi hanno n&lt;30, limitando generalizzabilità statistica.</p>
+      <p><strong>3. Assenza follow-up</strong> — Raro trovare misurazioni a 6-12 mesi dal trattamento: non sappiamo quanto durano gli effetti.</p>
+      <p><strong>4. Under-reporting effetti collaterali</strong> — Pochi studi riportano sistematicamente fallimenti, dropout, effetti negativi.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Gap di ricerca identificati</div>
+    <p>Belay &amp; Alamneh (2026) indicano 4 direzioni per ricerca futura: <strong>(1)</strong> studi longitudinali di mantenimento, <strong>(2)</strong> trial randomizzati multicentrici su campioni ampi, <strong>(3)</strong> analisi costo-efficacia per sistemi scolastici a risorse limitate, <strong>(4)</strong> ricerca sui <em>non-responder</em> (chi non beneficia e perché).</p>
+  </div>
+</section>
+
+<!-- SEZIONE RISCHI -->
+<section id="rischi">
+  <div class="section-header">
+    <div class="section-number">07 · Contropartite</div>
+    <h2 class="section-title">Rischi, bias, zone di vigilanza</h2>
+    <p class="section-intro">L'AI inclusiva non è neutra. Entrambi i paper dedicano spazio sostanziale ai rischi. Ignorarli significa generare esclusione mentre si dichiara inclusione. Sei aree critiche che ogni dirigente, docente, policy maker deve conoscere.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: var(--accent-red);">🎯 Bias algoritmici</h3>
+      <p>I modelli AI apprendono da dataset storici che riflettono bias sociali. Sistemi di riconoscimento facciale funzionano peggio su volti non-bianchi; screening AI addestrati su popolazioni WEIRD (Western, Educated, Industrialized, Rich, Democratic) falliscono su altri gruppi.</p>
+      <p><strong>Impatto su inclusione:</strong> chi è già marginalizzato rischia di essere ulteriormente mal-classificato o non-riconosciuto <span class="cite-inline">(Fitas, 2025; Belay &amp; Alamneh, 2026)</span>.</p>
+      <p><strong>Cosa fare:</strong> chiedere ai fornitori audit di bias per genere, etnia, status socio-economico, disabilità. Privilegiare sistemi che espongono pubblicamente queste metriche.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--accent-red);">🔒 Privacy e dati sensibili</h3>
+      <p>Strumenti di emotion recognition, eye-tracking, analisi vocale raccolgono dati biometrici. Quando i soggetti sono minori con disabilità, la sensibilità è doppia: GDPR art. 9 (dati relativi alla salute) e protezione rafforzata dei minori.</p>
+      <p><strong>Rischio:</strong> data breaches, profilazione invisibile, usi secondari non previsti.</p>
+      <p><strong>Cosa fare:</strong> DPIA obbligatoria (Valutazione d'Impatto Privacy), contratti chiari con fornitori cloud, preferenza per modelli on-device quando possibile, consenso informato esplicito e rinnovabile. Rif. Garante Privacy Italia.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--accent-red);">🌐 Digital divide</h3>
+      <p>Fitas (2025) insiste: l'AI inclusiva richiede infrastrutture (connessione, device, manutenzione) che mancano dove più servirebbero. Rischio paradossale: l'innovazione aumenta il divario invece di ridurlo.</p>
+      <p><strong>Esempi concreti:</strong> scuole in aree interne senza banda larga, famiglie senza device personali, studenti senza competenze digitali di base in famiglia.</p>
+      <p><strong>Cosa fare:</strong> PNRR come opportunità (infrastrutture, device, formazione); alternative low-tech validate; partnership con enti territoriali. Mai progettare "solo digitale".</p>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--accent-red);">⚫ Black box e opacità decisionale</h3>
+      <p>Molti sistemi AI sono intrinsecamente opachi (deep learning). Quando un algoritmo classifica un alunno come "a rischio DSA" o "non pronto per l'inclusione in classe ordinaria", chi può verificare perché?</p>
+      <p><strong>Impatto educativo:</strong> decisioni che impattano vite di minori senza possibilità di audit pedagogico.</p>
+      <p><strong>Cosa fare:</strong> applicare rigorosamente Explainable AI (XAI), preferire sistemi che forniscano spiegazioni umanamente comprensibili, rifiutare automatismi su decisioni educative rilevanti (retenzione, orientamento).</p>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--accent-red);">👁️ Sorveglianza e infantilizzazione</h3>
+      <p>Sistemi di monitoraggio attenzione in DAD, tracciamento progressi continuo, analisi comportamentale: il confine tra supporto e sorveglianza è sottile. Per studenti con disabilità, abituati a essere "osservati", il rischio di iper-controllo è alto.</p>
+      <p><strong>Conseguenze:</strong> erosione dell'agency, stress, internalizzazione dello sguardo esterno, ansia da prestazione permanente.</p>
+      <p><strong>Cosa fare:</strong> diritto di disconnessione, trasparenza sul <em>cosa</em> viene tracciato, co-decisione con studente (se età e condizioni lo permettono) e famiglia. Principio: minimo dato necessario.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="color: var(--accent-red);">🪨 Dipendenza e atrofia cognitiva</h3>
+      <p>Fitas (2025) solleva il rischio che l'uso intensivo di AI per compiti cognitivi (scrittura, calcolo, lettura) porti a una mancata costruzione di competenze di base. Il "strumento compensativo" può diventare "sostituto funzionale".</p>
+      <p><strong>Soglia critica:</strong> per disabilità permanenti è bilanciamento tra compensazione e sviluppo. Per difficoltà temporanee o evolutive, è scelta pedagogica.</p>
+      <p><strong>Cosa fare:</strong> usare la scala AIAS come linguaggio condiviso. Alternare fasi "AI-on" e "AI-off". Monitorare l'evoluzione della competenza, non solo del prodotto.</p>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Il monito di Fitas (2025)</div>
+    <p>"L'AI può essere strumento potente di inclusione o leva sofisticata di esclusione. La differenza non è nella tecnologia — è nella pedagogia, nell'etica e nelle strutture di governance che la guidano. Un'AI senza framework è un'AI che riproduce, a velocità moltiplicata, le disuguaglianze che dovrebbe ridurre."</p>
+  </div>
+</section>
+
+<!-- SEZIONE RACCOMANDAZIONI -->
+<section id="raccomandazioni">
+  <div class="section-header">
+    <div class="section-number">08 · Azioni</div>
+    <h2 class="section-title">Raccomandazioni operative per tre livelli</h2>
+    <p class="section-intro">Sintesi delle indicazioni che emergono dai due paper, stratificate per ruolo. Ogni livello ha leve specifiche; solo l'azione coordinata genera inclusione strutturale.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag tag-cyan">Per docenti e team di sostegno</span>
+      <h3>Livello operativo</h3>
+      <p><strong>1. Formati su AIPACK</strong> — Conoscenza AI + pedagogia speciale + contenuto. Non basta saper usare ChatGPT: serve discriminare quando l'AI aggiunge valore.</p>
+      <p><strong>2. Integra l'AI nel PDP/PEI</strong> — Nomina lo strumento, il livello AIAS, il piano di monitoraggio. Documenta come qualsiasi strumento compensativo.</p>
+      <p><strong>3. Usa l'AI per liberare tempo di relazione</strong> — Delega feedback base, preparazione materiali, correzione di routine. Investi il tempo recuperato in relazione educativa.</p>
+      <p><strong>4. Dichiara i livelli d'uso</strong> — Adotta la scala AIAS per comunicare a studenti e famiglie cosa è permesso. Elimina ambiguità.</p>
+      <p><strong>5. Audita periodicamente</strong> — Ogni quadrimestre: lo strumento sta funzionando? Per chi non funziona? Perché?</p>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-green">Per dirigenti e funzioni strumentali</span>
+      <h3>Livello d'istituto</h3>
+      <p><strong>1. Policy AI di istituto</strong> — Adotta un documento chiaro su quali strumenti AI sono ammessi, in quali contesti, con quali garanzie privacy.</p>
+      <p><strong>2. DPIA per strumenti AI</strong> — Valutazione d'Impatto Privacy obbligatoria per ogni sistema che tratta dati di minori, specie BES/disabilità.</p>
+      <p><strong>3. Formazione continua</strong> — Non un corso una tantum, ma formazione AIPACK ricorrente per tutto il collegio docenti.</p>
+      <p><strong>4. Infrastruttura equa</strong> — Device e connessione per tutti gli alunni BES. L'AI non deve creare un nuovo divario interno alla scuola.</p>
+      <p><strong>5. Patti con famiglie</strong> — Consenso informato per ogni strumento AI usato con l'alunno. Rendicontazione trasparente.</p>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-purple">Per policy maker e USR</span>
+      <h3>Livello sistemico</h3>
+      <p><strong>1. Linee guida nazionali</strong> — Un quadro normativo italiano su AI in educazione inclusiva, coerente con AI Act e GDPR, operativo per le scuole.</p>
+      <p><strong>2. White list di strumenti validati</strong> — Un catalogo nazionale di strumenti AI testati per accessibilità, bias, privacy, aggiornato con peer review.</p>
+      <p><strong>3. Finanziamenti strutturali</strong> — PNRR + fondi ordinari per infrastrutture, device, formazione. Accessibilità come criterio di bando.</p>
+      <p><strong>4. Osservatorio permanente</strong> — Monitoraggio scientifico dell'impatto AI sull'inclusione in Italia, con pubblicazione dati aperti.</p>
+      <p><strong>5. Dialogo con accademia e terzo settore</strong> — Associazioni di tutela (UICI, ENS, AID, ANGSA) nel tavolo di governance.</p>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-title">Domanda di chiusura</div>
+    <p>La domanda che chiude entrambi i paper, riformulata: non "quanta AI" mettere nella scuola inclusiva, ma <strong>"quale architettura etica, pedagogica e tecnica"</strong> ci permette di usare l'AI per realizzare finalmente il diritto all'istruzione inclusiva di qualità che da quasi 50 anni è scritto nelle nostre norme (Legge 517/77, Legge 104/92, Legge 170/2010, DM 66/2017).</p>
+  </div>
+</section>
+
+<!-- SEZIONE ROADMAP -->
+<section id="roadmap">
+  <div class="section-header">
+    <div class="section-number">09 · Roadmap</div>
+    <h2 class="section-title">Cinque passi per un docente che parte oggi</h2>
+    <p class="section-intro">Sequenza pragmatica per un docente (di classe o di sostegno) che vuole integrare AI nella propria pratica inclusiva a partire da subito, senza scorciatoie ma anche senza paralisi analitica.</p>
+  </div>
+
+  <div class="roadmap">
+    <div class="roadmap-step">
+      <h4>Mappa i tuoi casi</h4>
+      <p>Per ciascun alunno BES/disabilità/NAI, identifica <strong>tre bisogni concreti</strong> dove uno strumento AI potrebbe fare la differenza: un testo difficile da leggere? Una comunicazione famiglia da tradurre? Un esercizio da differenziare? Scrivi questa mappa — è la tua bussola.</p>
+    </div>
+
+    <div class="roadmap-step">
+      <h4>Scegli un solo strumento per iniziare</h4>
+      <p>Dalla sezione 4 di questa dashboard, scegli <strong>un solo strumento</strong> allineato al bisogno più urgente. Gratuito o già disponibile nella scuola. Evita il supermarket di app: la curva di apprendimento docente-studente richiede focus.</p>
+    </div>
+
+    <div class="roadmap-step">
+      <h4>Integralo nel PDP/PEI</h4>
+      <p>Documenta l'uso: strumento, livello AIAS, frequenza, obiettivo misurabile. Acquisisci consenso informato famiglia. Condividi con il team docenti. <strong>Se non è nel PEI/PDP, non è didattica inclusiva</strong>, è sperimentazione personale.</p>
+    </div>
+
+    <div class="roadmap-step">
+      <h4>Monitora per 6 settimane</h4>
+      <p>Finestra di osservazione breve ma sufficiente. Ogni settimana: cosa funziona? Cosa non funziona? L'alunno è più autonomo o più dipendente? Come si pone rispetto ai compagni? Raccogli dati qualitativi semplici.</p>
+    </div>
+
+    <div class="roadmap-step">
+      <h4>Valuta, aggiusta, scala</h4>
+      <p>Al termine delle 6 settimane: lo strumento <strong>resta, cambia o esce</strong>. Se resta, documenta il protocollo per condividerlo con colleghi. Solo ora pensa a introdurre un secondo strumento. La scalabilità arriva dalla consolidazione, non dall'accumulo.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Il criterio del lupo che esplora</div>
+    <p>Entra nel territorio nuovo con curiosità ma anche con fiuto. Non ogni strumento nuovo è terreno sicuro. Ma non restare fermo al limitare: i tuoi alunni meritano che qualcuno apra per primo le porte che l'AI sta iniziando a disegnare.</p>
+  </div>
+</section>
+
+<!-- SEZIONE BIBLIOGRAFIA -->
+<section id="bibliografia">
+  <div class="section-header">
+    <div class="section-number">10 · Bibliografia</div>
+    <h2 class="section-title">Riferimenti in formato APA 7ª edizione</h2>
+    <p class="section-intro">Fonti primarie citate in questa dashboard. Per approfondimenti, entrambi i paper sono ad accesso aperto tramite DOI.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom: 1rem;">Fonti primarie</h3>
+
+    <div class="biblio-entry">
+      Belay, M. A., &amp; Alamneh, E. A. (2026). The Inclusive Algorithm: A Systematic Review of Artificial Intelligence Applications and Outcomes in Special Education and Inclusive Learning Environments. <em>American Journal of Medical Education</em>, <strong>2</strong>(1), 1–14. https://doi.org/10.11648/j.mededu.20260201.11
+    </div>
+
+    <div class="biblio-entry">
+      Fitas, R. (2025). Inclusive education with AI: supporting special needs and tackling language barriers. <em>AI and Ethics</em>, <strong>5</strong>, 5729–5757. https://doi.org/10.1007/s43681-025-00824-3
+    </div>
+
+    <h3 style="margin: 1.5rem 0 1rem;">Normativa e framework citati</h3>
+
+    <div class="biblio-entry">
+      CAST. (2018). <em>Universal Design for Learning Guidelines version 2.2</em>. Retrieved from https://udlguidelines.cast.org
+    </div>
+
+    <div class="biblio-entry">
+      European Commission. (2024). <em>Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (AI Act)</em>. Official Journal of the European Union.
+    </div>
+
+    <div class="biblio-entry">
+      Page, M. J., McKenzie, J. E., Bossuyt, P. M., Boutron, I., Hoffmann, T. C., Mulrow, C. D., et al. (2021). The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. <em>BMJ</em>, <strong>372</strong>, n71. https://doi.org/10.1136/bmj.n71
+    </div>
+
+    <div class="biblio-entry">
+      Perkins, M., Furze, L., Roe, J., &amp; MacVaugh, J. (2024). The AI Assessment Scale (AIAS): A Framework for Ethical Integration of Generative AI in Educational Assessment. <em>Journal of University Teaching and Learning Practice</em>, <strong>21</strong>(6). https://doi.org/10.53761/q3azde36
+    </div>
+
+    <div class="biblio-entry">
+      UNESCO. (2016). <em>If you don't understand, how can you learn?</em> Global Education Monitoring Report, Policy Paper 24. https://unesdoc.unesco.org/ark:/48223/pf0000243713
+    </div>
+
+    <div class="biblio-entry">
+      UNICEF. (2021). <em>Seen, Counted, Included: Using data to shed light on the well-being of children with disabilities</em>. UNICEF Division of Data, Analytics, Planning and Monitoring.
+    </div>
+
+    <div class="biblio-entry">
+      United Nations. (2006). <em>Convention on the Rights of Persons with Disabilities (UNCRPD)</em>. Treaty Series, 2515, 3.
+    </div>
+
+    <div class="biblio-entry">
+      W3C. (2023). <em>Web Content Accessibility Guidelines (WCAG) 2.2</em>. W3C Recommendation. https://www.w3.org/TR/WCAG22/
+    </div>
+
+    <h3 style="margin: 1.5rem 0 1rem;">Normativa italiana</h3>
+
+    <div class="biblio-entry">
+      Repubblica Italiana. (1977). Legge 4 agosto 1977, n. 517 — Norme sulla valutazione degli alunni e sull'abolizione degli esami di riparazione nonché altre norme di modifica dell'ordinamento scolastico.
+    </div>
+
+    <div class="biblio-entry">
+      Repubblica Italiana. (1992). Legge 5 febbraio 1992, n. 104 — Legge-quadro per l'assistenza, l'integrazione sociale e i diritti delle persone handicappate.
+    </div>
+
+    <div class="biblio-entry">
+      Repubblica Italiana. (2010). Legge 8 ottobre 2010, n. 170 — Nuove norme in materia di disturbi specifici di apprendimento in ambito scolastico.
+    </div>
+
+    <div class="biblio-entry">
+      MIUR. (2017). Decreto Legislativo 13 aprile 2017, n. 66 — Norme per la promozione dell'inclusione scolastica degli studenti con disabilità.
+    </div>
+
+    <div class="biblio-entry">
+      MIM. (2023). Decreto Ministeriale 1 luglio 2023, n. 153 — Adozione del modello nazionale di Piano Educativo Individualizzato (PEI).
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top: 2rem;">
+    <div class="callout-title">Come citare questa dashboard</div>
+    <p>Ferrero, I. (2026). <em>AI e Inclusione: framework e strumenti per un'educazione che non lascia indietro nessuno</em>. ivanferrero.it. Disponibile su https://ivanferrero.it/dashboards/ai-inclusione-framework-strumenti-with-menu.html</p>
+  </div>
+</section>
+
+</div>
+
+<script src="/assets/menu.js"></script>
+<script>
+// Expandable cards
+document.addEventListener('click', function(e) {
+  const header = e.target.closest('.expandable .card-header');
+  if (header) {
+    header.closest('.expandable').classList.toggle('open');
+  }
+});
+
+// Smooth scroll nav pills
+document.querySelectorAll('.nav-pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    const targetId = this.getAttribute('data-target');
+    const target = document.getElementById(targetId);
+    if (target) {
+      document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Active pill on scroll
+const sections = document.querySelectorAll('section[id]');
+const pills = document.querySelectorAll('.nav-pill');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= 200) current = section.id;
+  });
+  pills.forEach(pill => {
+    pill.classList.toggle('active', pill.getAttribute('data-target') === current);
+  });
+});
+</script>
+
+</body>
+</html>
