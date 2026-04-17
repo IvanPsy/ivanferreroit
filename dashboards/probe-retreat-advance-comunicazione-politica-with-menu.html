@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sacralizzazione del potere e grammatica del probe-retreat-advance | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        /* Layout con sidebar */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .dash-sidebar {
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .dash-sidebar .sidebar-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dash-sidebar a {
+            display: block;
+            padding: 0.55rem 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.88rem;
+            border-left: 2px solid transparent;
+            transition: all 0.2s;
+            border-radius: 0 4px 4px 0;
+            margin-bottom: 0.15rem;
+        }
+
+        .dash-sidebar a:hover {
+            color: var(--accent-cyan);
+            background: rgba(0, 217, 255, 0.05);
+            border-left-color: var(--accent-cyan);
+        }
+
+        .dash-sidebar a.active {
+            color: var(--accent-cyan);
+            background: rgba(0, 217, 255, 0.08);
+            border-left-color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 2rem 0 1rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2.5rem;
+        }
+
+        .hero .brand-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero h1 {
+            font-size: 2.1rem;
+            line-height: 1.2;
+            margin-bottom: 0.7rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .meta-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(219, 109, 40, 0.06);
+            border: 1px solid rgba(219, 109, 40, 0.3);
+            border-left: 4px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 1.3rem 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .disclaimer .d-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+
+        .disclaimer p {
+            font-size: 0.92rem;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.65;
+        }
+
+        /* Sezioni */
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 90px;
+        }
+
+        section > h2 {
+            font-size: 1.7rem;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.02em;
+        }
+
+        section .section-intro {
+            color: var(--text-secondary);
+            margin-bottom: 1.8rem;
+            line-height: 1.65;
+        }
+
+        .part-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Stat grid custom */
+        .stat-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            .stat-grid-3, .stat-grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.1rem 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-cyan);
+            background: var(--bg-hover);
+        }
+
+        .stat-card .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.3;
+        }
+
+        /* Block / Card */
+        .block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem 1.6rem;
+            margin-bottom: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .block:hover {
+            border-color: rgba(0, 217, 255, 0.3);
+        }
+
+        .block h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .block h4 {
+            font-size: 0.98rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .block p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.9rem;
+        }
+
+        .block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Accent blocks per livello concettuale */
+        .block-key {
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        .block-warn {
+            border-left: 3px solid var(--accent-yellow);
+        }
+
+        .block-critical {
+            border-left: 3px solid var(--accent-red);
+        }
+
+        .block-case {
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        /* Probe-Retreat-Advance visualizer */
+        .pra-flow {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 700px) {
+            .pra-flow { grid-template-columns: 1fr; }
+        }
+
+        .pra-step {
+            padding: 1.3rem;
+            border-radius: 8px;
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+
+        .pra-step.probe {
+            border-top: 3px solid var(--accent-red);
+        }
+        .pra-step.retreat {
+            border-top: 3px solid var(--accent-yellow);
+        }
+        .pra-step.advance {
+            border-top: 3px solid var(--accent-green);
+        }
+
+        .pra-step .pra-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .pra-step.probe .pra-num { color: var(--accent-red); }
+        .pra-step.retreat .pra-num { color: var(--accent-yellow); }
+        .pra-step.advance .pra-num { color: var(--accent-green); }
+
+        .pra-step h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .pra-step p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.55;
+        }
+
+        /* Expandable */
+        .expandable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .expandable .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .expandable .exp-icon {
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            transition: transform 0.2s;
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .expandable.expanded .exp-icon {
+            transform: rotate(45deg);
+        }
+
+        .expandable .exp-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.3s ease;
+        }
+
+        .expandable.expanded .exp-body {
+            max-height: 4000px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Case box (per Bolsonaro, Modi, etc.) */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 900px) {
+            .case-grid { grid-template-columns: 1fr; }
+        }
+
+        .case-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.3rem;
+            transition: all 0.2s;
+        }
+
+        .case-box:hover {
+            border-color: var(--accent-purple);
+            background: var(--bg-hover);
+        }
+
+        .case-box .flag {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .case-box h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .case-box .case-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.7rem;
+        }
+
+        .case-box p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.55rem;
+            top: 0.3rem;
+            bottom: 0.3rem;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.9rem;
+            top: 0.4rem;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 0 3px var(--bg-primary);
+        }
+
+        .timeline-item .t-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.2rem;
+        }
+
+        .timeline-item .t-content {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Comparison table */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1rem 0 1.5rem;
+        }
+
+        .comp-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .comp-table th,
+        .comp-table td {
+            text-align: left;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .comp-table th {
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .comp-table td {
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        .comp-table td:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Quote */
+        blockquote {
+            border-left: 3px solid var(--accent-cyan);
+            padding: 0.5rem 1.2rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--text-primary);
+            background: rgba(0, 217, 255, 0.03);
+            border-radius: 0 4px 4px 0;
+        }
+
+        blockquote cite {
+            display: block;
+            font-style: normal;
+            margin-top: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Glossary */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .gloss-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .gloss-item.hidden { display: none; }
+
+        .gloss-item:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .gloss-item h4 {
+            font-size: 0.95rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.4rem;
+        }
+
+        .gloss-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin: 0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        /* Bibliography */
+        .biblio-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .biblio-section h4 {
+            font-size: 0.95rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.6rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.03em;
+        }
+
+        .biblio-section ol {
+            padding-left: 1.3rem;
+            margin: 0;
+        }
+
+        .biblio-section li {
+            font-size: 0.83rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.6rem;
+        }
+
+        .biblio-section li a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            word-break: break-all;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+        }
+
+        .biblio-section li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Tabs */
+        .tabs-nav {
+            display: flex;
+            gap: 0.4rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.88rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            margin-bottom: -1px;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); }
+
+        .tab-btn.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Tag custom */
+        .tag {
+            display: inline-block;
+            padding: 0.22rem 0.65rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .tag-cyan { background: rgba(0, 217, 255, 0.12); color: var(--accent-cyan); border: 1px solid rgba(0, 217, 255, 0.3); }
+        .tag-purple { background: rgba(163, 113, 247, 0.12); color: var(--accent-purple); border: 1px solid rgba(163, 113, 247, 0.3); }
+        .tag-yellow { background: rgba(210, 153, 34, 0.12); color: var(--accent-yellow); border: 1px solid rgba(210, 153, 34, 0.3); }
+        .tag-red { background: rgba(248, 81, 73, 0.12); color: var(--accent-red); border: 1px solid rgba(248, 81, 73, 0.3); }
+        .tag-green { background: rgba(63, 185, 80, 0.12); color: var(--accent-green); border: 1px solid rgba(63, 185, 80, 0.3); }
+        .tag-orange { background: rgba(219, 109, 40, 0.12); color: var(--accent-orange); border: 1px solid rgba(219, 109, 40, 0.3); }
+
+        /* Progress */
+        .reading-progress-bar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            z-index: 1500;
+            transition: width 0.1s;
+            width: 0;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 900px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+                padding: 5.5rem 1.2rem 3rem;
+                gap: 1rem;
+            }
+            .dash-sidebar {
+                position: static;
+                max-height: none;
+                overflow: visible;
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .dash-sidebar a {
+                display: inline-block;
+                font-size: 0.82rem;
+                padding: 0.35rem 0.7rem;
+                border-left: none;
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                margin: 0.15rem;
+            }
+            .hero h1 { font-size: 1.55rem; }
+        }
+
+        @media (max-width: 768px) {
+            .reading-progress-bar { top: 120px; }
+            body { padding-top: 0; }
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-note a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Key concept callout */
+        .key-concept {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.06) 0%, rgba(163, 113, 247, 0.06) 100%);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+        }
+
+        .key-concept .kc-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .key-concept p { margin: 0; color: var(--text-primary); line-height: 1.65; }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Progress bar -->
+    <div class="reading-progress-bar" id="progressBar"></div>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="dash-sidebar">
+            <div class="sidebar-title">◈ Navigazione</div>
+            <a href="#disclaimer" data-target="disclaimer" class="active">Disclaimer</a>
+            <a href="#overview" data-target="overview">Sintesi</a>
+            <a href="#parte1" data-target="parte1">1. Corpo politico sacro</a>
+            <a href="#parte2" data-target="parte2">2. Grammatica retorica</a>
+            <a href="#parte3" data-target="parte3">3. Probe-Retreat-Advance</a>
+            <a href="#parte4" data-target="parte4">4. Operato e miti</a>
+            <a href="#parte5" data-target="parte5">5. Gaza e Iran</a>
+            <a href="#parte6" data-target="parte6">6. Casi italiani</a>
+            <a href="#parte7" data-target="parte7">7. Conclusioni</a>
+            <a href="#parte8" data-target="parte8">8. Ricerca futura</a>
+            <a href="#glossario" data-target="glossario">Glossario</a>
+            <a href="#bibliografia" data-target="bibliografia">Bibliografia</a>
+        </aside>
+
+        <!-- Main content -->
+        <main>
+            <!-- Hero -->
+            <div class="hero">
+                <span class="brand-label">◈ Analisi antropologica · Comunicazione politica</span>
+                <h1>Sacralizzazione del potere e grammatica del <span style="color: var(--accent-cyan);">probe-retreat-advance</span></h1>
+                <p class="subtitle">Un'analisi comparata della comunicazione politica contemporanea: Trump, Bolsonaro, Modi, Meloni, Salvini. Dal gesto simbolico alle dinamiche geopolitiche di medio periodo.</p>
+                <div class="meta-row">
+                    <span>📅 17 aprile 2026</span>
+                    <span>🔬 Approccio: antropologico · semiotico</span>
+                    <span>📚 41 fonti · 8 sezioni</span>
+                </div>
+            </div>
+
+            <!-- DISCLAIMER -->
+            <section id="disclaimer">
+                <div class="disclaimer">
+                    <span class="d-label">⚠ Nota etica e di contesto — leggere prima di proseguire</span>
+                    <p><strong>Questa dashboard non è un'indagine, non è un'inchiesta e non è un documento politico contro le persone citate.</strong> È uno spunto di studio del fenomeno comunicativo, prodotto a scopo esclusivamente formativo e analitico. L'obiettivo è descrivere <em>come funzionano</em> certi dispositivi retorici e simbolici, non valutare la bontà o moralità dei leader esaminati — lavoro che compete al giudizio democratico di ciascuno. Ogni riferimento a figure pubbliche serve unicamente come illustrazione di meccanismi più ampi e strutturali. Chi cerca qui materiale d'accusa, di partigianeria o di denuncia sta guardando nel posto sbagliato.</p>
+                </div>
+            </section>
+
+            <!-- OVERVIEW -->
+            <section id="overview">
+                <span class="part-label">◈ Premessa metodologica</span>
+                <h2>Perché questa analisi</h2>
+                <p class="section-intro">Il filo che tiene insieme i diversi livelli di questo lavoro non è tematico ma strutturale: ogni sezione analizza lo stesso meccanismo a scale diverse, dal singolo gesto simbolico fino a dinamiche geopolitiche di medio periodo.</p>
+
+                <div class="stat-grid-4">
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Leader analizzati<br><span style="font-size:0.7rem;">(Trump, Bolsonaro, Modi, Meloni, Salvini)</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Fasi del modello<br>probe · retreat · advance</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">48h</div>
+                        <div class="stat-label">Cicli Trump<br>(A/B test sacro)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">30 anni</div>
+                        <div class="stat-label">Ciclo Modi<br>(Ayodhya 1992 → 2024)</div>
+                    </div>
+                </div>
+
+                <div class="block block-key">
+                    <h3>Onestà epistemica: la nomenclatura è in assestamento</h3>
+                    <p>Alcuni strumenti concettuali utilizzati (la procedura <em>probe-retreat-advance</em>, il <em>reality distortion field</em> applicato retroattivamente, il modello del sacro A/B-testato) sono ancora in fase di assestamento nella letteratura accademica. La sostanza dei fenomeni descritti è ampiamente documentata, ma la nomenclatura è parzialmente originale, parzialmente importata da discipline confinanti: propaganda computazionale, studi sulla retorica, teoria dei movimenti sociali.</p>
+                    <p>Chi volesse cercare bibliografia strutturata dovrà incrociare termini diversi: <em>trial balloons</em>, <em>Overton window shifting</em>, <em>shock-and-retreat</em>, <em>normalization cycles</em>, <em>counterpublicity</em>.</p>
+                </div>
+            </section>
+
+            <!-- PARTE 1 -->
+            <section id="parte1">
+                <span class="part-label">◈ Parte prima</span>
+                <h2>La sacralizzazione del corpo politico</h2>
+                <p class="section-intro">Dal fatto scatenante — l'immagine AI del 12 aprile 2026 — alla domanda antropologica sul perché milioni di persone <em>accettano</em>, <em>desiderano</em>, <em>diffondono</em> questa rappresentazione.</p>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>1.1 · Il fatto scatenante <span class="tag tag-orange">12-16 aprile 2026</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Il 12 aprile 2026, di sera, Donald Trump ha pubblicato sul proprio account Truth Social un'immagine generata con intelligenza artificiale che lo ritraeva in veste bianca, con una mano posata sul capo di una persona apparentemente malata e luce che emanava dalle dita, sullo sfondo bandiera americana, aquile e aerei militari. Il post è stato cancellato il giorno successivo, dopo le reazioni.</p>
+                        <blockquote>Ho pubblicato l'immagine e pensavo che rappresentasse me come un dottore, aveva a che fare con la Croce Rossa, come un operatore della Croce Rossa.
+                        <cite>— Trump alla Casa Bianca, 13 aprile 2026</cite></blockquote>
+                        <p>Il giorno successivo Trump ha condiviso una seconda immagine, questa volta raffigurante Gesù che lo abbraccia davanti a una bandiera americana, commentando: <em>"I pazzi radicali di sinistra potrebbero non apprezzarla, ma io penso sia molto carina!"</em>.</p>
+                        <p>Il contesto era uno scontro aperto con Papa Leone XIV, che aveva criticato l'azione militare americana contro l'Iran durante una veglia di pace in San Pietro, dicendo <em>"Basta con la guerra"</em>. Trump aveva risposto definendo il pontefice <em>"debole sul crimine"</em> e <em>"terribile in politica estera"</em>.</p>
+                        <p>Le reazioni sono state trasversali: oltre alle condanne ecclesiastiche (Arcivescovo Coakley, presidente della Conferenza episcopale statunitense), anche figure del campo trumpiano (Marjorie Taylor Greene, Riley Gaines, Megan Basham, Brilyn Hollyhand) hanno rotto con il leader sulla questione specifica, parlando apertamente di blasfemia. Giorgia Meloni ha definito <em>"inaccettabili"</em> le parole di Trump verso il Papa.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>1.2 · Non messianismo ma sacertà del capo <span class="tag tag-purple">Marc Bloch</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>L'iconografia dell'immagine cancellata <strong>non è messianica cristiana nel senso stretto</strong>. È qualcosa di più antico e più politico: è l'iconografia del <em>re taumaturgo</em>, quella che Marc Bloch studiò nei suoi lavori classici sui re di Francia e Inghilterra che toccavano gli scrofolosi per guarirli.</p>
+                        <p>Il capo politico che incorpora nel proprio corpo una funzione sacrale-terapeutica sul corpo della nazione. <strong>Non "io sono Cristo", ma "io sono il canale attraverso cui il divino agisce sul popolo".</strong> La differenza è cruciale, perché spiega perché Trump può, senza particolare malafede, dichiarare di aver voluto rappresentarsi come un medico.</p>
+                        <p>Nella grammatica del pentecostalismo politico americano, il <em>guaritore-capo</em> è una figura coerente che l'immaginario conserva dai revivalisti del Grande Risveglio in poi. La veste bianca è contemporaneamente quella del medico e quella del profeta, e questo scivolamento non è un errore: è la grammatica stessa di un certo tipo di religiosità politica.</p>
+                        <p>Quando la base evangelica difende l'immagine dicendo "non è blasfemia, è metafora", sta operando dentro questa grammatica. Quando i cattolici conservatori (Meloni compresa) reagiscono duramente, reagiscono da dentro una teologia del corpo di Cristo che non ammette sostituzioni. <strong>Lo scontro Trump-Leone XIV non è tra politica e religione: è tra due modelli religiosi americani che si sono combattuti dal 1830.</strong> È una faglia culturale profonda, non una contingenza.</p>
+                    </div>
+                </div>
+
+                <div class="block block-key expandable">
+                    <div class="exp-header">
+                        <h3>1.3 · La domanda antropologica centrale — tre dinamiche <span class="tag tag-cyan">Durkheim · Girard · Weber</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Il punto analitico non è Trump che si auto-rappresenta — i capi si auto-rappresentano sempre, l'auto-sacralizzazione del potere è la norma storica, non l'eccezione, e l'anomalia sono le democrazie laiche del Novecento. <strong>Il punto è perché milioni di persone accettano, desiderano, diffondono questa rappresentazione.</strong> Tre dinamiche si sovrappongono.</p>
+
+                        <h4>→ Effervescenza collettiva (Durkheim)</h4>
+                        <p>Il bisogno di un corpo sociale frammentato di ritrovare un centro simbolico incarnato. Quando le istituzioni intermedie (chiese, sindacati, partiti tradizionali, famiglia estesa) si dissolvono, il legame sociale migra verso figure singole che fanno da totem. <strong>Non è una patologia, è un meccanismo strutturale</strong>: se togli i corpi intermedi, il sacro si ricompatta attorno a un corpo individuale. Trump occupa quello spazio svuotato, non lo crea.</p>
+
+                        <h4>→ Capro espiatorio invertito (Girard)</h4>
+                        <p>Nella società iper-mimetica dei social, in cui tutti imitano tutti e la rivalità è ovunque, il bisogno di una figura che <em>unisca</em> diventa disperato. E quella figura deve essere perseguitata, altrimenti non funziona: <strong>un capo che non viene attaccato non è sacralizzabile</strong>. Ogni critica a Trump (dal Papa, dai media, dai giudici) non lo indebolisce presso la base, lo <em>consacra ulteriormente</em>, perché lo conferma come vittima sacrificale che però non soccombe. L'attacco al Papa funziona perché il Papa viene riposizionato come <em>persecutore</em>, e Trump come <em>resistente</em>.</p>
+
+                        <h4>→ Carisma (Weber)</h4>
+                        <p>Il riconoscimento, da parte dei seguaci, che una persona possiede qualità straordinarie. <strong>Il carisma non è una proprietà del leader, è una relazione</strong>. Esiste solo se i seguaci lo riconoscono, e ha bisogno di essere continuamente riconfermato con segni. L'immagine AI è un segno. Se i seguaci la accettano, il carisma si rinnova; se la rifiutano, il carisma si crepa.</p>
+                        <p>La frattura apertasi nel campo MAGA su questa specifica immagine — rotture di Greene, Gaines, Basham — non è politica, è <strong>teologica</strong>, e le rotture teologiche dentro i movimenti carismatici sono storicamente quelle che producono gli scismi veri.</p>
+                    </div>
+                </div>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>1.4 · Il dettaglio rivelatore delle due immagini <span class="tag tag-red">Tabù della sostituzione</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>La differenza tra la prima e la seconda immagine è <strong>analiticamente decisiva</strong>.</p>
+
+                        <div class="stat-grid-3">
+                            <div class="stat-card" style="text-align:left; padding:1rem;">
+                                <div style="color: var(--accent-red); font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:0.4rem;">IMMAGINE 1 — CANCELLATA</div>
+                                <div style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Trump <em>come</em> Cristo</div>
+                                <div style="font-size:0.82rem; color: var(--text-secondary);">Sostitutiva. Viola il tabù della sostituzione. Respinta anche da alleati.</div>
+                            </div>
+                            <div class="stat-card" style="text-align:left; padding:1rem;">
+                                <div style="color: var(--accent-yellow); font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:0.4rem;">48 ORE</div>
+                                <div style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Ritirata tattica</div>
+                                <div style="font-size:0.82rem; color: var(--text-secondary);">Stessa grammatica simbolica, confine ricalibrato.</div>
+                            </div>
+                            <div class="stat-card" style="text-align:left; padding:1rem;">
+                                <div style="color: var(--accent-green); font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:0.4rem;">IMMAGINE 2 — MANTENUTA</div>
+                                <div style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Trump <em>accanto</em> a Cristo</div>
+                                <div style="font-size:0.82rem; color: var(--text-secondary);">Protetto da lui. Rispetta il tabù restando nello stesso registro.</div>
+                            </div>
+                        </div>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Ipotesi centrale</span>
+                            <p>C'è <strong>consapevolezza simbolica</strong> dentro l'apparato che produce queste immagini. Non è sragionamento, è una calibrazione fine del sacro. Qualcuno sa esattamente dove sta il confine tra "capo unto da Dio" (accettabile per la base) e "capo che sostituisce Dio" (inaccettabile perfino per la base). E lo testa.</p>
+                        </div>
+
+                        <p>Il fenomeno antropologico di fondo è questo: assistiamo a un <strong>laboratorio pubblico di costruzione del sacro politico in tempo reale</strong>, con feedback continuo sui social. Le teocrazie antiche calibravano l'iconografia di un sovrano in generazioni; qui si fa in quarantotto ore, con metriche di engagement. <em>È la prima volta nella storia che accade in questa forma.</em></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PARTE 2 -->
+            <section id="parte2">
+                <span class="part-label">◈ Parte seconda</span>
+                <h2>La grammatica retorica</h2>
+                <p class="section-intro">Tre dispositivi retorici precisi: l'emblema come condensazione simbolica, la diminutio come riduzione di frame, la negazione plausibile come politeness bridging.</p>
+
+                <div class="block block-key expandable">
+                    <div class="exp-header">
+                        <h3>2.1 · L'emblema come dispositivo <span class="tag tag-purple">Barthes · Cinquecento</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>L'immagine AI <strong>non è un meme, è un emblema</strong> nel senso cinquecentesco del termine: un dispositivo che condensa in un'unica superficie visiva più strati di significato che vanno letti insieme.</p>
+
+                        <div class="stat-grid-3">
+                            <div class="stat-card" style="text-align:left;"><div style="font-size:1rem; font-weight:600; color:var(--accent-cyan); margin-bottom:0.2rem;">Veste bianca</div><div style="font-size:0.82rem; color:var(--text-secondary);">purezza · sacerdozio · medicina</div></div>
+                            <div class="stat-card" style="text-align:left;"><div style="font-size:1rem; font-weight:600; color:var(--accent-cyan); margin-bottom:0.2rem;">Mano imposta</div><div style="font-size:0.82rem; color:var(--text-secondary);">guarigione · benedizione · passaggio di potenza</div></div>
+                            <div class="stat-card" style="text-align:left;"><div style="font-size:1rem; font-weight:600; color:var(--accent-cyan); margin-bottom:0.2rem;">Luce dalle dita</div><div style="font-size:0.82rem; color:var(--text-secondary);">thaumaturgia · divinità · tecnologia (ambiguità voluta)</div></div>
+                            <div class="stat-card" style="text-align:left;"><div style="font-size:1rem; font-weight:600; color:var(--accent-cyan); margin-bottom:0.2rem;">Bandiera</div><div style="font-size:0.82rem; color:var(--text-secondary);">nazione come corpo mistico</div></div>
+                            <div class="stat-card" style="text-align:left;"><div style="font-size:1rem; font-weight:600; color:var(--accent-cyan); margin-bottom:0.2rem;">Aerei militari</div><div style="font-size:0.82rem; color:var(--text-secondary);">forza · protezione · apocalisse</div></div>
+                            <div class="stat-card" style="text-align:left;"><div style="font-size:1rem; font-weight:600; color:var(--accent-cyan); margin-bottom:0.2rem;">Sovrapposizione</div><div style="font-size:0.82rem; color:var(--text-secondary);">non risolta = significati incompatibili tenuti insieme</div></div>
+                        </div>
+
+                        <p>Questa è una tecnica retorica precisa che i teorici chiamano <strong>condensazione simbolica</strong>, la stessa che Roland Barthes descriveva nei <em>Miti d'oggi</em>: il mito è un linguaggio che naturalizza contraddizioni.</p>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Meccanismo</span>
+                            <p>L'immagine funziona <em>perché</em> è contraddittoria, non nonostante lo sia. Obbliga il cervello a trovare una cornice che tenga insieme i pezzi, e quella cornice è inevitabilmente quella del sacro — perché il sacro è storicamente la categoria che autorizza le contraddizioni. Una volta accettata la cornice sacra per risolvere la dissonanza, qualunque cosa accada dopo viene interpretata dentro di essa.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>2.2 · Diminutio e negazione plausibile</h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <h4>→ Diminutio applicata selettivamente</h4>
+                        <p>I post di Trump contro Leone XIV sono un caso da manuale. "Debole sul crimine", "terribile in politica estera": aggettivi tecnici e secolari applicati a una figura che si autodefinisce in termini spirituali. Il trucco è <strong>far finta di non vedere la categoria a cui l'avversario appartiene, e valutarlo con metriche dell'altra categoria</strong>. Non è errore logico, è una <em>mossa di riduzione di frame</em>: costringe l'avversario o a rispondere nel frame sbagliato (e perdere), o a rifiutare il frame (e sembrare evasivo).</p>
+                        <p>Leone XIV ha scelto la terza via, la più antica e ecclesiastica: ignorare il terreno e stare sul proprio (<em>"non voglio entrare in dibattito con lui"</em>). È la mossa del magistero, che per definizione non discute ad armi pari con il potere temporale. Ma nella comunicazione social questa mossa viene letta come silenzio o debolezza — ed è lì che la retorica di Trump lavora.</p>
+
+                        <h4>→ Negazione plausibile (politeness bridging)</h4>
+                        <p>Dopo la prima immagine, Trump dice: "pensavo fosse un dottore, della Croce Rossa". È una dichiarazione che <strong>nessuno crede letteralmente, nemmeno i suoi, ma che non serve a essere creduta</strong>. Serve a fornire una copertura minima che permetta ai seguaci di difenderlo senza assumere la posizione più radicale.</p>
+                        <p>È la stessa funzione delle formule rituali ambigue nelle religioni antiche: un enunciato che tutti sanno non essere vero alla lettera, ma che autorizza la continuazione del rapporto. In linguistica si chiama <em>politeness bridging</em>: costruisce un ponte tra ciò che è stato fatto e ciò che è socialmente dicibile.</p>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Senza il ponte</span>
+                            <p>Senza il ponte della negazione plausibile, molti seguaci dovrebbero scegliere tra rompere con il leader o accettare apertamente la blasfemia. Con il ponte, continuano come prima.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block block-critical expandable">
+                    <div class="exp-header">
+                        <h3>2.3 · La temporalità comunicativa — il sacro A/B-testato <span class="tag tag-red">48-72h</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>La sequenza dei post di aprile 2026 non è casuale:</p>
+                        <div class="timeline">
+                            <div class="timeline-item"><div class="t-date">12 aprile</div><div class="t-content">Critica al Papa → immagine sostitutiva (Trump come Cristo)</div></div>
+                            <div class="timeline-item"><div class="t-date">13 aprile</div><div class="t-content">Backlash → cancellazione → ritrattazione ambigua ("era un dottore")</div></div>
+                            <div class="timeline-item"><div class="t-date">14-15 aprile</div><div class="t-content">Nuova immagine mitigata (Gesù che abbraccia Trump, non Trump che è Gesù)</div></div>
+                            <div class="timeline-item"><div class="t-date">16 aprile</div><div class="t-content">Ripresa della critica al Papa su terreno diverso (le 42.000 vittime iraniane)</div></div>
+                        </div>
+
+                        <p>Questa sequenza segue il modello che gli studiosi di propaganda computazionale chiamano <strong>probe-retreat-advance</strong>: lancia un segnale estremo, misura la reazione, arretra quanto basta per non perdere la base, riavanza su un fronte adiacente.</p>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Conseguenza antropologica</span>
+                            <p>Non ha bisogno di essere consapevole per funzionare: il feedback dei social fa da sistema nervoso esterno, e chi gestisce l'account impara a modulare in tempo reale senza teorizzarlo. La costruzione del sacro politico, che storicamente richiedeva decenni di liturgie, architetture, canonizzazioni, oggi avviene in cicli di 48-72 ore con misurazione quantitativa del consenso. <strong>Un sacro A/B-testato.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PARTE 3 -->
+            <section id="parte3">
+                <span class="part-label">◈ Parte terza</span>
+                <h2>Il modello probe-retreat-advance in dettaglio</h2>
+                <p class="section-intro">Origine militare (Stoßtruppen, Prima Guerra Mondiale), meccanica applicata alla comunicazione politica digitale, condizioni di emergenza del modello, tre casi-studio (Bolsonaro, Modi, Trump).</p>
+
+                <div class="pra-flow">
+                    <div class="pra-step probe">
+                        <div class="pra-num">◈ FASE 1</div>
+                        <h4>PROBE</h4>
+                        <p>Un'affermazione, un'immagine, un gesto simbolico lanciato volutamente al limite dell'accettabile, o leggermente oltre. <strong>Non è "gaffe", è ricognizione armata.</strong> Misura dove è il confine reale del dicibile in quel momento specifico.</p>
+                    </div>
+                    <div class="pra-step retreat">
+                        <div class="pra-num">◈ FASE 2</div>
+                        <h4>RETREAT</h4>
+                        <p>Ritirata tattica: cancellazione, "negazione plausibile", delega a un sottoposto, frase ambigua. Lascia aperta la possibilità di <strong>non aver mai detto quello che è stato detto</strong>.</p>
+                    </div>
+                    <div class="pra-step advance">
+                        <div class="pra-num">◈ FASE 3</div>
+                        <h4>ADVANCE</h4>
+                        <p>Riproposizione della stessa sostanza in forma attenuata quanto basta per non far scattare il rifiuto, ma abbastanza forte da far avanzare il confine di un pezzo. <strong>Il terreno del dicibile si è spostato.</strong></p>
+                    </div>
+                </div>
+
+                <div class="block block-key">
+                    <h3>3.1 · Le tre condizioni di emergenza del modello</h3>
+                    <p>Questo non è un piano coscientemente eseguito da un solo stratega. È una <strong>procedura emergente</strong> che funziona quando tre condizioni sono soddisfatte:</p>
+                    <ol style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+                        <li>esiste un <strong>feedback quantitativo quasi istantaneo</strong> sulle reazioni (metriche social);</li>
+                        <li>esiste una <strong>base di sostenitori</strong> disponibile ad assorbire le ritirate senza rompere il legame;</li>
+                        <li>esistono <strong>critici strutturalmente necessari</strong> che forniscono l'indignazione che alimenta la sacralizzazione del leader.</li>
+                    </ol>
+                    <p style="margin-top: 1rem;">Quando queste tre condizioni sono presenti, la procedura <em>si seleziona da sola</em>. I leader che la eseguono bene sopravvivono politicamente, quelli che la eseguono male vengono sostituiti o emarginati. <strong>Non serve una teoria esplicita, basta un ambiente che selezioni per quella caratteristica.</strong></p>
+                </div>
+
+                <h3 style="margin: 2rem 0 1rem;">3.2 · Tre casi-studio comparati</h3>
+                <div class="case-grid">
+                    <div class="case-box">
+                        <span class="flag">🇧🇷</span>
+                        <div class="case-meta">Cicli annuali</div>
+                        <h4>Bolsonaro</h4>
+                        <p>Il caso più studiato empiricamente. WhatsApp come infrastruttura, ricerca Harvard Kennedy School con Granger-causalità su 15.000 gruppi.</p>
+                    </div>
+                    <div class="case-box">
+                        <span class="flag">🇮🇳</span>
+                        <div class="case-meta">Cicli decennali</div>
+                        <h4>Modi</h4>
+                        <p>Il modello in forma <em>matura</em>. Ayodhya 1992 → 2024. Usa il potere statale per consolidare ogni avanzamento; il retreat diventa raro.</p>
+                    </div>
+                    <div class="case-box">
+                        <span class="flag">🇺🇸</span>
+                        <div class="case-meta">Cicli 48-72h</div>
+                        <h4>Trump</h4>
+                        <p>Ecosistema iper-accelerato, opposizione mediatica strutturata, base evangelica frammentata che richiede ri-sacralizzazioni frequenti.</p>
+                    </div>
+                </div>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>3.3 · Bolsonaro: il laboratorio più studiato <span class="tag tag-purple">2 cicli empirici</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <h4>Ciclo 1: Idrossiclorochina durante la pandemia</h4>
+                        <p><strong>Probe:</strong> promozione ripetuta del farmaco come cura miracolosa per il Covid, tono via via più radicale. Twitter e Facebook rimossero i video per la prima volta dopo mesi; YouTube eliminò 15 video per disinformazione. Massimo livello di escalation tollerato dalle piattaforme.</p>
+                        <p><strong>Retreat:</strong> non ritrattazione sulla sostanza, ma <em>riformulazione del problema</em> come "violazione della libertà di espressione".</p>
+                        <p><strong>Advance:</strong> settembre 2021, misura provvisoria che stabiliva che le piattaforme non potessero rimuovere alcun contenuto legale. <strong>Il ciclo non ha riguardato più il farmaco, ha riguardato il terreno su cui si combatteva</strong>: dalla disinformazione sanitaria alla sovranità informativa contro le piattaforme. Conversione classica del probe in avanzamento su asse adiacente.</p>
+
+                        <h4>Ciclo 2: Sistema elettorale</h4>
+                        <p>Per mesi Bolsonaro <em>sondò</em> la delegittimazione del voto elettronico, ripetendo dubbi che venivano smentiti dal tribunale elettorale. Il <em>retreat</em> linguistico ("ho solo fatto domande", "ci sono preoccupazioni legittime") permetteva di non essere perseguibile, ma nel frattempo il sospetto circolava nei gruppi WhatsApp come certezza.</p>
+                        <blockquote>Uno studio della Harvard Kennedy School Misinformation Review su oltre 15.000 gruppi WhatsApp pubblici ha mostrato, con test di Granger-causalità, che la diffusione dei contenuti su Twitter prevedeva la diffusione su WhatsApp, e Twitter prevedeva anche la copertura dei media tradizionali — un ciclo di feedback propagandistico documentabile statisticamente.
+                        <cite>— Misinfo Review, giugno 2024</cite></blockquote>
+                        <p>L'attacco dell'8 gennaio 2023 a Brasilia è stato l'esito di due anni di cicli di questo tipo, <strong>non di una singola affermazione clamorosa</strong>.</p>
+
+                        <p>L'<em>International Journal of Communication</em> ha documentato i paralleli precisi tra Bolsonaro e Trump: discorso violento, affermazioni politicamente scorrette, supporto di bot e siti iperpartigiani, alleanza con i media evangelici. Steve Bannon è citato come figura di raccordo: <strong>non replicazione casuale ma trasferimento di know-how</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>3.4 · Modi: il ciclo lungo di Ayodhya <span class="tag tag-purple">30 anni</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Modi è più interessante per capire il modello in forma <em>matura</em>: la durata dei suoi cicli si misura in anni, non in giorni, e usa il potere statale per consolidare ogni avanzamento, il che rende il <em>retreat</em> raro e spesso non necessario.</p>
+
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="t-date">1992 · PROBE</div>
+                                <div class="t-content">Demolizione della moschea di Babri da parte di nazionalisti hindu ispirati dal BJP. <strong>Oltre 2.000 morti, la maggior parte musulmani.</strong> Azione al massimo dell'intensità per vedere se la società indiana avrebbe reagito con repressione definitiva o con ambiguità.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">1993-2013 · RETREAT (20 anni)</div>
+                                <div class="t-content">Il BJP moderò il linguaggio pubblico, si presentò come partito di governo responsabile, Modi si costruì l'immagine del "tea seller" umile. <strong>Ma il dossier Ayodhya non fu mai chiuso.</strong> Il retreat può essere decennale, mascherato da moderazione, ma la traiettoria simbolica continua.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">Gennaio 2024 · ADVANCE</div>
+                                <div class="t-content">Modi guida la consacrazione del Ram Mandir — tempio hindu sul sito della moschea demolita — in cerimonia di Stato con 8.000 VIP. <blockquote style="margin: 0.5rem 0 0;">Oggi è l'inizio di un nuovo ciclo temporale. Dopo secoli di attesa, il nostro Ram è arrivato.<cite>— Narendra Modi</cite></blockquote></div>
+                            </div>
+                        </div>
+
+                        <p>La precisione simbolica è notevole: a Ayodhya cartelloni celebravano l'apertura con immagini di Ram accanto a Modi, e un leader del BJP lo definì <em>"Re degli Dei"</em>. <strong>Modi non è Ram, è affiancato a Ram, e il superlativo è pronunciato da un altro.</strong> Stessa struttura della seconda immagine di Trump (Gesù che lo abbraccia), non della prima.</p>
+
+                        <blockquote>L'India diventa di fatto una nazione hindu, dove il compito di costruire simboli religiosi nazionali hindu ricade sullo Stato, e in cui il suo leader officia simultaneamente come primo ministro e sommo sacerdote del Paese.
+                        <cite>— Analisti, via CNN, 2024</cite></blockquote>
+
+                        <p>Questa è la fase finale del modello: <strong>quando gli avanzamenti si accumulano, la struttura stessa dello Stato cambia. Non c'è più bisogno di probe, perché il terreno conquistato è il nuovo normale.</strong></p>
+                    </div>
+                </div>
+
+                <div class="block block-key expandable">
+                    <div class="exp-header">
+                        <h3>3.5 · Differenze strutturali tra i tre casi <span class="tag tag-cyan">Matrice comparativa</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <div class="table-wrapper">
+                            <table class="comp-table">
+                                <thead>
+                                    <tr>
+                                        <th>Dimensione</th>
+                                        <th>🇺🇸 Trump</th>
+                                        <th>🇧🇷 Bolsonaro</th>
+                                        <th>🇮🇳 Modi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Velocità cicli</td>
+                                        <td>48-72 ore</td>
+                                        <td>Annuali</td>
+                                        <td>Decennali</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Natura del retreat</td>
+                                        <td>Negazione semantica diretta ("era un dottore")</td>
+                                        <td>Delega a sottoposti e figli ("gabinetto dell'odio")</td>
+                                        <td>Silenzio istituzionale (assenza come segnale)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bersaglio attacco obliquo</td>
+                                        <td>Papa (coalizione evangelica-cattolica)</td>
+                                        <td>"Globalisti", media, Supremo Tribunale Federale</td>
+                                        <td>Musulmani, in modi mediati (invisibilizzazione narrativa)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Leva istituzionale</td>
+                                        <td>Parziale, frenata da giudici</td>
+                                        <td>Bassa</td>
+                                        <td>Alta: usa la macchina dello Stato</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Base culturale profonda</td>
+                                        <td>Evangelica-pentecostale</td>
+                                        <td>Evangelica + militare</td>
+                                        <td>Hindutva (Savarkar, anni '20)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Principio generale</span>
+                            <p>La <strong>velocità dei cicli è inversamente proporzionale alla solidità delle istituzioni</strong>. Modi opera su cicli decennali perché può usare la macchina dello Stato. Trump opera su cicli di 48-72 ore perché è dentro un ecosistema informativo iper-accelerato con istituzioni giudiziarie ancora funzionanti.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PARTE 4 -->
+            <section id="parte4">
+                <span class="part-label">◈ Parte quarta</span>
+                <h2>Dalla sacralizzazione del corpo alla sacralizzazione dell'operato</h2>
+                <p class="section-intro">La retorica del corpo sacralizzato ha bisogno di un correlato fattuale. Qui entra la performatività di Austin e il tentativo di ripristinare una logica pre-moderna in cui la parola <em>crea</em> il mondo.</p>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>4.1 · Performatività come chiave di volta <span class="tag tag-purple">J.L. Austin</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Nelle società tradizionali esiste una figura che ha il potere di dichiarare <strong>performativamente</strong> lo stato del mondo: il re che dichiara la guerra conclusa, il sacerdote che celebra il matrimonio, il giudice che dichiara colpevole. La performatività (nel senso di J.L. Austin) è la capacità di un enunciato di <em>creare</em> la realtà che descrive, non di descriverla.</p>
+                        <p><strong>"Ti dichiaro marito e moglie" non descrive un matrimonio, lo fa.</strong> Nelle democrazie moderne questo potere è stato ristretto e proceduralizzato: il presidente non può dichiarare la pace, può firmare un trattato che, attraverso passaggi verificabili, la produce.</p>
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Tesi</span>
+                            <p>Quello che osserviamo è il tentativo di <strong>ripristinare la performatività pura</strong>: l'idea che se il leader dice "la guerra è finita", la guerra è finita, indipendentemente da ciò che accade sul terreno. È un ritorno a una logica pre-moderna, più radicale dell'operazione visiva.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block block-critical expandable">
+                    <div class="exp-header">
+                        <h3>4.2 · Il probe-retreat-advance applicato ai fatti — "le 8 guerre finite" <span class="tag tag-red">Popper non-falsificabile</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p><strong>Probe:</strong> la dichiarazione di una guerra "terminata". La Casa Bianca ha fornito una lista di sette conflitti:</p>
+                        <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
+                            <span class="tag tag-yellow">Israele-Iran</span>
+                            <span class="tag tag-yellow">Ruanda-RDC</span>
+                            <span class="tag tag-yellow">Armenia-Azerbaigian</span>
+                            <span class="tag tag-yellow">Thailandia-Cambogia</span>
+                            <span class="tag tag-yellow">India-Pakistan</span>
+                            <span class="tag tag-yellow">Egitto-Etiopia</span>
+                            <span class="tag tag-yellow">Serbia-Kosovo</span>
+                        </div>
+                        <p>Nessuna di queste situazioni è stata risolta nel senso tecnico, e alcune non erano nemmeno guerre in corso. CNN Fact Check, CBS News, Factually.co hanno documentato che la lista <em>"include due situazioni che non sono mai state guerre reali e almeno una guerra che non è effettivamente finita"</em>.</p>
+
+                        <p><strong>Retreat (ridefinizione strisciante):</strong> mai come ritrattazione. Quando un fact-checker dimostra che il conflitto X non è finito, la risposta non è "mi sbagliavo" ma "ho detto che ho contribuito", "ho detto che ho avviato i negoziati". È quello che Karl Popper avrebbe chiamato un <strong>enunciato non-scientifico</strong> in senso stretto: non esistono condizioni osservabili sotto le quali la dichiarazione possa essere smentita.</p>
+
+                        <p><strong>Advance (moltiplicazione):</strong> da "ho fermato tre guerre" a "sei", a "sette, otto, nove". Il numero cresce perché ogni nuova dichiarazione stabilisce un nuovo livello del dicibile senza che quello precedente venga dismesso. <strong>La progressione numerica non è errore mnemonico, è meccanismo narrativo.</strong></p>
+                    </div>
+                </div>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>4.3 · Il caso Iran come illustrazione in tempo reale <span class="tag tag-orange">Marzo-Aprile 2026</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="t-date">6 marzo 2026</div>
+                                <div class="t-content"><em>"Non ci sarà alcun accordo con l'Iran eccetto una RESA INCONDIZIONATA"</em>. Massimo livello di escalation retorica.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">23 marzo 2026</div>
+                                <div class="t-content">Trump posticipa l'ultimatum sullo Stretto di Hormuz, citando <em>"conversazioni molto buone e produttive"</em> con l'Iran. <strong>"Resa incondizionata" diventa "conversazioni produttive" in 17 giorni</strong>, senza che nessun elemento sostanziale sia cambiato.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">11-12 aprile 2026</div>
+                                <div class="t-content">Escalation reale: attacchi, blocco dello Stretto di Hormuz, fallimento dei negoziati di Islamabad condotti da Vance, Witkoff e Kushner.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">15 aprile 2026</div>
+                                <div class="t-content">A Fox Business: <em>"Li abbiamo battuti militarmente, totalmente. Penso sia vicino alla fine, lo vedo molto vicino alla fine. Se mi ritirassi ora, ci vorrebbero vent'anni per ricostruire quel Paese, e non abbiamo finito"</em>. <strong>Due affermazioni logicamente incompatibili</strong> ("vicino alla fine" / "non abbiamo finito") tenute insieme dalla forza retorica dell'enunciatore.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">16 aprile 2026</div>
+                                <div class="t-content">A Las Vegas, mentre il blocco navale è attivo e il cessate il fuoco sta per scadere, Trump inizia a inquadrare la situazione come uno dei suoi successi. <strong>La narrazione si muove prima che i fatti si consolidino.</strong> Una volta stabilita, diventa la cornice entro cui i fatti futuri verranno interpretati.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block block-key expandable">
+                    <div class="exp-header">
+                        <h3>4.4 · Reality distortion field a effetto retroattivo <span class="tag tag-cyan">Jobs vs Trump</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Negli anni '80-'90 si parlava del <em>reality distortion field</em> di Steve Jobs: la capacità di un leader carismatico di convincere collaboratori e pubblico che qualcosa di impossibile fosse possibile, fino a che — talvolta — quella convinzione non lo rendeva effettivamente possibile. È un fenomeno reale.</p>
+
+                        <div class="stat-grid-3" style="margin:1.5rem 0;">
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-cyan); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">JOBS</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Sul futuro</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">"Costruiremo un computer impossibile" — e la cosa impossibile talvolta veniva costruita.</div>
+                            </div>
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-red); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">TRUMP</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Sul passato</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">"Le guerre sono finite" — riferito a qualcosa che dovrebbe essere già verificabile. <strong>Riscrittura del presente storico.</strong></div>
+                            </div>
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-purple); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">MITO</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Struttura</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">I miti non raccontano il futuro, raccontano un passato sempre-già-accaduto che dà senso al presente.</div>
+                            </div>
+                        </div>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Perché è antropologicamente più potente</span>
+                            <p>Quando Trump dice "ho finito otto guerre", non sta facendo una promessa, sta costruendo un <strong>mito di fondazione</strong> del proprio mandato. I miti di fondazione funzionano anche — anzi, funzionano <em>meglio</em> — quando sono storicamente inaccurati, perché la discrepanza tra narrazione e fatti è proprio ciò che produce il senso di eccezionalità del periodo mitico. <em>Roma non fu davvero fondata da Romolo, e proprio per questo la storia di Romolo funziona.</em></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PARTE 5 -->
+            <section id="parte5">
+                <span class="part-label">◈ Parte quinta</span>
+                <h2>Gaza e Iran: il modello applicato alla geopolitica</h2>
+                <p class="section-intro">Dall'ipotesi machiavellica (Gaza come test deliberato per Iran) alla sua riformulazione più robusta: Gaza come membro di una serie di probe sistemici che hanno cumulativamente spostato il campo di gioco.</p>
+
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="ipotesi-debole">5.1 Ipotesi machiavellica (debole)</button>
+                    <button class="tab-btn" data-tab="ipotesi-forte">5.2 Versione forte</button>
+                    <button class="tab-btn" data-tab="distinzione">5.3 Perché la distinzione conta</button>
+                </div>
+
+                <div class="tab-content active" id="tab-ipotesi-debole">
+                    <div class="block block-warn">
+                        <h3>L'ipotesi e i suoi tre limiti</h3>
+                        <p>Esiste un'ipotesi secondo cui Gaza sarebbe stato un test deliberato per calibrare la tolleranza dell'opinione pubblica internazionale, e Iran la fase di <em>advance</em> che sfrutta il terreno conquistato. <strong>Presa in forma forte, questa lettura ha tre problemi:</strong></p>
+                        <ol style="padding-left:1.5rem; color:var(--text-secondary); line-height:1.75;">
+                            <li><strong>Gaza e Iran non sono dossier paragonabili</strong> per il pubblico americano. Iran è codificato come nemico storico dal 1979; il costo politico domestico di un'azione militare contro Teheran era già basso nella base MAGA prima di Gaza. Non serviva un test per scoprirlo.</li>
+                            <li><strong>La tesi sovrastima la coerenza strategica</strong> di Trump e sottostima il peso degli eventi contingenti. Tra febbraio 2025 e febbraio 2026 sono successe decine di cose che hanno condizionato la traiettoria iraniana.</li>
+                            <li><strong>La tesi richiederebbe un soggetto unitario</strong> che conduce l'esperimento, ma nelle amministrazioni Trump il soggetto decisionale è frammentato (Trump stesso, Netanyahu, Kushner, Witkoff, Vance, il Pentagono). Quando vediamo sequenze coerenti spesso non sono il risultato di pianificazione unificata ma dell'allineamento <em>post hoc</em> di interessi diversi.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-ipotesi-forte">
+                    <div class="block block-key">
+                        <h3>La riformulazione che tiene: probe sistemici cumulativi</h3>
+                        <p>Non <em>"Gaza come test deliberato per Iran"</em>, ma <strong>"Gaza come membro di una serie di probe sistemici che hanno cumulativamente spostato il campo di gioco dell'azione americana in Medio Oriente"</strong>. Non c'è un piano A → B; c'è un <em>regime operativo</em> che genera continuamente probe su fronti diversi, e quando alcuni sfondano il confine del dicibile, il campo di manovra si allarga per tutti i dossier successivi.</p>
+
+                        <h4>La timeline dei probe su Gaza (febbraio 2025 - febbraio 2026)</h4>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="t-date">4 febbraio 2025</div>
+                                <div class="t-content">Trump propone la presa di controllo americana di Gaza e la ricollocazione dei suoi abitanti, con la formulazione della <strong>"Riviera del Medio Oriente"</strong>.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">12 marzo 2025</div>
+                                <div class="t-content">Walk-back parziale: <em>"nessuno sta espellendo i palestinesi"</em>.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">Maggio 2025</div>
+                                <div class="t-content">Durante la visita in Qatar ribadisce di voler trasformare Gaza in <em>"zona di libertà"</em>. Emergono piani operativi per ricollocare un milione di gazawi in Libia in cambio dello sblocco di 30 miliardi di dollari.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">Settembre 2025</div>
+                                <div class="t-content">Viene discusso il documento <strong>GREAT Trust</strong> di 38 pagine con "trusteeship americano decennale", ricollocazione "volontaria", città intelligenti alimentate dall'IA.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="t-date">Ottobre 2025</div>
+                                <div class="t-content">Il piano di pace firmato istituisce il <strong>"Board of Peace"</strong> presieduto da Trump stesso.</div>
+                            </div>
+                        </div>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Cosa è successo nel campo del dicibile</span>
+                            <p><strong>Primo:</strong> l'idea che gli Stati Uniti possano <em>riorganizzare geopoliticamente</em> il Medio Oriente in modo unilaterale è passata da tabù a opzione discussa.</p>
+                            <p style="margin-top:0.5rem;"><strong>Secondo:</strong> l'idea che spostamenti massicci di popolazione e "trusteeship" prolungati siano politicamente fattibili è stata <em>testata</em>.</p>
+                            <p style="margin-top:0.5rem;">L'azione contro l'Iran opera dentro il campo allargato. <strong>Non come conseguenza di Gaza, ma come azione che può essere condotta perché il campo è stato preparato.</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-distinzione">
+                    <div class="block block-critical">
+                        <h3>Perché la distinzione è importante (e cosa implica per chi vuole contrastare)</h3>
+                        <p>La lettura <em>"Trump ha pianificato Gaza per preparare Iran"</em> è suggestiva ma ha una conseguenza pratica <strong>problematica</strong>: suggerisce che il contromovimento dovrebbe essere <em>svelare il piano</em>. Se solo facessimo vedere alla gente che c'è un disegno dietro, il disegno si dissolverebbe.</p>
+                        <p><strong>Non funziona, perché non c'è un re con un piano: c'è un sistema di incentivi che produce leader con queste caratteristiche, e quel sistema continuerà a produrli anche se Trump esce di scena.</strong></p>
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Conseguenza operativa</span>
+                            <p>La lettura "Gaza ha spostato il campo del dicibile, Iran opera dentro il campo allargato" è meno drammatica ma più potente: suggerisce di <strong>lavorare sul campo del dicibile stesso</strong>, sulle strutture discorsive che lo definiscono, sugli anticorpi culturali che impediscono a un probe di sfondare. È un lavoro meno eroico e più lento. <em>È il lavoro vero.</em></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PARTE 6 -->
+            <section id="parte6">
+                <span class="part-label">◈ Parte sesta</span>
+                <h2>I casi italiani: Meloni e Salvini</h2>
+                <p class="section-intro">Alla primavera 2026 né Meloni né Salvini sono in fase espansiva: sono in fase di assedio. Questo cambia la meccanica comunicativa. Un leader in difensiva opera principalmente in fase di <em>retreat creativo</em>.</p>
+
+                <div class="block block-warn">
+                    <h3>6.1 · Il contesto: una fase difensiva</h3>
+                    <p>Alla primavera 2026 il governo ha:</p>
+                    <ul style="padding-left:1.5rem; color:var(--text-secondary); line-height:1.8;">
+                        <li>Perso il referendum sulla giustizia (ottobre 2025)</li>
+                        <li>Subito dimissioni indotte (Delmastro, Santanché, Bartolozzi)</li>
+                        <li>Visto l'uscita di Vannacci dalla Lega per fondare "Futuro Nazionale" il 3 febbraio 2026</li>
+                        <li>Affrontato crescita del PIL rivista al ribasso dallo 0,8% allo 0,4%</li>
+                        <li>Ricevuto pressioni della Corte Penale Internazionale sul caso Almasri</li>
+                        <li>Subito la crisi petrolifera legata alla guerra con l'Iran</li>
+                    </ul>
+                    <div class="key-concept">
+                        <span class="kc-label">◈ Nota metodologica</span>
+                        <p>Il modello probe-retreat-advance non è solo per leader aggressivi in fase di crescita: <strong>descrive come si governa un campo comunicativo in ogni fase</strong>, e le fasi difensive hanno una grammatica propria.</p>
+                    </div>
+                </div>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>6.2 · Salvini: la provocazione strutturale <span class="tag tag-purple">Sedda 2018</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Salvini è il caso italiano più vicino al modello Trump. <strong>Francesco Sedda</strong>, in un saggio del 2018 su Doppiozero che resta analiticamente centrale, ha descritto la meccanica con una distinzione potente: <em>sfida</em> contro <em>provocazione</em>.</p>
+
+                        <div class="stat-grid-3">
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-green); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">SFIDA</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Proposta di contratto</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">Riconosce un quadro etico comune anche nel conflitto.</div>
+                            </div>
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-red); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">PROVOCAZIONE</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Rottura del contratto</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">Ricusa l'etica condivisa, definisce come validi altri valori.</div>
+                            </div>
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-purple); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">ALLUSIVA</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Nuovo contratto</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">In cui le regole le detta lui.</div>
+                            </div>
+                        </div>
+
+                        <blockquote>Salvini nel suo agire contraddittorio e provocatorio è vero, autentico: o quantomeno così viene riconosciuto da coloro che si specchiano in lui. La provocazione sostiene il vero per ottenere il falso.
+                        <cite>— Francesco Sedda, Doppiozero 2018</cite></blockquote>
+
+                        <p>Non è menzogna nel senso tradizionale; è <strong>essere autentici nel rifiutare il campo comunicativo precedente</strong>. L'autenticità è la forza che permette al contenuto problematico di farsi strada: perché è sincero, perché "dice quello che pensa", i contenuti ricevono una copertura di verità che non avrebbero in cornice istituzionale normale.</p>
+
+                        <h4>Il caso del Ponte sullo Stretto (24 gennaio 2026)</h4>
+                        <p>Emerge che Salvini aveva tentato di infilare nel decreto Infrastrutture commi che legavano le mani alla Corte dei Conti nella valutazione della delibera Cipess, e che proteggevano con scudo erariale il neo-commissario Ciucci. La norma salta dopo la rivolta dei magistrati contabili, le proteste delle opposizioni e i dubbi del Quirinale.</p>
+                        <p><strong>Grammatica:</strong> probe (la norma infilata silenziosamente) → retreat (sparisce sotto pressione) → advance (il Ponte come opera resta, la cornice "gli organi di controllo intralciano" è piantata). Ogni ciclo non produce l'esito immediato voluto <strong>ma lascia un residuo simbolico</strong>.</p>
+
+                        <h4>Provocazione inferiore (tratto specifico di Salvini)</h4>
+                        <p>Trump si rivolge ai nemici del proprio rango (Papa, media nazionali, giudici federali). Salvini spesso punta bersagli più piccoli o lateralmente assurdi (un cantante, una ONG, un singolo magistrato, una specifica nave, uno specifico sindaco). <strong>Non è debolezza comunicativa, è scelta strategica</strong>: il bersaglio minore permette di mantenere il ciclo attivo con costi bassi e alta resa in engagement.</p>
+                    </div>
+                </div>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>6.3 · Meloni: la chirurgia del doppio registro <span class="tag tag-purple">Dual-track</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Meloni opera quasi sempre in modalità <strong>dual-track</strong>. Un <em>registro istituzionale alto</em> (Parlamento europeo, interviste al Corriere, vertici internazionali) dove il linguaggio è controllato, tecnocratico, spesso sorprendentemente moderato. Un <em>registro militante basso</em> (comizi di partito, eventi al Teatro Parenti, social della corrente interna) dove i contenuti diventano molto più caldi. <strong>Non è ipocrisia, è un'architettura comunicativa precisa.</strong></p>
+
+                        <h4>Esempio: il referendum sulla giustizia</h4>
+                        <blockquote>Immigrati illegali, stupratori, pedofili, spacciatori rimessi in libertà che mettono a repentaglio la vostra sicurezza. Figli che vengono strappati alle madri perché i giudici non condividono il loro stile di vita se vivono in un bosco.
+                        <cite>— Meloni, Teatro Parenti Milano</cite></blockquote>
+                        <p><strong>Registro basso puro:</strong> accumulo emotivo, immagini shock, zero argomenti verificabili. Il giorno dopo, in contesto istituzionale, parla di "efficienza del sistema", "separazione delle carriere", "equilibrio dei poteri". <strong>I due registri non si contraddicono, si appoggiano</strong>: il primo crea la pressione emotiva che giustifica il secondo, il secondo dà copertura istituzionale al primo.</p>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Retreat incorporato</span>
+                            <p>Il probe-retreat-advance, nel caso Meloni, avviene spesso <em>tra i due registri</em>: un'affermazione forte viene pronunciata nel registro basso, testata nella reazione, e se il costo è alto viene <em>assorbita</em> nel registro alto con riformulazione tecnica. Se il costo è basso, viene cristallizzata e fa avanzare il campo. <strong>Non c'è bisogno di ritrattazioni esplicite: il sistema a due registri funziona come retreat incorporato.</strong></p>
+                        </div>
+
+                        <h4>9 gennaio 2026: probe sulla separazione dei poteri</h4>
+                        <blockquote>Credo che se vogliamo garantire sicurezza per i nostri cittadini occorra anche lavorare tutti nella stessa direzione. Significa che lo deve fare il governo, significa che lo devono fare le forze di polizia, significa che lo deve fare anche la magistratura.
+                        <cite>— Giorgia Meloni, 9 gennaio 2026</cite></blockquote>
+                        <p>La dichiarazione è <strong>violazione diretta del principio di separazione dei poteri</strong>, ma pronunciata nel registro del <em>buon senso condiviso</em>. È un probe che sfonda il confine costituzionale travestito da invito alla collaborazione. Se qualcuno reagisce dicendo "questo è incostituzionale", il retreat è già incorporato: "ho detto solo che dobbiamo collaborare, chi può essere contro la collaborazione?". <strong>Il campo si sposta comunque.</strong></p>
+
+                        <h4>Disciplina tattica sulle battaglie</h4>
+                        <p>Meloni non apre fronti a raffica. Sceglie con cura quali probe lanciare e su quali battaglie cedere. Riforma della giustizia, premierato, denatalità, centri in Albania sono fronti su cui spinge con costanza. Ma ha abbandonato senza drammi molti altri probe. <strong>Sa distinguere battaglie simboliche da battaglie sostanziali.</strong> Trump non ha questa disciplina, Salvini ancora meno. È una differenza generazionale e culturale (formazione politica novecentesca, scuola della destra post-MSI), non caratteriale.</p>
+                    </div>
+                </div>
+
+                <div class="block block-case expandable">
+                    <div class="exp-header">
+                        <h3>6.4 · Il caso Trump-Meloni (aprile 2026) <span class="tag tag-orange">Deviazione laterale</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Il 14 aprile Trump, in un'intervista al Corriere, critica duramente Meloni sulla gestione della crisi energetica:</p>
+                        <blockquote>Sono scioccato da lei. Pensavo che avesse coraggio, mi sbagliavo.
+                        <cite>— Donald Trump, 14 aprile 2026</cite></blockquote>
+                        <p>Probe trumpiano classico. La risposta di Meloni è <strong>analiticamente interessante</strong>: non risponde direttamente, ma il giorno prima aveva già definito "inaccettabili" le critiche di Trump al Papa. Non entra nel duello personale (che perderebbe sul terreno trumpiano), si posiziona sul fronte morale-cattolico (terreno favorevole per lei in Italia), e segnala all'elettorato cattolico italiano che sta scivolando dalla sua parte dopo il crollo parziale del cattolicesimo di sinistra.</p>
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Scacchi vs dama</span>
+                            <p>Trump sondava, lei ha <strong>riorientato il campo</strong>. Non è retreat, è <em>deviazione laterale</em>. Una mossa che Trump non fa mai, e che Salvini non saprebbe fare.</p>
+                            <p style="margin-top:0.5rem;">È la differenza più importante: <strong>Meloni gioca a scacchi su più tavoli</strong>. Sa posizionarsi in modo che ogni mossa produca benefici su almeno due piani diversi. Salvini e Trump giocano a dama veloce. In fase di difficoltà Meloni regge meglio per questo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block block-key expandable">
+                    <div class="exp-header">
+                        <h3>6.5 · Divisione del lavoro: sfondatore vs consolidatore <span class="tag tag-cyan">Meloni + Salvini</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Meloni e Salvini sono in alleanza ma non omogenei, e la loro divisione del lavoro è rivelatrice.</p>
+                        <div class="stat-grid-3">
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-red); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">SALVINI</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Enforcer del probe</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">Lancia le provocazioni quotidiane che mantengono attiva la base e spostano il campo.</div>
+                            </div>
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-green); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">MELONI</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Consolidatrice</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">Assorbe ciò che Salvini ha spostato, lo trasforma in linguaggio istituzionale, lo converte in provvedimenti legislativi.</div>
+                            </div>
+                            <div class="stat-card" style="text-align:left;">
+                                <div style="color: var(--accent-purple); font-family:'JetBrains Mono',monospace; font-size:0.72rem; margin-bottom:0.4rem;">USA</div>
+                                <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.3rem;">Analogia</div>
+                                <div style="font-size:0.82rem; color:var(--text-secondary);">Stessa divisione del lavoro si è stabilita tra Trump e una parte del Partito Repubblicano più tradizionale.</div>
+                            </div>
+                        </div>
+
+                        <div class="key-concept">
+                            <span class="kc-label">◈ Il problema attuale</span>
+                            <p>Trump sta giocando troppo forte il ruolo di <strong>sfondatore globale</strong>, e Meloni non riesce più a fare la consolidatrice internazionale: viene costretta ogni volta a distanziarsi, perdendo la sua posizione caratteristica di "ponte" tra Europa e Washington.</p>
+                            <p style="margin-top:0.5rem;">Salvini continua a sfondare ma con rendimenti decrescenti: l'uscita di Vannacci per fondare una forza ancora più radicale è il segnale. <strong>Quando uno sfondatore perde la base a favore di uno sfondatore più radicale, significa che il campo si è spostato così tanto che lo sfondatore di ieri è il moderato di oggi.</strong> È il meccanismo del probe-retreat-advance che <em>mangia i suoi stessi artefici</em>: chi sposta il campo finisce per trovarsi dietro al nuovo confine.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PARTE 7 -->
+            <section id="parte7">
+                <span class="part-label">◈ Parte settima</span>
+                <h2>Osservazioni conclusive e questioni aperte</h2>
+                <p class="section-intro">Tre tesi per chiudere: una scomoda (non sono cause ma sintomi), una strutturale (il circuito auto-consumante), una lucida (riconoscere il modello non basta).</p>
+
+                <div class="block block-critical">
+                    <h3>7.1 · Una tesi scomoda</h3>
+                    <p><strong>Meloni, Salvini, Trump, Bolsonaro, Modi non sono cause, sono sintomi selezionati di un sistema che li produce.</strong> Se uscissero di scena domani, qualcun altro occuperebbe lo stesso spazio operativo con variazioni stilistiche.</p>
+                    <div class="key-concept">
+                        <span class="kc-label">◈ Riformulazione della domanda</span>
+                        <p>La domanda analiticamente seria non è "come sconfiggere questi leader". È: <strong>quali strutture — mediatiche, educative, culturali, economiche — continuano a selezionare per questo tipo di comunicazione politica, e come si può ridurre la loro efficacia senza produrre una reazione speculare che rafforza il fenomeno?</strong></p>
+                    </div>
+                    <p>Le tre condizioni ambientali che rendono efficace il probe-retreat-advance — feedback quantitativo istantaneo, base disponibile, critici strutturalmente necessari — non sono peculiarità dei leader autoritari. <strong>Sono la forma normale dell'ecosistema informativo contemporaneo.</strong> Ogni influencer, ogni brand, ogni istituzione educativa, ogni politico democratico opera nello stesso ambiente con gli stessi incentivi. La differenza è di <em>contenuto</em>, non di <em>meccanica</em>.</p>
+                </div>
+
+                <div class="block block-warn">
+                    <h3>7.2 · Il circuito auto-consumante</h3>
+                    <p>Il modello ha capacità di <strong>auto-consumare gli artefici</strong>. Il caso Salvini-Vannacci è l'esempio italiano più pulito. Salvini ha sfondato per anni il campo del dicibile, ma <em>il campo sfondato attira sfondatori più radicali</em>. Vannacci incarna il livello successivo: nel momento in cui diventa credibile come leader alternativo, Salvini si trova spostato nella posizione di "moderato", con tutte le conseguenze di coalizione.</p>
+                    <p>Lo stesso accade internamente al campo MAGA negli Stati Uniti, dove figure come <strong>Marjorie Taylor Greene</strong>, fino a poco tempo fa tra le più radicali, oggi rompono con Trump proprio nei momenti in cui Trump tenta probe che vanno oltre la soglia (l'immagine di sé come Cristo ne è l'esempio più recente).</p>
+                    <p><em>Il modello genera un fronte in costante spostamento, e chi sta sul fronte viene regolarmente superato.</em></p>
+                </div>
+
+                <div class="block block-key">
+                    <h3>7.3 · Il problema del riconoscimento — una franchezza finale</h3>
+                    <p>L'esistenza del modello, e la sua visibilità attraverso leader diversi di orientamenti politici diversi, può dare l'illusione che <em>identificarlo basti a neutralizzarlo</em>. <strong>Non basta.</strong></p>
+                    <p>Il modello non funziona contro osservatori intellettuali che lo riconoscono, ma contro <strong>ecosistemi comunicativi che non hanno gli strumenti per resistere</strong>. Riconoscere la meccanica è condizione necessaria ma largamente insufficiente.</p>
+
+                    <h4>L'Italia ha una porosità specifica</h4>
+                    <p>L'Italia, nello specifico, ha un ecosistema particolarmente poroso a questa dinamica, per ragioni storiche precise:</p>
+                    <ul style="padding-left:1.5rem; color:var(--text-secondary); line-height:1.8;">
+                        <li>Una destra post-fascista mai davvero fatta i conti con la propria storia</li>
+                        <li>Una sinistra che ha abdicato al lavoro culturale capillare negli anni Novanta e Duemila</li>
+                        <li>Un sistema educativo che non insegna pensiero critico in senso operativo</li>
+                        <li>Un sistema mediatico fortemente polarizzato e commercialmente dipendente dall'engagement</li>
+                    </ul>
+                    <p style="margin-top:1rem;"><strong>Affrontare seriamente la questione richiede interventi su strutture, non sulle singole figure che quelle strutture producono.</strong></p>
+                </div>
+            </section>
+
+            <!-- PARTE 8 -->
+            <section id="parte8">
+                <span class="part-label">◈ Parte ottava</span>
+                <h2>Diramazioni per ricerca futura</h2>
+                <p class="section-intro">Dieci piste emerse durante l'analisi ma non sviluppate a fondo. Ciascuna merita un ciclo di approfondimento autonomo.</p>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.1 · La pedagogia degli anticorpi <span class="tag tag-green">Educazione</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Come si insegna a un bambino, a un adolescente, a una classe, a un gruppo di docenti in formazione, a riconoscere e non cadere in cicli di probe-retreat-advance? Come si distingue tra <em>sfida legittima</em> (che va accettata, perché presuppone un contratto etico condiviso) e <em>provocazione sistemica</em> (che va disinnescata senza essere ingoiati nel suo frame)?</p>
+                        <p>Il campo incrocia la semiotica di Sedda, la pedagogia inclusiva, la media education critica, e presenta specificità importanti per <strong>studenti con profili neurodivergenti</strong>: possono avere vulnerabilità peculiari (adesione letterale al linguaggio, difficoltà con l'ambiguità pragmatica) ma anche strumenti peculiari (rifiuto delle manipolazioni emotive implicite, tendenza alla verificabilità fattuale).</p>
+                        <p><strong>Sviluppo da fare:</strong> costruzione di una <em>grammatica della resistenza retorica</em> per contesti educativi, con esempi calibrati per diverse età e profili cognitivi.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.2 · Il re taumaturgo: genealogia lunga della sacralità del capo <span class="tag tag-purple">Storia</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>L'opera di <strong>Marc Bloch</strong> (<em>I re taumaturghi</em>, 1924) è solo il punto di partenza. <strong>Ernst Kantorowicz</strong> (<em>I due corpi del re</em>, 1957) ha mostrato come la teologia politica medievale distingua tra corpo naturale e corpo mistico del sovrano. <strong>Aby Warburg</strong> e <strong>Georges Didi-Huberman</strong> hanno studiato la sopravvivenza delle immagini del potere attraverso i secoli.</p>
+                        <p><strong>Sviluppo da fare:</strong> ricostruire la genealogia dell'iconografia del <em>guaritore-capo</em> americano dalla tradizione revivalista del Grande Risveglio fino all'immaginario di Trump, mostrando che le immagini AI del 2026 non nascono nel vuoto ma attingono a un serbatoio di tre secoli.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.3 · Austin, Butler, Tambiah: la performatività e il sacro <span class="tag tag-purple">Filosofia del linguaggio</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p><strong>J.L. Austin</strong> (<em>Come fare cose con le parole</em>, 1962) ha aperto la filosofia del linguaggio alla dimensione performativa. <strong>Judith Butler</strong> ha esteso il concetto alla costituzione dei soggetti politici e di genere. <strong>Stanley Tambiah</strong> e <strong>Maurice Bloch</strong>, antropologi, hanno studiato come i leader religiosi e politici usino il linguaggio per <em>creare</em> realtà.</p>
+                        <p><strong>Sviluppo da fare:</strong> un saggio che metta a fuoco il momento in cui la performatività politica ordinaria (Obama che si prende meriti economici) passa a performatività pura (Trump che dichiara guerre finite indipendentemente dai fatti), identificando la <em>soglia</em> di transizione.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.4 · I consulenti trans-nazionali e il trasferimento di know-how <span class="tag tag-cyan">Investigazione</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p><strong>Steve Bannon</strong> è stato consulente di Trump, di Bolsonaro e — brevemente — di movimenti europei. <strong>Cambridge Analytica</strong> ha operato in contesti multipli. Agenzie israeliane hanno fornito servizi a campagne in decine di Paesi. Le nuove aziende di AI generativa stanno costruendo offerte per uso elettorale.</p>
+                        <p><strong>Sviluppo da fare:</strong> mappare l'infrastruttura globale del <em>trasferimento di know-how</em> politico-comunicativo, identificando chi ha lavorato con chi, quali tecniche sono migrate dove, e come questo circuito stia producendo una <em>standardizzazione</em> dei modelli comunicativi autoritari a livello planetario. Lavoro giornalistico-investigativo tanto quanto analitico.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.5 · Il modello applicato alle democrazie moderate <span class="tag tag-yellow">Metodologia</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Meloni è già un caso di applicazione del modello a un contesto istituzionalmente più rigido. Ma casi come <strong>Le Pen</strong> in Francia, <strong>Sánchez</strong> in Spagna, <strong>Starmer</strong> nel Regno Unito, e persino dinamiche interne al Partito Democratico italiano, operano con versioni ancora più addomesticate dello stesso modello.</p>
+                        <p><strong>Sviluppo da fare:</strong> una griglia diagnostica che permetta di distinguere — con criteri operativi, non morali — tra una mossa politica normale e un ciclo probe-retreat-advance, anche quando i due sembrano indistinguibili a occhio nudo.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.6 · Il caso Vannacci e il sorpasso a destra <span class="tag tag-red">Italia</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Il caso <strong>Vannacci</strong> è emblematico del meccanismo di auto-consumo del modello. Chi sfonda il campo del dicibile genera le condizioni per essere superato da sfondatori più radicali. La dinamica si è vista negli USA (Trump vs figure ancora più estreme del Partito Repubblicano), in Brasile (Bolsonaro superato dall'evangelismo politico più radicale), e ora in Italia (Salvini vs Vannacci).</p>
+                        <p><strong>Sviluppo da fare:</strong> uno studio comparato del <em>pattern di sorpasso</em> nei sistemi politici occidentali, con particolare attenzione alle condizioni strutturali (mediatiche, elettorali, economiche) che favoriscono o rallentano il processo.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.7 · Gli ambienti educativi digitali come laboratori del modello <span class="tag tag-cyan">EdTech</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Il <em>reality distortion field a effetto retroattivo</em> si trasferisce negli ambienti educativi digitali in modi che meritano attenzione urgente:</p>
+                        <ul style="padding-left:1.5rem; color:var(--text-secondary); line-height:1.8;">
+                            <li>Influencer educativi che <strong>riscrivono continuamente la propria storia</strong></li>
+                            <li>Piattaforme EdTech che misurano l'engagement producendo incentivi allineati a quelli dei social politici</li>
+                            <li>AI generative che producono "fatti" su richiesta modificando la relazione degli studenti con la verifica empirica</li>
+                        </ul>
+                        <p><strong>Sviluppo da fare:</strong> una ricerca che verifichi se ecosistemi educativi caratterizzati da metriche di engagement producano studenti più o meno resistenti ai cicli probe-retreat-advance in altri contesti. <em>È una ipotesi verificabile, non una speculazione.</em></p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.8 · Meloni come caso-studio di comunicazione a doppio registro <span class="tag tag-purple">Italia</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>La sofisticazione dell'architettura comunicativa di Meloni merita un'analisi dedicata. Come si costruisce e si mantiene un sistema a due registri in un'era di sorveglianza mediatica totale? Quali sono le condizioni di tenuta del doppio registro e quali gli eventi che lo possono far collassare (per esempio, quando una dichiarazione del registro basso viene resa nazionale o internazionale da un media del registro alto)?</p>
+                        <p><strong>Sviluppo da fare:</strong> un'analisi sistematica del corpus dichiarativo di Meloni dal 2022 al 2026, separato per registro, con identificazione dei punti di contatto e dei punti di tensione tra i due.</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.9 · La frattura evangelica americana <span class="tag tag-orange">USA · Teologia</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Le rotture all'interno del campo MAGA sull'immagine cristica di Trump (<strong>Greene, Gaines, Basham, Hollyhand</strong>) sono più significative di quanto sembrino. Suggeriscono una frattura teologica profonda che potrebbe avere conseguenze elettorali nel medio termine.</p>
+                        <p><strong>Sviluppo da fare:</strong> un monitoraggio prolungato della frattura per capire se si consolida (producendo uno scisma interno alla destra religiosa americana) o se viene riassorbita (confermando la resilienza del modello).</p>
+                    </div>
+                </div>
+
+                <div class="block expandable">
+                    <div class="exp-header">
+                        <h3>8.10 · L'Italia nel confronto europeo <span class="tag tag-green">Comparatistica</span></h3>
+                        <span class="exp-icon">+</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>Rispetto ad altri Paesi europei, l'Italia presenta una <strong>porosità specifica</strong> al modello probe-retreat-advance. Germania e Francia hanno anticorpi diversi: memoria più strutturata del Novecento, cultura dello Stato più radicata, sistemi scolastici più prescrittivi sulla formazione civica.</p>
+                        <p><strong>Sviluppo da fare:</strong> un'analisi comparata delle <em>capacità di resistenza</em> dei diversi sistemi politici europei, identificando cosa protegga e cosa esponga, con attenzione ai sistemi educativi come fattore spesso sottovalutato.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GLOSSARIO -->
+            <section id="glossario">
+                <span class="part-label">◈ Strumenti</span>
+                <h2>Glossario ragionato</h2>
+                <p class="section-intro">Termini tecnici, riferimenti teorici e categorie operative utilizzati nel report. Cerca per termine o per autore.</p>
+
+                <input type="text" class="search-input" id="glossarySearch" placeholder="🔍 Cerca un termine (es. 'Durkheim', 'performatività', 'emblema')...">
+
+                <div class="glossary-grid">
+                    <div class="gloss-item" data-term="probe-retreat-advance sondaggio ritirata avanzamento stoßtruppen">
+                        <h4>Probe-Retreat-Advance</h4>
+                        <p>Dottrina militare d'assalto (Stoßtruppen della Prima Guerra Mondiale) applicata alla comunicazione politica digitale: probe = ricognizione armata al limite del dicibile; retreat = ritirata tattica con copertura linguistica; advance = riproposizione attenuata che fa avanzare il confine.</p>
+                    </div>
+                    <div class="gloss-item" data-term="re taumaturgo bloch guaritore capo">
+                        <h4>Re taumaturgo</h4>
+                        <p>Figura studiata da Marc Bloch (1924): sovrano che incorpora nel proprio corpo una funzione sacrale-terapeutica sul corpo della nazione. "Non io sono Cristo, ma io sono il canale attraverso cui il divino agisce sul popolo".</p>
+                    </div>
+                    <div class="gloss-item" data-term="effervescenza collettiva durkheim">
+                        <h4>Effervescenza collettiva (Durkheim)</h4>
+                        <p>Bisogno di un corpo sociale frammentato di ritrovare un centro simbolico incarnato. Quando le istituzioni intermedie si dissolvono, il legame sociale migra verso figure singole che fanno da totem.</p>
+                    </div>
+                    <div class="gloss-item" data-term="capro espiatorio girard mimetico">
+                        <h4>Capro espiatorio invertito (Girard)</h4>
+                        <p>Nella società iper-mimetica, il bisogno di una figura che unisca richiede che questa sia perseguitata. Un capo che non viene attaccato non è sacralizzabile: la critica lo consacra come vittima-resistente.</p>
+                    </div>
+                    <div class="gloss-item" data-term="carisma weber relazione">
+                        <h4>Carisma (Weber)</h4>
+                        <p>Riconoscimento, da parte dei seguaci, di qualità straordinarie nel leader. Non è proprietà del leader ma relazione: esiste solo se i seguaci lo riconoscono e ha bisogno di essere riconfermato continuamente con segni.</p>
+                    </div>
+                    <div class="gloss-item" data-term="emblema condensazione barthes cinquecento">
+                        <h4>Emblema / condensazione simbolica</h4>
+                        <p>Dispositivo cinquecentesco che condensa in un'unica superficie visiva più strati di significato da leggere insieme. Roland Barthes (<em>Miti d'oggi</em>): il mito è un linguaggio che naturalizza contraddizioni.</p>
+                    </div>
+                    <div class="gloss-item" data-term="diminutio riduzione frame retorica">
+                        <h4>Diminutio</h4>
+                        <p>Mossa retorica: applicare a una figura aggettivi tecnici della categoria sbagliata (valutare un Papa con metriche secolari). Riduzione di frame: costringe l'avversario a rispondere nel frame sbagliato (e perdere) o a rifiutarlo (e sembrare evasivo).</p>
+                    </div>
+                    <div class="gloss-item" data-term="negazione plausibile politeness bridging">
+                        <h4>Negazione plausibile (politeness bridging)</h4>
+                        <p>Dichiarazione che nessuno crede letteralmente, ma che fornisce una copertura minima ai seguaci per difendere il leader senza assumere la posizione più radicale. Costruisce un ponte tra ciò che è stato fatto e ciò che è socialmente dicibile.</p>
+                    </div>
+                    <div class="gloss-item" data-term="performatività austin butler tambiah">
+                        <h4>Performatività (Austin)</h4>
+                        <p>Capacità di un enunciato di <em>creare</em> la realtà che descrive, non di descriverla. "Ti dichiaro marito e moglie" non descrive un matrimonio, lo fa. Estesa da Butler ai soggetti politici e da Tambiah/Bloch all'antropologia del rito.</p>
+                    </div>
+                    <div class="gloss-item" data-term="reality distortion field jobs retroattivo">
+                        <h4>Reality distortion field</h4>
+                        <p>Espressione attribuita a Steve Jobs: capacità di un leader carismatico di far credere possibile l'impossibile, fino a che talvolta lo diventa. Nella versione Trump opera in forma <em>retroattiva</em>: non scommessa sul futuro ma riscrittura del presente storico.</p>
+                    </div>
+                    <div class="gloss-item" data-term="popper falsificabilità scientifico">
+                        <h4>Enunciato non-falsificabile (Popper)</h4>
+                        <p>Enunciato in senso stretto non-scientifico: non esistono condizioni osservabili sotto le quali la dichiarazione possa essere smentita, perché ogni smentita viene assorbita come "sfumatura" del significato.</p>
+                    </div>
+                    <div class="gloss-item" data-term="mito fondazione romolo roma">
+                        <h4>Mito di fondazione</h4>
+                        <p>Narrazione che non racconta il futuro ma un passato sempre-già-accaduto che dà senso al presente. Funziona <em>meglio</em> quando è storicamente inaccurato: la discrepanza tra narrazione e fatti produce il senso di eccezionalità.</p>
+                    </div>
+                    <div class="gloss-item" data-term="sfida provocazione sedda contratto">
+                        <h4>Sfida vs Provocazione (Sedda 2018)</h4>
+                        <p>La sfida è proposta di contratto fra due attori che riconoscono un quadro etico comune anche nel conflitto. La provocazione allusiva mira a rompere il contratto vigente, a ricusare l'etica condivisa, a definire come validi altri valori.</p>
+                    </div>
+                    <div class="gloss-item" data-term="dual-track doppio registro meloni">
+                        <h4>Dual-track / doppio registro</h4>
+                        <p>Architettura comunicativa che alterna un registro istituzionale alto (tecnocratico, moderato) e un registro militante basso (emotivo, shock). I due registri non si contraddicono, si appoggiano: il primo crea la pressione, il secondo la copertura.</p>
+                    </div>
+                    <div class="gloss-item" data-term="provocazione inferiore bersaglio minore">
+                        <h4>Provocazione inferiore</h4>
+                        <p>Scelta strategica (tipica di Salvini) di puntare bersagli più piccoli o lateralmente assurdi (cantante, ONG, singolo magistrato). Bassi costi, alta resa in engagement; costruisce l'impressione cumulativa di un mondo pieno di minacce.</p>
+                    </div>
+                    <div class="gloss-item" data-term="deviazione laterale meloni scacchi">
+                        <h4>Deviazione laterale</h4>
+                        <p>Mossa (tipica di Meloni) che non risponde al probe sul terreno scelto dall'avversario, ma riorienta il campo verso un terreno favorevole, ottenendo benefici su almeno due piani diversi. Scacchi su più tavoli contro dama veloce.</p>
+                    </div>
+                    <div class="gloss-item" data-term="campo del dicibile overton window">
+                        <h4>Campo del dicibile</h4>
+                        <p>Insieme delle affermazioni socialmente e politicamente pronunciabili in un dato momento. Il probe-retreat-advance è la procedura che cumulativamente sposta questo confine. Concetto affine all'Overton window.</p>
+                    </div>
+                    <div class="gloss-item" data-term="hindutva savarkar modi india">
+                        <h4>Hindutva</h4>
+                        <p>Tradizione ideologica nazionalista hindu risalente a Savarkar (anni '20). Base culturale profonda della politica di Modi e del BJP. Vede l'India come nazione essenzialmente hindu, con musulmani e cristiani come "estranei".</p>
+                    </div>
+                    <div class="gloss-item" data-term="ayodhya ram mandir babri moschea">
+                        <h4>Ayodhya / Ram Mandir / Babri</h4>
+                        <p>Sito dove nel 1992 fu demolita la moschea di Babri (oltre 2.000 morti) e dove nel gennaio 2024 Modi ha consacrato il tempio hindu Ram Mandir in cerimonia di Stato con 8.000 VIP. Ciclo probe-retreat-advance di 30 anni.</p>
+                    </div>
+                    <div class="gloss-item" data-term="riviera gaza great trust board peace">
+                        <h4>Riviera del Medio Oriente / GREAT Trust / Board of Peace</h4>
+                        <p>Sequenza di proposte su Gaza (febbraio 2025 - ottobre 2025): controllo americano e ricollocazione degli abitanti, documento GREAT Trust (38 pagine, trusteeship decennale, città IA), piano di pace con "Board of Peace" presieduto da Trump.</p>
+                    </div>
+                    <div class="gloss-item" data-term="granger causalità whatsapp harvard misinformation">
+                        <h4>Test di Granger-causalità (Harvard Kennedy School)</h4>
+                        <p>Analisi statistica su 15.000 gruppi WhatsApp pubblici brasiliani che ha mostrato come la diffusione su Twitter prevedesse la diffusione su WhatsApp, e Twitter prevedesse anche la copertura dei media tradizionali: ciclo di feedback propagandistico documentabile.</p>
+                    </div>
+                    <div class="gloss-item" data-term="auto-consumo vannacci sfondatore moderato">
+                        <h4>Auto-consumo degli artefici</h4>
+                        <p>Meccanismo per cui chi sfonda il campo del dicibile genera le condizioni per essere superato da sfondatori più radicali. Lo sfondatore di ieri diventa il moderato di oggi (Salvini vs Vannacci; Trump vs figure ancora più estreme).</p>
+                    </div>
+                    <div class="gloss-item" data-term="enforcer consolidatore divisione lavoro">
+                        <h4>Enforcer / Consolidatore</h4>
+                        <p>Divisione del lavoro nella coalizione. Enforcer (Salvini, certi Repubblicani): lancia provocazioni quotidiane che spostano il campo. Consolidatore (Meloni, parte tradizionale del GOP): assorbe gli spostamenti e li traduce in linguaggio istituzionale e provvedimenti.</p>
+                    </div>
+                    <div class="gloss-item" data-term="kantorowicz due corpi re">
+                        <h4>I due corpi del re (Kantorowicz)</h4>
+                        <p>Teologia politica medievale che distingue tra corpo naturale (mortale) e corpo mistico (immortale) del sovrano. Distinzione sopravvissuta nelle strutture dello Stato moderno. Rilevante per comprendere la sacralizzazione contemporanea.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BIBLIOGRAFIA -->
+            <section id="bibliografia">
+                <span class="part-label">◈ Fonti</span>
+                <h2>Bibliografia ragionata</h2>
+                <p class="section-intro">Le fonti sono organizzate per categoria tematica. La numerazione interna permette rimandi rapidi; l'ordine all'interno di ogni sezione è per rilevanza analitica, non cronologica.</p>
+
+                <div class="biblio-section">
+                    <h4>A · Il fatto scatenante: Trump, l'immagine cristica e lo scontro con Papa Leone XIV</h4>
+                    <ol>
+                        <li>Al Jazeera, <em>Trump deletes image of himself as Jesus-like saviour after backlash</em>, 13 aprile 2026. <a href="https://www.aljazeera.com/news/2026/4/13/trump-draws-backlash-over-posting-image-depicting-him-as-jesus-like-saviour" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CNBC, <em>Trump deletes AI image of him as Jesus, says meant to be doctor</em>, 13 aprile 2026. <a href="https://www.cnbc.com/2026/04/13/trump-jesus-truth-social-pope-leo.html" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>ABC News, <em>Trump shares image of Jesus embracing him, continues to lash out at Pope Leo</em>, 16 aprile 2026. <a href="https://abcnews.com/Politics/trump-shares-image-jesus-embracing-continues-lash-pope/story?id=132052713" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Washington Post, <em>Trump post appearing to depict him as Jesus removed amid backlash</em>, 13 aprile 2026. <a href="https://www.washingtonpost.com/politics/2026/04/13/trump-jesus-religious-conservatives/" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+
+                <div class="biblio-section">
+                    <h4>B · La guerra Iran-USA e le dichiarazioni di Trump sulle "guerre finite"</h4>
+                    <ol start="5">
+                        <li>Wikipedia, <em>2025–2026 Iran–United States negotiations</em>. <a href="https://en.wikipedia.org/wiki/2025%E2%80%932026_Iran%E2%80%93United_States_negotiations" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CNN, <em>Day 47 of Middle East conflict — Trump says Iran war 'very close to over'</em>, 15 aprile 2026. <a href="https://www.cnn.com/2026/04/15/world/live-news/iran-war-blockade-us-trump" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CNN, <em>Day 48 of Middle East conflict — Lebanon ceasefire begins</em>, 16 aprile 2026. <a href="https://www.cnn.com/2026/04/16/world/live-news/iran-war-trump-us-israel" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CNBC, <em>Iran war 'very close to over': Trump says Iran wants a deal</em>, 15 aprile 2026. <a href="https://www.cnbc.com/2026/04/15/iran-war-trump-peace-deal-us-talks-stock-market-oil-prices-.html" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CNBC, <em>More U.S.-Iran peace deal talks are in discussion</em>, 14 aprile 2026. <a href="https://www.cnbc.com/2026/04/14/trump-iran-war-strait-of-hormuz-negotiations.html" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>NBC News, <em>Iran threatens shipping in Gulf, Red Sea; Trump's Strait of Hormuz blockade continues</em>, 16 aprile 2026. <a href="https://www.nbcnews.com/world/iran/live-blog/live-updates-us-blockade-iran-hormuz-trump-peace-talks-rcna331890" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Washington Times, <em>Trump says Iran war is 'very close' to over</em>, 15 aprile 2026. <a href="https://www.washingtontimes.com/news/2026/apr/15/donald-trump-says-iran-war-close/" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+
+                <div class="biblio-section">
+                    <h4>C · Fact-checking delle "guerre finite"</h4>
+                    <ol start="12">
+                        <li>CNN Politics, <em>Fact check: Trump makes false claims about the Iran war and his foreign policy record</em>, 6 aprile 2026. <a href="https://www.cnn.com/2026/04/06/politics/fact-check-trump-iran-war" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CBS News, <em>Trump says he's ended 6 or 7 wars. Here's what the record shows</em>, 3 settembre 2025. <a href="https://www.cbsnews.com/news/trump-ended-6-or-7-wars-what-record-shows/" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Factually.co, <em>Did Donald Trump End Eight Wars?</em>, marzo 2026. <a href="https://factually.co/fact-checks/politics/did-trump-end-eight-wars-8123c5" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>NW Arkansas Democrat-Gazette, <em>FACT FOCUS: Trump says he's ended eight wars. His numbers are off</em>, 2 gennaio 2026. <a href="https://www.nwaonline.com/news/2026/jan/02/fact-focus-trump-says-hes-ended-eight-wars-his/" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+
+                <div class="biblio-section">
+                    <h4>D · La proposta Trump su Gaza e il piano di pace</h4>
+                    <ol start="16">
+                        <li>Wikipedia, <em>2025 Donald Trump Gaza Strip takeover proposal</em>. <a href="https://en.wikipedia.org/wiki/2025_Donald_Trump_Gaza_Strip_takeover_proposal" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Wikipedia, <em>Gaza peace plan</em>. <a href="https://en.wikipedia.org/wiki/Gaza_peace_plan" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>NBC News, <em>Trump's plans for a 'riviera of the Middle East' in Gaza condemned by America's allies</em>, 5 febbraio 2025. <a href="https://www.nbcnews.com/news/world/trumps-gaza-israel-plans-riviera-rcna190748" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Washington Post, <em>Trump's Gaza plan doesn't include troops, U.S. funds to rebuild</em>, 5 febbraio 2025. <a href="https://www.washingtonpost.com/world/2025/02/05/trump-gaza-control-palestinian-displacement-israel/" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Al Jazeera, <em>Trump doubles down on Gaza plan, says Palestinians could be 'happy'</em>, 7 febbraio 2025. <a href="https://www.aljazeera.com/news/2025/2/6/us-officials-walk-back-elements-of-trumps-gaza-takeover-plan" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CNBC, <em>U.S.-run 'Gaza Riviera': Post-war redevelopment plan sees 'voluntary relocation' of millions</em>, 1 settembre 2025. <a href="https://www.cnbc.com/2025/09/01/gaza-riviera-trump-administration-weighs-post-war-redevelopment-plan.html" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Center for American Progress, <em>Trump's 'Riviera of the Middle East' Plan Fundamentally Misreads the Arab World</em>, 14 aprile 2025. <a href="https://www.americanprogress.org/article/trumps-riviera-of-the-middle-east-plan-fundamentally-misreads-the-arab-world/" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+
+                <div class="biblio-section">
+                    <h4>E · Il caso Bolsonaro e la letteratura sulla comunicazione politica digitale brasiliana</h4>
+                    <ol start="23">
+                        <li>HKS Misinformation Review, <em>Brazilian Capitol attack: The interaction between Bolsonaro's supporters' content, WhatsApp, Twitter, and news media</em>, giugno 2024. <a href="https://misinforeview.hks.harvard.edu/article/brazilian-capitol-attack-the-interaction-between-bolsonaros-supporters-content-whatsapp-twitter-and-news-media/" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>MDPI Social Sciences, <em>Redefining the Communication Dynamics in Bolsonaro's Brazil: Media Consumption and Political Preferences</em>, aprile 2024. <a href="https://www.mdpi.com/2076-0760/13/5/245" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>International Journal of Communication, <em>Bolsonaro's 2018 campaign analysis</em>, 2021. <a href="https://ijoc.org/index.php/ijoc/article/download/14803/3379" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Rest of World, <em>Brazilians are desperately fighting against Bolsonaro's digital tactics</em>, marzo 2023. <a href="https://restofworld.org/2021/brazil-bolsonaro-social-media/" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Waging Nonviolence, <em>How a strong messaging strategy helped defeat Brazil's Bolsonaro</em>, settembre 2024. <a href="https://wagingnonviolence.org/2024/08/strong-messaging-strategy-helped-defeat-bolsonaro-authoritarianism-brazil/" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+
+                <div class="biblio-section">
+                    <h4>F · Il caso Modi: Ayodhya, hindutva, sacralizzazione istituzionale</h4>
+                    <ol start="28">
+                        <li>NPR, <em>India's Modi inaugurates a long-promised but controversial Hindu temple in Ayodhya</em>, 22 gennaio 2024. <a href="https://www.npr.org/2024/01/22/1226039104/india-ayodhya-hindu-nationalists-temple-modi-hinduism" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>NPR, <em>India's Modi to inaugurate Hindu temple in Ayodhya, where rioters destroyed a mosque</em>, 21 gennaio 2024. <a href="https://www.npr.org/2024/01/21/1225395353/india-ayodhya-temple-modi-hinduism" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>CNN, <em>Analysis: Modi's 'divine India' vision threatens to marginalize millions</em>, 5 febbraio 2024. <a href="https://www.cnn.com/2024/02/05/india/india-modi-ram-temple-analysis-intl-hnk/index.html" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Middle East Eye, <em>India elections: Modi's inauguration of new Ayodhya temple is pure Hindutva populism</em>, 23 gennaio 2024. <a href="https://www.middleeasteye.net/opinion/india-elections-modi-ayodhya-temple-hindutva-populism" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>The Conversation, <em>In opening a Hindu temple on the site of a former mosque, Narendra Modi is following an old Hindu nationalist ploy</em>, novembre 2025. <a href="https://theconversation.com/in-opening-a-hindu-temple-on-the-site-of-a-former-mosque-narendra-modi-is-following-an-old-hindu-nationalist-ploy-221635" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>NPR, <em>At Site Of Razed Mosque, India's Modi Lays Foundation For Controversial Hindu Temple</em>, 5 agosto 2020. <a href="https://www.npr.org/2020/08/05/899247507/at-site-of-razed-mosque-indias-modi-lays-foundation-for-controversial-hindu-temp" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+
+                <div class="biblio-section">
+                    <h4>G · Il caso italiano: Meloni</h4>
+                    <ol start="34">
+                        <li>Il Post, <em>Donald Trump ha criticato duramente Giorgia Meloni</em>, 14 aprile 2026. <a href="https://www.ilpost.it/2026/04/14/donald-trump-critica-giorgia-meloni/" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Euronews, <em>Trump-Meloni, cronologia dello strappo</em>, 15 aprile 2026. <a href="https://it.euronews.com/my-europe/2026/04/15/trump-meloni-cronologia-dello-strappo-da-flirt-politico-a-rapporto-in-crisi" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Today, <em>Tutti i guai di Giorgia Meloni (che ora prova a smarcarsi da Trump)</em>, 6 aprile 2026. <a href="https://www.today.it/politica/giorgia-meloni-problemi-governo-2026.html" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Il Fatto Quotidiano, <em>Per Meloni "se vince il No, figli strappati alle madri e stupratori liberi"</em>, 12 marzo 2026. <a href="https://www.ilfattoquotidiano.it/2026/03/12/referendum-giustizia-meloni-dichiarazioni-teatro-parenti-news/8322614/" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>Il Fatto Quotidiano, <em>Governo Meloni, norme saltate o rinviate</em>, 29 marzo 2026. <a href="https://www.ilfattoquotidiano.it/2026/03/29/governo-meloni-dimissioni-norme-bloccate-nostri-articoli/8338793/" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>La Via Libera, <em>Fact-checking delle dichiarazioni di Meloni, Nordio e gli altri politici per il Sì</em>, febbraio 2026. <a href="https://lavialibera.it/it-schede-2587-referendum_sulla_giustizia_il_fact_checking_delle_dichiarazioni_di_meloni_nordio_e_politici_del_si" target="_blank" rel="noopener">Apri ↗</a></li>
+                        <li>ANSA, <em>Le opposizioni all'attacco: 'Quattro anni di nulla, ora tocca a noi'</em>, 9 aprile 2026. <a href="https://www.ansa.it/sito/notizie/politica/2026/04/09/duello-meloni-schlein-in-aula-la-premier-da-lei-falsita.-la-replica-la-sfida-lhai_d76281b5-8e7d-4a47-b5b3-fc2bdb369398.html" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+
+                <div class="biblio-section">
+                    <h4>H · Il caso italiano: Salvini e il saggio semiotico di Sedda</h4>
+                    <ol start="41">
+                        <li>Francesco Sedda, <em>Salvini, o della provocazione</em>, Doppiozero, 2018. <a href="https://www.doppiozero.com/salvini-o-della-provocazione" target="_blank" rel="noopener">Apri ↗</a></li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Nota finale -->
+            <section>
+                <div class="block block-key">
+                    <h3>Nota finale dell'autore</h3>
+                    <p>Questo report è il consolidamento di una conversazione in cui l'analisi è emersa per strati progressivi, da un fatto puntuale fino a un'impalcatura comparata. La forma stessa del documento — ordinata, strutturata, esaustiva — è il punto di arrivo di un processo che era partito in modo più dialogico.</p>
+                    <p>La tensione tra il ragionamento che si sviluppa in tempo reale e la sua forma consolidata è essa stessa un problema metodologico: ogni consolidamento cristallizza ipotesi che nella conversazione erano ancora aperte, e questo documento andrebbe riletto ricordando che le diramazioni della parte ottava sono luoghi dove il pensiero non è chiuso.</p>
+                    <p>La domanda di fondo che attraversa tutto il percorso — <em>quali strutture selezionano per questo tipo di comunicazione politica, e come si costruiscono anticorpi culturali ed educativi</em> — resta aperta e non ha risposte pronte. Chi pretende di averle probabilmente sta vendendo rassicurazione, non analisi. <strong>Il lavoro vero è lento, non eroico, e passa soprattutto attraverso i luoghi dove si costruisce la capacità critica delle persone</strong>: la scuola, la formazione continua, le comunità educative, i luoghi dove si impara a riconoscere un probe prima di esserne assorbiti.</p>
+                </div>
+            </section>
+
+            <div class="footer-note">
+                <p>Dashboard creata da Ivan Ferrero — aprile 2026<br>
+                Analisi esclusivamente formativa e antropologica. Nessun intento politico o accusatorio.<br>
+                <a href="/dashboards/">← Torna all'indice dashboard</a> · <a href="/">Homepage</a></p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity -->
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById('progressBar');
+            if (bar) bar.style.width = scrolled + '%';
+        });
+
+        // Active sidebar link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const links = document.querySelectorAll('.dash-sidebar a[data-target]');
+
+        function updateActive() {
+            const scrollY = window.scrollY + 150;
+            let current = '';
+            sections.forEach(s => {
+                if (s.offsetTop <= scrollY) current = s.id;
+            });
+            links.forEach(l => {
+                l.classList.toggle('active', l.dataset.target === current);
+            });
+        }
+        window.addEventListener('scroll', updateActive);
+
+        // Smooth scroll sidebar
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById(link.dataset.target);
+                if (target) {
+                    window.scrollTo({ top: target.offsetTop - 90, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            const header = card.querySelector('.exp-header');
+            if (header) {
+                header.addEventListener('click', () => {
+                    card.classList.toggle('expanded');
+                });
+            }
+        });
+
+        // Tabs (Part 5)
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const container = btn.closest('section');
+                container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                const tab = document.getElementById('tab-' + btn.dataset.tab);
+                if (tab) tab.classList.add('active');
+            });
+        });
+
+        // Glossary search
+        const search = document.getElementById('glossarySearch');
+        const items = document.querySelectorAll('.gloss-item');
+        if (search) {
+            search.addEventListener('input', (e) => {
+                const q = e.target.value.toLowerCase().trim();
+                items.forEach(item => {
+                    const terms = (item.dataset.term || '').toLowerCase();
+                    const text = item.textContent.toLowerCase();
+                    if (q === '' || terms.includes(q) || text.includes(q)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
