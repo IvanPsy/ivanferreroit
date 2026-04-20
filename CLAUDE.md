@@ -1,13 +1,13 @@
 # ivanferrero.it — Sito Personale e Dashboard
 
-> **Ultimo aggiornamento:** 2026-03-27
+> **Ultimo aggiornamento:** 2026-04-17
 
 ## Cosa contiene
 
 Sito personale su GitHub Pages (CNAME `ivanferrero.it`). Design system dark cyber-professional con accenti cyan, tipografia Outfit/JetBrains Mono.
 
 - `index.html`: hub di navigazione
-- `dashboards/`: ~35 dashboard HTML interattive su cyberpsicologia, inclusione, neuroscienze, normativa scolastica, IA ed etica, digital wellbeing
+- `dashboards/`: ~36 dashboard HTML interattive su cyberpsicologia, inclusione, neuroscienze, normativa scolastica, IA ed etica, digital wellbeing
 - `assets/`: loghi, immagini, risorse grafiche
 - `_posts/`, `_includes/`, `_sass/`: struttura Jekyll
 

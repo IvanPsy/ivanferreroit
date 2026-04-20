@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧭 Mappa delle Sei Ancore — ADSS PNRR3 | Ivan Ferrero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0e14;
+  --bg-secondary: #0f1419;
+  --bg-tertiary: #151b23;
+  --bg-card: #1a222d;
+  --bg-hover: #222c3a;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
+  --border-color: #30363d;
+  --accent-cyan: #00d9ff;
+  --accent-green: #3fb950;
+  --accent-yellow: #d29922;
+  --accent-orange: #db6d28;
+  --accent-red: #f85149;
+  --accent-purple: #a371f7;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.7;
+  min-height: 100vh;
+  padding-top: 70px;
+  background-image:
+    linear-gradient(rgba(48,54,61,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48,54,61,0.15) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.dashboard-header {
+  position: sticky;
+  top: 70px;
+  z-index: 900;
+  background: rgba(10,14,20,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+}
+.dashboard-header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+}
+.brand-accent { color: var(--accent-cyan); }
+.nav-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.nav-tab {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+.nav-tab:hover { color: var(--text-primary); border-color: var(--accent-cyan); }
+.nav-tab.active {
+  background: var(--accent-cyan);
+  color: var(--bg-primary);
+  border-color: var(--accent-cyan);
+  font-weight: 500;
+}
+
+main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+.section { display: none; animation: fadeIn 0.3s ease; }
+.section.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; margin: 2rem 0 1rem; color: var(--text-primary); }
+h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+.subtitle { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem; }
+
+.overview-intro {
+  background: linear-gradient(135deg, rgba(0,217,255,0.08) 0%, rgba(63,185,80,0.05) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.overview-intro p { color: var(--text-secondary); margin-bottom: 0.8rem; }
+.overview-intro p:last-child { margin-bottom: 0; }
+.overview-intro strong { color: var(--accent-cyan); font-weight: 500; }
+
+.timeline-container { position: relative; padding: 2rem 0; margin-bottom: 2rem; overflow-x: auto; }
+.timeline-svg { width: 100%; min-width: 900px; height: 300px; display: block; }
+
+.anchors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.anchor-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.3rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.anchor-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent-color, var(--accent-cyan));
+}
+.anchor-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-color, var(--accent-cyan));
+  box-shadow: 0 8px 30px rgba(0,217,255,0.1);
+}
+.anchor-number { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+.anchor-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--accent-color, var(--accent-cyan));
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.anchor-law { font-weight: 600; font-size: 1.05rem; margin-bottom: 0.6rem; }
+.anchor-summary { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+.anchor-card-hint { margin-top: 0.8rem; font-size: 0.8rem; color: var(--accent-color, var(--accent-cyan)); opacity: 0.7; }
+
+.anchor-detail {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.anchor-detail-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+.anchor-detail-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-color);
+}
+.anchor-detail-title { flex: 1; min-width: 200px; }
+.anchor-detail-title h2 { margin: 0; font-size: 1.6rem; }
+.anchor-detail-title .subtitle { font-size: 0.95rem; margin: 0; }
+
+.detail-block { margin: 1.5rem 0; }
+.detail-block h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-color);
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+.detail-block p, .detail-block ul { color: var(--text-secondary); line-height: 1.7; }
+.detail-block ul { list-style: none; padding: 0; }
+.detail-block ul li {
+  padding: 0.4rem 0 0.4rem 1.5rem;
+  position: relative;
+  border-bottom: 1px dashed rgba(48,54,61,0.5);
+}
+.detail-block ul li:last-child { border-bottom: none; }
+.detail-block ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent-color); }
+.detail-block strong { color: var(--text-primary); font-weight: 500; }
+
+.concorso-phrase {
+  background: linear-gradient(135deg, rgba(0,217,255,0.06) 0%, rgba(163,113,247,0.04) 100%);
+  border-left: 3px solid var(--accent-color);
+  border-radius: 6px;
+  padding: 1.2rem 1.4rem;
+  margin: 0.8rem 0;
+  font-family: 'Outfit', sans-serif;
+  font-style: italic;
+  color: var(--text-primary);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+.concorso-phrase::before { content: '" '; color: var(--accent-color); font-size: 1.5rem; font-weight: 700; }
+.concorso-phrase::after { content: ' "'; color: var(--accent-color); font-size: 1.5rem; font-weight: 700; }
+
+.pratica-box {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin-top: 0.5rem;
+}
+.pratica-box p { color: var(--text-secondary); font-size: 0.95rem; }
+
+.flashcard-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.flashcard-controls .btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+.flashcard-controls .btn:hover { border-color: var(--accent-cyan); background: var(--bg-hover); }
+.flashcard-controls .btn.primary {
+  background: var(--accent-cyan);
+  color: var(--bg-primary);
+  border-color: var(--accent-cyan);
+  font-weight: 500;
+}
+.flashcard-counter { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 0.9rem; }
+.flashcard-progress {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.flashcard-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
+  transition: width 0.3s ease;
+}
+
+.flashcard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.flashcard:hover { border-color: var(--accent-cyan); }
+.flashcard-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; }
+.flashcard-front .big-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.flashcard-question { font-size: 1.3rem; color: var(--text-primary); max-width: 600px; }
+.flashcard-hint { margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+.flashcard-back { display: none; text-align: left; width: 100%; }
+.flashcard.revealed .flashcard-front { display: none; }
+.flashcard.revealed .flashcard-back { display: block; }
+
+.flashcard-back h3 { font-size: 1.3rem; color: var(--accent-cyan); margin-bottom: 1rem; text-align: center; }
+.flashcard-back .info-row {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-cyan);
+}
+.flashcard-back .info-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+.flashcard-back .info-content { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+.frasi-grid { display: grid; gap: 1rem; }
+.frase-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.frase-item:hover { border-color: var(--accent-purple); background: var(--bg-hover); }
+.frase-titolo { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.frase-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-purple);
+  min-width: 40px;
+}
+.frase-titolo h3 { font-size: 1.1rem; margin: 0; }
+.frase-content {
+  color: var(--text-secondary);
+  font-style: italic;
+  padding-left: 3rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  display: none;
+}
+.frase-item.revealed .frase-content { display: block; }
+.frase-hint { padding-left: 3rem; font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+.frase-item.revealed .frase-hint { display: none; }
+
+.check-intro {
+  background: linear-gradient(135deg, rgba(210,153,34,0.08) 0%, rgba(219,109,40,0.04) 100%);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-yellow);
+  border-radius: 6px;
+  padding: 1.2rem;
+  margin-bottom: 2rem;
+}
+.check-intro p { color: var(--text-secondary); }
+.check-intro strong { color: var(--accent-yellow); font-weight: 500; }
+
+.check-list { display: grid; gap: 0.8rem; }
+.check-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.check-item:hover { border-color: var(--accent-green); background: var(--bg-hover); }
+.check-box {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  font-weight: 700;
+  color: transparent;
+}
+.check-item.checked .check-box {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: var(--bg-primary);
+}
+.check-item.checked .check-text { color: var(--text-muted); text-decoration: line-through; }
+.check-text { flex: 1; color: var(--text-primary); }
+.check-counter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+.check-counter .big { font-size: 1.8rem; font-weight: 700; color: var(--accent-green); }
+
+.glossary-search {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
+}
+.glossary-search:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0,217,255,0.15);
+}
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+.glossary-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.2rem;
+  transition: all 0.2s ease;
+}
+.glossary-item:hover { border-color: var(--accent-cyan); }
+.glossary-term {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+.glossary-def { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; }
+
+.rete-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 2rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+.rete-svg { width: 100%; min-width: 700px; height: auto; display: block; }
+.rete-link rect { transition: opacity 0.15s ease; }
+.rete-link:hover rect { opacity: 0.75; }
+.rete-link:hover text:first-of-type { text-decoration: underline; }
+
+.narrazione-box {
+  background: linear-gradient(135deg, rgba(0,217,255,0.05) 0%, rgba(163,113,247,0.05) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.8rem;
+  margin-top: 1.5rem;
+}
+.narrazione-box h3 { color: var(--accent-cyan); margin-bottom: 1rem; }
+.narrazione-box p { color: var(--text-primary); font-style: italic; line-height: 1.8; font-size: 1.02rem; }
+
+footer {
+  max-width: 1400px;
+  margin: 3rem auto 0;
+  padding: 2rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+footer .sub { margin-top: 0.4rem; font-size: 0.8rem; }
+
+@media (max-width: 768px) {
+  body { padding-top: 120px; }
+  .dashboard-header { top: 120px; }
+  .dashboard-header-inner { gap: 1rem; }
+  main { padding: 1.2rem; padding-top: 1.2rem; }
+  h1 { font-size: 1.6rem; }
+  .anchor-detail-year { font-size: 2rem; }
+  .flashcard-front .big-year { font-size: 3.5rem; }
+  .nav-tab { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
+  .anchor-detail { padding: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<header class="dashboard-header">
+  <div class="dashboard-header-inner">
+    <div class="brand">🧭 <span class="brand-accent">Mappa delle Sei Ancore</span> · ADSS PNRR3</div>
+    <nav class="nav-tabs" id="nav-tabs">
+      <button class="nav-tab active" data-section="overview">Overview</button>
+      <button class="nav-tab" data-section="ancore">Le 6 Ancore</button>
+      <button class="nav-tab" data-section="rete">La Rete</button>
+      <button class="nav-tab" data-section="flashcard">Flashcard</button>
+      <button class="nav-tab" data-section="frasi">5 Frasi</button>
+      <button class="nav-tab" data-section="check">Check Finale</button>
+      <button class="nav-tab" data-section="glossario">Glossario</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="section active" id="overview">
+  <h1>Le Sei Ancore della Normativa dell'Inclusione</h1>
+  <p class="subtitle">Strumento operativo per la prova orale ADSS · PNRR3 · Lombardia</p>
+
+  <div class="overview-intro">
+    <p>Hai una mente che pensa per <strong>connessioni</strong>, non per elenchi. La normativa italiana sull'inclusione è una rete, non una lista.</p>
+    <p>Questa dashboard ti dà <strong>sei chiodi</strong> a cui appendere tutto il resto. Non devi memorizzare venti norme, devi conoscerne bene sei. Tutto il resto si aggancia.</p>
+    <p>Usala come <strong>trampolino</strong>, non come manuale. Naviga attivamente: clicca le ancore, testa la memoria con le flashcard, nascondi e rivela le frasi da concorso. La conoscenza diventa tua solo se la manipoli.</p>
+  </div>
+
+  <h2>Timeline cronologica</h2>
+  <div class="timeline-container">
+    <svg class="timeline-svg" viewBox="0 0 1000 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="timelineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00d9ff" stop-opacity="0.2"/>
+          <stop offset="50%" stop-color="#00d9ff" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#a371f7" stop-opacity="0.8"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <line x1="60" y1="140" x2="940" y2="140" stroke="url(#timelineGrad)" stroke-width="3"/>
+
+      <g class="timeline-anchor" data-anchor="1" style="cursor:pointer">
+        <circle cx="100" cy="140" r="14" fill="#0a0e14" stroke="#3fb950" stroke-width="3" filter="url(#glow)"/>
+        <circle cx="100" cy="140" r="5" fill="#3fb950"/>
+        <text x="100" y="100" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono" font-size="18" font-weight="600">1977</text>
+        <text x="100" y="82" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">L. 517</text>
+        <text x="100" y="180" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="10">Integrazione</text>
+      </g>
+
+      <g class="timeline-anchor" data-anchor="2" style="cursor:pointer">
+        <circle cx="240" cy="140" r="14" fill="#0a0e14" stroke="#00d9ff" stroke-width="3" filter="url(#glow)"/>
+        <circle cx="240" cy="140" r="5" fill="#00d9ff"/>
+        <text x="240" y="100" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono" font-size="18" font-weight="600">1992</text>
+        <text x="240" y="82" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">L. 104</text>
+        <text x="240" y="180" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="10">Legge-quadro</text>
+      </g>
+
+      <g class="timeline-anchor" data-anchor="3" style="cursor:pointer">
+        <circle cx="400" cy="140" r="14" fill="#0a0e14" stroke="#a371f7" stroke-width="3" filter="url(#glow)"/>
+        <circle cx="400" cy="140" r="5" fill="#a371f7"/>
+        <text x="400" y="100" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono" font-size="18" font-weight="600">2001</text>
+        <text x="400" y="82" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">ICF · OMS</text>
+        <text x="400" y="180" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="10">Bio-psico-sociale</text>
+      </g>
+
+      <g class="timeline-anchor" data-anchor="4" style="cursor:pointer">
+        <circle cx="560" cy="140" r="14" fill="#0a0e14" stroke="#d29922" stroke-width="3" filter="url(#glow)"/>
+        <circle cx="560" cy="140" r="5" fill="#d29922"/>
+        <text x="560" y="100" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono" font-size="18" font-weight="600">2010</text>
+        <text x="560" y="82" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">L. 170</text>
+        <text x="560" y="180" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="10">DSA + BES</text>
+      </g>
+
+      <g class="timeline-anchor" data-anchor="5" style="cursor:pointer">
+        <circle cx="720" cy="140" r="14" fill="#0a0e14" stroke="#db6d28" stroke-width="3" filter="url(#glow)"/>
+        <circle cx="720" cy="140" r="5" fill="#db6d28"/>
+        <text x="720" y="100" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono" font-size="18" font-weight="600">2017</text>
+        <text x="720" y="82" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">D.Lgs. 66</text>
+        <text x="720" y="180" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="10">Riforma</text>
+      </g>
+
+      <g class="timeline-anchor" data-anchor="6" style="cursor:pointer">
+        <circle cx="900" cy="140" r="14" fill="#0a0e14" stroke="#f85149" stroke-width="3" filter="url(#glow)"/>
+        <circle cx="900" cy="140" r="5" fill="#f85149"/>
+        <text x="900" y="100" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono" font-size="18" font-weight="600">2020</text>
+        <text x="900" y="82" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">D.I. 182</text>
+        <text x="900" y="180" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="10">PEI ICF</text>
+      </g>
+
+      <text x="170" y="240" text-anchor="middle" fill="#6e7681" font-family="Outfit" font-size="11" font-style="italic">FASE INTEGRAZIONE</text>
+      <text x="480" y="240" text-anchor="middle" fill="#6e7681" font-family="Outfit" font-size="11" font-style="italic">FASE INCLUSIONE</text>
+      <text x="810" y="240" text-anchor="middle" fill="#6e7681" font-family="Outfit" font-size="11" font-style="italic">BIO-PSICO-SOCIALE OPERATIVO</text>
+
+      <line x1="75" y1="250" x2="265" y2="250" stroke="#3fb950" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+      <line x1="300" y1="250" x2="660" y2="250" stroke="#a371f7" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+      <line x1="695" y1="250" x2="920" y2="250" stroke="#f85149" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <h2>Le sei ancore in sintesi</h2>
+  <p style="color:var(--text-secondary); margin-bottom: 1.2rem">Clicca su una carta per il dettaglio completo.</p>
+  <div class="anchors-grid" id="anchors-grid-overview"></div>
+</section>
+
+<section class="section" id="ancore">
+  <h1>Le Sei Ancore · Dettaglio</h1>
+  <p class="subtitle">Per ogni ancora: anno mnemonico, novità chiave, satelliti, frase da concorso, ponte con la pratica.</p>
+  <div id="ancore-container"></div>
+</section>
+
+<section class="section" id="rete">
+  <h1>La Rete Complessiva</h1>
+  <p class="subtitle">Come le sei ancore si parlano. La mappa visiva delle connessioni.</p>
+
+  <div class="rete-container">
+    <svg class="rete-svg" viewBox="0 0 800 720" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/>
+        </marker>
+      </defs>
+
+      <line x1="400" y1="95" x2="400" y2="150" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="400" y1="205" x2="400" y2="260" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="400" y1="315" x2="400" y2="370" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="400" y1="425" x2="400" y2="480" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="400" y1="535" x2="400" y2="590" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <g class="rete-link" data-ancora="1" style="cursor:pointer">
+        <rect x="260" y="40" width="280" height="55" rx="8" fill="#1a222d" stroke="#3fb950" stroke-width="2"/>
+        <text x="400" y="65" text-anchor="middle" fill="#3fb950" font-family="JetBrains Mono" font-size="14" font-weight="600">1977 · L. 517</text>
+        <text x="400" y="85" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">Sostegno + abolizione classi differenziali</text>
+      </g>
+
+      <g class="rete-link" data-ancora="2" style="cursor:pointer">
+        <rect x="260" y="150" width="280" height="55" rx="8" fill="#1a222d" stroke="#00d9ff" stroke-width="2"/>
+        <text x="400" y="175" text-anchor="middle" fill="#00d9ff" font-family="JetBrains Mono" font-size="14" font-weight="600">1992 · L. 104</text>
+        <text x="400" y="195" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">Legge-quadro · certificazione · PEI · GLH</text>
+      </g>
+
+      <g class="rete-link" data-ancora="3" style="cursor:pointer">
+        <rect x="260" y="260" width="280" height="55" rx="8" fill="#1a222d" stroke="#a371f7" stroke-width="2"/>
+        <text x="400" y="285" text-anchor="middle" fill="#a371f7" font-family="JetBrains Mono" font-size="14" font-weight="600">2001 · ICF · OMS</text>
+        <text x="400" y="305" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">Cambio paradigma: bio-psico-sociale</text>
+      </g>
+
+      <g class="rete-link" data-ancora="4" style="cursor:pointer">
+        <rect x="260" y="370" width="280" height="55" rx="8" fill="#1a222d" stroke="#d29922" stroke-width="2"/>
+        <text x="400" y="395" text-anchor="middle" fill="#d29922" font-family="JetBrains Mono" font-size="14" font-weight="600">2010 · L. 170</text>
+        <text x="400" y="415" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">DSA · PDP · compensativi/dispensativi</text>
+      </g>
+
+      <g class="rete-link" data-ancora="4" style="cursor:pointer">
+        <rect x="580" y="370" width="200" height="55" rx="8" fill="#151b23" stroke="#d29922" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="680" y="395" text-anchor="middle" fill="#d29922" font-family="JetBrains Mono" font-size="12">Dir. 27/12/2012</text>
+        <text x="680" y="415" text-anchor="middle" fill="#6e7681" font-family="Outfit" font-size="10">BES (3 sottocategorie)</text>
+      </g>
+      <line x1="540" y1="397" x2="580" y2="397" stroke="#d29922" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g class="rete-link" data-ancora="5" style="cursor:pointer">
+        <rect x="260" y="480" width="280" height="55" rx="8" fill="#1a222d" stroke="#db6d28" stroke-width="2"/>
+        <text x="400" y="505" text-anchor="middle" fill="#db6d28" font-family="JetBrains Mono" font-size="14" font-weight="600">2017 · D.Lgs. 66</text>
+        <text x="400" y="525" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">Riforma · Profilo Funzionamento · GLO</text>
+      </g>
+
+      <g class="rete-link" data-ancora="5" style="cursor:pointer">
+        <rect x="580" y="480" width="200" height="55" rx="8" fill="#151b23" stroke="#db6d28" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="680" y="505" text-anchor="middle" fill="#db6d28" font-family="JetBrains Mono" font-size="12">2019 · D.Lgs. 96</text>
+        <text x="680" y="525" text-anchor="middle" fill="#6e7681" font-family="Outfit" font-size="10">Correttivo · famiglia nel GLO</text>
+      </g>
+      <line x1="540" y1="507" x2="580" y2="507" stroke="#db6d28" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g class="rete-link" data-ancora="6" style="cursor:pointer">
+        <rect x="260" y="590" width="280" height="55" rx="8" fill="#1a222d" stroke="#f85149" stroke-width="2"/>
+        <text x="400" y="615" text-anchor="middle" fill="#f85149" font-family="JetBrains Mono" font-size="14" font-weight="600">2020 · D.I. 182</text>
+        <text x="400" y="635" text-anchor="middle" fill="#8b949e" font-family="Outfit" font-size="11">PEI operativo · 4 dimensioni</text>
+      </g>
+
+      <g class="rete-link" data-ancora="6" style="cursor:pointer">
+        <rect x="580" y="583" width="200" height="30" rx="6" fill="#151b23" stroke="#f85149" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="680" y="603" text-anchor="middle" fill="#f85149" font-family="JetBrains Mono" font-size="11">2021 · Sent. TAR Lazio</text>
+      </g>
+      <g class="rete-link" data-ancora="6" style="cursor:pointer">
+        <rect x="580" y="623" width="200" height="30" rx="6" fill="#151b23" stroke="#f85149" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="680" y="643" text-anchor="middle" fill="#f85149" font-family="JetBrains Mono" font-size="11">2023 · D.I. 153</text>
+      </g>
+      <line x1="540" y1="617" x2="580" y2="598" stroke="#f85149" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <line x1="540" y1="617" x2="580" y2="638" stroke="#f85149" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g class="rete-link" data-ancora="1" style="cursor:pointer">
+        <rect x="20" y="40" width="200" height="30" rx="6" fill="#151b23" stroke="#3fb950" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="120" y="60" text-anchor="middle" fill="#3fb950" font-family="JetBrains Mono" font-size="11">1971 · L. 118</text>
+      </g>
+      <line x1="220" y1="55" x2="260" y2="65" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g class="rete-link" data-ancora="1" style="cursor:pointer">
+        <rect x="20" y="80" width="200" height="30" rx="6" fill="#151b23" stroke="#3fb950" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="120" y="100" text-anchor="middle" fill="#3fb950" font-family="JetBrains Mono" font-size="11">1975 · Doc. Falcucci</text>
+      </g>
+
+      <g class="rete-link" data-ancora="2" style="cursor:pointer">
+        <rect x="20" y="150" width="200" height="30" rx="6" fill="#151b23" stroke="#00d9ff" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="120" y="170" text-anchor="middle" fill="#00d9ff" font-family="JetBrains Mono" font-size="11">2006 · Conv. ONU</text>
+      </g>
+      <line x1="220" y1="165" x2="260" y2="175" stroke="#00d9ff" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g class="rete-link" data-ancora="2" style="cursor:pointer">
+        <rect x="20" y="190" width="200" height="30" rx="6" fill="#151b23" stroke="#00d9ff" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="120" y="210" text-anchor="middle" fill="#00d9ff" font-family="JetBrains Mono" font-size="11">2009 · L. 18 (ratifica ONU)</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="narrazione-box">
+    <h3>🎙️ La storia da raccontare in 90 secondi</h3>
+    <p>Il sistema italiano dell'inclusione si costruisce in tre fasi. La fase dell'<strong>integrazione</strong> nasce con la 517 del 1977, che abolisce le classi differenziali e introduce l'insegnante di sostegno, e si consolida con la legge-quadro 104 del 1992. La fase dell'<strong>inclusione</strong> comincia nel 2001 con l'ICF dell'OMS, che cambia paradigma: non più modello medico, ma bio-psico-sociale. Questa prospettiva entra nel sistema italiano con la 170 del 2010 sui DSA e si formalizza con il D.Lgs. 66 del 2017, che introduce il Profilo di Funzionamento e il GLO. Infine, il D.I. 182 del 2020, rivisto dopo la sentenza TAR e aggiornato dal 153 del 2023, rende operativo il nuovo modello di PEI con le quattro dimensioni ICF.</p>
+  </div>
+</section>
+
+<section class="section" id="flashcard">
+  <h1>Modalità Flashcard</h1>
+  <p class="subtitle">Testa la memoria. Leggi l'anno, ricostruisci il contenuto, clicca per verificare. Usa le frecce della tastiera per navigare, spazio/invio per rivelare.</p>
+
+  <div class="flashcard-progress">
+    <div class="flashcard-progress-bar" id="flashcard-progress-bar" style="width: 16.66%"></div>
+  </div>
+
+  <div class="flashcard-controls">
+    <button class="btn" id="fc-prev">← Precedente</button>
+    <button class="btn primary" id="fc-reveal">Rivela risposta</button>
+    <button class="btn" id="fc-next">Successiva →</button>
+    <button class="btn" id="fc-shuffle">🎲 Mescola</button>
+    <span class="flashcard-counter" id="fc-counter">1 / 6</span>
+  </div>
+
+  <div class="flashcard" id="flashcard">
+    <div class="flashcard-front">
+      <div class="flashcard-label">Ancora</div>
+      <div class="big-year" id="fc-year">1977</div>
+      <div class="flashcard-question" id="fc-question">Qual è la novità chiave? Chi sono i satelliti? Qual è la frase da concorso?</div>
+      <div class="flashcard-hint">Ricostruisci a voce alta. Poi clicca qui o il pulsante per verificare.</div>
+    </div>
+    <div class="flashcard-back" id="fc-back"></div>
+  </div>
+</section>
+
+<section class="section" id="frasi">
+  <h1>Le Cinque Frasi da Avere in Bocca</h1>
+  <p class="subtitle">Memorizzare queste cinque copre l'80% delle domande normative possibili. Clicca per rivelare.</p>
+  <div class="frasi-grid" id="frasi-grid"></div>
+</section>
+
+<section class="section" id="check">
+  <h1>Check Finale</h1>
+  <p class="subtitle">Le 24 ore prima della prova. Otto domande da farsi ad alta voce.</p>
+
+  <div class="check-intro">
+    <p><strong>Regola:</strong> per ciascuna domanda, prova a rispondere a voce alta per 60-90 secondi senza guardare la mappa. Se ti blocchi, torna all'ancora corrispondente. Se tutte e otto scorrono, sei pronto.</p>
+  </div>
+
+  <div class="check-list" id="check-list"></div>
+
+  <div class="check-counter">
+    <span>Risposte padroneggiate:</span>
+    <span class="big" id="check-counter-number">0</span>
+    <span>/ 8</span>
+  </div>
+</section>
+
+<section class="section" id="glossario">
+  <h1>Glossario Operativo</h1>
+  <p class="subtitle">I termini-chiave per parlare la lingua del concorso.</p>
+
+  <input type="text" class="glossary-search" id="glossary-search" placeholder="🔍 Cerca un termine..." autocomplete="off">
+  <div class="glossary-grid" id="glossary-grid"></div>
+</section>
+
+</main>
+
+<footer>
+  <div>🧭 Mappa delle Sei Ancore · Strumento di preparazione per la prova orale ADSS PNRR3</div>
+  <div class="sub">Costruita su misura per Ivan Ferrero · IIS G. Galilei - R. Luxemburg, Milano</div>
+</footer>
+
+<script>
+const ancore = [
+  {
+    id: 1, year: '1977', law: 'Legge 517', color: '#3fb950',
+    summary: 'Abolizione classi differenziali. Nasce l\'insegnante di sostegno. Corresponsabilità educativa.',
+    ancoraBio: 'Dieci anni dopo il Sessantotto, la scuola si apre. Associala all\'anno delle rivolte studentesche che si concretizzano in inclusione.',
+    novita: 'Abolisce le classi differenziali. Introduce la figura dell\'<strong>insegnante di sostegno</strong> (specializzazione biennale, 1.300 ore). Max 20 alunni per classe con presenza di disabilità. L\'integrazione diventa <strong>responsabilità dell\'intero consiglio di classe</strong>: principio di corresponsabilità educativa, ancora attuale.',
+    satelliti: [
+      '<strong>L. 118/1971</strong> — primo inserimento nelle classi comuni, ma "salvo i casi..." (ancora esclusioni)',
+      '<strong>Documento Falcucci (1975)</strong> — il manifesto pedagogico che prepara la 517',
+      '<strong>DPR 970/1975</strong> — prima regolamentazione della figura del docente specializzato',
+      '<strong>Sent. Corte Cost. 215/1987</strong> — elimina il "salvo i casi" delle superiori: diritto incondizionato'
+    ],
+    frase: 'La Legge 517 del 1977 rappresenta il vero punto di svolta dell\'integrazione italiana. Abolisce le classi differenziali, introduce l\'insegnante di sostegno e, soprattutto, stabilisce il principio di corresponsabilità educativa: l\'integrazione non è compito del solo insegnante di sostegno, ma dell\'intero consiglio di classe.',
+    pratica: 'Ogni volta che in classe il docente curricolare lavora in co-teaching con te, ogni volta che partecipi al consiglio di classe come membro a pieno titolo sull\'alunno certificato, stai applicando il principio della 517. Quando un collega ti dice "ma tanto è il tuo alunno", gli stai (implicitamente) citando la 517.'
+  },
+  {
+    id: 2, year: '1992', law: 'Legge 104', color: '#00d9ff',
+    summary: 'Legge-quadro. 44 articoli. Certificazione, PEI, GLH, prove equipollenti. Ancora vivissima.',
+    ancoraBio: 'L\'anno della caduta del muro, di Mani Pulite, di Capaci. Il 1992 è un anno che l\'Italia non dimentica: associalo lì. La 104 è la costituzione dell\'inclusione italiana.',
+    novita: '<strong>Legge-quadro per l\'assistenza, l\'integrazione sociale e i diritti delle persone handicappate.</strong> 44 articoli. Definisce la persona con handicap (art. 3), introduce la certificazione (art. 4), afferma il diritto all\'educazione in ogni ordine e grado (art. 12), regola l\'insegnante di sostegno e i gruppi di lavoro (artt. 13 e 15), prevede prove equipollenti (art. 16).',
+    articoli: [
+      '<strong>Art. 3</strong> — definizione di persona con handicap; comma 3 = gravità',
+      '<strong>Art. 4</strong> — accertamento (commissione medica ASL + medico INPS dalla L. 183/2010)',
+      '<strong>Art. 12</strong> — diritto all\'educazione e istruzione, sviluppo potenzialità',
+      '<strong>Art. 13</strong> — insegnante di sostegno assegnato <strong>alla classe</strong>, non all\'alunno',
+      '<strong>Art. 15</strong> — Gruppi di Lavoro (GLHI e GLHO, oggi GLO dopo il D.Lgs. 66/2017)',
+      '<strong>Art. 16</strong> — valutazione sulla base del PEI, prove equipollenti, tempi più lunghi'
+    ],
+    satelliti: [
+      '<strong>DPR 24/02/1994</strong> — atto di indirizzo per accertamento e PEI',
+      '<strong>Convenzione ONU 2006 / L. 18/2009</strong> — ratifica italiana, introduce il concetto di inclusione (contro integrazione)',
+      '<strong>Sent. Corte Cost. 80/2010</strong> — se ci sono ostacoli, vanno rimossi; non basta riconoscere il diritto'
+    ],
+    frase: 'La Legge 104 del 1992 resta la legge-quadro di riferimento. Il suo impianto è ancora vivo, pur essendo stato profondamente modificato dal D.Lgs. 66 del 2017 per quanto riguarda la documentazione (dove il Profilo di Funzionamento ha sostituito DF e PDF) e i gruppi di lavoro (il GLO ha sostituito il GLHO).',
+    pratica: 'Ogni PEI che firmi è applicazione dell\'art. 12. Ogni GLO a cui partecipi è applicazione dell\'art. 15 come modificato. Ogni volta che dici "l\'insegnante di sostegno è assegnato alla classe" stai citando l\'art. 13, che è il cuore del principio di contitolarità.'
+  },
+  {
+    id: 3, year: '2001', law: 'ICF · OMS', color: '#a371f7',
+    summary: 'Cambio di paradigma: dal modello medico al bio-psico-sociale. Non è italiano, ma cambia tutto.',
+    ancoraBio: 'L\'inizio del nuovo millennio. Il paradigma cambia. Non è una legge italiana, è una classificazione dell\'OMS, ma senza il 2001 nulla di ciò che viene dopo (66/2017, 182/2020) si capisce.',
+    novita: '<strong>Dal modello medico al modello bio-psico-sociale.</strong> L\'ICF (International Classification of Functioning, Disability and Health) sostituisce l\'ICIDH del 1980. Non descrive più malattie, descrive il <strong>funzionamento</strong> come risultato dell\'interazione tra condizioni di salute, fattori contestuali (ambientali = facilitatori/barriere + personali) e attività/partecipazione.',
+    satelliti: [
+      '<strong>ICIDH 1980</strong> — classificazione superata (modello lineare menomazione → disabilità → handicap)',
+      '<strong>Modello di Bronfenbrenner</strong> — cugino teorico dell\'ICF (microsistema, mesosistema, esosistema, macrosistema)',
+      '<strong>Convenzione ONU 2006</strong> — assume il paradigma ICF a livello internazionale'
+    ],
+    frase: 'L\'adozione dell\'ICF da parte dell\'OMS nel 2001 segna il passaggio dal modello medico al modello bio-psico-sociale. Non è una classificazione delle malattie, ma del funzionamento: la disabilità non è una caratteristica dell\'individuo, ma l\'esito dell\'interazione tra condizioni di salute, fattori ambientali (facilitatori o barriere) e fattori personali. Questo paradigma è diventato operativo nella scuola italiana con il D.Lgs. 66 del 2017 e poi con il D.I. 182 del 2020.',
+    pratica: 'Quando osservi un alunno autistico e noti che in palestra è destabilizzato dai rumori ma in biblioteca è perfettamente funzionante, stai già pensando in ICF: stai leggendo l\'ambiente come barriera/facilitatore. La Sezione 4 del PEI ti chiede di formalizzare questo sguardo.'
+  },
+  {
+    id: 4, year: '2010', law: 'Legge 170', color: '#d29922',
+    summary: 'Riconoscimento dei DSA. Introduce il PDP, i compensativi e i dispensativi. Due anni dopo, i BES.',
+    ancoraBio: 'L\'anno in cui l\'Italia riconosce i DSA. 2010 come la soglia del decennio digitale, o come "dieci anni dopo la 170 nasce il PEI ICF" (2020). Le date fanno eco.',
+    novita: '<strong>Riconoscimento dei Disturbi Specifici dell\'Apprendimento.</strong> Dislessia, disgrafia, disortografia, discalculia. Circa il 3-5% della popolazione scolastica. Introduce: diritto alla diagnosi e alla personalizzazione, <strong>misure dispensative</strong> (esoneri), <strong>strumenti compensativi</strong> (calcolatrice, sintesi vocale, mappe), il <strong>PDP</strong> (non il PEI: qui non c\'è certificazione di disabilità).',
+    distinzione: [
+      '<strong>Alunno con disabilità (L. 104/1992)</strong> → PEI + insegnante di sostegno',
+      '<strong>Alunno con DSA (L. 170/2010)</strong> → PDP, no sostegno, compensativi + dispensativi',
+      '<strong>Alunno con BES non certificato (Dir. 2012)</strong> → PDP deliberato dal consiglio di classe'
+    ],
+    satelliti: [
+      '<strong>DM 5669/2011</strong> — linee guida attuative della 170',
+      '<strong>Direttiva Ministeriale 27/12/2012</strong> — estende il concetto ai BES (3 sottocategorie: disabilità, DSA/disturbi evolutivi specifici, svantaggio socio-economico/linguistico/culturale)',
+      '<strong>CM 8/2013</strong> — operatività della Direttiva BES',
+      '<strong>Nota 2563/2013</strong> — chiarimenti ulteriori'
+    ],
+    frase: 'La Legge 170 del 2010 riconosce i Disturbi Specifici dell\'Apprendimento e introduce il diritto alla personalizzazione attraverso il PDP, con strumenti compensativi e misure dispensative. Due anni dopo, la Direttiva Ministeriale del 27 dicembre 2012 estende la logica della personalizzazione ai Bisogni Educativi Speciali in senso ampio, con tre sottocategorie: disabilità, disturbi evolutivi specifici, svantaggio socio-culturale.',
+    pratica: 'Tu come formatore PNRR lavori molto sui BES: la distinzione 104 vs 170 vs BES è il tuo pane quotidiano. In commissione, la chiarezza con cui articoli queste tre categorie mostra immediatamente la tua competenza.'
+  },
+  {
+    id: 5, year: '2017', law: 'D.Lgs. 66', color: '#db6d28',
+    summary: 'Riforma strutturale dell\'inclusione. Profilo di Funzionamento, GLO, PEI ICF. Uno degli otto decreti della Buona Scuola.',
+    ancoraBio: 'La riforma dell\'inclusione nell\'ambito della Buona Scuola. Uno degli otto decreti attuativi della Legge 107/2015. Se non ricordi il numero: "uno dei decreti delegati della Buona Scuola, quello sull\'inclusione".',
+    novita: '<strong>La riforma strutturale dell\'inclusione scolastica italiana.</strong> Introduce: il <strong>Profilo di Funzionamento</strong> su base ICF che sostituisce DF e PDF, il <strong>GLO</strong> (Gruppo di Lavoro Operativo) che sostituisce il GLHO, il <strong>PEI su base ICF</strong> con le quattro dimensioni (A-B-C-D), la formazione obbligatoria dei docenti sul sostegno, i <strong>CTS</strong> rafforzati.',
+    satelliti: [
+      '<strong>L. 107/2015 (Buona Scuola)</strong> — legge-madre che ha delegato i decreti attuativi',
+      '<strong>D.Lgs. 96/2019</strong> — decreto correttivo. Ricompone il GLO (riammette la famiglia nella definizione delle ore). Introduce il <strong>GIT</strong> (Gruppo per l\'Inclusione Territoriale)',
+      'Altri 7 decreti attuativi della 107 (dal 59/2017 al 65/2017) — 66 è l\'ottavo'
+    ],
+    frase: 'Il Decreto Legislativo 66 del 2017, all\'interno del pacchetto di decreti attuativi della Legge 107, rappresenta la riforma strutturale dell\'inclusione scolastica. I tre cambiamenti epocali sono: l\'introduzione del Profilo di Funzionamento su base ICF al posto di DF e PDF, la trasformazione del GLHO in GLO, e la costruzione del PEI secondo le quattro dimensioni ICF. Il decreto è stato poi integrato dal correttivo 96 del 2019, che ha ridefinito la composizione del GLO.',
+    pratica: 'Ogni volta che lavori con il Profilo di Funzionamento (invece che con la vecchia DF), ogni volta che convoca la famiglia in sede di GLO per decidere le ore, stai applicando 66+96. Tu la riforma la vivi, non devi studiarla: devi solo saperla nominare con precisione.'
+  },
+  {
+    id: 6, year: '2020', law: 'D.I. 182', color: '#f85149',
+    summary: 'Modello nazionale di PEI operativo. 4 dimensioni. Debito di funzionamento. Percorsi A-B-C.',
+    ancoraBio: 'L\'anno del Covid. Il PEI cambia mentre le scuole chiudono. Dicembre 2020. Mentre l\'Italia è in zona rossa, il Ministero ridisegna operativamente il PEI. La data ha un\'eco emotiva fortissima: non la dimentichi.',
+    novita: '<strong>Il modello nazionale di PEI.</strong> Formalizza operativamente quello che il D.Lgs. 66/2017 aveva stabilito a livello di principio. Introduce: <strong>quattro dimensioni</strong> del funzionamento (A socializzazione/interazione; B comunicazione/linguaggio; C autonomia/orientamento; D cognitiva/neuropsicologica/apprendimento), la <strong>Sezione 4</strong> (osservazioni ICF operative), il <strong>debito di funzionamento</strong>, il <strong>range di ore di sostegno</strong>, i <strong>tre percorsi</strong> (ordinario / personalizzato con prove equipollenti / differenziato).',
+    critica: '<strong>Il D.I. 182/2020 è stato parzialmente annullato dalla Sentenza TAR Lazio 9795/2021</strong> (su ricorso delle associazioni), con motivazioni su ore di sostegno, esoneri e vincolatività del modello. Poi è stato rivisto dal <strong>D.I. 153/2023</strong>, che ha corretto i punti contestati.',
+    satelliti: [
+      '<strong>D.I. 153/2023</strong> — nuovo modello PEI aggiornato',
+      '<strong>L. 227/2021</strong> — Progetto di Vita individuale, personalizzato e partecipato; valutazione multidimensionale',
+      '<strong>Linee Guida 2024</strong> — ulteriori precisazioni operative'
+    ],
+    frase: 'Il modello nazionale di PEI è stato introdotto dal Decreto Interministeriale 182 del 2020, poi parzialmente rivisto dopo la sentenza del TAR Lazio del 2021 e infine aggiornato dal D.I. 153 del 2023. Il PEI si articola in quattro dimensioni ICF — socializzazione, comunicazione, autonomia, cognitiva — e introduce il concetto di debito di funzionamento, il range di ore di sostegno, e i tre percorsi possibili (ordinario, personalizzato, differenziato).',
+    pratica: 'Questo è il tuo presente operativo. Ogni sezione del PEI che compili a Galilei-Luxemburg è il D.I. 182 come rivisto dal 153/2023. Tu non stai studiando una norma: stai nominando il tuo gesto quotidiano.'
+  }
+];
+
+const frasi = [
+  { id: 1, titolo: 'Corresponsabilità educativa', frase: 'Dalla 517 del 1977 in poi, l\'inclusione è responsabilità dell\'intero consiglio di classe, non del solo insegnante di sostegno.' },
+  { id: 2, titolo: 'Cambio di paradigma', frase: 'L\'ICF del 2001 segna il passaggio dal modello medico al modello bio-psico-sociale: la disabilità non è una caratteristica dell\'individuo, ma l\'esito dell\'interazione tra condizioni di salute, fattori ambientali e fattori personali.' },
+  { id: 3, titolo: 'Integrazione vs Inclusione', frase: 'L\'integrazione parte dal bisogno dell\'individuo per garantirne un diritto; l\'inclusione parte dal contesto per rimuovere le barriere che generano esclusione. È il passaggio dal paradigma della 104 a quello della Convenzione ONU del 2006, ratificata con la L. 18 del 2009.' },
+  { id: 4, titolo: 'Tre categorie, tre strumenti', frase: 'Alunno con disabilità certificata ai sensi della 104: PEI e insegnante di sostegno. Alunno con DSA ai sensi della 170: PDP con compensativi e dispensativi. Alunno con BES ai sensi della Direttiva 2012: PDP deliberato dal consiglio di classe.' },
+  { id: 5, titolo: 'Il PEI oggi', frase: 'Il PEI su base ICF, introdotto dal D.Lgs. 66 del 2017 e reso operativo dal D.I. 182 del 2020, articolato nelle quattro dimensioni — socializzazione, comunicazione, autonomia, cognitiva — dopo la revisione del D.I. 153 del 2023.' }
+];
+
+const checkDomande = [
+  'Quali sono le tre fasi storiche dell\'inclusione in Italia?',
+  'Cosa cambia tra modello medico e modello bio-psico-sociale?',
+  'Cos\'è il GLO e quando è stato introdotto?',
+  'Qual è la differenza tra PEI e PDP?',
+  'Cosa sono i BES secondo la normativa italiana?',
+  'Qual è il quadro normativo attuale del PEI?',
+  'Chi partecipa al GLO dopo il D.Lgs. 96 del 2019?',
+  'Cos\'è il Profilo di Funzionamento e cosa ha sostituito?'
+];
+
+const glossario = [
+  { term: 'ICF', def: 'International Classification of Functioning, Disability and Health (OMS 2001). Classificazione del funzionamento in chiave bio-psico-sociale. Sostituisce l\'ICIDH del 1980.' },
+  { term: 'ICIDH', def: 'International Classification of Impairments, Disabilities and Handicaps (OMS 1980). Modello lineare menomazione → disabilità → handicap. Superato dall\'ICF.' },
+  { term: 'PEI', def: 'Piano Educativo Individualizzato. Per alunni con disabilità certificata ai sensi della L. 104/1992. Su base ICF dal D.Lgs. 66/2017, modello operativo D.I. 182/2020 (poi D.I. 153/2023).' },
+  { term: 'PDP', def: 'Piano Didattico Personalizzato. Per alunni con DSA (L. 170/2010) o BES (Dir. 2012). NON per alunni con disabilità certificata.' },
+  { term: 'GLO', def: 'Gruppo di Lavoro Operativo per l\'inclusione. Introdotto dal D.Lgs. 66/2017 in sostituzione del GLHO. Composizione ridefinita dal D.Lgs. 96/2019. Redige e verifica il PEI.' },
+  { term: 'GLHO', def: 'Gruppo di Lavoro Handicap Operativo. Previsto dalla L. 104/1992 art. 15. Sostituito dal GLO dopo il D.Lgs. 66/2017.' },
+  { term: 'GLHI', def: 'Gruppo di Lavoro Handicap di Istituto. Previsto dalla L. 104/1992. Oggi confluito nel GLI.' },
+  { term: 'GLI', def: 'Gruppo di Lavoro per l\'Inclusione d\'Istituto. Estensione del GLHI a tutti i BES. Collabora alla redazione del PAI.' },
+  { term: 'GIT', def: 'Gruppo per l\'Inclusione Territoriale. Introdotto dal D.Lgs. 96/2019. A livello di ambito territoriale, per la quantificazione delle risorse di sostegno.' },
+  { term: 'DF', def: 'Diagnosi Funzionale. Documento clinico previsto dalla L. 104/1992. Sostituita dal Profilo di Funzionamento introdotto dal D.Lgs. 66/2017.' },
+  { term: 'PDF', def: 'Profilo Dinamico Funzionale. Documento dinamico previsto dalla L. 104/1992. Sostituito dal Profilo di Funzionamento (D.Lgs. 66/2017).' },
+  { term: 'Profilo di Funzionamento', def: 'Documento redatto su base ICF dall\'unità di valutazione multidisciplinare dell\'ASL con partecipazione della famiglia. Sostituisce DF e PDF. Propedeutico al PEI.' },
+  { term: 'BES', def: 'Bisogni Educativi Speciali. Introdotto dalla Direttiva Ministeriale 27/12/2012. Tre sottocategorie: disabilità (L. 104), disturbi evolutivi specifici (DSA, ADHD, disturbi linguaggio), svantaggio socio-economico/linguistico/culturale.' },
+  { term: 'DSA', def: 'Disturbi Specifici dell\'Apprendimento. L. 170/2010. Dislessia, disgrafia, disortografia, discalculia. 3-5% della popolazione scolastica.' },
+  { term: 'Misure dispensative', def: 'Esoneri da alcune prestazioni didattiche (lettura ad alta voce, dettatura, memorizzazione di liste). Per alunni con DSA. L. 170/2010.' },
+  { term: 'Strumenti compensativi', def: 'Strumenti che compensano il disturbo senza modificare gli obiettivi (calcolatrice, sintesi vocale, mappe, formulari, registratore). Per alunni con DSA.' },
+  { term: 'Corresponsabilità educativa', def: 'Principio secondo cui l\'inclusione è compito dell\'intero consiglio di classe, non del solo insegnante di sostegno. Deriva dalla L. 517/1977.' },
+  { term: 'Contitolarità', def: 'Principio per cui l\'insegnante di sostegno è contitolare della classe, non assegnato al singolo alunno. L. 104/1992 art. 13.' },
+  { term: 'Prove equipollenti', def: 'Prove con contenuto o modalità differenti che accertano le stesse competenze. L. 104/1992 art. 16. Consentono il conseguimento del diploma.' },
+  { term: 'Percorso ordinario (PEI A)', def: 'Il PEI prevede obiettivi conformi ai programmi di classe. Esame di Stato con prove identiche.' },
+  { term: 'Percorso personalizzato (PEI B)', def: 'Obiettivi personalizzati ma riconducibili ai programmi di classe. Esame di Stato con prove equipollenti. Consegue il diploma.' },
+  { term: 'Percorso differenziato (PEI C)', def: 'Obiettivi non riconducibili ai programmi di classe. Esame di Stato con prove differenziate. Consegue un attestato dei crediti formativi.' },
+  { term: 'Clausola di salvaguardia', def: 'Nel PEI differenziato, possibilità per il consiglio di classe di ricondurre il percorso a quello ordinario in caso di significativi miglioramenti, prima dell\'Esame di Stato.' },
+  { term: 'Debito di funzionamento', def: 'Concetto introdotto dal D.I. 182/2020. Indica lo scarto tra funzionamento atteso e osservato, su cui intervenire con gli obiettivi del PEI.' },
+  { term: 'Facilitatori e Barriere', def: 'Categorie ICF. Fattori ambientali che favoriscono (facilitatori) o ostacolano (barriere) il funzionamento della persona.' },
+  { term: 'Progetto di Vita', def: 'Introdotto dalla L. 227/2021. Documento personalizzato e partecipato che definisce il progetto di vita della persona con disabilità, basato su valutazione multidimensionale.' },
+  { term: 'CTS', def: 'Centri Territoriali di Supporto. Supportano le scuole su tecnologie per l\'inclusione e formazione. Rafforzati dal D.Lgs. 66/2017.' },
+  { term: 'Individualizzazione', def: 'Strategia per garantire a tutti il raggiungimento delle competenze fondamentali del curricolo, diversificando i percorsi. Radice: L. 517/1977.' },
+  { term: 'Personalizzazione', def: 'Strategia per garantire ad ogni studente una propria forma di eccellenza cognitiva, coltivando le potenzialità individuali. Dal D.Lgs. 59/2004 (Moratti).' },
+  { term: 'Convenzione ONU 2006', def: 'Convenzione sui diritti delle persone con disabilità. Ratificata dall\'Italia con la L. 18/2009. Afferma il paradigma dell\'inclusione.' },
+  { term: 'Sent. 215/1987', def: 'Sentenza Corte Costituzionale. Dichiara illegittimo il "sarà facilitata" della L. 118/1971 per le superiori: diritto incondizionato alla frequenza.' },
+  { term: 'Sent. 80/2010', def: 'Sentenza Corte Costituzionale. Se ci sono ostacoli al diritto all\'istruzione, vanno rimossi: non basta riconoscere il diritto in astratto.' }
+];
+
+const navTabs = document.querySelectorAll('.nav-tab');
+const sections = document.querySelectorAll('.section');
+navTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.section;
+    navTabs.forEach(t => t.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+const anchorsGridOverview = document.getElementById('anchors-grid-overview');
+ancore.forEach(a => {
+  const card = document.createElement('div');
+  card.className = 'anchor-card';
+  card.style.setProperty('--accent-color', a.color);
+  card.innerHTML = `
+    <div class="anchor-number">Ancora ${a.id}/6</div>
+    <div class="anchor-year">${a.year}</div>
+    <div class="anchor-law">${a.law}</div>
+    <div class="anchor-summary">${a.summary}</div>
+    <div class="anchor-card-hint">→ Dettaglio completo</div>
+  `;
+  card.addEventListener('click', () => {
+    document.querySelector('.nav-tab[data-section="ancore"]').click();
+    setTimeout(() => document.getElementById(`ancora-${a.id}`).scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  });
+  anchorsGridOverview.appendChild(card);
+});
+
+document.querySelectorAll('.timeline-anchor').forEach(el => {
+  el.addEventListener('click', () => {
+    const id = el.dataset.anchor;
+    document.querySelector('.nav-tab[data-section="ancore"]').click();
+    setTimeout(() => document.getElementById(`ancora-${id}`).scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  });
+});
+
+const ancoreContainer = document.getElementById('ancore-container');
+ancore.forEach(a => {
+  const box = document.createElement('div');
+  box.className = 'anchor-detail';
+  box.id = `ancora-${a.id}`;
+  box.style.setProperty('--accent-color', a.color);
+
+  let articoliHTML = '';
+  if (a.articoli) articoliHTML = `<div class="detail-block"><h4>📜 Articoli da citare a memoria</h4><ul>${a.articoli.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+  let distinzioneHTML = '';
+  if (a.distinzione) distinzioneHTML = `<div class="detail-block"><h4>⚖️ La distinzione cruciale</h4><ul>${a.distinzione.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+  let criticaHTML = '';
+  if (a.critica) criticaHTML = `<div class="detail-block"><h4>⚠️ La vicenda critica</h4><p>${a.critica}</p></div>`;
+
+  box.innerHTML = `
+    <div class="anchor-detail-header">
+      <div class="anchor-detail-year">${a.year}</div>
+      <div class="anchor-detail-title">
+        <h2>${a.law}</h2>
+        <div class="subtitle">${a.summary}</div>
+      </div>
+    </div>
+    <div class="detail-block"><h4>🎯 L'ancora biografica/storica</h4><p>${a.ancoraBio}</p></div>
+    <div class="detail-block"><h4>💡 La novità chiave</h4><p>${a.novita}</p></div>
+    ${articoliHTML}${distinzioneHTML}${criticaHTML}
+    <div class="detail-block"><h4>🛰️ I satelliti appesi a questo chiodo</h4><ul>${a.satelliti.map(x => `<li>${x}</li>`).join('')}</ul></div>
+    <div class="detail-block"><h4>🎙️ Frase da concorso</h4><div class="concorso-phrase">${a.frase}</div></div>
+    <div class="detail-block"><h4>🔗 Ponte con la tua pratica</h4><div class="pratica-box"><p>${a.pratica}</p></div></div>
+  `;
+  ancoreContainer.appendChild(box);
+});
+
+let fcIndex = 0;
+let fcOrder = [0,1,2,3,4,5];
+const fcYear = document.getElementById('fc-year');
+const fcQuestion = document.getElementById('fc-question');
+const fcBack = document.getElementById('fc-back');
+const fcCounter = document.getElementById('fc-counter');
+const fcProgress = document.getElementById('flashcard-progress-bar');
+const flashcard = document.getElementById('flashcard');
+
+function renderFlashcard() {
+  const a = ancore[fcOrder[fcIndex]];
+  fcYear.textContent = a.year;
+  fcQuestion.textContent = `Cos'è ${a.law}? Qual è la novità chiave? Qual è la frase da concorso?`;
+  fcCounter.textContent = `${fcIndex + 1} / 6`;
+  fcProgress.style.width = `${((fcIndex + 1) / 6) * 100}%`;
+  flashcard.classList.remove('revealed');
+  const _front = flashcard.querySelector('.flashcard-front');
+  const _back  = flashcard.querySelector('.flashcard-back');
+  if (_front) _front.style.display = '';
+  if (_back)  _back.style.display  = 'none';
+
+  let articoliBack = '';
+  if (a.articoli) articoliBack = `<div class="info-row"><div class="info-label">Articoli chiave</div><div class="info-content">${a.articoli.map(x => `• ${x}`).join('<br>')}</div></div>`;
+
+  fcBack.innerHTML = `
+    <h3>${a.year} · ${a.law}</h3>
+    <div class="info-row"><div class="info-label">Novità chiave</div><div class="info-content">${a.novita}</div></div>
+    ${articoliBack}
+    <div class="info-row"><div class="info-label">Satelliti</div><div class="info-content">${a.satelliti.map(x => `• ${x}`).join('<br>')}</div></div>
+    <div class="info-row"><div class="info-label">Frase da concorso</div><div class="info-content"><em>"${a.frase}"</em></div></div>
+  `;
+}
+function toggleReveal() {
+  const front = flashcard.querySelector('.flashcard-front');
+  const back  = flashcard.querySelector('.flashcard-back');
+  if (flashcard.classList.contains('revealed')) {
+    flashcard.classList.remove('revealed');
+    front.style.display = '';
+    back.style.display  = 'none';
+  } else {
+    flashcard.classList.add('revealed');
+    front.style.display = 'none';
+    back.style.display  = 'block';
+  }
+}
+document.getElementById('fc-prev').addEventListener('click', (e) => { e.stopPropagation(); fcIndex = (fcIndex - 1 + 6) % 6; renderFlashcard(); });
+document.getElementById('fc-next').addEventListener('click', (e) => { e.stopPropagation(); fcIndex = (fcIndex + 1) % 6; renderFlashcard(); });
+document.getElementById('fc-reveal').addEventListener('click', (e) => { e.stopPropagation(); toggleReveal(); });
+flashcard.addEventListener('click', () => toggleReveal());
+document.getElementById('fc-shuffle').addEventListener('click', (e) => { e.stopPropagation(); fcOrder = [0,1,2,3,4,5].sort(() => Math.random() - 0.5); fcIndex = 0; renderFlashcard(); });
+renderFlashcard();
+
+const frasiGrid = document.getElementById('frasi-grid');
+frasi.forEach(f => {
+  const item = document.createElement('div');
+  item.className = 'frase-item';
+  item.innerHTML = `
+    <div class="frase-titolo"><div class="frase-num">${f.id}</div><h3>${f.titolo}</h3></div>
+    <div class="frase-hint">Clicca per rivelare la frase da concorso</div>
+    <div class="frase-content">"${f.frase}"</div>
+  `;
+  item.addEventListener('click', () => item.classList.toggle('revealed'));
+  frasiGrid.appendChild(item);
+});
+
+const checkList = document.getElementById('check-list');
+const checkCounterNum = document.getElementById('check-counter-number');
+function updateCheckCounter() { checkCounterNum.textContent = document.querySelectorAll('.check-item.checked').length; }
+checkDomande.forEach((d, i) => {
+  const item = document.createElement('div');
+  item.className = 'check-item';
+  item.innerHTML = `<div class="check-box">✓</div><div class="check-text">${d}</div>`;
+  item.addEventListener('click', () => { item.classList.toggle('checked'); updateCheckCounter(); });
+  checkList.appendChild(item);
+});
+
+const glossaryGrid = document.getElementById('glossary-grid');
+const glossarySearch = document.getElementById('glossary-search');
+function renderGlossary(filter = '') {
+  glossaryGrid.innerHTML = '';
+  const f = filter.toLowerCase().trim();
+  const filtered = glossario.filter(g => g.term.toLowerCase().includes(f) || g.def.toLowerCase().includes(f));
+  if (filtered.length === 0) {
+    glossaryGrid.innerHTML = `<div style="color:var(--text-muted); padding:2rem; text-align:center">Nessun risultato per "${filter}"</div>`;
+    return;
+  }
+  filtered.forEach(g => {
+    const item = document.createElement('div');
+    item.className = 'glossary-item';
+    item.innerHTML = `<div class="glossary-term">${g.term}</div><div class="glossary-def">${g.def}</div>`;
+    glossaryGrid.appendChild(item);
+  });
+}
+glossarySearch.addEventListener('input', (e) => renderGlossary(e.target.value));
+renderGlossary();
+
+document.querySelectorAll('.rete-link').forEach(el => {
+  el.addEventListener('click', () => {
+    const id = el.dataset.ancora;
+    document.querySelector('.nav-tab[data-section="ancore"]').click();
+    setTimeout(() => {
+      const target = document.getElementById(`ancora-${id}`);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('flashcard').closest('.section').classList.contains('active')) return;
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowLeft') document.getElementById('fc-prev').click();
+  if (e.key === 'ArrowRight') document.getElementById('fc-next').click();
+  if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); document.getElementById('fc-reveal').click(); }
+});
+</script>
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>
