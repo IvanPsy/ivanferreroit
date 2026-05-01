@@ -1,0 +1,432 @@
+---
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osservatorio | Ivan Ferrero</title>
+    <meta name="description" content="Intelligence brief settimanali: tecnologia (TECH), educazione (EDU), psicologia digitale e minori (CYBER), inclusione e neurodiversita' (INCLUDE).">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0e14;
+            color: #e6edf3;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            padding-top: 5rem;
+        }
+
+        a { color: #00d9ff; text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: #e6edf3; }
+
+        /* ===== STREAM ACCENTS ===== */
+        .stream-tech    { --stream-accent: #00d9ff; --stream-bg: rgba(0, 217, 255, 0.08);  --stream-border: rgba(0, 217, 255, 0.30);  --stream-glow: rgba(0, 217, 255, 0.06); }
+        .stream-edu     { --stream-accent: #3fb950; --stream-bg: rgba(63, 185, 80, 0.08);  --stream-border: rgba(63, 185, 80, 0.30);  --stream-glow: rgba(63, 185, 80, 0.06); }
+        .stream-cyber   { --stream-accent: #a371f7; --stream-bg: rgba(163, 113, 247, 0.08);--stream-border: rgba(163, 113, 247, 0.30);--stream-glow: rgba(163, 113, 247, 0.06); }
+        .stream-include { --stream-accent: #db6d28; --stream-bg: rgba(219, 109, 40, 0.08); --stream-border: rgba(219, 109, 40, 0.30); --stream-glow: rgba(219, 109, 40, 0.06); }
+
+        /* ===== CONTAINER ===== */
+        .osservatorio-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== HEADER & MANIFESTO ===== */
+        .osservatorio-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #e6edf3;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .osservatorio-manifesto {
+            color: #c9d1d9;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 4rem;
+            max-width: 720px;
+        }
+        .osservatorio-manifesto p { margin-bottom: 1.1rem; color: #c9d1d9; }
+        .osservatorio-manifesto em { color: #00d9ff; font-style: normal; font-weight: 500; }
+
+        /* ===== SECTION TITLES ===== */
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #6e7681;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #30363d;
+        }
+
+        /* ===== ULTIMO PER STREAM (4 cards) ===== */
+        .latest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .latest-card {
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+        .latest-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            width: 3px; height: 100%;
+            background: var(--stream-accent, #6e7681);
+        }
+        .latest-card:hover {
+            border-color: var(--stream-border, #30363d);
+            box-shadow: 0 0 30px var(--stream-glow, rgba(0,217,255,0.05));
+        }
+
+        .latest-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
+        }
+        .latest-card-stream {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--stream-accent, #6e7681);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .latest-card-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #6e7681;
+        }
+        .latest-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e6edf3;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .latest-card-tldr {
+            font-size: 0.88rem;
+            color: #8b949e;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        .latest-card-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--stream-accent, #6e7681);
+            margin-top: auto;
+        }
+        .latest-card:hover .latest-card-link { color: #e6edf3; }
+
+        .latest-card.empty {
+            opacity: 0.55;
+            cursor: default;
+        }
+        .latest-card.empty:hover {
+            border-color: #30363d;
+            box-shadow: none;
+        }
+        .latest-card.empty .latest-card-title {
+            color: #6e7681;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* ===== FILTER PILLS ===== */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .filter-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            padding: 0.4rem 0.85rem;
+            background: transparent;
+            border: 1px solid #30363d;
+            border-radius: 100px;
+            color: #8b949e;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .filter-pill:hover { color: #e6edf3; border-color: #6e7681; }
+        .filter-pill.active {
+            background: rgba(0, 217, 255, 0.08);
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+        .filter-pill[data-stream="tech"].active    { background: rgba(0, 217, 255, 0.08);   border-color: #00d9ff; color: #00d9ff; }
+        .filter-pill[data-stream="edu"].active     { background: rgba(63, 185, 80, 0.10);   border-color: #3fb950; color: #3fb950; }
+        .filter-pill[data-stream="cyber"].active   { background: rgba(163, 113, 247, 0.10); border-color: #a371f7; color: #a371f7; }
+        .filter-pill[data-stream="include"].active { background: rgba(219, 109, 40, 0.10);  border-color: #db6d28; color: #db6d28; }
+
+        /* ===== ARCHIVE LIST ===== */
+        .archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .archive-entry {
+            display: flex;
+            align-items: baseline;
+            gap: 0;
+            line-height: 1.6;
+            flex-wrap: wrap;
+            padding: 0.4rem 0;
+        }
+        .archive-entry.hidden { display: none; }
+
+        .entry-stream {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--stream-accent, #6e7681);
+            background: var(--stream-bg, transparent);
+            border: 1px solid var(--stream-border, #30363d);
+            padding: 0.15rem 0.6rem;
+            border-radius: 100px;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .entry-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #6e7681;
+            flex-shrink: 0;
+            margin-right: 0.6rem;
+        }
+        .entry-title {
+            color: #e6edf3;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+        .entry-title:hover { color: var(--stream-accent, #00d9ff); }
+
+        /* ===== EMPTY STATES ===== */
+        .empty-state {
+            color: #6e7681;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 2rem 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body { padding-top: 8rem; }
+            .osservatorio-container { padding: 1.5rem 1rem 3rem; }
+            .osservatorio-title { font-size: 1.7rem; }
+            .archive-entry {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            .entry-stream, .entry-date { margin-right: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<main class="osservatorio-container">
+
+    <h1 class="osservatorio-title">Osservatorio</h1>
+
+    <!-- PARTE A: Manifesto -->
+    <div class="osservatorio-manifesto">
+        <p>Questa sezione è la mia scrivania pubblica.</p>
+
+        <p>Ogni settimana raccolgo, leggo e annoto le notizie che monitoro per il mio lavoro: tecnologia e geopolitica (TECH), educazione e didattica (EDU), psicologia digitale e minori (CYBER), inclusione scolastica e neurodiversità (INCLUDE, cadenza mensile). Lavoro su fonti primarie quando possibile, paper peer-reviewed, report istituzionali, comunicati ufficiali.</p>
+
+        <p>Quello che trovi qui non sono articoli editoriali. Sono <em>intelligence brief</em>: voce analitica, taglio diretto, link inline a tutto ciò che cito. Li scrivo prima di tutto per me, per orientarmi e costruire memoria di lungo periodo. Li pubblico perché possono essere utili a chi lavora negli stessi territori, e perché il modo in cui un professionista si informa è già parte del suo lavoro.</p>
+
+        <p>Niente cura editoriale di seconda mano. La traiettoria è dalla fonte alla scrivania, dalla scrivania a te. Se un report ti serve, prendilo. Se trovi un errore o una fonte migliore, scrivimi.</p>
+
+        <p>I report sono datati al lunedì della settimana coperta e non vengono aggiornati retroattivamente: rappresentano quello che si vedeva quel giorno.</p>
+    </div>
+
+    <!-- PARTE B.1: Ultimo per stream -->
+    <div class="section-title">Ultimo per stream</div>
+    <div class="latest-grid">
+        {%- assign streams = "tech,edu,cyber,include" | split: "," -%}
+        {%- for s in streams -%}
+            {%- assign reports_for_stream = site.osservatorio | where: "stream", s | sort: "date" | reverse -%}
+            {%- assign latest = reports_for_stream | first -%}
+
+            {%- case s -%}
+                {%- when 'tech' -%}    {%- assign s_icon = '🛰️' -%}{%- assign s_label = 'TECH' -%}
+                {%- when 'edu' -%}     {%- assign s_icon = '🎓' -%}{%- assign s_label = 'EDU' -%}
+                {%- when 'cyber' -%}   {%- assign s_icon = '🛡️' -%}{%- assign s_label = 'CYBER' -%}
+                {%- when 'include' -%} {%- assign s_icon = '♿' -%}{%- assign s_label = 'INCLUDE' -%}
+            {%- endcase -%}
+
+            {% if latest %}
+            <a href="{{ latest.url }}" class="latest-card stream-{{ s }}">
+                <div class="latest-card-header">
+                    <span class="latest-card-stream"><span aria-hidden="true">{{ s_icon }}</span>{{ s_label }}</span>
+                    <span class="latest-card-date">{{ latest.date | date: "%Y.%m.%d" }}</span>
+                </div>
+                <div class="latest-card-title">{{ latest.title }}</div>
+                {% if latest.tldr %}<div class="latest-card-tldr">{{ latest.tldr | strip_html | truncate: 160 }}</div>{% endif %}
+                <span class="latest-card-link">Leggi →</span>
+            </a>
+            {% else %}
+            <div class="latest-card empty stream-{{ s }}">
+                <div class="latest-card-header">
+                    <span class="latest-card-stream"><span aria-hidden="true">{{ s_icon }}</span>{{ s_label }}</span>
+                </div>
+                <div class="latest-card-title">Nessun report ancora pubblicato</div>
+            </div>
+            {% endif %}
+        {%- endfor -%}
+    </div>
+
+    <!-- PARTE B.2: Archivio cronologico filtrabile -->
+    <div class="section-title">Archivio cronologico</div>
+
+    <div class="filter-bar" id="filter-bar" role="group" aria-label="Filtra per stream">
+        <button class="filter-pill active" data-stream="all" type="button">Tutti</button>
+        <button class="filter-pill" data-stream="tech" type="button">🛰️ TECH</button>
+        <button class="filter-pill" data-stream="edu" type="button">🎓 EDU</button>
+        <button class="filter-pill" data-stream="cyber" type="button">🛡️ CYBER</button>
+        <button class="filter-pill" data-stream="include" type="button">♿ INCLUDE</button>
+    </div>
+
+    <div class="archive-list" id="archive-list">
+        {%- assign all_reports = site.osservatorio | sort: "date" | reverse -%}
+        {%- for r in all_reports -%}
+            {%- if r.stream -%}
+                {%- assign s = r.stream | downcase -%}
+            {%- elsif r.categories and r.categories.size > 0 -%}
+                {%- assign s = r.categories[0] | downcase -%}
+            {%- else -%}
+                {%- assign s = 'tech' -%}
+            {%- endif -%}
+
+            {%- case s -%}
+                {%- when 'tech' -%}    {%- assign s_icon = '🛰️' -%}{%- assign s_label = 'TECH' -%}
+                {%- when 'edu' -%}     {%- assign s_icon = '🎓' -%}{%- assign s_label = 'EDU' -%}
+                {%- when 'cyber' -%}   {%- assign s_icon = '🛡️' -%}{%- assign s_label = 'CYBER' -%}
+                {%- when 'include' -%} {%- assign s_icon = '♿' -%}{%- assign s_label = 'INCLUDE' -%}
+                {%- else -%}           {%- assign s_icon = '📡' -%}{%- assign s_label = s | upcase -%}
+            {%- endcase -%}
+
+            <div class="archive-entry stream-{{ s }}" data-stream="{{ s }}">
+                <span class="entry-stream"><span aria-hidden="true">{{ s_icon }}</span>{{ s_label }}</span>
+                <span class="entry-date">{{ r.date | date: "%Y.%m.%d" }}</span>
+                <a href="{{ r.url }}" class="entry-title">{{ r.title }}</a>
+            </div>
+        {%- endfor -%}
+
+        {% if all_reports.size == 0 %}
+        <p class="empty-state">&gt; Nessun report ancora pubblicato</p>
+        {% endif %}
+    </div>
+
+</main>
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+<script>
+(function() {
+    var pills = document.querySelectorAll('.filter-pill');
+    var entries = document.querySelectorAll('.archive-entry');
+    var archiveList = document.getElementById('archive-list');
+    var validStreams = ['all', 'tech', 'edu', 'cyber', 'include'];
+
+    function applyFilter(stream) {
+        pills.forEach(function(p) {
+            p.classList.toggle('active', p.dataset.stream === stream);
+        });
+
+        var visibleCount = 0;
+        entries.forEach(function(e) {
+            var match = (stream === 'all') || (e.dataset.stream === stream);
+            e.classList.toggle('hidden', !match);
+            if (match) visibleCount++;
+        });
+
+        // Empty-state dinamico per stream filtrato
+        var dynamicEmpty = document.getElementById('dynamic-empty');
+        if (visibleCount === 0 && entries.length > 0) {
+            if (!dynamicEmpty) {
+                dynamicEmpty = document.createElement('p');
+                dynamicEmpty.id = 'dynamic-empty';
+                dynamicEmpty.className = 'empty-state';
+                dynamicEmpty.textContent = '> Nessun report per questo stream';
+                archiveList.appendChild(dynamicEmpty);
+            }
+        } else if (dynamicEmpty) {
+            dynamicEmpty.remove();
+        }
+    }
+
+    pills.forEach(function(p) {
+        p.addEventListener('click', function() {
+            var s = p.dataset.stream;
+            applyFilter(s);
+            try {
+                var url = new URL(window.location.href);
+                if (s === 'all') {
+                    url.searchParams.delete('stream');
+                } else {
+                    url.searchParams.set('stream', s);
+                }
+                window.history.replaceState({}, '', url);
+            } catch (err) { /* no-op */ }
+        });
+    });
+
+    // Filtro iniziale da query string (?stream=tech)
+    var params = new URLSearchParams(window.location.search);
+    var initialStream = params.get('stream');
+    if (initialStream && validStreams.indexOf(initialStream) !== -1 && initialStream !== 'all') {
+        applyFilter(initialStream);
+    }
+})();
+</script>
+
+</body>
+</html>

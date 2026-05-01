@@ -22,6 +22,7 @@ const menuConfig = {
     items: [
         { label: 'Home', href: '/' },
         { label: 'Dashboard', href: '/dashboards/' },
+        { label: 'Osservatorio', href: '/osservatorio/' },
         { label: 'Digitale Inclusivo', href: '/digitale-inclusivo/' },
         { label: 'Dialoghi', href: '/dialoghi/' },
         { label: 'Chi Sono', href: '/#chi-sono' },

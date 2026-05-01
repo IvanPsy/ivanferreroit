@@ -5,3 +5,24 @@ collections:
   dialoghi:
     output: true
     permalink: /dialoghi/:title/
+
+  # Osservatorio — intelligence brief settimanali (TECH, EDU, CYBER, INCLUDE).
+  # Convenzione frontmatter di un report:
+  #   layout:     osservatorio-report   (impostato in defaults qui sotto, opzionale nel file)
+  #   title:      "Brief TECH — settimana del 20 aprile 2026"
+  #   date:       2026-04-20             (lunedi della settimana coperta)
+  #   stream:     tech                   (uno tra: tech, edu, cyber, include)
+  #   categories: [tech]                 (stesso valore di stream — pilota il permalink)
+  #   slug:       "2026-04-20"           (componente data dell'URL)
+  #   tldr:       "Riassunto in 1-2 frasi (markdown supportato)."
+  # Permalink risultante: /osservatorio/tech/2026-04-20/
+  osservatorio:
+    output: true
+    permalink: /osservatorio/:categories/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: osservatorio
+    values:
+      layout: osservatorio-report

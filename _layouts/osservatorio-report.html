@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} — Osservatorio | Ivan Ferrero</title>
+    <meta name="description" content="{{ page.tldr | default: page.excerpt | strip_html | truncate: 200 }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0e14;
+            color: #e6edf3;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            padding-top: 5rem;
+        }
+
+        a { color: #00d9ff; text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: #e6edf3; }
+
+        /* ===== STREAM ACCENTS ===== */
+        .stream-tech    { --stream-accent: #00d9ff; --stream-bg: rgba(0, 217, 255, 0.08);  --stream-border: rgba(0, 217, 255, 0.30);  --stream-glow: rgba(0, 217, 255, 0.06); }
+        .stream-edu     { --stream-accent: #3fb950; --stream-bg: rgba(63, 185, 80, 0.08);  --stream-border: rgba(63, 185, 80, 0.30);  --stream-glow: rgba(63, 185, 80, 0.06); }
+        .stream-cyber   { --stream-accent: #a371f7; --stream-bg: rgba(163, 113, 247, 0.08);--stream-border: rgba(163, 113, 247, 0.30);--stream-glow: rgba(163, 113, 247, 0.06); }
+        .stream-include { --stream-accent: #db6d28; --stream-bg: rgba(219, 109, 40, 0.08); --stream-border: rgba(219, 109, 40, 0.30); --stream-glow: rgba(219, 109, 40, 0.06); }
+
+        /* ===== CONTAINER ===== */
+        .report-container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== A. HEADER ===== */
+        .report-stream-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--stream-accent, #00d9ff);
+            background: var(--stream-bg, rgba(0, 217, 255, 0.08));
+            border: 1px solid var(--stream-border, rgba(0, 217, 255, 0.30));
+            padding: 0.3rem 0.85rem;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+        }
+
+        .report-stream-pill .stream-icon {
+            font-size: 0.95rem;
+            line-height: 1;
+        }
+
+        .report-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #6e7681;
+            margin-bottom: 0.5rem;
+        }
+
+        .report-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e6edf3;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== B. TL;DR BOX ===== */
+        .report-tldr {
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-left: 3px solid var(--stream-accent, #00d9ff);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 30px var(--stream-glow, rgba(0, 217, 255, 0.05));
+        }
+
+        .report-tldr-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--stream-accent, #00d9ff);
+            margin-bottom: 0.5rem;
+        }
+
+        .report-tldr-text {
+            color: #e6edf3;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .report-tldr-text p { margin: 0; }
+        .report-tldr-text p + p { margin-top: 0.5rem; }
+
+        /* ===== C. BODY (Markdown) ===== */
+        .report-body {
+            color: #c9d1d9;
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .report-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #e6edf3;
+            letter-spacing: -0.01em;
+            margin: 2.75rem 0 1rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .report-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--stream-accent, #00d9ff);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .report-body h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #8b949e;
+            margin: 1.75rem 0 0.5rem;
+        }
+
+        .report-body p { margin-bottom: 1rem; }
+
+        .report-body ul, .report-body ol {
+            margin: 0 0 1.25rem 1.5rem;
+        }
+
+        .report-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        .report-body strong { color: #e6edf3; font-weight: 600; }
+        .report-body em { color: #e6edf3; font-style: italic; }
+
+        .report-body a {
+            color: var(--stream-accent, #00d9ff);
+            border-bottom: 1px dotted var(--stream-border, rgba(0, 217, 255, 0.40));
+        }
+        .report-body a:hover {
+            color: #e6edf3;
+            border-bottom-color: #e6edf3;
+        }
+
+        .report-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: #151b23;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            color: var(--stream-accent, #00d9ff);
+        }
+
+        .report-body pre {
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0 0 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .report-body pre code {
+            background: transparent;
+            padding: 0;
+            color: #c9d1d9;
+        }
+
+        .report-body blockquote {
+            border-left: 3px solid #30363d;
+            padding: 0.25rem 1rem;
+            margin: 1rem 0 1.25rem;
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .report-body hr {
+            border: none;
+            border-top: 1px solid #30363d;
+            margin: 2.5rem 0;
+        }
+
+        .report-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            font-size: 0.92rem;
+        }
+        .report-body th, .report-body td {
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #30363d;
+            text-align: left;
+        }
+        .report-body th {
+            background: #151b23;
+            color: #e6edf3;
+            font-weight: 600;
+        }
+
+        /* ===== D. FOOTER ===== */
+        .report-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #30363d;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .report-footer a {
+            color: #6e7681;
+            transition: color 0.2s ease;
+        }
+
+        .report-footer a:hover {
+            color: var(--stream-accent, #00d9ff);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body { padding-top: 8rem; }
+            .report-container { padding: 1.5rem 1rem 3rem; }
+            .report-title { font-size: 1.5rem; }
+            .report-footer { flex-direction: column; gap: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+{%- comment -%}
+    Determina lo stream del report. Priorita': page.stream, poi page.categories[0], default 'tech'.
+{%- endcomment -%}
+{%- if page.stream -%}
+    {%- assign stream = page.stream | downcase -%}
+{%- elsif page.categories and page.categories.size > 0 -%}
+    {%- assign stream = page.categories[0] | downcase -%}
+{%- else -%}
+    {%- assign stream = 'tech' -%}
+{%- endif -%}
+
+{%- case stream -%}
+    {%- when 'tech' -%}    {%- assign stream_icon = '🛰️' -%}{%- assign stream_label = 'TECH' -%}
+    {%- when 'edu' -%}     {%- assign stream_icon = '🎓' -%}{%- assign stream_label = 'EDU' -%}
+    {%- when 'cyber' -%}   {%- assign stream_icon = '🛡️' -%}{%- assign stream_label = 'CYBER' -%}
+    {%- when 'include' -%} {%- assign stream_icon = '♿' -%}{%- assign stream_label = 'INCLUDE' -%}
+    {%- else -%}           {%- assign stream_icon = '📡' -%}{%- assign stream_label = stream | upcase -%}
+{%- endcase -%}
+
+<main class="report-container stream-{{ stream }}">
+
+    <!-- A. Header -->
+    <span class="report-stream-pill">
+        <span class="stream-icon" aria-hidden="true">{{ stream_icon }}</span>
+        <span>{{ stream_label }}</span>
+    </span>
+    <div class="report-date">{{ page.date | date: "%Y.%m.%d" }}</div>
+    <h1 class="report-title">{{ page.title }}</h1>
+
+    <!-- B. TL;DR -->
+    {% if page.tldr %}
+    <div class="report-tldr">
+        <div class="report-tldr-label">TL;DR</div>
+        <div class="report-tldr-text">{{ page.tldr | markdownify }}</div>
+    </div>
+    {% endif %}
+
+    <!-- C. Body -->
+    <div class="report-body">
+        {{ content }}
+    </div>
+
+    <!-- D. Footer -->
+    <nav class="report-footer">
+        <a href="/osservatorio/?stream={{ stream }}">← Tutti i report {{ stream_label }}</a>
+        <a href="/osservatorio/">Torna all'osservatorio →</a>
+    </nav>
+
+</main>
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>
