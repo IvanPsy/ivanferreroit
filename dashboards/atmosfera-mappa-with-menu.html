@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0f172a">
+<title>Mappa: L'Atmosfera | Ivan Ferrero</title>
+<meta name="description" content="Mappa concettuale interattiva sull'atmosfera per studenti BES e NAI (italiano L2). Card espandibili, glossario bilingue italiano-arabo, mobile-first.">
+
+<!-- Font del sito (per coerenza con il menu condiviso) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   ATMOSFERA — MAPPA CONCETTUALE INTERATTIVA
+   Mobile-first, card espandibili, glossario IT-AR.
+   File originale di Ivan, integrato col menu del sito.
+   Solo modifiche: padding-top per non finire sotto il menu,
+   reset del header sticky originale (sostituito col menu sito)
+   ========================================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.5;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === HEADER (originale ma non più sticky: lascia spazio al menu del sito) === */
+.map-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: white;
+  padding: 24px 20px;
+  margin-top: 80px; /* sotto il menu desktop */
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+@media (max-width: 768px) {
+  .map-header { margin-top: 116px; } /* sotto il menu mobile più alto */
+}
+.map-header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.map-header p { font-size: 14px; opacity: 0.85; }
+.lang-tag {
+  display: inline-block;
+  margin-top: 6px;
+  background: rgba(255,255,255,0.15);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* === CONTAINER === */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* === INTRO === */
+.intro {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border-left: 4px solid #2563eb;
+}
+.intro h2 { font-size: 17px; margin-bottom: 8px; color: #0f172a; }
+.intro p { font-size: 14px; color: #475569; }
+
+/* === FLUSSO SVG === */
+.flusso-section {
+  background: white;
+  border-radius: 14px;
+  padding: 20px 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.flusso-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+.flusso-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+.flusso-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* === NODE CARDS === */
+.nodes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.node {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border-left: 5px solid var(--node-color, #2563eb);
+  transition: box-shadow 0.2s;
+}
+.node.open { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 16px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 60px;
+}
+.node-icon {
+  font-size: 28px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--node-bg, #dbeafe);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.node-title-block { flex: 1; min-width: 0; }
+.node-number {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--node-color, #2563eb);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.node-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 2px;
+}
+.node-toggle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #475569;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.node.open .node-toggle { transform: rotate(45deg); }
+
+.node-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.node.open .node-body { max-height: 4000px; }
+
+.node-content {
+  padding: 0 16px 18px 16px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 16px;
+}
+
+.concept {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.concept-name {
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 15px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.concept-arabic {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+  margin-left: auto;
+  direction: rtl;
+}
+.concept-desc {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.relations {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 10px;
+  font-size: 13px;
+  color: #78350f;
+}
+.relations-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.example {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: #ecfdf5;
+  border-left: 3px solid #10b981;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #065f46;
+}
+
+/* === GLOSSARIO === */
+.glossary-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #1e3a8a;
+  color: white;
+  border: none;
+  padding: 14px 18px;
+  border-radius: 100px;
+  box-shadow: 0 4px 16px rgba(30, 58, 138, 0.4);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+.glossary-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+.glossary-modal.open { display: flex; }
+.glossary-content {
+  background: white;
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  border-radius: 20px 20px 0 0;
+  overflow-y: auto;
+  padding: 20px;
+}
+.glossary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 14px;
+  position: sticky;
+  top: 0;
+  background: white;
+}
+.glossary-header h3 { font-size: 18px; color: #0f172a; }
+.close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #475569;
+}
+.gloss-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+}
+.gloss-it {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 15px;
+}
+.gloss-ar {
+  color: #1e40af;
+  font-size: 16px;
+  direction: rtl;
+  font-weight: 500;
+}
+.gloss-desc {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* === FOOTER === */
+.map-footer {
+  text-align: center;
+  padding: 30px 20px 100px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+.map-footer a { color: #1e40af; text-decoration: none; }
+.map-footer a:hover { text-decoration: underline; }
+
+/* === RESPONSIVE === */
+@media (max-width: 380px) {
+  .map-header h1 { font-size: 19px; }
+  .node-title { font-size: 16px; }
+  .node-icon { font-size: 24px; width: 40px; height: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- === Menu condiviso del sito === -->
+<div id="site-menu"></div>
+
+<header class="map-header">
+  <h1>🌍 L'Atmosfera</h1>
+  <p>Mappa concettuale — Scienze della Terra</p>
+  <span class="lang-tag">🇮🇹 Italiano + 🇪🇬 العربية</span>
+</header>
+
+<div class="container">
+
+  <div class="intro">
+    <h2>📖 Come leggere questa mappa</h2>
+    <p>Tocca le card per aprire i concetti. Le frecce mostrano le <b>relazioni</b> tra i fenomeni. In basso a destra c'è il glossario bilingue.</p>
+  </div>
+
+  <!-- FLUSSO PRINCIPALE -->
+  <div class="flusso-section">
+    <div class="flusso-title">⚡ Il flusso dell'atmosfera</div>
+    <div class="flusso-subtitle">Tutto inizia dal Sole</div>
+    <svg class="flusso-svg" viewBox="0 0 360 580" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/>
+        </marker>
+      </defs>
+
+      <!-- SOLE -->
+      <circle cx="180" cy="50" r="34" fill="#fbbf24"/>
+      <text x="180" y="58" text-anchor="middle" font-size="28">☀️</text>
+      <text x="180" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#78350f">SOLE</text>
+      <text x="180" y="115" text-anchor="middle" font-size="11" fill="#92400e">energia + calore</text>
+
+      <!-- freccia 1 -->
+      <line x1="180" y1="125" x2="180" y2="155" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- ATMOSFERA -->
+      <rect x="80" y="160" width="200" height="50" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+      <text x="180" y="184" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">🌍 ATMOSFERA</text>
+      <text x="180" y="200" text-anchor="middle" font-size="11" fill="#1e40af">5 strati di gas</text>
+
+      <!-- freccia 2 -->
+      <line x1="180" y1="215" x2="180" y2="245" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- TEMP/PRESS -->
+      <rect x="80" y="250" width="200" height="50" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+      <text x="180" y="274" text-anchor="middle" font-size="14" font-weight="700" fill="#991b1b">🌡️ TEMPERATURA</text>
+      <text x="180" y="290" text-anchor="middle" font-size="11" fill="#b91c1c">+ pressione</text>
+
+      <!-- freccia 3 -->
+      <line x1="180" y1="305" x2="180" y2="335" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- VENTO -->
+      <rect x="80" y="340" width="200" height="50" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+      <text x="180" y="364" text-anchor="middle" font-size="14" font-weight="700" fill="#14532d">🌬️ VENTO</text>
+      <text x="180" y="380" text-anchor="middle" font-size="11" fill="#166534">aria che si muove</text>
+
+      <!-- freccia 4 -->
+      <line x1="180" y1="395" x2="180" y2="425" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- ACQUA/NUVOLE -->
+      <rect x="80" y="430" width="200" height="50" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+      <text x="180" y="454" text-anchor="middle" font-size="14" font-weight="700" fill="#075985">💧 ACQUA + NUVOLE</text>
+      <text x="180" y="470" text-anchor="middle" font-size="11" fill="#0369a1">umidità, condensazione</text>
+
+      <!-- freccia 5 -->
+      <line x1="180" y1="485" x2="180" y2="515" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- TEMPO ESTREMO -->
+      <rect x="80" y="520" width="200" height="50" rx="10" fill="#f3e8ff" stroke="#9333ea" stroke-width="2"/>
+      <text x="180" y="544" text-anchor="middle" font-size="14" font-weight="700" fill="#581c87">⛈️ TEMPO ESTREMO</text>
+      <text x="180" y="560" text-anchor="middle" font-size="11" fill="#6b21a8">temporali, cicloni</text>
+    </svg>
+  </div>
+
+  <!-- NODES -->
+  <div class="nodes-grid">
+
+    <!-- NODE 1 -->
+    <div class="node" style="--node-color:#2563eb; --node-bg:#dbeafe;">
+      <div class="node-header" onclick="toggleNode(this)">
+        <div class="node-icon">🌍</div>
+        <div class="node-title-block">
+          <div class="node-number">Parte 1</div>
+          <div class="node-title">L'Atmosfera</div>
+        </div>
+        <div class="node-toggle">+</div>
+      </div>
+      <div class="node-body">
+        <div class="node-content">
+          <div class="concept">
+            <div class="concept-name">Cos'è? <span class="concept-arabic">الْغِلَافُ الْجَوِّيُّ</span></div>
+            <div class="concept-desc">L'aria intorno alla Terra. Un vestito di gas che protegge il pianeta.</div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">A cosa serve?</div>
+            <div class="concept-desc">🫁 Respirare (ossigeno) · ☀️ Protezione raggi UV · ☄️ Protezione meteoriti</div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">5 strati</div>
+            <div class="concept-desc">
+              1. <b>Troposfera</b> (0-10 km) — qui c'è il tempo<br>
+              2. <b>Stratosfera</b> (10-50 km) — ozono<br>
+              3. <b>Mesosfera</b> (50-80 km) — meteoriti<br>
+              4. <b>Termosfera</b> (80-600 km) — aurore<br>
+              5. <b>Esosfera</b> (oltre 600 km) — spazio
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Composizione dell'aria</div>
+            <div class="concept-desc">
+              <b>Azoto</b> 78% · <b>Ossigeno</b> 21% · Argon 0,9% · CO₂ 0,03%<br>
+              + vapore acqueo + polvere
+            </div>
+          </div>
+          <div class="relations">
+            <div class="relations-title">🔗 Relazione importante</div>
+            Noi viviamo nella <b>troposfera</b>. → Qui avvengono tutti i fenomeni delle altre Parti.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 2 -->
+    <div class="node" style="--node-color:#dc2626; --node-bg:#fee2e2;">
+      <div class="node-header" onclick="toggleNode(this)">
+        <div class="node-icon">🌡️</div>
+        <div class="node-title-block">
+          <div class="node-number">Parte 2</div>
+          <div class="node-title">Temperatura e Pressione</div>
+        </div>
+        <div class="node-toggle">+</div>
+      </div>
+      <div class="node-body">
+        <div class="node-content">
+          <div class="concept">
+            <div class="concept-name">Da dove viene il calore?</div>
+            <div class="concept-desc">Dal <b>Sole</b> ☀️. Ma attenzione: l'aria si scalda <b>dal basso</b>! Prima si scalda la Terra, poi la Terra scalda l'aria.</div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Più sali → più freddo ⛰️</div>
+            <div class="concept-desc">In montagna fa freddo anche d'estate. Si chiama <b>gradiente termico verticale</b>.</div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Più lontano dall'Equatore → più freddo</div>
+            <div class="concept-desc">🌴 Equatore: caldo (Egitto, Africa) · 🐧 Poli: freddo</div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Pressione atmosferica <span class="concept-arabic">ضَغْط</span></div>
+            <div class="concept-desc">L'aria ha un peso. Si misura con il <b>barometro</b>. Unità: atm o pascal (Pa).</div>
+          </div>
+          <div class="relations">
+            <div class="relations-title">🔗 Causa → Effetto</div>
+            Aria <b>calda + umida</b> → bassa pressione → 🌧️ <b>brutto tempo</b> (ciclone, B)<br>
+            Aria <b>fredda + secca</b> → alta pressione → 🌞 <b>bel tempo</b> (anticiclone, A)
+          </div>
+          <div class="example">
+            💡 Sulle carte del tempo: <b>A</b> = sole · <b>B</b> = pioggia
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 3 -->
+    <div class="node" style="--node-color:#16a34a; --node-bg:#dcfce7;">
+      <div class="node-header" onclick="toggleNode(this)">
+        <div class="node-icon">🌬️</div>
+        <div class="node-title-block">
+          <div class="node-number">Parte 3</div>
+          <div class="node-title">Il Vento</div>
+        </div>
+        <div class="node-toggle">+</div>
+      </div>
+      <div class="node-body">
+        <div class="node-content">
+          <div class="concept">
+            <div class="concept-name">Cos'è il vento? <span class="concept-arabic">رِيح</span></div>
+            <div class="concept-desc">Aria che si muove dalla <b>alta pressione</b> → alla <b>bassa pressione</b>.</div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Strumenti di misura</div>
+            <div class="concept-desc">
+              📏 Velocità → <b>anemometro</b> (in nodi)<br>
+              🧭 Direzione → <b>anemoscopio</b> / manica a vento
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Venti costanti (sempre uguali)</div>
+            <div class="concept-desc">
+              <b>Alisei</b>: tropici → equatore (anche sull'Egitto)<br>
+              <b>Venti occidentali</b>: medie latitudini (Italia)<br>
+              <b>Venti orientali polari</b>: vicino ai poli
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Brezze 🌊 (al mare)</div>
+            <div class="concept-desc">
+              ☀️ Giorno: dal mare alla terra<br>
+              🌙 Notte: dalla terra al mare
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Monsoni 🌧️ (Asia, India)</div>
+            <div class="concept-desc">
+              Estate: dal mare → tanta pioggia<br>
+              Inverno: dalla terra → secco
+            </div>
+          </div>
+          <div class="relations">
+            <div class="relations-title">🔗 Collegamento</div>
+            Il vento nasce dalla <b>differenza di pressione</b> (Parte 2). Più grande la differenza, più forte il vento.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 4 -->
+    <div class="node" style="--node-color:#0284c7; --node-bg:#e0f2fe;">
+      <div class="node-header" onclick="toggleNode(this)">
+        <div class="node-icon">💧</div>
+        <div class="node-title-block">
+          <div class="node-number">Parte 4</div>
+          <div class="node-title">Acqua e Nuvole</div>
+        </div>
+        <div class="node-toggle">+</div>
+      </div>
+      <div class="node-body">
+        <div class="node-content">
+          <div class="concept">
+            <div class="concept-name">L'umidità dell'aria</div>
+            <div class="concept-desc">
+              🔥 Aria <b>calda</b> = molta acqua<br>
+              ❄️ Aria <b>fredda</b> = poca acqua<br>
+              Quando l'aria si raffredda troppo → l'acqua diventa liquida (<b>condensa</b>).
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Cosa si forma con l'acqua?</div>
+            <div class="concept-desc">
+              💧 <b>Rugiada</b>: acqua sull'erba (mattina)<br>
+              🌫️ <b>Nebbia</b>: nuvola bassa<br>
+              ❄️ <b>Brina</b>: acqua ghiacciata sul suolo<br>
+              🌲 <b>Galaverna</b>: ghiaccio sugli alberi
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">3 forme di nuvole <span class="concept-arabic">سَحَابَة</span></div>
+            <div class="concept-desc">
+              ☁️ <b>Cirri</b>: sottili come fili (alta quota, 8000m)<br>
+              ☁️ <b>Cumuli</b>: come ovatta (media quota)<br>
+              ☁️ <b>Strati</b>: piatti (bassa quota)<br>
+              + <b>nembo</b> = nuvola che dà pioggia
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Precipitazioni</div>
+            <div class="concept-desc">
+              🌧️ <b>Pioggia</b>: gocce d'acqua (T ≥ 0°C)<br>
+              ❄️ <b>Neve</b>: cristalli di ghiaccio (T &lt; 0°C)<br>
+              🧊 <b>Grandine</b>: palline di ghiaccio (vento forte)
+            </div>
+          </div>
+          <div class="relations">
+            <div class="relations-title">🔗 Collegamento</div>
+            Tutto inizia dall'<b>umidità</b> + <b>raffreddamento</b> dell'aria → condensa → nuvola → precipitazione.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 5 -->
+    <div class="node" style="--node-color:#9333ea; --node-bg:#f3e8ff;">
+      <div class="node-header" onclick="toggleNode(this)">
+        <div class="node-icon">⛈️</div>
+        <div class="node-title-block">
+          <div class="node-number">Parte 5</div>
+          <div class="node-title">Tempo Estremo</div>
+        </div>
+        <div class="node-toggle">+</div>
+      </div>
+      <div class="node-body">
+        <div class="node-content">
+          <div class="concept">
+            <div class="concept-name">Fronti atmosferici</div>
+            <div class="concept-desc">
+              Quando si incontrano due masse d'aria diverse:<br>
+              ❄️ <b>Fronte freddo</b>: tempesta forte ⛈️<br>
+              🔥 <b>Fronte caldo</b>: pioggia leggera 🌦️<br>
+              🌀 <b>Fronte occluso</b>: pioggia + nuvole
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Temporale ⚡ <span class="concept-arabic">عَاصِفَة</span></div>
+            <div class="concept-desc">
+              Cumulonembi → cariche elettriche → <b>fulmine</b> ⚡ + <b>tuono</b> 💥
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Ciclone tropicale (uragano) 🌀</div>
+            <div class="concept-desc">
+              Sopra il mare caldo, vicino all'Equatore. Vento fortissimo a spirale.
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Tornado 🌪️</div>
+            <div class="concept-desc">
+              Forma a imbuto. Sulla terra = tromba d'aria · Sul mare = tromba d'acqua.
+            </div>
+          </div>
+          <div class="relations">
+            <div class="relations-title">🔗 Tutto torna</div>
+            Questi fenomeni sono <b>cicloni</b> → bassa pressione (Parte 2) + nuvole (Parte 4) + venti forti (Parte 3).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 6 -->
+    <div class="node" style="--node-color:#ea580c; --node-bg:#ffedd5;">
+      <div class="node-header" onclick="toggleNode(this)">
+        <div class="node-icon">⚠️</div>
+        <div class="node-title-block">
+          <div class="node-number">Parte 6</div>
+          <div class="node-title">Problemi dell'Atmosfera</div>
+        </div>
+        <div class="node-toggle">+</div>
+      </div>
+      <div class="node-body">
+        <div class="node-content">
+          <div class="concept">
+            <div class="concept-name">Effetto serra 🌡️</div>
+            <div class="concept-desc">
+              ✅ <b>Naturale</b>: i gas serra (CO₂, vapore, metano) tengono il calore. Senza, fa troppo freddo.<br>
+              ⚠️ <b>Problema</b>: troppo CO₂ dalle auto e fabbriche → <b>riscaldamento globale</b> → ghiacci si sciolgono.
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Buco dell'ozono ⚫</div>
+            <div class="concept-desc">
+              L'ozono (O₃) protegge dai raggi UV. Inquinamento → buco sopra l'Antartide → più tumori della pelle.
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Polveri sottili (PM) 💨</div>
+            <div class="concept-desc">
+              Sporco nell'aria (auto, fabbriche). Più piccole sono, più vanno in profondità nei polmoni → danni alla salute.
+            </div>
+          </div>
+          <div class="concept">
+            <div class="concept-name">Piogge acide 🌧️</div>
+            <div class="concept-desc">
+              Inquinamento + acqua = acidi (H₂SO₄, HNO₃). Rovinano piante, monumenti, laghi.
+            </div>
+          </div>
+          <div class="relations">
+            <div class="relations-title">🔗 Causa comune</div>
+            Tutti questi problemi vengono dall'<b>attività umana</b>: macchine, fabbriche, combustione.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="map-footer">
+    📚 Scienze · Prima Professionale · Materiale per studenti NAI<br>
+    🇮🇹 + 🇪🇬 — Versione semplificata<br>
+    <a href="/dashboards/atmosfera-presentazione-with-menu.html">→ Vedi anche la presentazione</a>
+  </div>
+
+</div>
+
+<!-- BOTTONE GLOSSARIO -->
+<button class="glossary-btn" onclick="openGlossary()">
+  📖 Glossario
+</button>
+
+<!-- MODAL GLOSSARIO -->
+<div class="glossary-modal" id="glossaryModal" onclick="if(event.target===this)closeGlossary()">
+  <div class="glossary-content">
+    <div class="glossary-header">
+      <h3>📖 Glossario IT — AR</h3>
+      <button class="close-btn" onclick="closeGlossary()">✕</button>
+    </div>
+    <div id="glossList"></div>
+  </div>
+</div>
+
+<!-- === Menu condiviso === -->
+<script src="/assets/menu.js"></script>
+
+<script>
+function toggleNode(header) {
+  const node = header.closest('.node');
+  const wasOpen = node.classList.contains('open');
+  // chiudi tutti
+  document.querySelectorAll('.node.open').forEach(n => n.classList.remove('open'));
+  // apri questo se era chiuso
+  if (!wasOpen) {
+    node.classList.add('open');
+    setTimeout(() => {
+      node.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }, 100);
+  }
+}
+
+const glossary = [
+  ['Atmosfera', 'الْغِلَافُ الْجَوِّيُّ', "l'aria intorno alla Terra"],
+  ['Aria', 'هَوَاء', 'il gas che respiriamo'],
+  ['Acqua', 'مَاء', 'H₂O'],
+  ['Sole', 'شَمْس', 'la stella che dà luce e calore'],
+  ['Terra', 'أَرْض', 'il nostro pianeta'],
+  ['Cielo', 'سَمَاء', 'la parte alta sopra di noi'],
+  ['Nuvola', 'غَيْمَة', 'acqua piccola in cielo'],
+  ['Pioggia', 'مَطَر', 'acqua che cade'],
+  ['Neve', 'ثَلْج', 'acqua ghiacciata che cade'],
+  ['Vento', 'رِيح', 'aria che si muove'],
+  ['Tempesta', 'عَاصِفَة', 'tempo molto brutto'],
+  ['Caldo', 'حَار', 'alta temperatura 🔥'],
+  ['Freddo', 'بَارِد', 'bassa temperatura ❄️'],
+  ['Umido', 'رَطْب', 'con acqua'],
+  ['Secco', 'جَاف', 'senza acqua'],
+  ['Ossigeno', 'أُكْسِجِين', 'gas per respirare (O₂)'],
+  ['Azoto', 'نِيتْرُوجِين', 'gas più presente nell\'aria (N₂)'],
+  ['Pressione', 'ضَغْط', "il peso dell'aria"],
+  ['Temperatura', 'دَرَجَة الْحَرَارَة', 'quanto è caldo o freddo'],
+  ['Inquinamento', 'تَلَوُّث', 'aria sporca'],
+  ['Ghiaccio', 'جَلِيد', 'acqua solida'],
+  ['Montagna', 'جَبَل', 'luogo molto alto'],
+  ['Mare', 'بَحْر', 'grande acqua salata']
+];
+
+function openGlossary() {
+  const list = document.getElementById('glossList');
+  if (!list.innerHTML) {
+    list.innerHTML = glossary.map(([it, ar, desc]) => `
+      <div class="gloss-row">
+        <div class="gloss-it">${it}</div>
+        <div class="gloss-ar">${ar}</div>
+        <div class="gloss-desc">${desc}</div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('glossaryModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGlossary() {
+  document.getElementById('glossaryModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+</script>
+
+</body>
+</html>

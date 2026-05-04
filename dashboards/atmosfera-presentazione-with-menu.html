@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0f172a">
+<title>L'Atmosfera — Presentazione | Ivan Ferrero</title>
+<meta name="description" content="Scheda di studio semplice sull'atmosfera per studenti BES e NAI (italiano L2). 35 slide bilingue italiano-arabo, Scienze della Terra, Prima Professionale.">
+
+<!-- Fonts del sito -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   ATMOSFERA — PRESENTAZIONE HTML
+   Conserva il layout originale del PPTX (light, educational)
+   integrato col menu condiviso del sito ivanferrero.it (dark)
+   Mobile-first, scroll verticale, navigazione tastiera
+   ========================================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+  line-height: 1.5;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Container slides === */
+.slides-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 130px 16px 100px;
+}
+@media (min-width: 769px) {
+  .slides-wrap { padding-top: 100px; }
+}
+
+/* === Singola slide: card a 16:9 con padding interno === */
+.slide {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+  margin-bottom: 24px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 70vh;
+  padding: 32px 28px 56px;
+}
+@media (min-width: 769px) {
+  .slide {
+    aspect-ratio: 16 / 9;
+    min-height: auto;
+    padding: 48px 56px 60px;
+  }
+}
+
+/* === Title slides (dark navy) === */
+.slide.dark {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #f8fafc;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.slide.dark .footer-meta { color: #64748b; }
+
+/* === Footer comune === */
+.footer-meta {
+  position: absolute;
+  bottom: 16px;
+  left: 28px;
+  right: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-style: italic;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+@media (min-width: 769px) {
+  .footer-meta { left: 56px; right: 56px; bottom: 24px; font-size: 13px; }
+}
+
+/* === Tipografia titoli === */
+.slide-title {
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.slide-subtitle {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: #64748b;
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+/* === Slide cover (1) === */
+.cover-icon {
+  font-size: clamp(3rem, 8vw, 5rem);
+  margin-bottom: 24px;
+}
+.cover-title {
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.cover-subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: #fbbf24;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+.cover-meta {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  margin-bottom: 18px;
+}
+.cover-lang {
+  font-size: 1rem;
+  color: #f8fafc;
+  background: rgba(255,255,255,0.08);
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* === Indice (slide 2) === */
+.toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+.toc-row {
+  display: grid;
+  grid-template-columns: 56px 36px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+.toc-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.toc-icon { font-size: 1.5rem; text-align: center; }
+.toc-text h3 { font-size: clamp(1rem, 2vw, 1.25rem); color: #0f172a; margin: 0; }
+.toc-text p { font-size: 0.85rem; color: #64748b; margin-top: 2px; }
+
+/* Colori per le 6 parti (coerenti con la mappa atmosfera) */
+.c-blue   { background: #1e3a8a; }
+.c-red    { background: #dc2626; }
+.c-green  { background: #16a34a; }
+.c-cyan   { background: #0284c7; }
+.c-purple { background: #9333ea; }
+.c-orange { background: #ea580c; }
+
+/* === Slide separatore parte === */
+.part-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: #1e3a8a;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.part-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 18px;
+  margin-bottom: 50px;
+}
+.part-body {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+.part-icon {
+  font-size: clamp(3rem, 9vw, 5rem);
+}
+.part-tagline {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: #475569;
+}
+.part-arabic {
+  font-family: 'Outfit', "Geeza Pro", "Arial", sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: #1e3a8a;
+  direction: rtl;
+}
+
+/* === Box / Callout === */
+.callout {
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  border: 2px solid;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.55;
+}
+.callout.info     { background: #dbeafe; border-color: #2563eb; color: #1e3a8a; }
+.callout.warning  { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
+.callout.danger   { background: #fee2e2; border-color: #dc2626; color: #991b1b; font-weight: 600; }
+.callout.success  { background: #dcfce7; border-color: #16a34a; color: #14532d; }
+.callout.purple   { background: #f3e8ff; border-color: #9333ea; color: #581c87; }
+.callout.cyan     { background: #e0f2fe; border-color: #0284c7; color: #075985; }
+.callout.orange   { background: #ffedd5; border-color: #ea580c; color: #7c2d12; }
+
+/* === Section heading interno === */
+.section-h {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  font-weight: 600;
+  color: #0f172a;
+  margin: 18px 0 14px;
+}
+
+/* === Card grid generica (3 col) === */
+.cards-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 600px) {
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
+}
+.cards-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 600px) {
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
+}
+.cards-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 600px) {
+  .cards-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* === Card concept (icona + titolo + descrizione) === */
+.card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  border: 2px solid transparent;
+}
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+.card-desc {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+/* Card colorate (per percentuali, fronti, ecc.) */
+.card.b-blue   { background: #eff6ff; border-color: #93c5fd; }
+.card.b-red    { background: #fef2f2; border-color: #fca5a5; }
+.card.b-green  { background: #f0fdf4; border-color: #86efac; }
+.card.b-yellow { background: #fffbeb; border-color: #fcd34d; }
+.card.b-cyan   { background: #ecfeff; border-color: #67e8f9; }
+.card.b-purple { background: #faf5ff; border-color: #d8b4fe; }
+.card.b-orange { background: #fff7ed; border-color: #fdba74; }
+
+.card .big-num {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  display: block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.card.b-blue   .big-num { color: #2563eb; }
+.card.b-red    .big-num { color: #dc2626; }
+.card.b-green  .big-num { color: #16a34a; }
+.card.b-yellow .big-num { color: #f59e0b; }
+.card.b-cyan   .big-num { color: #0284c7; }
+.card.b-purple .big-num { color: #9333ea; }
+.card.b-orange .big-num { color: #ea580c; }
+
+/* === Strati atmosfera (5 strisce gradiente blu) === */
+.layers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.layer-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 10px;
+}
+.layer-num {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #0f172a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.layer-info { display: flex; flex-direction: column; gap: 2px; }
+.layer-name { font-weight: 700; font-size: 1.05rem; color: #0f172a; }
+.layer-alt  { font-size: 0.85rem; color: #475569; opacity: 0.85; }
+.layer-desc { font-size: 0.85rem; color: #1e293b; margin-top: 4px; }
+
+/* Gradiente tropos→esos */
+.layer-row.l-1 { background: #dbeafe; }
+.layer-row.l-2 { background: #93c5fd; }
+.layer-row.l-3 { background: #3b82f6; color: #fff; }
+.layer-row.l-3 .layer-name, .layer-row.l-3 .layer-alt, .layer-row.l-3 .layer-desc { color: #fff; }
+.layer-row.l-3 .layer-alt { opacity: 0.8; }
+.layer-row.l-4 { background: #2563eb; color: #fff; }
+.layer-row.l-4 .layer-name, .layer-row.l-4 .layer-alt, .layer-row.l-4 .layer-desc { color: #fff; }
+.layer-row.l-4 .layer-alt { opacity: 0.8; }
+.layer-row.l-5 { background: #1e3a8a; color: #fff; }
+.layer-row.l-5 .layer-name, .layer-row.l-5 .layer-alt, .layer-row.l-5 .layer-desc { color: #fff; }
+.layer-row.l-5 .layer-alt { opacity: 0.8; }
+
+/* === Barre orizzontali (composizione aria) === */
+.bars { display: flex; flex-direction: column; gap: 14px; margin: 10px 0; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 56px;
+  gap: 12px;
+  align-items: center;
+}
+.bar-label { font-weight: 700; color: #0f172a; font-size: 0.95rem; }
+.bar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+  height: 22px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+.bar-pct {
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: right;
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+@media (max-width: 600px) {
+  .bar-row { grid-template-columns: 100px 1fr 50px; gap: 8px; }
+  .bar-label { font-size: 0.85rem; }
+  .bar-pct { font-size: 0.85rem; }
+}
+
+/* === Tabelle altitudine / temperatura === */
+.alt-rows { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.alt-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 90px;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+.alt-row .a-icon { font-size: 1.4rem; }
+.alt-row .a-name { font-weight: 700; color: #0f172a; }
+.alt-row .a-temp { text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+
+.alt-row.t-cold-extreme { background: #1e3a8a; color: #fff; }
+.alt-row.t-cold-extreme .a-name { color: #fff; }
+.alt-row.t-cold { background: #3b82f6; color: #fff; }
+.alt-row.t-cold .a-name { color: #fff; }
+.alt-row.t-mid  { background: #93c5fd; }
+.alt-row.t-warm { background: #bfdbfe; }
+.alt-row.t-hot  { background: #fef3c7; }
+.alt-row.t-cold-extreme .a-temp { color: #fff; }
+.alt-row.t-cold .a-temp { color: #fff; }
+.alt-row.t-mid  .a-temp { color: #dc2626; }
+.alt-row.t-warm .a-temp { color: #dc2626; }
+.alt-row.t-hot  .a-temp { color: #dc2626; }
+
+/* === Big-letter circle (B/A) === */
+.big-circle {
+  width: clamp(80px, 18vw, 130px);
+  height: clamp(80px, 18vw, 130px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 auto 16px;
+}
+.big-circle.b-circle { background: #1e3a8a; }
+.big-circle.a-circle { background: #f59e0b; }
+
+.compare-card {
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+.compare-card.cyclone { background: #dbeafe; border-color: #1e3a8a; }
+.compare-card.anticyclone { background: #fef3c7; border-color: #f59e0b; }
+.compare-card .big-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  font-size: 1rem;
+}
+.compare-card.cyclone .big-name { color: #1e3a8a; }
+.compare-card.anticyclone .big-name { color: #b45309; }
+.compare-card .big-name-sub { font-size: 0.85rem; color: #64748b; }
+
+/* === Wind list (Alisei, Occidentali, Polari) === */
+.winds { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+.wind-row {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 2px solid;
+  background: #fff;
+}
+.wind-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.wind-info .name { font-weight: 700; color: #0f172a; font-size: 1rem; }
+.wind-info .where { font-size: 0.85rem; color: #64748b; }
+.wind-tag {
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding-left: 8px;
+}
+.wind-row.w-orange { border-color: #f59e0b; }
+.wind-row.w-orange .wind-circle { background: #f59e0b; }
+.wind-row.w-orange .wind-tag { color: #b45309; }
+.wind-row.w-green { border-color: #16a34a; }
+.wind-row.w-green .wind-circle { background: #16a34a; }
+.wind-row.w-green .wind-tag { color: #15803d; }
+.wind-row.w-blue { border-color: #1e3a8a; }
+.wind-row.w-blue .wind-circle { background: #1e3a8a; }
+.wind-row.w-blue .wind-tag { color: #1e3a8a; }
+
+/* === Day/Night brezze e monsoni — 2 colonne con icona grande === */
+.day-night {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 600px) {
+  .day-night { grid-template-columns: 1fr 1fr; }
+}
+.dn-card {
+  border-radius: 14px;
+  padding: 22px;
+  text-align: center;
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dn-card.day   { background: #ecfdf5; border-color: #10b981; color: #065f46; }
+.dn-card.night { background: #ffedd5; border-color: #f97316; color: #7c2d12; }
+.dn-card .dn-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.dn-card .dn-flow {
+  font-size: 1.5rem;
+  margin: 4px 0;
+}
+.dn-card .dn-desc { font-size: 0.95rem; color: inherit; opacity: 0.9; }
+.dn-card .dn-note { font-size: 0.85rem; font-style: italic; opacity: 0.75; margin-top: auto; }
+
+/* Variant per i monsoni con risultato evidenziato */
+.dn-card.summer-monsoon { background: #ecfdf5; border-color: #16a34a; color: #14532d; }
+.dn-card.winter-monsoon { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
+.dn-card .dn-result {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+/* === Lista 4 fenomeni (rugiada/nebbia/brina/galaverna) === */
+.cards-4 .card.b-cyan-soft   { background: #f0f9ff; border-color: #7dd3fc; }
+.cards-4 .card.b-blue-soft   { background: #eff6ff; border-color: #93c5fd; }
+.cards-4 .card.b-blue-deep   { background: #dbeafe; border-color: #2563eb; }
+.cards-4 .card.b-green-soft  { background: #f0fdf4; border-color: #86efac; }
+
+.card .card-altitude {
+  display: inline-block;
+  margin-top: 6px;
+  background: rgba(0,0,0,0.06);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: #475569;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* === Step temporale (1-2-3) === */
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 600px) {
+  .steps { grid-template-columns: repeat(3, 1fr); }
+}
+.step-card {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+.step-num {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  background: #1e3a8a;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.step-icon { font-size: 2rem; margin: 6px 0 8px; }
+
+/* === Cyclone vs Tornado === */
+.storm-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 700px) {
+  .storm-grid { grid-template-columns: 1fr 1fr; }
+}
+.storm-card {
+  background: #f3e8ff;
+  border: 2px solid #9333ea;
+  border-radius: 14px;
+  padding: 24px;
+}
+.storm-card.tornado { background: #fef2f2; border-color: #dc2626; }
+.storm-card .storm-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.storm-card .storm-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  background: #fff;
+}
+.storm-card .storm-name { font-weight: 700; color: #0f172a; font-size: 1.15rem; }
+.storm-card .storm-sub  { font-size: 0.85rem; color: #64748b; font-style: italic; }
+.storm-card ul { list-style: none; padding: 0; }
+.storm-card ul li {
+  padding: 6px 0 6px 22px;
+  position: relative;
+  color: #1e293b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.storm-card ul li::before {
+  content: '•';
+  position: absolute;
+  left: 8px;
+  color: #9333ea;
+  font-weight: 700;
+}
+.storm-card.tornado ul li::before { color: #dc2626; }
+
+/* === Effetto serra (split natural / problem) === */
+.split-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 700px) {
+  .split-2 { grid-template-columns: 1fr 1fr; }
+}
+.split-card {
+  border-radius: 14px;
+  padding: 22px;
+  border: 2px solid;
+}
+.split-card.natural { background: #ecfdf5; border-color: #16a34a; }
+.split-card.problem { background: #fef2f2; border-color: #dc2626; }
+.split-card .split-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.split-card .split-badge {
+  font-size: 1.5rem;
+}
+.split-card .split-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+}
+.split-card.natural .split-name { color: #15803d; }
+.split-card.problem .split-name { color: #b91c1c; }
+.split-card .split-h2 {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+.split-card p { font-size: 0.95rem; color: #1e293b; margin-bottom: 8px; line-height: 1.5; }
+
+/* === Ozono / Polveri (split colonne) === */
+.split-card.ozono { background: #f3e8ff; border-color: #9333ea; }
+.split-card.polveri { background: #fef3c7; border-color: #f59e0b; }
+.split-card.ozono .split-name { color: #6b21a8; }
+.split-card.polveri .split-name { color: #92400e; }
+
+/* === Glossario tabella === */
+.gloss-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+.gloss-table thead {
+  background: #0f172a;
+  color: #fff;
+}
+.gloss-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+.gloss-table th:nth-child(2) { text-align: right; direction: rtl; }
+.gloss-table tbody tr:nth-child(odd) { background: #f8fafc; }
+.gloss-table tbody tr:nth-child(even) { background: #fff; }
+.gloss-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.gloss-table td:nth-child(1) { font-weight: 700; color: #0f172a; width: 30%; }
+.gloss-table td:nth-child(2) {
+  text-align: right;
+  direction: rtl;
+  color: #1e3a8a;
+  font-size: 1.05rem;
+  font-family: 'Outfit', "Geeza Pro", "Arial", sans-serif;
+  width: 25%;
+}
+.gloss-table td:nth-child(3) { color: #475569; font-size: 0.875rem; }
+
+/* === Test Vero/Falso === */
+.test-list { display: flex; flex-direction: column; gap: 10px; }
+.test-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+}
+.test-num { font-weight: 700; color: #2563eb; font-family: 'JetBrains Mono', monospace; }
+.test-q { color: #1e293b; font-size: 0.95rem; }
+.test-opts { display: flex; gap: 8px; }
+.test-opt {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.test-opt.t-true { color: #16a34a; border-color: #16a34a; }
+.test-opt.t-false { color: #dc2626; border-color: #dc2626; }
+@media (max-width: 600px) {
+  .test-row { grid-template-columns: 28px 1fr; }
+  .test-opts { grid-column: 1 / -1; justify-content: flex-end; margin-top: 4px; }
+}
+
+/* === Soluzioni (slide finale dark) === */
+.solutions-list { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 720px; margin: 0 auto; }
+.sol-row {
+  display: grid;
+  grid-template-columns: 36px 90px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.sol-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; font-size: 1rem; }
+.sol-badge {
+  background: #16a34a;
+  color: #fff;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+.sol-badge.false { background: #dc2626; }
+.sol-text { color: #cbd5e1; font-size: 0.92rem; font-style: italic; }
+.sol-final {
+  text-align: center;
+  margin-top: 28px;
+  font-size: 1.15rem;
+  color: #fbbf24;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* === Card Bel/Brutto tempo === */
+.weather-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 6px;
+}
+@media (min-width: 600px) {
+  .weather-2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* === Card Più sali (tabella altitudine) === */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Concept text con highlight === */
+strong { color: #0f172a; }
+.slide.dark strong { color: #fff; }
+
+.text-arabic {
+  font-family: 'Outfit', "Geeza Pro", "Arial", sans-serif;
+  direction: rtl;
+}
+
+.text-center { text-align: center; }
+.spacer { flex: 1; }
+
+/* === Navigazione progress bar fissata === */
+.progress-bar {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  z-index: 999;
+}
+.progress-bar .pb-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d9ff 0%, #fbbf24 100%);
+  width: 0;
+  transition: width 0.2s ease;
+}
+@media (max-width: 768px) {
+  .progress-bar { top: 116px; }
+}
+
+/* === Hint navigazione (scroll) === */
+.nav-hint {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  background: rgba(15,23,42,0.85);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(10px);
+  z-index: 50;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* === Stampa: ogni slide su pagina nuova === */
+@media print {
+  body { background: #fff; }
+  .slide {
+    box-shadow: none;
+    page-break-after: always;
+    margin: 0 0 16px;
+    border: 1px solid #e2e8f0;
+  }
+  .progress-bar, .nav-hint { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- === Menu condiviso del sito === -->
+<div id="site-menu"></div>
+
+<!-- === Progress bar avanzamento === -->
+<div class="progress-bar"><div class="pb-fill" id="pbFill"></div></div>
+
+<!-- === Container slides === -->
+<div class="slides-wrap">
+
+  <!-- ========== SLIDE 1 — COVER ========== -->
+  <section class="slide dark" data-slide="1">
+    <div class="cover-icon">🌍</div>
+    <div class="cover-title">L'Atmosfera</div>
+    <div class="cover-subtitle">Scheda di studio semplice</div>
+    <div class="cover-meta">Scienze della Terra · Prima Professionale</div>
+    <div class="cover-lang">🇮🇹 Italiano + 🇪🇬 العربية</div>
+  </section>
+
+  <!-- ========== SLIDE 2 — INDICE ========== -->
+  <section class="slide" data-slide="2">
+    <h1 class="slide-title">📚 Indice — Cosa studiamo</h1>
+    <div class="toc-list">
+      <div class="toc-row">
+        <div class="toc-num c-blue">1</div>
+        <div class="toc-icon">🌍</div>
+        <div class="toc-text"><h3>L'Atmosfera</h3><p>Cos'è · 5 strati · composizione</p></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num c-red">2</div>
+        <div class="toc-icon">🌡️</div>
+        <div class="toc-text"><h3>Temperatura e Pressione</h3><p>Calore del Sole · pressione · cicloni</p></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num c-green">3</div>
+        <div class="toc-icon">🌬️</div>
+        <div class="toc-text"><h3>Il Vento</h3><p>Tipi di vento · brezze · monsoni</p></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num c-cyan">4</div>
+        <div class="toc-icon">💧</div>
+        <div class="toc-text"><h3>Acqua e Nuvole</h3><p>Umidità · nuvole · pioggia · neve</p></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num c-purple">5</div>
+        <div class="toc-icon">⛈️</div>
+        <div class="toc-text"><h3>Tempo Estremo</h3><p>Temporali · cicloni · tornado</p></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num c-orange">6</div>
+        <div class="toc-icon">⚠️</div>
+        <div class="toc-text"><h3>Problemi dell'Atmosfera</h3><p>Effetto serra · ozono · inquinamento</p></div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>2 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 3 — PARTE 1 ========== -->
+  <section class="slide" data-slide="3">
+    <div class="part-label">PARTE 1</div>
+    <div class="part-title">L'Atmosfera</div>
+    <div class="part-body">
+      <div class="part-icon">🌍</div>
+      <div class="part-tagline">L'aria intorno alla Terra</div>
+      <div class="part-arabic">الْغِلَافُ الْجَوِّيُّ</div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>3 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 4 — Cos'è ========== -->
+  <section class="slide" data-slide="4">
+    <h1 class="slide-title">Cos'è l'atmosfera?</h1>
+    <div class="callout info">
+      L'atmosfera è l'aria intorno alla Terra.<br>
+      È un grande vestito di gas che copre il pianeta.
+    </div>
+    <h2 class="section-h">A cosa serve? 🛡️</h2>
+    <div class="cards-3">
+      <div class="card"><span class="card-icon">🫁</span><div class="card-title">Per respirare</div><div class="card-desc">Contiene l'ossigeno</div></div>
+      <div class="card"><span class="card-icon">☀️</span><div class="card-title">Protezione dal Sole</div><div class="card-desc">Ferma i raggi UV pericolosi</div></div>
+      <div class="card"><span class="card-icon">☄️</span><div class="card-title">Protezione spazio</div><div class="card-desc">Brucia i meteoriti</div></div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>4 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 5 — 5 strati ========== -->
+  <section class="slide" data-slide="5">
+    <h1 class="slide-title">I 5 strati dell'atmosfera</h1>
+    <div class="slide-subtitle">Come una torta a 5 livelli</div>
+    <div class="layers">
+      <div class="layer-row l-5">
+        <div class="layer-num">5</div>
+        <div class="layer-info">
+          <div class="layer-name">Esosfera <span class="layer-alt">— oltre 600 km</span></div>
+          <div class="layer-desc">Lo spazio comincia</div>
+        </div>
+      </div>
+      <div class="layer-row l-4">
+        <div class="layer-num">4</div>
+        <div class="layer-info">
+          <div class="layer-name">Termosfera <span class="layer-alt">— 80 — 600 km</span></div>
+          <div class="layer-desc">Aurore polari (luci colorate) 💚</div>
+        </div>
+      </div>
+      <div class="layer-row l-3">
+        <div class="layer-num">3</div>
+        <div class="layer-info">
+          <div class="layer-name">Mesosfera <span class="layer-alt">— 50 — 80 km</span></div>
+          <div class="layer-desc">I meteoriti bruciano qui ☄️</div>
+        </div>
+      </div>
+      <div class="layer-row l-2">
+        <div class="layer-num">2</div>
+        <div class="layer-info">
+          <div class="layer-name">Stratosfera <span class="layer-alt">— 10 — 50 km</span></div>
+          <div class="layer-desc">Strato di ozono (protegge dal Sole)</div>
+        </div>
+      </div>
+      <div class="layer-row l-1">
+        <div class="layer-num">1</div>
+        <div class="layer-info">
+          <div class="layer-name">Troposfera <span class="layer-alt">— 0 — 10 km</span></div>
+          <div class="layer-desc">⭐ Qui c'è il tempo: nuvole, pioggia, vento</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>5 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 6 — Cosa c'è nell'aria ========== -->
+  <section class="slide" data-slide="6">
+    <h1 class="slide-title">Cosa c'è nell'aria?</h1>
+    <div class="slide-subtitle">L'aria è un miscuglio di gas diversi.</div>
+    <div class="bars">
+      <div class="bar-row">
+        <div class="bar-label">Azoto (N₂)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:78%; background:#1e3a8a;"></div></div>
+        <div class="bar-pct">78%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Ossigeno (O₂)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:21%; background:#dc2626;"></div></div>
+        <div class="bar-pct">21%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Argon</div>
+        <div class="bar-track"><div class="bar-fill" style="width:1%; background:#16a34a;"></div></div>
+        <div class="bar-pct">1%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CO₂ + altri</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0.5%; background:#9333ea;"></div></div>
+        <div class="bar-pct">0.1%</div>
+      </div>
+    </div>
+    <div class="callout warning" style="margin-top:18px;">
+      💧 Nell'aria c'è anche <strong>vapore acqueo</strong> (acqua come gas) e <strong>polvere</strong> trasportata dal vento.
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>6 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 7 — PARTE 2 ========== -->
+  <section class="slide" data-slide="7">
+    <div class="part-label" style="color:#dc2626;">PARTE 2</div>
+    <div class="part-title">Temperatura e Pressione</div>
+    <div class="part-body">
+      <div class="part-icon">🌡️</div>
+      <div class="part-tagline">Caldo, freddo e il peso dell'aria</div>
+      <div class="part-arabic" style="color:#dc2626;">دَرَجَة الْحَرَارَة + ضَغْط</div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>7 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 8 — Da dove viene il calore ========== -->
+  <section class="slide" data-slide="8">
+    <h1 class="slide-title">Da dove viene il calore? ☀️</h1>
+    <div class="callout warning">Il calore viene dal <strong>Sole</strong>. Il Sole manda energia sulla Terra.</div>
+    <h2 class="section-h">Cosa succede all'energia del Sole?</h2>
+    <div class="cards-3">
+      <div class="card b-blue">
+        <span class="big-num">31%</span>
+        <div class="card-title">Torna nello spazio</div>
+        <div class="card-desc">(riflessa dalle nuvole)</div>
+      </div>
+      <div class="card b-yellow">
+        <span class="big-num">18%</span>
+        <div class="card-title">Resta nell'atmosfera</div>
+        <div class="card-desc">(assorbita dai gas)</div>
+      </div>
+      <div class="card b-red">
+        <span class="big-num">51%</span>
+        <div class="card-title">Arriva sulla Terra</div>
+        <div class="card-desc">(scalda il suolo)</div>
+      </div>
+    </div>
+    <div class="callout danger" style="margin-top:18px;">
+      ⚠️ Importante: l'aria si scalda <strong>DAL BASSO</strong>. Prima si scalda la Terra, poi la Terra scalda l'aria.
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>8 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 9 — Più sali, più freddo ========== -->
+  <section class="slide" data-slide="9">
+    <h1 class="slide-title">Più sali → più freddo ⛰️</h1>
+    <div class="slide-subtitle">In montagna fa freddo anche d'estate. Si chiama gradiente termico verticale.</div>
+    <div class="alt-rows">
+      <div class="alt-row t-cold-extreme"><span class="a-icon">❄️</span><span class="a-name">4.000 m</span><span class="a-temp">−4 °C</span></div>
+      <div class="alt-row t-cold"><span class="a-icon">🏔️</span><span class="a-name">3.000 m</span><span class="a-temp">+2 °C</span></div>
+      <div class="alt-row t-mid"><span class="a-icon">⛰️</span><span class="a-name">2.000 m</span><span class="a-temp">+8 °C</span></div>
+      <div class="alt-row t-warm"><span class="a-icon">🌲</span><span class="a-name">1.000 m</span><span class="a-temp">+14 °C</span></div>
+      <div class="alt-row t-hot"><span class="a-icon">🏖️</span><span class="a-name">0 m (mare)</span><span class="a-temp">+20 °C</span></div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>9 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 10 — Equatore vs Poli ========== -->
+  <section class="slide" data-slide="10">
+    <h1 class="slide-title">Equatore caldo, Poli freddo 🌍</h1>
+    <div class="slide-subtitle">Il Sole arriva con angoli diversi.</div>
+    <div class="cards-2">
+      <div class="card b-yellow">
+        <span class="card-icon" style="font-size:2.5rem;">🌴</span>
+        <div class="card-title" style="color:#b45309; letter-spacing:0.1em; font-family:'JetBrains Mono',monospace;">EQUATORE</div>
+        <div class="card-desc">Raggi diritti = MOLTO CALDO</div>
+        <div class="card-desc" style="margin-top:6px;"><em>Esempio: Egitto, Africa</em></div>
+        <div style="margin-top:10px; font-size:1.1rem; color:#dc2626; font-weight:700;">🇪🇬 ☀️ +35 °C</div>
+      </div>
+      <div class="card b-blue">
+        <span class="card-icon" style="font-size:2.5rem;">🐧</span>
+        <div class="card-title" style="color:#1e3a8a; letter-spacing:0.1em; font-family:'JetBrains Mono',monospace;">POLI</div>
+        <div class="card-desc">Raggi inclinati = MOLTO FREDDO</div>
+        <div class="card-desc" style="margin-top:6px;"><em>Esempio: Antartide</em></div>
+        <div style="margin-top:10px; font-size:1.1rem; color:#1e3a8a; font-weight:700;">🧊 ❄️ −40 °C</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>10 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 11 — Pressione atmosferica ========== -->
+  <section class="slide" data-slide="11">
+    <h1 class="slide-title">La pressione atmosferica</h1>
+    <div class="callout info">
+      L'aria ha un <strong>peso</strong>. L'aria preme sulla Terra. Questo si chiama <strong>pressione atmosferica</strong>.
+    </div>
+    <h2 class="section-h">Quando cambia la pressione?</h2>
+    <div class="cards-2">
+      <div class="card b-red">
+        <span class="card-icon">🔥</span>
+        <div class="card-title">Aria CALDA + UMIDA</div>
+        <div class="card-desc"><strong>BASSA</strong> pressione · L'aria sale ↑</div>
+      </div>
+      <div class="card b-blue">
+        <span class="card-icon">❄️</span>
+        <div class="card-title">Aria FREDDA + SECCA</div>
+        <div class="card-desc"><strong>ALTA</strong> pressione · L'aria scende ↓</div>
+      </div>
+      <div class="card b-cyan">
+        <span class="card-icon">⛰️</span>
+        <div class="card-title">In MONTAGNA</div>
+        <div class="card-desc"><strong>BASSA</strong> pressione · Poca aria sopra</div>
+      </div>
+      <div class="card b-yellow">
+        <span class="card-icon">🏖️</span>
+        <div class="card-title">Al MARE</div>
+        <div class="card-desc"><strong>ALTA</strong> pressione · Tanta aria sopra</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>11 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 12 — Bel tempo o brutto tempo ========== -->
+  <section class="slide" data-slide="12">
+    <h1 class="slide-title">Bel tempo o brutto tempo?</h1>
+    <div class="weather-2">
+      <div class="compare-card cyclone">
+        <div class="big-circle b-circle">B</div>
+        <div class="big-name">CICLONE</div>
+        <div class="big-name-sub">Bassa pressione</div>
+        <div style="font-size:2.5rem;">🌧️</div>
+        <div style="font-weight:700; color:#0f172a;">Brutto tempo</div>
+        <div style="color:#64748b; font-size:0.9rem;">Nuvole, pioggia</div>
+      </div>
+      <div class="compare-card anticyclone">
+        <div class="big-circle a-circle">A</div>
+        <div class="big-name">ANTICICLONE</div>
+        <div class="big-name-sub">Alta pressione</div>
+        <div style="font-size:2.5rem;">☀️</div>
+        <div style="font-weight:700; color:#0f172a;">Bel tempo</div>
+        <div style="color:#64748b; font-size:0.9rem;">Sole, secco</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>12 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 13 — PARTE 3 ========== -->
+  <section class="slide" data-slide="13">
+    <div class="part-label" style="color:#16a34a;">PARTE 3</div>
+    <div class="part-title">Il Vento</div>
+    <div class="part-body">
+      <div class="part-icon">🌬️</div>
+      <div class="part-tagline">Aria che si muove</div>
+      <div class="part-arabic" style="color:#16a34a;">رِيح</div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>13 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 14 — Cos'è il vento ========== -->
+  <section class="slide" data-slide="14">
+    <h1 class="slide-title">Cos'è il vento?</h1>
+    <div class="callout success">
+      Il vento è aria che si muove.<br>
+      Va sempre dalla <strong>ALTA pressione → alla BASSA pressione</strong>.
+    </div>
+    <h2 class="section-h">Come si misura? 📏</h2>
+    <div class="cards-2">
+      <div class="card b-green">
+        <span class="card-icon">🌀</span>
+        <div class="card-title">Anemometro</div>
+        <div class="card-desc">Misura la <strong>VELOCITÀ</strong> del vento</div>
+        <div style="margin-top:6px; font-family:'JetBrains Mono',monospace; color:#16a34a; font-size:0.85rem;">Unità: nodi</div>
+      </div>
+      <div class="card b-orange">
+        <span class="card-icon">🎏</span>
+        <div class="card-title">Anemoscopio</div>
+        <div class="card-desc">Misura la <strong>DIREZIONE</strong> del vento</div>
+        <div style="margin-top:6px; color:#ea580c; font-size:0.85rem;">Manica a vento 🚩</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>14 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 15 — Venti costanti ========== -->
+  <section class="slide" data-slide="15">
+    <h1 class="slide-title">I venti costanti 🌍</h1>
+    <div class="slide-subtitle">Soffiano sempre nella stessa direzione.</div>
+    <div class="winds">
+      <div class="wind-row w-orange">
+        <div class="wind-circle">→</div>
+        <div class="wind-info"><div class="name">Alisei</div><div class="where">Tra Tropici ed Equatore</div></div>
+        <div class="wind-tag">Anche sopra l'Egitto 🇪🇬</div>
+      </div>
+      <div class="wind-row w-green">
+        <div class="wind-circle">→</div>
+        <div class="wind-info"><div class="name">Venti occidentali</div><div class="where">Medie latitudini</div></div>
+        <div class="wind-tag">Italia 🇮🇹</div>
+      </div>
+      <div class="wind-row w-blue">
+        <div class="wind-circle">→</div>
+        <div class="wind-info"><div class="name">Venti orientali polari</div><div class="where">Vicino ai Poli</div></div>
+        <div class="wind-tag">Antartide, Artide</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>15 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 16 — Brezze al mare ========== -->
+  <section class="slide" data-slide="16">
+    <h1 class="slide-title">Le brezze al mare 🌊</h1>
+    <div class="day-night">
+      <div class="dn-card day">
+        <div style="font-size:2rem;">☀️</div>
+        <div class="dn-title">GIORNO — Brezza di mare</div>
+        <div class="dn-flow">🌊 → 🏖️</div>
+        <div class="dn-desc">Dal mare alla terra</div>
+        <div class="dn-note">La terra è più calda</div>
+      </div>
+      <div class="dn-card night">
+        <div style="font-size:2rem;">🌙</div>
+        <div class="dn-title">NOTTE — Brezza di terra</div>
+        <div class="dn-flow">🏖️ → 🌊</div>
+        <div class="dn-desc">Dalla terra al mare</div>
+        <div class="dn-note">Il mare è più caldo</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>16 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 17 — Monsoni ========== -->
+  <section class="slide" data-slide="17">
+    <h1 class="slide-title">I monsoni 🌧️</h1>
+    <div class="slide-subtitle">Venti stagionali in Asia (India, Cina).</div>
+    <div class="day-night">
+      <div class="dn-card summer-monsoon">
+        <div style="font-size:1.4rem; font-weight:700;">☀️ ESTATE</div>
+        <div class="dn-flow">🌊 → 🏔️</div>
+        <div class="dn-desc">Vento dal mare alla terra</div>
+        <div class="dn-result">💦 MOLTA pioggia</div>
+        <div class="dn-note">La terra è più calda del mare</div>
+      </div>
+      <div class="dn-card winter-monsoon">
+        <div style="font-size:1.4rem; font-weight:700;">❄️ INVERNO</div>
+        <div class="dn-flow">🏔️ → 🌊</div>
+        <div class="dn-desc">Vento dalla terra al mare</div>
+        <div class="dn-result">☀️ SECCO, no pioggia</div>
+        <div class="dn-note">Il mare è più caldo della terra</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>17 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 18 — PARTE 4 ========== -->
+  <section class="slide" data-slide="18">
+    <div class="part-label" style="color:#0284c7;">PARTE 4</div>
+    <div class="part-title">Acqua e Nuvole</div>
+    <div class="part-body">
+      <div class="part-icon">💧</div>
+      <div class="part-tagline">Umidità, nuvole e pioggia</div>
+      <div class="part-arabic" style="color:#0284c7;">مَاء + سَحَابَة</div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>18 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 19 — Umidità ========== -->
+  <section class="slide" data-slide="19">
+    <h1 class="slide-title">L'umidità dell'aria 💧</h1>
+    <div class="slide-subtitle">Nell'aria c'è sempre un po' di acqua (vapore acqueo).</div>
+    <div class="cards-2">
+      <div class="card b-red">
+        <div class="card-title" style="font-size:1.1rem;">🔥 Aria CALDA</div>
+        <div style="font-size:1.5rem; margin:10px 0;">💧💧💧💧💧</div>
+        <div class="card-desc"><strong>Tiene MOLTA acqua</strong></div>
+      </div>
+      <div class="card b-blue">
+        <div class="card-title" style="font-size:1.1rem;">❄️ Aria FREDDA</div>
+        <div style="font-size:1.5rem; margin:10px 0;">💧💧</div>
+        <div class="card-desc"><strong>Tiene POCA acqua</strong></div>
+      </div>
+    </div>
+    <div class="callout cyan" style="margin-top:18px;">
+      ➡️ Quando l'aria si raffredda, l'acqua diventa liquida = <strong>CONDENSAZIONE</strong>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>19 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 20 — Cosa si forma ========== -->
+  <section class="slide" data-slide="20">
+    <h1 class="slide-title">Cosa si forma con l'acqua dell'aria?</h1>
+    <div class="cards-4">
+      <div class="card b-cyan-soft">
+        <span class="card-icon">💧</span>
+        <div class="card-title">Rugiada</div>
+        <div class="card-desc">Acqua sull'erba la mattina</div>
+        <span class="card-altitude">Sopra 0°C</span>
+      </div>
+      <div class="card b-blue-soft">
+        <span class="card-icon">🌫️</span>
+        <div class="card-title">Nebbia</div>
+        <div class="card-desc">Nuvola bassa vicino a terra</div>
+        <span class="card-altitude">Sopra 0°C</span>
+      </div>
+      <div class="card b-blue-deep">
+        <span class="card-icon">❄️</span>
+        <div class="card-title">Brina</div>
+        <div class="card-desc">Acqua ghiacciata sul suolo</div>
+        <span class="card-altitude">Sotto 0°C</span>
+      </div>
+      <div class="card b-green-soft">
+        <span class="card-icon">🌲</span>
+        <div class="card-title">Galaverna</div>
+        <div class="card-desc">Ghiaccio sugli alberi</div>
+        <span class="card-altitude">Sotto 0°C</span>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>20 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 21 — 3 forme di nuvole ========== -->
+  <section class="slide" data-slide="21">
+    <h1 class="slide-title">3 forme di nuvole ☁️</h1>
+    <div class="slide-subtitle"><span class="text-arabic">سَحَابَة</span> — Tante piccole gocce d'acqua o cristalli di ghiaccio.</div>
+    <div class="cards-3">
+      <div class="card b-cyan">
+        <span class="card-icon">☁️</span>
+        <div class="card-title">Cirri</div>
+        <div class="card-desc">Sottili come fili bianchi</div>
+        <span class="card-altitude">8.000 m · Alta quota</span>
+      </div>
+      <div class="card b-blue">
+        <span class="card-icon">☁️</span>
+        <div class="card-title">Cumuli</div>
+        <div class="card-desc">Come ovatta bianca</div>
+        <span class="card-altitude">2.000-6.000 m · Media quota</span>
+      </div>
+      <div class="card b-purple">
+        <span class="card-icon">☁️</span>
+        <div class="card-title">Strati</div>
+        <div class="card-desc">Piatti, coprono il cielo</div>
+        <span class="card-altitude">Sotto 2.000 m · Bassa quota</span>
+      </div>
+    </div>
+    <div class="callout cyan" style="margin-top:18px;">
+      🌧️ Quando una nuvola dà pioggia, si chiama <strong>nembo</strong> (es. <em>cumulonembo, nembostrato</em>)
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>21 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 22 — Precipitazioni ========== -->
+  <section class="slide" data-slide="22">
+    <h1 class="slide-title">Le precipitazioni 🌧️</h1>
+    <div class="slide-subtitle">Quando l'acqua dalla nuvola cade sulla Terra.</div>
+    <div class="cards-3">
+      <div class="card b-cyan">
+        <span class="card-icon" style="font-size:2.5rem;">🌧️</span>
+        <div class="card-title" style="color:#0284c7; letter-spacing:0.1em; font-family:'JetBrains Mono',monospace;">PIOGGIA</div>
+        <div class="card-desc">Gocce d'acqua</div>
+        <div style="margin-top:14px; background:#0284c7; color:#fff; padding:8px; border-radius:8px; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:0.95rem;">T ≥ 0°C</div>
+      </div>
+      <div class="card b-blue">
+        <span class="card-icon" style="font-size:2.5rem;">❄️</span>
+        <div class="card-title" style="color:#1e3a8a; letter-spacing:0.1em; font-family:'JetBrains Mono',monospace;">NEVE</div>
+        <div class="card-desc">Cristalli di ghiaccio</div>
+        <div style="margin-top:14px; background:#1e3a8a; color:#fff; padding:8px; border-radius:8px; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:0.95rem;">T &lt; 0°C</div>
+      </div>
+      <div class="card b-purple">
+        <span class="card-icon" style="font-size:2.5rem;">🧊</span>
+        <div class="card-title" style="color:#9333ea; letter-spacing:0.1em; font-family:'JetBrains Mono',monospace;">GRANDINE</div>
+        <div class="card-desc">Palline di ghiaccio</div>
+        <div style="margin-top:14px; background:#9333ea; color:#fff; padding:8px; border-radius:8px; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:0.95rem;">Vento forte</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>22 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 23 — PARTE 5 ========== -->
+  <section class="slide" data-slide="23">
+    <div class="part-label" style="color:#9333ea;">PARTE 5</div>
+    <div class="part-title">Tempo Estremo</div>
+    <div class="part-body">
+      <div class="part-icon">⛈️</div>
+      <div class="part-tagline">Temporali, cicloni, tornado</div>
+      <div class="part-arabic" style="color:#9333ea;">عَاصِفَة</div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>23 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 24 — Fronti atmosferici ========== -->
+  <section class="slide" data-slide="24">
+    <h1 class="slide-title">I fronti atmosferici</h1>
+    <div class="slide-subtitle">Quando si incontrano due masse d'aria diverse.</div>
+    <div class="winds">
+      <div class="wind-row w-blue">
+        <div class="wind-circle">❄️</div>
+        <div class="wind-info">
+          <div class="name" style="color:#1e3a8a;">Fronte FREDDO</div>
+          <div class="where">Aria fredda spinge l'aria calda in alto</div>
+        </div>
+        <div class="wind-tag" style="color:#0f172a;">⛈️ Tempesta forte</div>
+      </div>
+      <div class="wind-row" style="border-color:#dc2626;">
+        <div class="wind-circle" style="background:#dc2626;">🔥</div>
+        <div class="wind-info">
+          <div class="name" style="color:#dc2626;">Fronte CALDO</div>
+          <div class="where">Aria calda sale sopra l'aria fredda</div>
+        </div>
+        <div class="wind-tag" style="color:#0f172a;">🌦️ Pioggia leggera</div>
+      </div>
+      <div class="wind-row" style="border-color:#9333ea;">
+        <div class="wind-circle" style="background:#9333ea;">🌀</div>
+        <div class="wind-info">
+          <div class="name" style="color:#9333ea;">Fronte OCCLUSO</div>
+          <div class="where">Si incontrano i due fronti</div>
+        </div>
+        <div class="wind-tag" style="color:#0f172a;">🌧️ Pioggia + nuvole</div>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>24 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 25 — Temporale ========== -->
+  <section class="slide" data-slide="25">
+    <h1 class="slide-title">Il temporale ⚡</h1>
+    <div class="slide-subtitle">Si forma in nuvole grandi e verticali (cumulonembi).</div>
+    <div class="steps" style="margin-top:30px;">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-icon">☁️</div>
+        <div class="card-title">Nuvole grandi</div>
+        <div class="card-desc">(cumulonembi)</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-icon">⚡</div>
+        <div class="card-title">Cariche elettriche</div>
+        <div class="card-desc">+ e − si separano</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-icon">💥</div>
+        <div class="card-title">Fulmine + Tuono</div>
+        <div class="card-desc">Luce + rumore</div>
+      </div>
+    </div>
+    <div class="callout warning" style="margin-top:24px;">
+      ⚡ Il <strong>fulmine</strong> scalda l'aria velocemente → l'aria si espande → fa rumore = <strong>TUONO 💥</strong>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>25 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 26 — Cicloni e Tornado ========== -->
+  <section class="slide" data-slide="26">
+    <h1 class="slide-title">Cicloni tropicali e tornado</h1>
+    <div class="storm-grid">
+      <div class="storm-card">
+        <div class="storm-head">
+          <div class="storm-icon">🌀</div>
+          <div>
+            <div class="storm-name">CICLONE TROPICALE</div>
+            <div class="storm-sub">(uragano)</div>
+          </div>
+        </div>
+        <ul>
+          <li>Sopra il mare caldo</li>
+          <li>Vicino all'Equatore</li>
+          <li>Vento fortissimo a spirale</li>
+          <li>Causa molti danni</li>
+        </ul>
+      </div>
+      <div class="storm-card tornado">
+        <div class="storm-head">
+          <div class="storm-icon">🌪️</div>
+          <div>
+            <div class="storm-name">TORNADO</div>
+            <div class="storm-sub">(tromba d'aria)</div>
+          </div>
+        </div>
+        <ul>
+          <li>Da una nuvola temporalesca</li>
+          <li>Forma a imbuto</li>
+          <li>Sulla terra: tromba d'aria</li>
+          <li>Sul mare: tromba d'acqua</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>26 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 27 — PARTE 6 ========== -->
+  <section class="slide" data-slide="27">
+    <div class="part-label" style="color:#ea580c;">PARTE 6</div>
+    <div class="part-title">Problemi dell'Atmosfera</div>
+    <div class="part-body">
+      <div class="part-icon">⚠️</div>
+      <div class="part-tagline">Inquinamento e cambiamenti</div>
+      <div class="part-arabic" style="color:#ea580c;">تَلَوُّث</div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>27 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 28 — Effetto serra ========== -->
+  <section class="slide" data-slide="28">
+    <h1 class="slide-title">L'effetto serra 🌡️</h1>
+    <div class="split-2">
+      <div class="split-card natural">
+        <div class="split-head">
+          <span class="split-badge">✅</span>
+          <div>
+            <div class="split-name">NATURALE</div>
+            <div class="split-h2" style="margin:0;">Utile per la vita</div>
+          </div>
+        </div>
+        <p>I gas serra (CO₂, vapore, metano) tengono il calore vicino alla Terra.</p>
+        <p>Senza l'effetto serra, sulla Terra fa <strong>troppo freddo per vivere</strong>. ❄️</p>
+      </div>
+      <div class="split-card problem">
+        <div class="split-head">
+          <span class="split-badge">⚠️</span>
+          <div>
+            <div class="split-name">PROBLEMA</div>
+            <div class="split-h2" style="margin:0;">Riscaldamento globale</div>
+          </div>
+        </div>
+        <p>Auto e fabbriche → troppo CO₂ nell'aria → <strong>calore aumenta</strong>.</p>
+        <p>I ghiacci dei Poli si sciolgono. 🧊→💧</p>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>28 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 29 — Ozono e polveri ========== -->
+  <section class="slide" data-slide="29">
+    <h1 class="slide-title">Ozono e polveri sottili</h1>
+    <div class="split-2">
+      <div class="split-card ozono">
+        <div class="split-head">
+          <span class="split-badge">🌐</span>
+          <div>
+            <div class="split-name">BUCO DELL'OZONO</div>
+          </div>
+        </div>
+        <p>L'ozono (O₃) protegge dai raggi <strong>UV</strong>.</p>
+        <p>Inquinamento → distrugge l'ozono.</p>
+        <p><strong>Buco sopra l'Antartide.</strong></p>
+        <p style="color:#dc2626; font-weight:700;">⚠️ Più tumori della pelle</p>
+      </div>
+      <div class="split-card polveri">
+        <div class="split-head">
+          <span class="split-badge">💨</span>
+          <div>
+            <div class="split-name">POLVERI SOTTILI (PM)</div>
+          </div>
+        </div>
+        <p>Sporco nell'aria.</p>
+        <p>Vengono da <strong>auto e fabbriche</strong>.</p>
+        <p>Più piccole = più pericolose 🫁</p>
+        <p style="color:#dc2626; font-weight:700;">⚠️ Danni a polmoni e sangue</p>
+      </div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>29 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 30 — Piogge acide ========== -->
+  <section class="slide" data-slide="30">
+    <h1 class="slide-title">Le piogge acide 🌧️</h1>
+    <div class="callout danger">
+      Inquinamento (auto, fabbriche) + acqua = <strong>ACIDI</strong> nell'aria (H₂SO₄, HNO₃)
+    </div>
+    <h2 class="section-h">Cosa rovinano le piogge acide?</h2>
+    <div class="cards-4">
+      <div class="card b-red"><span class="card-icon">🌳</span><div class="card-title">Alberi e foreste</div></div>
+      <div class="card b-red"><span class="card-icon">🌾</span><div class="card-title">Raccolti agricoli</div></div>
+      <div class="card b-red"><span class="card-icon">🏛️</span><div class="card-title">Monumenti e edifici</div></div>
+      <div class="card b-red"><span class="card-icon">🐟</span><div class="card-title">Laghi e pesci</div></div>
+    </div>
+    <div class="callout success" style="margin-top:18px;">
+      📉 <strong>Buona notizia:</strong> dagli anni '80 le piogge acide sono diminuite!
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>30 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 31 — Glossario intro ========== -->
+  <section class="slide" data-slide="31">
+    <div class="part-label">GLOSSARIO</div>
+    <div class="part-title">Italiano · <span class="text-arabic">العربية</span></div>
+    <div class="part-body">
+      <div class="part-icon">📖</div>
+      <div class="part-tagline">Le parole importanti in 2 lingue</div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>31 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 32 — Glossario 1/2 ========== -->
+  <section class="slide" data-slide="32">
+    <h1 class="slide-title">📖 Glossario (1/2)</h1>
+    <table class="gloss-table">
+      <thead>
+        <tr><th>Italiano</th><th>العربية</th><th>Significato</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Atmosfera</td><td>الْغِلَافُ الْجَوِّيُّ</td><td>l'aria intorno alla Terra</td></tr>
+        <tr><td>Aria</td><td>هَوَاء</td><td>il gas che respiriamo</td></tr>
+        <tr><td>Acqua</td><td>مَاء</td><td>H₂O</td></tr>
+        <tr><td>Sole</td><td>شَمْس</td><td>stella che dà luce e calore</td></tr>
+        <tr><td>Terra</td><td>أَرْض</td><td>il nostro pianeta</td></tr>
+        <tr><td>Cielo</td><td>سَمَاء</td><td>la parte alta sopra di noi</td></tr>
+        <tr><td>Nuvola</td><td>غَيْمَة</td><td>acqua piccola in cielo</td></tr>
+        <tr><td>Pioggia</td><td>مَطَر</td><td>acqua che cade</td></tr>
+        <tr><td>Neve</td><td>ثَلْج</td><td>acqua ghiacciata che cade</td></tr>
+        <tr><td>Vento</td><td>رِيح</td><td>aria che si muove</td></tr>
+        <tr><td>Tempesta</td><td>عَاصِفَة</td><td>tempo molto brutto</td></tr>
+      </tbody>
+    </table>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>32 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 33 — Glossario 2/2 ========== -->
+  <section class="slide" data-slide="33">
+    <h1 class="slide-title">📖 Glossario (2/2)</h1>
+    <table class="gloss-table">
+      <thead>
+        <tr><th>Italiano</th><th>العربية</th><th>Significato</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Caldo</td><td>حَار</td><td>alta temperatura 🔥</td></tr>
+        <tr><td>Freddo</td><td>بَارِد</td><td>bassa temperatura ❄️</td></tr>
+        <tr><td>Umido</td><td>رَطْب</td><td>con acqua</td></tr>
+        <tr><td>Secco</td><td>جَاف</td><td>senza acqua</td></tr>
+        <tr><td>Ossigeno</td><td>أُكْسِجِين</td><td>gas per respirare (O₂)</td></tr>
+        <tr><td>Azoto</td><td>نِيتْرُوجِين</td><td>gas più presente (N₂)</td></tr>
+        <tr><td>Pressione</td><td>ضَغْط</td><td>il peso dell'aria</td></tr>
+        <tr><td>Temperatura</td><td>دَرَجَة الْحَرَارَة</td><td>quanto è caldo o freddo</td></tr>
+        <tr><td>Inquinamento</td><td>تَلَوُّث</td><td>aria sporca</td></tr>
+        <tr><td>Ghiaccio</td><td>جَلِيد</td><td>acqua solida</td></tr>
+        <tr><td>Montagna</td><td>جَبَل</td><td>luogo molto alto</td></tr>
+        <tr><td>Mare</td><td>بَحْر</td><td>grande acqua salata</td></tr>
+      </tbody>
+    </table>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>33 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 34 — Test Vero/Falso ========== -->
+  <section class="slide" data-slide="34">
+    <h1 class="slide-title">✅ Hai capito? — Test Vero/Falso</h1>
+    <div class="test-list">
+      <div class="test-row"><div class="test-num">1.</div><div class="test-q">L'atmosfera è solo aria.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+      <div class="test-row"><div class="test-num">2.</div><div class="test-q">Nella troposfera ci sono nuvole e pioggia.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+      <div class="test-row"><div class="test-num">3.</div><div class="test-q">Più si sale in alto, più fa caldo.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+      <div class="test-row"><div class="test-num">4.</div><div class="test-q">L'ossigeno è il gas più presente nell'aria.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+      <div class="test-row"><div class="test-num">5.</div><div class="test-q">Il vento va dall'alta pressione alla bassa pressione.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+      <div class="test-row"><div class="test-num">6.</div><div class="test-q">Il ciclone porta bel tempo.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+      <div class="test-row"><div class="test-num">7.</div><div class="test-q">La grandine è ghiaccio che cade.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+      <div class="test-row"><div class="test-num">8.</div><div class="test-q">L'effetto serra è sempre brutto.</div><div class="test-opts"><span class="test-opt t-true">☐ VERO</span><span class="test-opt t-false">☐ FALSO</span></div></div>
+    </div>
+    <div class="footer-meta"><span>L'Atmosfera · Scienze · Prima Professionale</span><span>34 / 35</span></div>
+  </section>
+
+  <!-- ========== SLIDE 35 — Soluzioni (dark) ========== -->
+  <section class="slide dark" data-slide="35">
+    <h1 style="font-size:clamp(1.8rem,4vw,2.5rem); color:#fff; margin-bottom:8px;">🔑 Soluzioni del test</h1>
+    <div style="width:80px; height:3px; background:#fbbf24; margin:0 auto 24px;"></div>
+    <div class="solutions-list">
+      <div class="sol-row"><div class="sol-num">1.</div><div class="sol-badge false">FALSO</div><div class="sol-text">L'aria è un miscuglio di gas + vapore + polvere</div></div>
+      <div class="sol-row"><div class="sol-num">2.</div><div class="sol-badge">VERO</div><div class="sol-text">La troposfera è dove c'è il tempo</div></div>
+      <div class="sol-row"><div class="sol-num">3.</div><div class="sol-badge false">FALSO</div><div class="sol-text">Più si sale, più fa freddo</div></div>
+      <div class="sol-row"><div class="sol-num">4.</div><div class="sol-badge false">FALSO</div><div class="sol-text">È l'azoto (N₂) il più presente: 78%</div></div>
+      <div class="sol-row"><div class="sol-num">5.</div><div class="sol-badge">VERO</div><div class="sol-text">Il vento va dall'alta alla bassa pressione</div></div>
+      <div class="sol-row"><div class="sol-num">6.</div><div class="sol-badge false">FALSO</div><div class="sol-text">Il ciclone porta brutto tempo (B = pioggia)</div></div>
+      <div class="sol-row"><div class="sol-num">7.</div><div class="sol-badge">VERO</div><div class="sol-text">La grandine è acqua congelata che cade</div></div>
+      <div class="sol-row"><div class="sol-num">8.</div><div class="sol-badge false">FALSO</div><div class="sol-text">L'effetto serra naturale è utile per la vita</div></div>
+    </div>
+    <div class="sol-final">📚 Buono studio! دِرَاسَة سَعِيدَة!</div>
+  </section>
+
+</div>
+
+<!-- === Hint navigazione === -->
+<div class="nav-hint">↓ scorri · ← → tastiera</div>
+
+<!-- === Menu condiviso === -->
+<script src="/assets/menu.js"></script>
+
+<!-- =========================================================
+     JS — Progress bar + Navigazione tastiera
+     ========================================================= -->
+<script>
+(function() {
+  // Progress bar — calcola % di scroll
+  const pbFill = document.getElementById('pbFill');
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    pbFill.style.width = Math.min(pct, 100) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+
+  // Navigazione tastiera: frecce per saltare alla slide successiva/precedente
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  function getCurrentSlideIndex() {
+    const offset = window.innerHeight / 3;
+    for (let i = 0; i < slides.length; i++) {
+      const r = slides[i].getBoundingClientRect();
+      if (r.top + offset > 0 && r.top < window.innerHeight) return i;
+    }
+    return 0;
+  }
+  function goToSlide(i) {
+    const idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.addEventListener('keydown', (e) => {
+    const cur = getCurrentSlideIndex();
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      goToSlide(cur + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      goToSlide(cur - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goToSlide(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goToSlide(slides.length - 1);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
