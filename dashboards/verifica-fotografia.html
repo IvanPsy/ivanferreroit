@@ -1928,32 +1928,96 @@ function generatePDF() {
     </div>
   `;
 
-  const pdfDiv = document.getElementById('pdf-output');
-  pdfDiv.innerHTML = pdfHTML;
-  pdfDiv.classList.add('generating');
-
   const filename = `verifica_fotografia_${state.student.name.replace(/\s+/g,'_')}_${state.student.date.replace(/\//g,'-')}.pdf`;
 
-  console.log('[PDF] === Avvio generazione ===');
+  // Approccio robusto: invece di catturare un elemento del DOM (con tutti i
+  // problemi di stacking, position, z-index, opacity), passo a html2pdf
+  // un documento HTML completo come stringa. html2pdf crea un proprio
+  // iframe isolato, renderizza dentro, cattura. Nessuna interferenza
+  // con il CSS della pagina principale.
+  const fullDocument = `
+    <!DOCTYPE html>
+    <html lang="it">
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        * { box-sizing: border-box; }
+        body {
+          font-family: Helvetica, Arial, sans-serif;
+          color: #1a1a1a;
+          background: #ffffff;
+          padding: 32px;
+          margin: 0;
+          line-height: 1.5;
+        }
+        h1 { font-size: 24px; margin: 0 0 8px 0; }
+        h2 {
+          font-size: 16px;
+          margin: 20px 0 10px 0;
+          border-bottom: 2px solid #333;
+          padding-bottom: 4px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 8px;
+          font-size: 12px;
+        }
+        th, td {
+          border: 1px solid #999;
+          padding: 8px;
+          text-align: left;
+          vertical-align: top;
+        }
+        th { background: #f0f0f0; font-weight: 700; }
+        .pdf-header-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          margin-bottom: 20px;
+          font-size: 13px;
+        }
+        .pdf-signature {
+          margin-top: 50px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+        }
+        .signature-line {
+          border-top: 1px solid #333;
+          padding-top: 4px;
+          font-size: 11px;
+          color: #555;
+        }
+      </style>
+    </head>
+    <body>
+      ${pdfHTML}
+    </body>
+    </html>
+  `;
+
+  console.log('[PDF] === Avvio generazione (modalità stringa HTML) ===');
   console.log('[PDF] Filename:', filename);
   console.log('[PDF] html2pdf disponibile?', typeof html2pdf);
-  console.log('[PDF] pdfDiv.offsetWidth × offsetHeight =', pdfDiv.offsetWidth, '×', pdfDiv.offsetHeight);
-  console.log('[PDF] computed display:', getComputedStyle(pdfDiv).display);
-  console.log('[PDF] computed visibility:', getComputedStyle(pdfDiv).visibility);
-  console.log('[PDF] computed opacity:', getComputedStyle(pdfDiv).opacity);
-  console.log('[PDF] innerHTML length:', pdfDiv.innerHTML.length);
+  console.log('[PDF] Lunghezza documento HTML:', fullDocument.length, 'caratteri');
 
   const opt = {
-    margin: [12, 12, 12, 12],
+    margin: [10, 10, 10, 10],
     filename: filename,
     image: { type: 'jpeg', quality: 0.95 },
-    html2canvas: { scale: 1.5, useCORS: true, logging: true, backgroundColor: '#ffffff' },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      logging: true,
+      backgroundColor: '#ffffff'
+    },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    // Pagebreak: 'css' e 'legacy' sì, MA NON 'avoid-all' che con contenuti
+    // più lunghi di una pagina può produrre la prima pagina vuota.
+    pagebreak: { mode: ['css', 'legacy'] }
   };
 
-  // Aspetto che (1) i font web siano caricati e (2) il browser abbia
-  // avuto un frame per applicare il layout al div appena reso visibile.
   // Fallback temporale di 1500ms nel caso document.fonts.ready non risolva.
   const fontsReady = (document.fonts && document.fonts.ready)
     ? document.fonts.ready
@@ -1962,22 +2026,15 @@ function generatePDF() {
 
   Promise.race([fontsReady, timeoutFallback])
     .then(() => {
-      console.log('[PDF] Fonts pronti (o timeout fallback)');
-      return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-    })
-    .then(() => {
-      console.log('[PDF] Doppio RAF completato — avvio html2pdf');
-      console.log('[PDF] Dimensioni finali pdfDiv:', pdfDiv.offsetWidth, '×', pdfDiv.offsetHeight);
-      return html2pdf().set(opt).from(pdfDiv).save();
+      console.log('[PDF] Fonts pronti (o timeout fallback) — avvio html2pdf');
+      return html2pdf().set(opt).from(fullDocument).save();
     })
     .then(() => {
       console.log('[PDF] === Generazione completata con successo ===');
-      pdfDiv.classList.remove('generating');
     })
     .catch(err => {
       console.error('[PDF] ERRORE:', err);
       console.error('[PDF] Stack:', err && err.stack);
-      pdfDiv.classList.remove('generating');
       alert('Errore nella generazione del PDF: ' + (err && err.message ? err.message : err));
     });
 }
