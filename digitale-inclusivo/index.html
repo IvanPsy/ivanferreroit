@@ -1,3 +1,11 @@
+---
+# Frontmatter vuoto: serve solo a dire a Jekyll di processare il file
+# con Liquid, così possiamo leggere _data/digitale_inclusivo.yml.
+---
+{%- assign total = 0 -%}
+{%- for s in site.data.digitale_inclusivo.sections -%}
+  {%- assign total = total | plus: s.cards.size -%}
+{%- endfor -%}
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -301,11 +309,11 @@
             <!-- Stats -->
             <div class="stats-bar">
                 <div class="stat-item">
-                    <span class="num">21</span>
+                    <span class="num">{{ total }}</span>
                     <span class="lbl">risorse interattive</span>
                 </div>
                 <div class="stat-item">
-                    <span class="num">4</span>
+                    <span class="num">{{ site.data.digitale_inclusivo.sections | size }}</span>
                     <span class="lbl">aree tematiche</span>
                 </div>
                 <div class="stat-item">
@@ -320,217 +328,29 @@
         </section>
 
         <!-- ══════════════════════════════════════ -->
-        <!-- SEZIONE 1 — PROFILI BES              -->
+        <!-- SEZIONI DINAMICHE                     -->
+        <!-- Generate da _data/digitale_inclusivo.yml -->
         <!-- ══════════════════════════════════════ -->
+        {% for s in site.data.digitale_inclusivo.sections %}
         <section class="section-di">
-            <h2>🧠 Profili BES — Teoria e Ricerca</h2>
+            <h2>{{ s.icon }} {{ s.title }}</h2>
             <p class="section-desc">
-                Dashboard evidence-based su ADHD, autismo, DSA e funzioni cognitive. Costruite sulle evidenze più recenti, pensate per l'uso pratico in classe e in studio.
+                {{ s.description }}
             </p>
 
             <div class="di-grid">
-
-                <a href="/dashboards/2026-adhd-dsa-school-best-practices-dashboard-with-menu.html" class="di-card">
-                    <span class="card-tag tag-bes">ADHD · DSA · ODD</span>
-                    <h3>ADHD • DSA • ODD — Dashboard Operativa</h3>
-                    <p>Gestione evidence-based di ADHD con comorbilità ODD e DSA a scuola. Vademecum pratico, script pronti all'uso, dinamiche coi pari, errori comuni da evitare.</p>
+                {% for c in s.cards %}
+                <a href="{{ c.url }}" class="di-card">
+                    <span class="card-tag {{ s.tag_class }}">{{ c.tag_label }}</span>
+                    <h3>{{ c.title }}</h3>
+                    <p>{{ c.description }}</p>
                     <div class="arrow-link">Apri →</div>
                 </a>
-
-                <a href="/dashboards/neuroscienze-adhd-autismo-with-menu.html" class="di-card">
-                    <span class="card-tag tag-bes">Neuroscienze</span>
-                    <h3>Neuroscienze, ADHD, Autismo e Dopamina</h3>
-                    <p>Come funzionano davvero il sistema dopaminergico e i circuiti attentivi nei profili neurodivergenti. Base teorica per interventi informati dalle neuroscienze.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/cognitivo-attenzione-performance-with-menu.html" class="di-card">
-                    <span class="card-tag tag-bes">Funzioni Cognitive</span>
-                    <h3>Cognitivo, Attenzione e Performance Accademica</h3>
-                    <p>Relazione tra carico cognitivo, attenzione sostenuta e rendimento scolastico. Evidenze su strategie di modulazione e supporto per profili con difficoltà attentive.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/literacy-interventi-mediazione-with-menu.html" class="di-card">
-                    <span class="card-tag tag-bes">Literacy · Mediazione</span>
-                    <h3>Literacy, Interventi e Mediazione</h3>
-                    <p>Competenze di lettura, mediazione linguistica e interventi evidence-based per studenti BES. Strategie per docenti e professionisti, con focus su accessibilità dei testi.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/ashby-dashboard-with-menu.html" class="di-card">
-                    <span class="card-tag tag-bes">Framework</span>
-                    <h3>Ashby & Didattica Inclusiva</h3>
-                    <p>La Legge della Varietà Necessaria di Ashby applicata all'inclusione. Un framework cibernetico per pensare attenuatori, amplificatori e adattamento nei sistemi educativi.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
+                {% endfor %}
             </div>
         </section>
-        <hr class="section-divider">
-
-        <!-- ══════════════════════════════════════ -->
-        <!-- SEZIONE 2 — IA & TECNOLOGIE          -->
-        <!-- ══════════════════════════════════════ -->
-        <section class="section-di">
-            <h2>🤖 IA & Tecnologie per l'Inclusione</h2>
-            <p class="section-desc">
-                Come l'intelligenza artificiale, le tecnologie assistive e gli strumenti digitali possono diventare alleati concreti per studenti con BES, DSA e profili neurodivergenti.
-            </p>
-
-            <div class="di-grid">
-
-                <a href="/dashboards/oecd-ai-neurodivergent-vet-with-menu.html" class="di-card">
-                    <span class="card-tag tag-ia">OECD 2026</span>
-                    <h3>IA per Studenti Neurodiversi — Best Practice OECD</h3>
-                    <p>68 best practice su IA, XR e tecnologie assistive per studenti con ASD, ADHD e DSA nella formazione professionale. Dal rapporto OECD 2026. Filtri per categoria, glossario ricercabile.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/eu-guidelines-ai-etica-educazione-2026-with-menu.html" class="di-card">
-                    <span class="card-tag tag-ia">UE 2026</span>
-                    <h3>Linee Guida UE — Uso Etico dell'AI nell'Educazione</h3>
-                    <p>5 principi etici, 8 aree di domande guida per docenti e scuole, 11 scenari pratici, AI Act e GDPR. Dashboard completa delle Guidelines aggiornate della Commissione Europea.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/guida-macbook-bes-with-menu.html" class="di-card">
-                    <span class="card-tag tag-ia">Tecnologie Assistive</span>
-                    <h3>🖥️ Guida MacBook per Studenti con Disabilità</h3>
-                    <p>28 configurazioni macOS per ASD, ADHD, DSA e disabilità motorie, visive e intellettive. Principi UDL, razionali evidence-based, istruzioni step-by-step per genitori e docenti.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/digitale-inclusivo/decodificatore-icf/" class="di-card">
-                    <span class="card-tag tag-ia">Strumento Interattivo</span>
-                    <h3>🔍 Decodificatore ICF per Genitori</h3>
-                    <p>374 codici ICF con spiegazioni accessibili. Ricerca per codice o parola chiave, navigazione ad albero per categoria, linguaggio semplificato. Per capire il Profilo di Funzionamento senza un dizionario clinico.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/ai-inclusione-framework-strumenti-with-menu.html" class="di-card">
-                    <span class="card-tag tag-ia">Review 2025-26</span>
-                    <h3>🧭 AI e Inclusione — Framework e Strumenti</h3>
-                    <p>Mappa ragionata delle opportunità che l'AI apre per l'educazione inclusiva. 8 framework teorici (UDL, UNCRPD, AIPACK, HITL, XAI, WCAG, AIAS, PRISMA), 9 famiglie di strumenti, 40+ tool schedati per profili BES, evidenze quantitative e rischi. Basato su Fitas (2025) e Belay &amp; Alamneh (2026).</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-            </div>
-        </section>
-        <hr class="section-divider">
-
-        <!-- ══════════════════════════════════════ -->
-        <!-- SEZIONE 3 — NORMATIVA & FRAMEWORK    -->
-        <!-- ══════════════════════════════════════ -->
-        <section class="section-di">
-            <h2>📋 Normativa & Framework</h2>
-            <p class="section-desc">
-                Il quadro normativo italiano e internazionale sull'inclusione scolastica, reso navigabile e comprensibile.
-            </p>
-
-            <div class="di-grid">
-
-                <a href="/dashboards/normativa-scolastica-pnrr3-with-menu.html" class="di-card">
-                    <span class="card-tag tag-norm">Normativa Italiana</span>
-                    <h3>Normativa Scolastica — Guida all'Inclusione</h3>
-                    <p>Dalla Riforma Gentile al D.Lgs. 66/2017: Costituzione, evoluzione storica, DSA/BES, autonomia, valutazione, quadro internazionale. Una guida completa alla legislazione sull'inclusione.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/linee-guida-ue-disinformazione-2026-with-menu.html" class="di-card">
-                    <span class="card-tag tag-norm">UE 2026</span>
-                    <h3>Linee Guida UE — Alfabetizzazione Digitale</h3>
-                    <p>Dashboard operativa delle Guidelines della Commissione Europea per docenti ed educatori. 24 attività, 21 consigli, 8 piani lezione su prebunking, IA generativa, social media. Tutto tradotto e navigabile.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-            </div>
-        </section>
-        <hr class="section-divider">
-
-        <!-- ══════════════════════════════════════ -->
-        <!-- SEZIONE 4 — LEZIONI ACCESSIBILI       -->
-        <!-- ══════════════════════════════════════ -->
-        <section class="section-di">
-            <h2>📚 Lezioni Accessibili</h2>
-            <p class="section-desc">
-                Materiali didattici progettati con principi UDL e design inclusivo. Utilizzabili direttamente in classe, pensati per studenti con BES ma efficaci per tutti.
-            </p>
-
-            <div class="di-grid">
-
-                <a href="/dashboards/abbecedario-notazione-matematica-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Matematica · DSA</span>
-                    <h3>Abbecedario della Notazione Matematica</h3>
-                    <p>47 simboli matematici con significato, contesto e trabocchetti comuni. Decodifica della definizione di limite, quiz di verifica. Riduce il carico cognitivo per studenti con DSA.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/limite-interattivo-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Matematica · Interattivo</span>
-                    <h3>Esplora i Limiti — Matematica Interattiva</h3>
-                    <p>Grafico interattivo con slider di avvicinamento e 5 funzioni per esplorare visivamente il concetto di limite. Approccio esplorativo per studenti con stili di apprendimento visivi.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/circuito-misto-accessibile-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Fisica · BES</span>
-                    <h3>⚡ Circuito Misto Accessibile</h3>
-                    <p>9 step progressivi per costruire e risolvere un circuito misto (serie + parallelo). Metafora dell'acqua, sezione accessibilità per docenti, guida step-by-step per alunni con BES.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/riduzione-circuiti-equivalente-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Fisica · BES</span>
-                    <h3>⚡ Riduzione Circuiti — Serie, Parallelo, Misto</h3>
-                    <p>8 step sulla riduzione dei circuiti all'equivalente. Resistenze in serie e parallelo, circuito misto, esercizi con feedback immediato. Calcolatrice guidata, schemi SVG. Ottimizzata per mobile.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/piano-cartesiano-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Matematica · ASD-friendly</span>
-                    <h3>Piano Cartesiano — Esercitazione e Verifica</h3>
-                    <p>Design ASD-friendly con tutorial guidato, esercizi liberi e modalità verifica. Form dati alunno e PDF scaricabile con risultati. Utilizzabile come verifica formativa inclusiva.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/funzioni-continue-discontinuita-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Matematica · BES</span>
-                    <h3>Funzioni Continue e Discontinuità</h3>
-                    <p>Continuità e i 3 tipi di discontinuità con navigazione lineare: un concetto per passo, grafici SVG, quiz finale con feedback. Design accessibile per studenti con BES.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/timeline-percorso-umanita-accessibile-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Storia · ASD-friendly</span>
-                    <h3>La Storia dell'Umanità — Versione Accessibile</h3>
-                    <p>Percorso step-by-step ASD-friendly: 11 periodi con navigazione guidata, linguaggio semplificato e struttura prevedibile. Alternativa accessibile alla timeline completa.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/atmosfera-presentazione-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Scienze · NAI / L2</span>
-                    <h3>🌍 L'Atmosfera — Presentazione Bilingue IT/AR</h3>
-                    <p>35 slide su atmosfera, temperatura, vento, nuvole, tempo estremo e inquinamento. Layout chiaro a card colorate, glossario italiano-arabo integrato, test di verifica finale. Per studenti NAI, BES e classi Prima Professionale.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/atmosfera-mappa-with-menu.html" class="di-card">
-                    <span class="card-tag tag-lezione">Scienze · Mobile First</span>
-                    <h3>🗺️ L'Atmosfera — Mappa Concettuale Interattiva</h3>
-                    <p>Mappa concettuale mobile-first con 6 nodi espandibili (atmosfera, temperatura, vento, acqua, tempo estremo, problemi) e flusso visivo SVG. Glossario bilingue IT/AR a modal. Pensata per consultazione rapida su smartphone.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-                <a href="/dashboards/verifica-fotografia.html" class="di-card">
-                    <span class="card-tag tag-lezione">Fotografia · ASD-friendly</span>
-                    <h3>📸 Verifica di Fotografia — Accessibile</h3>
-                    <p>Verifica interattiva con 4 esercizi (abbinamento dispositivo-sensore, vero/falso, time-lapse dell'alba, riconoscimento foto-dispositivo). Pensata per profili ASD, DI lieve ed epilessia: tipografia Atkinson Hyperlegible, palette sobria, zero animazioni rapide. Form alunno e PDF dei risultati.</p>
-                    <div class="arrow-link">Apri →</div>
-                </a>
-
-            </div>
-        </section>
+        {% unless forloop.last %}<hr class="section-divider">{% endunless %}
+        {% endfor %}
 
         <!-- ══════════════════════════════════════ -->
         <!-- COMING SOON                           -->

@@ -1,0 +1,159 @@
+# ───────────────────────────────────────────────────────────────────────
+# Single source of truth per il hub /digitale-inclusivo/
+# e per il blocco riassuntivo in /dashboards/.
+#
+# Aggiungere una risorsa = appendere una voce nell'array `cards`
+# della sezione giusta. Tutti i contatori del sito (totali generali
+# e per categoria) si aggiornano da soli al prossimo build.
+#
+# Sezioni e card vengono renderizzate nello stesso ordine in cui
+# compaiono qui sotto.
+# ───────────────────────────────────────────────────────────────────────
+
+sections:
+
+  # ════════════════════════════════════════════════════════════════════
+  - id: profili-bes
+    icon: "🧠"
+    title: "Profili BES — Teoria e Ricerca"
+    short_name: "Profili BES"
+    description: "Dashboard evidence-based su ADHD, autismo, DSA e funzioni cognitive. Costruite sulle evidenze più recenti, pensate per l'uso pratico in classe e in studio."
+    tag_class: tag-bes
+    cards:
+
+      - title: "ADHD • DSA • ODD — Dashboard Operativa"
+        url: /dashboards/2026-adhd-dsa-school-best-practices-dashboard-with-menu.html
+        tag_label: "ADHD · DSA · ODD"
+        description: "Gestione evidence-based di ADHD con comorbilità ODD e DSA a scuola. Vademecum pratico, script pronti all'uso, dinamiche coi pari, errori comuni da evitare."
+
+      - title: "Neuroscienze, ADHD, Autismo e Dopamina"
+        url: /dashboards/neuroscienze-adhd-autismo-with-menu.html
+        tag_label: "Neuroscienze"
+        description: "Come funzionano davvero il sistema dopaminergico e i circuiti attentivi nei profili neurodivergenti. Base teorica per interventi informati dalle neuroscienze."
+
+      - title: "Cognitivo, Attenzione e Performance Accademica"
+        url: /dashboards/cognitivo-attenzione-performance-with-menu.html
+        tag_label: "Funzioni Cognitive"
+        description: "Relazione tra carico cognitivo, attenzione sostenuta e rendimento scolastico. Evidenze su strategie di modulazione e supporto per profili con difficoltà attentive."
+
+      - title: "Literacy, Interventi e Mediazione"
+        url: /dashboards/literacy-interventi-mediazione-with-menu.html
+        tag_label: "Literacy · Mediazione"
+        description: "Competenze di lettura, mediazione linguistica e interventi evidence-based per studenti BES. Strategie per docenti e professionisti, con focus su accessibilità dei testi."
+
+      - title: "Ashby & Didattica Inclusiva"
+        url: /dashboards/ashby-dashboard-with-menu.html
+        tag_label: "Framework"
+        description: "La Legge della Varietà Necessaria di Ashby applicata all'inclusione. Un framework cibernetico per pensare attenuatori, amplificatori e adattamento nei sistemi educativi."
+
+  # ════════════════════════════════════════════════════════════════════
+  - id: ia-tecnologie
+    icon: "🤖"
+    title: "IA & Tecnologie per l'Inclusione"
+    short_name: "IA & Tecnologie"
+    description: "Come l'intelligenza artificiale, le tecnologie assistive e gli strumenti digitali possono diventare alleati concreti per studenti con BES, DSA e profili neurodivergenti."
+    tag_class: tag-ia
+    cards:
+
+      - title: "IA per Studenti Neurodiversi — Best Practice OECD"
+        url: /dashboards/oecd-ai-neurodivergent-vet-with-menu.html
+        tag_label: "OECD 2026"
+        description: "68 best practice su IA, XR e tecnologie assistive per studenti con ASD, ADHD e DSA nella formazione professionale. Dal rapporto OECD 2026. Filtri per categoria, glossario ricercabile."
+
+      - title: "Linee Guida UE — Uso Etico dell'AI nell'Educazione"
+        url: /dashboards/eu-guidelines-ai-etica-educazione-2026-with-menu.html
+        tag_label: "UE 2026"
+        description: "5 principi etici, 8 aree di domande guida per docenti e scuole, 11 scenari pratici, AI Act e GDPR. Dashboard completa delle Guidelines aggiornate della Commissione Europea."
+
+      - title: "🖥️ Guida MacBook per Studenti con Disabilità"
+        url: /dashboards/guida-macbook-bes-with-menu.html
+        tag_label: "Tecnologie Assistive"
+        description: "28 configurazioni macOS per ASD, ADHD, DSA e disabilità motorie, visive e intellettive. Principi UDL, razionali evidence-based, istruzioni step-by-step per genitori e docenti."
+
+      - title: "🔍 Decodificatore ICF per Genitori"
+        url: /digitale-inclusivo/decodificatore-icf/
+        tag_label: "Strumento Interattivo"
+        description: "374 codici ICF con spiegazioni accessibili. Ricerca per codice o parola chiave, navigazione ad albero per categoria, linguaggio semplificato. Per capire il Profilo di Funzionamento senza un dizionario clinico."
+
+      - title: "🧭 AI e Inclusione — Framework e Strumenti"
+        url: /dashboards/ai-inclusione-framework-strumenti-with-menu.html
+        tag_label: "Review 2025-26"
+        description: "Mappa ragionata delle opportunità che l'AI apre per l'educazione inclusiva. 8 framework teorici (UDL, UNCRPD, AIPACK, HITL, XAI, WCAG, AIAS, PRISMA), 9 famiglie di strumenti, 40+ tool schedati per profili BES, evidenze quantitative e rischi. Basato su Fitas (2025) e Belay &amp; Alamneh (2026)."
+
+  # ════════════════════════════════════════════════════════════════════
+  - id: normativa
+    icon: "📋"
+    title: "Normativa & Framework"
+    short_name: "Normativa"
+    description: "Il quadro normativo italiano e internazionale sull'inclusione scolastica, reso navigabile e comprensibile."
+    tag_class: tag-norm
+    cards:
+
+      - title: "Normativa Scolastica — Guida all'Inclusione"
+        url: /dashboards/normativa-scolastica-pnrr3-with-menu.html
+        tag_label: "Normativa Italiana"
+        description: "Dalla Riforma Gentile al D.Lgs. 66/2017: Costituzione, evoluzione storica, DSA/BES, autonomia, valutazione, quadro internazionale. Una guida completa alla legislazione sull'inclusione."
+
+      - title: "Linee Guida UE — Alfabetizzazione Digitale"
+        url: /dashboards/linee-guida-ue-disinformazione-2026-with-menu.html
+        tag_label: "UE 2026"
+        description: "Dashboard operativa delle Guidelines della Commissione Europea per docenti ed educatori. 24 attività, 21 consigli, 8 piani lezione su prebunking, IA generativa, social media. Tutto tradotto e navigabile."
+
+  # ════════════════════════════════════════════════════════════════════
+  - id: lezioni-accessibili
+    icon: "📚"
+    title: "Lezioni Accessibili"
+    short_name: "Lezioni Accessibili"
+    description: "Materiali didattici progettati con principi UDL e design inclusivo. Utilizzabili direttamente in classe, pensati per studenti con BES ma efficaci per tutti."
+    tag_class: tag-lezione
+    cards:
+
+      - title: "Abbecedario della Notazione Matematica"
+        url: /dashboards/abbecedario-notazione-matematica-with-menu.html
+        tag_label: "Matematica · DSA"
+        description: "47 simboli matematici con significato, contesto e trabocchetti comuni. Decodifica della definizione di limite, quiz di verifica. Riduce il carico cognitivo per studenti con DSA."
+
+      - title: "Esplora i Limiti — Matematica Interattiva"
+        url: /dashboards/limite-interattivo-with-menu.html
+        tag_label: "Matematica · Interattivo"
+        description: "Grafico interattivo con slider di avvicinamento e 5 funzioni per esplorare visivamente il concetto di limite. Approccio esplorativo per studenti con stili di apprendimento visivi."
+
+      - title: "⚡ Circuito Misto Accessibile"
+        url: /dashboards/circuito-misto-accessibile-with-menu.html
+        tag_label: "Fisica · BES"
+        description: "9 step progressivi per costruire e risolvere un circuito misto (serie + parallelo). Metafora dell'acqua, sezione accessibilità per docenti, guida step-by-step per alunni con BES."
+
+      - title: "⚡ Riduzione Circuiti — Serie, Parallelo, Misto"
+        url: /dashboards/riduzione-circuiti-equivalente-with-menu.html
+        tag_label: "Fisica · BES"
+        description: "8 step sulla riduzione dei circuiti all'equivalente. Resistenze in serie e parallelo, circuito misto, esercizi con feedback immediato. Calcolatrice guidata, schemi SVG. Ottimizzata per mobile."
+
+      - title: "Piano Cartesiano — Esercitazione e Verifica"
+        url: /dashboards/piano-cartesiano-with-menu.html
+        tag_label: "Matematica · ASD-friendly"
+        description: "Design ASD-friendly con tutorial guidato, esercizi liberi e modalità verifica. Form dati alunno e PDF scaricabile con risultati. Utilizzabile come verifica formativa inclusiva."
+
+      - title: "Funzioni Continue e Discontinuità"
+        url: /dashboards/funzioni-continue-discontinuita-with-menu.html
+        tag_label: "Matematica · BES"
+        description: "Continuità e i 3 tipi di discontinuità con navigazione lineare: un concetto per passo, grafici SVG, quiz finale con feedback. Design accessibile per studenti con BES."
+
+      - title: "La Storia dell'Umanità — Versione Accessibile"
+        url: /dashboards/timeline-percorso-umanita-accessibile-with-menu.html
+        tag_label: "Storia · ASD-friendly"
+        description: "Percorso step-by-step ASD-friendly: 11 periodi con navigazione guidata, linguaggio semplificato e struttura prevedibile. Alternativa accessibile alla timeline completa."
+
+      - title: "🌍 L'Atmosfera — Presentazione Bilingue IT/AR"
+        url: /dashboards/atmosfera-presentazione-with-menu.html
+        tag_label: "Scienze · NAI / L2"
+        description: "35 slide su atmosfera, temperatura, vento, nuvole, tempo estremo e inquinamento. Layout chiaro a card colorate, glossario italiano-arabo integrato, test di verifica finale. Per studenti NAI, BES e classi Prima Professionale."
+
+      - title: "🗺️ L'Atmosfera — Mappa Concettuale Interattiva"
+        url: /dashboards/atmosfera-mappa-with-menu.html
+        tag_label: "Scienze · Mobile First"
+        description: "Mappa concettuale mobile-first con 6 nodi espandibili (atmosfera, temperatura, vento, acqua, tempo estremo, problemi) e flusso visivo SVG. Glossario bilingue IT/AR a modal. Pensata per consultazione rapida su smartphone."
+
+      - title: "📸 Verifica di Fotografia — Accessibile"
+        url: /dashboards/verifica-fotografia.html
+        tag_label: "Fotografia · ASD-friendly"
+        description: "Verifica interattiva con 4 esercizi (abbinamento dispositivo-sensore, vero/falso, time-lapse dell'alba, riconoscimento foto-dispositivo). Pensata per profili ASD, DI lieve ed epilessia: tipografia Atkinson Hyperlegible, palette sobria, zero animazioni rapide. Form alunno e PDF dei risultati."

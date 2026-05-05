@@ -1,3 +1,11 @@
+---
+# Frontmatter vuoto: serve solo a dire a Jekyll di processare il file
+# con Liquid, così possiamo leggere _data/digitale_inclusivo.yml.
+---
+{%- assign total = 0 -%}
+{%- for s in site.data.digitale_inclusivo.sections -%}
+  {%- assign total = total | plus: s.cards.size -%}
+{%- endfor -%}
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -197,7 +205,7 @@
                 <div>
                     <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-cyan); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.4rem;">◈ Sezione dedicata</div>
                     <h3 style="color:var(--text-primary); margin:0 0 0.3rem;">Digitale Inclusivo</h3>
-                    <p style="color:var(--text-secondary); font-size:0.9rem; margin:0;">21 risorse su BES, DSA, ADHD, autismo, IA e tecnologie assistive — raccolte in un hub dedicato.</p>
+                    <p style="color:var(--text-secondary); font-size:0.9rem; margin:0;">{{ total }} risorse su BES, DSA, ADHD, autismo, IA e tecnologie assistive — raccolte in un hub dedicato.</p>
                 </div>
                 <a href="/digitale-inclusivo/" class="btn btn-primary" style="white-space:nowrap; flex-shrink:0;">Vai al hub →</a>
             </div>
@@ -213,37 +221,24 @@
                     </div>
                     <div class="di-stats">
                         <div class="di-stat">
-                            <span class="n">21</span>
+                            <span class="n">{{ total }}</span>
                             <span class="l">risorse</span>
                         </div>
                         <div class="di-stat">
-                            <span class="n">4</span>
+                            <span class="n">{{ site.data.digitale_inclusivo.sections | size }}</span>
                             <span class="l">aree</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="di-categories">
+                    {% for s in site.data.digitale_inclusivo.sections %}
                     <div class="di-cat">
-                        <span class="cat-icon">🧠</span>
-                        <div class="cat-name">Profili BES</div>
-                        <div class="cat-count">5 risorse</div>
+                        <span class="cat-icon">{{ s.icon }}</span>
+                        <div class="cat-name">{{ s.short_name }}</div>
+                        <div class="cat-count">{{ s.cards | size }} risorse</div>
                     </div>
-                    <div class="di-cat">
-                        <span class="cat-icon">🤖</span>
-                        <div class="cat-name">IA & Tecnologie</div>
-                        <div class="cat-count">5 risorse</div>
-                    </div>
-                    <div class="di-cat">
-                        <span class="cat-icon">📋</span>
-                        <div class="cat-name">Normativa</div>
-                        <div class="cat-count">2 risorse</div>
-                    </div>
-                    <div class="di-cat">
-                        <span class="cat-icon">📚</span>
-                        <div class="cat-name">Lezioni Accessibili</div>
-                        <div class="cat-count">10 risorse</div>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="di-feature-footer">
