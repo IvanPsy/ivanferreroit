@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verifica di Fotografia</title>
+
+<!-- Tipografia accessibile: Atkinson Hyperlegible (body) + Fraunces (display) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   DESIGN SYSTEM — Verifica accessibile
+   Profilo target: ASD + DI lieve + epilessia
+   Nessuna animazione rapida o ad alto contrasto
+============================================ */
+
+:root {
+  --bg: #F5F1E8;            /* crema, riduce affaticamento visivo */
+  --bg-card: #FFFEFB;        /* bianco caldo per le card */
+  --ink: #2C2C2C;            /* grigio scuro (no nero puro) */
+  --ink-soft: #5A5A5A;       /* grigio medio per testo secondario */
+  --line: #D8D2C4;           /* linee divisorie sobrie */
+  --accent: #4A6FA5;         /* azzurro polvere — azione, neutro */
+  --accent-soft: #DDE6F2;    /* azzurro chiaro per evidenze */
+  --positive: #5C8A6F;       /* verde sobrio — corretto */
+  --positive-soft: #DEEAE0;
+  --review: #C9882D;         /* ambra — da rivedere (NO rosso punitivo) */
+  --review-soft: #F4E8D0;
+  --shadow: 0 2px 8px rgba(44, 44, 44, 0.06);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#app {
+  width: 100%;
+  max-width: 920px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Header con barra di progresso */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  background: var(--accent-soft);
+  border-bottom: 1px solid var(--line);
+}
+
+.app-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+
+.progress-text {
+  font-size: 16px;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+/* Progress bar */
+.progress-bar-container {
+  height: 6px;
+  background: var(--line);
+  width: 100%;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 300ms ease;
+}
+
+/* Schermate */
+.screen {
+  display: none;
+  padding: 40px 48px;
+  min-height: 500px;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* Tipografia */
+h1.display {
+  font-family: 'Fraunces', serif;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+h2.section {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+p.lead {
+  font-size: 19px;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 12px;
+}
+
+/* Riquadro istruzioni — sempre lo stesso layout */
+.instructions {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 20px 24px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 32px;
+}
+
+.instructions-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 17px;
+}
+
+.instructions ol {
+  margin-left: 24px;
+  margin-top: 8px;
+}
+
+.instructions li {
+  margin-bottom: 4px;
+}
+
+/* Bottoni */
+.btn {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px 32px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: opacity 200ms ease, transform 100ms ease;
+  min-height: 56px;
+  letter-spacing: 0.01em;
+}
+
+.btn:hover {
+  opacity: 0.92;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--bg);
+  color: var(--ink);
+  border: 2px solid var(--line);
+}
+
+.btn-positive {
+  background: var(--positive);
+  color: white;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-row {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.btn-row.center {
+  justify-content: center;
+}
+
+/* Form input */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  font-size: 17px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--ink);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ============================================
+   ESERCIZIO 1 — Abbinamento sensore-dispositivo
+============================================ */
+.matching-area {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  gap: 24px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.column-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--ink-soft);
+}
+
+.devices-col, .sensors-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.device-card, .sensor-card {
+  padding: 18px;
+  background: var(--bg);
+  border: 3px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.device-card:hover, .sensor-card:hover {
+  background: var(--accent-soft);
+}
+
+.device-card.selected, .sensor-card.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.device-card.paired, .sensor-card.paired {
+  border-color: var(--positive);
+  background: var(--positive-soft);
+}
+
+.device-icon, .sensor-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.device-name, .sensor-name {
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.sensor-spec {
+  font-size: 14px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.connector-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.pair-counter {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+/* ============================================
+   ESERCIZIO 2 — Vero/Falso
+============================================ */
+.vf-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: var(--bg);
+  border-radius: var(--radius);
+}
+
+.vf-statement {
+  font-size: 22px;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.vf-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vf-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.vf-btn {
+  flex: 1;
+  max-width: 160px;
+  padding: 18px;
+  font-size: 17px;
+  font-weight: 700;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.vf-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.vf-btn.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+.vf-progress {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 16px;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+/* ============================================
+   ESERCIZIO 3 — Time-lapse 24 frame
+============================================ */
+.timelapse-container {
+  margin-top: 24px;
+}
+
+.timelapse-row-label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--ink-soft);
+}
+
+.timeline-strip {
+  background: var(--bg);
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--line);
+  margin-bottom: 24px;
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 6px;
+}
+
+.frame-slot {
+  aspect-ratio: 4 / 3;
+  background: var(--bg-card);
+  border: 2px dashed var(--line);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 150ms ease;
+}
+
+.frame-slot.selected-target {
+  border: 3px solid var(--accent);
+}
+
+.frame-slot.anchor {
+  border: 2px solid var(--review);
+  cursor: default;
+}
+
+.frame-slot.anchor::after {
+  content: "★";
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 10px;
+  color: var(--review);
+}
+
+.frame-pool {
+  background: var(--bg);
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--line);
+  margin-bottom: 24px;
+}
+
+.pool-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+}
+
+.frame-tile {
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 150ms ease, transform 100ms ease;
+  overflow: hidden;
+}
+
+.frame-tile:hover {
+  transform: scale(1.05);
+}
+
+.frame-tile.selected {
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.timelapse-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.player {
+  margin: 24px auto;
+  width: 320px;
+  height: 240px;
+  background: #1A1A1A;
+  border-radius: var(--radius);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.player.active {
+  display: flex;
+}
+
+.player-frame {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
+   ESERCIZIO 4 — Sceriffo
+============================================ */
+.sceriffo-item {
+  text-align: center;
+}
+
+.sceriffo-photo {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.sceriffo-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.sceriffo-btn {
+  padding: 20px 16px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.sceriffo-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.sceriffo-btn.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+.sceriffo-btn-label {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ============================================
+   SCHERMATA RIEPILOGO
+============================================ */
+.summary-results {
+  background: var(--bg);
+  padding: 32px;
+  border-radius: var(--radius);
+  margin: 24px 0;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-icon {
+  font-size: 22px;
+  margin-right: 12px;
+}
+
+.summary-text {
+  flex: 1;
+  font-size: 17px;
+}
+
+.summary-status {
+  font-weight: 700;
+  font-size: 15px;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.status-ok {
+  background: var(--positive-soft);
+  color: var(--positive);
+}
+
+.status-review {
+  background: var(--review-soft);
+  color: var(--review);
+}
+
+.summary-comment {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  margin: 32px 0;
+  padding: 24px;
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  color: var(--accent);
+}
+
+/* Welcome screen exercises preview */
+.exercises-preview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.exercise-preview-card {
+  padding: 20px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--accent);
+}
+
+.exercise-preview-num {
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.exercise-preview-title {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+/* Footer */
+.footer-note {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* PDF output area — nascosta all'utente, ma renderizzabile da html2canvas
+   durante la generazione (la classe .generating la rende visibile in DOM
+   ma invisibile visivamente con opacity 0) */
+#pdf-output {
+  display: none;
+  width: 800px;
+  background: white;
+  padding: 40px;
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  color: #1a1a1a;
+}
+
+#pdf-output.generating {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#pdf-output h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+#pdf-output h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 4px;
+}
+
+#pdf-output table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+#pdf-output th, #pdf-output td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+#pdf-output th {
+  background: #f0f0f0;
+  font-weight: 700;
+}
+
+#pdf-output .pdf-header-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+#pdf-output .pdf-signature {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+#pdf-output .signature-line {
+  border-top: 1px solid #333;
+  padding-top: 4px;
+  font-size: 12px;
+  color: #555;
+}
+
+/* Mobile adjustments */
+@media (max-width: 720px) {
+  body { padding: 12px; }
+  .screen { padding: 24px 20px; }
+  .matching-area {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .connector-col { display: none; }
+  .vf-item { grid-template-columns: 1fr; }
+  .pool-grid { grid-template-columns: repeat(6, 1fr); }
+  .timeline-grid { grid-template-columns: repeat(8, 1fr); }
+  .sceriffo-buttons { grid-template-columns: 1fr; }
+  .exercises-preview { grid-template-columns: 1fr; }
+  h1.display { font-size: 28px; }
+  h2.section { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Header globale -->
+  <div class="app-header" id="app-header" style="display:none;">
+    <div class="app-title">Verifica di Fotografia</div>
+    <div class="progress-text" id="progress-text">Esercizio 1 di 4</div>
+  </div>
+  <div class="progress-bar-container" id="progress-bar-container" style="display:none;">
+    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHERMATA 0 — SETUP INSEGNANTE
+  ═══════════════════════════════════════════════ -->
+  <section class="screen active" id="screen-setup">
+    <h1 class="display">Verifica di Fotografia</h1>
+    <p class="lead">Configurazione iniziale (compilare prima di consegnare il dispositivo all'alunno).</p>
+
+    <div class="form-group">
+      <label for="input-name">Nome dell'alunno</label>
+      <input type="text" id="input-name" placeholder="Es. Mario Rossi">
+    </div>
+
+    <div class="form-group">
+      <label for="input-class">Classe</label>
+      <input type="text" id="input-class" placeholder="Es. 2A">
+    </div>
+
+    <div class="form-group">
+      <label for="input-topic">Argomento</label>
+      <input type="text" id="input-topic" value="I sensori, gli obiettivi e il time-lapse">
+    </div>
+
+    <div class="form-group">
+      <label for="input-teacher">Docente</label>
+      <input type="text" id="input-teacher" placeholder="Es. Prof. Ferrero">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goToWelcome()">Avvia la verifica →</button>
+    </div>
+
+    <p class="footer-note">I dati restano nel browser. Nessuna informazione viene inviata online.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHERMATA 1 — BENVENUTO
+  ═══════════════════════════════════════════════ -->
+  <section class="screen" id="screen-welcome">
+    <h1 class="display">Ciao <span id="welcome-name">...</span></h1>
+    <p class="lead">Oggi farai 4 esercizi sulla fotografia. Sono questi:</p>
+
+    <div class="exercises-preview">
+      <div class="exercise-preview-card">
+        <div class="exercise-preview-num">Esercizio 1</div>
+        <div class="exercise-preview-title">Abbina il dispositivo al suo sensore</div>
+      </div>
+      <div class="exercise-preview-card">
+        <div class="exercise-preview-num">Esercizio 2</div>
+        <div class="exercise-preview-title">Vero o Falso</div>
+      </div>
+      <div class="exercise-preview-card">
+        <div class="exercise-preview-num">Esercizio 3</div>
+        <div class="exercise-preview-title">Costruisci il time-lapse di un'alba</div>
+      </div>
+      <div class="exercise-preview-card">
+        <div class="exercise-preview-num">Esercizio 4</div>
+        <div class="exercise-preview-title">Lo Sceriffo della fotocamera</div>
+      </div>
+    </div>
+
+    <p>Non c'è un tempo massimo. Quando hai finito un esercizio, premi il bottone per andare al successivo.</p>
+
+    <div class="btn-row center">
+      <button class="btn btn-primary" onclick="goToScreen('ex1')">Iniziamo →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHERMATA 2 — ESERCIZIO 1
+  ═══════════════════════════════════════════════ -->
+  <section class="screen" id="screen-ex1">
+    <h2 class="section">Abbina il dispositivo al suo sensore</h2>
+
+    <div class="instructions">
+      <div class="instructions-title">Cosa devi fare</div>
+      <ol>
+        <li>Tocca un dispositivo a sinistra.</li>
+        <li>Tocca il sensore giusto a destra.</li>
+        <li>Si crea un collegamento.</li>
+        <li>Quando hai abbinato tutti e 3 i dispositivi, tocca "Ho finito".</li>
+      </ol>
+    </div>
+
+    <div class="matching-area">
+      <div>
+        <div class="column-title">Dispositivi</div>
+        <div class="devices-col" id="devices-col"></div>
+      </div>
+      <div class="connector-col">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M5 20 L35 20" stroke="#5A5A5A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M28 13 L35 20 L28 27" stroke="#5A5A5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="column-title">Sensori</div>
+        <div class="sensors-col" id="sensors-col"></div>
+      </div>
+    </div>
+
+    <div class="pair-counter" id="ex1-counter">Abbinamenti fatti: 0 di 3</div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="ex1-finish-btn" onclick="finishEx1()" disabled>Ho finito →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHERMATA 3 — ESERCIZIO 2
+  ═══════════════════════════════════════════════ -->
+  <section class="screen" id="screen-ex2">
+    <h2 class="section">Vero o Falso</h2>
+
+    <div class="instructions">
+      <div class="instructions-title">Cosa devi fare</div>
+      <ol>
+        <li>Leggi la frase.</li>
+        <li>Guarda l'immagine.</li>
+        <li>Scegli: Vero, Falso, oppure Non lo so.</li>
+      </ol>
+    </div>
+
+    <div class="vf-progress" id="vf-progress">Domanda 1 di 5</div>
+    <div id="vf-content"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="vf-next-btn" onclick="nextVfItem()" disabled>Avanti →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHERMATA 4 — ESERCIZIO 3 — TIME LAPSE
+  ═══════════════════════════════════════════════ -->
+  <section class="screen" id="screen-ex3">
+    <h2 class="section">Costruisci il time-lapse di un'alba</h2>
+
+    <div class="instructions">
+      <div class="instructions-title">Cosa devi fare</div>
+      <ol>
+        <li>In alto vedi 24 caselle. Quattro hanno già una foto (con la stella ★): non puoi spostarle.</li>
+        <li>In basso ci sono 20 foto da mettere al posto giusto.</li>
+        <li>Tocca una foto in basso, poi tocca una casella vuota in alto. La foto si sposta lì.</li>
+        <li>Le foto raccontano un'alba: dal cielo scuro fino alla luce del giorno.</li>
+        <li>Premi "Guarda il video" per vedere il tuo time-lapse. Se ci sono salti di colore, puoi rimettere a posto.</li>
+        <li>Quando ti sembra giusto, premi "Ho finito".</li>
+      </ol>
+    </div>
+
+    <div class="timelapse-container">
+      <div class="timelapse-row-label">La tua sequenza (24 foto):</div>
+      <div class="timeline-strip">
+        <div class="timeline-grid" id="timeline-grid"></div>
+      </div>
+
+      <div class="timelapse-row-label">Foto da mettere a posto:</div>
+      <div class="frame-pool">
+        <div class="pool-grid" id="pool-grid"></div>
+      </div>
+
+      <div class="timelapse-controls">
+        <button class="btn btn-secondary" onclick="playTimelapse()">▶ Guarda il video</button>
+        <button class="btn btn-secondary" onclick="resetEx3()">↻ Ricomincia</button>
+      </div>
+
+      <div class="player" id="timelapse-player">
+        <div class="player-frame" id="player-frame"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="ex3-finish-btn" onclick="finishEx3()" disabled>Ho finito →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHERMATA 5 — ESERCIZIO 4 — SCERIFFO
+  ═══════════════════════════════════════════════ -->
+  <section class="screen" id="screen-ex4">
+    <h2 class="section">Lo Sceriffo della fotocamera</h2>
+
+    <div class="instructions">
+      <div class="instructions-title">Cosa devi fare</div>
+      <ol>
+        <li>Guarda la foto.</li>
+        <li>Pensa: chi l'ha scattata?</li>
+        <li>Tocca il dispositivo che secondo te ha fatto la foto.</li>
+      </ol>
+    </div>
+
+    <div class="vf-progress" id="sceriffo-progress">Foto 1 di 5</div>
+    <div id="sceriffo-content"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="sceriffo-next-btn" onclick="nextSceriffoItem()" disabled>Avanti →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHERMATA 6 — RIEPILOGO
+  ═══════════════════════════════════════════════ -->
+  <section class="screen" id="screen-summary">
+    <h1 class="display">Hai finito la verifica!</h1>
+    <p class="lead">Ecco com'è andata.</p>
+
+    <div class="summary-results" id="summary-results"></div>
+
+    <div class="summary-comment" id="summary-comment"></div>
+
+    <div class="btn-row center">
+      <button class="btn btn-positive" onclick="generatePDF()">Scarica i risultati (PDF)</button>
+    </div>
+
+    <p class="footer-note">L'insegnante può scaricare il PDF e archiviarlo nel fascicolo.</p>
+  </section>
+
+  <!-- Area nascosta per la generazione PDF -->
+  <div id="pdf-output"></div>
+
+</div>
+
+<!-- ============================================
+     Libreria PDF — html2pdf.js (CDN)
+============================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+/* ============================================================
+   STATO DELL'APPLICAZIONE
+============================================================ */
+const state = {
+  student: { name: '', class: '', topic: '', teacher: '', date: '' },
+  ex1: { selectedDevice: null, selectedSensor: null, pairs: {} }, // pairs: { deviceId: sensorId }
+  ex2: { current: 0, answers: [] },
+  ex3: { sequence: new Array(24).fill(null), pool: [], selectedPool: null, selectedTarget: null, anchors: [0, 7, 15, 23] },
+  ex4: { current: 0, answers: [] }
+};
+
+/* ============================================================
+   DATI ESERCIZI
+============================================================ */
+
+// ESERCIZIO 1 — Dispositivi e sensori
+const devices = [
+  { id: 'phone', name: 'Smartphone', correctSensor: 'small' },
+  { id: 'compact', name: 'Fotocamera compatta', correctSensor: 'medium' },
+  { id: 'reflex', name: 'Fotocamera professionale', correctSensor: 'big' }
+];
+
+const sensors = [
+  { id: 'small', name: 'Sensore piccolo', spec: 'Micro 4/3 (17×13 mm)', width: 50, height: 38 },
+  { id: 'medium', name: 'Sensore medio', spec: 'APS-C (22×15 mm)', width: 90, height: 60 },
+  { id: 'big', name: 'Sensore grande', spec: 'Full Frame (36×24 mm)', width: 130, height: 87 }
+];
+
+// ESERCIZIO 2 — Vero/Falso
+const vfItems = [
+  {
+    statement: "Il sensore Full Frame è più grande del sensore APS-C.",
+    correct: 'V',
+    illustration: 'sensors-compare'
+  },
+  {
+    statement: "Tutti i sensori delle fotocamere hanno la stessa dimensione.",
+    correct: 'F',
+    illustration: 'sensors-different'
+  },
+  {
+    statement: "Lo smartphone ha un sensore piccolo.",
+    correct: 'V',
+    illustration: 'phone-sensor'
+  },
+  {
+    statement: "Una fotocamera professionale ha un sensore grande.",
+    correct: 'V',
+    illustration: 'reflex-sensor'
+  },
+  {
+    statement: "Il sensore non serve a fare le foto.",
+    correct: 'F',
+    illustration: 'camera-anatomy'
+  }
+];
+
+// ESERCIZIO 4 — Sceriffo
+// ═══════════════════════════════════════════════════════════════
+// PERSONALIZZAZIONE FOTO
+// Le 5 foto vivono in /assets/images/ del sito ivanferrero.it.
+// Per ogni item:
+//   - image: percorso assoluto della foto (es. '/assets/images/01_smartphone.jpg')
+//   - description: etichetta breve (compare solo nel PDF)
+//   - correct: dispositivo che ha scattato la foto: 'phone' | 'compact' | 'reflex'
+// Sequenza fissata: 2 smartphone, 1 compatta, 2 reflex.
+// ═══════════════════════════════════════════════════════════════
+const sceriffoItems = [
+  { description: 'Selfie',    image: '/assets/images/01_smartphone.jpg',           correct: 'phone',   visual: 'selfie' },
+  { description: 'Flash',     image: '/assets/images/02_smartphone.jpg',           correct: 'phone',   visual: 'flash' },
+  { description: 'Vacanza',   image: '/assets/images/01_compatta.jpg',             correct: 'compact', visual: 'travel' },
+  { description: 'Paesaggio', image: '/assets/images/01_professionale_reflex.jpg', correct: 'reflex',  visual: 'landscape' },
+  { description: 'Macro',     image: '/assets/images/02_professionale_reflex.jpg', correct: 'reflex',  visual: 'macro' }
+];
+
+/* ============================================================
+   GENERAZIONE FRAME ALBA (24 colori progressivi)
+============================================================ */
+function generateSunriseFrames() {
+  // Colori chiave dell'alba: notte → blu → viola → rosa → arancio → giallo → giorno
+  const keyColors = [
+    { idx: 0,  top: [10, 12, 35],   bottom: [25, 28, 60],   sunY: 100 }, // notte
+    { idx: 4,  top: [25, 30, 70],   bottom: [60, 50, 100],  sunY: 95 },
+    { idx: 8,  top: [70, 55, 110],  bottom: [180, 100, 110], sunY: 80 }, // viola/rosa
+    { idx: 12, top: [200, 130, 130], bottom: [240, 160, 100], sunY: 60 }, // alba piena
+    { idx: 16, top: [240, 200, 140], bottom: [255, 220, 130], sunY: 40 },
+    { idx: 20, top: [180, 210, 230], bottom: [220, 235, 240], sunY: 20 },
+    { idx: 23, top: [140, 190, 230], bottom: [200, 225, 245], sunY: 10 }  // giorno
+  ];
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function lerpColor(c1, c2, t) {
+    return [
+      Math.round(lerp(c1[0], c2[0], t)),
+      Math.round(lerp(c1[1], c2[1], t)),
+      Math.round(lerp(c1[2], c2[2], t))
+    ];
+  }
+  function rgb(c) { return `rgb(${c[0]},${c[1]},${c[2]})`; }
+
+  const frames = [];
+  for (let i = 0; i < 24; i++) {
+    // Trova i due key frame tra cui interpolare
+    let prev = keyColors[0], next = keyColors[keyColors.length - 1];
+    for (let k = 0; k < keyColors.length - 1; k++) {
+      if (i >= keyColors[k].idx && i <= keyColors[k+1].idx) {
+        prev = keyColors[k];
+        next = keyColors[k+1];
+        break;
+      }
+    }
+    const t = (i - prev.idx) / (next.idx - prev.idx || 1);
+    const top = lerpColor(prev.top, next.top, t);
+    const bottom = lerpColor(prev.bottom, next.bottom, t);
+    const sunY = lerp(prev.sunY, next.sunY, t);
+
+    frames.push({
+      index: i,
+      top: rgb(top),
+      bottom: rgb(bottom),
+      sunY: sunY
+    });
+  }
+  return frames;
+}
+
+const sunriseFrames = generateSunriseFrames();
+
+function frameSVG(frame, size = 'small') {
+  const w = size === 'small' ? 60 : (size === 'medium' ? 100 : 320);
+  const h = size === 'small' ? 45 : (size === 'medium' ? 75 : 240);
+  return `
+    <svg viewBox="0 0 100 75" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+      <defs>
+        <linearGradient id="sky-${frame.index}-${size}" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="${frame.top}"/>
+          <stop offset="100%" stop-color="${frame.bottom}"/>
+        </linearGradient>
+      </defs>
+      <rect width="100" height="60" fill="url(#sky-${frame.index}-${size})"/>
+      <circle cx="50" cy="${frame.sunY * 0.6}" r="6" fill="#FFD580" opacity="${frame.sunY > 80 ? 0.3 : (frame.sunY < 30 ? 1 : 0.85)}"/>
+      <rect x="0" y="60" width="100" height="15" fill="#2a2a2a"/>
+    </svg>
+  `;
+}
+
+/* ============================================================
+   ICONE DISPOSITIVI (SVG inline)
+============================================================ */
+function deviceIcon(id, size = 56) {
+  if (id === 'phone') {
+    return `<svg width="${size*0.7}" height="${size}" viewBox="0 0 40 56" fill="none">
+      <rect x="3" y="3" width="34" height="50" rx="5" fill="#3a3a3a"/>
+      <rect x="6" y="8" width="28" height="38" rx="2" fill="#88B4DC"/>
+      <circle cx="20" cy="50" r="2" fill="#1a1a1a"/>
+      <circle cx="33" cy="6" r="1.2" fill="#1a1a1a"/>
+    </svg>`;
+  }
+  if (id === 'compact') {
+    return `<svg width="${size}" height="${size*0.7}" viewBox="0 0 56 40" fill="none">
+      <rect x="2" y="6" width="52" height="32" rx="4" fill="#4a4a4a"/>
+      <circle cx="28" cy="22" r="11" fill="#1a1a1a"/>
+      <circle cx="28" cy="22" r="8" fill="#3a3a3a"/>
+      <circle cx="28" cy="22" r="5" fill="#0a0a0a"/>
+      <rect x="42" y="10" width="6" height="2" fill="#88B4DC"/>
+    </svg>`;
+  }
+  if (id === 'reflex') {
+    return `<svg width="${size*1.2}" height="${size}" viewBox="0 0 68 56" fill="none">
+      <rect x="2" y="14" width="64" height="38" rx="3" fill="#2a2a2a"/>
+      <path d="M22 14 L26 6 L42 6 L46 14 Z" fill="#2a2a2a"/>
+      <circle cx="34" cy="33" r="14" fill="#1a1a1a"/>
+      <circle cx="34" cy="33" r="11" fill="#444"/>
+      <circle cx="34" cy="33" r="8" fill="#222"/>
+      <circle cx="34" cy="33" r="4" fill="#0a0a0a"/>
+      <rect x="50" y="20" width="10" height="3" fill="#C9882D"/>
+    </svg>`;
+  }
+}
+
+function sensorVisual(sensor) {
+  return `<svg width="${sensor.width}" height="${sensor.height}" viewBox="0 0 ${sensor.width} ${sensor.height}">
+    <rect x="2" y="2" width="${sensor.width-4}" height="${sensor.height-4}" fill="#4A6FA5" stroke="#2C2C2C" stroke-width="2"/>
+    <rect x="6" y="6" width="${sensor.width-12}" height="${sensor.height-12}" fill="#88B4DC" opacity="0.3"/>
+  </svg>`;
+}
+
+function vfIllustration(type) {
+  const w = 240, h = 160;
+  if (type === 'sensors-compare') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 240 160">
+      <rect x="60" y="40" width="120" height="80" fill="#4A6FA5" stroke="#2C2C2C" stroke-width="3"/>
+      <rect x="90" y="60" width="60" height="40" fill="#C9882D" stroke="#2C2C2C" stroke-width="2"/>
+      <text x="120" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="#4A6FA5">Full Frame</text>
+      <text x="120" y="138" text-anchor="middle" font-size="13" font-weight="700" fill="#C9882D">APS-C</text>
+    </svg>`;
+  }
+  if (type === 'sensors-different') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 240 160">
+      <rect x="20" y="60" width="40" height="30" fill="#5C8A6F" stroke="#2C2C2C" stroke-width="2"/>
+      <rect x="80" y="50" width="60" height="45" fill="#C9882D" stroke="#2C2C2C" stroke-width="2"/>
+      <rect x="160" y="35" width="70" height="55" fill="#4A6FA5" stroke="#2C2C2C" stroke-width="2"/>
+      <text x="40" y="115" text-anchor="middle" font-size="11" fill="#2C2C2C">Piccolo</text>
+      <text x="110" y="115" text-anchor="middle" font-size="11" fill="#2C2C2C">Medio</text>
+      <text x="195" y="115" text-anchor="middle" font-size="11" fill="#2C2C2C">Grande</text>
+    </svg>`;
+  }
+  if (type === 'phone-sensor') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 240 160">
+      <rect x="80" y="20" width="80" height="120" rx="10" fill="#3a3a3a"/>
+      <rect x="86" y="30" width="68" height="92" rx="2" fill="#88B4DC"/>
+      <rect x="105" y="65" width="30" height="22" fill="#C9882D" stroke="#fff" stroke-width="2"/>
+      <text x="120" y="130" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Sensore piccolo</text>
+    </svg>`;
+  }
+  if (type === 'reflex-sensor') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 240 160">
+      <rect x="20" y="50" width="200" height="90" rx="6" fill="#2a2a2a"/>
+      <path d="M70 50 L80 30 L160 30 L170 50 Z" fill="#2a2a2a"/>
+      <circle cx="120" cy="95" r="32" fill="#1a1a1a"/>
+      <circle cx="120" cy="95" r="24" fill="#444"/>
+      <rect x="100" y="80" width="40" height="30" fill="#4A6FA5" stroke="#fff" stroke-width="1.5"/>
+      <text x="120" y="138" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Sensore grande</text>
+    </svg>`;
+  }
+  if (type === 'camera-anatomy') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 240 160">
+      <rect x="40" y="50" width="160" height="80" rx="6" fill="#3a3a3a"/>
+      <circle cx="100" cy="90" r="22" fill="#1a1a1a"/>
+      <circle cx="100" cy="90" r="14" fill="#444"/>
+      <rect x="140" y="70" width="40" height="30" fill="#C9882D" stroke="#fff" stroke-width="2"/>
+      <text x="160" y="89" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Sensore</text>
+      <path d="M100 90 L160 85" stroke="#fff" stroke-width="2" stroke-dasharray="3,3"/>
+    </svg>`;
+  }
+}
+
+function sceriffoVisual(item) {
+  // Modalità nuova: usa l'immagine reale dal path indicato.
+  // Se l'immagine non esiste, mostra un placeholder informativo.
+  if (item && item.image) {
+    return `
+      <div style="position:relative;width:300px;height:225px;border-radius:14px;overflow:hidden;border:2px solid var(--line);background:var(--bg);">
+        <img src="${item.image}" alt="${item.description}"
+             style="width:100%;height:100%;object-fit:cover;display:block;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;flex-direction:column;background:var(--bg);color:var(--ink-soft);font-size:14px;text-align:center;padding:16px;gap:8px;">
+          <div style="font-size:38px;">📷</div>
+          <div>Foto da caricare:</div>
+          <div style="font-weight:700;color:var(--ink);">${item.description}</div>
+          <div style="font-size:11px;font-family:monospace;background:var(--bg-card);padding:4px 8px;border-radius:4px;">${item.image}</div>
+        </div>
+      </div>
+    `;
+  }
+  // Fallback legacy: usa la SVG schematica (solo se chiamato col vecchio formato).
+  const visual = item;
+  const w = 280, h = 200;
+  if (visual === 'selfie') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 280 200">
+      <rect width="280" height="200" fill="#DDE6F2"/>
+      <rect x="0" y="140" width="280" height="60" fill="#A8B8A0"/>
+      <circle cx="140" cy="110" r="50" fill="#F5D4B8"/>
+      <circle cx="125" cy="100" r="4" fill="#2C2C2C"/>
+      <circle cx="155" cy="100" r="4" fill="#2C2C2C"/>
+      <path d="M125 125 Q140 135 155 125" stroke="#2C2C2C" stroke-width="2" fill="none"/>
+      <rect x="115" y="155" width="50" height="40" fill="#4A6FA5"/>
+    </svg>`;
+  }
+  if (visual === 'landscape') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 280 200">
+      <defs>
+        <linearGradient id="sky-land" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#88B4DC"/>
+          <stop offset="0.7" stop-color="#F4E8D0"/>
+        </linearGradient>
+      </defs>
+      <rect width="280" height="200" fill="url(#sky-land)"/>
+      <polygon points="0,140 60,80 120,120 180,60 240,100 280,90 280,200 0,200" fill="#5C8A6F"/>
+      <polygon points="0,140 60,80 120,120 180,60 240,100 280,90 280,140 0,140" fill="#3a5a45" opacity="0.6"/>
+      <circle cx="220" cy="50" r="12" fill="#FFD580"/>
+    </svg>`;
+  }
+  if (visual === 'travel') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 280 200">
+      <rect width="280" height="200" fill="#88B4DC"/>
+      <rect x="40" y="80" width="60" height="80" fill="#F4E8D0"/>
+      <rect x="100" y="60" width="80" height="100" fill="#E8D4A8"/>
+      <rect x="180" y="90" width="60" height="70" fill="#F4E8D0"/>
+      <polygon points="40,80 70,55 100,80" fill="#C9882D"/>
+      <polygon points="100,60 140,30 180,60" fill="#C9882D"/>
+      <polygon points="180,90 210,65 240,90" fill="#C9882D"/>
+      <rect x="0" y="160" width="280" height="40" fill="#A8B8A0"/>
+    </svg>`;
+  }
+  if (visual === 'macro') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 280 200">
+      <defs>
+        <radialGradient id="bg-blur">
+          <stop offset="0" stop-color="#A8B8A0"/>
+          <stop offset="1" stop-color="#5C8A6F"/>
+        </radialGradient>
+      </defs>
+      <rect width="280" height="200" fill="url(#bg-blur)"/>
+      <ellipse cx="140" cy="100" rx="55" ry="55" fill="#FFD580"/>
+      <ellipse cx="100" cy="80" rx="22" ry="40" fill="#F4A86A" transform="rotate(-30 100 80)"/>
+      <ellipse cx="180" cy="80" rx="22" ry="40" fill="#F4A86A" transform="rotate(30 180 80)"/>
+      <ellipse cx="100" cy="120" rx="22" ry="40" fill="#F4A86A" transform="rotate(30 100 120)"/>
+      <ellipse cx="180" cy="120" rx="22" ry="40" fill="#F4A86A" transform="rotate(-30 180 120)"/>
+      <circle cx="140" cy="100" r="18" fill="#C9882D"/>
+    </svg>`;
+  }
+  if (visual === 'flash') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 280 200">
+      <rect width="280" height="200" fill="#1a1a1a"/>
+      <ellipse cx="140" cy="100" rx="80" ry="70" fill="#F5D4B8"/>
+      <circle cx="125" cy="90" r="3" fill="#2C2C2C"/>
+      <circle cx="155" cy="90" r="3" fill="#2C2C2C"/>
+      <path d="M125 110 Q140 120 155 110" stroke="#2C2C2C" stroke-width="2" fill="none"/>
+      <rect x="0" y="0" width="280" height="200" fill="white" opacity="0.15"/>
+    </svg>`;
+  }
+}
+
+/* ============================================================
+   NAVIGAZIONE TRA SCHERMATE
+============================================================ */
+const screens = ['setup', 'welcome', 'ex1', 'ex2', 'ex3', 'ex4', 'summary'];
+const exerciseScreens = ['ex1', 'ex2', 'ex3', 'ex4'];
+
+function goToScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+
+  const isExercise = exerciseScreens.includes(id);
+  const header = document.getElementById('app-header');
+  const bar = document.getElementById('progress-bar-container');
+  if (isExercise) {
+    header.style.display = 'flex';
+    bar.style.display = 'block';
+    const idx = exerciseScreens.indexOf(id) + 1;
+    document.getElementById('progress-text').textContent = `Esercizio ${idx} di 4`;
+    document.getElementById('progress-bar-fill').style.width = (idx / 4 * 100) + '%';
+  } else {
+    header.style.display = 'none';
+    bar.style.display = 'none';
+  }
+
+  // Inizializza l'esercizio se necessario
+  if (id === 'ex1') initEx1();
+  if (id === 'ex2') initEx2();
+  if (id === 'ex3') initEx3();
+  if (id === 'ex4') initEx4();
+  if (id === 'summary') initSummary();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToWelcome() {
+  state.student.name = document.getElementById('input-name').value.trim() || 'Alunno';
+  state.student.class = document.getElementById('input-class').value.trim() || '—';
+  state.student.topic = document.getElementById('input-topic').value.trim() || '—';
+  state.student.teacher = document.getElementById('input-teacher').value.trim() || '—';
+  const today = new Date();
+  state.student.date = today.toLocaleDateString('it-IT');
+
+  document.getElementById('welcome-name').textContent = state.student.name;
+  goToScreen('welcome');
+}
+
+/* ============================================================
+   ESERCIZIO 1 — Abbinamento
+============================================================ */
+function initEx1() {
+  state.ex1 = { selectedDevice: null, selectedSensor: null, pairs: {} };
+
+  const devCol = document.getElementById('devices-col');
+  devCol.innerHTML = devices.map(d => `
+    <div class="device-card" data-id="${d.id}" onclick="selectDevice('${d.id}')">
+      <div class="device-icon">${deviceIcon(d.id)}</div>
+      <div class="device-name">${d.name}</div>
+    </div>
+  `).join('');
+
+  const senCol = document.getElementById('sensors-col');
+  senCol.innerHTML = sensors.map(s => `
+    <div class="sensor-card" data-id="${s.id}" onclick="selectSensor('${s.id}')">
+      <div class="sensor-visual">${sensorVisual(s)}</div>
+      <div class="sensor-name">${s.name}</div>
+      <div class="sensor-spec">${s.spec}</div>
+    </div>
+  `).join('');
+
+  updateEx1Counter();
+}
+
+function selectDevice(id) {
+  // Se è già accoppiato, scollega
+  if (state.ex1.pairs[id]) {
+    delete state.ex1.pairs[id];
+    state.ex1.selectedDevice = null;
+    refreshEx1Visual();
+    return;
+  }
+  state.ex1.selectedDevice = id;
+  if (state.ex1.selectedSensor) {
+    makePair();
+  }
+  refreshEx1Visual();
+}
+
+function selectSensor(id) {
+  // Se questo sensore è già usato in una coppia, scollega
+  for (const [d, s] of Object.entries(state.ex1.pairs)) {
+    if (s === id) {
+      delete state.ex1.pairs[d];
+      state.ex1.selectedSensor = null;
+      refreshEx1Visual();
+      return;
+    }
+  }
+  state.ex1.selectedSensor = id;
+  if (state.ex1.selectedDevice) {
+    makePair();
+  }
+  refreshEx1Visual();
+}
+
+function makePair() {
+  const d = state.ex1.selectedDevice;
+  const s = state.ex1.selectedSensor;
+  // Rimuovi eventuale coppia precedente del dispositivo
+  if (state.ex1.pairs[d]) delete state.ex1.pairs[d];
+  // Rimuovi eventuale coppia precedente del sensore
+  for (const [dev, sen] of Object.entries(state.ex1.pairs)) {
+    if (sen === s) delete state.ex1.pairs[dev];
+  }
+  state.ex1.pairs[d] = s;
+  state.ex1.selectedDevice = null;
+  state.ex1.selectedSensor = null;
+}
+
+function refreshEx1Visual() {
+  const pairedDevices = Object.keys(state.ex1.pairs);
+  const pairedSensors = Object.values(state.ex1.pairs);
+
+  document.querySelectorAll('.device-card').forEach(card => {
+    const id = card.dataset.id;
+    card.classList.toggle('selected', state.ex1.selectedDevice === id);
+    card.classList.toggle('paired', pairedDevices.includes(id));
+  });
+  document.querySelectorAll('.sensor-card').forEach(card => {
+    const id = card.dataset.id;
+    card.classList.toggle('selected', state.ex1.selectedSensor === id);
+    card.classList.toggle('paired', pairedSensors.includes(id));
+  });
+  updateEx1Counter();
+}
+
+function updateEx1Counter() {
+  const n = Object.keys(state.ex1.pairs).length;
+  document.getElementById('ex1-counter').textContent = `Abbinamenti fatti: ${n} di 3`;
+  document.getElementById('ex1-finish-btn').disabled = (n !== 3);
+}
+
+function finishEx1() {
+  goToScreen('ex2');
+}
+
+/* ============================================================
+   ESERCIZIO 2 — Vero/Falso
+============================================================ */
+function initEx2() {
+  state.ex2 = { current: 0, answers: [] };
+  renderVfItem();
+}
+
+function renderVfItem() {
+  const i = state.ex2.current;
+  const item = vfItems[i];
+  document.getElementById('vf-progress').textContent = `Domanda ${i+1} di ${vfItems.length}`;
+  document.getElementById('vf-content').innerHTML = `
+    <div class="vf-item">
+      <div class="vf-statement">${item.statement}</div>
+      <div class="vf-image">${vfIllustration(item.illustration)}</div>
+    </div>
+    <div class="vf-buttons">
+      <button class="vf-btn" data-val="V" onclick="selectVf('V')">✓ Vero</button>
+      <button class="vf-btn" data-val="F" onclick="selectVf('F')">✗ Falso</button>
+      <button class="vf-btn" data-val="?" onclick="selectVf('?')">? Non lo so</button>
+    </div>
+  `;
+  document.getElementById('vf-next-btn').disabled = true;
+  if (i === vfItems.length - 1) {
+    document.getElementById('vf-next-btn').textContent = 'Ho finito →';
+  } else {
+    document.getElementById('vf-next-btn').textContent = 'Avanti →';
+  }
+}
+
+function selectVf(val) {
+  state.ex2.answers[state.ex2.current] = val;
+  document.querySelectorAll('.vf-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.val === val);
+  });
+  document.getElementById('vf-next-btn').disabled = false;
+}
+
+function nextVfItem() {
+  if (state.ex2.current < vfItems.length - 1) {
+    state.ex2.current++;
+    renderVfItem();
+  } else {
+    goToScreen('ex3');
+  }
+}
+
+/* ============================================================
+   ESERCIZIO 3 — Time-lapse
+============================================================ */
+function initEx3() {
+  // Reset sequenza con i 4 ancora già piazzati
+  state.ex3.sequence = new Array(24).fill(null);
+  state.ex3.anchors.forEach(idx => {
+    state.ex3.sequence[idx] = idx;
+  });
+  // Pool: tutti gli altri 20 frame, mescolati
+  const allOthers = [];
+  for (let i = 0; i < 24; i++) {
+    if (!state.ex3.anchors.includes(i)) allOthers.push(i);
+  }
+  state.ex3.pool = shuffle(allOthers);
+  state.ex3.selectedPool = null;
+  state.ex3.selectedTarget = null;
+
+  renderEx3();
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderEx3() {
+  // Timeline grid
+  const grid = document.getElementById('timeline-grid');
+  grid.innerHTML = state.ex3.sequence.map((frameIdx, slotIdx) => {
+    const isAnchor = state.ex3.anchors.includes(slotIdx);
+    if (frameIdx !== null) {
+      return `<div class="frame-slot ${isAnchor ? 'anchor' : ''}" 
+                   onclick="${isAnchor ? '' : `removeFromTimeline(${slotIdx})`}">
+                ${frameSVG(sunriseFrames[frameIdx])}
+              </div>`;
+    } else {
+      const isTarget = state.ex3.selectedTarget === slotIdx;
+      return `<div class="frame-slot ${isTarget ? 'selected-target' : ''}" 
+                   onclick="placeFrame(${slotIdx})">
+                ${slotIdx + 1}
+              </div>`;
+    }
+  }).join('');
+
+  // Pool grid
+  const pool = document.getElementById('pool-grid');
+  pool.innerHTML = state.ex3.pool.map(frameIdx => {
+    const sel = state.ex3.selectedPool === frameIdx ? 'selected' : '';
+    return `<div class="frame-tile ${sel}" onclick="selectPoolFrame(${frameIdx})">
+              ${frameSVG(sunriseFrames[frameIdx])}
+            </div>`;
+  }).join('');
+
+  // Bottone "Ho finito": abilitato solo se la sequenza è completa
+  const filled = state.ex3.sequence.every(s => s !== null);
+  document.getElementById('ex3-finish-btn').disabled = !filled;
+}
+
+function selectPoolFrame(frameIdx) {
+  if (state.ex3.selectedPool === frameIdx) {
+    state.ex3.selectedPool = null;
+  } else {
+    state.ex3.selectedPool = frameIdx;
+    // Se è già selezionato uno slot, piazza
+    if (state.ex3.selectedTarget !== null) {
+      doPlace(state.ex3.selectedTarget, frameIdx);
+      return;
+    }
+  }
+  renderEx3();
+}
+
+function placeFrame(slotIdx) {
+  if (state.ex3.anchors.includes(slotIdx)) return;
+  if (state.ex3.selectedPool !== null) {
+    doPlace(slotIdx, state.ex3.selectedPool);
+  } else {
+    // Seleziona lo slot in attesa di un frame
+    if (state.ex3.selectedTarget === slotIdx) {
+      state.ex3.selectedTarget = null;
+    } else {
+      state.ex3.selectedTarget = slotIdx;
+    }
+    renderEx3();
+  }
+}
+
+function doPlace(slotIdx, frameIdx) {
+  state.ex3.sequence[slotIdx] = frameIdx;
+  state.ex3.pool = state.ex3.pool.filter(f => f !== frameIdx);
+  state.ex3.selectedPool = null;
+  state.ex3.selectedTarget = null;
+  renderEx3();
+}
+
+function removeFromTimeline(slotIdx) {
+  if (state.ex3.anchors.includes(slotIdx)) return;
+  const frameIdx = state.ex3.sequence[slotIdx];
+  if (frameIdx === null) return;
+  state.ex3.sequence[slotIdx] = null;
+  state.ex3.pool.push(frameIdx);
+  renderEx3();
+}
+
+function resetEx3() {
+  initEx3();
+}
+
+let playInterval = null;
+function playTimelapse() {
+  const player = document.getElementById('timelapse-player');
+  const playerFrame = document.getElementById('player-frame');
+  player.classList.add('active');
+
+  let i = 0;
+  if (playInterval) clearInterval(playInterval);
+
+  function showFrame() {
+    const frameIdx = state.ex3.sequence[i];
+    if (frameIdx !== null) {
+      playerFrame.innerHTML = frameSVG(sunriseFrames[frameIdx], 'large');
+    } else {
+      playerFrame.innerHTML = `<div style="color:white;display:flex;align-items:center;justify-content:center;height:100%;font-size:14px;">Foto mancante</div>`;
+    }
+    i++;
+    if (i >= 24) {
+      clearInterval(playInterval);
+      setTimeout(() => {
+        player.classList.remove('active');
+      }, 1200);
+    }
+  }
+
+  showFrame();
+  // 6 fps = 167ms per frame. Gradiente morbido, nessun rischio epilettico.
+  playInterval = setInterval(showFrame, 167);
+}
+
+function finishEx3() {
+  goToScreen('ex4');
+}
+
+/* ============================================================
+   ESERCIZIO 4 — Sceriffo
+============================================================ */
+function initEx4() {
+  state.ex4 = { current: 0, answers: [] };
+  renderSceriffoItem();
+}
+
+function renderSceriffoItem() {
+  const i = state.ex4.current;
+  const item = sceriffoItems[i];
+  document.getElementById('sceriffo-progress').textContent = `Foto ${i+1} di ${sceriffoItems.length}`;
+  document.getElementById('sceriffo-content').innerHTML = `
+    <div class="sceriffo-item">
+      <div class="sceriffo-photo">${sceriffoVisual(item)}</div>
+      <p style="font-size:18px;color:var(--ink-soft);margin-bottom:16px;">Chi ha scattato questa foto?</p>
+      <div class="sceriffo-buttons">
+        <button class="sceriffo-btn" data-val="phone" onclick="selectSceriffo('phone')">
+          ${deviceIcon('phone', 40)}
+          <div class="sceriffo-btn-label">Smartphone</div>
+        </button>
+        <button class="sceriffo-btn" data-val="compact" onclick="selectSceriffo('compact')">
+          ${deviceIcon('compact', 40)}
+          <div class="sceriffo-btn-label">Fotocamera compatta</div>
+        </button>
+        <button class="sceriffo-btn" data-val="reflex" onclick="selectSceriffo('reflex')">
+          ${deviceIcon('reflex', 40)}
+          <div class="sceriffo-btn-label">Fotocamera professionale</div>
+        </button>
+      </div>
+    </div>
+  `;
+  document.getElementById('sceriffo-next-btn').disabled = true;
+  if (i === sceriffoItems.length - 1) {
+    document.getElementById('sceriffo-next-btn').textContent = 'Ho finito →';
+  } else {
+    document.getElementById('sceriffo-next-btn').textContent = 'Avanti →';
+  }
+}
+
+function selectSceriffo(val) {
+  state.ex4.answers[state.ex4.current] = val;
+  document.querySelectorAll('.sceriffo-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.val === val);
+  });
+  document.getElementById('sceriffo-next-btn').disabled = false;
+}
+
+function nextSceriffoItem() {
+  if (state.ex4.current < sceriffoItems.length - 1) {
+    state.ex4.current++;
+    renderSceriffoItem();
+  } else {
+    goToScreen('summary');
+  }
+}
+
+/* ============================================================
+   RIEPILOGO E PUNTEGGIO
+============================================================ */
+function calculateScores() {
+  // Esercizio 1: 3 abbinamenti corretti?
+  let ex1Correct = 0;
+  for (const d of devices) {
+    if (state.ex1.pairs[d.id] === d.correctSensor) ex1Correct++;
+  }
+
+  // Esercizio 2: 5 risposte
+  let ex2Correct = 0, ex2Skipped = 0;
+  vfItems.forEach((item, i) => {
+    if (state.ex2.answers[i] === '?') ex2Skipped++;
+    else if (state.ex2.answers[i] === item.correct) ex2Correct++;
+  });
+
+  // Esercizio 3: percentuale di frame corretti (escludendo gli ancora)
+  let ex3Correct = 0, ex3Total = 0;
+  state.ex3.sequence.forEach((frame, slot) => {
+    if (state.ex3.anchors.includes(slot)) return;
+    ex3Total++;
+    if (frame === slot) ex3Correct++;
+  });
+
+  // Esercizio 4: 5 risposte
+  let ex4Correct = 0;
+  sceriffoItems.forEach((item, i) => {
+    if (state.ex4.answers[i] === item.correct) ex4Correct++;
+  });
+
+  return {
+    ex1: { correct: ex1Correct, total: 3 },
+    ex2: { correct: ex2Correct, total: vfItems.length, skipped: ex2Skipped },
+    ex3: { correct: ex3Correct, total: ex3Total },
+    ex4: { correct: ex4Correct, total: sceriffoItems.length }
+  };
+}
+
+function evaluateLabel(correct, total) {
+  const pct = correct / total;
+  if (pct >= 0.8) return { text: 'Completato bene', class: 'status-ok' };
+  if (pct >= 0.5) return { text: 'Completato', class: 'status-ok' };
+  return { text: 'Da rivedere insieme', class: 'status-review' };
+}
+
+function initSummary() {
+  const scores = calculateScores();
+  const results = [
+    { icon: '🎯', name: 'Esercizio 1 — Abbinamento', detail: `${scores.ex1.correct} su ${scores.ex1.total}`, eval: evaluateLabel(scores.ex1.correct, scores.ex1.total) },
+    { icon: '🎯', name: 'Esercizio 2 — Vero o Falso', detail: `${scores.ex2.correct} su ${scores.ex2.total}`, eval: evaluateLabel(scores.ex2.correct, scores.ex2.total) },
+    { icon: '🎯', name: 'Esercizio 3 — Time-lapse', detail: `${scores.ex3.correct} su ${scores.ex3.total} foto al posto giusto`, eval: evaluateLabel(scores.ex3.correct, scores.ex3.total) },
+    { icon: '🎯', name: 'Esercizio 4 — Sceriffo', detail: `${scores.ex4.correct} su ${scores.ex4.total}`, eval: evaluateLabel(scores.ex4.correct, scores.ex4.total) }
+  ];
+
+  document.getElementById('summary-results').innerHTML = results.map(r => `
+    <div class="summary-item">
+      <span class="summary-icon">${r.icon}</span>
+      <div class="summary-text">
+        <strong>${r.name}</strong><br>
+        <span style="font-size:14px;color:var(--ink-soft);">${r.detail}</span>
+      </div>
+      <span class="summary-status ${r.eval.class}">${r.eval.text}</span>
+    </div>
+  `).join('');
+
+  // Commento finale calibrato sul punteggio totale
+  const totalCorrect = scores.ex1.correct + scores.ex2.correct + scores.ex3.correct + scores.ex4.correct;
+  const totalPossible = scores.ex1.total + scores.ex2.total + scores.ex3.total + scores.ex4.total;
+  const overall = totalCorrect / totalPossible;
+
+  let comment;
+  if (overall >= 0.8) comment = `Bravo ${state.student.name}! Hai capito molto bene come funzionano le fotocamere.`;
+  else if (overall >= 0.5) comment = `Bel lavoro ${state.student.name}. Stai imparando come funzionano le fotocamere.`;
+  else comment = `${state.student.name}, hai cominciato a capire come funzionano le fotocamere. Continuiamo insieme.`;
+
+  document.getElementById('summary-comment').textContent = comment;
+}
+
+/* ============================================================
+   GENERAZIONE PDF
+============================================================ */
+function generatePDF() {
+  const scores = calculateScores();
+  const sensorNameById = Object.fromEntries(sensors.map(s => [s.id, s.name]));
+  const deviceNameById = Object.fromEntries(devices.map(d => [d.id, d.name]));
+
+  // Costruisco il dettaglio risposte
+  const ex1Rows = devices.map(d => {
+    const given = state.ex1.pairs[d.id];
+    const givenName = given ? sensorNameById[given] : '—';
+    const correctName = sensorNameById[d.correctSensor];
+    const ok = given === d.correctSensor;
+    return `<tr>
+      <td>${d.name}</td>
+      <td>${givenName}</td>
+      <td>${correctName}</td>
+      <td>${ok ? '✓' : '○'}</td>
+    </tr>`;
+  }).join('');
+
+  const ex2Rows = vfItems.map((item, i) => {
+    const given = state.ex2.answers[i] || '—';
+    const givenLabel = given === 'V' ? 'Vero' : (given === 'F' ? 'Falso' : (given === '?' ? 'Non lo so' : '—'));
+    const correctLabel = item.correct === 'V' ? 'Vero' : 'Falso';
+    const ok = given === item.correct;
+    return `<tr>
+      <td>${item.statement}</td>
+      <td>${givenLabel}</td>
+      <td>${correctLabel}</td>
+      <td>${ok ? '✓' : (given === '?' ? '—' : '○')}</td>
+    </tr>`;
+  }).join('');
+
+  const ex4Rows = sceriffoItems.map((item, i) => {
+    const given = state.ex4.answers[i];
+    const givenName = given ? deviceNameById[given] : '—';
+    const correctName = deviceNameById[item.correct];
+    const ok = given === item.correct;
+    return `<tr>
+      <td>${item.description}</td>
+      <td>${givenName}</td>
+      <td>${correctName}</td>
+      <td>${ok ? '✓' : '○'}</td>
+    </tr>`;
+  }).join('');
+
+  const totalCorrect = scores.ex1.correct + scores.ex2.correct + scores.ex3.correct + scores.ex4.correct;
+  const totalPossible = scores.ex1.total + scores.ex2.total + scores.ex3.total + scores.ex4.total;
+
+  const pdfHTML = `
+    <h1>Verifica di Fotografia</h1>
+    <div style="color:#555;font-size:14px;margin-bottom:24px;">${state.student.topic}</div>
+
+    <div class="pdf-header-grid">
+      <div><strong>Alunno:</strong> ${state.student.name}</div>
+      <div><strong>Classe:</strong> ${state.student.class}</div>
+      <div><strong>Data:</strong> ${state.student.date}</div>
+      <div><strong>Docente:</strong> ${state.student.teacher}</div>
+    </div>
+
+    <h2>Esiti</h2>
+    <table>
+      <tr><th>Esercizio</th><th>Risultato</th><th>Valutazione</th></tr>
+      <tr><td>1 — Abbinamento sensore-dispositivo</td><td>${scores.ex1.correct} su ${scores.ex1.total}</td><td>${evaluateLabel(scores.ex1.correct, scores.ex1.total).text}</td></tr>
+      <tr><td>2 — Vero o Falso</td><td>${scores.ex2.correct} su ${scores.ex2.total}${scores.ex2.skipped ? ' ('+scores.ex2.skipped+' "Non lo so")' : ''}</td><td>${evaluateLabel(scores.ex2.correct, scores.ex2.total).text}</td></tr>
+      <tr><td>3 — Time-lapse</td><td>${scores.ex3.correct} su ${scores.ex3.total} frame al posto corretto</td><td>${evaluateLabel(scores.ex3.correct, scores.ex3.total).text}</td></tr>
+      <tr><td>4 — Sceriffo della fotocamera</td><td>${scores.ex4.correct} su ${scores.ex4.total}</td><td>${evaluateLabel(scores.ex4.correct, scores.ex4.total).text}</td></tr>
+      <tr style="background:#f0f0f0;font-weight:700;"><td>TOTALE</td><td>${totalCorrect} su ${totalPossible}</td><td>—</td></tr>
+    </table>
+
+    <h2>Dettaglio Esercizio 1 — Abbinamento</h2>
+    <table>
+      <tr><th>Dispositivo</th><th>Risposta dell'alunno</th><th>Risposta corretta</th><th>Esito</th></tr>
+      ${ex1Rows}
+    </table>
+
+    <h2>Dettaglio Esercizio 2 — Vero o Falso</h2>
+    <table>
+      <tr><th>Affermazione</th><th>Risposta dell'alunno</th><th>Risposta corretta</th><th>Esito</th></tr>
+      ${ex2Rows}
+    </table>
+
+    <h2>Dettaglio Esercizio 3 — Time-lapse</h2>
+    <p style="font-size:14px;">Frame correttamente posizionati: <strong>${scores.ex3.correct} su ${scores.ex3.total}</strong> (esclusi i 4 frame-ancora).</p>
+
+    <h2>Dettaglio Esercizio 4 — Sceriffo</h2>
+    <table>
+      <tr><th>Foto</th><th>Risposta dell'alunno</th><th>Risposta corretta</th><th>Esito</th></tr>
+      ${ex4Rows}
+    </table>
+
+    <h2>Osservazioni del docente</h2>
+    <div style="border:1px solid #ccc;height:120px;border-radius:4px;"></div>
+
+    <div class="pdf-signature">
+      <div class="signature-line">Firma del docente</div>
+      <div class="signature-line">Data e luogo</div>
+    </div>
+
+    <div style="margin-top:32px;font-size:11px;color:#888;text-align:center;">
+      Verifica con programmazione differenziata ex art. 15 c.3 O.M. 90/2001
+    </div>
+  `;
+
+  const pdfDiv = document.getElementById('pdf-output');
+  pdfDiv.innerHTML = pdfHTML;
+  pdfDiv.classList.add('generating');
+
+  const filename = `verifica_fotografia_${state.student.name.replace(/\s+/g,'_')}_${state.student.date.replace(/\//g,'-')}.pdf`;
+
+  const opt = {
+    margin: [12, 12, 12, 12],
+    filename: filename,
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 1.5, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  // Lascio al browser un momento per renderizzare il div appena reso visibile
+  // (le font web possono essere ancora in caricamento al primo tentativo)
+  setTimeout(() => {
+    html2pdf().set(opt).from(pdfDiv).save().then(() => {
+      pdfDiv.classList.remove('generating');
+    }).catch(err => {
+      console.error('Errore nella generazione del PDF:', err);
+      pdfDiv.classList.remove('generating');
+      alert('Si è verificato un problema nella generazione del PDF. Riprova oppure controlla la console del browser.');
+    });
+  }, 300);
+}
+</script>
+
+</body>
+</html>
