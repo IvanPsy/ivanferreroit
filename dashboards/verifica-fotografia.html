@@ -691,12 +691,18 @@ p {
 }
 
 #pdf-output.generating {
+  /* Renderizzato a dimensione piena nel layout, posizionato top:0 left:0
+     ma sotto al resto della pagina via z-index negativo. html2canvas lo
+     cattura senza problemi (è davvero visibile e opaco), l'utente non lo
+     vede perché è coperto dal contenuto della pagina. È l'unico setup
+     che html2canvas gestisce in modo affidabile. */
   display: block;
   position: absolute;
   top: 0;
-  left: -10000px;        /* fuori viewport, ma renderizzato a piena opacità */
+  left: 0;
   z-index: -1;
   pointer-events: none;
+  opacity: 1;
 }
 
 #pdf-output h1 {
@@ -1928,37 +1934,52 @@ function generatePDF() {
 
   const filename = `verifica_fotografia_${state.student.name.replace(/\s+/g,'_')}_${state.student.date.replace(/\//g,'-')}.pdf`;
 
+  console.log('[PDF] === Avvio generazione ===');
+  console.log('[PDF] Filename:', filename);
+  console.log('[PDF] html2pdf disponibile?', typeof html2pdf);
+  console.log('[PDF] pdfDiv.offsetWidth × offsetHeight =', pdfDiv.offsetWidth, '×', pdfDiv.offsetHeight);
+  console.log('[PDF] computed display:', getComputedStyle(pdfDiv).display);
+  console.log('[PDF] computed visibility:', getComputedStyle(pdfDiv).visibility);
+  console.log('[PDF] computed opacity:', getComputedStyle(pdfDiv).opacity);
+  console.log('[PDF] innerHTML length:', pdfDiv.innerHTML.length);
+
   const opt = {
     margin: [12, 12, 12, 12],
     filename: filename,
     image: { type: 'jpeg', quality: 0.95 },
-    html2canvas: { scale: 1.5, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+    html2canvas: { scale: 1.5, useCORS: true, logging: true, backgroundColor: '#ffffff' },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
   };
 
   // Aspetto che (1) i font web siano caricati e (2) il browser abbia
   // avuto un frame per applicare il layout al div appena reso visibile.
-  // Senza queste due attese, html2canvas può catturare un frame vuoto.
+  // Fallback temporale di 1500ms nel caso document.fonts.ready non risolva.
   const fontsReady = (document.fonts && document.fonts.ready)
     ? document.fonts.ready
     : Promise.resolve();
+  const timeoutFallback = new Promise(r => setTimeout(r, 1500));
 
-  fontsReady.then(() => {
-    // Doppio requestAnimationFrame: garantisce che il browser abbia
-    // completato sia il layout sia il paint prima della cattura.
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        html2pdf().set(opt).from(pdfDiv).save().then(() => {
-          pdfDiv.classList.remove('generating');
-        }).catch(err => {
-          console.error('Errore nella generazione del PDF:', err);
-          pdfDiv.classList.remove('generating');
-          alert('Si è verificato un problema nella generazione del PDF. Riprova oppure controlla la console del browser.');
-        });
-      });
+  Promise.race([fontsReady, timeoutFallback])
+    .then(() => {
+      console.log('[PDF] Fonts pronti (o timeout fallback)');
+      return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    })
+    .then(() => {
+      console.log('[PDF] Doppio RAF completato — avvio html2pdf');
+      console.log('[PDF] Dimensioni finali pdfDiv:', pdfDiv.offsetWidth, '×', pdfDiv.offsetHeight);
+      return html2pdf().set(opt).from(pdfDiv).save();
+    })
+    .then(() => {
+      console.log('[PDF] === Generazione completata con successo ===');
+      pdfDiv.classList.remove('generating');
+    })
+    .catch(err => {
+      console.error('[PDF] ERRORE:', err);
+      console.error('[PDF] Stack:', err && err.stack);
+      pdfDiv.classList.remove('generating');
+      alert('Errore nella generazione del PDF: ' + (err && err.message ? err.message : err));
     });
-  });
 }
 </script>
 
