@@ -678,8 +678,9 @@ p {
 }
 
 /* PDF output area — nascosta all'utente, ma renderizzabile da html2canvas
-   durante la generazione (la classe .generating la rende visibile in DOM
-   ma invisibile visivamente con opacity 0) */
+   durante la generazione. NB: html2canvas ha un bug noto con opacity:0
+   (genera canvas bianchi). La soluzione robusta è posizionare l'elemento
+   fuori dal viewport, NON renderlo trasparente. */
 #pdf-output {
   display: none;
   width: 800px;
@@ -691,11 +692,10 @@ p {
 
 #pdf-output.generating {
   display: block;
-  position: fixed;
+  position: absolute;
   top: 0;
-  left: 0;
-  z-index: 9999;
-  opacity: 0;
+  left: -10000px;        /* fuori viewport, ma renderizzato a piena opacità */
+  z-index: -1;
   pointer-events: none;
 }
 
@@ -1933,17 +1933,28 @@ function generatePDF() {
     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
   };
 
-  // Lascio al browser un momento per renderizzare il div appena reso visibile
-  // (le font web possono essere ancora in caricamento al primo tentativo)
-  setTimeout(() => {
-    html2pdf().set(opt).from(pdfDiv).save().then(() => {
-      pdfDiv.classList.remove('generating');
-    }).catch(err => {
-      console.error('Errore nella generazione del PDF:', err);
-      pdfDiv.classList.remove('generating');
-      alert('Si è verificato un problema nella generazione del PDF. Riprova oppure controlla la console del browser.');
+  // Aspetto che (1) i font web siano caricati e (2) il browser abbia
+  // avuto un frame per applicare il layout al div appena reso visibile.
+  // Senza queste due attese, html2canvas può catturare un frame vuoto.
+  const fontsReady = (document.fonts && document.fonts.ready)
+    ? document.fonts.ready
+    : Promise.resolve();
+
+  fontsReady.then(() => {
+    // Doppio requestAnimationFrame: garantisce che il browser abbia
+    // completato sia il layout sia il paint prima della cattura.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        html2pdf().set(opt).from(pdfDiv).save().then(() => {
+          pdfDiv.classList.remove('generating');
+        }).catch(err => {
+          console.error('Errore nella generazione del PDF:', err);
+          pdfDiv.classList.remove('generating');
+          alert('Si è verificato un problema nella generazione del PDF. Riprova oppure controlla la console del browser.');
+        });
+      });
     });
-  }, 300);
+  });
 }
 </script>
 
