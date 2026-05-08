@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio di funzione, passo per passo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Atkinson Hyperlegible', 'Verdana', sans-serif;
+    background: #f5f7fa;
+    color: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+    padding: 20px;
+    padding-top: 90px;
+  }
+
+  @media (max-width: 768px) {
+    body { padding-top: 140px; }
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER + BARRA PROGRESSIONE — scoped per non collidere col menu del sito */
+  .container > header {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin-bottom: 18px;
+  }
+
+  .titolo-pagina {
+    font-size: 18px;
+    color: #5a6772;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .step-counter {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .step-name {
+    font-size: 14px;
+    color: #5a6772;
+  }
+
+  .progress-bar {
+    height: 12px;
+    background: #e5eaf0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4a90e2 0%, #5cb85c 100%);
+    border-radius: 6px;
+    transition: width 0.4s ease;
+  }
+
+  /* CONTROLLO GLOBALE CARD */
+  .controllo-card {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .controllo-card button {
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #d0d7de;
+    background: white;
+    color: #5a6772;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 0 1 auto;
+  }
+
+  .controllo-card button:hover {
+    background: #f0f4f8;
+  }
+
+  /* CARTA DELLO STEP */
+  .step-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    flex: 1;
+    margin-bottom: 24px;
+  }
+
+  .step-card h1 {
+    font-size: 28px;
+    color: #1a1a1a;
+    margin-bottom: 18px;
+    font-weight: 700;
+  }
+
+  .step-card p {
+    font-size: 17px;
+    margin-bottom: 12px;
+    color: #2c3e50;
+  }
+
+  /* CARD ESPANDIBILI INTERNE (basate su <details>) */
+  details.card {
+    background: white;
+    border: 2px solid #e5eaf0;
+    border-radius: 12px;
+    margin: 14px 0;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  details.card[open] {
+    border-color: #c5d0db;
+  }
+
+  details.card summary {
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    user-select: none;
+    background: #f8f9fa;
+    transition: background 0.15s;
+  }
+
+  details.card summary:hover {
+    background: #f0f4f8;
+  }
+
+  details.card summary::-webkit-details-marker { display: none; }
+
+  .summary-icona {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .summary-titolo {
+    flex: 1;
+  }
+
+  .summary-toggle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: white;
+    border: 1.5px solid #c5d0db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s, background 0.15s;
+    flex-shrink: 0;
+    font-size: 14px;
+    color: #5a6772;
+  }
+
+  details.card[open] .summary-toggle {
+    transform: rotate(180deg);
+    background: #4a90e2;
+    color: white;
+    border-color: #4a90e2;
+  }
+
+  .card-contenuto {
+    padding: 20px 24px;
+    border-top: 1px solid #e5eaf0;
+  }
+
+  /* COLORI CARD PER TIPO */
+  details.card.tipo-todo summary { background: #fff8e7; }
+  details.card.tipo-todo summary:hover { background: #fff1d0; }
+  details.card.tipo-todo[open] { border-color: #f5b800; }
+
+  details.card.tipo-result summary { background: #e8f5e9; }
+  details.card.tipo-result summary:hover { background: #d4edda; }
+  details.card.tipo-result[open] { border-color: #5cb85c; }
+
+  details.card.tipo-info summary { background: #e3f2fd; }
+  details.card.tipo-info summary:hover { background: #d0e7f9; }
+  details.card.tipo-info[open] { border-color: #4a90e2; }
+
+  details.card.tipo-warning summary { background: #fff0f0; }
+  details.card.tipo-warning summary:hover { background: #ffe0e0; }
+  details.card.tipo-warning[open] { border-color: #e57373; }
+
+  details.card.tipo-formula summary { background: #f0f4f8; }
+  details.card.tipo-formula summary:hover { background: #e3eaf0; }
+  details.card.tipo-formula[open] { border-color: #6c757d; }
+
+  details.card.tipo-grafico summary { background: #f3e5f5; }
+  details.card.tipo-grafico summary:hover { background: #e8d4eb; }
+  details.card.tipo-grafico[open] { border-color: #9c27b0; }
+
+  /* MATEMATICA */
+  .formula {
+    font-size: 24px;
+    font-family: 'Georgia', serif;
+    text-align: center;
+    margin: 16px 0;
+    color: #1a1a1a;
+  }
+
+  .frazione {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 6px;
+  }
+
+  .frazione .num {
+    border-bottom: 2px solid #1a1a1a;
+    padding: 0 8px 4px 8px;
+  }
+
+  .frazione .den {
+    padding: 4px 8px 0 8px;
+  }
+
+  /* CODIFICA CROMATICA */
+  .num-color { color: #1565c0; font-weight: 600; }
+  .den-color { color: #e65100; font-weight: 600; }
+  .ris-color { color: #2e7d32; font-weight: 600; }
+
+  .legenda {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    background: #f8f9fa;
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin: 12px 0;
+    font-size: 16px;
+  }
+
+  .legenda-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legenda-pallino {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+  }
+
+  /* TABELLA SEGNI */
+  table.segni {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 16px;
+  }
+
+  table.segni th, table.segni td {
+    padding: 12px 8px;
+    text-align: center;
+    border: 2px solid #e5eaf0;
+  }
+
+  table.segni th {
+    background: #f0f4f8;
+    font-weight: 700;
+  }
+
+  table.segni .pos {
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  table.segni .neg {
+    background: #ffebee;
+    color: #c62828;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  /* NAVIGAZIONE */
+  .navigazione {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    background: white;
+    padding: 18px;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  button.studio-nav-btn {
+    flex: 1;
+    padding: 16px 22px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  button.studio-nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .btn-indietro {
+    background: #f0f4f8;
+    color: #2c3e50;
+  }
+
+  .btn-indietro:not(:disabled):hover {
+    background: #e1e8ed;
+  }
+
+  .btn-avanti {
+    background: #4a90e2;
+    color: white;
+  }
+
+  .btn-avanti:not(:disabled):hover {
+    background: #357ab8;
+  }
+
+  .btn-fine {
+    background: #5cb85c;
+    color: white;
+  }
+
+  /* RIQUADRO DELLA FUNZIONE FISSO */
+  .funzione-promemoria {
+    background: #fafbfc;
+    border: 2px dashed #b0b8c1;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 0 0 18px 0;
+    text-align: center;
+  }
+
+  .funzione-promemoria .label {
+    font-size: 13px;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  /* GRAFICI SVG */
+  .grafico-container {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+    padding: 14px;
+    background: #fafbfc;
+    border-radius: 10px;
+  }
+
+  .grafico-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .step-display { display: none; }
+  .step-display.attivo { display: block; }
+
+  /* INTERVALLI */
+  .intervallo {
+    background: #e8f5e9;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin: 6px 0;
+    font-size: 17px;
+    border-left: 4px solid #5cb85c;
+  }
+
+  .intervallo.neg {
+    background: #ffebee;
+    border-color: #e57373;
+  }
+
+  /* ICONA STEP */
+  .icona-step {
+    font-size: 36px;
+    margin-bottom: 6px;
+  }
+
+  /* HEADER TOP CON BOTTONE INFO */
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .info-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #5a6772;
+    background: #f0f4f8;
+    border: 1px solid #c5d0db;
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .info-btn:hover {
+    background: #e1e8ed;
+    color: #1a1a1a;
+  }
+
+  /* MODALE ACCESSIBILITÀ */
+  .modale-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 30, 50, 0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modale-overlay.aperto {
+    display: flex;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modale {
+    background: white;
+    border-radius: 16px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px 36px;
+    position: relative;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  .modale-chiudi {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f0f4f8;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5a6772;
+    font-family: inherit;
+    line-height: 1;
+  }
+
+  .modale-chiudi:hover {
+    background: #e1e8ed;
+    color: #1a1a1a;
+  }
+
+  .modale h2 {
+    font-size: 22px;
+    margin-bottom: 14px;
+    color: #1a1a1a;
+    padding-right: 30px;
+  }
+
+  .modale h3 {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+
+  .modale p {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    line-height: 1.6;
+  }
+
+  .principio-udl {
+    background: #f8f9fa;
+    border-left: 4px solid;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 8px 0;
+  }
+
+  .principio-udl strong { display: block; margin-bottom: 4px; font-size: 15px; }
+  .principio-udl p { font-size: 14px; margin: 0; }
+
+  .principio-udl.eng { border-color: #e91e63; }
+  .principio-udl.rep { border-color: #2196f3; }
+  .principio-udl.act { border-color: #4caf50; }
+
+  .modale .citazione {
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid #e5eaf0;
+    line-height: 1.5;
+  }
+
+  .modale a {
+    color: #4a90e2;
+    text-decoration: none;
+    border-bottom: 1px dotted #4a90e2;
+  }
+
+  /* LINK NOTE DIDATTICHE */
+  .note-link {
+    background: none;
+    border: 1px solid #d0d7de;
+    color: #5a6772;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .note-link:hover {
+    background: #f0f4f8;
+    color: #2c3e50;
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .step-card { padding: 22px 18px; }
+    .step-card h1 { font-size: 22px; }
+    .formula { font-size: 20px; }
+    button.studio-nav-btn { padding: 14px 16px; font-size: 16px; }
+    details.card summary { padding: 12px 16px; font-size: 15px; }
+    .card-contenuto { padding: 16px 18px; }
+    table.segni { font-size: 13px; }
+    table.segni th, table.segni td { padding: 8px 4px; }
+    .modale { padding: 24px 22px; }
+    .modale h2 { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Menu condiviso del sito -->
+<div id="site-menu"></div>
+
+<div class="container">
+
+  <!-- HEADER CON PROGRESSIONE -->
+  <header>
+    <div class="header-top">
+      <div class="titolo-pagina">📘 Studio di funzione razionale fratta, passo per passo</div>
+      <button class="info-btn" onclick="apriInfo()" aria-label="Apri nota sull'accessibilità">ℹ️ Accessibilità</button>
+    </div>
+    <div class="progress-info">
+      <div class="step-counter">Passo <span id="step-attuale">1</span> di <span id="step-totale">10</span></div>
+      <div class="step-name" id="step-nome">Iniziamo</div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 10%;"></div>
+    </div>
+  </header>
+
+  <!-- PROMEMORIA FUNZIONE -->
+  <div class="funzione-promemoria" id="promemoria-funzione" style="display:none;">
+    <div class="label">La nostra funzione</div>
+    <div class="formula" style="margin: 0;">
+      y =
+      <span class="frazione">
+        <span class="num num-color">x² − 3x − 4</span>
+        <span class="den den-color">x² − 7x</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- CONTROLLI GLOBALI CARD -->
+  <div class="controllo-card" id="controllo-card" style="display:none;">
+    <button onclick="apriTutto()">⊕ Apri tutto</button>
+    <button onclick="chiudiTutto()">⊖ Chiudi tutto</button>
+  </div>
+
+  <!-- CONTENITORE DEGLI STEP -->
+  <div class="step-card">
+
+    <!-- STEP 1: PRESENTAZIONE -->
+    <div class="step-display attivo" data-step="1" data-name="Iniziamo">
+      <div class="icona-step">👋</div>
+      <h1>Benvenuto!</h1>
+      <p>Faremo insieme uno <strong>studio di funzione</strong>, un passo alla volta.</p>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">💡</span>
+          <span class="summary-titolo">Cosa vuol dire studiare una funzione?</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Studiare una funzione vuol dire capire come si comporta una formula. Risponde a tre domande:</p>
+          <ol style="margin-left: 24px; margin-top: 10px;">
+            <li><strong>Dove esiste?</strong> (dominio)</li>
+            <li><strong>Dove tocca gli assi?</strong> (intersezioni con gli assi)</li>
+            <li><strong>Dove è positiva o negativa?</strong> (studio del segno)</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🎯</span>
+          <span class="summary-titolo">Come funziona questa scheda</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>La scheda mostra <strong>un passo alla volta</strong>. Quando sei pronto, premi <strong>"Avanti"</strong>. Se hai bisogno di rivedere qualcosa, premi <strong>"Indietro"</strong>.</p>
+          <p>Dentro ogni passo ci sono delle <strong>card</strong>. Sono già aperte tutte. Se vuoi nascondere una parte già letta, puoi chiuderla cliccando sul titolo. Niente fretta.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 2: LA FUNZIONE -->
+    <div class="step-display" data-step="2" data-name="La funzione">
+      <div class="icona-step">📋</div>
+      <h1>Passo 1: guardiamo la funzione</h1>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">📐</span>
+          <span class="summary-titolo">La formula con cui lavoriamo</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="formula" style="font-size: 30px; margin: 18px 0;">
+            y =
+            <span class="frazione">
+              <span class="num num-color">x² − 3x − 4</span>
+              <span class="den den-color">x² − 7x</span>
+            </span>
+          </div>
+          <p>È una <strong>frazione</strong>. Ha due parti.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">🎨</span>
+          <span class="summary-titolo">I colori da ricordare</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="legenda">
+            <div class="legenda-item">
+              <div class="legenda-pallino" style="background: #1565c0;"></div>
+              <span><strong class="num-color">Numeratore</strong> (sopra): x² − 3x − 4</span>
+            </div>
+            <div class="legenda-item">
+              <div class="legenda-pallino" style="background: #e65100;"></div>
+              <span><strong class="den-color">Denominatore</strong> (sotto): x² − 7x</span>
+            </div>
+          </div>
+          <p>Il <span class="num-color">blu</span> è sempre il numeratore. L'<span class="den-color">arancione</span> è sempre il denominatore. Useremo questi colori in tutta la scheda.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 3: DOMINIO -->
+    <div class="step-display" data-step="3" data-name="Dominio">
+      <div class="icona-step">🏠</div>
+      <h1>Passo 2: il dominio</h1>
+      <p>Il <strong>dominio</strong> è l'insieme dei valori di <strong>x</strong> dove la funzione esiste.</p>
+
+      <details class="card tipo-warning" open>
+        <summary>
+          <span class="summary-icona">⚠️</span>
+          <span class="summary-titolo">Regola importante</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>In una frazione <strong>il denominatore non può mai essere zero</strong>. Dividere per zero non si può.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🎯</span>
+          <span class="summary-titolo">Cosa devo fare</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Devo trovare i valori di x che <strong>annullerebbero</strong> il denominatore <span class="den-color">x² − 7x</span> ed escluderli.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-formula" open>
+        <summary>
+          <span class="summary-icona">✏️</span>
+          <span class="summary-titolo">Lo svolgimento</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p style="margin-top: 8px;"><strong>Imposto la condizione:</strong></p>
+          <div class="formula"><span class="den-color">x² − 7x</span> ≠ 0</div>
+          <p><strong>Raccolgo la x in evidenza:</strong></p>
+          <div class="formula"><span class="den-color">x · (x − 7)</span> ≠ 0</div>
+          <p><strong>Una moltiplicazione fa zero solo se uno dei due fattori è zero. Quindi:</strong></p>
+        </div>
+      </details>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">✅</span>
+          <span class="summary-titolo">Risultato</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="formula" style="margin: 8px 0;"><span class="ris-color">x ≠ 0   e   x ≠ 7</span></div>
+          <p>La funzione esiste per <strong>tutti i numeri</strong>, tranne <strong>0</strong> e <strong>7</strong>.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 4: INTERSEZIONE ASSE Y -->
+    <div class="step-display" data-step="4" data-name="Asse Y">
+      <div class="icona-step">📍</div>
+      <h1>Passo 3: la funzione tocca l'asse Y?</h1>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">💡</span>
+          <span class="summary-titolo">Cos'è l'asse Y</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>L'<strong>asse Y</strong> è la riga verticale del piano cartesiano. Si trova dove <strong>x = 0</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🎯</span>
+          <span class="summary-titolo">Cosa devo fare</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Devo controllare se posso mettere <strong>x = 0</strong> nella funzione.</p>
+          <p style="margin-top: 8px;">Ma nel passo precedente ho trovato che <strong>x ≠ 0</strong>. Quindi <strong>x = 0 non è nel dominio</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">✅</span>
+          <span class="summary-titolo">Risultato</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="formula" style="margin: 8px 0;"><span class="ris-color">NESSUNA INTERSEZIONE CON L'ASSE Y</span></div>
+          <p>La funzione <strong>non tocca l'asse Y</strong>, perché in x = 0 non esiste.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 5: INTERSEZIONE ASSE X -->
+    <div class="step-display" data-step="5" data-name="Asse X">
+      <div class="icona-step">📍</div>
+      <h1>Passo 4: la funzione tocca l'asse X?</h1>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">💡</span>
+          <span class="summary-titolo">Cos'è l'asse X</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>L'<strong>asse X</strong> è la riga orizzontale del piano cartesiano. Si trova dove <strong>y = 0</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🎯</span>
+          <span class="summary-titolo">Cosa devo fare</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Una frazione vale 0 quando il <strong class="num-color">numeratore</strong> vale 0. Devo risolvere:</p>
+          <div class="formula"><span class="num-color">x² − 3x − 4</span> = 0</div>
+          <p>È un'equazione di secondo grado.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-formula" open>
+        <summary>
+          <span class="summary-icona">📐</span>
+          <span class="summary-titolo">Calcolo del Delta</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Formula: Δ = b² − 4·a·c</p>
+          <p style="margin-top: 8px;">Qui i coefficienti sono: <strong>a = 1, b = −3, c = −4</strong></p>
+          <div class="formula" style="font-size: 20px;">Δ = (−3)² − 4 · 1 · (−4)</div>
+          <div class="formula" style="font-size: 20px;">Δ = 9 − (−16)</div>
+          <div class="formula" style="font-size: 20px;">Δ = 9 + 16 = <strong>25</strong></div>
+          <div class="formula" style="font-size: 20px;">√Δ = √25 = <strong>5</strong></div>
+          <p style="text-align: center; color: #2e7d32;"><strong>Δ è positivo, ci sono due soluzioni.</strong></p>
+        </div>
+      </details>
+
+      <details class="card tipo-formula" open>
+        <summary>
+          <span class="summary-icona">🔢</span>
+          <span class="summary-titolo">Calcolo delle due soluzioni</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="formula">x =
+            <span class="frazione">
+              <span class="num">−b ± √Δ</span>
+              <span class="den">2a</span>
+            </span>
+          </div>
+          <p><strong>Prima soluzione (con il +):</strong></p>
+          <div class="formula">
+            x₁ =
+            <span class="frazione">
+              <span class="num">3 + 5</span>
+              <span class="den">2</span>
+            </span>
+            =
+            <span class="frazione">
+              <span class="num">8</span>
+              <span class="den">2</span>
+            </span>
+            = <strong class="ris-color">4</strong>
+          </div>
+          <p><strong>Seconda soluzione (con il −):</strong></p>
+          <div class="formula">
+            x₂ =
+            <span class="frazione">
+              <span class="num">3 − 5</span>
+              <span class="den">2</span>
+            </span>
+            =
+            <span class="frazione">
+              <span class="num">−2</span>
+              <span class="den">2</span>
+            </span>
+            = <strong class="ris-color">−1</strong>
+          </div>
+        </div>
+      </details>
+
+      <details class="card tipo-grafico" open>
+        <summary>
+          <span class="summary-icona">📊</span>
+          <span class="summary-titolo">Visualizziamo i punti sul piano</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="grafico-container">
+            <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Piano cartesiano con i punti A in meno uno zero e B in quattro zero">
+              <!-- Griglia leggera -->
+              <defs>
+                <pattern id="griglia" width="32" height="32" patternUnits="userSpaceOnUse">
+                  <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#e5eaf0" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect width="480" height="280" fill="url(#griglia)"/>
+              <!-- Asse X -->
+              <line x1="20" y1="140" x2="460" y2="140" stroke="#1a1a1a" stroke-width="2"/>
+              <polygon points="460,140 452,135 452,145" fill="#1a1a1a"/>
+              <text x="465" y="145" font-size="14" font-weight="bold">x</text>
+              <!-- Asse Y -->
+              <line x1="180" y1="20" x2="180" y2="260" stroke="#1a1a1a" stroke-width="2"/>
+              <polygon points="180,20 175,28 185,28" fill="#1a1a1a"/>
+              <text x="186" y="22" font-size="14" font-weight="bold">y</text>
+              <!-- Tacche numeriche -->
+              <g font-size="13" fill="#5a6772" text-anchor="middle">
+                <line x1="148" y1="136" x2="148" y2="144" stroke="#5a6772" stroke-width="1.5"/>
+                <text x="148" y="160">−1</text>
+                <line x1="212" y1="136" x2="212" y2="144" stroke="#5a6772" stroke-width="1.5"/>
+                <text x="212" y="160">1</text>
+                <line x1="244" y1="136" x2="244" y2="144" stroke="#5a6772" stroke-width="1.5"/>
+                <text x="244" y="160">2</text>
+                <line x1="276" y1="136" x2="276" y2="144" stroke="#5a6772" stroke-width="1.5"/>
+                <text x="276" y="160">3</text>
+                <line x1="308" y1="136" x2="308" y2="144" stroke="#5a6772" stroke-width="1.5"/>
+                <text x="308" y="160">4</text>
+                <text x="172" y="160">0</text>
+              </g>
+              <!-- Punto A(-1, 0) -->
+              <circle cx="148" cy="140" r="7" fill="#2e7d32" stroke="white" stroke-width="2"/>
+              <text x="148" y="120" font-size="15" fill="#2e7d32" font-weight="bold" text-anchor="middle">A(−1, 0)</text>
+              <!-- Punto B(4, 0) -->
+              <circle cx="308" cy="140" r="7" fill="#2e7d32" stroke="white" stroke-width="2"/>
+              <text x="308" y="120" font-size="15" fill="#2e7d32" font-weight="bold" text-anchor="middle">B(4, 0)</text>
+            </svg>
+          </div>
+        </div>
+      </details>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">✅</span>
+          <span class="summary-titolo">Risultato</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>La funzione tocca l'asse X in <strong>due punti</strong>:</p>
+          <div class="formula" style="margin: 12px 0;"><span class="ris-color">A(−1, 0)   e   B(4, 0)</span></div>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 6: SEGNO DEL NUMERATORE -->
+    <div class="step-display" data-step="6" data-name="Segno numeratore">
+      <div class="icona-step">🔵</div>
+      <h1>Passo 5: dove è positivo il <span class="num-color">numeratore</span>?</h1>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🎯</span>
+          <span class="summary-titolo">Cosa devo fare</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Capire dove <span class="num-color">x² − 3x − 4</span> è <strong>maggiore di zero</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">💡</span>
+          <span class="summary-titolo">Regola del trinomio</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Quando un trinomio di secondo grado ha due soluzioni, è:</p>
+          <ul style="margin-left: 24px; margin-top: 8px;">
+            <li><strong>positivo per valori esterni</strong> alle soluzioni</li>
+            <li><strong>negativo per valori interni</strong> alle soluzioni</li>
+          </ul>
+          <p style="margin-top: 10px;">Le soluzioni del numeratore (le ho calcolate prima) sono <strong class="ris-color">−1</strong> e <strong class="ris-color">4</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-grafico" open>
+        <summary>
+          <span class="summary-icona">📊</span>
+          <span class="summary-titolo">Retta dei numeri del numeratore</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="grafico-container">
+            <svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Retta dei numeri del numeratore: positivo a sinistra di meno uno e a destra di quattro">
+              <!-- Linea principale -->
+              <line x1="30" y1="80" x2="470" y2="80" stroke="#1565c0" stroke-width="3"/>
+              <polygon points="470,80 462,75 462,85" fill="#1565c0"/>
+              <polygon points="30,80 38,75 38,85" fill="#1565c0"/>
+
+              <!-- Punto -1 -->
+              <circle cx="170" cy="80" r="8" fill="white" stroke="#1565c0" stroke-width="3"/>
+              <text x="170" y="115" font-size="18" fill="#1a1a1a" font-weight="bold" text-anchor="middle">−1</text>
+
+              <!-- Punto 4 -->
+              <circle cx="350" cy="80" r="8" fill="white" stroke="#1565c0" stroke-width="3"/>
+              <text x="350" y="115" font-size="18" fill="#1a1a1a" font-weight="bold" text-anchor="middle">4</text>
+
+              <!-- Segni sopra -->
+              <text x="100" y="50" font-size="32" fill="#2e7d32" font-weight="bold" text-anchor="middle">+</text>
+              <text x="260" y="50" font-size="32" fill="#c62828" font-weight="bold" text-anchor="middle">−</text>
+              <text x="420" y="50" font-size="32" fill="#2e7d32" font-weight="bold" text-anchor="middle">+</text>
+            </svg>
+          </div>
+        </div>
+      </details>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">✅</span>
+          <span class="summary-titolo">Risultato</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Il <span class="num-color">numeratore</span> è:</p>
+          <div class="intervallo"><strong>positivo (+)</strong> quando <strong>x &lt; −1</strong> oppure <strong>x &gt; 4</strong></div>
+          <div class="intervallo neg"><strong>negativo (−)</strong> quando <strong>−1 &lt; x &lt; 4</strong></div>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 7: SEGNO DEL DENOMINATORE -->
+    <div class="step-display" data-step="7" data-name="Segno denominatore">
+      <div class="icona-step">🟠</div>
+      <h1>Passo 6: dove è positivo il <span class="den-color">denominatore</span>?</h1>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🎯</span>
+          <span class="summary-titolo">Cosa devo fare</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Capire dove <span class="den-color">x² − 7x</span> è <strong>maggiore di zero</strong>.</p>
+          <p style="margin-top: 8px;">Lo so già dal passo 2: il denominatore si annulla per <strong>x = 0</strong> e <strong>x = 7</strong>.</p>
+          <p>Vale la <strong>stessa regola</strong> del passo precedente: positivo per valori esterni alle soluzioni.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-grafico" open>
+        <summary>
+          <span class="summary-icona">📊</span>
+          <span class="summary-titolo">Retta dei numeri del denominatore</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="grafico-container">
+            <svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Retta dei numeri del denominatore: positivo a sinistra di zero e a destra di sette">
+              <!-- Linea principale -->
+              <line x1="30" y1="80" x2="470" y2="80" stroke="#e65100" stroke-width="3"/>
+              <polygon points="470,80 462,75 462,85" fill="#e65100"/>
+              <polygon points="30,80 38,75 38,85" fill="#e65100"/>
+
+              <!-- Punto 0 -->
+              <circle cx="170" cy="80" r="8" fill="white" stroke="#e65100" stroke-width="3"/>
+              <text x="170" y="115" font-size="18" fill="#1a1a1a" font-weight="bold" text-anchor="middle">0</text>
+
+              <!-- Punto 7 -->
+              <circle cx="350" cy="80" r="8" fill="white" stroke="#e65100" stroke-width="3"/>
+              <text x="350" y="115" font-size="18" fill="#1a1a1a" font-weight="bold" text-anchor="middle">7</text>
+
+              <!-- Segni -->
+              <text x="100" y="50" font-size="32" fill="#2e7d32" font-weight="bold" text-anchor="middle">+</text>
+              <text x="260" y="50" font-size="32" fill="#c62828" font-weight="bold" text-anchor="middle">−</text>
+              <text x="420" y="50" font-size="32" fill="#2e7d32" font-weight="bold" text-anchor="middle">+</text>
+            </svg>
+          </div>
+        </div>
+      </details>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">✅</span>
+          <span class="summary-titolo">Risultato</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Il <span class="den-color">denominatore</span> è:</p>
+          <div class="intervallo"><strong>positivo (+)</strong> quando <strong>x &lt; 0</strong> oppure <strong>x &gt; 7</strong></div>
+          <div class="intervallo neg"><strong>negativo (−)</strong> quando <strong>0 &lt; x &lt; 7</strong></div>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 8: TABELLA DEI SEGNI -->
+    <div class="step-display" data-step="8" data-name="Tabella dei segni">
+      <div class="icona-step">📊</div>
+      <h1>Passo 7: metto insieme i segni</h1>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🎯</span>
+          <span class="summary-titolo">Cosa devo fare</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Combinare il segno del numeratore con il segno del denominatore. Uso una <strong>tabella</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">💡</span>
+          <span class="summary-titolo">Regola dei segni</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p style="text-align: center; font-size: 18px; margin: 6px 0;"><strong>+ diviso + = +</strong></p>
+          <p style="text-align: center; font-size: 18px; margin: 6px 0;"><strong>− diviso − = +</strong></p>
+          <p style="text-align: center; font-size: 18px; margin: 6px 0;"><strong>+ diviso − = −</strong></p>
+          <p style="text-align: center; font-size: 18px; margin: 6px 0;"><strong>− diviso + = −</strong></p>
+          <p style="margin-top: 12px;">In altre parole: <strong>segni uguali = positivo</strong>, <strong>segni diversi = negativo</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-grafico" open>
+        <summary>
+          <span class="summary-icona">📍</span>
+          <span class="summary-titolo">Punti chiave sulla retta</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>I punti che cambiano qualcosa sono <strong>−1, 0, 4, 7</strong>. Mi creano <strong>5 zone</strong>.</p>
+          <div class="grafico-container">
+            <svg viewBox="0 0 540 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Retta dei numeri con i quattro punti chiave: meno uno, zero, quattro, sette">
+              <line x1="20" y1="50" x2="520" y2="50" stroke="#1a1a1a" stroke-width="2"/>
+              <polygon points="520,50 512,45 512,55" fill="#1a1a1a"/>
+              <!-- Punti -->
+              <circle cx="120" cy="50" r="6" fill="#1565c0"/>
+              <text x="120" y="80" font-size="16" font-weight="bold" text-anchor="middle">−1</text>
+              <circle cx="200" cy="50" r="6" fill="#e65100"/>
+              <text x="200" y="80" font-size="16" font-weight="bold" text-anchor="middle">0</text>
+              <circle cx="340" cy="50" r="6" fill="#1565c0"/>
+              <text x="340" y="80" font-size="16" font-weight="bold" text-anchor="middle">4</text>
+              <circle cx="440" cy="50" r="6" fill="#e65100"/>
+              <text x="440" y="80" font-size="16" font-weight="bold" text-anchor="middle">7</text>
+              <!-- Etichette zone -->
+              <text x="60" y="30" font-size="12" fill="#5a6772" text-anchor="middle">zona 1</text>
+              <text x="160" y="30" font-size="12" fill="#5a6772" text-anchor="middle">zona 2</text>
+              <text x="270" y="30" font-size="12" fill="#5a6772" text-anchor="middle">zona 3</text>
+              <text x="390" y="30" font-size="12" fill="#5a6772" text-anchor="middle">zona 4</text>
+              <text x="490" y="30" font-size="12" fill="#5a6772" text-anchor="middle">zona 5</text>
+            </svg>
+          </div>
+        </div>
+      </details>
+
+      <details class="card tipo-formula" open>
+        <summary>
+          <span class="summary-icona">📋</span>
+          <span class="summary-titolo">La tabella combinata</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <table class="segni">
+            <tr>
+              <th></th>
+              <th>x &lt; −1</th>
+              <th>−1 &lt; x &lt; 0</th>
+              <th>0 &lt; x &lt; 4</th>
+              <th>4 &lt; x &lt; 7</th>
+              <th>x &gt; 7</th>
+            </tr>
+            <tr>
+              <th class="num-color">Numeratore</th>
+              <td class="pos">+</td>
+              <td class="neg">−</td>
+              <td class="neg">−</td>
+              <td class="pos">+</td>
+              <td class="pos">+</td>
+            </tr>
+            <tr>
+              <th class="den-color">Denominatore</th>
+              <td class="pos">+</td>
+              <td class="pos">+</td>
+              <td class="neg">−</td>
+              <td class="neg">−</td>
+              <td class="pos">+</td>
+            </tr>
+            <tr>
+              <th class="ris-color">Funzione y</th>
+              <td class="pos">+</td>
+              <td class="neg">−</td>
+              <td class="pos">+</td>
+              <td class="neg">−</td>
+              <td class="pos">+</td>
+            </tr>
+          </table>
+          <p style="margin-top: 14px; font-size: 15px;">In ogni colonna scelgo un numero di prova (per esempio nella prima colonna immagino x = −10) e controllo se numeratore e denominatore danno un numero positivo o negativo. Poi applico la regola dei segni.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 9: GRAFICO RIASSUNTIVO -->
+    <div class="step-display" data-step="9" data-name="Grafico finale">
+      <div class="icona-step">🗺️</div>
+      <h1>Passo 8: il grafico delle zone</h1>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">💡</span>
+          <span class="summary-titolo">A cosa serve questo grafico</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>Questa mappa mostra <strong>dove la funzione può stare</strong> e <strong>dove non può stare</strong>.</p>
+          <ul style="margin-left: 24px; margin-top: 8px;">
+            <li>Le zone <strong style="color:#2e7d32;">verdi</strong> sono dove la funzione è positiva (sopra l'asse X).</li>
+            <li>Le zone <strong style="color:#c62828;">rosse</strong> sono dove la funzione è negativa (sotto l'asse X).</li>
+            <li>Le linee tratteggiate verticali sono i <strong>valori esclusi dal dominio</strong> (x = 0 e x = 7), dove la funzione non esiste.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="card tipo-grafico" open>
+        <summary>
+          <span class="summary-icona">📊</span>
+          <span class="summary-titolo">Mappa delle zone permesse</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <div class="grafico-container">
+            <svg viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Piano cartesiano con zone verdi e rosse che indicano dove la funzione è positiva o negativa">
+              <!-- Sfondo zone -->
+              <!-- Zona x<-1: positiva (verde sopra) -->
+              <rect x="20" y="40" width="180" height="140" fill="#e8f5e9" opacity="0.7"/>
+              <!-- Zona -1 a 0: negativa (rosso sotto) -->
+              <rect x="200" y="180" width="60" height="140" fill="#ffebee" opacity="0.7"/>
+              <!-- Zona 0 a 4: positiva (verde sopra) -->
+              <rect x="260" y="40" width="120" height="140" fill="#e8f5e9" opacity="0.7"/>
+              <!-- Zona 4 a 7: negativa (rosso sotto) -->
+              <rect x="380" y="180" width="120" height="140" fill="#ffebee" opacity="0.7"/>
+              <!-- Zona x>7: positiva (verde sopra) -->
+              <rect x="500" y="40" width="80" height="140" fill="#e8f5e9" opacity="0.7"/>
+
+              <!-- Asintoti verticali tratteggiati -->
+              <line x1="260" y1="40" x2="260" y2="320" stroke="#9c27b0" stroke-width="2" stroke-dasharray="6 4"/>
+              <line x1="500" y1="40" x2="500" y2="320" stroke="#9c27b0" stroke-width="2" stroke-dasharray="6 4"/>
+
+              <!-- Asse X -->
+              <line x1="20" y1="180" x2="590" y2="180" stroke="#1a1a1a" stroke-width="2"/>
+              <polygon points="590,180 580,174 580,186" fill="#1a1a1a"/>
+              <text x="585" y="200" font-size="14" font-weight="bold">x</text>
+
+              <!-- Asse Y -->
+              <line x1="260" y1="20" x2="260" y2="340" stroke="#1a1a1a" stroke-width="0"/>
+              <!-- L'asse Y coincide con il primo asintoto -->
+
+              <!-- Tacche e numeri sull'asse X -->
+              <g font-size="14" fill="#1a1a1a" text-anchor="middle">
+                <line x1="200" y1="176" x2="200" y2="184" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="200" y="208" font-weight="bold">−1</text>
+                <line x1="260" y1="176" x2="260" y2="184" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="252" y="208" font-weight="bold">0</text>
+                <line x1="380" y1="176" x2="380" y2="184" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="380" y="208" font-weight="bold">4</text>
+                <line x1="500" y1="176" x2="500" y2="184" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="500" y="208" font-weight="bold">7</text>
+              </g>
+
+              <!-- Etichette zone -->
+              <text x="110" y="115" font-size="36" fill="#2e7d32" font-weight="bold" text-anchor="middle">+</text>
+              <text x="230" y="260" font-size="36" fill="#c62828" font-weight="bold" text-anchor="middle">−</text>
+              <text x="320" y="115" font-size="36" fill="#2e7d32" font-weight="bold" text-anchor="middle">+</text>
+              <text x="440" y="260" font-size="36" fill="#c62828" font-weight="bold" text-anchor="middle">−</text>
+              <text x="540" y="115" font-size="36" fill="#2e7d32" font-weight="bold" text-anchor="middle">+</text>
+
+              <!-- Punti A e B -->
+              <circle cx="200" cy="180" r="6" fill="#1565c0" stroke="white" stroke-width="2"/>
+              <text x="200" y="240" font-size="13" fill="#1565c0" font-weight="bold" text-anchor="middle">A</text>
+              <circle cx="380" cy="180" r="6" fill="#1565c0" stroke="white" stroke-width="2"/>
+              <text x="380" y="240" font-size="13" fill="#1565c0" font-weight="bold" text-anchor="middle">B</text>
+
+              <!-- Etichette asintoti -->
+              <text x="260" y="32" font-size="12" fill="#9c27b0" font-weight="bold" text-anchor="middle">x = 0</text>
+              <text x="500" y="32" font-size="12" fill="#9c27b0" font-weight="bold" text-anchor="middle">x = 7</text>
+            </svg>
+          </div>
+          <p style="margin-top: 8px; font-size: 14px; color: #5a6772; text-align: center;">Le zone colorate mostrano dove può "vivere" la funzione. Le linee viola tratteggiate sono i confini invisibili dove la funzione non esiste.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- STEP 10: CONCLUSIONE -->
+    <div class="step-display" data-step="10" data-name="Conclusione">
+      <div class="icona-step">🎯</div>
+      <h1>Passo 9: ricapitoliamo tutto</h1>
+      <p>Adesso ho tutte le informazioni che mi servono.</p>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">🏠</span>
+          <span class="summary-titolo">Dominio</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>La funzione esiste per ogni x, <strong>tranne x = 0 e x = 7</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">📍</span>
+          <span class="summary-titolo">Intersezioni con gli assi</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p><strong>Asse Y:</strong> nessuna intersezione (perché 0 non è nel dominio).</p>
+          <p style="margin-top: 8px;"><strong>Asse X:</strong> due punti, <strong>A(−1, 0)</strong> e <strong>B(4, 0)</strong>.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-result" open>
+        <summary>
+          <span class="summary-icona">📊</span>
+          <span class="summary-titolo">Segno della funzione</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>La funzione è <span class="ris-color"><strong>positiva</strong></span> in tre zone:</p>
+          <div class="intervallo">x &lt; −1</div>
+          <div class="intervallo">0 &lt; x &lt; 4</div>
+          <div class="intervallo">x &gt; 7</div>
+          <p style="margin-top: 14px;">La funzione è <span style="color:#c62828; font-weight:600;"><strong>negativa</strong></span> in due zone:</p>
+          <div class="intervallo neg">−1 &lt; x &lt; 0</div>
+          <div class="intervallo neg">4 &lt; x &lt; 7</div>
+        </div>
+      </details>
+
+      <details class="card tipo-info" open>
+        <summary>
+          <span class="summary-icona">🎉</span>
+          <span class="summary-titolo">Hai completato lo studio di funzione</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p style="font-size: 18px; text-align: center; margin: 8px 0;">Lo studio di funzione è completo, un passo alla volta.</p>
+          <p style="text-align: center; margin-top: 10px;">Adesso sai <strong>dove la funzione esiste</strong>, <strong>dove tocca gli assi</strong> e <strong>che segno ha</strong> in ogni zona del piano.</p>
+        </div>
+      </details>
+
+      <details class="card tipo-todo" open>
+        <summary>
+          <span class="summary-icona">🖨️</span>
+          <span class="summary-titolo">Vuoi una scheda da stampare per la verifica?</span>
+          <span class="summary-toggle">▼</span>
+        </summary>
+        <div class="card-contenuto">
+          <p>È disponibile una <strong>scheda procedurale stampabile</strong> con la sequenza dei passi e tutte le formule chiave. Pensata come strumento di supporto da tenere accanto durante esercitazioni e verifiche.</p>
+          <p style="margin-top: 10px;"><a href="/dashboards/scheda-procedurale-with-menu.html" target="_blank" style="display: inline-block; background: #4a90e2; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600;">Apri la scheda procedurale →</a></p>
+          <p style="margin-top: 10px; font-size: 14px; color: #5a6772;">Si apre in una nuova scheda. Da lì puoi stamparla direttamente.</p>
+        </div>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- NAVIGAZIONE -->
+  <div class="navigazione">
+    <button class="studio-nav-btn btn-indietro" id="btn-indietro" onclick="vai(-1)" disabled>
+      ← Indietro
+    </button>
+    <button class="studio-nav-btn btn-avanti" id="btn-avanti" onclick="vai(1)">
+      Avanti →
+    </button>
+  </div>
+
+</div>
+
+<!-- MODALE ACCESSIBILITÀ UDL 3.0 -->
+<div class="modale-overlay" id="modale-info" onclick="checkChiusuraModale(event)" role="dialog" aria-labelledby="modale-titolo" aria-modal="true">
+  <div class="modale">
+    <button class="modale-chiudi" onclick="chiudiInfo()" aria-label="Chiudi">×</button>
+
+    <h2 id="modale-titolo">ℹ️ Una nota sull'accessibilità</h2>
+
+    <p>Questa scheda è progettata seguendo le <strong>Linee guida UDL 3.0</strong> (Universal Design for Learning), pubblicate da CAST nel luglio 2024. L'idea è semplice: <strong>la stessa lezione, accessibile in modi diversi</strong>, senza dover scegliere chi può seguirla.</p>
+
+    <p>La 3.0 introduce uno spostamento di fondo: l'obiettivo non è più formare <em>expert learners</em> (un punto d'arrivo che suggeriva chiusura ed esclusività), ma coltivare <strong>learner agency</strong>, cioè la capacità dello studente di guidare il proprio apprendimento in modo intenzionale, riflessivo e autentico.</p>
+
+    <p>Puoi usare la scheda in modo <strong>lineare</strong>, scorrendo dall'inizio alla fine, oppure in modo <strong>modulare</strong>, aprendo e chiudendo le sezioni in base al ritmo di studio.</p>
+
+    <h3>Come applico i tre principi UDL 3.0</h3>
+
+    <div class="principio-udl eng">
+      <strong>🎯 Coinvolgimento (il "perché" dell'apprendimento)</strong>
+      <p>Avanzamento autocontrollato passo per passo, niente pressione di tempo, feedback positivo. La 3.0 enfatizza il valore di gioia, empatia e senso di appartenenza nell'apprendimento: il tono è diretto e non giudicante, gli errori non vengono drammatizzati, lo studente decide il ritmo.</p>
+    </div>
+
+    <div class="principio-udl rep">
+      <strong>👁️ Rappresentazione (il "cosa" dell'apprendimento)</strong>
+      <p>Stessa informazione presentata in più formati: parole, formule, grafici, codifica cromatica costante (numeratore blu, denominatore arancione, risultato verde). Ogni concetto ha più porte d'ingresso, riducendo le barriere percettive e linguistiche.</p>
+    </div>
+
+    <div class="principio-udl act">
+      <strong>✋ Azione ed espressione (il "come" dell'apprendimento)</strong>
+      <p>Navigazione con click o tasti freccia, card espandibili individualmente, controlli "apri tutto" e "chiudi tutto", stampabile come PDF. Sono modi diversi di interagire con il materiale, supportando funzioni esecutive e autoregolazione.</p>
+    </div>
+
+    <h3>Cosa è nuovo nella 3.0</h3>
+
+    <ul style="margin-left: 22px; margin-bottom: 12px; color: #2c3e50;">
+      <li><strong>Identità come variabilità:</strong> non solo come uno studente impara, ma chi è. Il "who" del learning è intrecciato in tutti i principi.</li>
+      <li><strong>Bias sistemici come barriere:</strong> le difficoltà non sono solo individuali ma anche istituzionali. Una scheda accessibile rifiuta l'idea che semplificare significhi impoverire.</li>
+      <li><strong>Interdipendenza:</strong> l'autonomia non è più un valore unico, conta anche il sostegno reciproco e l'apprendimento collettivo.</li>
+      <li><strong>Linguaggio learner-centered:</strong> i principi possono essere applicati sia dal docente sia dallo studente, in dialogo.</li>
+    </ul>
+
+    <h3>Per chi è pensata, e cosa non fa</h3>
+
+    <p>La scheda funziona per chiunque, con o senza barriere cognitive. Lavora particolarmente bene con studenti che hanno carico cognitivo aumentato (DSA, ADHD, disabilità intellettiva, ansia da prestazione), ma è utilizzabile da tutta la classe senza adattamenti aggiuntivi. È questo il senso del <em>Universal</em> in UDL: progettare partendo dai margini, beneficiando il centro.</p>
+
+    <p style="background: #fff8e7; padding: 12px 14px; border-radius: 8px; border-left: 3px solid #f5b800; font-size: 14px;"><strong>Onestà sui limiti:</strong> UDL 3.0 articola 35 considerazioni complessive. Questa scheda implementa principalmente quelle legate a percezione, lingua e simboli, funzioni esecutive, riduzione delle minacce, autoregolazione. Non implementa pienamente le considerazioni che richiedono contesto sociale di gruppo: rappresentazione di identità multiple, collaborazione e comunità, prospettive culturali. Quelle dimensioni vivono nella relazione in classe, non in un singolo file HTML.</p>
+
+    <p class="citazione">
+      CAST (2024). <em>Universal Design for Learning Guidelines</em> (Version 3.0). Lynnfield, MA. Disponibile su <a href="https://udlguidelines.cast.org" target="_blank" rel="noopener">udlguidelines.cast.org</a>.
+    </p>
+  </div>
+</div>
+
+<script>
+  let stepCorrente = 1;
+  const stepTotale = 10;
+
+  document.getElementById('step-totale').textContent = stepTotale;
+
+  function vai(direzione) {
+    const nuovoStep = stepCorrente + direzione;
+    if (nuovoStep < 1 || nuovoStep > stepTotale) return;
+
+    document.querySelector(`.step-display[data-step="${stepCorrente}"]`).classList.remove('attivo');
+    stepCorrente = nuovoStep;
+    const nuovoEl = document.querySelector(`.step-display[data-step="${stepCorrente}"]`);
+    nuovoEl.classList.add('attivo');
+
+    document.getElementById('step-attuale').textContent = stepCorrente;
+    document.getElementById('step-nome').textContent = nuovoEl.dataset.name;
+    document.getElementById('progress-fill').style.width = (stepCorrente / stepTotale * 100) + '%';
+
+    // Promemoria visibile dopo lo step 1
+    document.getElementById('promemoria-funzione').style.display = stepCorrente >= 2 ? 'block' : 'none';
+    document.getElementById('controllo-card').style.display = stepCorrente >= 2 ? 'flex' : 'none';
+
+    // Bottoni
+    document.getElementById('btn-indietro').disabled = stepCorrente === 1;
+    const btnAvanti = document.getElementById('btn-avanti');
+    if (stepCorrente === stepTotale) {
+      btnAvanti.disabled = true;
+      btnAvanti.textContent = '🎉 Fatto!';
+      btnAvanti.classList.remove('btn-avanti');
+      btnAvanti.classList.add('btn-fine');
+    } else {
+      btnAvanti.disabled = false;
+      btnAvanti.textContent = 'Avanti →';
+      btnAvanti.classList.remove('btn-fine');
+      btnAvanti.classList.add('btn-avanti');
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function apriTutto() {
+    const stepAttivo = document.querySelector('.step-display.attivo');
+    stepAttivo.querySelectorAll('details.card').forEach(d => d.open = true);
+  }
+
+  function chiudiTutto() {
+    const stepAttivo = document.querySelector('.step-display.attivo');
+    stepAttivo.querySelectorAll('details.card').forEach(d => d.open = false);
+  }
+
+  function apriInfo() {
+    document.getElementById('modale-info').classList.add('aperto');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function chiudiInfo() {
+    document.getElementById('modale-info').classList.remove('aperto');
+    document.body.style.overflow = '';
+  }
+
+  function checkChiusuraModale(event) {
+    if (event.target.id === 'modale-info') chiudiInfo();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    // ESC chiude il modale se aperto
+    if (e.key === 'Escape' && document.getElementById('modale-info').classList.contains('aperto')) {
+      chiudiInfo();
+      return;
+    }
+    // Le frecce non navigano se il modale è aperto o si è dentro un summary
+    if (document.getElementById('modale-info').classList.contains('aperto')) return;
+    if (e.target.tagName === 'SUMMARY') return;
+    if (e.key === 'ArrowRight' && stepCorrente < stepTotale) vai(1);
+    if (e.key === 'ArrowLeft' && stepCorrente > 1) vai(-1);
+  });
+</script>
+
+<!-- Font del sito (Outfit + JetBrains Mono per il menu condiviso) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

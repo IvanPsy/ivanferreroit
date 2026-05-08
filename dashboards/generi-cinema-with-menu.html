@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I generi del cinema</title>
+<style>
+:root {
+  --bg: #FAFAFA;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F3F4F6;
+  --text: #1F2937;
+  --text-soft: #4B5563;
+  --text-muted: #6B7280;
+  --accent: #2563EB;
+  --accent-soft: #DBEAFE;
+  --accent-strong: #1D4ED8;
+  --border: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+  body { padding-top: 120px; }
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+header h1 {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 32px 0 12px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+}
+
+p { margin: 0 0 12px; }
+
+.info-box {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  margin: 24px 0;
+  font-size: 16px;
+}
+
+.info-box strong {
+  color: var(--accent-strong);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 17px;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0 32px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.nav button {
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text-soft);
+  margin-bottom: -1px;
+  transition: color 0.1s ease, border-color 0.1s ease;
+}
+
+.nav button:hover {
+  color: var(--accent);
+}
+
+.nav button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  color: inherit;
+}
+
+.card:hover {
+  border-color: var(--accent);
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.card-promise {
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.back-button {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-bottom: 24px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text-soft);
+}
+
+.back-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.macro-header {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.macro-header h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.macro-definition {
+  color: var(--text-soft);
+  margin: 0 0 12px;
+}
+
+.macro-emotions {
+  background: var(--bg-soft);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  margin-top: 12px;
+}
+
+.macro-emotions strong {
+  color: var(--text);
+}
+
+.genre-list-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 24px 0 12px;
+}
+
+.genre-detail {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 12px;
+}
+
+.genre-detail h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.genre-recognize {
+  color: var(--text-soft);
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+.genre-examples {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.genre-examples-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+  display: block;
+}
+
+dl.glossary {
+  margin: 16px 0;
+}
+
+.glossary-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+}
+
+.glossary-item dt {
+  font-weight: 600;
+  color: var(--accent-strong);
+  margin-bottom: 4px;
+  font-size: 17px;
+}
+
+.glossary-item dd {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 16px;
+}
+
+.glossary-item .example {
+  margin-top: 6px;
+  color: var(--text);
+  font-size: 15px;
+  font-style: normal;
+}
+
+.emotion-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.emotion-button {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.emotion-button:hover {
+  border-color: var(--accent);
+}
+
+.emotion-button.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.suggestion-box {
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+
+.suggestion-box h3 {
+  margin: 0 0 12px;
+  color: var(--accent-strong);
+}
+
+.suggestion-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.suggestion-box li {
+  margin-bottom: 6px;
+}
+
+ol.steps {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 18px 40px;
+  margin: 16px 0;
+}
+
+ol.steps li {
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+.def-list {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin: 12px 0;
+}
+
+.def-list dt {
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.def-list dt:first-child { margin-top: 0; }
+
+.def-list dd {
+  margin: 4px 0 0;
+  color: var(--text-soft);
+}
+
+footer {
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 600px) {
+  .container { padding: 20px 16px 48px; }
+  header h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  .nav { gap: 4px; }
+  .nav button { padding: 8px 10px; font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Menu condiviso del sito -->
+<div id="site-menu"></div>
+
+<div class="container">
+  <header>
+    <h1>I generi del cinema</h1>
+    <p>Materiale didattico</p>
+  </header>
+
+  <nav class="nav" aria-label="Navigazione principale">
+    <button onclick="showSection('home')" id="nav-home" class="active">Macrogeneri</button>
+    <button onclick="showSection('emotions')" id="nav-emotions">Cosa vuoi provare</button>
+    <button onclick="showSection('glossary')" id="nav-glossary">Glossario</button>
+    <button onclick="showSection('approfondimenti')" id="nav-approfondimenti">Approfondimenti</button>
+  </nav>
+
+  <section id="home" class="section active">
+    <h2>Cos'è un genere?</h2>
+    <p>Un <strong>genere</strong> è un gruppo di film che si assomigliano. I film dello stesso genere fanno provare emozioni simili e raccontano storie con elementi simili.</p>
+    <p>Per esempio: tutti i film western parlano del Far West e fanno sentire avventura. Tutti i film d'amore raccontano la storia di due persone che si innamorano.</p>
+
+    <h2>I 6 macrogeneri</h2>
+    <p>Un <strong>macrogenere</strong> è un grande gruppo che contiene generi simili. Ci sono 6 macrogeneri principali. Clicca su uno per vedere i generi che contiene.</p>
+
+    <div class="card-grid">
+      <button class="card" onclick="showMacro('avventura')" aria-label="Apri macrogenere Avventura">
+        <div class="card-title">Avventura</div>
+        <div class="card-promise">Film con eroi che vivono imprese in luoghi non quotidiani.</div>
+      </button>
+      <button class="card" onclick="showMacro('crime')" aria-label="Apri macrogenere Crime movie">
+        <div class="card-title">Crime movie</div>
+        <div class="card-promise">Film che parlano di crimini e delle persone coinvolte.</div>
+      </button>
+      <button class="card" onclick="showMacro('horror')" aria-label="Apri macrogenere Horror">
+        <div class="card-title">Horror</div>
+        <div class="card-promise">Film fatti per provare paura in modo controllato.</div>
+      </button>
+      <button class="card" onclick="showMacro('amore')" aria-label="Apri macrogenere Film d'amore">
+        <div class="card-title">Film d'amore</div>
+        <div class="card-promise">Film che raccontano la storia di due persone che si innamorano.</div>
+      </button>
+      <button class="card" onclick="showMacro('speculative')" aria-label="Apri macrogenere Speculative fiction">
+        <div class="card-title">Speculative fiction</div>
+        <div class="card-promise">Film con elementi che non esistono nella realtà.</div>
+      </button>
+      <button class="card" onclick="showMacro('comico')" aria-label="Apri macrogenere Comico">
+        <div class="card-title">Comico</div>
+        <div class="card-promise">Film fatti per far ridere.</div>
+      </button>
+    </div>
+  </section>
+
+  <section id="macro-detail" class="section">
+    <button class="back-button" onclick="showSection('home')" aria-label="Torna ai macrogeneri">← Torna ai macrogeneri</button>
+    <div id="macro-content"></div>
+  </section>
+
+  <section id="emotions" class="section">
+    <h2>Cosa vuoi provare oggi?</h2>
+    <p>Scegli una sensazione concreta. Ti suggerirò i generi che la fanno provare. Puoi cliccare più di un'opzione, una alla volta.</p>
+
+    <div class="emotion-selector">
+      <button class="emotion-button" onclick="suggestGenre('ridere', this)">Voglio ridere e divertirmi</button>
+      <button class="emotion-button" onclick="suggestGenre('paura', this)">Voglio provare paura in modo controllato</button>
+      <button class="emotion-button" onclick="suggestGenre('avventura', this)">Voglio sentire il battito accelerare per l'avventura</button>
+      <button class="emotion-button" onclick="suggestGenre('amore', this)">Voglio commuovermi per una storia d'amore</button>
+      <button class="emotion-button" onclick="suggestGenre('mistero', this)">Voglio risolvere un mistero o un crimine</button>
+      <button class="emotion-button" onclick="suggestGenre('stupore', this)">Voglio scoprire mondi che non esistono</button>
+    </div>
+
+    <div id="suggestion-result"></div>
+  </section>
+
+  <section id="glossary" class="section">
+    <h2>Glossario</h2>
+    <p>Spiegazione semplice delle parole tecniche usate in questa dashboard. Le parole sono in ordine alfabetico.</p>
+    <dl class="glossary" id="glossary-list"></dl>
+  </section>
+
+  <section id="approfondimenti" class="section">
+    <h2>Approfondimenti</h2>
+    <p>Questa sezione contiene argomenti più complessi. È pensata per chi vuole sapere di più. Non è obbligatorio leggerla.</p>
+
+    <h3>Come nasce e cambia un genere</h3>
+    <p>I generi cinematografici nascono e cambiano nel tempo. Succede così:</p>
+    <ol class="steps">
+      <li>Esce un film nuovo, diverso dagli altri.</li>
+      <li>Il film ha successo. Molte persone vanno a vederlo.</li>
+      <li>I produttori finanziano altri film simili.</li>
+      <li>Nasce così un nuovo genere.</li>
+      <li>Dopo molti anni, il pubblico si stanca di vedere film troppo simili tra loro.</li>
+      <li>Il genere perde successo. Il pubblico cerca emozioni in altri generi.</li>
+    </ol>
+
+    <h3>Cinema di genere e cinema d'autore</h3>
+    <p>Esistono due modi diversi di fare cinema.</p>
+    <dl class="def-list">
+      <dt>Cinema di genere</dt>
+      <dd>I produttori decidono prima quanto investire e quale genere fare. Il film segue le regole del suo genere. L'obiettivo è fare un film che il pubblico riconoscerà come parte di quel genere.</dd>
+      <dt>Cinema d'autore</dt>
+      <dd>Il regista o lo sceneggiatore esprime la propria visione personale. A volte usa un genere già esistente, ma lo modifica per raccontare qualcosa di originale. L'obiettivo è esprimere un punto di vista, non rispettare le regole di un genere.</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <p>Materiale didattico basato sulla lezione "I generi fiction".</p>
+  </footer>
+</div>
+
+<script>
+const macroData = {
+  avventura: {
+    title: "Avventura",
+    definition: "Film con eroi che vivono grandi imprese in luoghi e tempi non quotidiani. Quasi sempre c'è una distinzione netta tra buoni e cattivi. Spesso c'è anche una storia d'amore.",
+    emotions: "Ansia (per gli ostacoli che l'eroe deve affrontare) e curiosità (per scoprire come finirà la storia).",
+    genres: [
+      { name: "Western", recognize: "Storie ambientate nel Far West americano, con cowboy e pistoleri.", example: "Il buono, il brutto, il cattivo" },
+      { name: "Cappa e spada", recognize: "Avventure con duelli con la spada, ambientate in epoche passate.", example: "I tre moschettieri" },
+      { name: "War film", recognize: "Storie ambientate durante una guerra, vera o inventata.", example: "Salvate il soldato Ryan" },
+      { name: "Catastrofico", recognize: "Storie di grandi disastri come terremoti, inondazioni o meteoriti.", example: "Titanic" },
+      { name: "Di vendetta", recognize: "L'eroe cerca di vendicarsi per un torto subito.", example: "Il conte di Montecristo" },
+      { name: "Biopic", recognize: "Racconta la vita di una persona realmente esistita.", example: "Gandhi" },
+      { name: "Action movie", recognize: "Film con molte scene di azione: combattimenti, inseguimenti, esplosioni.", example: "Mission: Impossible" },
+      { name: "Action thriller", recognize: "Action movie con elementi di mistero e tensione costante.", example: "Jason Bourne" },
+      { name: "Fantathriller", recognize: "Thriller con elementi di fantasia o tecnologia avanzata.", example: "Inception" },
+      { name: "Doomsday", recognize: "Storie di fine del mondo o di mondi distrutti.", example: "Mad Max" },
+      { name: "Supereroi", recognize: "Film con personaggi che hanno poteri speciali.", example: "Avengers" }
+    ]
+  },
+  crime: {
+    title: "Crime movie",
+    definition: "Film che hanno al centro un crimine. Possono raccontare la storia dal punto di vista di chi commette il crimine, oppure di chi cerca di risolverlo.",
+    emotions: "Tensione, curiosità, voglia di scoprire la verità.",
+    genres: [
+      { name: "Mystery", recognize: "C'è un mistero da risolvere. Spesso il colpevole si scopre alla fine.", example: "Il nome della rosa" },
+      { name: "Gangster movie", recognize: "Storie di gangster e criminalità organizzata.", example: "Goodfellas" },
+      { name: "Poliziesco", recognize: "La polizia cerca di risolvere un crimine.", example: "CSI (serie tv)" },
+      { name: "Caper film", recognize: "Un gruppo di persone organizza e mette in atto un colpo (un furto).", example: "Ocean's Eleven" },
+      { name: "Thriller", recognize: "Storie con suspense costante. Lo spettatore si chiede sempre cosa succederà.", example: "Il silenzio degli innocenti" }
+    ]
+  },
+  horror: {
+    title: "Horror",
+    definition: "Film fatti per far provare paura in modo controllato. Lo spettatore sa che le cose che vede non sono reali. Le emozioni che si provano finiscono quando il film finisce.",
+    emotions: "Paura controllata, qualche brivido. Importante: queste emozioni sono normali per chi guarda un horror, e si possono interrompere fermando il film.",
+    genres: [
+      { name: "Horror classico (Universal)", recognize: "Film horror in bianco e nero, con mostri famosi come Dracula o Frankenstein.", example: "Dracula (1931)" },
+      { name: "Horror anni '60", recognize: "Film horror con atmosfere paurose ma poca violenza visibile.", example: "Psycho" },
+      { name: "Psicothriller", recognize: "Film che mettono paura attraverso la psicologia dei personaggi, non con la violenza.", example: "Shining" },
+      { name: "Gotico", recognize: "Ambientazioni cupe, castelli antichi, fantasmi, atmosfere misteriose.", example: "The Others" },
+      { name: "Horror apocalittico", recognize: "Storie ambientate dopo una catastrofe, spesso con zombie o virus.", example: "World War Z" }
+    ]
+  },
+  amore: {
+    title: "Film d'amore",
+    definition: "La storia principale è quella di due persone che si innamorano. Quasi sempre ci sono ostacoli che rendono difficile il loro amore. Gli ostacoli possono venire dall'esterno (famiglia, società) o dall'interno della coppia (incomprensioni, paure).",
+    emotions: "Emozione, commozione. A volte tristezza, a volte gioia.",
+    genres: [
+      { name: "Commedia sentimentale", recognize: "Storia d'amore raccontata con leggerezza e umorismo.", example: "Harry, ti presento Sally" },
+      { name: "Melodramma", recognize: "Storia d'amore intensa, spesso drammatica e con finale triste.", example: "Via col vento" }
+    ]
+  },
+  speculative: {
+    title: "Speculative fiction",
+    definition: "Film con almeno un elemento che non esiste nella realtà: magia, alieni, tecnologie del futuro, mondi inventati. Lo spettatore accetta volontariamente che ci siano cose impossibili. Questa accettazione si chiama 'sospensione dell'incredulità'.",
+    emotions: "Stupore, meraviglia, curiosità.",
+    genres: [
+      { name: "Fantastico", recognize: "C'è un elemento magico o impossibile dentro la vita normale.", example: "Big Fish" },
+      { name: "Fantascienza", recognize: "C'è la tecnologia del futuro: viaggi spaziali, robot, intelligenze artificiali.", example: "Interstellar" },
+      { name: "Fantasy", recognize: "Mondi inventati con magia, creature mitologiche, eroi.", example: "Il Signore degli Anelli" },
+      { name: "Sword and sorcery", recognize: "Avventure con spadaccini e magia, ambientate in mondi fantastici.", example: "Conan il barbaro" },
+      { name: "High fantasy", recognize: "Fantasy con grandi mondi epici, lunghe storie e molti personaggi.", example: "Il Signore degli Anelli" },
+      { name: "Distopico", recognize: "Il futuro o un mondo alternativo dove la società è oppressiva e ingiusta.", example: "Hunger Games" },
+      { name: "Ucronia", recognize: "La storia immagina cosa sarebbe successo se la realtà fosse stata diversa.", example: "Bastardi senza gloria" },
+      { name: "Retrofuturismo", recognize: "Il futuro come veniva immaginato in passato (per esempio: macchine a vapore in un mondo futuro).", example: "Sky Captain" },
+      { name: "Favolistico", recognize: "Storia simile a una favola, con elementi magici e una morale.", example: "La storia infinita" }
+    ]
+  },
+  comico: {
+    title: "Comico",
+    definition: "Film fatti per far ridere. La risata può venire da gesti (cadute, scivoloni, situazioni assurde) oppure da parole (battute, dialoghi divertenti).",
+    emotions: "Divertimento, risate, leggerezza.",
+    genres: [
+      { name: "Slapstick comedy", recognize: "Comicità basata su gesti fisici: cadute, scivoloni, situazioni assurde.", example: "Stanlio e Ollio" },
+      { name: "Personaggi riconoscibili", recognize: "Film con coppie o gruppi comici che si ripresentano in più film (per esempio Aldo, Giovanni e Giacomo).", example: "Tre uomini e una gamba" },
+      { name: "Commedia all'italiana", recognize: "Comicità italiana che mescola risate e momenti di amarezza.", example: "Il sorpasso" },
+      { name: "Parodia", recognize: "Film che prende in giro altri film o generi cinematografici.", example: "Frankenstein Junior" },
+      { name: "Situation comedy", recognize: "Serie tv comica con personaggi fissi in situazioni divertenti.", example: "Friends (serie tv)" }
+    ]
+  }
+};
+
+const glossaryData = [
+  { term: "Biopic", definition: "Film che racconta la vita di una persona realmente esistita.", example: "Esempio: 'Gandhi' racconta la vita di Mahatma Gandhi." },
+  { term: "Cinema d'autore", definition: "Modo di fare cinema in cui il regista esprime la propria visione personale, senza seguire necessariamente le regole di un genere.", example: "" },
+  { term: "Cinema di genere", definition: "Modo di fare cinema in cui i produttori decidono prima il genere e seguono le sue regole.", example: "" },
+  { term: "Distopia", definition: "Un futuro o un mondo immaginario molto brutto, dove la società è oppressiva o ingiusta.", example: "Esempio: il mondo di '1984' di George Orwell." },
+  { term: "Drammaturgia", definition: "Il modo in cui è costruita la storia di un film: chi sono i personaggi, cosa succede, come finisce.", example: "" },
+  { term: "Genere", definition: "Un gruppo di film che si assomigliano per storia, atmosfera ed emozioni che fanno provare.", example: "Esempio: il western è un genere." },
+  { term: "Macrogenere", definition: "Un grande gruppo che contiene generi simili tra loro.", example: "Esempio: 'Avventura' è un macrogenere che contiene western, war film, supereroi, e altri." },
+  { term: "Sospensione dell'incredulità", definition: "Quando guardi un film, accetti che le cose che vedi non sono reali, ma fai finta che lo siano per goderti la storia.", example: "Esempio: nei film fantasy accetti che la magia esista, anche se sai che nella realtà non è così." },
+  { term: "Sottogenere", definition: "Un piccolo gruppo dentro un genere più grande.", example: "Esempio: lo slasher è un sottogenere dell'horror." },
+  { term: "Ucronia", definition: "Una storia che immagina 'cosa sarebbe successo se...' la realtà fosse andata diversamente.", example: "Esempio: un film che immagina cosa sarebbe successo se la Germania nazista avesse vinto la guerra." }
+];
+
+const suggestions = {
+  ridere: {
+    title: "Per ridere e divertirti",
+    text: "Cerca film del macrogenere Comico.",
+    list: ["Slapstick comedy (es. Stanlio e Ollio)", "Parodia (es. Frankenstein Junior)", "Commedia all'italiana (es. Il sorpasso)"]
+  },
+  paura: {
+    title: "Per provare paura in modo controllato",
+    text: "Cerca film del macrogenere Horror. Inizia con quelli meno intensi.",
+    list: ["Horror classico (es. Dracula del 1931)", "Gotico (es. The Others)", "Psicothriller (es. Shining)"]
+  },
+  avventura: {
+    title: "Per sentire il battito accelerare",
+    text: "Cerca film del macrogenere Avventura.",
+    list: ["Action movie (es. Mission: Impossible)", "Supereroi (es. Avengers)", "Western (es. Il buono, il brutto, il cattivo)"]
+  },
+  amore: {
+    title: "Per commuoverti con una storia d'amore",
+    text: "Cerca film del macrogenere Film d'amore.",
+    list: ["Commedia sentimentale (es. Harry, ti presento Sally)", "Melodramma (es. Via col vento)"]
+  },
+  mistero: {
+    title: "Per risolvere un mistero",
+    text: "Cerca film del macrogenere Crime movie.",
+    list: ["Mystery (es. Il nome della rosa)", "Poliziesco (es. la serie CSI)", "Thriller (es. Il silenzio degli innocenti)"]
+  },
+  stupore: {
+    title: "Per scoprire mondi che non esistono",
+    text: "Cerca film del macrogenere Speculative fiction.",
+    list: ["Fantascienza (es. Interstellar)", "Fantasy (es. Il Signore degli Anelli)", "Distopico (es. Hunger Games)"]
+  }
+};
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.classList.add('active');
+  const navBtn = document.getElementById('nav-' + id);
+  if (navBtn) navBtn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function showMacro(key) {
+  const data = macroData[key];
+  if (!data) return;
+  const container = document.getElementById('macro-content');
+  let html = `
+    <div class="macro-header">
+      <h2>${data.title}</h2>
+      <p class="macro-definition">${data.definition}</p>
+      <div class="macro-emotions"><strong>Cosa proverai:</strong> ${data.emotions}</div>
+    </div>
+    <div class="genre-list-title">Generi che fanno parte di "${data.title}"</div>
+  `;
+  data.genres.forEach(g => {
+    html += `
+      <div class="genre-detail">
+        <h4>${g.name}</h4>
+        <p class="genre-recognize">${g.recognize}</p>
+        <div class="genre-examples">
+          <span class="genre-examples-label">Esempio</span>
+          ${g.example}
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('macro-detail').classList.add('active');
+  document.getElementById('nav-home').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function suggestGenre(key, btn) {
+  document.querySelectorAll('.emotion-button').forEach(b => b.classList.remove('selected'));
+  if (btn) btn.classList.add('selected');
+  const s = suggestions[key];
+  if (!s) return;
+  let html = `
+    <div class="suggestion-box">
+      <h3>${s.title}</h3>
+      <p>${s.text}</p>
+      <ul>
+        ${s.list.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+  document.getElementById('suggestion-result').innerHTML = html;
+}
+
+function buildGlossary() {
+  const list = document.getElementById('glossary-list');
+  let html = '';
+  glossaryData.forEach(item => {
+    html += `
+      <div class="glossary-item">
+        <dt>${item.term}</dt>
+        <dd>
+          ${item.definition}
+          ${item.example ? `<div class="example">${item.example}</div>` : ''}
+        </dd>
+      </div>
+    `;
+  });
+  list.innerHTML = html;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildGlossary();
+});
+</script>
+
+<!-- Font del sito (Outfit + JetBrains Mono per il menu condiviso) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

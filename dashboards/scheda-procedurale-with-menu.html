@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio di funzione razionale fratta - Scheda procedurale</title>
+<style>
+  /* RESET + BASE */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'Atkinson Hyperlegible', 'Verdana', sans-serif;
+    color: #1a1a1a;
+    background: #e8eaed;
+    line-height: 1.4;
+  }
+
+  /* IMPOSTAZIONE PAGINA STAMPA */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  /* FOGLIO A4 (visualizzazione su schermo) */
+  .foglio {
+    width: 210mm;
+    height: 295mm;
+    padding: 10mm 12mm;
+    margin: 20px auto;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* La pagina 2 forza l'inizio su una nuova pagina (solo se visibile) */
+  .pagina-2 {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  /* Quando l'utente nasconde la pagina 2, niente break (nessuno la vede comunque) */
+  body.solo-procedura .pagina-2 {
+    display: none;
+  }
+
+  /* TESTATA */
+  .testata {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+
+  .testata-titolo {
+    font-size: 15pt;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .testata-sottotitolo {
+    font-size: 8.5pt;
+    color: #5a6772;
+    text-align: right;
+    line-height: 1.3;
+  }
+
+  /* PROMEMORIA FUNZIONE GENERICA */
+  .funzione-target {
+    background: #f8f9fa;
+    border: 1px solid #c5d0db;
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    font-size: 9.5pt;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .funzione-target strong { color: #1a1a1a; }
+
+  /* LAYOUT A DUE COLONNE */
+  .doppia-colonna {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 6mm;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* COLONNA PROCEDURA */
+  .procedura {
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+  }
+
+  .step {
+    border: 1.5px solid #c5d0db;
+    border-radius: 5px;
+    padding: 4px 9px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 7px;
+    page-break-inside: avoid;
+    background: white;
+    flex: 1;
+  }
+
+  .step-num {
+    background: #1a1a1a;
+    color: white;
+    font-size: 12pt;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+  }
+
+  .step-corpo h2 {
+    font-size: 10pt;
+    font-weight: 700;
+    margin-bottom: 1px;
+    color: #1a1a1a;
+  }
+
+  .step-corpo .domanda {
+    font-size: 8.5pt;
+    color: #5a6772;
+    font-style: italic;
+    margin-bottom: 2px;
+  }
+
+  .step-corpo .azione {
+    font-size: 9pt;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+
+  .step-corpo .bivio {
+    background: #f8f9fa;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-top: 3px;
+    font-size: 8.5pt;
+    border-left: 2px solid #5a6772;
+    line-height: 1.3;
+  }
+
+  /* CODICI ICONE PROCESSO (ridondanza al colore per stampa B/N) */
+  .step.dominio { border-left: 5px solid #1a1a1a; }
+  .step.assi { border-left: 5px solid #4a4a4a; border-style: solid solid solid dashed; }
+  .step.segno { border-left: 5px solid #1a1a1a; border-left-style: dotted; border-left-width: 6px; }
+  .step.tabella { border-left: 5px solid #1a1a1a; border-left-style: double; border-left-width: 7px; }
+
+  /* COLONNA KIT */
+  .kit {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5mm;
+  }
+
+  .kit-card {
+    border: 1.5px solid #1a1a1a;
+    border-radius: 5px;
+    padding: 5px 8px;
+    page-break-inside: avoid;
+    background: white;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .kit-card .label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #5a6772;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .kit-card .contenuto {
+    font-size: 10.5pt;
+    color: #1a1a1a;
+    text-align: center;
+    margin: 3px 0;
+  }
+
+  .kit-card .nota {
+    font-size: 8pt;
+    color: #5a6772;
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  /* MATEMATICA */
+  .formula {
+    font-family: 'Georgia', 'Cambria', serif;
+    font-size: 11pt;
+    font-weight: 600;
+  }
+
+  .frazione {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 3px;
+  }
+
+  .frazione .num {
+    border-bottom: 1.5px solid #1a1a1a;
+    padding: 0 5px 2px 5px;
+  }
+
+  .frazione .den {
+    padding: 2px 5px 0 5px;
+  }
+
+  /* TABELLA SEGNI MEMO */
+  .tabella-segni-memo {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    margin: 2px 0;
+  }
+
+  .tabella-segni-memo th, .tabella-segni-memo td {
+    border: 1px solid #1a1a1a;
+    padding: 2px 4px;
+    text-align: center;
+  }
+
+  .tabella-segni-memo th {
+    background: #f0f4f8;
+    font-weight: 700;
+    font-size: 8pt;
+  }
+
+  /* SIMBOLI VISIVI ROBUSTI IN B/N */
+  .simbolo-pos {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 3px;
+    background: white;
+    text-align: center;
+    line-height: 14px;
+    font-weight: 700;
+    font-size: 11pt;
+  }
+
+  .simbolo-neg {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 3px;
+    background: #1a1a1a;
+    color: white;
+    text-align: center;
+    line-height: 14px;
+    font-weight: 700;
+    font-size: 11pt;
+  }
+
+  /* PIE DI PAGINA */
+  .pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 7.5pt;
+    color: #5a6772;
+    border-top: 1px solid #c5d0db;
+    padding-top: 3px;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  /* PAGINA 2 - SCAFFOLD DI LAVORO */
+  .scaffold-titolo {
+    font-size: 13pt;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .scaffold-istruzioni {
+    font-size: 9pt;
+    color: #5a6772;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+
+  .scaffold-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .scaffold-box {
+    border: 1.5px solid #1a1a1a;
+    border-radius: 5px;
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    page-break-inside: avoid;
+    overflow: hidden;
+  }
+
+  .scaffold-box-testata {
+    border-bottom: 1px dashed #c5d0db;
+    padding-bottom: 3px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .scaffold-box-num {
+    background: #1a1a1a;
+    color: white;
+    font-size: 10pt;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .scaffold-box-titolo {
+    font-size: 10pt;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .scaffold-box-prompt {
+    font-size: 8pt;
+    color: #5a6772;
+    font-style: italic;
+    margin-top: 1px;
+    line-height: 1.2;
+  }
+
+  .scaffold-box-spazio {
+    flex: 1;
+    background-image: linear-gradient(#e5eaf0 1px, transparent 1px);
+    background-size: 100% 20px;
+    background-position: 0 12px;
+  }
+
+  /* CONTROLLI DI STAMPA (visibili solo a schermo) */
+  .controlli-stampa {
+    position: sticky;
+    top: 70px;
+    z-index: 100;
+    background: rgba(20, 30, 50, 0.95);
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .controlli-stampa { top: 120px; }
+  }
+
+  .controlli-stampa span {
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  .controlli-stampa button {
+    padding: 8px 18px;
+    background: white;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .controlli-stampa button:hover {
+    background: #f0f4f8;
+  }
+
+  .controlli-stampa label {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .controlli-stampa input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  /* STAMPA */
+  @media print {
+    html, body { background: white; margin: 0; padding: 0; }
+    .controlli-stampa { display: none !important; }
+    #site-menu, .header { display: none !important; }
+    .foglio {
+      box-shadow: none;
+      margin: 0;
+      width: 210mm;
+      height: 295mm;
+      padding: 10mm 12mm;
+    }
+  }
+</style>
+<script>
+  function togglePagina2() {
+    document.body.classList.toggle('solo-procedura', !document.getElementById('toggle-pagina2').checked);
+  }
+</script>
+</head>
+<body>
+
+<!-- Menu condiviso del sito -->
+<div id="site-menu"></div>
+
+<!-- CONTROLLI STAMPA (solo a schermo, non vanno in stampa) -->
+<div class="controlli-stampa">
+  <span>Anteprima della scheda da stampare</span>
+  <label>
+    <input type="checkbox" id="toggle-pagina2" checked onchange="togglePagina2()">
+    Includi pagina con scaffold di lavoro
+  </label>
+  <button onclick="window.print()">🖨️ Stampa</button>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- PAGINA 1: PROCEDURA + KIT DI SOPRAVVIVENZA                  -->
+<!-- ============================================================ -->
+<div class="foglio pagina-1">
+
+  <div class="testata">
+    <div class="testata-titolo">Studio di funzione razionale fratta</div>
+    <div class="testata-sottotitolo">Scheda procedurale<br>Strumento compensativo autorizzato</div>
+  </div>
+
+  <div class="funzione-target">
+    Quando hai una funzione del tipo &nbsp; <strong class="formula">y =
+      <span class="frazione"><span class="num">N(x)</span><span class="den">D(x)</span></span>
+    </strong> &nbsp; con <strong>N(x)</strong> e <strong>D(x)</strong> trinomi di secondo grado, segui questi passi.
+  </div>
+
+  <div class="doppia-colonna">
+
+    <!-- COLONNA SINISTRA: PROCEDURA -->
+    <div class="procedura">
+
+      <div class="step dominio">
+        <div class="step-num">1</div>
+        <div class="step-corpo">
+          <h2>DOMINIO</h2>
+          <div class="domanda">Dove esiste la funzione?</div>
+          <div class="azione">Pongo il <strong>denominatore ≠ 0</strong>. Risolvo l'equazione D(x) = 0 e <strong>escludo</strong> quei valori dal dominio.</div>
+        </div>
+      </div>
+
+      <div class="step assi">
+        <div class="step-num">2</div>
+        <div class="step-corpo">
+          <h2>INTERSEZIONE CON ASSE Y</h2>
+          <div class="domanda">La funzione tocca l'asse verticale?</div>
+          <div class="azione">Controllo se <strong>x = 0</strong> è nel dominio.</div>
+          <div class="bivio">Sì → calcolo y = N(0)/D(0) e ottengo il punto.<br>No → nessuna intersezione con l'asse Y.</div>
+        </div>
+      </div>
+
+      <div class="step assi">
+        <div class="step-num">3</div>
+        <div class="step-corpo">
+          <h2>INTERSEZIONE CON ASSE X</h2>
+          <div class="domanda">La funzione tocca l'asse orizzontale?</div>
+          <div class="azione">Pongo <strong>y = 0</strong>, cioè annullo il <strong>numeratore</strong>. Risolvo N(x) = 0 con la formula del Delta. Ottengo i punti A e B.</div>
+        </div>
+      </div>
+
+      <div class="step segno">
+        <div class="step-num">4</div>
+        <div class="step-corpo">
+          <h2>SEGNO DEL NUMERATORE</h2>
+          <div class="domanda">Quando N(x) è positivo?</div>
+          <div class="azione">Studio N(x) &gt; 0 usando la regola del trinomio. Trovo gli intervalli dove N è positivo e dove è negativo.</div>
+        </div>
+      </div>
+
+      <div class="step segno">
+        <div class="step-num">5</div>
+        <div class="step-corpo">
+          <h2>SEGNO DEL DENOMINATORE</h2>
+          <div class="domanda">Quando D(x) è positivo?</div>
+          <div class="azione">Studio D(x) &gt; 0 con lo stesso metodo. Trovo gli intervalli dove D è positivo e dove è negativo.</div>
+        </div>
+      </div>
+
+      <div class="step tabella">
+        <div class="step-num">6</div>
+        <div class="step-corpo">
+          <h2>TABELLA DEI SEGNI E CONCLUSIONE</h2>
+          <div class="domanda">Dove la funzione è positiva e dove è negativa?</div>
+          <div class="azione">Combino i segni di N e D applicando la <strong>regola dei segni</strong>. Scrivo gli intervalli in cui y &gt; 0 e quelli in cui y &lt; 0.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLONNA DESTRA: KIT DI SOPRAVVIVENZA -->
+    <div class="kit">
+
+      <div class="kit-card">
+        <div class="label">📐 Formula del Delta</div>
+        <div class="contenuto formula">Δ = b² − 4·a·c</div>
+        <div class="nota">a, b, c sono i coefficienti del trinomio ax² + bx + c</div>
+      </div>
+
+      <div class="kit-card">
+        <div class="label">📐 Formula risolutiva</div>
+        <div class="contenuto formula">x =
+          <span class="frazione">
+            <span class="num">−b ± √Δ</span>
+            <span class="den">2a</span>
+          </span>
+        </div>
+        <div class="nota">Δ &gt; 0 → due soluzioni<br>Δ = 0 → una soluzione doppia<br>Δ &lt; 0 → nessuna soluzione reale</div>
+      </div>
+
+      <div class="kit-card">
+        <div class="label">🎯 Regola del trinomio</div>
+        <div class="contenuto" style="font-size: 9.5pt; line-height: 1.4;">
+          Quando ax² + bx + c ha due soluzioni:<br>
+          è <strong>positivo per valori esterni</strong><br>
+          è <strong>negativo per valori interni</strong>
+        </div>
+      </div>
+
+      <div class="kit-card">
+        <div class="label">➕ ➖ Regola dei segni</div>
+        <table class="tabella-segni-memo">
+          <tr>
+            <th>N</th>
+            <th>D</th>
+            <th>y = N/D</th>
+          </tr>
+          <tr>
+            <td><span class="simbolo-pos">+</span></td>
+            <td><span class="simbolo-pos">+</span></td>
+            <td><span class="simbolo-pos">+</span></td>
+          </tr>
+          <tr>
+            <td><span class="simbolo-neg">−</span></td>
+            <td><span class="simbolo-neg">−</span></td>
+            <td><span class="simbolo-pos">+</span></td>
+          </tr>
+          <tr>
+            <td><span class="simbolo-pos">+</span></td>
+            <td><span class="simbolo-neg">−</span></td>
+            <td><span class="simbolo-neg">−</span></td>
+          </tr>
+          <tr>
+            <td><span class="simbolo-neg">−</span></td>
+            <td><span class="simbolo-pos">+</span></td>
+            <td><span class="simbolo-neg">−</span></td>
+          </tr>
+        </table>
+        <div class="nota" style="margin-top: 3px;">Segni uguali → +<br>Segni diversi → −</div>
+      </div>
+
+      <div class="kit-card" style="background: #f8f9fa;">
+        <div class="label">⚠️ Attenzione</div>
+        <div class="nota" style="text-align: left; line-height: 1.45;">
+          Il <strong>denominatore non può mai essere zero</strong>. I valori che lo annullano sono esclusi dal dominio e vanno riportati come "punti vuoti" sulla retta dei segni.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="pie">
+    <span>Pagina 1 di 2 - Procedura e formulario</span>
+    <span>Universal Design for Learning 3.0 (CAST, 2024)</span>
+  </div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- PAGINA 2: SCAFFOLD DI LAVORO                                 -->
+<!-- ============================================================ -->
+<div class="foglio pagina-2">
+
+  <div class="testata">
+    <div class="testata-titolo">Spazio di lavoro</div>
+    <div class="testata-sottotitolo">Scrivi qui i tuoi calcoli<br>seguendo i passi della pagina 1</div>
+  </div>
+
+  <div class="scaffold-istruzioni">
+    Per ogni passo c'è un riquadro dedicato. Scrivi dentro il riquadro corrispondente i tuoi calcoli. Se non ti basta lo spazio, continua sul retro o su un foglio a parte.
+  </div>
+
+  <div class="scaffold-grid">
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">1</div>
+        <div>
+          <div class="scaffold-box-titolo">DOMINIO</div>
+          <div class="scaffold-box-prompt">Pongo D(x) ≠ 0 e trovo i valori esclusi</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">2</div>
+        <div>
+          <div class="scaffold-box-titolo">ASSE Y</div>
+          <div class="scaffold-box-prompt">x = 0 è nel dominio? Calcolo y se sì</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">3</div>
+        <div>
+          <div class="scaffold-box-titolo">ASSE X</div>
+          <div class="scaffold-box-prompt">Pongo N(x) = 0 e calcolo Δ, x₁, x₂</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">4</div>
+        <div>
+          <div class="scaffold-box-titolo">SEGNO N(x)</div>
+          <div class="scaffold-box-prompt">Quando il numeratore è positivo</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">5</div>
+        <div>
+          <div class="scaffold-box-titolo">SEGNO D(x)</div>
+          <div class="scaffold-box-prompt">Quando il denominatore è positivo</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">6</div>
+        <div>
+          <div class="scaffold-box-titolo">TABELLA E CONCLUSIONE</div>
+          <div class="scaffold-box-prompt">Combino i segni di N e D, scrivo dove y &gt; 0 e y &lt; 0</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+  </div>
+
+  <div class="pie">
+    <span>Pagina 2 di 2 - Spazio di lavoro guidato</span>
+    <span>Universal Design for Learning 3.0 (CAST, 2024)</span>
+  </div>
+
+</div>
+
+<!-- Font del sito (Outfit + JetBrains Mono per il menu condiviso) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

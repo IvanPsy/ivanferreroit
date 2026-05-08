@@ -138,6 +138,16 @@ sections:
         tag_label: "Matematica · BES"
         description: "Continuità e i 3 tipi di discontinuità con navigazione lineare: un concetto per passo, grafici SVG, quiz finale con feedback. Design accessibile per studenti con BES."
 
+      - title: "Studio di Funzione Razionale Fratta — Passo per Passo"
+        url: /dashboards/studio-funzione-with-menu.html
+        tag_label: "Matematica · UDL 3.0"
+        description: "10 passi guidati per lo studio completo di una funzione razionale fratta: dominio, intersezioni con gli assi, studio del segno, grafico delle zone. Codifica cromatica costante (numeratore blu, denominatore arancione, risultato verde), card espandibili, navigazione lineare con frecce. Progettata seguendo le linee guida UDL 3.0 (CAST, 2024) per studenti con DSA, ADHD, disabilità intellettiva e ansia da prestazione. Include scheda procedurale stampabile da consultare durante esercitazioni e verifiche."
+
+      - title: "Scheda Procedurale — Studio di Funzione Razionale Fratta"
+        url: /dashboards/scheda-procedurale-with-menu.html
+        tag_label: "Matematica · Scheda Stampabile"
+        description: "Scheda A4 stampabile, complementare allo studio di funzione passo per passo. Sequenza dei 6 passi e tutte le formule chiave su una pagina, con seconda pagina di scaffold guidato per esercitarsi. Pensata come strumento di supporto da tenere accanto durante esercitazioni e verifiche. Compatibile con stampa diretta (formato A4 portrait, layout pulito senza interferenze)."
+
       - title: "La Storia dell'Umanità — Versione Accessibile"
         url: /dashboards/timeline-percorso-umanita-accessibile-with-menu.html
         tag_label: "Storia · ASD-friendly"
@@ -157,3 +167,8 @@ sections:
         url: /dashboards/verifica-fotografia.html
         tag_label: "Fotografia · ASD-friendly"
         description: "Verifica interattiva con 4 esercizi (abbinamento dispositivo-sensore, vero/falso, time-lapse dell'alba, riconoscimento foto-dispositivo). Pensata per profili ASD, DI lieve ed epilessia: tipografia Atkinson Hyperlegible, palette sobria, zero animazioni rapide. Form alunno e PDF dei risultati."
+
+      - title: "🎬 I Generi del Cinema — Mappa Accessibile"
+        url: /dashboards/generi-cinema-with-menu.html
+        tag_label: "Cinema · ASD-friendly"
+        description: "Mappa navigabile dei 6 macrogeneri cinematografici con tre porte d'ingresso: per categoria (avventura, crime, horror, amore, speculative, comico), per emozione che si vuole provare, oppure tramite glossario di termini tecnici. Pensata per studenti nello spettro autistico: linguaggio concreto e diretto, struttura prevedibile, navigazione lineare, nessuna animazione rapida (rispetta `prefers-reduced-motion`), sezione approfondimenti opzionale. Utile anche per chi sta imparando a parlare di film senza dare nulla per scontato."
