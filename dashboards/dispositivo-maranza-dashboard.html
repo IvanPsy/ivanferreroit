@@ -1,0 +1,2988 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Dispositivo Maranza | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           IVAN FERRERO DASHBOARD — DESIGN SYSTEM
+           =========================================== */
+
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-tertiary: #151b23;
+            --bg-card: #1a222d;
+            --bg-hover: #222c3a;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-cyan: #00d9ff;
+            --accent-cyan-dim: #00d9ff40;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --border-accent: #00d9ff30;
+            --gradient-cyber: linear-gradient(135deg, #00d9ff15 0%, #3fb95010 100%);
+            --shadow-glow: 0 0 30px #00d9ff15;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-display);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        h2 { font-size: 1.8rem; margin-bottom: 1.25rem; }
+        h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+        a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.2s ease; }
+        a:hover { opacity: 0.8; }
+        strong { color: var(--text-primary); font-weight: 600; }
+        em { color: var(--accent-cyan); font-style: italic; }
+
+        /* Header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 20, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            padding: 1rem 2rem;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-logo {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--accent-cyan);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .site-logo::before { content: '> '; opacity: 0.6; }
+
+        .header-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .header-nav a {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--bg-tertiary);
+            z-index: 99;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            width: 0%;
+            transition: width 0.05s linear;
+        }
+
+        /* Main layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 3rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 6rem;
+            height: calc(100vh - 8rem);
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
+        .sidebar-section { margin-bottom: 2rem; }
+
+        .sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin-bottom: 0.15rem;
+            border-left: 2px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .sidebar-link.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+            border-left-color: var(--accent-cyan);
+        }
+
+        /* Hero section */
+        .hero {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 12px;
+            padding: 3rem 2.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, var(--accent-cyan-dim) 0%, transparent 70%);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 4px;
+            background: var(--accent-cyan-dim);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .hero-meta span::before { content: '◇ '; color: var(--accent-cyan); }
+
+        /* Section */
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 6rem;
+        }
+
+        .section-marker {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            border: 1px solid var(--accent-cyan);
+            letter-spacing: 0.1em;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent-cyan), transparent);
+        }
+
+        .subsection { margin-top: 2rem; }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card h3 { color: var(--accent-cyan); margin-bottom: 0.75rem; }
+        .card h4 { color: var(--text-primary); margin-top: 1rem; }
+
+        .card.expandable .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .card.expandable .card-header h3 { margin-bottom: 0; }
+
+        .card.expandable .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding-top 0.3s ease;
+        }
+
+        .card.expandable.expanded .card-body {
+            max-height: 5000px;
+            padding-top: 1.25rem;
+        }
+
+        .card.expandable .expand-icon {
+            color: var(--accent-cyan);
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+            font-weight: 300;
+        }
+
+        .card.expandable.expanded .expand-icon { transform: rotate(45deg); }
+
+        .card-summary {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+
+        /* Card varianti */
+        .card.card-warning { border-left: 3px solid var(--accent-yellow); }
+        .card.card-warning h3 { color: var(--accent-yellow); }
+        .card.card-critical { border-left: 3px solid var(--accent-red); }
+        .card.card-critical h3 { color: var(--accent-red); }
+        .card.card-insight { border-left: 3px solid var(--accent-purple); }
+        .card.card-insight h3 { color: var(--accent-purple); }
+        .card.card-success { border-left: 3px solid var(--accent-green); }
+        .card.card-success h3 { color: var(--accent-green); }
+
+        /* Stat cards */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem 1.25rem;
+            text-align: left;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px; height: 100%;
+            background: var(--accent-cyan);
+            opacity: 0.6;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-family: var(--font-mono);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .stat-card.stat-purple::before { background: var(--accent-purple); }
+        .stat-card.stat-purple .stat-value { color: var(--accent-purple); }
+        .stat-card.stat-green::before { background: var(--accent-green); }
+        .stat-card.stat-green .stat-value { color: var(--accent-green); }
+        .stat-card.stat-yellow::before { background: var(--accent-yellow); }
+        .stat-card.stat-yellow .stat-value { color: var(--accent-yellow); }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.72rem;
+            font-weight: 500;
+            border-radius: 4px;
+            margin-right: 0.4rem;
+            margin-bottom: 0.4rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+        }
+
+        .tag-cyan { background: var(--accent-cyan-dim); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .tag-green { background: #3fb95020; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .tag-yellow { background: #d2992220; color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+        .tag-orange { background: #db6d2820; color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+        .tag-red { background: #f8514920; color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .tag-purple { background: #a371f720; color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.3rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.6rem 1.1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); }
+
+        .tab-btn.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            display: block;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+
+        /* Quote block */
+        .quote {
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            background: var(--bg-tertiary);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote-attribution {
+            display: block;
+            margin-top: 0.5rem;
+            font-style: normal;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .quote-attribution::before { content: '— '; }
+
+        /* Code-ish term */
+        code, .term {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Meccanismo box (per stereotype threat etc) */
+        .meccanismo {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .meccanismo-num {
+            position: absolute;
+            top: -0.7rem;
+            left: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            background: var(--bg-primary);
+            padding: 0.2rem 0.7rem;
+            border: 1px solid var(--accent-purple);
+            border-radius: 4px;
+            letter-spacing: 0.1em;
+        }
+
+        .meccanismo h4 {
+            color: var(--accent-purple);
+            margin-bottom: 0.75rem;
+            font-size: 1.15rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Diagram boxes */
+        .diagram {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            align-items: stretch;
+        }
+
+        .flow-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            position: relative;
+            text-align: center;
+        }
+
+        .flow-step-num {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .flow-step-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .flow-step-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        /* Glossary */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .glossary-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: none;
+        }
+
+        .glossary-item.visible { display: block; }
+
+        .glossary-item h4 {
+            color: var(--accent-cyan);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-item .definition {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .glossary-item .application {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .glossary-item .application strong { color: var(--accent-purple); }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 2px var(--accent-cyan-dim);
+        }
+
+        /* Compare box */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .compare-side {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .compare-side h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+        }
+
+        .compare-side.compare-old h4 { color: var(--text-muted); }
+        .compare-side.compare-new h4 { color: var(--accent-cyan); }
+
+        .compare-side ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .compare-side li {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .compare-side li::before {
+            content: '◦';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        .compare-side.compare-new li::before {
+            content: '▸';
+            color: var(--accent-cyan);
+        }
+
+        /* References */
+        .ref-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ref-list li {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            transition: border-color 0.2s ease;
+        }
+
+        .ref-list li:hover { border-color: var(--border-accent); }
+
+        .ref-list li strong { color: var(--text-primary); }
+
+        .ref-type {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            margin-right: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .ref-type-book { background: var(--accent-cyan-dim); color: var(--accent-cyan); }
+        .ref-type-article { background: #a371f720; color: var(--accent-purple); }
+        .ref-type-press { background: #d2992220; color: var(--accent-yellow); }
+
+        /* Operational checklist */
+        .checklist {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 0.8rem;
+            align-items: flex-start;
+            margin-bottom: 0.9rem;
+            font-size: 0.93rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .checklist-item:last-child { margin-bottom: 0; }
+
+        .checklist-marker {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            flex-shrink: 0;
+            font-weight: 600;
+            width: 1.5rem;
+            user-select: none;
+        }
+
+        .checklist-item.checked .checklist-marker { color: var(--accent-green); }
+        .checklist-item.checked .checklist-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        /* Two col */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Highlight panel */
+        .highlight-panel {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-panel h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Footer */
+        .site-footer {
+            margin-top: 5rem;
+            padding: 2.5rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .site-footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .site-footer .footer-meta {
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+            .sidebar {
+                position: static;
+                height: auto;
+                padding-right: 0;
+                margin-bottom: 1rem;
+            }
+            .hero { padding: 2rem 1.5rem; }
+            .hero h1 { font-size: 2rem; }
+            .compare-grid, .two-col { grid-template-columns: 1fr; }
+            .header-nav { display: none; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+
+        /* Utility */
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .text-muted { color: var(--text-muted); }
+        .text-secondary { color: var(--text-secondary); }
+
+        ul.bulleted {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        ul.bulleted li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.6rem;
+            color: var(--text-secondary);
+        }
+        ul.bulleted li::before {
+            content: '▸';
+            position: absolute;
+            left: 0.3rem;
+            color: var(--accent-cyan);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="site-logo">ivanferrero.it / dispositivo-maranza</div>
+            <nav class="header-nav">
+                <a href="/">Home</a>
+                <a href="/dashboards/">Dashboard</a>
+                <a href="/dialoghi/">Dialoghi</a>
+                <a href="/about/">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main -->
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Navigazione</div>
+                <a href="#overview" class="sidebar-link active">Overview</a>
+                <a href="#genealogia" class="sidebar-link">01 / Genealogia del termine</a>
+                <a href="#nemico-pubblico" class="sidebar-link">02 / Il nemico pubblico</a>
+                <a href="#dispositivo" class="sidebar-link">03 / Dispositivo specifico</a>
+                <a href="#labelling" class="sidebar-link">04 / Labelling amplificato</a>
+                <a href="#repertorio" class="sidebar-link">05 / Repertorio narrativo</a>
+                <a href="#udl" class="sidebar-link">06 / UDL 3.0</a>
+                <a href="#operativo" class="sidebar-link">07 / Implicazioni operative</a>
+                <a href="#glossario" class="sidebar-link">08 / Glossario</a>
+                <a href="#riferimenti" class="sidebar-link">09 / Riferimenti</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Tags</div>
+                <div style="padding-left: 0.75rem;">
+                    <span class="tag tag-cyan">cyberpsicologia</span>
+                    <span class="tag tag-purple">labelling</span>
+                    <span class="tag tag-green">UDL</span>
+                    <span class="tag tag-yellow">moral panic</span>
+                    <span class="tag tag-orange">razzializzazione</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main>
+
+            <!-- Hero -->
+            <section id="overview" class="hero">
+                <span class="hero-eyebrow">Dashboard tecnica // ricerca cliniko-pedagogica</span>
+                <h1>Il dispositivo maranza</h1>
+                <p class="hero-subtitle">
+                    Genealogia, cornice teorica e architettura psichica di un nemico pubblico contemporaneo.
+                    Dal labelling effect classico all'amplificazione algoritmica, passando per il lavoro
+                    sul repertorio narrativo come pratica clinica e pedagogica di igiene identitaria.
+                </p>
+                <div class="hero-meta">
+                    <span>Pubblico target: clinici, docenti, formatori, ricercatori</span>
+                    <span>Letteratura: 1951 → 2026</span>
+                    <span>Ambiti: sociologia, psicologia, didattica inclusiva</span>
+                </div>
+            </section>
+
+            <!-- Stat overview -->
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">1988</div>
+                    <div class="stat-label">Prima attestazione del termine "maranza" (Jovanotti, "Il capo della banda")</div>
+                </div>
+                <div class="stat-card stat-purple">
+                    <div class="stat-value">2022</div>
+                    <div class="stat-label">Slittamento semantico al significato razzializzato (Peschiera del Garda, Riccione)</div>
+                </div>
+                <div class="stat-card stat-yellow">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Meccanismi che amplificano oggi il labelling effect classico</div>
+                </div>
+                <div class="stat-card stat-green">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Gesti operativi per il lavoro sul repertorio narrativo</div>
+                </div>
+            </div>
+
+            <!-- Abstract -->
+            <div class="highlight-panel">
+                <h4>Abstract esecutivo</h4>
+                <p>
+                    L'emergere del termine <em>maranza</em> nella stampa italiana a partire dal 2022 non è un
+                    fenomeno linguistico isolato, è la riconfigurazione di un dispositivo ricorrente di costruzione
+                    del nemico pubblico, già descritto da Cohen (1972), Hall et al. (1978) e Maneri/Dal Lago (1998).
+                    Rispetto alle istanze precedenti, il termine consente di razzializzare cittadini italiani di seconda e
+                    terza generazione attraverso una categoria <strong>estetico-culturale</strong> anziché
+                    giuridico-amministrativa, aggirando il vuoto operativo lasciato dalla categoria <em>extracomunitario</em>.
+                </p>
+                <p>
+                    A livello psichico, il dispositivo opera attraverso un <strong>labelling effect amplificato</strong>:
+                    la classica devianza secondaria di Lemert si combina con stereotype threat (Steele), narrative
+                    foreclosure (McAdams, Ricoeur) e feedback algoritmico delle piattaforme, chiudendo in pochi mesi
+                    loop identitari che storicamente richiedevano anni di mediazioni istituzionali. La risposta
+                    sostenibile è il lavoro sul <strong>repertorio narrativo</strong> dell'adolescente, da articolare
+                    in doppia osservazione (singolo + dispositivo) e da inquadrare formalmente dentro UDL 3.0 (CAST 2024)
+                    quando il "who" del learning, l'identità come variabilità, e i bias sistemici come barriere ne sono
+                    il fondamento progettuale.
+                </p>
+            </div>
+
+            <!-- ============================================
+                 SEZIONE 1: GENEALOGIA
+                 ============================================ -->
+            <section id="genealogia" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 01</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Genealogia e archeologia del termine</h2>
+                <p class="text-secondary">
+                    Per analizzare il dispositivo serve prima ricostruire la traiettoria semantica della parola.
+                    "Maranza" non è un neologismo del 2022, è una parola con quarant'anni di storia che ha subito
+                    uno slittamento decisivo proprio nel momento in cui le seconde generazioni iniziavano a rivendicare
+                    visibilità culturale. Il timing non è accidentale.
+                </p>
+
+                <div class="subsection">
+                    <h3>Etimologia incerta, traiettorie multiple</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Ipotesi Banfi-Coveri (1992-1993)</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">L'origine più documentata, sostenuta dall'Accademia della Crusca, e già intrisa di razzializzazione fin dalla nascita.</p>
+                        <div class="card-body">
+                            <p>
+                                Secondo Emanuele Banfi (1992) e Lorenzo Coveri (1993), il termine deriverebbe dai dialetti
+                                meridionali, dove <em>maranza</em> significa "melanzana", con allusione al colore della pelle
+                                (in Sicilia vale "arancia", e questo già segnala l'instabilità del referente cromatico).
+                                La forma sarebbe poi entrata in contatto con voci come <em>marakesch</em> o <em>marocco</em>,
+                                già usate nel gergo giovanile settentrionale degli anni Ottanta-Novanta in senso dispregiativo
+                                per indicare i meridionali.
+                            </p>
+                            <p>
+                                Il dato significativo, sottolineato dall'Accademia della Crusca, è che <strong>il termine non è
+                                affatto privo di connotazioni razziste fin dalla sua origine</strong>. La diffusione attuale, riferita
+                                a giovani di origine nordafricana, non sarebbe quindi una corruzione semantica recente ma
+                                un ritorno alla semantica originale. Cambia il bersaglio (meridionali → nordafricani), resta
+                                la struttura razzializzante.
+                            </p>
+                            <div class="quote">
+                                Una buona parte di coloro che si (auto)definiscono maranza è composta da giovani italiani
+                                di seconda generazione di origine nordafricana e ragazzi nordafricani immigrati in Italia.
+                                Ciò ha favorito la proliferazione di pregiudizi e di contenuti mediatici di carattere razzista.
+                                <span class="quote-attribution">Luisa di Valvasone, Accademia della Crusca</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Ipotesi alternative</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Crasi tra "marocchino" e "zanza", derivazione da "tamarranza", o etimologia popolare dal marchionimo Marantz.</p>
+                        <div class="card-body">
+                            <ul class="bulleted">
+                                <li><strong>Crasi marocchino + zanza:</strong> "zanza" in milanese significa imbroglione, furbo, uno che fa furtarelli. La crasi avrebbe prodotto la fusione semantica.</li>
+                                <li><strong>Da "tamarro" a "tamarranza":</strong> aggiunta del suffisso -anza con valore derisorio (come in "riccanza"), tipico del Nord Italia.</li>
+                                <li><strong>Etimologia popolare Marantz:</strong> il marchio di impianti hi-fi statunitense molto popolare negli anni Settanta sarebbe diventato sineddoche del "discotecaro" e poi del tamarro.</li>
+                                <li><strong>Origine veneta da "marangon":</strong> falegname, usato ironicamente per indicare chi veste male o si comporta in modo grossolano.</li>
+                            </ul>
+                            <p class="mt-2">
+                                La pluralità delle ipotesi non è un'incertezza filologica neutra, è essa stessa un dato:
+                                l'instabilità del referente etimologico riflette la natura fluida del bersaglio sociale,
+                                che storicamente ha cambiato volto (discotecari, tamarri, meridionali, nordafricani)
+                                pur conservando la struttura razzializzante e classista.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Timeline dello slittamento semantico</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <span class="timeline-date">1988</span>
+                            <div class="timeline-title">Prima attestazione: Jovanotti, "Il capo della banda"</div>
+                            <div class="timeline-desc">
+                                "Mi chiamo Jovanotti e sono in questo ambiente / di matti di maranza e di malati di mente".
+                                Il termine indica il "discotecaro trash di provincia", il tamarro classico, in una versione
+                                ancora prevalentemente ironica e legata al mondo della musica dance.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-date">1990s — 2000s</span>
+                            <div class="timeline-title">Sopravvivenza nel gergo giovanile settentrionale</div>
+                            <div class="timeline-desc">
+                                Registrato nei repertori del linguaggio giovanile (es. Forconi 1997, Ambrogio-Casalegno 2004).
+                                Significato di "tamarro, coatto", legato al lessico milanese e lombardo. La parola sembra
+                                destinata a scomparire.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-date">2009</span>
+                            <div class="timeline-title">Prima deriva razzializzata in cronaca milanese</div>
+                            <div class="timeline-desc">
+                                In alcuni articoli di cronaca milanese il termine inizia a essere usato nel significato
+                                di "marocchino", non ancora legato all'attuale uso ma già con connotazione etnica.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-date">2019 — 2021</span>
+                            <div class="timeline-title">Riemersione attraverso TikTok e cultura trap</div>
+                            <div class="timeline-desc">
+                                Il termine torna in auge nel linguaggio gergale giovanile attraverso la mediazione dei
+                                social media. Viene adottato in chiave autodefinitoria da gruppi di adolescenti che lo
+                                usano in modo ironico e identitario. Inizia il cortocircuito tra etichetta esterna e
+                                appropriazione interna.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-date">Estate 2022</span>
+                            <div class="timeline-title">Esplosione mediatica: Peschiera del Garda e Riccione</div>
+                            <div class="timeline-desc">
+                                Raduni di giovani vengono coperti dalla stampa nazionale come "fenomeno maranza", spesso
+                                con cornici di allarme criminologico. Il termine entra stabilmente nel lessico giornalistico
+                                e politico. La definizione si stabilizza intorno al "ragazzo di seconda generazione, quasi
+                                sempre maschio, di origine nordafricana, con stile e atteggiamenti riconoscibili".
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-date">2024 — 2026</span>
+                            <div class="timeline-title">Istituzionalizzazione retorica e politica</div>
+                            <div class="timeline-desc">
+                                Il termine viene utilizzato dal ministro Antonio Tajani (estate 2025, dibattito ius scholae:
+                                "preferite i maranza o i ragazzi che vanno a scuola?"), dal sindaco di Milano Beppe Sala
+                                (operazione di polizia 2025), e diventa stabile nei discorsi di Atreju e nella retorica
+                                governativa. Si registra una contro-riflessione (Seroussi 2025, Saitta 2023, Espresso 2026)
+                                che documenta l'operazione di razzializzazione in atto.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Perché "maranza" e non più "extracomunitario"</h3>
+                    <div class="card card-insight">
+                        <h3>La sostituzione operativa di un significante</h3>
+                        <p>
+                            La narrazione del "ragazzo extracomunitario delinquente" non reggeva più dal punto di vista
+                            categoriale, perché molti dei ragazzi nominati come problema sono cittadini italiani di seconda
+                            o terza generazione. <em>Extracomunitario</em> è una categoria giuridico-amministrativa, e
+                            quando il bersaglio è formalmente cittadino, la categoria perde efficacia.
+                        </p>
+                        <p>
+                            <em>Maranza</em> compie un'operazione di sostituzione: non è più una categoria giuridica,
+                            è una <strong>categoria estetico-culturale</strong> (trap, borsello, tute acetate, codici
+                            corporei, gergo). Permette di razzializzare cittadini italiani senza dover nominare la razza,
+                            attraverso lo stile. È più scivolosa, più performativa, e cattura sia ragazzi razzializzati
+                            sia ragazzi italiani bianchi che imitano i codici, allargando il dispositivo invece di
+                            restringerlo.
+                        </p>
+                        <div class="compare-grid">
+                            <div class="compare-side compare-old">
+                                <h4>Extracomunitario</h4>
+                                <ul>
+                                    <li>Categoria giuridico-amministrativa</li>
+                                    <li>Bersaglio: chi non ha cittadinanza UE</li>
+                                    <li>Disinnescata dalle seconde generazioni</li>
+                                    <li>Razzializzazione esplicita</li>
+                                    <li>Linea formale del "noi"</li>
+                                </ul>
+                            </div>
+                            <div class="compare-side compare-new">
+                                <h4>Maranza</h4>
+                                <ul>
+                                    <li>Categoria estetico-culturale</li>
+                                    <li>Bersaglio: chi adotta certi stili</li>
+                                    <li>Cattura cittadini italiani</li>
+                                    <li>Razzializzazione mascherata da stile</li>
+                                    <li>Linea informale ma operativa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 2: NEMICO PUBBLICO
+                 ============================================ -->
+            <section id="nemico-pubblico" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 02</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Cornice teorica del nemico pubblico</h2>
+                <p class="text-secondary">
+                    Il "nemico pubblico" come dispositivo mediatico-politico ha una genealogia precisa.
+                    Quattro autori, quattro tappe, una stratificazione che culmina in Maneri/Dal Lago per il caso italiano.
+                </p>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="cohen">Cohen 1972</button>
+                    <button class="tab-btn" data-tab="hall">Hall 1978</button>
+                    <button class="tab-btn" data-tab="maneri">Maneri/Dal Lago</button>
+                    <button class="tab-btn" data-tab="schmitt">Schmitt</button>
+                </div>
+
+                <div class="tab-content active" id="tab-cohen">
+                    <div class="card">
+                        <h3>Stanley Cohen — Folk Devils and Moral Panics (1972)</h3>
+                        <p>
+                            Cohen osserva i mods e i rockers nelle località balneari inglesi degli anni Sessanta.
+                            Identifica una sequenza ricorrente che diventa il modello del panico morale.
+                        </p>
+
+                        <h4>La sequenza in cinque tempi</h4>
+                        <div class="diagram">
+                            <div class="flow-grid">
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[01]</div>
+                                    <div class="flow-step-title">Evento devianza</div>
+                                    <div class="flow-step-desc">Un atto isolato, contestuale, spesso transitorio</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[02]</div>
+                                    <div class="flow-step-title">Amplificazione mediatica</div>
+                                    <div class="flow-step-desc">Cornici drammatizzanti, cifre allarmanti</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[03]</div>
+                                    <div class="flow-step-title">Folk devil</div>
+                                    <div class="flow-step-desc">Costruzione di una figura stereotipata</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[04]</div>
+                                    <div class="flow-step-title">Moral entrepreneurs</div>
+                                    <div class="flow-step-desc">Politici, opinionisti, esperti reclamano interventi</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[05]</div>
+                                    <div class="flow-step-title">Riattivazione</div>
+                                    <div class="flow-step-desc">Il dispositivo resta pronto per il prossimo bersaglio</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>L'insight chiave</h4>
+                        <p>
+                            Il panico morale non è descrizione di un fenomeno reale ma <strong>costruzione di
+                            un'inquietudine collettiva attraverso il linguaggio</strong>. La realtà del fenomeno
+                            (incidenza, diffusione, gravità) è secondaria rispetto al lavoro discorsivo che lo trasforma
+                            in minaccia simbolica.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-hall">
+                    <div class="card">
+                        <h3>Stuart Hall et al. — Policing the Crisis (1978)</h3>
+                        <p>
+                            Hall e i Birmingham Cultural Studies fanno il salto teorico decisivo. Nel libro su mugging
+                            (Hall, Critcher, Jefferson, Clarke, Roberts 1978), il fenomeno della rapina viene mostrato
+                            come categoria importata dagli Stati Uniti e applicata ai giovani neri britannici per dare
+                            nome a un'ansia che era in realtà economica e politica.
+                        </p>
+
+                        <h4>I tre passaggi di Hall</h4>
+                        <ul class="bulleted">
+                            <li><strong>Conjunctural analysis:</strong> il panico morale va letto dentro la crisi specifica del compromesso socialdemocratico britannico anni Settanta. Non è un fenomeno sociale autonomo, è il sintomo di una contraddizione storica più ampia.</li>
+                            <li><strong>Razzializzazione esplicita:</strong> il folk devil non è un capro espiatorio neutro, è un corpo razzializzato. Hall mostra che le statistiche sulla rapina sono state amplificate selettivamente per i giovani neri, e che il labelling di polizia produceva le cifre che giustificavano poi la repressione.</li>
+                            <li><strong>Authoritarian populism:</strong> il dispositivo serve a costruire consenso a uno stato repressivo, anticipa Thatcher. Si ottiene "consent through race", consenso attraverso la razza.</li>
+                        </ul>
+
+                        <div class="quote">
+                            Black youths out of control — questo era il titolo. Capitalism in crisis — questo era il
+                            problema reale. Il primo titolo serviva a non dover affrontare il secondo.
+                            <span class="quote-attribution">Sintesi della tesi di Policing the Crisis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-maneri">
+                    <div class="card">
+                        <h3>Marcello Maneri & Alessandro Dal Lago</h3>
+                        <p>
+                            Per il caso italiano la lettura più solida del dispositivo è quella di Marcello Maneri e
+                            Alessandro Dal Lago (<em>Non-persone. L'esclusione dei migranti in una società globale</em>,
+                            Feltrinelli 1999, e successive elaborazioni di Maneri in particolare).
+                        </p>
+
+                        <h4>Il dispositivo italiano</h4>
+                        <p>
+                            Maneri mostra che gli immigrati funzionano come folk devil "molto adatto": quando vengono
+                            qualificati come nemico pubblico, i politici entrano in scena come principali imprenditori
+                            morali, e il discorso sulla sicurezza ha la funzione di <strong>rivitalizzare la relazione
+                            tra politici ed elettori</strong> in un sistema partitico in crisi di legittimazione.
+                        </p>
+
+                        <h4>Il dato controintuitivo</h4>
+                        <p>
+                            Maneri aggiunge una dimostrazione cruciale: in Italia gli indicatori statistici
+                            sull'insicurezza percepita non corrispondono a un aumento reale della criminalità. Il
+                            discorso pubblico ha trasformato un'insicurezza multiforme (economica, esistenziale,
+                            identitaria) in una più precisa "paura della strada" focalizzata sul migrante. È costruzione
+                            simbolica dell'inquietudine, non risposta a un dato.
+                        </p>
+
+                        <div class="highlight-panel">
+                            <h4>Continuità storica del dispositivo</h4>
+                            <p>
+                                Pietro Saitta (<em>Violenta speranza</em>, Ombre Corte 2023) documenta la sostanziale
+                                identità lessicale del discorso pubblico mediatico italiano dagli anni Sessanta in poi:
+                                cappelloni, beat, drogati, discotecari, ultras, e oggi maranza. Cambia il bersaglio,
+                                resta il dispositivo. La parola maranza è solo l'ultimo significante in una catena che
+                                il giornalismo italiano sa attivare automaticamente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-schmitt">
+                    <div class="card">
+                        <h3>Carl Schmitt — La distinzione amico/nemico</h3>
+                        <p>
+                            C'è uno strato teorico più profondo, raramente nominato nella letteratura sui panici morali,
+                            che secondo me illumina il fenomeno: la distinzione amico/nemico di Carl Schmitt
+                            (<em>Der Begriff des Politischen</em>, 1932).
+                        </p>
+
+                        <p>
+                            Schmitt sosteneva che la sostanza del politico è la capacità di tracciare la linea fra chi
+                            appartiene e chi no. Il <strong>nemico pubblico mediatico</strong> è una versione degradata di
+                            quel meccanismo: non serve a un'identificazione politica forte, serve a tenere insieme una
+                            collettività debole attraverso la designazione continua di un altro da cui difendersi.
+                        </p>
+
+                        <div class="card card-insight">
+                            <h3>Perché funziona nelle società post-ideologiche</h3>
+                            <p>
+                                Dove non c'è più un "noi" sostantivo, costruito da un progetto positivo condiviso, resta
+                                solo il "non-loro". L'identità collettiva si costruisce per esclusione invece che per
+                                inclusione. Il dispositivo del nemico pubblico è particolarmente efficace nelle democrazie
+                                post-ideologiche perché supplisce a una mancanza identitaria strutturale, e per questo
+                                non si esaurisce mai con la vittoria sul bersaglio specifico: quando il bersaglio
+                                scompare, ne viene immediatamente nominato un altro.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Operatività del dispositivo nel caso maranza</h3>
+                    <p>
+                        Federico Boni (sociolinguista, intervistato da Fanpage e citato in Facta) sintetizza l'operazione
+                        retorica in atto: la narrazione politica e mediatica sui maranza ha l'effetto di creare panico e
+                        di individuare un nemico pubblico. Boni aggiunge un'osservazione che vale la pena rilanciare:
+                        il maranza è un nemico pubblico "perfetto" perché si propone già come tale.
+                    </p>
+
+                    <div class="card card-warning">
+                        <h3>Differenza dai folk devil classici: l'identificazione riflessiva</h3>
+                        <p>
+                            Il giovane mod degli anni Sessanta non si identificava col proprio stigma, ne era vittima.
+                            Il maranza invece <strong>si identifica nell'etichetta che gli è stata affibbiata</strong>,
+                            ne fa una questione d'onore, in modo simile alla riappropriazione del termine "Nigga" tra
+                            i neri statunitensi. Qui c'è un meccanismo riflessivo che cambia tutto: la stigmatizzazione
+                            produce identificazione, l'identificazione conferma lo stigma, e il dispositivo si autoalimenta
+                            in modo molto più efficiente di quanto facessero i panici morali del Novecento.
+                        </p>
+                        <p>
+                            Boni segnala anche una differenza specifica rispetto a sottoculture giovanili precedenti:
+                            il punk poteva essere assorbito perché restava dentro la linea bianca della cittadinanza.
+                            Il maranza no, perché la linea che incarna è razziale prima che generazionale. La differenza
+                            che produce panico è la stessa differenza che impedisce il riassorbimento normalizzante.
+                        </p>
+                    </div>
+
+                    <div class="card card-critical">
+                        <h3>Diversione politica esplicita</h3>
+                        <p>
+                            Antonio Cancellato su Fanpage osserva l'uso retorico esplicito a Atreju: Meloni che parla di
+                            "repubblica delle banane" per denunciare la presunta impunità dei maranza, Salvini che li
+                            definisce "rompicoglioni". Cancellato legge l'operazione come diversione classica: tre
+                            "nemici freschi" (Islam, maranza, giudici) per riempire le pagine dei giornali ed evitare
+                            che si parli di economia, caro vita, sanità, pressione fiscale. È Hall 1978 quasi parola per
+                            parola, traslato di mezzo secolo e di un Mediterraneo. Esiste un parallelo francese: la
+                            "racaille" denunciata da Sarkozy ai tempi delle rivolte nelle banlieue.
+                        </p>
+                    </div>
+
+                    <div class="card card-insight">
+                        <h3>Trasversalità politica del dispositivo</h3>
+                        <p>
+                            La Fondazione Feltrinelli sottolinea (Seroussi 2025 e analisi correlate) che sarebbe
+                            riduttivo ricondurre tutta la narrazione mediatica sui maranza alla destra più conservatrice.
+                            Esistono elementi trasversali: anche a sinistra si moltiplicano narrazioni deumanizzanti
+                            verso le comunità razzializzate. Il dispositivo cattura più ampiamente di quanto la cornice
+                            "destra cattiva contro vittime" lasci pensare. Per chi lavora nelle istituzioni educative,
+                            questo è un punto scomodo: il discorso "maranza" può circolare anche in sale professori che
+                            si percepiscono come progressiste.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 3: DISPOSITIVO SPECIFICO
+                 ============================================ -->
+            <section id="dispositivo" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 03</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Architettura del dispositivo specifico maranza</h2>
+                <p class="text-secondary">
+                    Cosa rende il dispositivo maranza diverso dai suoi predecessori? Quattro elementi strutturali ne
+                    spiegano l'efficacia e la persistenza.
+                </p>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>01 / Razzializzazione mascherata da estetica</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <p class="card-summary">Il termine descrive uno stile, non una razza, ma il referente sociale è prevalentemente razzializzato.</p>
+                    <div class="card-body">
+                        <p>
+                            La definizione "ufficiale" del maranza si concentra su elementi estetici (tute acetate,
+                            borsello, sneakers griffate, cappellini, codici linguistici trap-derivati). Questi marcatori
+                            non sono razziali in senso stretto. Ma il referente sociale prevalente, secondo le coperture
+                            mediatiche e l'autoidentificazione su TikTok, sono giovani di origine nordafricana di seconda
+                            generazione.
+                        </p>
+                        <p>
+                            Questo doppio livello permette un'operazione politicamente efficace: <strong>parlare di stile
+                            quando contesti, parlare di etnia quando vuoi colpire</strong>. La negazione plausibile
+                            ("non è razzismo, è critica del comportamento") protegge il dispositivo dalle accuse esplicite,
+                            mentre la sua applicazione concreta resta razzializzata.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>02 / Cattura espansiva: anche i bianchi che imitano</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <p class="card-summary">Il dispositivo si estende a ragazzi italiani non razzializzati che adottano i codici, ampliando il bersaglio.</p>
+                    <div class="card-body">
+                        <p>
+                            Come segnala Napoli Monitor, il termine si estende ormai anche a ragazzi italiani bianchi
+                            che imitano i codici "maranza" (trap, Baby Gang, Simba la Rue, borsello e bomber), estraendo
+                            il segno dal contesto di provenienza. Questa espansione apparentemente diluisce la dimensione
+                            razziale, ma in realtà la rinforza: il dispositivo classifica come "contaminati" anche i
+                            bianchi che si avvicinano allo stile, costruendo un confine simbolico mobile.
+                        </p>
+                        <p>
+                            È il classico paradosso schmittiano: chi adotta i codici dell'altro diventa esso stesso
+                            "altro", non per ascendenza ma per scelta estetico-culturale. Il dispositivo sopravvive
+                            anche all'integrazione anagrafica delle seconde e terze generazioni.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>03 / Identificazione orgogliosa: il loop riflessivo</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <p class="card-summary">L'etichetta esterna viene introiettata come bandiera identitaria, alimentando il dispositivo dall'interno.</p>
+                    <div class="card-body">
+                        <p>
+                            Su TikTok il "maranza-core" è diventato un genere di video virali, ricchi di coreografie in
+                            tuta, auto di lusso, frasi in slang, e un'ironia che gioca tra provocazione e autoparodia.
+                            I ragazzi mostrano consapevolezza esplicita degli stereotipi a cui sanno di essere associati,
+                            e li adottano come segno di appartenenza.
+                        </p>
+                        <p>
+                            Questa autoidentificazione è strutturalmente diversa da quella dei mods o dei punk:
+                            <strong>l'etichetta circolante è in larga parte negativa, e l'orgoglio nasce come reazione
+                            difensiva</strong>. Si è "qualcuno" solo in quanto opposti al "non-noi", e il dispositivo
+                            di razzializzazione viene paradossalmente confermato dall'energia identitaria che produce
+                            nei suoi bersagli.
+                        </p>
+                        <p>
+                            L'analogia con "Nigga" negli USA è suggestiva ma anche fuorviante: in quel caso la
+                            riappropriazione era inserita in una storia secolare di lotte civili e produzione culturale
+                            consolidata. Per il caso maranza, la riappropriazione è recentissima, frammentaria, e
+                            principalmente mediata da piattaforme che ne traggono engagement. La differenza politica è
+                            sostanziale.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>04 / Monetizzazione algoritmica</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <p class="card-summary">Le piattaforme estraggono valore dal panico morale, rendendolo prodotto economico oltre che politico.</p>
+                    <div class="card-body">
+                        <p>
+                            Federico Pilati su Doppiozero (<em>Maranza: engagement e sfruttamento</em>) coglie un punto
+                            essenziale: il panico morale non è solo un prodotto mediatico contro il maranza, è anche
+                            un prodotto mediatico con il maranza. Il ragazzo etichettato diventa attore consapevole
+                            della propria mostrificazione perché la mostrificazione genera visibilità, engagement, e
+                            in alcuni casi monetizzazione diretta.
+                        </p>
+                        <p>
+                            Si crea così un'economia dell'attenzione in cui tre attori si rinforzano reciprocamente:
+                        </p>
+                        <ul class="bulleted">
+                            <li>Le piattaforme, che estraggono valore dall'engagement prodotto</li>
+                            <li>I media tradizionali, che ricavano clic dalla copertura del fenomeno</li>
+                            <li>I ragazzi etichettati, che ricavano visibilità sociale e talvolta economica</li>
+                        </ul>
+                        <p class="mt-2">
+                            Nessuno di questi attori ha incentivo a interrompere il loop. Anzi, ciascuno ha incentivo
+                            a intensificarlo. È esattamente la differenza con il panico morale di Cohen, che era
+                            sostanzialmente unilaterale (media verso bersaglio): qui il flusso è bidirezionale, e
+                            l'amplificazione è strutturale.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 4: LABELLING AMPLIFICATO
+                 ============================================ -->
+            <section id="labelling" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 04</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Labelling effect amplificato</h2>
+                <p class="text-secondary">
+                    Dalla sociologia dell'etichettamento di Becker e Lemert ai tre meccanismi contemporanei che
+                    amplificano il dispositivo classico. Qui il discorso si sposta dalla sociologia alla psicologia,
+                    e tocca direttamente la pratica clinica.
+                </p>
+
+                <div class="subsection">
+                    <h3>La radice classica: Lemert e Becker</h3>
+
+                    <div class="card">
+                        <h3>Edwin Lemert — Devianza primaria vs secondaria (1951)</h3>
+                        <p>
+                            La distinzione decisiva è di Lemert, in <em>Social Pathology</em> (1951). Esistono due
+                            livelli che è essenziale tenere separati:
+                        </p>
+                        <div class="compare-grid">
+                            <div class="compare-side compare-old">
+                                <h4>Devianza primaria</h4>
+                                <ul>
+                                    <li>Atto isolato, contestuale</li>
+                                    <li>Spesso transitorio</li>
+                                    <li>Chiunque può compierlo</li>
+                                    <li>Non definisce chi è il soggetto</li>
+                                    <li>Resta esperienza locale</li>
+                                </ul>
+                            </div>
+                            <div class="compare-side compare-new">
+                                <h4>Devianza secondaria</h4>
+                                <ul>
+                                    <li>Riorganizzazione dell'identità</li>
+                                    <li>Traiettoria stabile</li>
+                                    <li>Risposta sociale interiorizzata</li>
+                                    <li>Definisce chi è il soggetto</li>
+                                    <li>Diventa progetto biografico</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="mt-2">
+                            Il salto fra i due livelli <strong>non è prodotto dall'atto, è prodotto dalla nominazione</strong>.
+                            È questo il punto teorico decisivo. La devianza secondaria nasce dalla risposta sociale, non
+                            dall'azione del soggetto.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Howard Becker — Outsiders (1963)</h3>
+                        <p>
+                            Becker formula la cosa nel modo più lapidario possibile, in una frase che è diventata canonica:
+                        </p>
+                        <div class="quote">
+                            Il deviante non è chi compie l'atto, è chi viene trattato con successo come tale.
+                            <span class="quote-attribution">Howard Becker, Outsiders, 1963</span>
+                        </div>
+                        <p>
+                            "Trattato con successo" è cruciale: include la risposta delle istituzioni, dei pari, dei
+                            media, e l'eventuale interiorizzazione da parte del soggetto. Il labelling è un atto
+                            performativo, e la sua efficacia dipende dalla coordinazione tra molti attori sociali.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>I tre meccanismi che amplificano oggi</h3>
+                    <p>
+                        Il modello di Becker e Lemert resta valido ma è oggi insufficiente. Tre meccanismi si sono
+                        sovrapposti in modi che gli anni Sessanta non potevano immaginare. La loro combinazione
+                        produce un effetto qualitativo nuovo, non solo quantitativo.
+                    </p>
+
+                    <div class="meccanismo">
+                        <div class="meccanismo-num">MECCANISMO 01</div>
+                        <h4>Stereotype threat</h4>
+                        <p>
+                            Concettualizzata da Claude Steele e Joshua Aronson dagli anni Novanta, sintetizzata in
+                            Steele <em>Whistling Vivaldi</em> (2010). Quando un soggetto sa di appartenere a un gruppo
+                            a cui è associato uno stereotipo negativo, anche solo l'attivazione di quella consapevolezza
+                            degrada la performance, restringe la memoria di lavoro, aumenta il carico ansioso.
+                        </p>
+                        <p>
+                            <strong>Non serve credere allo stereotipo</strong>, basta sapere che esiste e che gli altri
+                            potrebbero applicarlo. Il dispositivo lavora sotto la soglia della convinzione, agisce
+                            sulla cognizione e sul corpo. Per un ragazzo razzializzato che entra in classe sapendo che
+                            esiste un significante "maranza" pronto a essere applicato, la sola disponibilità del
+                            significante consuma risorse cognitive ed emotive che gli servirebbero per studiare,
+                            relazionarsi, immaginarsi diversamente.
+                        </p>
+                        <p>
+                            Le conseguenze documentate empiricamente includono: riduzione delle prestazioni in compiti
+                            cognitivamente impegnativi, aumento dei marcatori fisiologici di stress (cortisolo, frequenza
+                            cardiaca), riduzione della disponibilità ad assumere ruoli di leadership, evitamento dei
+                            domini in cui lo stereotipo è attivo. È un fenomeno robusto attraverso decenni di replicazioni.
+                        </p>
+                    </div>
+
+                    <div class="meccanismo">
+                        <div class="meccanismo-num">MECCANISMO 02</div>
+                        <h4>Narrative foreclosure (chiusura narrativa anticipata)</h4>
+                        <p>
+                            Concetto sviluppato dalla teoria dell'identità narrativa, in particolare da Dan McAdams
+                            (<em>The Stories We Live By</em>, 1993) e Paul Ricoeur (<em>Soi-même comme un autre</em>, 1990).
+                            Noi diventiamo le storie che possiamo raccontarci su noi stessi, e quelle storie sono fatte
+                            con i materiali che la cultura ci mette a disposizione.
+                        </p>
+                        <p>
+                            Se per un ragazzo le narrazioni disponibili su "uno come te" sono povere e omogenee
+                            (delinquente, fallito, integrato a metà, eccezione che conferma la regola), il <strong>repertorio
+                            di sé immaginabile si restringe</strong>. Non è una profezia che si autoavvera in senso
+                            meccanico, è qualcosa di più sottile: certe traiettorie semplicemente non si presentano più
+                            all'orizzonte come possibili.
+                        </p>
+                        <p>
+                            Per la pratica clinica, il segnale rivelatore è quel momento in cui il paziente dice
+                            "no, quello non fa per me" e l'operatore sente che non è una valutazione realistica ma
+                            <strong>un confine introiettato</strong>. La cultura del nemico pubblico produce industrialmente
+                            quel tipo di confini, su scala demografica. Non è un problema individuale, è un problema
+                            di ecologia narrativa.
+                        </p>
+                    </div>
+
+                    <div class="meccanismo">
+                        <div class="meccanismo-num">MECCANISMO 03</div>
+                        <h4>Feedback algoritmico</h4>
+                        <p>
+                            Questo è il meccanismo specificamente del nostro tempo, ed è quello che cambia di natura il
+                            labelling. La devianza secondaria di Lemert si organizzava attraverso istituzioni lente
+                            (scuola, polizia, quartiere, famiglia). Oggi si organizza anche attraverso TikTok, YouTube,
+                            Instagram, che funzionano come <strong>specchi accelerati</strong>.
+                        </p>
+                        <p>
+                            Un ragazzo etichettato come maranza riceve dalla piattaforma contenuti che confermano ed
+                            estetizzano l'etichetta. Costruisce un sé performativo che genera engagement.
+                            L'engagement è una droga affettiva potente per un'identità adolescenziale in formazione.
+                            Il loop label → identità → performance, che nel modello classico richiedeva anni e
+                            mediazioni istituzionali, oggi può chiudersi in pochi mesi.
+                        </p>
+                        <div class="diagram">
+                            <div class="flow-grid">
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[T0]</div>
+                                    <div class="flow-step-title">Etichetta esterna</div>
+                                    <div class="flow-step-desc">Ricevuta da media, pari, classe</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[T1]</div>
+                                    <div class="flow-step-title">Test performativo</div>
+                                    <div class="flow-step-desc">Primo post in postura "maranza"</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[T2]</div>
+                                    <div class="flow-step-title">Engagement</div>
+                                    <div class="flow-step-desc">Visualizzazioni, commenti, conferme</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[T3]</div>
+                                    <div class="flow-step-title">Curation algoritmica</div>
+                                    <div class="flow-step-desc">Feed satura di contenuti coerenti</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="flow-step-num">[T4]</div>
+                                    <div class="flow-step-title">Identità performativa</div>
+                                    <div class="flow-step-desc">L'etichetta diventa autodefinizione</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>
+                            La compressione temporale è il punto critico. In sei mesi un adolescente può percorrere
+                            l'intera traiettoria che, nel Novecento, richiedeva anni di mediazione attraverso scuola
+                            e quartiere. La conseguenza è che le finestre di intervento clinico-pedagogico si
+                            restringono, e che il momento "intercettabile" della costruzione identitaria si sposta
+                            sempre più precocemente.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Combinazione e sinergia</h3>
+                    <div class="card card-critical">
+                        <h3>Effetto cumulativo dei tre meccanismi</h3>
+                        <p>
+                            I tre meccanismi non agiscono in modo sommativo ma sinergico. La stereotype threat consuma
+                            le risorse cognitive che servirebbero per immaginare alternative. La narrative foreclosure
+                            riduce il repertorio di alternative immaginabili. Il feedback algoritmico amplifica
+                            l'unico repertorio rimasto. Insieme producono un collassamento del molteplice nell'unico
+                            che è qualitativamente più potente del labelling classico.
+                        </p>
+                        <p>
+                            Per la clinica e la pedagogia significa che l'intervento sul singolo livello (per esempio
+                            solo sul piano cognitivo, o solo su quello culturale) tende a essere insufficiente. Servono
+                            approcci che lavorino contemporaneamente su risorse cognitive, repertorio narrativo e
+                            agency rispetto al feedback algoritmico.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 5: REPERTORIO NARRATIVO
+                 ============================================ -->
+            <section id="repertorio" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 05</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Lavorare sul repertorio narrativo</h2>
+                <p class="text-secondary">
+                    La risposta sostenibile al labelling amplificato non è la contro-narrazione né la riappropriazione
+                    pura, è il lavoro sul repertorio narrativo dell'adolescente. Vediamo cosa significa operativamente.
+                </p>
+
+                <div class="card card-insight">
+                    <h3>Definizione operativa</h3>
+                    <p>
+                        Per <strong>repertorio narrativo</strong> si intende l'insieme di storie su di sé che un soggetto
+                        ha a disposizione per dare senso a quello che gli accade e per immaginare quello che gli accadrà.
+                        Non è sinonimo di "identità", è qualcosa di più granulare: sono i frammenti di storia, le scene
+                        ricorrenti, le figure di sé che il ragazzo abita in momenti diversi e in contesti diversi.
+                    </p>
+                    <p>
+                        McAdams direbbe che l'identità adulta integra questi frammenti in una <em>life story</em>
+                        coerente, ma in adolescenza il repertorio è ancora plurale, fluido, in negoziazione. È il momento
+                        in cui la struttura non si è ancora cristallizzata, e per questo è anche il momento in cui
+                        un'etichetta esterna può fare più danni se trova un repertorio impoverito, ma anche il momento
+                        in cui un intervento sul repertorio può fare più differenza.
+                    </p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Tre stati nel rapporto fra ragazzo ed etichetta</h3>
+
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="stato1">Stato 1 — Esterna</button>
+                        <button class="tab-btn" data-tab="stato2">Stato 2 — Ambivalente</button>
+                        <button class="tab-btn" data-tab="stato3">Stato 3 — Interiorizzata</button>
+                    </div>
+
+                    <div class="tab-content active" id="tab-stato1">
+                        <div class="card">
+                            <h3>Etichetta esterna ma non interiorizzata</h3>
+                            <p>
+                                Il ragazzo subisce l'etichetta, la riconosce come ingiusta o stupida, la respinge,
+                                ne è ferito ma non si identifica con essa. Si riconosce ancora come qualcosa di diverso
+                                rispetto al modo in cui viene nominato.
+                            </p>
+                            <h4>Segnali clinici</h4>
+                            <ul class="bulleted">
+                                <li>Reazioni di rabbia o ritiro al sentire il termine</li>
+                                <li>Capacità di nominare il torto subito</li>
+                                <li>Repertorio narrativo ancora plurale</li>
+                                <li>Disponibilità a esplorare altre identificazioni</li>
+                            </ul>
+                            <h4>Spazio di intervento</h4>
+                            <p>
+                                Massimo. Il lavoro sul repertorio è qui ancora preventivo e può essere fatto da molti
+                                adulti significativi: insegnanti curricolari, di sostegno, allenatori, fratelli maggiori,
+                                tutor. È terreno principalmente pedagogico, prima che clinico.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-stato2">
+                        <div class="card">
+                            <h3>Posizione ambivalente, sperimentale</h3>
+                            <p>
+                                Il ragazzo comincia a flirtare con l'etichetta come postura possibile. La prova come si
+                                prova un vestito, la usa fra pari per testare cosa succede. Oscilla tra rifiuto e
+                                appropriazione, e l'oscillazione stessa è informativa.
+                            </p>
+                            <h4>Segnali clinici</h4>
+                            <ul class="bulleted">
+                                <li>Uso ironico o autoironico del termine</li>
+                                <li>Sperimentazione di codici estetici</li>
+                                <li>Doppia presentazione di sé (a casa diverso che fuori)</li>
+                                <li>Ricerca di gruppi di appartenenza dove l'etichetta è bandiera</li>
+                            </ul>
+                            <h4>Spazio di intervento</h4>
+                            <p>
+                                Ancora alto, ma più sottile. Non si tratta più di prevenire l'introiezione, si tratta
+                                di tenere aperti spazi laterali in cui altre storie possano essere agite. La sospensione
+                                della nominazione precoce da parte degli adulti è qui particolarmente importante:
+                                fissare l'etichetta in questo stato significa accelerare la transizione allo stato 3.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-stato3">
+                        <div class="card">
+                            <h3>Etichetta come inquadratura primaria</h3>
+                            <p>
+                                L'etichetta è diventata il filtro attraverso cui anche le altre storie del repertorio
+                                vengono riletti ("anche quella volta che giocavo bene a calcio in fondo era perché
+                                siamo aggressivi noi maranza"). Il repertorio si è collassato nell'unico, e tutto viene
+                                interpretato dentro la cornice dell'etichetta.
+                            </p>
+                            <h4>Segnali clinici</h4>
+                            <ul class="bulleted">
+                                <li>Uso identitario stabile del termine</li>
+                                <li>Riformulazione della propria storia in chiave coerente con l'etichetta</li>
+                                <li>Difficoltà a immaginare altre traiettorie biografiche</li>
+                                <li>Investimento performativo nella postura sui social</li>
+                            </ul>
+                            <h4>Spazio di intervento</h4>
+                            <p>
+                                Più stretto, ma non precluso. Cambia di natura: non si tratta più di tenere aperto, si
+                                tratta di riaprire. Questo è già un lavoro più clinico in senso stretto, e richiede
+                                competenze specifiche di terapia narrativa, di lavoro sul Sé multiplo (Bromberg), e
+                                spesso di un setting protetto in cui possano emergere storie alternative non disponibili
+                                negli ambienti ordinari del ragazzo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="text-muted mt-3" style="font-size: 0.88rem;">
+                        Importante: questi tre stati non sono tappe di una scala progressiva irreversibile, sono
+                        posizioni in cui un ragazzo può oscillare anche nella stessa settimana. La transizione non è
+                        lineare, e i lavori di intervento devono tenere conto di questa fluidità.
+                    </p>
+                </div>
+
+                <div class="subsection">
+                    <h3>I cinque gesti operativi</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Gesto 1 / Interrogare scene precise</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Dare statuto narrativo a episodi che senza la domanda resterebbero inerti.</p>
+                        <div class="card-body">
+                            <p>
+                                Non chiedere generiche conferme di virtù ("ma tu sei anche bravo a..."), ma interrogare
+                                scene specifiche del ragazzo: <em>"Mi hai detto la settimana scorsa che hai aiutato tuo
+                                fratello con la matematica, com'è andata?"</em>.
+                            </p>
+                            <p>
+                                La storia "uno che insegna al fratello" esiste come traccia, ma per diventare materiale
+                                identitario ha bisogno di essere raccontata almeno una volta a qualcuno che la considera
+                                importante. La conversazione clinica e la conversazione educativa fanno questo
+                                costantemente, ma di solito senza una consapevolezza esplicita del fatto che stanno
+                                costruendo repertorio. Renderla consapevole permette di farla anche quando il ragazzo
+                                non porta spontaneamente i materiali.
+                            </p>
+                            <h4>Errore tipico</h4>
+                            <p>
+                                Generalizzare troppo presto. "Sei una persona generosa" è un'etichetta diversa, sostitutiva,
+                                non un'apertura di repertorio. Restare sulla scena, sul dettaglio, sulla concretezza è
+                                quello che dà al gesto la sua efficacia.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Gesto 2 / Introdurre figure ponte</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Personaggi reali o narrativi che incarnano combinazioni inedite.</p>
+                        <div class="card-body">
+                            <p>
+                                Un rapper di seconda generazione che parla di sua madre con tenerezza, uno scrittore
+                                italo-marocchino che racconta l'ansia da prestazione scolastica, un ragazzo del Corvetto
+                                intervistato che dice di voler fare l'infermiere. Non sono modelli da imitare, sono
+                                semplicemente <strong>prove che certe combinazioni di sé sono dicibili</strong>.
+                            </p>
+                            <p>
+                                Per un adolescente, sapere che una combinazione è dicibile da qualcun altro è una
+                                premessa necessaria per provare a dirla su di sé. Questo è anche il motivo per cui le
+                                narrazioni mediatiche povere di sfumature fanno danno: non perché propagandino un modello
+                                negativo, ma perché restringono il campo del dicibile.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Gesto 3 / Sospendere la nominazione precoce</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Tenere aperta la domanda su cosa sta facendo questo specifico ragazzo, ora, in questa scena.</p>
+                        <div class="card-body">
+                            <p>
+                                Quando un ragazzo arriva in colloquio o in classe con un comportamento che richiama
+                                un'etichetta disponibile, il riflesso adulto è nominare ("è il classico atteggiamento
+                                da..."). Quel riflesso sigilla.
+                            </p>
+                            <p>
+                                Sospenderlo non significa fingere che non si veda, significa <strong>tenere aperta la
+                                domanda</strong> su cosa sta facendo questo specifico ragazzo ora, in questa scena, senza
+                                assumere che il comportamento sia leggibile attraverso la categoria. È fenomenologicamente
+                                più costoso, perché obbliga a stare dentro la singolarità invece di poggiarsi sulla
+                                generalità. Ma è esattamente la differenza fra trattare uno studente come istanza di
+                                una categoria e trattarlo come soggetto.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Gesto 4 / Moltiplicare i contesti</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Garantire scene dove altre storie del ragazzo siano protagoniste.</p>
+                        <div class="card-body">
+                            <p>
+                                Se l'unica scena in cui il ragazzo viene visto è quella in cui l'etichetta lavora a
+                                pieno regime (la classe, il quartiere, la chat con i pari, l'algoritmo), il repertorio
+                                si impoverisce per privazione di contesti.
+                            </p>
+                            <p>
+                                Un'attività extra-scolastica in cui è bravo e riconosciuto come tale, una relazione
+                                adulta in cui altri lati di sé hanno spazio, un progetto in cui le competenze attivate
+                                sono diverse: questi contesti producono materiali narrativi che diventano disponibili
+                                anche quando il ragazzo è negli altri contesti. È meno romantico di un colloquio, ma
+                                <strong>struttura il repertorio molto più di tante parole</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Gesto 5 / Introdurre attrito nel feedback algoritmico</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Restituire agentività rispetto a uno strumento che lavora alle spalle del ragazzo.</p>
+                        <div class="card-body">
+                            <p>
+                                Le piattaforme funzionano come specchi che amplificano e omogenizzano: se un ragazzo
+                                posta un contenuto in una postura, riceve attenzione per quella postura, e il sistema
+                                gli serve altri contenuti che gli rendono familiare e desiderabile rimanere in quella
+                                postura.
+                            </p>
+                            <p>
+                                Lavorare sul repertorio significa anche aiutare il ragazzo a vedere quel meccanismo,
+                                non per moralizzarlo (sarebbe inefficace) ma per <strong>restituirgli agentività</strong>
+                                rispetto a uno strumento che altrimenti lavora alle sue spalle. Questo presuppone una
+                                competenza di alfabetizzazione algoritmica che gran parte degli adulti significativi
+                                non possiede ancora, e che andrebbe formata sistematicamente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Postilla critica: il rischio individualizzante</h3>
+                    <div class="card card-warning">
+                        <h3>Doppia osservazione necessaria</h3>
+                        <p>
+                            Il lavoro sul repertorio narrativo può scivolare in una versione ipocrita: "vediamo oltre
+                            l'etichetta", "ognuno è una persona unica", "le storie non sono un destino". Tutto vero in
+                            linea di principio, ma se non si nomina anche il dispositivo che produce l'etichetta, il
+                            lavoro sul singolo diventa un'operazione individualizzante che lascia intatta la struttura.
+                        </p>
+                        <p>
+                            Si "salva" il ragazzo che si incontra, e si lascia indisturbato il sistema che lo etichetta.
+                            Per dirla in termini più crudi: <strong>non si fa equità lavorando solo sul caso</strong>.
+                            La domanda <em>"e anche"</em> sul singolo ragazzo è necessaria ma deve coesistere con la
+                            domanda <em>"come mai"</em> a livello di sistema, altrimenti diventa una forma sofisticata
+                            di buonismo neoliberale.
+                        </p>
+                        <p>
+                            La postura sostenibile è quella della <strong>doppia osservazione</strong>: in stanza con
+                            il ragazzo si fa lavoro di repertorio; in sala docenti, in formazione, in scrittura
+                            pubblica, si nomina il dispositivo. I due livelli si sostengono solo se restano entrambi
+                            presenti. Per chi lavora a cavallo di clinica e scuola questa è la posizione operativa
+                            più produttiva.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 6: UDL 3.0
+                 ============================================ -->
+            <section id="udl" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 06</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>UDL 3.0 come framework operativo</h2>
+                <p class="text-secondary">
+                    Universal Design for Learning versione 3.0 (CAST 2024) non è un cappello inclusivo da mettere sul
+                    discorso del labelling, è quasi la sua grammatica formale. La versione 3.0 è esattamente quella che
+                    rende la connessione possibile, perché aggiunge dimensioni che la 2.2 lasciava implicite o assenti.
+                </p>
+
+                <div class="subsection">
+                    <h3>Il salto teorico della 3.0</h3>
+                    <div class="compare-grid">
+                        <div class="compare-side compare-old">
+                            <h4>UDL 2.2 (CAST 2018)</h4>
+                            <ul>
+                                <li>Goal: expert learner come endpoint</li>
+                                <li>Why / What / How dimensions</li>
+                                <li>"Recruiting Interest"</li>
+                                <li>Bias menzionati di sfuggita</li>
+                                <li>Educator-centered language</li>
+                            </ul>
+                        </div>
+                        <div class="compare-side compare-new">
+                            <h4>UDL 3.0 (CAST 2024)</h4>
+                            <ul>
+                                <li>Goal: learner agency come traiettoria</li>
+                                <li>Why / What / How / WHO dimensions</li>
+                                <li>"Welcoming Interests &amp; Identities"</li>
+                                <li>Bias sistemici come barriere formali</li>
+                                <li>Learner-centered language</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>I cinque punti di contatto</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>01 / Identità come variabilità (il "who")</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Il punto più potente. La pluralità identitaria diventa asse progettuale.</p>
+                        <div class="card-body">
+                            <p>
+                                UDL 3.0 introduce una quarta dimensione trasversale rispetto al why/what/how classico:
+                                il <strong>"who" of learning</strong>. La variabilità non riguarda solo come gli studenti
+                                percepiscono, processano e agiscono, ma anche chi sono, nelle loro identità multiple e
+                                intersezionali (linguistiche, culturali, biografiche, di neurodivergenza, di status).
+                            </p>
+                            <p>
+                                Il repertorio narrativo plurale dell'adolescente <em>è</em> la variabilità identitaria di
+                                cui UDL 3.0 parla. Non è un'aggiunta umanistica al framework, è uno dei suoi assi
+                                progettuali. Il labelling effect, in questa luce, smette di essere un problema sociologico
+                                esterno alla didattica e diventa il caso paradigmatico di una <strong>barriera al "who"</strong>:
+                                quando il sistema riduce la variabilità identitaria a un'etichetta unica, sta facendo
+                                l'opposto di quello che UDL 3.0 chiede di fare progettualmente.
+                            </p>
+                            <p>
+                                Per uno studente di seconda generazione, "essere visto come maranza" è strutturalmente
+                                analogo a "essere visto come dislessico e basta", oppure "essere visto come ADHD e basta":
+                                un collassamento del molteplice nell'unico, che impoverisce il repertorio progettuale che
+                                insegnante e studente possono mobilitare insieme.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>02 / Bias come barriere</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Lo spostamento più politico della 3.0: i bias sistemici sono formalmente barriere.</p>
+                        <div class="card-body">
+                            <p>
+                                Qui la 3.0 fa un passo che la 2.2 lasciava sfumato: nomina esplicitamente i bias
+                                <strong>individuali, istituzionali e sistemici</strong> come barriere all'apprendimento.
+                                Non è una dichiarazione di principio, è una scelta progettuale. Le barriere all'apprendimento
+                                non sono solo cognitive o sensoriali, sono anche prodotte dai dispositivi culturali e dalle
+                                pratiche istituzionali in cui lo studente è immerso.
+                            </p>
+                            <p>
+                                La "fobia dei maranza" che circola nei media, e che entra in classe attraverso le sue
+                                ricadute (il modo in cui i compagni guardano, come i docenti reagiscono ai comportamenti,
+                                come si modulano le aspettative, come la chat di classe rimbalza un meme), è una barriera
+                                all'apprendimento secondo UDL 3.0. <strong>Non metaforicamente, letteralmente.</strong>
+                            </p>
+                            <p>
+                                Lavorare sull'inclusione di quel ragazzo non significa solo offrirgli supporti compensativi
+                                sui suoi eventuali profili BES, significa anche progettare una didattica che riduca la
+                                barriera prodotta dal dispositivo del nemico pubblico. Il primo livello è
+                                clinico-diagnostico, il secondo è strutturale-culturale, e UDL 3.0 li mette espressamente
+                                sullo stesso piano progettuale.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>03 / Learner agency come goal</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Il ribaltamento dell'orizzonte: dall'expert learner come endpoint alla agency come traiettoria.</p>
+                        <div class="card-body">
+                            <p>
+                                UDL 3.0 sposta l'orizzonte: non più "expert learner" come endpoint (che era il goal della
+                                2.2), ma <strong>agency come traiettoria continua</strong>, declinata in tre coppie:
+                            </p>
+                            <ul class="bulleted">
+                                <li><em>Purposeful &amp; Reflective</em> — intenzionale e riflessivo</li>
+                                <li><em>Resourceful &amp; Authentic</em> — intraprendente e autentico</li>
+                                <li><em>Strategic &amp; Action-oriented</em> — strategico e orientato all'azione</li>
+                            </ul>
+                            <p>
+                                Il "reflective" e l'"authentic" sono i pezzi nuovi rispetto al 2018, e sono quelli che
+                                interessano qui. L'agency è esattamente la capacità del ragazzo di abitare il proprio
+                                repertorio in modo riflessivo e autentico, di scegliere quali storie raccontare di sé,
+                                di tenere aperto il <em>e anche</em>.
+                            </p>
+                            <p>
+                                Il labelling è l'opposto strutturale dell'agency, perché <strong>sostituisce la traiettoria
+                                con un destino</strong>. Progettare didattica per l'agency, in classi dove i dispositivi
+                                di nominazione esterna sono potenti, significa anche progettare contesti in cui lo
+                                studente possa esercitare scelte narrative non già scritte sulle sue spalle.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>04 / Welcoming Interests &amp; Identities (Guideline 7)</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">Il punto di accesso operativo più diretto. Il rename dalla 2.2 dice tutto.</p>
+                        <div class="card-body">
+                            <p>
+                                Questa guideline merita una nota a parte, perché nella 2.2 si chiamava <em>Recruiting
+                                Interest</em> (reclutare interesse, lessico vagamente militare, educator-centered) e
+                                nella 3.0 è diventata <strong>Welcoming Interests &amp; Identities</strong>. È uno dei
+                                casi più evidenti del language shift da educator-centered a learner-centered che la 3.0
+                                fa esplicitamente.
+                            </p>
+                            <p>
+                                Non si "recluta" l'interesse dello studente dall'esterno, si "accoglie" la pluralità
+                                delle sue identità come materiale progettuale. Le considerations sotto questa guideline
+                                includono l'invito a riconoscere e valorizzare le identità multiple, a collegare i
+                                contenuti curricolari alle esperienze di vita degli apprendenti, a creare contesti in
+                                cui le diverse appartenenze non siano un ostacolo ma una risorsa.
+                            </p>
+                            <p>
+                                Tutto il lavoro su "tenere salienti le storie marginalizzate" si traduce dentro questa
+                                guideline in modo abbastanza naturale. È il punto di accesso operativo principale per
+                                portare il discorso sul repertorio narrativo dentro la progettazione didattica formale.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>05 / Gioia, empatia, interdipendenza</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <p class="card-summary">La 3.0 promuove queste dimensioni da accessorie a sostanziali. Sembra cosmesi, non lo è.</p>
+                        <div class="card-body">
+                            <p>
+                                La 2.2 era ancora un framework prevalentemente cognitivo-strumentale: come fare in modo
+                                che lo studente acceda, processi, esprima. La 3.0 introduce <strong>gioia, gioco,
+                                empatia e interdipendenza</strong> come temi sostanziali nei tre principi.
+                            </p>
+                            <p>
+                                Sembra cosmesi, non lo è. Sta dicendo che l'apprendimento è un fatto relazionale e
+                                affettivo, e che progettare didattica significa anche progettare le condizioni emotive
+                                in cui le identità possono esistere senza dover difendersi continuamente. Per un ragazzo
+                                costantemente esposto al dispositivo del nemico pubblico, il consumo cognitivo di cui
+                                parla la stereotype threat ha un correlato affettivo: la <strong>fatica relazionale</strong>
+                                di stare in un ambiente dove è sempre potenzialmente l'oggetto di una nominazione
+                                svalutativa.
+                            </p>
+                            <p>
+                                UDL 3.0 con l'introduzione di gioia ed empatia come dimensioni sostanziali sta
+                                autorizzando esplicitamente la didattica a occuparsi di quella fatica, non come "buone
+                                relazioni" generiche ma come condizione strutturale dell'apprendimento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Il rischio: UDL come glassa</h3>
+                    <div class="card card-warning">
+                        <h3>Anti-pattern progettuale</h3>
+                        <p>
+                            C'è un modo sbagliato di fare questa connessione, ed è proprio il rischio che corre la
+                            divulgazione UDL in Italia. Si può prendere il framework e usarlo come glassa inclusiva su
+                            una pratica che resta sostanzialmente medicalizzante e individualizzante: si parla di
+                            "variabilità", "identità", "bias", e poi nei fatti si lavora solo sul singolo studente con
+                            BES, lasciando intatta la struttura culturale che produce le barriere.
+                        </p>
+                        <p>
+                            Questo è UDL ridotto a buonismo metodologico, ed è una scocciatura perché toglie al framework
+                            il suo morso strutturale. La versione 3.0, con l'esplicitamento dei bias sistemici come
+                            barriere, rende quella riduzione più difficile da praticare in buona fede. Se il bias
+                            istituzionale è formalmente una barriera, allora la classe e la scuola devono interrogare
+                            anche le proprie pratiche di nominazione, non solo accomodare le difficoltà del ragazzo.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 7: OPERATIVO
+                 ============================================ -->
+            <section id="operativo" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 07</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Implicazioni operative per i professionisti</h2>
+                <p class="text-secondary">
+                    Sintesi pragmatica delle implicazioni per chi lavora a cavallo di clinica, scuola, formazione,
+                    e ricerca. Non checklist da spuntare, ma posture operative da incorporare.
+                </p>
+
+                <div class="two-col">
+                    <div class="card">
+                        <h3>Per il clinico</h3>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Esplora i tre stati (esterna / ambivalente / interiorizzata) e calibra l'intervento di conseguenza</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Distingui devianza primaria (atto) da secondaria (riorganizzazione identitaria) nei colloqui</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Lavora sui frammenti narrativi senza generalizzazioni prematuré ("sei generoso" è un'etichetta sostitutiva)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Usa figure ponte mirate (rapper, scrittori, testimonial reali) per allargare il dicibile</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Includi nel setting una mappatura delle pressioni algoritmiche specifiche del paziente</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Non leggere ogni segnale di rabbia in chiave aggressivo-comportamentale: spesso è risposta a stereotype threat</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Per il docente</h3>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Sospendi il riflesso di nominazione precoce davanti a comportamenti che richiamano l'etichetta</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Monitora la sala professori: il termine "maranza" usato fra colleghi è già una barriera UDL 3.0</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Progetta consegne con modalità di espressione multiple (Guideline 5: Expression &amp; Communication)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Includi figure ponte nei materiali curricolari (autori, testimoni, modelli con identità intersezionali)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Crea contesti in cui storie marginali possano essere protagoniste (lavori di gruppo riconfigurabili)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Usa rubriche di osservazione che registrino molti tipi di partecipazione, non un solo tipo "atteso"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="two-col mt-3">
+                    <div class="card">
+                        <h3>Per il formatore</h3>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Presenta UDL 3.0 con i suoi spostamenti chiave (who, bias, agency) e non come metodologia "buona"</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Lavora sulla consapevolezza linguistica: mappatura delle etichette circolanti e dei loro effetti</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Inserisci la teoria del labelling come cornice obbligatoria nei moduli su BES e inclusione</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Discuti esplicitamente il rischio "UDL come glassa" e le sue manifestazioni concrete</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Includi alfabetizzazione algoritmica come competenza formativa per docenti e operatori</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Per il ricercatore</h3>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Documenta la traiettoria semantica del termine come caso di moral panic italiano post-2020</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Studia empiricamente la compressione temporale del loop label → identità nei contesti algoritmici</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Indaga la sovrapposizione fra etichette razzializzanti e categorie BES nei contesti scolastici italiani</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Esamina la trasversalità politica del dispositivo (presenza nei discorsi progressisti)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="checklist-marker">□</span>
+                                <span class="checklist-text">Mappa l'ecologia degli attori (piattaforme + media + bersagli) e le loro interdipendenze economiche</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-success mt-3">
+                    <h3>La postura sintetica: doppia osservazione</h3>
+                    <p>
+                        Tutto quanto sopra si tiene insieme se l'operatore tiene insieme due livelli di osservazione e
+                        intervento. Il livello del singolo (clinico, didattico, relazionale) e il livello del dispositivo
+                        (culturale, mediatico, istituzionale). Lavorare solo sul primo è individualizzante e finisce per
+                        legittimare la struttura. Lavorare solo sul secondo è astratto e non aiuta i ragazzi concreti.
+                        La postura produttiva è l'oscillazione consapevole tra i due, e la capacità di rendere ciascun
+                        livello visibile all'altro nei momenti opportuni.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 8: GLOSSARIO
+                 ============================================ -->
+            <section id="glossario" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 08</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Glossario tecnico</h2>
+                <p class="text-secondary">
+                    Tutti i termini tecnici utilizzati nella dashboard, con definizione operativa e applicazione nella
+                    pratica clinico-pedagogica. Ricerca disponibile.
+                </p>
+
+                <input type="text" class="search-input mb-2" id="glossarySearch" placeholder="◍ Cerca termine, autore o concetto…">
+
+                <div class="glossary-grid" id="glossaryGrid">
+                    <div class="glossary-item visible" data-term="folk devil cohen panico morale">
+                        <h4>Folk devil</h4>
+                        <div class="definition">
+                            Figura stereotipata costruita dal discorso pubblico come personificazione di una minaccia
+                            sociale. Concetto introdotto da Stanley Cohen (1972). Non descrive un soggetto reale, lo
+                            costruisce attraverso la nominazione collettiva.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Riconoscere quando un'etichetta in classe (o nei media)
+                            funziona come folk devil aiuta a non leggerla come descrittiva ma come performativa.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="moral panic panico morale cohen">
+                        <h4>Moral panic (panico morale)</h4>
+                        <div class="definition">
+                            Costruzione mediatica e politica di un'inquietudine collettiva intorno a un fenomeno
+                            stilizzato come minaccia ai valori sociali. Cohen 1972. Tipicamente sproporzionato rispetto
+                            al fenomeno reale che lo innesca.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Quando un fenomeno irrompe in modo improvviso nei media,
+                            verificare se i dati di base sono coerenti con la copertura. Spesso non lo sono.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="moral entrepreneur cohen politici imprenditori">
+                        <h4>Moral entrepreneur</h4>
+                        <div class="definition">
+                            Attore (politico, opinion leader, esperto, leader religioso) che si fa promotore della
+                            costruzione del panico morale, ricavando da esso capitale politico, economico, simbolico.
+                            Howard Becker e Stanley Cohen.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Identificare gli attori che ricavano vantaggio dalla
+                            persistenza del dispositivo aiuta a capire perché il dispositivo non si esaurisce
+                            spontaneamente.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="labelling theory etichettamento becker lemert">
+                        <h4>Labelling theory</h4>
+                        <div class="definition">
+                            Teoria sociologica della devianza sviluppata da Edwin Lemert (1951) e Howard Becker (1963).
+                            Sostiene che la devianza non è una proprietà intrinseca degli atti ma una qualità conferita
+                            ad essi dalla risposta sociale, attraverso il processo di etichettamento.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Cornice teorica che permette di analizzare gli effetti
+                            performativi della nominazione nei contesti scolastici, clinici e mediatici.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="devianza primaria lemert">
+                        <h4>Devianza primaria</h4>
+                        <div class="definition">
+                            Atto isolato, spesso transitorio, che chiunque può compiere senza che esso definisca chi è
+                            il soggetto. Lemert 1951. È il livello dell'azione, prima della risposta sociale che la
+                            nomina.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Quando un comportamento problematico emerge per la prima
+                            volta, distinguere se è devianza primaria (gestibile contestualmente) o se sta entrando
+                            in un loop secondario (richiede intervento sul repertorio).
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="devianza secondaria lemert identità">
+                        <h4>Devianza secondaria</h4>
+                        <div class="definition">
+                            Riorganizzazione dell'identità del soggetto intorno alla risposta sociale a un atto deviante
+                            primario. Lemert 1951. È il livello in cui l'etichetta diventa progetto biografico, non più
+                            mero descrittore.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Quando un ragazzo inizia a strutturare scelte e narrazioni
+                            di sé in coerenza con un'etichetta ricevuta, è entrato nel livello secondario. Le strategie
+                            di intervento devono cambiare di conseguenza.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="stereotype threat steele cognizione">
+                        <h4>Stereotype threat</h4>
+                        <div class="definition">
+                            Effetto cognitivo-affettivo per cui la consapevolezza di appartenere a un gruppo associato
+                            a uno stereotipo negativo degrada la performance, restringe la memoria di lavoro e aumenta
+                            il carico ansioso. Concettualizzato da Claude Steele e Joshua Aronson dagli anni Novanta.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Spiega cali di rendimento, evitamento e ritiro che possono
+                            apparire come "scarsa motivazione" ma sono invece risposte adattive a un ambiente
+                            psicologicamente carico.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="narrative foreclosure mcadams ricoeur identità">
+                        <h4>Narrative foreclosure</h4>
+                        <div class="definition">
+                            Chiusura anticipata del repertorio narrativo per cui certe traiettorie biografiche smettono
+                            di presentarsi come possibili al soggetto, anche se oggettivamente lo sarebbero. McAdams,
+                            Ricoeur, e ricerche correlate sull'identità narrativa.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Riconoscere foreclosure in formulazioni come "non fa per
+                            uno come me" è il primo passo per intervenire sul repertorio. La frase è un sintomo, non
+                            una valutazione realistica.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="repertorio narrativo storie sé">
+                        <h4>Repertorio narrativo</h4>
+                        <div class="definition">
+                            Insieme di storie su di sé che un soggetto ha a disposizione per dare senso a quello che gli
+                            accade e per immaginare quello che gli accadrà. Più granulare dell'identità: include
+                            frammenti, scene, figure di sé multipli e contestuali.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Concetto operativo centrale del lavoro clinico-pedagogico
+                            sull'inclusione narrativa. Più ricco e plurale è il repertorio, più resilient è l'identità
+                            adolescenziale agli attacchi del labelling.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="feedback algoritmico piattaforme social">
+                        <h4>Feedback algoritmico</h4>
+                        <div class="definition">
+                            Processo per cui le piattaforme social, ottimizzando per engagement, espongono il soggetto
+                            a contenuti coerenti con le sue posture iniziali, costruendo specchi accelerati che chiudono
+                            in tempi brevi loop identitari che storicamente richiedevano anni.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Va incluso nella valutazione clinica e nella progettazione
+                            didattica come fattore ambientale primario, non come "uso scorretto" del singolo ragazzo.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="udl universal design learning cast">
+                        <h4>UDL — Universal Design for Learning</h4>
+                        <div class="definition">
+                            Framework didattico sviluppato da CAST per progettare ambienti di apprendimento accessibili
+                            alla pluralità degli apprendenti. Versione 3.0 rilasciata nel luglio 2024. Tre principi
+                            (Engagement, Representation, Action &amp; Expression) e nove guidelines.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Cornice di riferimento per progettare didattica inclusiva.
+                            La 3.0 è particolarmente utile per il discorso sul labelling perché formalizza l'identità
+                            come variabilità e i bias come barriere.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="learner agency udl 3.0 cast">
+                        <h4>Learner agency</h4>
+                        <div class="definition">
+                            Goal del framework UDL 3.0. Capacità dello studente di essere intenzionale e riflessivo,
+                            intraprendente e autentico, strategico e orientato all'azione. Sostituisce il goal "expert
+                            learner" della 2.2 spostando l'orizzonte da endpoint a traiettoria.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Concetto utile per riformulare gli obiettivi del PEI in
+                            chiave non strumentale ma capacitante. La domanda non è solo "cosa deve saper fare", ma
+                            "come può scegliere e riflettere su ciò che fa".
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="who learning identità udl 3.0">
+                        <h4>"Who" of learning</h4>
+                        <div class="definition">
+                            Quarta dimensione trasversale introdotta da UDL 3.0, accanto al why/what/how. Riguarda
+                            l'identità multipla e intersezionale degli apprendenti come variabilità progettuale.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Estende la progettazione didattica oltre le sole modalità
+                            cognitive, includendo identità linguistiche, culturali, biografiche, di genere, di status.
+                            È il punto di aggancio formale per il discorso sul repertorio narrativo.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="welcoming interests identities guideline 7 udl">
+                        <h4>Welcoming Interests &amp; Identities (Guideline 7)</h4>
+                        <div class="definition">
+                            Prima guideline del principio Engagement nella UDL 3.0. Sostituisce "Recruiting Interest"
+                            della 2.2. Invita a riconoscere e accogliere la pluralità delle identità degli apprendenti
+                            come materiale progettuale.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Punto di accesso operativo principale per portare il lavoro
+                            sul repertorio narrativo dentro la progettazione didattica formale (PEI, programmazione,
+                            unità di apprendimento).
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="bias sistemici barriere udl">
+                        <h4>Bias sistemici come barriere</h4>
+                        <div class="definition">
+                            Spostamento concettuale di UDL 3.0 che nomina esplicitamente i bias individuali, istituzionali
+                            e sistemici come barriere all'apprendimento, alla pari delle barriere cognitive o sensoriali.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Autorizza formalmente la scuola a interrogare le proprie
+                            pratiche di nominazione e categorizzazione, non solo ad accomodare i singoli BES.
+                            Fondamento per la doppia osservazione.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="doppia osservazione clinica sistema">
+                        <h4>Doppia osservazione</h4>
+                        <div class="definition">
+                            Postura operativa che articola interventi sul singolo (clinici, didattici, relazionali) con
+                            interventi sul dispositivo (culturali, mediatici, istituzionali). Necessaria per evitare
+                            sia l'individualizzazione che l'astrazione.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Per chi lavora a cavallo di clinica e scuola, è la postura
+                            operativa più produttiva. In stanza si lavora sul repertorio del singolo, in pubblico si
+                            nomina il dispositivo che produce le etichette.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="igiene narrativa repertorio">
+                        <h4>Igiene narrativa</h4>
+                        <div class="definition">
+                            Insieme di pratiche relazionali e culturali che mantengono salienti, dicibili e vivibili
+                            le storie di sé che il dispositivo culturale tende a marginalizzare. Pratica
+                            interprofessionale che non richiede competenze esclusivamente specialistiche.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Concetto-cornice per i cinque gesti operativi. Va praticata
+                            in tutti i contesti dove un adulto significativo entra in relazione stabile con un
+                            adolescente.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="conjunctural analysis hall gramsci">
+                        <h4>Conjunctural analysis</h4>
+                        <div class="definition">
+                            Modalità di analisi sviluppata da Stuart Hall a partire da Gramsci. Legge i fenomeni
+                            sociali (panici morali compresi) dentro la specifica congiuntura storica che li produce,
+                            mostrando le contraddizioni strutturali di cui sono il sintomo.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Per contestualizzare il dispositivo maranza in Italia post-2020
+                            come sintomo di contraddizioni economiche, politiche e demografiche più ampie, non come
+                            fenomeno isolato.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="schmitt amico nemico politico">
+                        <h4>Distinzione amico/nemico (Schmitt)</h4>
+                        <div class="definition">
+                            Categoria politica fondamentale secondo Carl Schmitt: la sostanza del politico è la capacità
+                            di tracciare la linea fra chi appartiene e chi no. Il nemico pubblico mediatico è una
+                            versione degradata di questo meccanismo.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Aiuta a capire perché il dispositivo del nemico pubblico è
+                            particolarmente efficace nelle democrazie post-ideologiche: supplisce a una mancanza
+                            identitaria strutturale del "noi".
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="bromberg sé multipli salute psichica">
+                        <h4>Sé multipli (Bromberg)</h4>
+                        <div class="definition">
+                            Concezione della salute psichica come capacità di abitare molti sé senza esserne sopraffatti.
+                            Philip Bromberg, <em>Standing in the Spaces</em> (1998). Cornice psicoanalitica relazionale
+                            congruente con il discorso sul repertorio narrativo.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Il labelling produce esattamente l'opposto di ciò che
+                            Bromberg considera salute: un collassamento del molteplice nell'unico. La clinica buona
+                            riapre lo spazio di pluralità.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="razzializzazione razza discorso costruzione">
+                        <h4>Razzializzazione</h4>
+                        <div class="definition">
+                            Processo discorsivo e istituzionale attraverso cui un gruppo sociale viene costruito come
+                            "razza" attraverso pratiche di nominazione, classificazione e differenziazione, anche in
+                            assenza di marcatori biologici espliciti.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Il termine maranza svolge razzializzazione attraverso
+                            categorie estetico-culturali, aggirando le obiezioni che colpirebbero una razzializzazione
+                            esplicita. La negazione plausibile è parte del meccanismo.
+                        </div>
+                    </div>
+
+                    <div class="glossary-item visible" data-term="ada autonomia digitale assistita ivanferrero">
+                        <h4>ADA — Autonomia Digitale Assistita</h4>
+                        <div class="definition">
+                            Framework sviluppato per governare l'uso dell'AI e dei dispositivi digitali con studenti che
+                            hanno profili esecutivi atipici (ADHD, DSA, ASD). Estendibile come grammatica generale di
+                            igiene narrativa nell'epoca degli specchi algoritmici.
+                        </div>
+                        <div class="application">
+                            <strong>Applicazione:</strong> Cornice operativa che, estesa, può inquadrare la dimensione
+                            "feedback algoritmico" del labelling amplificato come barriera UDL 3.0 da progettare per.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SEZIONE 9: RIFERIMENTI
+                 ============================================ -->
+            <section id="riferimenti" class="section">
+                <div class="section-marker">
+                    <span class="section-number">SEZIONE 09</span>
+                    <div class="section-line"></div>
+                </div>
+                <h2>Riferimenti bibliografici e fonti</h2>
+                <p class="text-secondary">
+                    Fonti primarie e secondarie utilizzate per la dashboard, organizzate per area tematica.
+                </p>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="ref-classici">Classici</button>
+                    <button class="tab-btn" data-tab="ref-italia">Letteratura italiana</button>
+                    <button class="tab-btn" data-tab="ref-psico">Psicologia / identità</button>
+                    <button class="tab-btn" data-tab="ref-udl">UDL</button>
+                    <button class="tab-btn" data-tab="ref-stampa">Stampa e divulgazione</button>
+                </div>
+
+                <div class="tab-content active" id="tab-ref-classici">
+                    <ul class="ref-list">
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Becker, H. S.</strong> (1963). <em>Outsiders: Studies in the Sociology of Deviance</em>. New York: The Free Press. [Trad. it.: <em>Outsiders</em>, EGA, 1987]
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Cohen, S.</strong> (1972). <em>Folk Devils and Moral Panics: The Creation of the Mods and Rockers</em>. London: MacGibbon &amp; Kee.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Hall, S., Critcher, C., Jefferson, T., Clarke, J., &amp; Roberts, B.</strong> (1978). <em>Policing the Crisis: Mugging, the State and Law and Order</em>. London: Macmillan.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Lemert, E. M.</strong> (1951). <em>Social Pathology: A Systematic Approach to the Theory of Sociopathic Behavior</em>. New York: McGraw-Hill.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Schmitt, C.</strong> (1932). <em>Der Begriff des Politischen</em>. München: Duncker &amp; Humblot. [Trad. it.: <em>Le categorie del «politico»</em>, Il Mulino]
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="tab-ref-italia">
+                    <ul class="ref-list">
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Dal Lago, A.</strong> (1999). <em>Non-persone. L'esclusione dei migranti in una società globale</em>. Milano: Feltrinelli.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Saitta, P.</strong> (2023). <em>Violenta speranza. Trap e riproduzione del "panico morale" in Italia</em>. Verona: Ombre Corte.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Seroussi, G.</strong> (2025). <em>La periferia vi guarda con odio. Come nasce la fobia dei maranza</em>. Milano: Agenzia X.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-article">ARTICLE</span>
+                            <strong>Banfi, E.</strong> (1992). Studi sull'italiano regionale e gergo giovanile, contributi vari.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-article">ARTICLE</span>
+                            <strong>Coveri, L.</strong> (1993). Studi sociolinguistici sul linguaggio giovanile italiano.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-article">ARTICLE</span>
+                            <strong>Maneri, M.</strong> Vari contributi sull'analisi del discorso pubblico sull'immigrazione e sulla costruzione mediatica della sicurezza in Italia.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="tab-ref-psico">
+                    <ul class="ref-list">
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Bromberg, P. M.</strong> (1998). <em>Standing in the Spaces: Essays on Clinical Process, Trauma, and Dissociation</em>. Hillsdale, NJ: Analytic Press.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>McAdams, D. P.</strong> (1993). <em>The Stories We Live By: Personal Myths and the Making of the Self</em>. New York: Guilford Press.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Ricoeur, P.</strong> (1990). <em>Soi-même comme un autre</em>. Paris: Seuil. [Trad. it.: <em>Sé come un altro</em>, Jaca Book]
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">BOOK</span>
+                            <strong>Steele, C. M.</strong> (2010). <em>Whistling Vivaldi: How Stereotypes Affect Us and What We Can Do</em>. New York: W. W. Norton &amp; Company.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-article">ARTICLE</span>
+                            <strong>Steele, C. M., &amp; Aronson, J.</strong> (1995). Stereotype threat and the intellectual test performance of African Americans. <em>Journal of Personality and Social Psychology</em>, 69(5), 797-811.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="tab-ref-udl">
+                    <ul class="ref-list">
+                        <li>
+                            <span class="ref-type ref-type-book">REF</span>
+                            <strong>CAST</strong> (2024). <em>Universal Design for Learning Guidelines version 3.0</em>. Wakefield, MA: CAST. <a href="https://udlguidelines.cast.org" target="_blank">udlguidelines.cast.org</a>
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-book">REF</span>
+                            <strong>CAST</strong> (2018). <em>Universal Design for Learning Guidelines version 2.2</em>. Wakefield, MA: CAST.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-article">ARTICLE</span>
+                            <strong>Sasanelli, L. D.</strong> (a cura di), con Addati, G. e Gallo, V. A. <em>Linee guida UDL versione 3.0</em>. Traduzione italiana ufficiale.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="tab-ref-stampa">
+                    <ul class="ref-list">
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Accademia della Crusca</strong>. Voce "maranza" curata da Luisa di Valvasone, sezione "Parole nuove".
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Boni, F.</strong> Intervista a Fanpage (citata da Facta). Lettura sociolinguistica della costruzione del "nemico pubblico maranza".
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Cancellato, A.</strong> Articoli su Fanpage. Analisi politica della retorica anti-maranza ad Atreju.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Codacci-Pisanelli, A.</strong> (2026). "Come la parola maranza è passata da presa in giro bonaria a insulto razzista". L'Espresso, 22 gennaio 2026.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Pilati, F.</strong> "Maranza: engagement e sfruttamento". Doppiozero. Analisi dell'economia dell'attenzione nel fenomeno maranza.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Cristalli, B.</strong> (2024). Voce "maranza" in <em>Dizionario per boomer: capire le parole delle nuove generazioni</em>. Milano: Rizzoli.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Treccani</strong>. Voce "maranza" / "neo-maranza" nei Neologismi. Roma: Istituto dell'Enciclopedia Italiana.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Napoli Monitor</strong>. Analisi sull'estensione del termine maranza ai ragazzi italiani bianchi.
+                        </li>
+                        <li>
+                            <span class="ref-type ref-type-press">PRESS</span>
+                            <strong>Fondazione Feltrinelli</strong>. Analisi sulla trasversalità politica del dispositivo nella copertura mediatica italiana.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>Risorsa creata da <strong>Ivan Ferrero</strong></p>
+        <p class="footer-meta">
+            Dashboard tecnica // versione 1.0 // 2026<br>
+            Psicologo psicoterapeuta · Cyberpsicologo · Insegnante di sostegno
+        </p>
+        <p class="text-muted" style="font-size: 0.8rem; margin-top: 1rem;">
+            ivanferrero.it / dashboards / dispositivo-maranza
+        </p>
+    </footer>
+
+    <script>
+        // ===== Smooth-scroll sidebar with active state =====
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        const sections = document.querySelectorAll('.section, #overview');
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Active state on scroll
+        const observerOptions = {
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    const id = entry.target.id;
+                    const correspondingLink = document.querySelector(`.sidebar-link[href="#${id}"]`);
+                    if (correspondingLink) correspondingLink.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(s => sectionObserver.observe(s));
+
+        // ===== Expandable cards =====
+        document.querySelectorAll('.card.expandable').forEach(card => {
+            const header = card.querySelector('.card-header');
+            if (header) {
+                header.addEventListener('click', () => {
+                    card.classList.toggle('expanded');
+                });
+            }
+        });
+
+        // ===== Tabs =====
+        document.querySelectorAll('.tabs').forEach(tabsContainer => {
+            const tabBtns = tabsContainer.querySelectorAll('.tab-btn');
+            const parentSection = tabsContainer.closest('.section') || tabsContainer.parentElement;
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabKey = btn.dataset.tab;
+
+                    // Disattiva tutti i pulsanti dello stesso gruppo
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Trova i tab-content fratelli (immediatamente dopo il container .tabs)
+                    let sibling = tabsContainer.nextElementSibling;
+                    const contentsToToggle = [];
+                    while (sibling) {
+                        if (sibling.classList && sibling.classList.contains('tab-content')) {
+                            contentsToToggle.push(sibling);
+                        } else if (sibling.classList && sibling.classList.contains('tabs')) {
+                            // Stop se incontriamo un altro gruppo di tab
+                            break;
+                        }
+                        sibling = sibling.nextElementSibling;
+                    }
+
+                    contentsToToggle.forEach(c => c.classList.remove('active'));
+                    const target = document.getElementById(`tab-${tabKey}`);
+                    if (target) target.classList.add('active');
+                });
+            });
+        });
+
+        // ===== Glossary search =====
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+
+        if (glossarySearch) {
+            glossarySearch.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                glossaryItems.forEach(item => {
+                    const terms = item.dataset.term ? item.dataset.term.toLowerCase() : '';
+                    const text = item.textContent.toLowerCase();
+                    if (query === '' || terms.includes(query) || text.includes(query)) {
+                        item.classList.add('visible');
+                    } else {
+                        item.classList.remove('visible');
+                    }
+                });
+            });
+        }
+
+        // ===== Checklist toggle =====
+        document.querySelectorAll('.checklist-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('checked');
+                const marker = item.querySelector('.checklist-marker');
+                if (marker) {
+                    marker.textContent = item.classList.contains('checked') ? '☑' : '□';
+                }
+            });
+        });
+
+        // ===== Progress bar =====
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
