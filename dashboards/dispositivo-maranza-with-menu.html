@@ -47,6 +47,7 @@
             color: var(--text-primary);
             line-height: 1.7;
             min-height: 100vh;
+            padding-top: 70px; /* spazio per menu condiviso fisso del sito */
         }
 
         body::before {
@@ -129,7 +130,7 @@
         /* Progress bar */
         .progress-container {
             position: fixed;
-            top: 64px;
+            top: 70px; /* allineata sotto il menu condiviso del sito */
             left: 0;
             width: 100%;
             height: 2px;
@@ -876,6 +877,16 @@
             h2 { font-size: 1.4rem; }
         }
 
+        /* Mobile: il menu condiviso del sito si impila a ~120px */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 120px !important;
+            }
+            .progress-container {
+                top: 120px;
+            }
+        }
+
         /* Utility */
         .mt-1 { margin-top: 0.5rem; }
         .mt-2 { margin-top: 1rem; }
@@ -906,18 +917,8 @@
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="site-header">
-        <div class="header-inner">
-            <div class="site-logo">ivanferrero.it / dispositivo-maranza</div>
-            <nav class="header-nav">
-                <a href="/">Home</a>
-                <a href="/dashboards/">Dashboard</a>
-                <a href="/dialoghi/">Dialoghi</a>
-                <a href="/about/">About</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Menu condiviso del sito -->
+    <div id="site-menu"></div>
 
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
@@ -2984,5 +2985,8 @@
             if (progressBar) progressBar.style.width = scrolled + '%';
         });
     </script>
+
+    <!-- Menu condiviso del sito -->
+    <script src="/assets/menu.js"></script>
 </body>
 </html>
