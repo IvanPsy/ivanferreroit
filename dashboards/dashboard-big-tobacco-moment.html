@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il "Big Tobacco moment" delle Big Tech | Dashboard tecnica | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================== DESIGN SYSTEM =========================================== */
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1419;
+            --bg-tertiary: #151b23;
+            --bg-card: #1a222d;
+            --bg-hover: #222c3a;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-cyan: #00d9ff;
+            --accent-cyan-dim: #00d9ff40;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --border-accent: #00d9ff30;
+            --gradient-cyber: linear-gradient(135deg, #00d9ff15 0%, #3fb95010 100%);
+            --shadow-glow: 0 0 30px #00d9ff15;
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-display);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; line-height: 1.2; }
+        h2 { font-size: 1.8rem; margin-bottom: 1.25rem; }
+        h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+        a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.2s ease; }
+        a:hover { opacity: 0.8; }
+        code, .mono { font-family: var(--font-mono); }
+        strong { color: var(--text-primary); font-weight: 600; }
+        em { color: var(--text-primary); font-style: italic; }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(10, 14, 20, 0.85);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            box-shadow: var(--shadow-glow);
+        }
+        .logo-text { font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em; }
+        .logo-text span { color: var(--accent-cyan); }
+        .main-nav { display: flex; gap: 0.5rem; }
+        .nav-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
+        .nav-btn.active { color: var(--accent-cyan); background: var(--accent-cyan-dim); border-color: var(--accent-cyan); }
+
+        /* Progress bar */
+        .progress-container {
+            position: fixed;
+            top: 72px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-secondary);
+            z-index: 999;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-cyan);
+            width: 0%;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        /* Layout */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 3rem;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 6rem;
+            height: calc(100vh - 8rem);
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+        .sidebar-section { margin-bottom: 2rem; }
+        .sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin-bottom: 0.25rem;
+            border-left: 2px solid transparent;
+        }
+        .sidebar-link:hover { color: var(--text-primary); background: var(--bg-hover); }
+        .sidebar-link.active {
+            color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+            border-left-color: var(--accent-cyan);
+        }
+        .sidebar-link .step {
+            display: inline-block;
+            width: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .sidebar-link.active .step { color: var(--accent-cyan); }
+
+        /* Section + Hero */
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero {
+            background: var(--gradient-cyber);
+            border: 1px solid var(--border-accent);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%;
+            width: 100%; height: 200%;
+            background: radial-gradient(circle, var(--accent-cyan-dim) 0%, transparent 70%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+        .hero h1 { color: var(--text-primary); position: relative; }
+        .hero p { font-size: 1.05rem; max-width: 800px; position: relative; }
+
+        .subsection { margin-bottom: 3rem; }
+        .subsection > h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .subsection > h3::before {
+            content: '◇';
+            color: var(--accent-cyan);
+            margin-right: 0.5rem;
+            font-size: 0.9em;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        .card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-glow); }
+        .card h3 { color: var(--accent-cyan); margin-bottom: 0.75rem; }
+        .card h4 { color: var(--text-primary); margin-top: 1rem; }
+
+        .card.expandable .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            gap: 1rem;
+        }
+        .card.expandable .card-header h3,
+        .card.expandable .card-header h4 { margin-bottom: 0; }
+        .card.expandable .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.4s ease;
+        }
+        .card.expandable.expanded .card-body { max-height: 8000px; margin-top: 1rem; }
+        .card.expandable .expand-icon {
+            color: var(--accent-cyan);
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .card.expandable.expanded .expand-icon { transform: rotate(45deg); }
+
+        .card-preview {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Stat cards */
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem 1.25rem;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .stat-card:hover { border-color: var(--accent-cyan); box-shadow: var(--shadow-glow); }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-family: var(--font-mono);
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .stat-card.green .stat-value { color: var(--accent-green); }
+        .stat-card.yellow .stat-value { color: var(--accent-yellow); }
+        .stat-card.red .stat-value { color: var(--accent-red); }
+        .stat-card.purple .stat-value { color: var(--accent-purple); }
+        .stat-card.orange .stat-value { color: var(--accent-orange); }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-family: var(--font-display);
+        }
+        .tag-cyan { background: var(--accent-cyan-dim); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .tag-green { background: #3fb95020; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .tag-yellow { background: #d2992220; color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+        .tag-orange { background: #db6d2820; color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+        .tag-red { background: #f8514920; color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .tag-purple { background: #a371f720; color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 0.6rem 1.1rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: -1px;
+        }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        /* Comparison Table */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .comparison-grid .card { margin-bottom: 0; }
+        .comparison-grid .card.tobacco {
+            border-color: var(--accent-orange);
+            background: linear-gradient(135deg, #db6d2810 0%, var(--bg-card) 100%);
+        }
+        .comparison-grid .card.social {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(135deg, #00d9ff10 0%, var(--bg-card) 100%);
+        }
+        .comparison-grid .card.tobacco h3 { color: var(--accent-orange); }
+        .comparison-grid .card.social h3 { color: var(--accent-cyan); }
+
+        /* Properties list */
+        .prop-list { list-style: none; padding: 0; }
+        .prop-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+        .prop-list li:last-child { border-bottom: none; }
+        .prop-list li strong { color: var(--text-primary); }
+        .prop-list li span { color: var(--text-secondary); text-align: right; }
+
+        /* Numbered cards (i 6 dispositivi) */
+        .numbered-cards { display: grid; gap: 1rem; }
+        .numbered-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.25rem;
+            align-items: start;
+            transition: all 0.2s ease;
+        }
+        .numbered-card:hover { border-color: var(--border-accent); }
+        .numbered-card .number {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            line-height: 1;
+            opacity: 0.7;
+        }
+        .numbered-card h4 { color: var(--text-primary); margin-bottom: 0.5rem; }
+        .numbered-card p { color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .numbered-card p:last-child { margin-bottom: 0; }
+
+        /* Quote / callout */
+        .callout {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        .callout.warning { border-left-color: var(--accent-yellow); }
+        .callout.danger { border-left-color: var(--accent-red); }
+        .callout.success { border-left-color: var(--accent-green); }
+        .callout strong { color: var(--text-primary); }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1.5rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-cyan), var(--border-color));
+        }
+        .timeline-item { position: relative; margin-bottom: 1.5rem; }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 0.4rem;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-item h4 { margin-bottom: 0.25rem; }
+
+        /* Search input */
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            margin-bottom: 1.25rem;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px var(--accent-cyan-dim);
+        }
+        .search-input::placeholder { color: var(--text-muted); }
+
+        /* Glossary */
+        .glossary-grid { display: grid; gap: 1rem; }
+        .glossary-item {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+        }
+        .glossary-item:hover { border-color: var(--border-accent); }
+        .glossary-item.visible { display: block; }
+        .glossary-item h4 { color: var(--accent-cyan); margin-bottom: 0.5rem; }
+        .glossary-item .definition { color: var(--text-primary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .glossary-item .application {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px dashed var(--border-color);
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Bibliography */
+        .bib-section { margin-bottom: 1.75rem; }
+        .bib-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        .bib-section h4::before {
+            content: '▸';
+            color: var(--accent-cyan);
+            margin-right: 0.5rem;
+            font-size: 0.85em;
+        }
+        .bib-item {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .bib-item:last-child { border-bottom: none; }
+        .bib-item em { color: var(--text-primary); font-style: italic; }
+        .bib-item .bib-meta {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        /* Map / concept map */
+        .concept-map {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .concept-map .node { color: var(--accent-cyan); font-weight: 600; }
+        .concept-map .conn { color: var(--accent-yellow); }
+        .concept-map .crit { color: var(--accent-red); }
+        .concept-map .out { color: var(--accent-green); }
+
+        /* Policy table */
+        .policy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .policy-table thead {
+            background: var(--bg-secondary);
+            border-bottom: 2px solid var(--accent-cyan);
+        }
+        .policy-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-cyan);
+        }
+        .policy-table td {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+        .policy-table tr:last-child td { border-bottom: none; }
+        .policy-table td strong { color: var(--text-primary); }
+        .policy-table tr:hover td { background: var(--bg-hover); }
+
+        /* Footer */
+        .footer-credit {
+            margin-top: 4rem;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .footer-credit a { color: var(--accent-cyan); }
+
+        /* Utility */
+        .text-cyan { color: var(--accent-cyan); }
+        .text-green { color: var(--accent-green); }
+        .text-yellow { color: var(--accent-yellow); }
+        .text-orange { color: var(--accent-orange); }
+        .text-red { color: var(--accent-red); }
+        .text-purple { color: var(--accent-purple); }
+        .text-muted { color: var(--text-muted); }
+        .text-mono { font-family: var(--font-mono); }
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mt-3 { margin-top: 1.5rem; } .mt-4 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 0.5rem; } .mb-2 { margin-bottom: 1rem; } .mb-3 { margin-bottom: 1.5rem; } .mb-4 { margin-bottom: 2rem; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container { grid-template-columns: 1fr; padding-top: 5rem; gap: 1.5rem; }
+            .sidebar {
+                position: static;
+                height: auto;
+                padding-right: 0;
+                margin-bottom: 2rem;
+                background: var(--bg-secondary);
+                border-radius: 8px;
+                padding: 1rem;
+                border: 1px solid var(--border-color);
+            }
+            .sidebar-section { margin-bottom: 1rem; }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 1rem; padding: 0.75rem 1rem; }
+            .main-nav { flex-wrap: wrap; justify-content: center; }
+            .main-container { padding: 7rem 1rem 2rem; }
+            h1 { font-size: 1.8rem; } h2 { font-size: 1.4rem; } h3 { font-size: 1.2rem; }
+            .hero { padding: 1.5rem; }
+            .card-grid { grid-template-columns: 1fr; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .numbered-card { grid-template-columns: 1fr; }
+            .progress-container { top: 110px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header / Menu condiviso (replica del menu.js per autonomia) -->
+<header class="header">
+    <div class="header-content">
+        <a href="/" class="logo">
+            <div class="logo-icon">IF</div>
+            <div class="logo-text"><span>Ivan</span> Ferrero</div>
+        </a>
+        <nav class="main-nav">
+            <a href="/" class="nav-btn">Home</a>
+            <a href="/dashboards/" class="nav-btn active">Dashboard</a>
+            <a href="/risorse/" class="nav-btn">Risorse</a>
+            <a href="/dialoghi/" class="nav-btn">Dialoghi</a>
+            <a href="/#contatti" class="nav-btn">Contatti</a>
+        </nav>
+    </div>
+</header>
+
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<div class="main-container">
+
+    <!-- ============== SIDEBAR ============== -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Sezioni</div>
+            <a href="#overview" class="sidebar-link active" data-target="overview"><span class="step">01</span>Overview</a>
+            <a href="#giuridico" class="sidebar-link" data-target="giuridico"><span class="step">02</span>Anatomia giuridica</a>
+            <a href="#retorica" class="sidebar-link" data-target="retorica"><span class="step">03</span>Big Tobacco moment</a>
+            <a href="#scienza" class="sidebar-link" data-target="scienza"><span class="step">04</span>Il gap scientifico</a>
+            <a href="#educazione" class="sidebar-link" data-target="educazione"><span class="step">05</span>Implicazioni educative</a>
+            <a href="#policy" class="sidebar-link" data-target="policy"><span class="step">06</span>Policy comparate</a>
+            <a href="#alternative" class="sidebar-link" data-target="alternative"><span class="step">07</span>Framework alternativi</a>
+            <a href="#glossario" class="sidebar-link" data-target="glossario"><span class="step">08</span>Glossario tecnico</a>
+            <a href="#bibliografia" class="sidebar-link" data-target="bibliografia"><span class="step">09</span>Bibliografia</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Meta</div>
+            <div style="padding: 0.5rem 0.75rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
+                <div>Aggiornata <span class="text-cyan">11 mag 2026</span></div>
+                <div>Lettura <span class="text-cyan">~45 min</span></div>
+                <div>Livello <span class="text-cyan">Avanzato</span></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ============== MAIN ============== -->
+    <main>
+
+        <!-- ============== SEZIONE 1: OVERVIEW ============== -->
+        <section id="overview" class="section active">
+            <div class="hero">
+                <div class="hero-eyebrow">Dashboard tecnica · Maggio 2026</div>
+                <h1>Il "Big Tobacco moment" delle Big Tech</h1>
+                <p>Decostruzione tecnica della cornice retorica che sta dando forma alla policy pubblica sui social media e ai minori. Verdetti, scienza, strategia narrativa, conseguenze pedagogiche, framework alternativi. Risorsa per professionisti dell'educazione, della clinica psicologica, del policy-making e della regolamentazione digitale.</p>
+            </div>
+
+            <div class="subsection">
+                <h3>Tesi della dashboard</h3>
+                <div class="card">
+                    <p>I verdetti del 24-25 marzo 2026 (New Mexico e California) contro Meta e Google/YouTube hanno cristallizzato una cornice retorica precisa, "Big Tobacco moment delle Big Tech", che funziona come dispositivo di trasferimento di morale e di policy da un dominio (il caso tabacco anni '90) a un altro (le piattaforme social oggi). La tesi che questa risorsa argomenta è duplice. Primo, l'analogia tabacco/social è <strong>scientificamente zoppa</strong>: la robustezza causale, la dimensione degli effetti e la struttura epidemiologica dei due fenomeni divergono di ordini di grandezza. Secondo, l'importazione del template di policy tabacco (proibizionismo, restrizione d'età, divieto generalizzato) nel dominio educativo produce <strong>danni iatrogeni specifici</strong>, in particolare sulle popolazioni vulnerabili che la cornice dichiara di tutelare.</p>
+                    <p>La risorsa è organizzata in modo che ogni sezione possa essere consultata indipendentemente. Si raccomanda la lettura sequenziale per chi affronta la materia per la prima volta.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Numeri di riferimento</h3>
+                <div class="stat-grid">
+                    <div class="stat-card"><div class="stat-value">$375M</div><div class="stat-label">Verdetto NM</div></div>
+                    <div class="stat-card orange"><div class="stat-value">$3.7B</div><div class="stat-label">Richiesta fase 2</div></div>
+                    <div class="stat-card green"><div class="stat-value">$6M</div><div class="stat-label">Verdetto CA (KGM)</div></div>
+                    <div class="stat-card purple"><div class="stat-value">$206B</div><div class="stat-label">MSA tabacco 1998</div></div>
+                    <div class="stat-card yellow"><div class="stat-value">r ≈ 0,04</div><div class="stat-label">Effect size O&amp;P 2019</div></div>
+                    <div class="stat-card red"><div class="stat-value">~ 2%</div><div class="stat-label">Var. spiegata massima</div></div>
+                    <div class="stat-card"><div class="stat-value">2 000+</div><div class="stat-label">Cause pendenti USA</div></div>
+                    <div class="stat-card"><div class="stat-value">RR 25×</div><div class="stat-label">Tabacco, cancro polm.</div></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Mappa concettuale del filo argomentativo</h3>
+                <div class="concept-map">
+<span class="node">[ EVIDENZA EMPIRICA ]</span>
+        │ documenti Haugen (2021), studi clinici, design audits
+        │ <span class="conn">▼ ingresso nel processo legale</span>
+<span class="node">[ VERDETTI 24-25 marzo 2026 ]</span>
+        │ NM v. Meta · CA KGM v. Meta+YouTube
+        │ <span class="conn">▼ amplificazione mediatica</span>
+<span class="node">[ CORNICE "BIG TOBACCO MOMENT" ]</span>
+        │ <span class="crit">6 dispositivi retorici</span>
+        │ ├─ Trasferimento di cornice morale
+        │ ├─ "Loro sapevano" (smoking gun)
+        │ ├─ Perno morale dei bambini
+        │ ├─ Spostamento da contenuto a design
+        │ ├─ Veicolo legale statale
+        │ └─ Performatività dichiarativa
+        │ <span class="conn">▼ migrazione cross-dominio</span>
+<span class="node">[ TEMPLATE DI POLICY IMPORTATO ]</span>
+        │ proibizionismo · restrizione età · divieto generalizzato
+        │ <span class="conn">▼ applicazione al dominio scolastico</span>
+<span class="node">[ SCUOLA ]</span>
+        │ <span class="crit">6 modi di fallimento</span>
+        │ ├─ Eterogeneità cancellata
+        │ ├─ Displacement (l'uso si sposta, non sparisce)
+        │ ├─ Abdicazione pedagogica
+        │ ├─ Asimmetria sociale
+        │ ├─ Iatrogenesi del framing
+        │ └─ Teatro pedagogico
+        │ <span class="conn">▼ esito</span>
+<span class="out">[ DANNO IATROGENO SU POPOLAZIONI VULNERABILI ]</span>
+        │ collateral damage su BES, neurodivergenti,
+        │ minoranze, contesti svantaggiati
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Come usare questa risorsa</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Per ricercatori</h3>
+                        <p>Le sezioni 4 (gap scientifico) e 9 (bibliografia) offrono la mappatura del dibattito empirico tra Haidt/Twenge e Orben/Przybylski/Odgers, con i riferimenti chiave per chi vuole approfondire la letteratura primaria.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Per docenti e dirigenti</h3>
+                        <p>Le sezioni 5 (implicazioni educative) e 7 (framework alternativi) forniscono argomentazioni operative per il dibattito su age-ban e media literacy, utili in consigli di classe, formazione, dialogo con dirigenti.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Per clinici</h3>
+                        <p>Le sezioni 4 e 5 articolano la distinzione tra dipendenza farmacologica e pattern comportamentali compulsivi, e l'effetto iatrogeno del framing "dipendenza" su autoefficacia e locus of control.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Per policy-maker</h3>
+                        <p>Le sezioni 2 (giuridico), 6 (policy comparate) e 7 (alternative) mappano lo stato dell'arte regolatorio internazionale e le opzioni di policy alternative al proibizionismo generalizzato.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 2: GIURIDICO ============== -->
+        <section id="giuridico" class="section">
+            <h1>Anatomia giuridica dei verdetti</h1>
+            <p class="text-secondary mb-3">I verdetti di marzo 2026 sono due procedimenti distinti, con architetture giuridiche diverse, che vengono mediaticamente fusi nel medesimo titolo. La loro distinzione è il primo passo per leggere correttamente lo stato del contenzioso.</p>
+
+            <div class="subsection">
+                <h3>Timeline essenziale</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-date">2021 · Settembre-Ottobre</span>
+                        <h4>I "Facebook Papers" di Frances Haugen</h4>
+                        <p>Whistleblower ex-Facebook consegna documenti interni a SEC e <em>Wall Street Journal</em>. Mostrano che ricerche interne di Meta documentavano: peggioramento dell'immagine corporea per 1 ragazza adolescente su 3 tra quelle già con problemi di immagine corporea; consapevolezza interna di pattern di reclutamento di minori da parte di adescatori sessuali su Instagram; effetti di Instagram Kids contestati internamente. Diventeranno il principale "smoking gun" documentale dei processi successivi.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">2023</span>
+                        <h4>Avvio cause statali e MDL</h4>
+                        <p>NMDOJ avvia indagine su Meta, deposita causa a fine 2023 dopo operazione undercover con profilo finto di 13 anni. Inizia anche l'MDL (Multi-District Litigation) californiana che aggrega oltre 2.000 cause individuali e di school district contro le grandi piattaforme social.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">2026 · 24 marzo</span>
+                        <h4>Verdetto giuria New Mexico</h4>
+                        <p>Giuria di Santa Fe trova Meta responsabile di violazione dell'Unfair Practices Act statale per "misleading consumers about the safety of its platforms and endangering children". $5.000 per violazione × numero di violazioni = $375 milioni.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">2026 · 25 marzo</span>
+                        <h4>Verdetto giuria California (caso KGM)</h4>
+                        <p>Giuria di Los Angeles Superior Court trova Meta e YouTube responsabili di danni alla minore KGM (oggi ventenne) per design defettoso delle piattaforme. $3M compensativi + $2,1M punitivi (Meta) + $900k punitivi (YouTube). Meta 70% di responsabilità, YouTube 30%.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">2026 · 4 maggio</span>
+                        <h4>Apertura fase 2 New Mexico (public nuisance)</h4>
+                        <p>Bench trial davanti al giudice Bryan Biedscheid. Lo Stato chiede $3,7 miliardi aggiuntivi e remedi strutturali (verifica età, fine dell'autoplay e dello scroll infinito per minori, rimozione di predatori, fine del default di crittografia per chat minori). Il giudice ha già segnalato preoccupazione che alcune misure richieste sconfinino nel ruolo del legislatore.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>I due verdetti, confrontati</h3>
+                <div class="comparison-grid">
+                    <div class="card tobacco">
+                        <h3>New Mexico v. Meta</h3>
+                        <ul class="prop-list">
+                            <li><strong>Foro</strong><span>State Court, Santa Fe</span></li>
+                            <li><strong>Attore</strong><span>NM Attorney General (Torrez)</span></li>
+                            <li><strong>Causa</strong><span>Consumer protection (UPA)</span></li>
+                            <li><strong>Oggetto</strong><span>Misleading + endangering children</span></li>
+                            <li><strong>Standard</strong><span>Civil, preponderance</span></li>
+                            <li><strong>Penalty</strong><span>$5.000 × violazione = $375M</span></li>
+                            <li><strong>Fase 2</strong><span>Public nuisance, bench trial</span></li>
+                            <li><strong>Smoking gun</strong><span>Default encryption chat minori</span></li>
+                        </ul>
+                    </div>
+                    <div class="card social">
+                        <h3>California v. Meta + YouTube (KGM)</h3>
+                        <ul class="prop-list">
+                            <li><strong>Foro</strong><span>LA Superior Court</span></li>
+                            <li><strong>Attore</strong><span>KGM (privato, 20 anni)</span></li>
+                            <li><strong>Causa</strong><span>Personal injury, defective design</span></li>
+                            <li><strong>Oggetto</strong><span>Design addictive che ha causato danno mentale</span></li>
+                            <li><strong>Standard</strong><span>Civil, preponderance</span></li>
+                            <li><strong>Penalty</strong><span>$3M comp. + $3M punitive ≈ $6M</span></li>
+                            <li><strong>Ripartizione</strong><span>Meta 70% · YouTube 30%</span></li>
+                            <li><strong>Smoking gun</strong><span>Memo "win with teens, bring in as tweens"</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout warning">
+                    <strong>Nota tecnica.</strong> I due procedimenti vengono spesso fusi mediaticamente sotto la stessa etichetta ("Meta condannata, social fanno dipendenza") ma operano su due assi giuridici distinti: il New Mexico è una <em>consumer protection action</em> per pubblicità ingannevole, la California è una <em>product liability action</em> per design defettoso. Le implicazioni regolatorie sono diverse: la prima apre alla regolazione delle comunicazioni aziendali, la seconda al sindacato giudiziale sul design del prodotto.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>L'architettura giuridica: come si bypassa la Section 230</h3>
+                <p>La Section 230 del Communications Decency Act (1996) ha storicamente protetto le piattaforme da responsabilità per i contenuti pubblicati dagli utenti. La strategia legale che sta funzionando nei casi del 2026 aggira questa protezione attraverso tre vettori complementari.</p>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="bypass1">1 · Design vs Content</button>
+                    <button class="tab-btn" data-tab="bypass2">2 · Consumer Protection</button>
+                    <button class="tab-btn" data-tab="bypass3">3 · Public Nuisance</button>
+                </div>
+                <div class="tab-content active" id="tab-bypass1">
+                    <div class="card">
+                        <h3>Spostamento dal contenuto al design</h3>
+                        <p>La Section 230 protegge la piattaforma dalla responsabilità per <em>ciò che è pubblicato</em>. Non protegge dalla responsabilità per <em>come la piattaforma è costruita</em>. Le features algoritmiche (scroll infinito, autoplay, raccomandazioni personalizzate, notifiche push, rinforzo intermittente, sistemi di "social validation" come like e visualizzazioni) sono scelte di engineering della piattaforma, non contenuti di terzi.</p>
+                        <p>Lo storico precedente che ha aperto questo varco è la giurisprudenza del Nono Circuito sui casi <em>Lemmon v. Snap</em> (2021, Speed Filter) e <em>Doe v. Twitter</em> (2022), in cui le Corti hanno distinto tra "content moderation" (protetto dalla 230) e "negligent product design" (non protetto).</p>
+                        <p>Nel caso KGM, l'avvocato Mark Lanier ha esplicitamente costruito la difesa attorno a questa distinzione: la causa non riguarda i post che KGM ha visto su Instagram, ma il modo in cui Instagram è stato progettato per massimizzarne il tempo di esposizione.</p>
+                    </div>
+                </div>
+                <div class="tab-content" id="tab-bypass2">
+                    <div class="card">
+                        <h3>Le leggi statali sulla tutela del consumatore</h3>
+                        <p>La Section 230 è una norma federale che opera nell'ambito di responsabilità per pubblicazione. Non preempta le azioni statali che agiscono su un piano diverso, come la tutela del consumatore. Le <em>Unfair and Deceptive Acts and Practices laws</em> (UDAP) di ciascuno stato consentono al procuratore generale di perseguire dichiarazioni pubbliche ingannevoli di un'azienda sui propri prodotti.</p>
+                        <p>Nel caso New Mexico, lo schema è preciso: Meta ha dichiarato pubblicamente che le proprie piattaforme erano sicure per i minori; documenti interni mostrano che Meta sapeva (i Facebook Papers di Haugen) che non lo erano in modo specifico (presenza massiccia di adescatori, peggioramento dell'immagine corporea, design che spingeva minori verso comunità tossiche). Il gap tra dichiarazione pubblica e conoscenza interna è la materia tipica della consumer protection action.</p>
+                    </div>
+                </div>
+                <div class="tab-content" id="tab-bypass3">
+                    <div class="card">
+                        <h3>La dottrina della "public nuisance" rivitalizzata</h3>
+                        <p>La public nuisance è una dottrina di common law antichissima (origine medievale) che permette allo Stato di agire contro condotte che producono "danno irragionevole a diritti pubblici". È stata rivitalizzata negli ultimi vent'anni come strumento di responsabilità sistemica nei casi tabacco (esito misto), pittura al piombo (vittorie in Rhode Island, sconfitte altrove), oppioidi (Purdue, J&amp;J - vittorie significative).</p>
+                        <p>La fase 2 del processo New Mexico applica questa dottrina ai social: lo Stato sostiene che Meta abbia creato un public nuisance attraverso il design delle proprie piattaforme, e chiede al giudice (non alla giuria) di ordinare remedi strutturali e fondi per programmi di mitigazione.</p>
+                        <p>Il rischio costituzionale, come segnalato dallo stesso giudice Biedscheid il 4 maggio 2026, è che remedi troppo ampi sconfinino nella separazione dei poteri ("I am a judge, I am not a legislator, I am not a regulator"). È esattamente il punto in cui il dibattito giuridico tocca quello democratico.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Cosa Meta sostiene in difesa</h3>
+                <div class="card">
+                    <p>Nelle dichiarazioni successive ai verdetti, Meta ha articolato quattro linee difensive principali, ciascuna scientificamente non infondata ma retoricamente debole nell'attuale contesto culturale.</p>
+                    <ol style="padding-left: 1.5rem; color: var(--text-secondary); margin-top: 1rem;">
+                        <li><strong>Multifattorialità.</strong> "Teen mental health is profoundly complex and cannot be linked to a single app". Riflette accuratamente lo stato della letteratura empirica, ma viene letta come deresponsabilizzazione.</li>
+                        <li><strong>Vulnerabilità preesistente.</strong> Nel caso KGM, la difesa Meta sostiene che la salute mentale della ragazza era già fragile prima dell'uso dei social. La lettura clinica di questo argomento è non-falsa ma incompleta: la vulnerabilità preesistente non esonera dal danno aggiuntivo, ma nemmeno il danno aggiuntivo prova la causalità primaria.</li>
+                        <li><strong>Impegno di safety-by-design.</strong> Meta enumera le features di parental control, age verification, time limits implementate. Argomento debole perché i documenti interni mostrano che queste features sono state spesso opposte internamente da team che le consideravano dannose per gli obiettivi di engagement.</li>
+                        <li><strong>Sproporzione dei remedi.</strong> Nella fase 2 NM, Meta sostiene che i remedi richiesti renderebbero "untenable" l'operatività in New Mexico. È l'argomento del legislatore-non-giudice, che il giudice Biedscheid ha mostrato di prendere sul serio.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 3: BIG TOBACCO MOMENT ============== -->
+        <section id="retorica" class="section">
+            <h1>La strategia retorica "Big Tobacco moment"</h1>
+            <p class="text-secondary mb-3">Il "Big Tobacco moment" non è una metafora descrittiva, è un <strong>dispositivo retorico operativo</strong> con una struttura riproducibile, una storia di applicazioni precedenti e una funzione di trasferimento di policy. Decostruirlo è la condizione per usarlo o resistergli consapevolmente.</p>
+
+            <div class="subsection">
+                <h3>L'origine storica: il Master Settlement Agreement del 1998</h3>
+                <div class="card">
+                    <p>Il momento culturale a cui l'analogia fa riferimento è una sequenza di eventi tra il 1994 e il 1998 negli Stati Uniti che ha riconfigurato l'industria del tabacco.</p>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>14 aprile 1994:</strong> i CEO delle sette principali tabaccaie americane testimoniano davanti al sottocomitato Waxman della Camera, giurando uno dopo l'altro "I believe nicotine is not addictive". Diventa l'iconografia visiva dell'inganno industriale, replicata in tutta la successiva strategia anti-tabacco.</li>
+                        <li><strong>1994:</strong> documenti interni di Brown &amp; Williamson vengono leaked. Mostrano consapevolezza interna decennale degli effetti cancerogeni e della dipendenza farmacologica della nicotina.</li>
+                        <li><strong>1995-1996:</strong> Jeffrey Wigand, ex-VP R&amp;D di Brown &amp; Williamson, rilascia intervista a "60 Minutes" (poi celebrata nel film <em>The Insider</em>). Conferma e contestualizza i documenti.</li>
+                        <li><strong>1998:</strong> Master Settlement Agreement. Quarantasei procuratori generali statali e quattro grandi tabaccai concordano $206 miliardi su 25 anni più restrizioni pubblicitarie (vietato Joe Camel, vietato lo sponsor di sport, vietate certe forme di marketing per minori).</li>
+                    </ul>
+                    <div class="callout">
+                        <strong>Nota epistemologica.</strong> L'evento che attiva l'iconografia "Big Tobacco moment" è specificamente la testimonianza congressuale del 1994, non l'MSA del 1998. Il momento è la <em>rivelazione pubblica della dissonanza tra discorso ufficiale e conoscenza interna</em>. È questa scena, non l'accordo monetario, che la strategia retorica cerca di replicare in nuovi domini.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>I sei dispositivi della strategia</h3>
+                <p>La strategia retorica si attiva in sequenza attraverso sei dispositivi distinti ma cooperanti. Riconoscerli uno per uno permette di valutarne la portata e la trasferibilità a casi diversi.</p>
+                <div class="numbered-cards">
+                    <div class="numbered-card">
+                        <div class="number">01</div>
+                        <div>
+                            <h4>Trasferimento di cornice morale</h4>
+                            <p>Si prende un'industria contestata in cui la scienza è ancora dibattuta e si sovrappone l'architettura narrativa di un caso già moralmente chiuso. Non occorre dimostrare che la nuova industria è come il tabacco; basta evocare la somiglianza strutturale. Il giudizio morale viaggia gratis insieme all'analogia.</p>
+                            <p class="text-muted text-mono" style="font-size: 0.8rem;">Funzione: by-pass del dibattito empirico tramite trasferimento di pregresso morale.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">02</div>
+                        <div>
+                            <h4>"Loro sapevano": lo smoking gun documentale</h4>
+                            <p>Nel tabacco, i memo interni di Brown &amp; Williamson; negli oppioidi, i Sackler emails; nei social, i Facebook Papers di Haugen e i documenti interni Meta divulgati durante il processo KGM. Lo schema è isomorfo: l'industria sapeva, in privato, ciò che negava in pubblico. La scoperta del gap tra discorso ufficiale e conoscenza interna disattiva qualsiasi difesa basata sulla buona fede.</p>
+                            <p class="text-muted text-mono" style="font-size: 0.8rem;">Funzione: trasformazione dell'imputato da soggetto in buona fede a soggetto in mala fede.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">03</div>
+                        <div>
+                            <h4>Il perno morale dei bambini</h4>
+                            <p>L'argomento libertario della responsabilità individuale ("ha scelto lui") è inattivabile contro un minore. La scelta di KGM come testimone (esposizione a 6 anni a YouTube, a 9 a Instagram, sviluppo di dismorfia a 10) è retoricamente identica alla scelta di testimoni-vittime nel tabacco: massima vulnerabilità, minima agency, esposizione precoce. Il perno trasforma il dibattito sulla regolazione di un'industria in una discussione sulla protezione dell'infanzia.</p>
+                            <p class="text-muted text-mono" style="font-size: 0.8rem;">Funzione: disattivazione delle obiezioni libertarie e attivazione del consenso intergenerazionale.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">04</div>
+                        <div>
+                            <h4>Dal contenuto al design</h4>
+                            <p>Nel tabacco, lo spostamento è dalla sigaretta come oggetto alla manipolazione chimica della nicotina (free-base ammoniacato, additivi, ingegnerizzazione della curva di rilascio). Nei social, è dal post che si è visti all'architettura algoritmica che ha servito quel post: scroll infinito, autoplay, notifiche intermittenti, raccomandazioni personalizzate, social validation loops. Questo spostamento ha funzione doppia: rende l'industria responsabile di scelte attive, e legalmente bypassa la Section 230.</p>
+                            <p class="text-muted text-mono" style="font-size: 0.8rem;">Funzione: trasferimento del fulcro da espressione (protetta) a engineering comportamentale (sindacabile).</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">05</div>
+                        <div>
+                            <h4>Il veicolo legale statale</h4>
+                            <p>Il governo federale americano è strutturalmente catturato dalle lobby industriali (logica della cattura regolatoria di Stigler) e dalla preemption. La strategia opera quindi a livello degli Stati: procuratori generali, leggi statali UDAP, dottrina common law della public nuisance. È lo stesso schema replicato per il tabacco (i 46 stati del MSA), per la pittura al piombo, per gli oppioidi (accordo Purdue circa $26 miliardi, 2022), e ora per i social.</p>
+                            <p class="text-muted text-mono" style="font-size: 0.8rem;">Funzione: aggiramento della cattura federale tramite federalismo competitivo.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">06</div>
+                        <div>
+                            <h4>Performatività dichiarativa</h4>
+                            <p>Chiamare qualcosa "il Big Tobacco moment" non descrive: convoca. È un atto linguistico performativo che cerca di trasformare la sentenza nel suo equivalente. Quando Rosalind Gill (Goldsmiths) dichiara ad Al Jazeera "molti esperti stanno già definendo la sentenza il Big Tobacco moment delle Big Tech", non sta riportando, sta producendo cascata mimetica negli altri commentatori, nei legislatori, nelle giurie successive. È profezia auto-avverante con effetti su processi futuri (oltre 2.000 cause MDL pendenti).</p>
+                            <p class="text-muted text-mono" style="font-size: 0.8rem;">Funzione: amplificazione mimetica e creazione del precedente culturale prima del precedente legale.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Storia delle replicazioni</h3>
+                <p>Lo schema "Big Tobacco moment" è stato applicato a vari domini con esiti differenti. Mappare le applicazioni precedenti permette di calibrare le aspettative su quella corrente.</p>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="rep1">Vittorie chiare</button>
+                    <button class="tab-btn" data-tab="rep2">Vittorie parziali</button>
+                    <button class="tab-btn" data-tab="rep3">Tentativi falliti o stalli</button>
+                </div>
+                <div class="tab-content active" id="tab-rep1">
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Crisi degli oppioidi (2007-2022)</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Causalità farmacologica pulita (oppioidi → tolleranza → dipendenza → overdose), documenti interni Purdue/Sackler dei programmi di sales targeting (il "speaker bureau", il "Project Crush"), morti drammaticamente quantificabili (oltre 500.000 in USA), perno morale famiglie distrutte. Esito: accordi multi-miliardari (Purdue ~$6 miliardi al settlement, Johnson &amp; Johnson e distributori ~$26 miliardi nel "national opioid settlement" del 2022). Politica conseguente: irrigidimento delle prescrizioni, programmi di prescription drug monitoring, espansione della distribuzione di naloxone.</p>
+                            <p>Note critiche: il restringimento prescrittivo ha prodotto spostamento verso oppioidi illegali (eroina, fentanyl) con aumento delle morti per overdose nei sottogruppi che avrebbero beneficiato di gestione clinica del dolore. È un esempio del "displacement problem" anche nel caso vincente.</p>
+                        </div>
+                    </div>
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Amianto (anni '70-'90)</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Causalità diretta amianto → mesotelioma con latenza prevedibile (20-40 anni). Documenti interni Johns Manville e altri produttori dimostrano consapevolezza dagli anni '30-'40. Cascata di cause individuali dagli anni '70, bancarotta Johns Manville nel 1982. Esito: bando dell'amianto in oltre 60 Paesi, fondi fiduciari di risarcimento (asbestos trust funds), litigation senza fine. Politica conseguente: rimozione sistematica, regolazione esposizione professionale.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="tab-rep2">
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Pittura al piombo (1990s-2010s)</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Causalità nota da decenni (piombo → danno neurologico nei bambini). Documenti interni delle industrie chimiche (Sherwin-Williams, NL Industries) mostrano consapevolezza dagli anni '20-'30 della tossicità per minori. Esito: vittoria storica nel Rhode Island nel 2006 (poi parzialmente ribaltata in appello), settlement multi-stato nel 2019 in California per circa $300 milioni. In altri stati le cause hanno fallito o si sono arenate. Lo schema retorico ha funzionato in parte, ma con resistenze giuridiche significative legate al concetto di public nuisance applicato a prodotti legali venduti decenni prima.</p>
+                        </div>
+                    </div>
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Vaping / Juul (2018-2022)</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Schema applicato a Juul Labs: marketing diretto ai minori (gusti dolci, design discreto, social media targeting), documenti interni che dimostravano la strategia, perno morale teen vaping epidemic. Esito: settlement complessivo multi-stato di circa $1,7 miliardi, restrizioni sui gusti, sostanziale ridimensionamento di Juul. Conseguenza meno discussa: lo spostamento verso prodotti meno regolamentati (puff bars, alternative cinesi) e l'effetto netto sulla riduzione del fumo combusto tra adulti è ancora oggetto di dibattito di salute pubblica.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="tab-rep3">
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Industria dello zucchero / cibo ultraprocessato</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Schema tentato: documenti del Sugar Research Foundation (anni '60) che mostravano finanziamenti a ricerche per spostare la colpa dell'obesità dai grassi rispetto agli zuccheri, marketing diretto ai bambini, design dei cereali da colazione per massimizzare il craving. Causalità però multifattoriale (genetica, attività fisica, contesto socioeconomico, sleep, microbiota), effect size dispersi, popolazioni eterogenee. Esito: nessun "moment" cristallizzato, regolazione frammentaria (sugar tax in alcuni paesi, restrizioni pubblicitarie a minori in pochi stati), industria sostanzialmente intatta.</p>
+                        </div>
+                    </div>
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Armi da fuoco</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Schema tentato: cause statali e municipali contro Smith &amp; Wesson, Remington, e altri produttori per design defettoso e marketing irresponsabile. Caso Sandy Hook Remington (2022, settlement $73 milioni) è la vittoria parziale più significativa. La Protection of Lawful Commerce in Arms Act (2005) ha però costruito una protezione federale specifica per i produttori che limita massicciamente la riproduzione dello schema tabacco. Esito complessivo: stallo.</p>
+                        </div>
+                    </div>
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Combustibili fossili / cambiamento climatico</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Schema tentato: cause statali e municipali (NY, MA, RI, San Francisco, Honolulu) contro ExxonMobil, Chevron, ecc. Documenti interni (#ExxonKnew) dagli anni '70 sulla consapevolezza interna dei cambiamenti climatici. Causalità però estremamente multifattoriale e diffusa, attribution science ancora in evoluzione, perno morale meno individualizzabile. Esito: cause in corso, esiti misti, schema retorico attivo ma non culturalmente egemonico. Si veda <em>Massachusetts v. Exxon Mobil</em>, ancora pendente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Condizioni di trasferibilità del template</h3>
+                <div class="card">
+                    <p>Dall'analisi delle replicazioni precedenti emergono cinque condizioni che predicono il successo della strategia "Big Tobacco moment". Tutte presenti nel caso tabacco, presenti in parte negli oppioidi e nel piombo, assenti per zuccheri e fossili. Per i social, valutarle individualmente è il modo più rigoroso per anticiparne l'esito.</p>
+                    <ul class="prop-list mt-2">
+                        <li><strong>1. Causalità singola e identificabile</strong><span>Tabacco: SÌ · Social: NO (multifattoriale)</span></li>
+                        <li><strong>2. Effect size grande e robusto</strong><span>Tabacco: SÌ (RR 25×) · Social: NO (r ≈ 0,04-0,15)</span></li>
+                        <li><strong>3. Smoking gun documentale</strong><span>Tabacco: SÌ · Social: SÌ (Haugen)</span></li>
+                        <li><strong>4. Vittime identificabili individualmente</strong><span>Tabacco: SÌ · Social: parzialmente</span></li>
+                        <li><strong>5. Omogeneità del fenomeno</strong><span>Tabacco: SÌ · Social: NO (alta eterogeneità)</span></li>
+                    </ul>
+                    <div class="callout warning mt-2">
+                        <strong>Diagnosi.</strong> Il caso social ha 2 condizioni su 5 chiaramente soddisfatte (smoking gun, vittime parzialmente identificabili). Su tre dimensioni cruciali (causalità singola, effect size, omogeneità) il caso è strutturalmente diverso dal tabacco. La strategia retorica funziona in tribunale anche in assenza di queste condizioni, ma il template di policy che ne deriva soffre proprio della loro assenza.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 4: SCIENZA ============== -->
+        <section id="scienza" class="section">
+            <h1>Il gap scientifico</h1>
+            <p class="text-secondary mb-3">L'analogia tabacco/social non regge sotto i tre profili che definiscono la robustezza causale in epidemiologia: pulizia della catena causale, dimensione degli effetti, omogeneità del fenomeno. Questa sezione articola ciascuno di questi profili.</p>
+
+            <div class="subsection">
+                <h3>1. La pulizia della catena causale</h3>
+                <div class="comparison-grid">
+                    <div class="card tobacco">
+                        <h3>Tabacco</h3>
+                        <ul class="prop-list">
+                            <li><strong>Agente</strong><span>Nicotina + catrame</span></li>
+                            <li><strong>Recettore biologico</strong><span>nAChR (acetilcolinico)</span></li>
+                            <li><strong>Meccanismo</strong><span>Molecolare, caratterizzato</span></li>
+                            <li><strong>Dose-risposta</strong><span>Lineare, monotona</span></li>
+                            <li><strong>Latenza</strong><span>10-30 anni prevedibili</span></li>
+                            <li><strong>Outcome principale</strong><span>Cancro polmonare, COPD, CVD</span></li>
+                            <li><strong>Replicabilità animale</strong><span>Sì</span></li>
+                            <li><strong>Reversibilità</strong><span>Cessazione → benefici misurabili</span></li>
+                            <li><strong>Studio di riferimento</strong><span>British Doctors Study (Doll &amp; Hill, 1951-2001)</span></li>
+                            <li><strong>RR cancro polmone</strong><span>15-25× nei forti fumatori</span></li>
+                        </ul>
+                    </div>
+                    <div class="card social">
+                        <h3>Social media</h3>
+                        <ul class="prop-list">
+                            <li><strong>Agente</strong><span>Multiplo (piattaforme, features, contenuti)</span></li>
+                            <li><strong>Recettore biologico</strong><span>Nessuno specifico</span></li>
+                            <li><strong>Meccanismo</strong><span>Psicologico, sociale, comportamentale</span></li>
+                            <li><strong>Dose-risposta</strong><span>Non lineare, contestuale</span></li>
+                            <li><strong>Latenza</strong><span>Non definita</span></li>
+                            <li><strong>Outcome</strong><span>Eterogenei (ansia, depressione, sleep, immagine corporea, attenzione...)</span></li>
+                            <li><strong>Replicabilità animale</strong><span>Non applicabile</span></li>
+                            <li><strong>Reversibilità</strong><span>Trial di restrizione: effetti misti/nulli</span></li>
+                            <li><strong>Studio di riferimento</strong><span>Orben &amp; Przybylski 2019 + meta-analisi multiple</span></li>
+                            <li><strong>Effect size</strong><span>r ≈ 0,04-0,15, varianza spiegata 1-2%</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout">
+                    <strong>Il punto cardine.</strong> Quando l'industria del tabacco diceva pubblicamente "non c'è prova", stava negando un consenso scientifico blindato dalla fine degli anni '50 (Doll &amp; Hill 1950 sul BMJ, Surgeon General's Report 1964). Il "loro sapevano" del tabacco coincideva con un "anche la scienza sapeva". Nei social, gli stessi documenti Haugen mostrano che Meta sapeva di effetti negativi <em>su specifiche sottopopolazioni</em>, mentre il consenso scientifico aggregato sulla causalità popolazionale dei social rimane contestato e di magnitudo molto inferiore. Questo è un disallineamento strutturale che la cornice retorica nasconde.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>2. La dimensione degli effetti</h3>
+                <p>La rassegna sistematica della letteratura empirica sui social e salute mentale adolescenziale, condotta con i criteri della migliore epidemiologia, mostra effect size piccoli con elevata eterogeneità tra studi.</p>
+                <div class="card-grid">
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Orben &amp; Przybylski (2019), <em>Nature Human Behaviour</em></h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Specification curve analysis su tre dataset rappresentativi (Monitoring the Future, Youth Risk Behavior Survey, Millennium Cohort Study) per oltre 300.000 adolescenti UK/USA. Correlazione media tra uso di tecnologia digitale e benessere: <span class="text-mono text-cyan">r = 0,035</span>. Varianza spiegata <span class="text-mono text-cyan">&lt; 0,4%</span>. Per dare la scala: l'effetto di "mangiare regolarmente patate" e di "portare gli occhiali" sul benessere è di magnitudo confrontabile o superiore. Lo studio ha però una limitazione importante: aggrega "uso di tecnologia digitale" in una macrovariabile che mescola attività eterogenee. Le successive specifiche disaggregate (Twenge, Haidt) trovano effetti più grandi su sottocampioni specifici.</p>
+                        </div>
+                    </div>
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Ferguson (2024) e il dibattito sulle meta-analisi</h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Pre-registered meta-analisi di trial sperimentali sui social: Ferguson trova nessun effetto medio significativo degli interventi di restrizione/cessazione sui social sulla salute mentale. Rausch &amp; Haidt rispondono con re-analisi post-hoc sostenendo che l'aggregazione di trial eterogenei oscura effetti significativi su sottocampioni specifici (es. ragazze adolescenti, uso prolungato). Jané (2024) critica metodologicamente entrambi gli approcci. Burnell et al. (2025) propongono una nuova meta-analisi che cerca di mediare. Il consensus statement multidisciplinare del 2025 (con Haidt, Rausch e critici come Stuart Ritchie tra i firmatari) tenta di mappare i punti di accordo: esistono effetti dannosi su sottogruppi specifici in specifici tipi di uso, ma la magnitudo e la causalità popolazionale rimangono contestate.</p>
+                        </div>
+                    </div>
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Anderson &amp; Wood (2025), <em>Scientific Reports</em></h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>"Overestimates of social media addiction are common but costly". Studio in due fasi. Studio 1: sovrastima sistematica della propria "dipendenza" dai social rispetto al tempo effettivo misurato. Studio 2 (N=824, sperimentale): framing di "Instagram addiction" produce riduzione dell'auto-efficacia percepita, aumento dell'auto-colpevolizzazione, riduzione del senso di controllo. È letteratura sperimentale che mostra l'effetto iatrogeno del frame, indipendentemente dal merito empirico del fenomeno descritto.</p>
+                        </div>
+                    </div>
+                    <div class="card expandable">
+                        <div class="card-header"><h4>Sigaud, Rausch, McClean, Haidt (2026), <em>Perspectives on Psychological Science</em></h4><span class="expand-icon">+</span></div>
+                        <div class="card-body">
+                            <p>Critica di tre studi di Vuorre e Przybylski che sono spesso citati come evidenza dell'assenza di danno popolazionale dei social. Argomenti: aggregazione di tecnologie e popolazioni eterogenee, coinvolgimento di Meta nel design di uno degli studi, scelte metodologiche che disperdono effetti su sottogruppi. Rappresenta la voce empirica dell'altra parte del dibattito, e va inclusa nella mappatura per onestà intellettuale: la scienza non ha chiuso il dossier in nessuna direzione.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>3. L'eterogeneità di trattamento (heterogeneous treatment effects)</h3>
+                <div class="card">
+                    <p>Questo è il punto, sul piano epidemiologico, più importante e meno discusso pubblicamente. Si parla di <strong>eterogeneità di trattamento</strong> quando lo stesso "esposto" (qui: l'uso di una piattaforma social) produce effetti diversi e talvolta opposti in popolazioni diverse.</p>
+                    <p>Caso esemplare disaggregato:</p>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>Adolescente femmina con fragilità preesistente nell'immagine corporea</strong> esposta a Instagram <em>appearance-based</em>, contenuti aspirazionali, beauty filters: documenti Haugen mostrano peggioramento misurabile dell'immagine corporea in 1 su 3 di queste ragazze. <span class="text-red">Effetto: negativo significativo.</span></li>
+                        <li><strong>Adolescente LGBTQ+ in area rurale</strong> con scarsa esposizione offline a peer simili, che usa community online per identità e supporto: letteratura su questo specifico sottogruppo (es. <em>Trevor Project 2023 Survey</em>, Hawkins et al. 2020 su <em>JAACAP</em>) mostra effetti protettivi su rischio suicidario e benessere psicologico. <span class="text-green">Effetto: positivo significativo.</span></li>
+                        <li><strong>Adolescente neurodivergente</strong> (autismo lieve, ADHD, ansia sociale) che usa comunicazione mediata per ridurre carico cognitivo dell'interazione faccia a faccia: letteratura emergente (Mazurek 2013 su <em>Computers in Human Behavior</em>, Kuo et al. 2014 su <em>Autism</em>) mostra che social uso strutturato è compensatorio per comunicazione e relazioni. <span class="text-green">Effetto: variabile, spesso protettivo.</span></li>
+                        <li><strong>Adolescente generico (popolazione clinicamente media)</strong> con uso moderato e contenuti diversificati: effetti aggregati piccoli e contestuali. <span class="text-yellow">Effetto: trascurabile o ambivalente.</span></li>
+                    </ul>
+                    <div class="callout success">
+                        <strong>Quando una popolazione eterogenea con effetti opposti viene aggregata in una stima media, gli effetti si annullano parzialmente, e la media risultante è piccola.</strong> Questa è una delle ragioni epidemiologiche per cui le meta-analisi sui social trovano effetti medi piccoli. Non perché non ci sia danno, ma perché il danno è concentrato in sottopopolazioni specifiche e diluito nella media. La policy generale "ban under-16" tratta questa popolazione eterogenea come se fosse omogenea, cancellando indiscriminatamente sia il danno sia il beneficio.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>4. Cosa dicono davvero i Facebook Papers</h3>
+                <div class="card">
+                    <p>I documenti divulgati da Frances Haugen nel settembre-ottobre 2021 sono il principale "smoking gun" della strategia "Big Tobacco moment" applicata ai social. È importante leggerli con precisione, perché ciò che mostrano effettivamente è più granulare di come vengono presentati nei processi e nei media.</p>
+                    <h4 class="mt-2">Cosa mostrano effettivamente</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li>Ricerche interne su Instagram (2019-2020) trovano che, tra adolescenti femmine <em>che già riportavano problemi di immagine corporea</em>, circa <strong>1 su 3</strong> riferiva che Instagram peggiorava la situazione. Notare la disaggregazione: non "1 su 3 di tutte le adolescenti", ma "1 su 3 di quelle già vulnerabili".</li>
+                        <li>Conoscenza interna che il default di crittografia delle chat su Messenger/Instagram avrebbe reso più difficile l'investigazione di adescatori, deciso comunque per ragioni di engagement e privacy commerciale.</li>
+                        <li>Memo interni del "Project Daisy" (Instagram Kids) che mostravano disaccordo interno tra team safety e team growth sull'opportunità della piattaforma per bambini.</li>
+                        <li>Algoritmi di raccomandazione che spingevano contenuti progressivamente più estremi (pro-ana, contenuti suicidari) a utenti vulnerabili.</li>
+                        <li>Strategia commerciale esplicita di acquisizione dei "tween" (10-12 anni) come pipeline per i futuri utenti teen.</li>
+                    </ul>
+                    <h4 class="mt-2">Cosa non dimostrano (e che la cornice retorica suggerisce dimostrino)</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li>Effetto causale popolazionale di Instagram sulla salute mentale di "tutti gli adolescenti".</li>
+                        <li>Identità tra "Instagram" e "social media in generale" (i papers riguardano Meta, ma vengono citati come prova per qualsiasi piattaforma).</li>
+                        <li>Equivalenza dell'effetto su tutti i sottogruppi (i papers stessi disaggregano).</li>
+                    </ul>
+                    <div class="callout danger mt-2">
+                        <strong>Lo paradosso epistemico:</strong> i Facebook Papers, letti con precisione, suggerirebbero <em>interventi granulari</em> (regolare design appearance-based per minori vulnerabili, intervento su algoritmi di raccomandazione per contenuti pro-ana e pro-suicide, etc.). Ma usati dentro la cornice "Big Tobacco moment" producono una pressione per <em>policy totalizzanti</em> (ban under-16 generalizzato). L'evidenza è granulare, il frame è totale, la policy segue il frame.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>5. L'effetto iatrogeno del framing "dipendenza"</h3>
+                <div class="card">
+                    <p>La "social media addiction" non è una diagnosi riconosciuta nel <em>DSM-5</em> né nell'<em>ICD-11</em>. L'ICD-11 ha introdotto "Gaming Disorder" (2019) come diagnosi formale, ma non un equivalente per i social media. Esiste consenso clinico che alcuni pattern di uso compulsivo dei social possano essere classificati nel quadro più ampio dei "behavioural addictions" o degli "impulse control disorders", ma con criteri non ancora consolidati.</p>
+                    <p>Lo studio Anderson &amp; Wood (2025) su <em>Scientific Reports</em> mostra un effetto iatrogeno specifico del framing "dipendenza" indipendentemente dal merito empirico del fenomeno:</p>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li>Sovrastima sistematica del proprio "tempo speso sui social" rispetto a misurazioni oggettive (passive sensing).</li>
+                        <li>Etichettatura come "dipendenza" produce <strong>riduzione dell'auto-efficacia percepita</strong>, <strong>aumento dell'auto-colpevolizzazione</strong>, <strong>riduzione del locus of control interno</strong>.</li>
+                        <li>L'etichetta funziona come <em>self-fulfilling prophecy</em>: chi si percepisce come dipendente riduce i tentativi di autoregolazione e accetta una passività cognitiva di fronte all'uso.</li>
+                    </ul>
+                    <div class="callout warning">
+                        <strong>Per il tabacco, questo problema non esisteva</strong>, perché lì la dipendenza era farmacologica e l'etichetta non la creava né la riduceva. <strong>Nei social, l'etichetta produce parte di ciò che pretende di descrivere.</strong> È una differenza epistemologica fondamentale che richiede cautela nell'adozione acritica del lessico "dipendenza" nei documenti di policy, nei discorsi pubblici e nei materiali scolastici.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 5: EDUCAZIONE ============== -->
+        <section id="educazione" class="section">
+            <h1>Implicazioni educative</h1>
+            <p class="text-secondary mb-3">La migrazione della cornice "Big Tobacco moment" dal tribunale alla scuola produce sei meccanismi di fallimento sistematici, particolarmente acuti per le popolazioni vulnerabili (BES, neurodivergenti, minoranze, contesti socioeconomici svantaggiati). Questa sezione li articola uno per uno.</p>
+
+            <div class="subsection">
+                <h3>Il meccanismo del trasferimento</h3>
+                <div class="card">
+                    <p>Una cornice retorica non descrive soltanto: prescrive. Quando "Big Tobacco moment" vince in tribunale, si propaga attraverso media (amplificazione), politici (opportunismo di consenso), associazioni di genitori (già mobilitate), istituzioni scolastiche risk-averse (evitamento di stare dalla parte sbagliata del panico morale).</p>
+                    <p>Il frame migra con la sua <em>policy implicita</em> appiccicata: se è come il tabacco, vietalo, restringi l'età, sanziona. La policy del tabacco era calibrata su un fenomeno omogeneo. Quando lo stesso template migra su un fenomeno eterogeneo, produce risposte sistematicamente sbagliate.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>I sei modi in cui il template fallisce nelle scuole</h3>
+                <div class="numbered-cards">
+                    <div class="numbered-card">
+                        <div class="number">01</div>
+                        <div>
+                            <h4>Eterogeneità cancellata</h4>
+                            <p>Il divieto generalizzato annulla simultaneamente il danno e il beneficio, indiscriminatamente. La ragazza adolescente vulnerabile su Instagram appearance-based perde l'esposizione tossica (bene), ma il ragazzo neurodivergente che usa Discord per costruire le prime relazioni senza sovraccarico sensoriale perde la sua protesi compensatoria (male). La studentessa trans che trova nelle comunità online il suo unico spazio di riconoscimento perde. Il figlio di immigrati che comunica via WhatsApp con la famiglia all'estero perde. Per le popolazioni BES, la rete è spesso protesi compensatoria, non droga. Il template proibizionista non vede la differenza, perché viene dal tabacco dove la differenza non esisteva.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">02</div>
+                        <div>
+                            <h4>Displacement: l'uso si sposta, non sparisce</h4>
+                            <p>Vietare a scuola non riduce l'uso, lo sposta. A casa, in tasca, su device alternativi, dietro VPN, su account adulti prestati dai genitori. I dati preliminari dell'esperimento australiano (legge under-16 dicembre 2024, in vigore 2025) mostrano già aggiramenti massicci: account fake, migrazione verso Telegram e piattaforme meno regolamentate, uso intensivo di Discord che opera in zona grigia rispetto alla normativa. La scuola si auto-rassicura ("abbiamo risolto"), ma l'esposizione reale non cambia, e in alcuni casi peggiora perché si sposta su piattaforme con minore moderazione e minori safety team.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">03</div>
+                        <div>
+                            <h4>Abdicazione pedagogica</h4>
+                            <p>La scuola è l'unica istituzione che può fare alfabetizzazione critica al design persuasivo strutturato e sistematico: smontare come funziona l'engagement algoritmico, perché esiste l'autoplay, cos'è il rinforzo intermittente (Skinner box), come si riconosce una dark pattern, come si legge politicamente un feed, come si analizza l'asimmetria informativa tra utente e piattaforma. Se la risposta è "vietato in aula", la scuola si sgancia dal medium. Gli studenti raggiungono i diciotto anni senza occasione strutturata di pensare criticamente a ciò che li circonda dalla nascita. Escono dal sistema scolastico senza anticorpi, in un mondo saturo di quei meccanismi. È isomorfo al fallimento dell'educazione sessuale puramente astensionistica: l'astensione totale non insegna a relazionarsi.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">04</div>
+                        <div>
+                            <h4>Asimmetria sociale</h4>
+                            <p>I divieti tendono a essere più applicabili in scuole con risorse organizzative e disciplinari, meno applicabili in contesti svantaggiati. I genitori istruiti e di ceto medio-alto tendono a integrare i divieti scolastici con educazione mediale a casa; i genitori svantaggiati spesso non possono farlo per tempo, strumenti culturali, lingua. Risultato: nei contesti privilegiati il divieto si somma alla literacy, nei contesti svantaggiati si sostituisce a essa. Il divario di literacy critica si allarga proprio nelle popolazioni che il provvedimento doveva proteggere. È il classico paradosso dei panici morali su scuola: producono disuguaglianza in nome dell'uguaglianza.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">05</div>
+                        <div>
+                            <h4>Iatrogenesi del framing</h4>
+                            <p>Lo studio Anderson &amp; Wood 2025 mostra che etichettare l'uso come "dipendenza" produce auto-colpevolizzazione, riduce la percezione di controllo, abbassa l'auto-efficacia. Quando una direttiva ministeriale o una circolare scolastica adotta esplicitamente il lessico della dipendenza per giustificare il divieto, sta producendo nei ragazzi e nelle famiglie l'effetto cognitivo che dice di voler prevenire: la sensazione di non avere controllo. La cornice è performativa. La cornice produce parte del fenomeno che dichiara di descrivere. Per il tabacco questo problema non esisteva, perché lì la dipendenza era farmacologica e l'etichetta era descrittiva non costitutiva.</p>
+                        </div>
+                    </div>
+                    <div class="numbered-card">
+                        <div class="number">06</div>
+                        <div>
+                            <h4>Teatro pedagogico</h4>
+                            <p>Le scuole, sotto pressione politica, adottano il divieto come <em>compliance performativa</em>: la circolare circola, il cellulare resta in tasca, niente cambia nella didattica. La scuola può dichiarare "abbiamo agito" senza aver fatto formazione. È il pattern tipico italiano, replicato con le successive circolari sui cellulari da anni: adempimento senza apprendimento. La perdita politica qui è che l'attenzione collettiva si esaurisce con la circolare. Quando arriva il momento di chiedere risorse strutturali per formazione docente sulla literacy digitale critica, supporto psicologico, programmi di triage per studenti vulnerabili, il sistema risponde "ma il problema l'abbiamo già risolto, no?". Il proibizionismo diventa una via d'uscita rispetto agli investimenti reali in educazione e cura.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Il paradosso dei vulnerabili</h3>
+                <div class="card">
+                    <p>Il punto più delicato per chi lavora in educazione inclusiva è che <strong>la categoria "vulnerabili" e la categoria "danneggiati" non coincidono</strong>. Tra i ragazzi più fragili in senso clinico ed educativo, una quota significativa è quella che dai canali digitali trae beneficio, non danno.</p>
+                    <p>La proibizione generalizzata, in nome di "tutelare i fragili", colpisce per primi proprio molti dei fragili. È un'ironia che le statistiche aggregate nascondono e che il lavoro sul campo rende evidente. Alcuni esempi documentati:</p>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>Adolescenti autistici e con tratti dello spettro</strong> che usano forum specializzati, server Discord di interessi specifici, comunità online di pari come spazio primario di comunicazione, riducendo l'isolamento e aumentando la self-disclosure (Mazurek 2013, Kuo et al. 2014).</li>
+                        <li><strong>Adolescenti con malattie rare</strong> che trovano nelle community patient-led (forum di patologie a bassa incidenza, gruppi Facebook di malattie genetiche) l'unico spazio in cui non sono "i diversi". Per molti di loro questa è la principale rete di supporto psicologico.</li>
+                        <li><strong>Adolescenti LGBTQ+</strong> in contesti familiari o territoriali ostili, per cui le comunità online sono spesso l'unica fonte di affermazione identitaria e di prevenzione del suicidio (Trevor Project 2023, McConnell et al. 2018).</li>
+                        <li><strong>Adolescenti con genitori migranti</strong> per cui WhatsApp, Telegram, social del paese di origine sono il principale canale di mantenimento dei legami familiari e culturali.</li>
+                        <li><strong>Adolescenti caregivers familiari</strong> (con responsabilità di cura di un familiare malato o disabile) per cui i canali digitali sono fonte di informazione, supporto peer, e momenti di pausa.</li>
+                    </ul>
+                    <div class="callout warning">
+                        <strong>Conseguenza operativa per la pratica educativa:</strong> qualsiasi policy sui dispositivi e social a scuola dovrebbe contemplare meccanismi di <em>opt-out documentato</em> per studenti con piani educativi individualizzati (PEI, PDP) in cui l'uso strutturato di tecnologie sia parte del programma di inclusione. La direttiva Valditara italiana ha un parziale riconoscimento di questa esigenza per dispositivi di supporto certificati, ma non per usi sociali compensatori.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>L'ironia profonda</h3>
+                <div class="card">
+                    <p>Lo paradosso strutturale dell'attuale momento di policy è il seguente. Gli stessi documenti aziendali e gli stessi studi che vengono usati come prova nei processi mostrano un quadro <em>granulare</em>: questo design, su questa popolazione, in questo contesto, produce questo danno. È un'evidenza che suggerirebbe interventi granulari, regolamentazione mirata sulle feature più tossiche, intervento clinico sulle sottopopolazioni identificate, alfabetizzazione critica per tutti gli altri.</p>
+                    <p>Ma usati dentro la cornice "Big Tobacco moment", quegli stessi dati vengono digeriti in una risposta <em>totalizzante</em>, il ban generalizzato.</p>
+                    <p><strong>L'evidenza è granulare. Il frame è totale. La policy segue il frame, non l'evidenza.</strong></p>
+                    <p>Chi lavora nelle scuole, in questo momento storico, si trova a sostenere che il fenomeno è più complesso di come viene raccontato, in un momento in cui la semplificazione è politicamente vincente. È una posizione scomoda, ma è l'unica che resta scientificamente onesta e pedagogicamente utile.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 6: POLICY COMPARATE ============== -->
+        <section id="policy" class="section">
+            <h1>Policy comparate</h1>
+            <p class="text-secondary mb-3">Lo stato dell'arte regolatorio internazionale al maggio 2026. La cornice "Big Tobacco moment" ha già prodotto una cascata legislativa con velocità senza precedenti. La tabella mappa lo stato di ciascuna giurisdizione di riferimento.</p>
+
+            <div class="subsection">
+                <h3>Quadro comparativo</h3>
+                <table class="policy-table">
+                    <thead>
+                        <tr>
+                            <th>Giurisdizione</th>
+                            <th>Strumento</th>
+                            <th>Anno</th>
+                            <th>Ambito</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Australia</strong></td>
+                            <td>Online Safety Amendment (Social Media Minimum Age) Act</td>
+                            <td>2024</td>
+                            <td>Ban social media &lt; 16 anni · responsabilità piattaforme per verifica età</td>
+                            <td><span class="tag tag-green">In vigore 2025</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Italia</strong></td>
+                            <td>Direttiva Valditara</td>
+                            <td>2024-2026</td>
+                            <td>Divieto smartphone nelle aule da infanzia a secondaria di II grado</td>
+                            <td><span class="tag tag-green">In vigore</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Francia</strong></td>
+                            <td>Loi sur la majorité numérique</td>
+                            <td>2023</td>
+                            <td>Consenso parentale per registrazione social &lt; 15 anni</td>
+                            <td><span class="tag tag-yellow">Applicazione parziale</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>UE</strong></td>
+                            <td>Digital Services Act + dibattito su "digital majority age"</td>
+                            <td>2022 / in corso</td>
+                            <td>Obblighi di design responsabile per VLOP · age verification in discussione</td>
+                            <td><span class="tag tag-yellow">Implementazione</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>UK</strong></td>
+                            <td>Online Safety Act</td>
+                            <td>2023</td>
+                            <td>Duty of care delle piattaforme · age assurance per contenuti dannosi</td>
+                            <td><span class="tag tag-green">In vigore</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>USA federale</strong></td>
+                            <td>KOSA (Kids Online Safety Act)</td>
+                            <td>Pendente</td>
+                            <td>Duty of care, default privacy minori, transparency obligations</td>
+                            <td><span class="tag tag-orange">Stallato Congresso</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>USA stati</strong></td>
+                            <td>Leggi multiple (UT, FL, TX, AR, OH, CA AB 1709)</td>
+                            <td>2023-2026</td>
+                            <td>Restrizioni varie su minori · molte impugnate come incostituzionali</td>
+                            <td><span class="tag tag-red">Bloccate da Corti</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>USA federale storico</strong></td>
+                            <td>COPPA (Children's Online Privacy Protection Act)</td>
+                            <td>1998</td>
+                            <td>Protezione dati minori &lt; 13 · base di tutti i "13 anni" delle piattaforme</td>
+                            <td><span class="tag tag-cyan">In revisione</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Schede paese</h3>
+                <div class="card expandable">
+                    <div class="card-header"><h3>🇦🇺 Australia: il caso di studio dell'esperimento under-16</h3><span class="expand-icon">+</span></div>
+                    <div class="card-body">
+                        <p>La <em>Online Safety Amendment (Social Media Minimum Age) Act 2024</em>, promossa dal Primo Ministro Anthony Albanese e approvata in dicembre 2024 con maggioranza bipartisan, vieta agli under-16 di avere account su piattaforme social designate (Instagram, TikTok, Snapchat, Facebook, X). Onere di compliance sulle piattaforme, non sulle famiglie. Penalty fino a $50M AUD per piattaforme inadempienti. Esenzioni per servizi di messaggistica, giochi, piattaforme educative, YouTube (in zona grigia).</p>
+                        <p><strong>Critiche e dati emergenti:</strong></p>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                            <li>Letter from over 140 international academic experts (novembre 2024) ha criticato la mancanza di base evidence-based.</li>
+                            <li>eSafety Commissioner ha segnalato che la age assurance technology non è ancora sufficientemente affidabile.</li>
+                            <li>Studi preliminari mostrano aggiramento massiccio via VPN, account adulti prestati, migrazione verso piattaforme non incluse (Discord, Telegram).</li>
+                            <li>Aboriginal communities hanno segnalato l'effetto particolarmente penalizzante su giovani in aree remote per cui i social sono canale primario di mantenimento culturale e familiare.</li>
+                        </ul>
+                        <p>L'Australia è il principale "stress test" mondiale del paradigma proibizionista applicato ai social per minori. I dati che emergeranno nei prossimi 12-24 mesi saranno decisivi per il dibattito europeo e americano.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header"><h3>🇮🇹 Italia: la direttiva Valditara e il quadro normativo</h3><span class="expand-icon">+</span></div>
+                    <div class="card-body">
+                        <p>La direttiva del Ministro dell'Istruzione e del Merito Giuseppe Valditara di luglio 2024 vieta l'uso di smartphone in aula dalla scuola dell'infanzia alla secondaria di primo grado, con estensione successiva alla secondaria di secondo grado. La direttiva si appoggia su circolari precedenti (2007 Fioroni, 2018 Bussetti) di cui rappresenta il rafforzamento e l'inasprimento.</p>
+                        <p><strong>Ambito ed esenzioni:</strong></p>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                            <li>Vietato l'uso "per fini personali, ricreativi, di intrattenimento".</li>
+                            <li>Consentito l'uso per "didattica con strumenti digitali" sotto supervisione docente.</li>
+                            <li>Esenzioni specifiche per "ausili tecnologici" certificati come parte di PEI per alunni con disabilità (L. 104/1992).</li>
+                            <li>Nessuna esenzione esplicita per PDP di alunni DSA o BES non-104, anche se nella pratica molti docenti applicano flessibilità per CAA (Comunicazione Aumentativa Alternativa), strumenti compensativi specifici, app di supporto cognitivo.</li>
+                        </ul>
+                        <p><strong>Criticità segnalate:</strong></p>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                            <li>Assenza di un quadro nazionale di formazione docente sulla literacy critica al design persuasivo, che dovrebbe accompagnare il divieto.</li>
+                            <li>Asimmetria tra rigore del divieto a scuola e assenza di policy familiari coerenti.</li>
+                            <li>Disomogeneità nella gestione delle esenzioni BES, con margini di discrezionalità che riproducono disuguaglianza scolastica.</li>
+                            <li>Rischio di "teatro pedagogico": adempimento senza modifica strutturale delle pratiche didattiche.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header"><h3>🇪🇺 Unione Europea: DSA e il dibattito sulla "digital majority age"</h3><span class="expand-icon">+</span></div>
+                    <div class="card-body">
+                        <p>Il <em>Digital Services Act</em> (Regolamento UE 2022/2065), in vigore dal febbraio 2024 per tutti i servizi digitali, impone alle <strong>Very Large Online Platforms (VLOP)</strong> obblighi specifici di mitigazione dei rischi sistemici, inclusi quelli per "salute fisica e mentale, in particolare dei minori" (art. 34). Le piattaforme designate VLOP includono Meta (Instagram, Facebook), TikTok, YouTube, X, Snapchat.</p>
+                        <p>Obblighi specifici DSA per minori:</p>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                            <li>Privacy by default per minori (no targeted advertising basato su profilazione di minori).</li>
+                            <li>Trasparenza algoritmica (audit annuali indipendenti).</li>
+                            <li>Risk assessment per "salute fisica e mentale" dei minori.</li>
+                            <li>Mitigation measures appropriate, valutate dalla Commissione europea.</li>
+                        </ul>
+                        <p>Dal 2024 è in corso il dibattito sulla "digital majority age" come complemento del DSA. Francia, Spagna, Grecia, Danimarca hanno sostenuto un'età minima armonizzata a livello UE (proposte tra 13 e 16). La posizione italiana è di sostegno generale ma con cautela sulla armonizzazione obbligatoria. Germania e Paesi Bassi più scettici, sostenendo l'approccio "design by default" piuttosto che "age ban".</p>
+                        <p>Il dibattito è esplicitamente influenzato dal modello australiano e dai verdetti USA, con cascata mimetica osservabile in tempo reale.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header"><h3>🇺🇸 USA: tra KOSA bloccato, leggi statali e Section 230</h3><span class="expand-icon">+</span></div>
+                    <div class="card-body">
+                        <p>A livello federale, il <em>Kids Online Safety Act</em> (KOSA), introdotto nel 2022 dai senatori Blumenthal e Blackburn, è passato al Senato nel luglio 2024 (91-3) ma è bloccato alla Camera per ragioni complesse: una parte della destra trumpiana lo vede come strumento di censura governativa, una parte della sinistra teme che produca censura su contenuti LGBTQ+ trattati come "harmful to minors" in stati conservatori. Lo stallo è un esempio di come le coalizioni politiche su questi temi siano transversali.</p>
+                        <p>A livello statale, numerose leggi sono state approvate e poi bloccate dalle corti federali per ragioni costituzionali (Primo Emendamento, vagueness, preemption):</p>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                            <li><em>Utah Social Media Regulation Act</em> (2023): bloccato dal District Court.</li>
+                            <li><em>Florida HB 3</em> (2024): bloccato parzialmente.</li>
+                            <li><em>Texas SCOPE Act</em>: parzialmente in vigore.</li>
+                            <li><em>California Age-Appropriate Design Code Act</em> (AB 2273, 2022): bloccato dal Nono Circuito per Primo Emendamento.</li>
+                            <li><em>California AB 1709</em> (2026, proposta): vieterebbe ai social di consentire account a under-16. In fase legislativa.</li>
+                            <li><em>Arkansas Social Media Safety Act</em>: bloccato.</li>
+                        </ul>
+                        <p>Lo schema costituzionale americano produce uno strano paradosso: i verdetti civili contro Meta (case by case) avanzano, mentre le leggi statali di portata generale vengono regolarmente bloccate dalle corti. La regolazione si fa per via giudiziaria, non per via legislativa.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header"><h3>🇬🇧 UK: l'Online Safety Act e l'approccio "duty of care"</h3><span class="expand-icon">+</span></div>
+                    <div class="card-body">
+                        <p>L'<em>Online Safety Act 2023</em> introduce un "duty of care" per le piattaforme online verso gli utenti, con obblighi rafforzati per i minori. La <em>Ofcom</em> è l'autorità regolatoria, con poteri di sanzione fino al 10% del fatturato globale annuo. L'approccio è diverso da quello australiano: non vieta agli under-16 di avere account, ma impone alle piattaforme di garantire che i contenuti "harmful but legal" non raggiungano i minori, attraverso age assurance robusta.</p>
+                        <p>Aspetti distintivi:</p>
+                        <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                            <li><strong>Approccio sulla pipeline di contenuto, non sull'accesso alla piattaforma.</strong> Più chirurgico rispetto al ban australiano.</li>
+                            <li>Categorie di contenuto definite normativamente: "priority illegal content", "primary priority content for children" (suicide promotion, self-harm, eating disorder content, pornography), "priority content for children" (bullying, violenza, abuse content).</li>
+                            <li>Ofcom Codes of Practice in fase di emanazione progressiva, con consultazione pubblica.</li>
+                            <li>Tensione con il <em>Wikipedia</em> e altre piattaforme open che hanno dichiarato impossibile ottemperare in alcune sezioni.</li>
+                        </ul>
+                        <p>Il modello UK è quello che, da una lettura tecnica, meglio incorpora l'approccio "granulare" piuttosto che "totale". Per questa ragione è osservato come riferimento alternativo al modello australiano in altre giurisdizioni.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Pattern emergente</h3>
+                <div class="card">
+                    <p>Confrontando i modelli regolatori, emerge un pattern: due paradigmi alternativi competono sul piano internazionale.</p>
+                    <div class="comparison-grid mt-2">
+                        <div class="card tobacco">
+                            <h3>Paradigma "Ban totale"</h3>
+                            <p><strong>Modello di riferimento:</strong> Australia, leggi statali USA.</p>
+                            <p><strong>Logica:</strong> il prodotto è pericoloso per i minori, vietarne l'accesso è la risposta corretta.</p>
+                            <p><strong>Vantaggio retorico:</strong> chiaro, comunicabile, "for the children".</p>
+                            <p><strong>Costo:</strong> cancella eterogeneità, produce displacement, scarica responsabilità su piattaforme con tecnologie age assurance imperfette.</p>
+                        </div>
+                        <div class="card social">
+                            <h3>Paradigma "Design-based regulation"</h3>
+                            <p><strong>Modello di riferimento:</strong> UK Online Safety Act, DSA UE.</p>
+                            <p><strong>Logica:</strong> regolare specifiche features e contenuti, lasciando l'accesso ma definendo doveri di design.</p>
+                            <p><strong>Vantaggio tecnico:</strong> preserva la granularità, distingue usi protettivi da usi tossici.</p>
+                            <p><strong>Costo:</strong> complesso da comunicare, richiede risorse regolatorie significative, richiede competenze tecniche all'autorità di vigilanza.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 7: ALTERNATIVE ============== -->
+        <section id="alternative" class="section">
+            <h1>Framework alternativi al proibizionismo</h1>
+            <p class="text-secondary mb-3">Il refrain "non basta vietare" rischia di essere altrettanto generico del divieto stesso, se non viene declinato in framework operativi specifici. Questa sezione articola i quattro paradigmi alternativi praticabili oggi, con riferimenti a letteratura e modelli applicativi.</p>
+
+            <div class="subsection">
+                <h3>Framework 1 — Alfabetizzazione critica al design persuasivo</h3>
+                <div class="card">
+                    <p>L'approccio classico di media literacy (Buckingham, Hobbs, Livingstone) si concentra sul contenuto: come si valutano fonti, come si riconosce disinformazione, come si interpreta un messaggio mediale. Negli ultimi anni si è sviluppato un filone più recente di <em>persuasive design literacy</em> o <em>algorithmic literacy</em>, focalizzato sulla struttura dell'interfaccia e non sui contenuti.</p>
+                    <h4 class="mt-2">Concetti chiave da insegnare</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>Rinforzo intermittente</strong> (Skinner): perché le notifiche non sono prevedibili, e come questo produce attaccamento al device.</li>
+                        <li><strong>Scroll infinito</strong> e l'eliminazione del "natural stopping point" (Brian Christian): perché non c'è più una fine della newsfeed.</li>
+                        <li><strong>Autoplay e loss aversion</strong>: come il timer "5 secondi al prossimo video" sfrutta la paura di perdersi qualcosa.</li>
+                        <li><strong>Social validation loops</strong>: like, view count, e come l'asimmetria tra qualità e quantità del feedback distorce l'autovalutazione adolescenziale.</li>
+                        <li><strong>Dark patterns</strong>: roach motel, confirmshaming, hidden costs, friend spam (Brignull).</li>
+                        <li><strong>Algorithmic curation</strong>: differenza tra newsfeed cronologica e algoritmica, asimmetria informativa tra utente e sistema di raccomandazione.</li>
+                        <li><strong>Filter bubbles vs echo chambers</strong> (Pariser, ma con i correttivi empirici di Bakshy et al. 2015 e Guess et al. 2020).</li>
+                        <li><strong>Attention economy</strong>: il modello di business come variabile esplicativa del design.</li>
+                    </ul>
+                    <div class="callout success mt-2">
+                        <strong>Riferimenti operativi:</strong> il framework CASEL espanso, le guidelines di Common Sense Education, i materiali di Mozilla Foundation (<em>YouTube Regrets</em>, <em>Trustworthy AI</em>), Tristan Harris e il <em>Center for Humane Technology</em>, il <em>Council of Europe Digital Citizenship Education Framework</em>. In Italia, il <em>Sillabo per l'educazione civica digitale</em> del MIUR (rivisto 2024) include alcuni di questi elementi.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Framework 2 — Triage e granularità</h3>
+                <div class="card">
+                    <p>L'approccio epidemiologico al rischio individuale, applicato al digitale. Invece di trattare tutti gli studenti come popolazione omogenea, identificare i fattori di rischio specifici e calibrare intervento differenziato.</p>
+                    <h4 class="mt-2">Variabili di stratificazione del rischio</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>Vulnerabilità preesistente:</strong> storia clinica di depressione, ansia, DCA, autolesionismo, ideazione suicidaria.</li>
+                        <li><strong>Pattern di uso:</strong> tempo totale (con cautela, perché il dato auto-riferito è inaffidabile), tipo di piattaforma, tipo di contenuto consumato (passivo vs attivo), uso notturno (impatto su sonno).</li>
+                        <li><strong>Fattori protettivi:</strong> qualità della relazione genitoriale, qualità delle relazioni offline, attività fisica, sonno, struttura della giornata.</li>
+                        <li><strong>Funzione del digitale:</strong> compensatoria (ridotto carico cognitivo, accesso a community necessarie) vs sostitutiva (evitamento di interazioni offline).</li>
+                        <li><strong>Capacità di autoregolazione:</strong> presenza di strategie metacognitive, monitoraggio del proprio uso, capacità di staccarsi.</li>
+                    </ul>
+                    <h4 class="mt-2">Strumenti di screening utilizzabili a scuola (con cautela)</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>BSMAS</strong> (Bergen Social Media Addiction Scale): 6 item, screening rapido. <em>Cautela:</em> validato come scala dimensionale, non come strumento diagnostico. Vedi anche le critiche metodologiche di Hawi, Davis, Kuss.</li>
+                        <li><strong>PHQ-A</strong> e <strong>GAD-7</strong>: screening generici per depressione e ansia adolescenziale, ben validati, da usare in combinazione.</li>
+                        <li><strong>ScreenTime/Digital Wellbeing data:</strong> i dati passivi del device (Apple ScreenTime, Android Digital Wellbeing) sono più affidabili del self-report.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Framework 3 — Design regulation mirata, non ban generalizzato</h3>
+                <div class="card">
+                    <p>L'approccio regolatorio "chirurgico", che il modello UK e il DSA UE incarnano in parte: regolare features specifiche identificate come tossiche, lasciando intatto il resto. La differenza con il proibizionismo è che opera al livello della piattaforma, non dell'utente.</p>
+                    <h4 class="mt-2">Features candidate alla regolazione</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>Autoplay e infinite scroll</strong> per account di minori (richiesta esplicita nella fase 2 NM).</li>
+                        <li><strong>Notifiche push</strong> non essenziali per account di minori.</li>
+                        <li><strong>Beauty filters e AR filters</strong> con effetti di alterazione del viso, particolarmente per minori in piattaforme appearance-based.</li>
+                        <li><strong>Algoritmi di raccomandazione</strong> per contenuti pro-ana, pro-self-harm, suicide promotion (già parzialmente coperti dalle policy interne ma con enforcement variabile).</li>
+                        <li><strong>Default settings</strong> di privacy (DSA art. 28), targeted advertising basato su profilazione di minori (proibito da DSA).</li>
+                        <li><strong>Stories ephemerality</strong>: l'effimero produce FOMO e check compulsivi.</li>
+                        <li><strong>Visible like counts</strong>: già parzialmente eliminato da Instagram come opzione utente, ma da considerare come default per minori.</li>
+                        <li><strong>Read receipts</strong> e indicatori di "stato online": producono ansia relazionale documentata.</li>
+                    </ul>
+                    <div class="callout">
+                        <strong>Vantaggio strutturale.</strong> La design regulation conserva l'accesso (e quindi gli usi protettivi) eliminando le features più tossiche. È più complessa da implementare, ma più efficiente come politica pubblica perché non produce displacement né iatrogenesi del framing. È anche più costituzionalmente robusta negli ordinamenti che proteggono fortemente l'accesso all'informazione (USA, ma anche, in misura minore, ordinamenti europei).
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Framework 4 — Intervento sui mediatori clinici</h3>
+                <div class="card">
+                    <p>La quarta strada è meno politica e più clinica: invece di intervenire sul "social media use" come variabile indipendente, intervenire sui mediatori attraverso cui i social impattano la salute mentale. I mediatori sono più trattabili della variabile principale, sono empiricamente più solidi, e producono benefici anche a prescindere dal digitale.</p>
+                    <h4 class="mt-2">I quattro mediatori principali</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li><strong>Sonno.</strong> L'effetto principale dell'uso notturno dei social è il sonno (riduzione di quantità e qualità). Il sonno è uno dei più forti predittori di salute mentale adolescenziale (Hale, Twenge, Carskadon). Intervento: educazione al sonno, "no phone in bedroom" policy familiare, blue light filter, regolazione orari (CBT-I adattato).</li>
+                        <li><strong>Isolamento sociale offline.</strong> L'uso compensatorio del social può sostituire l'interazione offline. Intervento: ricostruzione strutturata delle reti sociali offline, attività di gruppo, programmi di peer support a scuola. È trattabile indipendentemente dall'uso dei social.</li>
+                        <li><strong>Autoregolazione.</strong> Capacità metacognitive di monitoraggio e gestione del proprio uso. Intervento: CBT, mindfulness adattata, programmi specifici come <em>Mindfulness-Based Stress Reduction for Teens</em>, gruppi di "peer accountability". Letteratura: Bishop et al. 2013, Brewer 2017.</li>
+                        <li><strong>Comparazione sociale upward.</strong> Il meccanismo psicologico per cui l'esposizione a contenuti aspirazionali produce calo di autostima. Intervento: psicoeducazione sulla curated nature del social, lavoro su autoefficacia e identità (Festinger, classico; Vogel et al. 2014, Tiggemann &amp; Slater 2014 per applicazione specifica al social).</li>
+                    </ul>
+                    <div class="callout success">
+                        <strong>Il vantaggio strategico</strong> di intervenire sui mediatori invece che sull'esposizione è duplice: primo, è scientificamente più solido (effect size dei mediatori sui mental health outcomes è notevolmente maggiore dell'effect size dell'uso dei social); secondo, produce benefici trasversali (un adolescente con buon sonno, buone reti offline, autoregolazione metacognitiva, e robustezza nell'autoefficacia è protetto non solo dai social, ma dalla maggior parte degli stressori adolescenziali).
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Integrazione: UDL 3.0 e digital wellbeing</h3>
+                <div class="card">
+                    <p>Il framework Universal Design for Learning nella sua versione 3.0 (CAST 2024) ha integrato esplicitamente la dimensione del digitale e della variabilità degli apprendenti rispetto all'accesso e all'uso degli strumenti tecnologici. Le implicazioni per il dibattito sui social a scuola sono:</p>
+                    <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.9;">
+                        <li>Il principio di <strong>learner agency</strong> implica che gli studenti non sono destinatari passivi di una policy: vanno coinvolti nella co-costruzione delle norme d'uso, soprattutto sopra una certa età.</li>
+                        <li>Il principio di <strong>identità come variabilità</strong> esclude policy "one size fits all" e impone meccanismi di personalizzazione.</li>
+                        <li>Il principio di <strong>bias come barriere</strong> impone di interrogare la propria postura proibizionista come potenzialmente fondata su bias generazionale o di classe.</li>
+                        <li>Il principio di <strong>gioia, empatia, interdipendenza</strong> riconosce che il digitale è anche luogo di connessione, riconoscimento e supporto reciproco per molte popolazioni vulnerabili. La policy non può ignorare questa funzione.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 8: GLOSSARIO ============== -->
+        <section id="glossario" class="section">
+            <h1>Glossario tecnico</h1>
+            <p class="text-secondary mb-3">Definizioni operative dei termini chiave usati in questa dashboard. Ricerca live: digita parole o concetti.</p>
+
+            <input type="text" class="search-input" id="glossarySearch" placeholder="Cerca un termine, una sigla, un concetto…">
+
+            <div class="glossary-grid">
+                <div class="glossary-item visible" data-term="age assurance verifica eta">
+                    <h4>Age Assurance</h4>
+                    <div class="definition">Insieme di tecnologie e procedure per verificare l'età degli utenti online. Spettro che va da self-declaration (debole) a document-based verification (forte) a biometric estimation (intermedia, controversa).</div>
+                    <div class="application"><strong>Applicazione:</strong> elemento centrale di ban under-16 (Australia) e duty of care (UK). Tecnologie disponibili presentano trade-off tra accuratezza, privacy e accessibilità non ancora risolti.</div>
+                </div>
+                <div class="glossary-item visible" data-term="bes bisogni educativi speciali">
+                    <h4>BES (Bisogni Educativi Speciali)</h4>
+                    <div class="definition">Categoria normativa italiana (Direttiva MIUR 27/12/2012) che comprende studenti con disabilità certificata (L. 104/1992), DSA (L. 170/2010), e altri svantaggi socio-economico-linguistico-culturali.</div>
+                    <div class="application"><strong>Applicazione:</strong> popolazioni per cui l'uso del digitale è spesso compensatorio piuttosto che ricreativo. Sotto-rappresentate nel dibattito pubblico sui ban.</div>
+                </div>
+                <div class="glossary-item visible" data-term="cattura regolatoria stigler">
+                    <h4>Cattura regolatoria</h4>
+                    <div class="definition">Fenomeno (teorizzato da George Stigler 1971) per cui le agenzie regolatorie pubbliche tendono a essere catturate dagli interessi delle industrie che dovrebbero regolare. Spiega perché la regolazione federale spesso è più favorevole agli incumbents.</div>
+                    <div class="application"><strong>Applicazione:</strong> giustifica lo spostamento delle strategie regolatorie dal piano federale a quello statale, dove la cattura è meno strutturata.</div>
+                </div>
+                <div class="glossary-item visible" data-term="consumer protection udap">
+                    <h4>Consumer Protection / UDAP</h4>
+                    <div class="definition">Quadro giuridico statale americano (Unfair and Deceptive Acts and Practices) che permette ai procuratori generali di agire contro pratiche commerciali ingannevoli. Diverso dalla product liability federale.</div>
+                    <div class="application"><strong>Applicazione:</strong> base giuridica del verdetto New Mexico, perché aggira la preemption federale e la Section 230.</div>
+                </div>
+                <div class="glossary-item visible" data-term="coppa privacy minori">
+                    <h4>COPPA (Children's Online Privacy Protection Act)</h4>
+                    <div class="definition">Legge federale USA 1998. Obbliga servizi online a ottenere consenso parentale verificabile per raccolta dati di minori &lt; 13 anni. È la ragione per cui quasi tutti i social hanno "13" come età minima.</div>
+                    <div class="application"><strong>Applicazione:</strong> in revisione dal 2024 per estendere protezioni a 16-17 anni e ampliare definizione di "personal information".</div>
+                </div>
+                <div class="glossary-item visible" data-term="dark pattern brignull design">
+                    <h4>Dark Pattern</h4>
+                    <div class="definition">Pattern di interfaccia user-hostile progettati per ingannare l'utente in azioni che non aveva intenzione di fare. Tassonomia di Harry Brignull (2010+) include roach motel, confirmshaming, friend spam, hidden costs, sneak into basket.</div>
+                    <div class="application"><strong>Applicazione:</strong> oggetto di regolazione esplicita nel DSA UE (art. 25). Materiale di base per la literacy critica al design persuasivo.</div>
+                </div>
+                <div class="glossary-item visible" data-term="dsa digital services act ue">
+                    <h4>DSA (Digital Services Act)</h4>
+                    <div class="definition">Regolamento UE 2022/2065. Quadro generale di obblighi per servizi digitali, particolarmente stringente per Very Large Online Platforms (VLOP). In vigore per tutti dal febbraio 2024.</div>
+                    <div class="application"><strong>Applicazione:</strong> richiede risk assessment, mitigazione di rischi sistemici (inclusi quelli per minori), trasparenza algoritmica, audit indipendenti.</div>
+                </div>
+                <div class="glossary-item visible" data-term="effect size cohen pearson">
+                    <h4>Effect Size</h4>
+                    <div class="definition">Misura standardizzata della magnitudo di un effetto statistico, indipendente dalla numerosità campionaria. Per correlazioni si usa r di Pearson; per differenze tra gruppi, d di Cohen. Convenzioni: r ≈ 0,1 piccolo, 0,3 medio, 0,5 grande.</div>
+                    <div class="application"><strong>Applicazione:</strong> il dibattito sui social e adolescenti gira su effect sizes di r ≈ 0,04 - 0,15, ovvero piccoli o trascurabili. La rilevanza pratica di effetti piccoli rimane oggetto di disputa metodologica.</div>
+                </div>
+                <div class="glossary-item visible" data-term="eterogeneita di trattamento heterogeneous">
+                    <h4>Eterogeneità di trattamento (Heterogeneous Treatment Effects)</h4>
+                    <div class="definition">Fenomeno epidemiologico per cui lo stesso "esposto" produce effetti diversi e talvolta opposti in sottopopolazioni diverse. Si misura con interaction terms, subgroup analyses, machine learning su covariate.</div>
+                    <div class="application"><strong>Applicazione:</strong> caratterizza in modo cardinale il caso social (alta eterogeneità) e in modo opposto il caso tabacco (bassa eterogeneità). Concetto chiave per criticare l'analogia.</div>
+                </div>
+                <div class="glossary-item visible" data-term="haugen frances facebook papers">
+                    <h4>Facebook Papers (Frances Haugen)</h4>
+                    <div class="definition">Documenti interni di Meta divulgati nel 2021 dalla whistleblower Frances Haugen a SEC e <em>WSJ</em>. Mostrano consapevolezza interna di danni specifici a sottopopolazioni di minori vulnerabili.</div>
+                    <div class="application"><strong>Applicazione:</strong> principale smoking gun documentale dei processi 2026. Letti correttamente, suggeriscono granularità; usati nella cornice tabacco, vengono interpretati come prova di danno generalizzato.</div>
+                </div>
+                <div class="glossary-item visible" data-term="iatrogenesi framing performativo">
+                    <h4>Iatrogenesi del framing</h4>
+                    <div class="definition">Effetto per cui l'etichettatura di un fenomeno produce parte del fenomeno che pretende di descrivere. Variante della profezia auto-avverante applicata al lessico clinico-comportamentale.</div>
+                    <div class="application"><strong>Applicazione:</strong> documentato da Anderson &amp; Wood 2025 per "social media addiction": etichettare come dipendenza riduce autoefficacia e locus of control. Argomento contro l'adozione acritica del lessico "dipendenza" in documenti scolastici.</div>
+                </div>
+                <div class="glossary-item visible" data-term="kgm kaley caso california">
+                    <h4>KGM (caso California)</h4>
+                    <div class="definition">Iniziali pseudonime della plaintiff nel caso <em>KGM v. Meta + YouTube</em> deciso il 25 marzo 2026 a Los Angeles. Ventenne, ha denunciato per uso compulsivo dei social e conseguente danno mentale iniziato a 6 anni.</div>
+                    <div class="application"><strong>Applicazione:</strong> primo verdetto americano che condanna piattaforme social per design defettoso che produce dipendenza comportamentale. Avvocato: Mark Lanier (Social Media Victims Law Center).</div>
+                </div>
+                <div class="glossary-item visible" data-term="kosa kids online safety act">
+                    <h4>KOSA (Kids Online Safety Act)</h4>
+                    <div class="definition">Disegno di legge federale USA. Introduce duty of care, default privacy minori, transparency. Approvato dal Senato 2024 (91-3), bloccato alla Camera per ragioni politiche transversali.</div>
+                    <div class="application"><strong>Applicazione:</strong> sarebbe il primo intervento federale sostanziale su tema, ma lo stallo permanente sposta la regolazione a livello statale o giudiziale.</div>
+                </div>
+                <div class="glossary-item visible" data-term="mdl multi district litigation">
+                    <h4>MDL (Multi-District Litigation)</h4>
+                    <div class="definition">Procedura federale USA che aggrega cause multiple con tematiche simili davanti a un singolo giudice per coordinamento pre-trial. Diversa dalla class action (mantiene cause individuali).</div>
+                    <div class="application"><strong>Applicazione:</strong> oltre 2.000 cause contro piattaforme social aggregate in MDL nell'Eastern District of California (giudice Carolyn Kuhl).</div>
+                </div>
+                <div class="glossary-item visible" data-term="msa master settlement agreement tabacco 1998">
+                    <h4>MSA (Master Settlement Agreement 1998)</h4>
+                    <div class="definition">Accordo del novembre 1998 tra 46 procuratori generali statali USA e le quattro maggiori tabaccaie (Philip Morris, R.J. Reynolds, Brown &amp; Williamson, Lorillard). $206 miliardi su 25 anni + restrizioni pubblicitarie.</div>
+                    <div class="application"><strong>Applicazione:</strong> riferimento storico-strutturale del "Big Tobacco moment". Il caso modello che ogni strategia successiva ha cercato di replicare.</div>
+                </div>
+                <div class="glossary-item visible" data-term="orben przybylski oxford">
+                    <h4>Orben &amp; Przybylski</h4>
+                    <div class="definition">Andrew Przybylski (Oxford Internet Institute) e Amy Orben (Cambridge). Coautori di una serie di studi su technology use e benessere adolescenziale con effect size piccoli e metodologia di specification curve.</div>
+                    <div class="application"><strong>Applicazione:</strong> riferimenti principali della scuola "scettica" sull'effetto popolazionale dei social, contrapposti al filone Haidt/Twenge.</div>
+                </div>
+                <div class="glossary-item visible" data-term="public nuisance dottrina common law">
+                    <h4>Public Nuisance</h4>
+                    <div class="definition">Dottrina di common law antica (medievale) che permette allo Stato di agire contro condotte che producono "danno irragionevole a diritti pubblici". Rivitalizzata negli ultimi vent'anni per tabacco, piombo, oppioidi.</div>
+                    <div class="application"><strong>Applicazione:</strong> base giuridica della fase 2 New Mexico (4 maggio 2026), per ottenere remedi strutturali e ordini di modifica del prodotto.</div>
+                </div>
+                <div class="glossary-item visible" data-term="rinforzo intermittente skinner ratio variable">
+                    <h4>Rinforzo intermittente</h4>
+                    <div class="definition">Schema di rinforzo (Skinner, comportamentismo operante) in cui il rinforzo è erogato in modo imprevedibile rispetto alla risposta. Produce il pattern comportamentale più resistente all'estinzione.</div>
+                    <div class="application"><strong>Applicazione:</strong> meccanismo psicologico dietro alle notifiche, alle slot machine, e a molte feature delle piattaforme social. Concetto cardine della literacy critica al design persuasivo.</div>
+                </div>
+                <div class="glossary-item visible" data-term="section 230 communications decency act">
+                    <h4>Section 230 (Communications Decency Act)</h4>
+                    <div class="definition">Norma federale USA 1996. Stabilisce che le piattaforme online non sono responsabili per i contenuti pubblicati dagli utenti né per la moderazione in buona fede. Pietra angolare dell'internet commerciale USA.</div>
+                    <div class="application"><strong>Applicazione:</strong> protegge dai casi su contenuti ma non sui casi di design defettoso. Bypass via product liability è la strategia legale che sta funzionando nel 2026.</div>
+                </div>
+                <div class="glossary-item visible" data-term="specification curve analysis orben">
+                    <h4>Specification Curve Analysis</h4>
+                    <div class="definition">Tecnica metodologica (Simonsohn, Simmons, Nelson) per testare la robustezza di un effetto statistico attraverso tutte le scelte analitiche plausibili. Mostra come effetti significativi in alcune specifiche possano scomparire in altre.</div>
+                    <div class="application"><strong>Applicazione:</strong> usata da Orben &amp; Przybylski 2019 per mostrare la fragilità degli effetti pubblicati sul rapporto digitale-benessere.</div>
+                </div>
+                <div class="glossary-item visible" data-term="udl universal design learning">
+                    <h4>UDL (Universal Design for Learning)</h4>
+                    <div class="definition">Framework educativo (CAST 1990s+, versione 3.0 nel 2024) che propone di progettare ambienti di apprendimento variabili-by-design per accomodare l'eterogeneità degli apprendenti, anziché adattare a posteriori.</div>
+                    <div class="application"><strong>Applicazione:</strong> riferimento per progettare policy sui social che incorporino dall'inizio la variabilità delle popolazioni studentesche.</div>
+                </div>
+                <div class="glossary-item visible" data-term="vlop very large online platform">
+                    <h4>VLOP (Very Large Online Platform)</h4>
+                    <div class="definition">Categoria definita dal DSA UE: piattaforme con oltre 45 milioni di utenti attivi mensili nell'UE. Soggette a obblighi specifici rafforzati. Designazione formale dalla Commissione europea.</div>
+                    <div class="application"><strong>Applicazione:</strong> include Meta (FB, IG), Google, TikTok, X, Snap, LinkedIn, Wikipedia, Booking, e altre. Le VLOP sono il fulcro della regolazione europea.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== SEZIONE 9: BIBLIOGRAFIA ============== -->
+        <section id="bibliografia" class="section">
+            <h1>Bibliografia</h1>
+            <p class="text-secondary mb-3">Riferimenti primari, distinti per natura della fonte. La selezione include voci di ciascuna delle posizioni del dibattito, per onestà intellettuale.</p>
+
+            <div class="bib-section">
+                <h4>Studi empirici sui social media e salute mentale</h4>
+                <div class="bib-item">
+                    Orben, A., &amp; Przybylski, A. K. (2019). <em>The association between adolescent well-being and digital technology use</em>. Nature Human Behaviour, 3, 173-182. <a href="https://www.nature.com/articles/s41562-018-0506-1" target="_blank">DOI</a>
+                    <span class="bib-meta">Studio cardine della scuola "scettica". Specification curve analysis su 350.000+ adolescenti.</span>
+                </div>
+                <div class="bib-item">
+                    Anderson, I. A., &amp; Wood, W. (2025). <em>Overestimates of social media addiction are common but costly</em>. Scientific Reports, 15, 39388. <a href="https://www.nature.com/articles/s41598-025-27053-2" target="_blank">DOI</a>
+                    <span class="bib-meta">Evidenza sperimentale dell'effetto iatrogeno del framing "dipendenza".</span>
+                </div>
+                <div class="bib-item">
+                    Ferguson, C. J., Kaye, L. K., Branley-Bell, D., &amp; Markey, P. (2025). <em>There is no evidence that time spent on social media is correlated with adolescent mental health problems: Findings from a meta-analysis</em>. Professional Psychology: Research and Practice, 56(1), 73-83.
+                    <span class="bib-meta">Meta-analisi di trial sperimentali, posizione scettica.</span>
+                </div>
+                <div class="bib-item">
+                    Sigaud, L., Rausch, Z., McClean, A., &amp; Haidt, J. (2026). <em>Why Three Studies by Vuorre and Przybylski Should Not Be Used to Assess the Impact of Social Media on Adolescent Mental Health</em>. Perspectives on Psychological Science.
+                    <span class="bib-meta">Posizione critica della scuola Haidt verso la letteratura "scettica".</span>
+                </div>
+                <div class="bib-item">
+                    Haidt, J. (2024). <em>The Anxious Generation: How the Great Rewiring of Childhood Is Causing an Epidemic of Mental Illness</em>. Penguin.
+                    <span class="bib-meta">Sintesi divulgativa della posizione allarmista. Best-seller con forte impatto pubblico, oggetto di dibattito accademico aspro.</span>
+                </div>
+                <div class="bib-item">
+                    Burnell, K., Andrade, F. C., &amp; Hoyle, R. H. (2025). <em>Small effects, big questions: the unfinished business of social media restriction science</em>. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12421657/" target="_blank">Link</a>
+                    <span class="bib-meta">Stato dell'arte del dibattito metodologico al 2025.</span>
+                </div>
+                <div class="bib-item">
+                    Capraro, V., Rausch, Z., et al. (2025). <em>Consensus statement on potential negative impacts of smartphone and social media use on adolescent mental health</em>.
+                    <span class="bib-meta">Tentativo multidisciplinare di mappare punti di accordo tra Haidt, Rausch, Stuart Ritchie e altri.</span>
+                </div>
+            </div>
+
+            <div class="bib-section">
+                <h4>Studi su popolazioni specifiche (BES, neurodivergenti, LGBTQ+)</h4>
+                <div class="bib-item">
+                    Mazurek, M. O. (2013). <em>Social media use among adults with autism spectrum disorders</em>. Computers in Human Behavior, 29(4), 1709-1714.
+                    <span class="bib-meta">Effetti compensatori del social per adulti con autismo.</span>
+                </div>
+                <div class="bib-item">
+                    Kuo, M. H., Orsmond, G. I., Coster, W. J., &amp; Cohn, E. S. (2014). <em>Media use among adolescents with autism spectrum disorder</em>. Autism, 18(8), 914-923.
+                    <span class="bib-meta">Pattern di uso e funzione del digitale per adolescenti autistici.</span>
+                </div>
+                <div class="bib-item">
+                    McConnell, E. A., Clifford, A., Korpak, A. K., Phillips II, G., &amp; Birkett, M. (2018). <em>Identity, victimization, and support: Facebook experiences and mental health among LGBTQ youth</em>. Computers in Human Behavior, 76, 237-244.
+                    <span class="bib-meta">Funzione protettiva delle community digitali per giovani LGBTQ+.</span>
+                </div>
+                <div class="bib-item">
+                    The Trevor Project (2023). <em>2023 National Survey on the Mental Health of LGBTQ Young People</em>.
+                    <span class="bib-meta">Dati su rischio suicidario LGBTQ+ adolescenti e ruolo del supporto online.</span>
+                </div>
+            </div>
+
+            <div class="bib-section">
+                <h4>Verdetti e documenti giudiziari</h4>
+                <div class="bib-item">
+                    <em>State of New Mexico v. Meta Platforms, Inc.</em>, First Judicial District Court, Santa Fe County (verdetto 24 marzo 2026).
+                    <span class="bib-meta">$375M civil penalties. Public nuisance trial fase 2 dal 4 maggio 2026.</span>
+                </div>
+                <div class="bib-item">
+                    <em>KGM v. Meta Platforms, Inc., et al.</em>, Los Angeles County Superior Court (verdetto 25 marzo 2026).
+                    <span class="bib-meta">Product liability for defective design. $6M total damages.</span>
+                </div>
+                <div class="bib-item">
+                    <em>In re Social Media Adolescent Addiction/Personal Injury Products Liability Litigation</em>, MDL No. 3047, Northern District of California.
+                    <span class="bib-meta">Multi-district litigation aggregata: 2.000+ cause pendenti.</span>
+                </div>
+                <div class="bib-item">
+                    NMDOJ Press Release (2026). <em>New Mexico Department of Justice Wins Landmark Verdict Against Meta</em>. <a href="https://nmdoj.gov/press-release/new-mexico-department-of-justice-wins-landmark-verdict-against-meta/" target="_blank">Link</a>
+                    <span class="bib-meta">Comunicato ufficiale dello Stato attore.</span>
+                </div>
+            </div>
+
+            <div class="bib-section">
+                <h4>Documenti aziendali (whistleblower)</h4>
+                <div class="bib-item">
+                    Facebook Papers / Frances Haugen disclosure (settembre-ottobre 2021).
+                    <span class="bib-meta">Documenti interni Meta divulgati a SEC e <em>Wall Street Journal</em>. Base evidenziale di numerosi processi successivi.</span>
+                </div>
+                <div class="bib-item">
+                    Haugen, F. (2021). <em>Testimony before U.S. Senate Committee on Commerce, Science, &amp; Transportation, Subcommittee on Consumer Protection, Product Safety, and Data Security</em>, 5 ottobre 2021.
+                    <span class="bib-meta">Testimonianza congressuale di Haugen, parallelo iconografico alla testimonianza Waxman 1994.</span>
+                </div>
+            </div>
+
+            <div class="bib-section">
+                <h4>Storia del Big Tobacco e replicazioni</h4>
+                <div class="bib-item">
+                    Glantz, S. A., Slade, J., Bero, L. A., Hanauer, P., &amp; Barnes, D. E. (1996). <em>The Cigarette Papers</em>. University of California Press.
+                    <span class="bib-meta">Analisi accademica dei documenti Brown &amp; Williamson.</span>
+                </div>
+                <div class="bib-item">
+                    Brandt, A. M. (2007). <em>The Cigarette Century: The Rise, Fall, and Deadly Persistence of the Product That Defined America</em>. Basic Books.
+                    <span class="bib-meta">Storia critica del tabacco USA, riferimento standard.</span>
+                </div>
+                <div class="bib-item">
+                    Master Settlement Agreement (1998). National Association of Attorneys General. <a href="https://www.naag.org/our-work/naag-center-for-tobacco-and-public-health/the-master-settlement-agreement/" target="_blank">Documento</a>
+                </div>
+                <div class="bib-item">
+                    Keefe, P. R. (2021). <em>Empire of Pain: The Secret History of the Sackler Dynasty</em>. Doubleday.
+                    <span class="bib-meta">Analisi della crisi oppioidi attraverso la lente del "Big Tobacco moment" replicato.</span>
+                </div>
+            </div>
+
+            <div class="bib-section">
+                <h4>Framework educativi e media literacy</h4>
+                <div class="bib-item">
+                    CAST (2024). <em>Universal Design for Learning Guidelines version 3.0</em>. <a href="https://udlguidelines.cast.org/" target="_blank">udlguidelines.cast.org</a>
+                    <span class="bib-meta">Framework canonico per progettazione didattica accessibile, versione aggiornata 2024.</span>
+                </div>
+                <div class="bib-item">
+                    Livingstone, S., &amp; Stoilova, M. (2021). <em>The 4Cs: Classifying Online Risk to Children</em>. CO:RE Short Report Series.
+                    <span class="bib-meta">Tassonomia accademica dei rischi online per minori (Content, Contact, Conduct, Contract).</span>
+                </div>
+                <div class="bib-item">
+                    Council of Europe (2019). <em>Digital Citizenship Education Handbook</em>.
+                    <span class="bib-meta">Framework europeo di digital citizenship education.</span>
+                </div>
+                <div class="bib-item">
+                    Brignull, H. <em>Deceptive Design</em>. <a href="https://www.deceptive.design/" target="_blank">deceptive.design</a>
+                    <span class="bib-meta">Tassonomia dei dark patterns. Base operativa per literacy critica al design.</span>
+                </div>
+            </div>
+
+            <div class="bib-section">
+                <h4>Norme e atti regolatori</h4>
+                <div class="bib-item">
+                    Online Safety Amendment (Social Media Minimum Age) Act 2024 (Australia).
+                </div>
+                <div class="bib-item">
+                    Online Safety Act 2023 (Regno Unito).
+                </div>
+                <div class="bib-item">
+                    Regolamento (UE) 2022/2065 — Digital Services Act.
+                </div>
+                <div class="bib-item">
+                    Loi n° 2023-566 sur la majorité numérique (Francia, 7 luglio 2023).
+                </div>
+                <div class="bib-item">
+                    Direttiva MIM "Indicazioni sull'utilizzo dei dispositivi elettronici a scuola" (Valditara, 2024) e successive estensioni.
+                </div>
+                <div class="bib-item">
+                    Kids Online Safety Act (S. 1409) — Pendente, USA Congresso.
+                </div>
+                <div class="bib-item">
+                    Children's Online Privacy Protection Act (COPPA) — 15 U.S.C. §§ 6501-6506.
+                </div>
+            </div>
+
+            <div class="bib-section">
+                <h4>Fonti giornalistiche e di analisi</h4>
+                <div class="bib-item">
+                    Wells, G., Horwitz, J., &amp; Seetharaman, D. (2021). <em>Facebook Knows Instagram Is Toxic for Teen Girls, Company Documents Show</em>. The Wall Street Journal, 14 settembre 2021.
+                </div>
+                <div class="bib-item">
+                    NPR (2026). <em>Jury finds Meta and Google negligent in social media harms trial</em>. <a href="https://www.npr.org/2026/03/25/nx-s1-5746125/meta-youtube-social-media-trial-verdict" target="_blank">npr.org</a>
+                </div>
+                <div class="bib-item">
+                    Al Jazeera (2026). <em>Jury finds Meta, YouTube liable for social media addiction: What we know</em>. <a href="https://www.aljazeera.com/news/2026/3/26/jury-finds-meta-youtube-liable-for-social-media-addiction-what-we-know" target="_blank">aljazeera.com</a>
+                </div>
+                <div class="bib-item">
+                    Newton, C. (2024). <em>Inside the debate over The Anxious Generation</em>. Platformer. <a href="https://www.platformer.news/anxious-generation-jonathan-haidt-debate-critique/" target="_blank">platformer.news</a>
+                </div>
+                <div class="bib-item">
+                    CNBC (2026). <em>Meta's public nuisance case in New Mexico has billion-dollar consequences</em>. <a href="https://www.cnbc.com/2026/05/04/meta-new-mexico-child-safety-facebook-instagram.html" target="_blank">cnbc.com</a>
+                </div>
+                <div class="bib-item">
+                    Crowell &amp; Moring LLP (2026). <em>Landmark Verdicts Against Meta and YouTube Signal New Era of Social Media Platform Liability</em>. <a href="https://www.crowell.com/en/insights/client-alerts/landmark-verdicts-against-meta-and-youtube-signal-new-era-of-social-media-platform-liability" target="_blank">crowell.com</a>
+                    <span class="bib-meta">Analisi giuridica professionale dei due verdetti di marzo 2026.</span>
+                </div>
+            </div>
+
+            <div class="footer-credit">
+                Dashboard tecnica · <strong>Il "Big Tobacco moment" delle Big Tech</strong> · Compilata da <a href="/">Ivan Ferrero</a> · 11 maggio 2026<br>
+                Risorsa per professionisti dell'educazione, della clinica psicologica, del policy-making, della regolamentazione digitale.<br>
+                Questa risorsa è in evoluzione: i verdetti citati sono in fase di appello e le policy comparate si aggiornano frequentemente.
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    // ====== NAVIGATION ======
+    const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+    const sections = document.querySelectorAll('.section');
+
+    function showSection(sectionId) {
+        sections.forEach(s => s.classList.remove('active'));
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        document.getElementById(sectionId)?.classList.add('active');
+        document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection(link.dataset.target);
+        });
+    });
+
+    // ====== EXPANDABLE CARDS ======
+    document.querySelectorAll('.card.expandable').forEach(card => {
+        const header = card.querySelector('.card-header');
+        header?.addEventListener('click', () => {
+            card.classList.toggle('expanded');
+        });
+    });
+
+    // ====== TABS ======
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabContainer = btn.closest('.subsection') || btn.closest('.section');
+            tabContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            tabContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+        });
+    });
+
+    // ====== GLOSSARY SEARCH ======
+    const glossarySearch = document.getElementById('glossarySearch');
+    const glossaryItems = document.querySelectorAll('.glossary-item');
+
+    glossarySearch?.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        glossaryItems.forEach(item => {
+            const terms = item.dataset.term?.toLowerCase() || '';
+            const text = item.textContent.toLowerCase();
+            if (query === '' || terms.includes(query) || text.includes(query)) {
+                item.classList.add('visible');
+            } else {
+                item.classList.remove('visible');
+            }
+        });
+    });
+
+    // ====== PROGRESS BAR ======
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) progressBar.style.width = scrolled + '%';
+    });
+
+    // ====== HASH NAVIGATION ON LOAD ======
+    window.addEventListener('load', () => {
+        const hash = window.location.hash?.replace('#', '');
+        if (hash && document.getElementById(hash)) {
+            showSection(hash);
+        }
+    });
+</script>
+
+</body>
+</html>
