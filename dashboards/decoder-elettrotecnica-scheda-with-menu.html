@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decoder Elettrotecnica, scheda procedurale stampabile | Ivan Ferrero</title>
+<meta name="description" content="Scheda A4 stampabile per risolvere problemi sui circuiti elettrici. Le 5 mosse, decoder formule, triangoli memo, scaffold per esercitarsi. Strumento compensativo coerente con la dashboard interattiva.">
+
+<style>
+  /* RESET + BASE */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'Atkinson Hyperlegible', 'Verdana', sans-serif;
+    color: #1a1a1a;
+    background: #e8eaed;
+    line-height: 1.4;
+  }
+
+  /* IMPOSTAZIONE PAGINA STAMPA */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  /* FOGLIO A4 (visualizzazione su schermo) */
+  .foglio {
+    width: 210mm;
+    height: 295mm;
+    padding: 10mm 12mm;
+    margin: 20px auto;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* La pagina 2 forza l'inizio su una nuova pagina */
+  .pagina-2 {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  body.solo-procedura .pagina-2 {
+    display: none;
+  }
+
+  /* TESTATA */
+  .testata {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+
+  .testata-titolo {
+    font-size: 15pt;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .testata-sottotitolo {
+    font-size: 8.5pt;
+    color: #5a6772;
+    text-align: right;
+    line-height: 1.3;
+  }
+
+  /* PROMEMORIA TIPO PROBLEMA */
+  .funzione-target {
+    background: #f8f9fa;
+    border: 1px solid #c5d0db;
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    font-size: 9.5pt;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .funzione-target strong { color: #1a1a1a; }
+
+  /* LAYOUT A DUE COLONNE */
+  .doppia-colonna {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 6mm;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* COLONNA PROCEDURA */
+  .procedura {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5mm;
+  }
+
+  .step {
+    border: 1.5px solid #c5d0db;
+    border-radius: 5px;
+    padding: 4px 9px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 7px;
+    page-break-inside: avoid;
+    background: white;
+    flex: 1;
+  }
+
+  .step-num {
+    background: #1a1a1a;
+    color: white;
+    font-size: 12pt;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+  }
+
+  .step-corpo h2 {
+    font-size: 10pt;
+    font-weight: 700;
+    margin-bottom: 1px;
+    color: #1a1a1a;
+  }
+
+  .step-corpo .domanda {
+    font-size: 8.5pt;
+    color: #5a6772;
+    font-style: italic;
+    margin-bottom: 2px;
+  }
+
+  .step-corpo .azione {
+    font-size: 9pt;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+
+  .step-corpo .bivio {
+    background: #f8f9fa;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-top: 3px;
+    font-size: 8.5pt;
+    border-left: 2px solid #5a6772;
+    line-height: 1.3;
+  }
+
+  /* Codifica bordo sinistro ridondante al colore (B/N friendly) */
+  .step.dati { border-left: 5px solid #1a1a1a; }
+  .step.incognita { border-left: 5px solid #4a4a4a; border-left-style: dashed; border-left-width: 6px; }
+  .step.circuito { border-left: 5px solid #1a1a1a; border-left-style: dotted; border-left-width: 6px; }
+  .step.formula { border-left: 5px solid #1a1a1a; border-left-style: double; border-left-width: 7px; }
+  .step.calcolo { border-left: 5px solid #1a1a1a; }
+
+  /* COLONNA KIT */
+  .kit {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5mm;
+  }
+
+  .kit-card {
+    border: 1.5px solid #1a1a1a;
+    border-radius: 5px;
+    padding: 5px 8px;
+    page-break-inside: avoid;
+    background: white;
+  }
+
+  .kit-card .label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #5a6772;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Grandezze a griglia 2x2 */
+  .grandezze-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    font-size: 8.5pt;
+  }
+
+  .grandezza-mini {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 4px;
+    border: 1px solid #c5d0db;
+    border-radius: 3px;
+  }
+
+  .grandezza-mini .sigla {
+    font-size: 13pt;
+    font-weight: 700;
+    font-family: 'Georgia', serif;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .grandezza-mini .descr strong {
+    display: block;
+    font-size: 8.5pt;
+  }
+
+  .grandezza-mini .descr .udm {
+    font-size: 7.5pt;
+    color: #5a6772;
+  }
+
+  /* Decoder formule mini */
+  .decoder-mini {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    font-size: 8pt;
+  }
+
+  .decoder-quad {
+    border: 1px solid #c5d0db;
+    border-radius: 3px;
+    padding: 3px 5px;
+  }
+
+  .decoder-quad .quad-titolo {
+    font-size: 9pt;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 1px solid #c5d0db;
+    margin-bottom: 2px;
+    padding-bottom: 1px;
+  }
+
+  .decoder-quad .quad-titolo .big {
+    font-family: 'Georgia', serif;
+    font-size: 11pt;
+    margin-right: 3px;
+  }
+
+  .decoder-quad table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.8pt;
+  }
+
+  .decoder-quad td {
+    padding: 1px 2px;
+    border-bottom: 1px dotted #d8dee5;
+  }
+
+  .decoder-quad tr:last-child td {
+    border-bottom: none;
+  }
+
+  .decoder-quad td:first-child {
+    color: #5a6772;
+    text-align: right;
+    padding-right: 5px;
+  }
+
+  .decoder-quad td:last-child {
+    font-family: 'Georgia', serif;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  /* Triangoli memo compatti */
+  .triangoli-mini {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .tri-wrap {
+    text-align: center;
+  }
+
+  .tri-wrap svg {
+    width: 70px;
+    height: 60px;
+  }
+
+  .tri-wrap .tri-nome {
+    font-size: 8pt;
+    color: #5a6772;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  /* Serie / Parallelo */
+  .sp-mini {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    font-size: 8.5pt;
+  }
+
+  .sp-mini-box {
+    border: 1px solid #c5d0db;
+    border-radius: 3px;
+    padding: 3px 5px;
+  }
+
+  .sp-mini-box .sp-titolo {
+    font-weight: 700;
+    font-size: 9pt;
+    margin-bottom: 1px;
+  }
+
+  .sp-mini-box .sp-formula {
+    font-family: 'Georgia', serif;
+    font-size: 8.5pt;
+    font-weight: 700;
+    background: #f8f9fa;
+    padding: 2px 4px;
+    border-radius: 2px;
+    text-align: center;
+    margin: 2px 0 1px;
+  }
+
+  .sp-mini-box .sp-nota {
+    font-size: 7.5pt;
+    color: #5a6772;
+    font-style: italic;
+    line-height: 1.2;
+  }
+
+  /* PIE DI PAGINA */
+  .pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 7.5pt;
+    color: #5a6772;
+    border-top: 1px solid #c5d0db;
+    padding-top: 3px;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  /* PAGINA 2 - PROMEMORIA + ESEMPIO RISOLTO + SCAFFOLD */
+  .promemoria-top {
+    background: #f8f9fa;
+    border: 1px solid #c5d0db;
+    border-radius: 5px;
+    padding: 5px 8px;
+    margin-bottom: 5px;
+    font-size: 8.5pt;
+    flex-shrink: 0;
+  }
+
+  .promemoria-top strong {
+    font-size: 9pt;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .promemoria-top ol {
+    list-style: none;
+    counter-reset: pm;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  .promemoria-top li {
+    counter-increment: pm;
+    font-size: 8pt;
+    padding-left: 18px;
+    position: relative;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .promemoria-top li::before {
+    content: counter(pm);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #1a1a1a;
+    color: white;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 14px;
+    font-weight: 700;
+    font-size: 8pt;
+  }
+
+  /* ESEMPIO RISOLTO */
+  .esempio-box {
+    border: 1.5px solid #1a1a1a;
+    border-radius: 5px;
+    padding: 6px 9px;
+    margin-bottom: 5px;
+    font-size: 8.5pt;
+    flex-shrink: 0;
+  }
+
+  .esempio-box .esempio-titolo {
+    font-size: 9pt;
+    font-weight: 700;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .esempio-box .badge-esempio {
+    background: #1a1a1a;
+    color: white;
+    font-size: 7pt;
+    padding: 1px 5px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .esempio-box .esempio-testo {
+    font-size: 8.5pt;
+    margin-bottom: 3px;
+    font-style: italic;
+    color: #5a6772;
+  }
+
+  .esempio-box .esempio-mosse {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 8px;
+    font-size: 8pt;
+  }
+
+  .esempio-box .esempio-mosse div {
+    line-height: 1.3;
+  }
+
+  .esempio-box .esempio-mosse strong {
+    font-family: 'Georgia', serif;
+  }
+
+  /* SCAFFOLD */
+  .scaffold-istruzioni {
+    font-size: 9pt;
+    color: #5a6772;
+    margin-bottom: 4px;
+    flex-shrink: 0;
+  }
+
+  .scaffold-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .scaffold-box {
+    border: 1.5px solid #1a1a1a;
+    border-radius: 5px;
+    padding: 4px 7px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    page-break-inside: avoid;
+    overflow: hidden;
+  }
+
+  .scaffold-box-testata {
+    border-bottom: 1px dashed #c5d0db;
+    padding-bottom: 2px;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .scaffold-box-num {
+    background: #1a1a1a;
+    color: white;
+    font-size: 9pt;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .scaffold-box-titolo {
+    font-size: 9pt;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .scaffold-box-prompt {
+    font-size: 7.5pt;
+    color: #5a6772;
+    font-style: italic;
+    margin-top: 1px;
+    line-height: 1.2;
+  }
+
+  .scaffold-box-spazio {
+    flex: 1;
+    background-image: linear-gradient(#e5eaf0 1px, transparent 1px);
+    background-size: 100% 18px;
+    background-position: 0 12px;
+    min-height: 0;
+  }
+
+  /* Spazio disegno circuito */
+  .scaffold-disegno {
+    grid-column: 1 / -1;
+  }
+
+  .scaffold-disegno .scaffold-box-spazio {
+    background-image:
+      linear-gradient(#eef1f5 1px, transparent 1px),
+      linear-gradient(90deg, #eef1f5 1px, transparent 1px);
+    background-size: 5mm 5mm, 5mm 5mm;
+    background-position: 0 0, 0 0;
+  }
+
+  /* CONTROLLI DI STAMPA (solo schermo) */
+  .controlli-stampa {
+    position: sticky;
+    top: 70px;
+    z-index: 100;
+    background: rgba(20, 30, 50, 0.95);
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .controlli-stampa { top: 120px; }
+  }
+
+  .controlli-stampa span {
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  .controlli-stampa button {
+    padding: 8px 18px;
+    background: white;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    min-height: 38px;
+  }
+
+  .controlli-stampa button:hover {
+    background: #f0f4f8;
+  }
+
+  .controlli-stampa a {
+    color: white;
+    font-size: 13px;
+    text-decoration: underline;
+    opacity: 0.9;
+  }
+
+  .controlli-stampa a:hover {
+    opacity: 1;
+  }
+
+  .controlli-stampa label {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .controlli-stampa input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  /* STAMPA */
+  @media print {
+    html, body { background: white; margin: 0; padding: 0; }
+    .controlli-stampa { display: none !important; }
+    #site-menu, .header { display: none !important; }
+    .foglio {
+      box-shadow: none;
+      margin: 0;
+      width: 210mm;
+      height: 295mm;
+      padding: 10mm 12mm;
+    }
+  }
+</style>
+<script>
+  function togglePagina2() {
+    document.body.classList.toggle('solo-procedura', !document.getElementById('toggle-pagina2').checked);
+  }
+</script>
+</head>
+<body>
+
+<!-- Menu condiviso del sito -->
+<div id="site-menu"></div>
+
+<!-- CONTROLLI STAMPA (solo a schermo) -->
+<div class="controlli-stampa">
+  <span>Anteprima della scheda da stampare</span>
+  <label>
+    <input type="checkbox" id="toggle-pagina2" checked onchange="togglePagina2()">
+    Includi pagina con esempio e scaffold
+  </label>
+  <button onclick="window.print()">🖨️ Stampa</button>
+  <a href="/dashboards/decoder-elettrotecnica-with-menu.html">Versione interattiva</a>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- PAGINA 1: PROCEDURA + KIT                                     -->
+<!-- ============================================================ -->
+<div class="foglio pagina-1">
+
+  <div class="testata">
+    <div class="testata-titolo">Decoder elettrotecnica</div>
+    <div class="testata-sottotitolo">Scheda procedurale<br>Strumento compensativo autorizzato</div>
+  </div>
+
+  <div class="funzione-target">
+    Quando il problema chiede una grandezza elettrica (<strong>V</strong>, <strong>I</strong>, <strong>R</strong> o <strong>P</strong>) di un circuito, segui le 5 mosse a sinistra. Tutte le formule che ti servono sono nel kit a destra.
+  </div>
+
+  <div class="doppia-colonna">
+
+    <!-- COLONNA SINISTRA: 5 MOSSE -->
+    <div class="procedura">
+
+      <div class="step dati">
+        <div class="step-num">1</div>
+        <div class="step-corpo">
+          <h2>SCRIVI I DATI</h2>
+          <div class="domanda">Cosa ti dice il problema?</div>
+          <div class="azione">Riscrivi ogni grandezza con il suo simbolo e la sua unità. Esempio: <strong>R = 20 Ω</strong>, <strong>V = 12 V</strong>.</div>
+        </div>
+      </div>
+
+      <div class="step incognita">
+        <div class="step-num">2</div>
+        <div class="step-corpo">
+          <h2>SCRIVI L'INCOGNITA</h2>
+          <div class="domanda">Cosa ti viene chiesto di trovare?</div>
+          <div class="azione">Scrivilo con il punto di domanda. Esempio: <strong>I = ?</strong></div>
+        </div>
+      </div>
+
+      <div class="step circuito">
+        <div class="step-num">3</div>
+        <div class="step-corpo">
+          <h2>LEGGI IL CIRCUITO</h2>
+          <div class="domanda">Quante resistenze ci sono, e come sono messe?</div>
+          <div class="azione">Una sola resistenza? Vai avanti.</div>
+          <div class="bivio">Più resistenze in <strong>SERIE</strong> (in fila): R<sub>tot</sub> = R<sub>1</sub> + R<sub>2</sub> + ...<br>Più resistenze in <strong>PARALLELO</strong> (affiancate): vedi formula nel kit.</div>
+        </div>
+      </div>
+
+      <div class="step formula">
+        <div class="step-num">4</div>
+        <div class="step-corpo">
+          <h2>SCEGLI LA FORMULA</h2>
+          <div class="domanda">Cosa cerchi e cosa conosci?</div>
+          <div class="azione">Vai al <strong>decoder formule</strong> a destra. Trova il quadrante della grandezza che cerchi. Cerca nella riga ciò che già conosci. Copia la formula.</div>
+        </div>
+      </div>
+
+      <div class="step calcolo">
+        <div class="step-num">5</div>
+        <div class="step-corpo">
+          <h2>SOSTITUISCI E CALCOLA</h2>
+          <div class="domanda">Hai scritto tutto bene?</div>
+          <div class="azione">Metti i numeri al posto delle lettere. Calcola. <strong>Scrivi sempre l'unità di misura</strong> accanto al risultato (V, A, Ω, W). Senza unità, non vale.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLONNA DESTRA: KIT -->
+    <div class="kit">
+
+      <div class="kit-card">
+        <div class="label">⚡ Le 4 grandezze</div>
+        <div class="grandezze-grid">
+          <div class="grandezza-mini">
+            <span class="sigla">V</span>
+            <div class="descr"><strong>Tensione</strong><span class="udm">Volt (V)</span></div>
+          </div>
+          <div class="grandezza-mini">
+            <span class="sigla">I</span>
+            <div class="descr"><strong>Corrente</strong><span class="udm">Ampère (A)</span></div>
+          </div>
+          <div class="grandezza-mini">
+            <span class="sigla">R</span>
+            <div class="descr"><strong>Resistenza</strong><span class="udm">Ohm (Ω)</span></div>
+          </div>
+          <div class="grandezza-mini">
+            <span class="sigla">P</span>
+            <div class="descr"><strong>Potenza</strong><span class="udm">Watt (W)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kit-card">
+        <div class="label">🔢 Decoder formule</div>
+        <div class="decoder-mini">
+
+          <div class="decoder-quad">
+            <div class="quad-titolo"><span class="big">I</span>Corrente</div>
+            <table>
+              <tr><td>V e R</td><td>I = V / R</td></tr>
+              <tr><td>P e V</td><td>I = P / V</td></tr>
+              <tr><td>P e R</td><td>I = √(P/R)</td></tr>
+            </table>
+          </div>
+
+          <div class="decoder-quad">
+            <div class="quad-titolo"><span class="big">V</span>Tensione</div>
+            <table>
+              <tr><td>R e I</td><td>V = R · I</td></tr>
+              <tr><td>P e I</td><td>V = P / I</td></tr>
+              <tr><td>P e R</td><td>V = √(P·R)</td></tr>
+            </table>
+          </div>
+
+          <div class="decoder-quad">
+            <div class="quad-titolo"><span class="big">R</span>Resistenza</div>
+            <table>
+              <tr><td>V e I</td><td>R = V / I</td></tr>
+              <tr><td>V e P</td><td>R = V² / P</td></tr>
+              <tr><td>P e I</td><td>R = P / I²</td></tr>
+            </table>
+          </div>
+
+          <div class="decoder-quad">
+            <div class="quad-titolo"><span class="big">P</span>Potenza</div>
+            <table>
+              <tr><td>V e I</td><td>P = V · I</td></tr>
+              <tr><td>R e I</td><td>P = R · I²</td></tr>
+              <tr><td>V e R</td><td>P = V² / R</td></tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="kit-card">
+        <div class="label">🔺 Triangoli memo</div>
+        <div class="triangoli-mini">
+          <div class="tri-wrap">
+            <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" aria-label="Triangolo con V in alto, R e I in basso">
+              <polygon points="100,15 15,165 185,165" fill="white" stroke="#1a1a1a" stroke-width="3"/>
+              <line x1="15" y1="100" x2="185" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+              <line x1="100" y1="100" x2="100" y2="165" stroke="#1a1a1a" stroke-width="2"/>
+              <text x="100" y="85" text-anchor="middle" font-size="50" font-weight="700" font-family="Georgia">V</text>
+              <text x="55" y="155" text-anchor="middle" font-size="40" font-weight="700" font-family="Georgia">R</text>
+              <text x="145" y="155" text-anchor="middle" font-size="40" font-weight="700" font-family="Georgia">I</text>
+              <text x="100" y="140" text-anchor="middle" font-size="24" font-weight="700" fill="#5a6772">×</text>
+            </svg>
+            <div class="tri-nome">Legge di Ohm</div>
+          </div>
+          <div class="tri-wrap">
+            <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" aria-label="Triangolo con P in alto, V e I in basso">
+              <polygon points="100,15 15,165 185,165" fill="white" stroke="#1a1a1a" stroke-width="3"/>
+              <line x1="15" y1="100" x2="185" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+              <line x1="100" y1="100" x2="100" y2="165" stroke="#1a1a1a" stroke-width="2"/>
+              <text x="100" y="85" text-anchor="middle" font-size="50" font-weight="700" font-family="Georgia">P</text>
+              <text x="55" y="155" text-anchor="middle" font-size="40" font-weight="700" font-family="Georgia">V</text>
+              <text x="145" y="155" text-anchor="middle" font-size="40" font-weight="700" font-family="Georgia">I</text>
+              <text x="100" y="140" text-anchor="middle" font-size="24" font-weight="700" fill="#5a6772">×</text>
+            </svg>
+            <div class="tri-nome">Legge della Potenza</div>
+          </div>
+        </div>
+        <div style="font-size: 7.5pt; color: #5a6772; margin-top: 2px; line-height: 1.25; font-style: italic;">
+          Copri con il dito la lettera che cerchi. Quello che resta è la formula giusta.
+        </div>
+      </div>
+
+      <div class="kit-card">
+        <div class="label">🔗 Serie e parallelo</div>
+        <div class="sp-mini">
+          <div class="sp-mini-box">
+            <div class="sp-titolo">SERIE</div>
+            <div class="sp-formula">R<sub>tot</sub> = R<sub>1</sub> + R<sub>2</sub></div>
+            <div class="sp-nota">In fila. Stessa corrente.</div>
+          </div>
+          <div class="sp-mini-box">
+            <div class="sp-titolo">PARALLELO (con 2)</div>
+            <div class="sp-formula">R<sub>tot</sub> = (R<sub>1</sub>·R<sub>2</sub>) / (R<sub>1</sub>+R<sub>2</sub>)</div>
+            <div class="sp-nota">Affiancate. Stessa tensione.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="pie">
+    <span>Pagina 1 di 2, procedura e formulario</span>
+    <span>Universal Design for Learning 3.0 (CAST, 2024)</span>
+  </div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- PAGINA 2: PROMEMORIA + ESEMPIO + SCAFFOLD                     -->
+<!-- ============================================================ -->
+<div class="foglio pagina-2">
+
+  <div class="testata">
+    <div class="testata-titolo">Spazio di lavoro</div>
+    <div class="testata-sottotitolo">Un esempio risolto da imitare<br>e lo spazio per i tuoi calcoli</div>
+  </div>
+
+  <div class="promemoria-top">
+    <strong>Le 5 mosse, in breve</strong>
+    <ol>
+      <li>Scrivi i dati</li>
+      <li>Scrivi l'incognita</li>
+      <li>Leggi il circuito</li>
+      <li>Scegli la formula</li>
+      <li>Sostituisci e calcola</li>
+    </ol>
+  </div>
+
+  <div class="esempio-box">
+    <div class="esempio-titolo">
+      <span class="badge-esempio">Esempio</span>
+      Esempio risolto da imitare
+    </div>
+    <div class="esempio-testo">Un circuito ha una resistenza R = 20 Ω alimentata a 12 V. Quanto vale la corrente?</div>
+    <div class="esempio-mosse">
+      <div><strong>1.</strong> Dati: R = 20 Ω; V = 12 V</div>
+      <div><strong>2.</strong> Incognita: I = ?</div>
+      <div><strong>3.</strong> Una sola resistenza, niente serie né parallelo</div>
+      <div><strong>4.</strong> Cerco I, conosco V e R, quindi: I = V / R</div>
+      <div style="grid-column: 1 / -1;"><strong>5.</strong> Sostituisco: I = 12 / 20 = <strong>0,6 A</strong> (scrivo sempre l'unità di misura)</div>
+    </div>
+  </div>
+
+  <div class="scaffold-istruzioni">
+    Adesso prova tu. Per ogni mossa c'è un riquadro dedicato. Scrivi dentro i tuoi calcoli, una mossa alla volta.
+  </div>
+
+  <div class="scaffold-grid">
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">1</div>
+        <div>
+          <div class="scaffold-box-titolo">DATI</div>
+          <div class="scaffold-box-prompt">Riscrivi i dati con simbolo e unità</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">2</div>
+        <div>
+          <div class="scaffold-box-titolo">INCOGNITA</div>
+          <div class="scaffold-box-prompt">Cosa devi trovare?</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">3</div>
+        <div>
+          <div class="scaffold-box-titolo">CIRCUITO</div>
+          <div class="scaffold-box-prompt">Una sola? In serie? In parallelo? Calcola R<sub>tot</sub> se serve</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">4</div>
+        <div>
+          <div class="scaffold-box-titolo">FORMULA</div>
+          <div class="scaffold-box-prompt">Cerca nel decoder a pag. 1. Scrivi la formula scelta</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+    <div class="scaffold-box scaffold-disegno">
+      <div class="scaffold-box-testata">
+        <div class="scaffold-box-num">5</div>
+        <div>
+          <div class="scaffold-box-titolo">CALCOLO E RISULTATO</div>
+          <div class="scaffold-box-prompt">Sostituisci i numeri, calcola, scrivi il risultato con l'unità di misura</div>
+        </div>
+      </div>
+      <div class="scaffold-box-spazio"></div>
+    </div>
+
+  </div>
+
+  <div class="pie">
+    <span>Pagina 2 di 2, esempio risolto e spazio di lavoro</span>
+    <span>Universal Design for Learning 3.0 (CAST, 2024)</span>
+  </div>
+
+</div>
+
+<!-- Font del sito (Outfit + JetBrains Mono per il menu condiviso) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

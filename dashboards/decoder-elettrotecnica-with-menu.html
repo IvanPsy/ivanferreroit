@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decoder Elettrotecnica — Scheda interattiva accessibile | Ivan Ferrero</title>
+<meta name="description" content="Scheda di lavoro accessibile per risolvere problemi sui circuiti elettrici. Le 4 grandezze, le 5 mosse, decoder interattivo delle formule, triangoli memo, esempio guidato, mini palestra, glossario plurilingue. Progettata seguendo UDL 3.0.">
+
+<!-- Fonts: Atkinson Hyperlegible (alta leggibilità) + JetBrains Mono (formule) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Design System (per il menu condiviso) -->
+<link rel="stylesheet" href="/assets/base-styles.css">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   DECODER ELETTROTECNICA — ISOLA CHIARA SU CHROME DARK
+   Palette ad alto contrasto, calma, anti-affaticamento.
+   ─────────────────────────────────────────────────────────── */
+:root {
+  --bg: #FAF8F5;            /* Sfondo crema caldo, no glare */
+  --bg-card: #FFFFFF;        /* Card */
+  --bg-soft: #F2EEE7;        /* Sfondo elementi secondari */
+  --text: #1A1F2E;           /* Testo principale, contrasto 14:1 su bg */
+  --text-soft: #3D4458;      /* Testo secondario, contrasto 9:1 */
+  --text-muted: #5D6478;     /* Testo sfumato, contrasto 6:1 */
+  --primary: #1B4965;        /* Blu navy, contrasto 9.7:1 */
+  --primary-soft: #D6E4EC;
+  --primary-strong: #0E3047;
+  --accent: #C77D02;         /* Ambra, contrasto 4.8:1 */
+  --accent-soft: #FBEFCF;
+  --accent-strong: #8A5500;
+  --success: #3D7B5E;        /* Verde muto, contrasto 5.2:1 */
+  --success-soft: #D6E8DF;
+  --danger: #B83A2A;         /* Rosso mattone, contrasto 6:1 */
+  --danger-soft: #F4D6D0;
+  --border: #DDD6CC;
+  --border-strong: #B8AE9F;
+  --focus: #1B4965;
+  --radius: 12px;
+  --radius-sm: 6px;
+  --shadow-card: 0 1px 3px rgba(26, 31, 46, 0.06);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+  body { padding-top: 70px; font-size: 17px; }
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* Focus visibile per accessibilità tastiera */
+*:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip-link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 20px;
+  z-index: 2000;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  top: 70px;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 28px 24px;
+  margin-bottom: 28px;
+  border-left: 6px solid var(--primary);
+  box-shadow: var(--shadow-card);
+}
+.hero .eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.hero h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.hero p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text-soft);
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 22px 20px; }
+  .hero h1 { font-size: 1.5rem; }
+}
+
+/* ── NAV INTERNA (sezioni della scheda) ── */
+.toc {
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 32px;
+}
+.toc-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+.toc-list a {
+  display: block;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.toc-list a:hover,
+.toc-list a:focus-visible {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+.toc-num {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 26px;
+  font-size: 0.85rem;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+/* ── SEZIONI ── */
+section {
+  scroll-margin-top: 90px;
+  margin-bottom: 48px;
+}
+section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--text);
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--primary);
+  display: inline-block;
+}
+section h2 .num {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 36px;
+  font-size: 1.1rem;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+section h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 24px 0 10px;
+  color: var(--text);
+}
+
+/* ── 4 GRANDEZZE ── */
+.grandezze-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.grandezza {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: border-color 0.15s ease;
+}
+.grandezza:hover, .grandezza:focus-within {
+  border-color: var(--primary);
+}
+.grandezza .sym {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--danger);
+  line-height: 1;
+  display: block;
+  margin-bottom: 8px;
+}
+.grandezza .name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.grandezza .unit {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.grandezza .meta {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── 5 MOSSE ── */
+.mosse {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: mossa;
+}
+.mosse li {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 16px 16px 16px 64px;
+  margin-bottom: 12px;
+  position: relative;
+  box-shadow: var(--shadow-card);
+  counter-increment: mossa;
+}
+.mosse li::before {
+  content: counter(mossa);
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  background: var(--danger);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 36px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.mosse li strong {
+  display: block;
+  color: var(--primary);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ── SERIE / PARALLELO ── */
+.sp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .sp-grid { grid-template-columns: 1fr; }
+}
+.sp-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+.sp-card h3 {
+  margin: 0 0 12px;
+  color: var(--primary);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sp-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.sp-formula {
+  display: block;
+  background: var(--bg-soft);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  margin: 12px 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--primary-strong);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.sp-note {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── DECODER INTERATTIVO ── */
+.decoder-intro {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: 0.98rem;
+  color: var(--accent-strong);
+}
+.decoder-intro strong { color: var(--accent-strong); }
+
+.decoder-choose {
+  margin-bottom: 20px;
+}
+.decoder-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+.decoder-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+@media (max-width: 500px) {
+  .decoder-buttons { grid-template-columns: repeat(2, 1fr); }
+}
+.decoder-btn {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  min-height: 64px;
+  transition: all 0.15s ease;
+}
+.decoder-btn .label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-soft);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.decoder-btn:hover, .decoder-btn:focus-visible {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+.decoder-btn.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+.decoder-btn.active .label { color: rgba(255,255,255,0.85); }
+
+.decoder-output {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  min-height: 120px;
+}
+.decoder-output[aria-busy="false"] { border-color: var(--primary); }
+.decoder-output .placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  margin: 0;
+}
+.decoder-output h4 {
+  margin: 0 0 14px;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+.decoder-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.decoder-table th,
+.decoder-table td {
+  padding: 12px 10px;
+  text-align: left;
+}
+.decoder-table thead th {
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.decoder-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+.decoder-table tbody tr:last-child { border-bottom: none; }
+.decoder-table tbody tr:nth-child(even) { background: var(--bg-soft); }
+.decoder-table td.formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--danger);
+  font-size: 1.05rem;
+}
+
+/* ── TRIANGOLI MEMO ── */
+.triangoli-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .triangoli-grid { grid-template-columns: 1fr; }
+}
+.tri-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.tri-card h3 {
+  margin: 0 0 12px;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+.tri-svg {
+  width: 160px;
+  height: 140px;
+  margin-bottom: 12px;
+}
+.tri-howto {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  margin: 0;
+  text-align: left;
+  line-height: 1.5;
+}
+.tri-howto strong { color: var(--primary); }
+
+/* ── ESEMPIO GUIDATO (step reveal) ── */
+.esempio {
+  background: var(--bg-card);
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow-card);
+}
+.esempio-problema {
+  background: var(--accent-soft);
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 18px;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+.esempio-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.esempio-step {
+  padding: 14px 16px;
+  border-left: 4px solid var(--accent);
+  background: var(--bg-soft);
+  margin-bottom: 10px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  display: none;
+}
+.esempio-step.visible { display: block; }
+.esempio-step strong { color: var(--accent-strong); display: block; margin-bottom: 4px; }
+.esempio-step code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg-card);
+  color: var(--danger);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+}
+.esempio-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn {
+  padding: 12px 22px;
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 44px;
+  transition: all 0.15s ease;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover, .btn-primary:focus-visible {
+  background: var(--primary-strong);
+}
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-secondary:hover, .btn-secondary:focus-visible {
+  background: var(--primary-soft);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.esempio-progress {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+/* ── MINI PALESTRA ── */
+.palestra-intro {
+  font-size: 0.98rem;
+  color: var(--text-soft);
+  margin-bottom: 18px;
+}
+.esercizio {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-card);
+}
+.esercizio-titolo {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.esercizio-numero {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 28px;
+  font-size: 0.9rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.esercizio-testo {
+  margin: 0 0 14px;
+  color: var(--text);
+}
+.esercizio-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.esercizio-input {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 14px;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.05rem;
+  background: #fff;
+  color: var(--text);
+  min-height: 44px;
+}
+.esercizio-input:focus {
+  border-color: var(--primary);
+}
+.esercizio-unit {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.05rem;
+}
+.esercizio-feedback {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  display: none;
+}
+.esercizio-feedback.show { display: block; }
+.esercizio-feedback.ok {
+  background: var(--success-soft);
+  color: var(--success);
+  border-left: 4px solid var(--success);
+}
+.esercizio-feedback.ko {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-left: 4px solid var(--danger);
+}
+.esercizio-feedback .suggerimento {
+  display: block;
+  margin-top: 6px;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* ── GLOSSARIO PLURILINGUE ── */
+.glossario {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.glossario-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.glossario table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.glossario th {
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.glossario td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+  vertical-align: top;
+}
+.glossario tr:nth-child(even) td { background: var(--bg-soft); }
+.glossario tr:last-child td { border-bottom: none; }
+.glossario td:first-child {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ── BLOCCO DOCENTI/UDL ── */
+.udl-box {
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+}
+.udl-box summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.udl-box summary::-webkit-details-marker { display: none; }
+.udl-box summary::before {
+  content: '▶';
+  font-size: 0.8rem;
+  color: var(--primary);
+  transition: transform 0.2s ease;
+}
+.udl-box[open] summary::before {
+  transform: rotate(90deg);
+}
+.udl-content {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.udl-content p { color: var(--text-soft); }
+.udl-content ul {
+  padding-left: 20px;
+  color: var(--text-soft);
+}
+.udl-content ul li { margin-bottom: 8px; }
+.udl-content strong { color: var(--primary); }
+
+/* ── FOOTER ── */
+.dash-footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+.dash-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+.dash-footer a:hover { text-decoration: underline; }
+
+/* ── PRINT FRIENDLY ── */
+@media print {
+  body { padding-top: 0; background: #fff; }
+  .toc, #site-menu, .udl-box, .esempio-controls,
+  .decoder-buttons, .esercizio-input-row, .esercizio-feedback,
+  .dash-footer { display: none !important; }
+  .esempio-step { display: block !important; }
+  section { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- Skip link per accessibilità tastiera -->
+<a href="#contenuto" class="skip-link">Salta al contenuto</a>
+
+<!-- Menu condiviso del sito -->
+<div id="site-menu"></div>
+<script src="/assets/menu.js"></script>
+
+<main id="contenuto" class="container">
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="eyebrow">⚡ Elettrotecnica · Scheda di lavoro</div>
+    <h1>Decoder per risolvere problemi sui circuiti</h1>
+    <p>Le 4 grandezze (V, I, R, P), le 5 mosse per non sbagliare, il decoder delle formule e una mini palestra per provare. Pensata per imparare con calma, un passo alla volta.</p>
+  </header>
+
+  <!-- ── INDICE NAVIGABILE ── -->
+  <nav class="toc" aria-label="Indice della scheda">
+    <div class="toc-title">In questa scheda</div>
+    <ul class="toc-list">
+      <li><a href="#sez1"><span class="toc-num">1</span>Le 4 grandezze</a></li>
+      <li><a href="#sez2"><span class="toc-num">2</span>Le 5 mosse</a></li>
+      <li><a href="#sez3"><span class="toc-num">3</span>Serie o parallelo?</a></li>
+      <li><a href="#sez4"><span class="toc-num">4</span>Decoder formule</a></li>
+      <li><a href="#sez5"><span class="toc-num">5</span>Triangoli memo</a></li>
+      <li><a href="#sez6"><span class="toc-num">6</span>Esempio guidato</a></li>
+      <li><a href="#sez7"><span class="toc-num">7</span>Mini palestra</a></li>
+      <li><a href="#sez8"><span class="toc-num">8</span>Glossario</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── 1. LE 4 GRANDEZZE ── -->
+  <section id="sez1" aria-labelledby="h-sez1">
+    <h2 id="h-sez1"><span class="num">1</span>Le 4 grandezze</h2>
+    <p>Sono le quattro cose che possiamo misurare in un circuito. Imparare i loro simboli e le unità di misura è il primo passo.</p>
+    <div class="grandezze-grid">
+      <div class="grandezza">
+        <span class="sym" aria-hidden="true">V</span>
+        <div class="name">Tensione</div>
+        <span class="unit">Volt</span>
+        <p class="meta">La "spinta" che muove le cariche elettriche.</p>
+      </div>
+      <div class="grandezza">
+        <span class="sym" aria-hidden="true">I</span>
+        <div class="name">Corrente</div>
+        <span class="unit">Ampère</span>
+        <p class="meta">Quante cariche passano in un secondo.</p>
+      </div>
+      <div class="grandezza">
+        <span class="sym" aria-hidden="true">R</span>
+        <div class="name">Resistenza</div>
+        <span class="unit">Ohm (Ω)</span>
+        <p class="meta">Quanto il circuito "frena" la corrente.</p>
+      </div>
+      <div class="grandezza">
+        <span class="sym" aria-hidden="true">P</span>
+        <div class="name">Potenza</div>
+        <span class="unit">Watt</span>
+        <p class="meta">Il lavoro elettrico fatto in un secondo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 2. LE 5 MOSSE ── -->
+  <section id="sez2" aria-labelledby="h-sez2">
+    <h2 id="h-sez2"><span class="num">2</span>Le 5 mosse</h2>
+    <p>Quando arriva un problema, fai sempre queste 5 mosse, in questo ordine. Funziona ogni volta.</p>
+    <ol class="mosse">
+      <li>
+        <strong>Scrivi i dati</strong>
+        Ogni grandezza con simbolo e unità di misura. Esempio: <code>R = 10 Ω</code>, <code>V = 12 V</code>.
+      </li>
+      <li>
+        <strong>Scrivi l'incognita</strong>
+        Cosa chiede il problema? Esempio: <code>I = ?</code>
+      </li>
+      <li>
+        <strong>Leggi il circuito</strong>
+        Una sola resistenza? In serie? In parallelo? Se serve, calcola prima la resistenza equivalente.
+      </li>
+      <li>
+        <strong>Scegli la formula</strong>
+        Vai al decoder (sezione 4). Cerca cosa devi trovare e cosa già conosci.
+      </li>
+      <li>
+        <strong>Sostituisci e calcola</strong>
+        Scrivi il risultato con la sua unità di misura. Senza unità, non vale.
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 3. SERIE / PARALLELO ── -->
+  <section id="sez3" aria-labelledby="h-sez3">
+    <h2 id="h-sez3"><span class="num">3</span>Serie o parallelo?</h2>
+    <p>Quando le resistenze sono più di una, devi guardare <strong>come sono messe</strong> nel circuito.</p>
+    <div class="sp-grid">
+      <div class="sp-card">
+        <h3>
+          <svg class="sp-icon" viewBox="0 0 60 30" aria-hidden="true">
+            <line x1="0" y1="15" x2="10" y2="15" stroke="#1B4965" stroke-width="3"/>
+            <rect x="10" y="10" width="14" height="10" fill="none" stroke="#1B4965" stroke-width="2"/>
+            <line x1="24" y1="15" x2="34" y2="15" stroke="#1B4965" stroke-width="3"/>
+            <rect x="34" y="10" width="14" height="10" fill="none" stroke="#1B4965" stroke-width="2"/>
+            <line x1="48" y1="15" x2="60" y2="15" stroke="#1B4965" stroke-width="3"/>
+          </svg>
+          Serie
+        </h3>
+        <p>Le resistenze sono <strong>in fila</strong>, una dopo l'altra.</p>
+        <code class="sp-formula">R<sub>tot</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub> + ...</code>
+        <p class="sp-note">La corrente è la stessa in tutte.</p>
+      </div>
+      <div class="sp-card">
+        <h3>
+          <svg class="sp-icon" viewBox="0 0 60 40" aria-hidden="true">
+            <line x1="0" y1="20" x2="10" y2="20" stroke="#1B4965" stroke-width="3"/>
+            <line x1="10" y1="8" x2="10" y2="32" stroke="#1B4965" stroke-width="3"/>
+            <line x1="10" y1="8" x2="22" y2="8" stroke="#1B4965" stroke-width="3"/>
+            <line x1="10" y1="32" x2="22" y2="32" stroke="#1B4965" stroke-width="3"/>
+            <rect x="22" y="3" width="14" height="10" fill="none" stroke="#1B4965" stroke-width="2"/>
+            <rect x="22" y="27" width="14" height="10" fill="none" stroke="#1B4965" stroke-width="2"/>
+            <line x1="36" y1="8" x2="50" y2="8" stroke="#1B4965" stroke-width="3"/>
+            <line x1="36" y1="32" x2="50" y2="32" stroke="#1B4965" stroke-width="3"/>
+            <line x1="50" y1="8" x2="50" y2="32" stroke="#1B4965" stroke-width="3"/>
+            <line x1="50" y1="20" x2="60" y2="20" stroke="#1B4965" stroke-width="3"/>
+          </svg>
+          Parallelo
+        </h3>
+        <p>Le resistenze sono <strong>affiancate</strong>, su rami diversi.</p>
+        <code class="sp-formula">1 / R<sub>tot</sub> = 1/R<sub>1</sub> + 1/R<sub>2</sub> + ...</code>
+        <p class="sp-note">Con due sole: R<sub>tot</sub> = (R<sub>1</sub>·R<sub>2</sub>) / (R<sub>1</sub>+R<sub>2</sub>)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4. DECODER INTERATTIVO ── -->
+  <section id="sez4" aria-labelledby="h-sez4">
+    <h2 id="h-sez4"><span class="num">4</span>Decoder formule</h2>
+    <div class="decoder-intro">
+      <strong>Come si usa:</strong> 1) Premi cosa <strong>cerchi</strong>. 2) Guarda nella tabella cosa <strong>conosci</strong>. 3) Leggi la formula giusta.
+    </div>
+
+    <div class="decoder-choose">
+      <div class="decoder-label" id="decoder-label">Cosa stai cercando?</div>
+      <div class="decoder-buttons" role="group" aria-labelledby="decoder-label">
+        <button class="decoder-btn" data-target="I" aria-pressed="false">I<span class="label">Corrente</span></button>
+        <button class="decoder-btn" data-target="V" aria-pressed="false">V<span class="label">Tensione</span></button>
+        <button class="decoder-btn" data-target="R" aria-pressed="false">R<span class="label">Resistenza</span></button>
+        <button class="decoder-btn" data-target="P" aria-pressed="false">P<span class="label">Potenza</span></button>
+      </div>
+    </div>
+
+    <div class="decoder-output" id="decoder-output" aria-live="polite" aria-busy="true">
+      <p class="placeholder">Premi uno dei quattro pulsanti qui sopra per vedere le formule.</p>
+    </div>
+  </section>
+
+  <!-- ── 5. TRIANGOLI MEMO ── -->
+  <section id="sez5" aria-labelledby="h-sez5">
+    <h2 id="h-sez5"><span class="num">5</span>Triangoli memo</h2>
+    <p>Un trucco per ricordare le formule senza impararle a memoria. <strong>Copri con il dito la lettera che cerchi</strong>: quello che resta è la formula giusta.</p>
+    <div class="triangoli-grid">
+      <div class="tri-card">
+        <h3>Legge di Ohm</h3>
+        <svg class="tri-svg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangolo con V in alto, R e I in basso">
+          <polygon points="100,15 15,165 185,165" fill="#FAF8F5" stroke="#1B4965" stroke-width="3"/>
+          <line x1="15" y1="100" x2="185" y2="100" stroke="#1B4965" stroke-width="2"/>
+          <line x1="100" y1="100" x2="100" y2="165" stroke="#1B4965" stroke-width="2"/>
+          <text x="100" y="80" text-anchor="middle" font-size="42" font-weight="700" fill="#B83A2A" font-family="JetBrains Mono">V</text>
+          <text x="55" y="148" text-anchor="middle" font-size="34" font-weight="700" fill="#1B4965" font-family="JetBrains Mono">R</text>
+          <text x="145" y="148" text-anchor="middle" font-size="34" font-weight="700" fill="#1B4965" font-family="JetBrains Mono">I</text>
+          <text x="100" y="138" text-anchor="middle" font-size="20" font-weight="700" fill="#5D6478">×</text>
+        </svg>
+        <p class="tri-howto">
+          Copri <strong>V</strong> sopra → <code>V = R × I</code><br>
+          Copri <strong>R</strong> in basso → <code>R = V / I</code><br>
+          Copri <strong>I</strong> in basso → <code>I = V / R</code>
+        </p>
+      </div>
+      <div class="tri-card">
+        <h3>Legge della potenza</h3>
+        <svg class="tri-svg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangolo con P in alto, V e I in basso">
+          <polygon points="100,15 15,165 185,165" fill="#FAF8F5" stroke="#1B4965" stroke-width="3"/>
+          <line x1="15" y1="100" x2="185" y2="100" stroke="#1B4965" stroke-width="2"/>
+          <line x1="100" y1="100" x2="100" y2="165" stroke="#1B4965" stroke-width="2"/>
+          <text x="100" y="80" text-anchor="middle" font-size="42" font-weight="700" fill="#B83A2A" font-family="JetBrains Mono">P</text>
+          <text x="55" y="148" text-anchor="middle" font-size="34" font-weight="700" fill="#1B4965" font-family="JetBrains Mono">V</text>
+          <text x="145" y="148" text-anchor="middle" font-size="34" font-weight="700" fill="#1B4965" font-family="JetBrains Mono">I</text>
+          <text x="100" y="138" text-anchor="middle" font-size="20" font-weight="700" fill="#5D6478">×</text>
+        </svg>
+        <p class="tri-howto">
+          Copri <strong>P</strong> sopra → <code>P = V × I</code><br>
+          Copri <strong>V</strong> in basso → <code>V = P / I</code><br>
+          Copri <strong>I</strong> in basso → <code>I = P / V</code>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6. ESEMPIO GUIDATO ── -->
+  <section id="sez6" aria-labelledby="h-sez6">
+    <h2 id="h-sez6"><span class="num">6</span>Esempio guidato</h2>
+    <p>Guarda come si applicano le 5 mosse passo per passo. Premi il pulsante per vedere una mossa alla volta.</p>
+    <div class="esempio">
+      <div class="esempio-problema">
+        📐 Problema: Un circuito con resistenza <strong>R = 20 Ω</strong> è alimentato a <strong>V = 12 V</strong>. Quanto vale la corrente?
+      </div>
+      <ol class="esempio-steps" id="esempio-steps">
+        <li class="esempio-step" data-step="1"><strong>Mossa 1. Scrivi i dati</strong>R = 20 Ω; V = 12 V</li>
+        <li class="esempio-step" data-step="2"><strong>Mossa 2. Scrivi l'incognita</strong>I = ?</li>
+        <li class="esempio-step" data-step="3"><strong>Mossa 3. Leggi il circuito</strong>Una sola resistenza. Non c'è serie né parallelo.</li>
+        <li class="esempio-step" data-step="4"><strong>Mossa 4. Scegli la formula</strong>Cerco I, conosco V e R, quindi: <code>I = V / R</code></li>
+        <li class="esempio-step" data-step="5"><strong>Mossa 5. Sostituisci e calcola</strong>I = 12 / 20 = <code>0,6 A</code></li>
+      </ol>
+      <div class="esempio-controls">
+        <button class="btn btn-primary" id="esempio-next">Mostra la prossima mossa</button>
+        <button class="btn btn-secondary" id="esempio-reset">Ricomincia</button>
+        <span class="esempio-progress" id="esempio-progress" aria-live="polite">0 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 7. MINI PALESTRA ── -->
+  <section id="sez7" aria-labelledby="h-sez7">
+    <h2 id="h-sez7"><span class="num">7</span>Mini palestra</h2>
+    <p class="palestra-intro">Tre piccoli problemi per provare. Scrivi il risultato (solo il numero), premi <em>Controlla</em> e vedi se va bene. Se sbagli, niente di grave: viene mostrato un piccolo aiuto.</p>
+
+    <div class="esercizio" data-correct="5" data-tolerance="0.1" data-hint="Mossa 4: cerco V, conosco R e I → V = R × I = 100 × 0,05">
+      <div class="esercizio-titolo"><span class="esercizio-numero">1</span> Trova la tensione</div>
+      <p class="esercizio-testo">Un circuito ha R = 100 Ω e I = 0,05 A. Quanto vale V?</p>
+      <div class="esercizio-input-row">
+        <label for="es1-input" class="sr-only">Risposta esercizio 1</label>
+        <input type="text" inputmode="decimal" id="es1-input" class="esercizio-input" placeholder="Scrivi qui il numero" aria-describedby="es1-feedback">
+        <span class="esercizio-unit">V</span>
+        <button class="btn btn-primary check-btn" type="button">Controlla</button>
+      </div>
+      <div class="esercizio-feedback" id="es1-feedback" role="status"></div>
+    </div>
+
+    <div class="esercizio" data-correct="2" data-tolerance="0.05" data-hint="Mossa 4: cerco I, conosco V e R → I = V / R = 24 / 12">
+      <div class="esercizio-titolo"><span class="esercizio-numero">2</span> Trova la corrente</div>
+      <p class="esercizio-testo">Un circuito ha V = 24 V e R = 12 Ω. Quanto vale I?</p>
+      <div class="esercizio-input-row">
+        <label for="es2-input" class="sr-only">Risposta esercizio 2</label>
+        <input type="text" inputmode="decimal" id="es2-input" class="esercizio-input" placeholder="Scrivi qui il numero" aria-describedby="es2-feedback">
+        <span class="esercizio-unit">A</span>
+        <button class="btn btn-primary check-btn" type="button">Controlla</button>
+      </div>
+      <div class="esercizio-feedback" id="es2-feedback" role="status"></div>
+    </div>
+
+    <div class="esercizio" data-correct="60" data-tolerance="0.5" data-hint="Mossa 4: cerco P, conosco V e I → P = V × I = 12 × 5">
+      <div class="esercizio-titolo"><span class="esercizio-numero">3</span> Trova la potenza</div>
+      <p class="esercizio-testo">Un circuito ha V = 12 V e I = 5 A. Quanto vale P?</p>
+      <div class="esercizio-input-row">
+        <label for="es3-input" class="sr-only">Risposta esercizio 3</label>
+        <input type="text" inputmode="decimal" id="es3-input" class="esercizio-input" placeholder="Scrivi qui il numero" aria-describedby="es3-feedback">
+        <span class="esercizio-unit">W</span>
+        <button class="btn btn-primary check-btn" type="button">Controlla</button>
+      </div>
+      <div class="esercizio-feedback" id="es3-feedback" role="status"></div>
+    </div>
+  </section>
+
+  <!-- ── 8. GLOSSARIO PLURILINGUE ── -->
+  <section id="sez8" aria-labelledby="h-sez8">
+    <h2 id="h-sez8"><span class="num">8</span>Glossario plurilingue</h2>
+    <p>Le parole chiave dell'elettrotecnica in sei lingue. Tutte e sei stanno qui per tutti, non per qualcuno in particolare: è un modo per dare valore a tutte le lingue che entrano in classe.</p>
+    <div class="glossario">
+      <div class="glossario-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Italiano</th>
+              <th>English</th>
+              <th>Română</th>
+              <th>Shqip</th>
+              <th lang="ar">العربية</th>
+              <th>Español</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tensione (V)</td>
+              <td>Voltage</td>
+              <td>Tensiune</td>
+              <td>Tension</td>
+              <td lang="ar">الجهد الكهربائي</td>
+              <td>Tensión / Voltaje</td>
+            </tr>
+            <tr>
+              <td>Corrente (I)</td>
+              <td>Current</td>
+              <td>Curent</td>
+              <td>Rrymë</td>
+              <td lang="ar">التيار الكهربائي</td>
+              <td>Corriente</td>
+            </tr>
+            <tr>
+              <td>Resistenza (R)</td>
+              <td>Resistance</td>
+              <td>Rezistență</td>
+              <td>Rezistencë</td>
+              <td lang="ar">المقاومة</td>
+              <td>Resistencia</td>
+            </tr>
+            <tr>
+              <td>Potenza (P)</td>
+              <td>Power</td>
+              <td>Putere</td>
+              <td>Fuqi</td>
+              <td lang="ar">القدرة</td>
+              <td>Potencia</td>
+            </tr>
+            <tr>
+              <td>Circuito</td>
+              <td>Circuit</td>
+              <td>Circuit</td>
+              <td>Qark</td>
+              <td lang="ar">دائرة كهربائية</td>
+              <td>Circuito</td>
+            </tr>
+            <tr>
+              <td>Serie</td>
+              <td>Series</td>
+              <td>Serie</td>
+              <td>Seri</td>
+              <td lang="ar">على التوالي</td>
+              <td>Serie</td>
+            </tr>
+            <tr>
+              <td>Parallelo</td>
+              <td>Parallel</td>
+              <td>Paralel</td>
+              <td>Paralel</td>
+              <td lang="ar">على التوازي</td>
+              <td>Paralelo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BLOCCO PER DOCENTI / UDL ── -->
+  <details class="udl-box">
+    <summary>Per docenti, educatori e genitori: scelte progettuali</summary>
+    <div class="udl-content">
+      <p>Questa scheda è stata pensata seguendo le linee guida <strong>Universal Design for Learning 3.0</strong> (CAST, 2024). Ogni scelta è una risposta a una barriera prevedibile, non un adattamento individuale.</p>
+      <ul>
+        <li><strong>Tipografia Atkinson Hyperlegible</strong> e dimensione 18px: progettata per massima distinguibilità dei caratteri (G1 Perception).</li>
+        <li><strong>Palette ad alto contrasto su sfondo caldo</strong> (crema #FAF8F5): riduce l'affaticamento da glare rispetto al bianco puro, mantenendo contrasto WCAG AA/AAA (G1).</li>
+        <li><strong>Layout a colonna singola</strong> e indice navigabile: riduce dispersione e dà controllo sull'ordine di lettura (G4 Interaction, G6 Strategy).</li>
+        <li><strong>Le 5 mosse esplicite</strong> come strategia procedurale nominata: trasforma il problem-solving da intuizione a routine (G6 Strategy Development).</li>
+        <li><strong>Decoder interattivo, esempio step-reveal, mini palestra con feedback</strong>: tre modalità di interazione che alternano lettura e azione, utile per chi ha bisogno di "fare" per consolidare (G4, G5 Expression & Communication, G8 Sustaining Effort).</li>
+        <li><strong>Feedback immediato e non valutativo</strong> (icone, brevi suggerimenti, niente punteggi): protegge la motivazione e dà controllo (G8, G9 Emotional Capacity).</li>
+        <li><strong>Nessuna animazione rapida, rispetto di <code>prefers-reduced-motion</code></strong>, niente colori solo per veicolare informazione: protegge profili sensibili a sovraccarico sensoriale (G1, G9).</li>
+        <li><strong>Glossario plurilingue strutturale</strong> (IT, EN, RO, SQ, AR, ES) per tutta la classe, non come adattamento individuale: dà valore alle lingue degli apprendenti come risorsa progettuale (G2.3 Cultivate understanding and respect across languages and dialects).</li>
+        <li><strong>Scheda stampabile</strong> via stampa nativa del browser (sezioni decorative nascoste): mantiene una versione cartacea consultabile durante esercitazioni e verifiche.</li>
+      </ul>
+      <p><strong>Goal UDL 3.0:</strong> <em>learner agency</em>. Le scelte multiple (decoder interattivo, triangoli, formule, esempio) sono offerte a tutti, non concesse a qualcuno: ognuno sceglie il punto di ingresso e il proprio ritmo.</p>
+      <p style="font-size: 0.85rem; margin-top: 16px; color: var(--text-muted);">Citazione: CAST (2024). Universal Design for Learning Guidelines version 3.0. <a href="https://udlguidelines.cast.org" target="_blank" rel="noopener">udlguidelines.cast.org</a></p>
+    </div>
+  </details>
+
+  <!-- ── CTA SCHEDA STAMPABILE ── -->
+  <aside style="background: var(--bg-card); border: 2px solid var(--accent); border-radius: var(--radius); padding: 20px 24px; margin-top: 32px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+    <div style="font-size: 2rem; line-height: 1; flex-shrink: 0;" aria-hidden="true">🖨️</div>
+    <div style="flex: 1; min-width: 200px;">
+      <div style="font-weight: 700; color: var(--text); margin-bottom: 4px;">Vuoi una versione cartacea?</div>
+      <p style="margin: 0; font-size: 0.95rem; color: var(--text-soft);">C'è anche una scheda A4 stampabile con le 5 mosse, il decoder, i triangoli e lo spazio per esercitarsi a mano.</p>
+    </div>
+    <a href="/dashboards/decoder-elettrotecnica-scheda-with-menu.html" class="btn btn-primary" style="text-decoration: none; flex-shrink: 0;">Apri la scheda stampabile</a>
+  </aside>
+
+  <footer class="dash-footer">
+    <p>Scheda di lavoro accessibile · <a href="/digitale-inclusivo/">Digitale Inclusivo</a> · <a href="/dashboards/">Tutte le dashboard</a></p>
+  </footer>
+
+</main>
+
+<!-- Solo per screen reader -->
+<style>
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── DECODER INTERATTIVO ──────────────────────────────────────
+  const decoderData = {
+    I: {
+      title: 'Cerco la corrente (I). Guarda cosa già conosci',
+      rows: [
+        ['V e R', 'I = V / R'],
+        ['P e V', 'I = P / V'],
+        ['P e R', 'I = √(P / R)']
+      ]
+    },
+    V: {
+      title: 'Cerco la tensione (V). Guarda cosa già conosci',
+      rows: [
+        ['R e I', 'V = R · I'],
+        ['P e I', 'V = P / I'],
+        ['P e R', 'V = √(P · R)']
+      ]
+    },
+    R: {
+      title: 'Cerco la resistenza (R). Guarda cosa già conosci',
+      rows: [
+        ['V e I', 'R = V / I'],
+        ['V e P', 'R = V² / P'],
+        ['P e I', 'R = P / I²']
+      ]
+    },
+    P: {
+      title: 'Cerco la potenza (P). Guarda cosa già conosci',
+      rows: [
+        ['V e I', 'P = V · I'],
+        ['R e I', 'P = R · I²'],
+        ['V e R', 'P = V² / R']
+      ]
+    }
+  };
+
+  const decoderBtns = document.querySelectorAll('.decoder-btn');
+  const decoderOutput = document.getElementById('decoder-output');
+
+  function renderDecoder(target) {
+    const data = decoderData[target];
+    if (!data) return;
+    let html = '<h4>' + data.title + '</h4>';
+    html += '<table class="decoder-table"><thead><tr><th scope="col">Se conosci...</th><th scope="col">Usa questa formula</th></tr></thead><tbody>';
+    data.rows.forEach(function(row) {
+      html += '<tr><td>' + row[0] + '</td><td class="formula">' + row[1] + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    decoderOutput.innerHTML = html;
+    decoderOutput.setAttribute('aria-busy', 'false');
+  }
+
+  decoderBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      decoderBtns.forEach(function(b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      renderDecoder(btn.dataset.target);
+    });
+  });
+
+  // ── ESEMPIO GUIDATO STEP-REVEAL ──────────────────────────────
+  const steps = document.querySelectorAll('.esempio-step');
+  const totalSteps = steps.length;
+  const nextBtn = document.getElementById('esempio-next');
+  const resetBtn = document.getElementById('esempio-reset');
+  const progress = document.getElementById('esempio-progress');
+  let currentStep = 0;
+
+  function updateExample() {
+    steps.forEach(function(step, idx) {
+      if (idx < currentStep) {
+        step.classList.add('visible');
+      } else {
+        step.classList.remove('visible');
+      }
+    });
+    progress.textContent = currentStep + ' / ' + totalSteps;
+    nextBtn.disabled = currentStep >= totalSteps;
+    nextBtn.textContent = currentStep === 0
+      ? 'Mostra la prima mossa'
+      : currentStep >= totalSteps
+        ? 'Finito!'
+        : 'Mostra la prossima mossa';
+  }
+
+  nextBtn.addEventListener('click', function() {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      updateExample();
+    }
+  });
+
+  resetBtn.addEventListener('click', function() {
+    currentStep = 0;
+    updateExample();
+  });
+
+  updateExample();
+
+  // ── MINI PALESTRA ────────────────────────────────────────────
+  function parseNumber(str) {
+    if (!str) return NaN;
+    return parseFloat(str.replace(',', '.').trim());
+  }
+
+  document.querySelectorAll('.esercizio').forEach(function(es) {
+    const correct = parseFloat(es.dataset.correct);
+    const tolerance = parseFloat(es.dataset.tolerance) || 0.01;
+    const hint = es.dataset.hint || '';
+    const input = es.querySelector('.esercizio-input');
+    const btn = es.querySelector('.check-btn');
+    const feedback = es.querySelector('.esercizio-feedback');
+
+    function check() {
+      const val = parseNumber(input.value);
+      feedback.classList.remove('show', 'ok', 'ko');
+      if (isNaN(val)) {
+        feedback.classList.add('show', 'ko');
+        feedback.innerHTML = 'Scrivi prima un numero. <span class="suggerimento">Esempio di numero: 0,6 oppure 12.</span>';
+        return;
+      }
+      if (Math.abs(val - correct) <= tolerance) {
+        feedback.classList.add('show', 'ok');
+        feedback.innerHTML = '✓ Giusto! Ottimo lavoro.';
+      } else {
+        feedback.classList.add('show', 'ko');
+        feedback.innerHTML = 'Non è ancora questo il risultato. <span class="suggerimento">Aiuto: ' + hint + '. Riprova.</span>';
+      }
+    }
+
+    btn.addEventListener('click', check);
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        check();
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>

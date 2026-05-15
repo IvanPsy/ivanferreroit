@@ -128,6 +128,16 @@ sections:
         tag_label: "Fisica · BES"
         description: "8 step sulla riduzione dei circuiti all'equivalente. Resistenze in serie e parallelo, circuito misto, esercizi con feedback immediato. Calcolatrice guidata, schemi SVG. Ottimizzata per mobile."
 
+      - title: "⚡ Decoder Elettrotecnica — Scheda di Lavoro"
+        url: /dashboards/decoder-elettrotecnica-with-menu.html
+        tag_label: "Elettrotecnica · UDL 3.0"
+        description: "Scheda interattiva per risolvere problemi sui circuiti. Le 4 grandezze (V, I, R, P), le 5 mosse procedurali, decoder cliccabile delle formule, triangoli memo, esempio guidato step-by-step e mini palestra con feedback immediato. Tipografia Atkinson Hyperlegible, palette ad alto contrasto, layout a colonna singola, rispetto di prefers-reduced-motion. Glossario plurilingue strutturale in 6 lingue. Progettata seguendo le linee guida UDL 3.0 (CAST, 2024) per studenti con difficoltà attentive e cognitive."
+
+      - title: "⚡ Decoder Elettrotecnica — Scheda Stampabile A4"
+        url: /dashboards/decoder-elettrotecnica-scheda-with-menu.html
+        tag_label: "Elettrotecnica · Scheda Stampabile"
+        description: "Scheda A4 stampabile, complementare al decoder interattivo. Pagina 1 con le 5 mosse, le 4 grandezze, il decoder completo delle formule, i triangoli memo e le formule di serie/parallelo. Pagina 2 con esempio risolto da imitare e scaffold guidato per esercitarsi. Pensata come strumento di supporto da tenere accanto durante esercitazioni e verifiche. Layout bianco e nero per stampa economica, codifica ridondante con bordi a tratteggio per il riconoscimento dei passi, compatibile con stampa diretta A4 portrait."
+
       - title: "Piano Cartesiano — Esercitazione e Verifica"
         url: /dashboards/piano-cartesiano-with-menu.html
         tag_label: "Matematica · ASD-friendly"
