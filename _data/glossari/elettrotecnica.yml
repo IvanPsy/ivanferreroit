@@ -1,0 +1,380 @@
+# ───────────────────────────────────────────────────────────────────────
+# Glossario plurilingue di Elettrotecnica
+#
+# Single source of truth per la pagina /dashboards/glossario-elettrotecnica.html
+# e per eventuali altre risorse del sito che vogliono attingere
+# (dashboard interattiva del decoder, scheda stampabile, ecc.).
+#
+# Aggiungere un termine: appendere una voce all'array `termini` con tutti
+# i campi richiesti. Le pagine si aggiornano da sole al prossimo build.
+#
+# Validazione traduzioni:
+# `validato: true`  → la traduzione viene da fonte verificata (PDF originale
+#                     della classe, parlante madrelingua, glossario ufficiale)
+# `validato: false` → traduzione di prima mano, da rivedere con un parlante
+#                     madrelingua. Non bloccante: il termine è comunque utile,
+#                     ma segnala onestà sull'incertezza linguistica.
+# ───────────────────────────────────────────────────────────────────────
+
+meta:
+  titolo: "Glossario di Elettrotecnica"
+  sottotitolo: "I termini chiave dell'elettrotecnica in sei lingue"
+  descrizione: "Glossario plurilingue per studiare e fare verifiche di elettrotecnica. Pensato per chi sta imparando l'italiano tecnico e per chi vuole consolidare il lessico della materia."
+  contesto: "Classe prima professionale, indirizzo elettrico. IPIA Rosa Luxemburg, Milano."
+  ultimo_aggiornamento: "2026-05-15"
+  ancoraggio_udl: "UDL 3.0 Guideline 2.3, Cultivate understanding and respect across languages and dialects. CAST (2024)."
+
+lingue:
+  - codice: it
+    nome: "Italiano"
+    rtl: false
+  - codice: en
+    nome: "English"
+    rtl: false
+  - codice: ro
+    nome: "Română"
+    rtl: false
+  - codice: sq
+    nome: "Shqip"
+    rtl: false
+  - codice: ar
+    nome: "العربية"
+    rtl: true
+  - codice: es
+    nome: "Español"
+    rtl: false
+
+categorie:
+  - id: grandezze
+    nome: "Le grandezze elettriche"
+    descrizione: "Le quattro cose che possiamo misurare in un circuito."
+
+  - id: unita
+    nome: "Le unità di misura"
+    descrizione: "Le parole che diciamo dopo il numero. Senza unità, il numero non vale."
+
+  - id: componenti
+    nome: "I componenti del circuito"
+    descrizione: "Gli oggetti che troviamo dentro un circuito."
+
+  - id: struttura
+    nome: "La struttura del circuito"
+    descrizione: "Le parole che servono per descrivere come è fatto un circuito."
+
+  - id: collegamenti
+    nome: "I tipi di collegamento"
+    descrizione: "I modi in cui le resistenze possono essere collegate tra loro."
+
+  - id: sicurezza
+    nome: "Sicurezza elettrica"
+    descrizione: "Termini importanti per non farsi male."
+
+  - id: operazioni
+    nome: "Operazioni di calcolo"
+    descrizione: "Le parole che servono per risolvere un problema."
+
+# ─────────────────────────────────────────────────────────────────
+# TERMINI
+# ─────────────────────────────────────────────────────────────────
+
+termini:
+
+  # === GRANDEZZE ELETTRICHE ============================================
+
+  - categoria: grandezze
+    simbolo: "V"
+    validato: true
+    it: "Tensione"
+    en: "Voltage"
+    ro: "Tensiune"
+    sq: "Tension"
+    ar: "الجهد الكهربائي"
+    es: "Tensión / Voltaje"
+    definizione: "La 'spinta' che muove le cariche elettriche dentro al circuito."
+
+  - categoria: grandezze
+    simbolo: "I"
+    validato: true
+    it: "Corrente"
+    en: "Current"
+    ro: "Curent"
+    sq: "Rrymë"
+    ar: "التيار الكهربائي"
+    es: "Corriente"
+    definizione: "Quante cariche elettriche passano in un secondo."
+
+  - categoria: grandezze
+    simbolo: "R"
+    validato: true
+    it: "Resistenza"
+    en: "Resistance"
+    ro: "Rezistență"
+    sq: "Rezistencë"
+    ar: "المقاومة"
+    es: "Resistencia"
+    definizione: "Quanto il circuito 'frena' la corrente."
+
+  - categoria: grandezze
+    simbolo: "P"
+    validato: true
+    it: "Potenza"
+    en: "Power"
+    ro: "Putere"
+    sq: "Fuqi"
+    ar: "القدرة"
+    es: "Potencia"
+    definizione: "Il lavoro elettrico fatto in un secondo."
+
+  # === UNITÀ DI MISURA =================================================
+
+  - categoria: unita
+    simbolo: ""
+    validato: true
+    it: "Volt"
+    en: "Volt"
+    ro: "Volt"
+    sq: "Volt"
+    ar: "فولت"
+    es: "Voltio"
+    definizione: "Unità di misura della tensione. Si scrive V."
+
+  - categoria: unita
+    simbolo: ""
+    validato: true
+    it: "Ampère"
+    en: "Ampere"
+    ro: "Amper"
+    sq: "Amper"
+    ar: "أمبير"
+    es: "Amperio"
+    definizione: "Unità di misura della corrente. Si scrive A."
+
+  - categoria: unita
+    simbolo: ""
+    validato: true
+    it: "Ohm"
+    en: "Ohm"
+    ro: "Ohm"
+    sq: "Om"
+    ar: "أوم"
+    es: "Ohmio"
+    definizione: "Unità di misura della resistenza. Si scrive Ω (lettera greca Omega)."
+
+  - categoria: unita
+    simbolo: ""
+    validato: true
+    it: "Watt"
+    en: "Watt"
+    ro: "Watt"
+    sq: "Vat"
+    ar: "واط"
+    es: "Vatio"
+    definizione: "Unità di misura della potenza. Si scrive W."
+
+  # === COMPONENTI DEL CIRCUITO =========================================
+
+  - categoria: componenti
+    simbolo: ""
+    validato: false
+    it: "Generatore"
+    en: "Generator / Power source"
+    ro: "Generator / Sursă"
+    sq: "Gjenerator / Burim"
+    ar: "مولد / مصدر التيار"
+    es: "Generador / Fuente"
+    definizione: "L'oggetto che fornisce la tensione al circuito. Esempi: batteria, pila, presa di corrente."
+
+  - categoria: componenti
+    simbolo: ""
+    validato: false
+    it: "Conduttore"
+    en: "Conductor"
+    ro: "Conductor"
+    sq: "Përçues"
+    ar: "موصل"
+    es: "Conductor"
+    definizione: "Un materiale che lascia passare la corrente. Esempi: rame, ferro, alluminio."
+
+  - categoria: componenti
+    simbolo: ""
+    validato: false
+    it: "Isolante"
+    en: "Insulator"
+    ro: "Izolator"
+    sq: "Izolues"
+    ar: "عازل"
+    es: "Aislante"
+    definizione: "Un materiale che non lascia passare la corrente. Esempi: plastica, gomma, vetro."
+
+  - categoria: componenti
+    simbolo: ""
+    validato: false
+    it: "Interruttore"
+    en: "Switch"
+    ro: "Întrerupător"
+    sq: "Çelës / Ndërprerës"
+    ar: "مفتاح كهربائي"
+    es: "Interruptor"
+    definizione: "Un componente che apre o chiude il circuito. Quando è aperto la corrente non passa, quando è chiuso passa."
+
+  - categoria: componenti
+    simbolo: ""
+    validato: false
+    it: "Carico"
+    en: "Load"
+    ro: "Sarcină / Consumator"
+    sq: "Ngarkesë"
+    ar: "حمل كهربائي"
+    es: "Carga"
+    definizione: "Un componente che assorbe potenza dal circuito. Esempi: lampadina, motore, scaldabagno."
+
+  # === STRUTTURA DEL CIRCUITO ==========================================
+
+  - categoria: struttura
+    simbolo: ""
+    validato: true
+    it: "Circuito"
+    en: "Circuit"
+    ro: "Circuit"
+    sq: "Qark"
+    ar: "دائرة كهربائية"
+    es: "Circuito"
+    definizione: "Il percorso chiuso in cui scorre la corrente elettrica."
+
+  - categoria: struttura
+    simbolo: ""
+    validato: false
+    it: "Nodo"
+    en: "Node"
+    ro: "Nod"
+    sq: "Nyje"
+    ar: "عقدة"
+    es: "Nodo"
+    definizione: "Un punto del circuito dove si incontrano due o più conduttori."
+
+  - categoria: struttura
+    simbolo: ""
+    validato: false
+    it: "Ramo"
+    en: "Branch"
+    ro: "Ramură"
+    sq: "Degë"
+    ar: "فرع"
+    es: "Rama"
+    definizione: "La parte di circuito che sta tra due nodi."
+
+  - categoria: struttura
+    simbolo: ""
+    validato: false
+    it: "Schema elettrico"
+    en: "Circuit diagram / Schematic"
+    ro: "Schemă electrică"
+    sq: "Skemë elektrike"
+    ar: "مخطط كهربائي"
+    es: "Esquema eléctrico"
+    definizione: "Il disegno che rappresenta un circuito, con i simboli dei componenti al posto degli oggetti reali."
+
+  - categoria: struttura
+    simbolo: ""
+    validato: false
+    it: "Polo"
+    en: "Pole / Terminal"
+    ro: "Pol / Bornă"
+    sq: "Pol / Terminal"
+    ar: "قطب / طرف"
+    es: "Polo / Terminal"
+    definizione: "Il punto di un componente dove si attacca il filo. I poli possono essere positivo (+) o negativo (−)."
+
+  # === TIPI DI COLLEGAMENTO ============================================
+
+  - categoria: collegamenti
+    simbolo: ""
+    validato: true
+    it: "Serie"
+    en: "Series"
+    ro: "Serie"
+    sq: "Seri"
+    ar: "توصيل على التوالي"
+    es: "Serie"
+    definizione: "Le resistenze sono in fila, una dopo l'altra. La stessa corrente attraversa tutte."
+
+  - categoria: collegamenti
+    simbolo: ""
+    validato: true
+    it: "Parallelo"
+    en: "Parallel"
+    ro: "Paralel"
+    sq: "Paralel"
+    ar: "توصيل على التوازي"
+    es: "Paralelo"
+    definizione: "Le resistenze sono affiancate, su rami diversi. La stessa tensione è applicata a tutte."
+
+  - categoria: collegamenti
+    simbolo: ""
+    validato: false
+    it: "Cortocircuito"
+    en: "Short circuit"
+    ro: "Scurtcircuit"
+    sq: "Qark i shkurtër"
+    ar: "دائرة قصر"
+    es: "Cortocircuito"
+    definizione: "Un collegamento sbagliato in cui la corrente trova un percorso con resistenza quasi zero. È pericoloso: surriscalda i fili e può causare incendi."
+
+  # === SICUREZZA =======================================================
+
+  - categoria: sicurezza
+    simbolo: ""
+    validato: false
+    it: "Terra"
+    en: "Ground / Earth"
+    ro: "Împământare"
+    sq: "Tokëzim"
+    ar: "تأريض"
+    es: "Tierra / Toma de tierra"
+    definizione: "Un collegamento di sicurezza al suolo. Serve a evitare scosse elettriche se qualcosa va storto."
+
+  # === OPERAZIONI DI CALCOLO ===========================================
+
+  - categoria: operazioni
+    simbolo: ""
+    validato: true
+    it: "Formula"
+    en: "Formula"
+    ro: "Formulă"
+    sq: "Formulë"
+    ar: "صيغة"
+    es: "Fórmula"
+    definizione: "Una regola scritta con lettere e simboli che ti dice come calcolare una grandezza partendo da altre."
+
+  - categoria: operazioni
+    simbolo: ""
+    validato: true
+    it: "Calcolare"
+    en: "To calculate"
+    ro: "A calcula"
+    sq: "Të llogaritësh"
+    ar: "يَحسب"
+    es: "Calcular"
+    definizione: "Fare i conti per trovare un numero. Esempio: calcolare la corrente significa trovare quanti Ampère."
+
+  - categoria: operazioni
+    simbolo: ""
+    validato: true
+    it: "Unità di misura"
+    en: "Unit of measure"
+    ro: "Unitate de măsură"
+    sq: "Njësi matëse"
+    ar: "وحدة قياس"
+    es: "Unidad de medida"
+    definizione: "La parola che si scrive accanto al numero per dire cosa stiamo misurando. Senza unità, il numero non vale."
+
+# ─────────────────────────────────────────────────────────────────
+# NOTA D'USO PEDAGOGICA (per la pagina HTML)
+# ─────────────────────────────────────────────────────────────────
+
+nota_uso:
+  titolo: "Come usare questo glossario"
+  paragrafi:
+    - "Se durante una verifica o un esercizio incontri una parola che non capisci, cercala qui nella tua lingua. Puoi anche scrivere la parola della tua lingua direttamente sul foglio, accanto al termine italiano."
+    - "È un tuo strumento di studio, non un imbroglio. Tutti hanno il diritto di capire cosa chiede il problema, prima di poterlo risolvere."
+    - "Sta qui per te e per i tuoi compagni di classe. Ognuno ha la sua lingua. Tutte le lingue sono benvenute."

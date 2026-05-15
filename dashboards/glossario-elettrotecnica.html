@@ -1,0 +1,920 @@
+---
+# Frontmatter vuoto: serve solo a dire a Jekyll di processare il file
+# con Liquid, così possiamo leggere _data/glossari/elettrotecnica.yml.
+---
+{%- assign g = site.data.glossari.elettrotecnica -%}
+{%- assign totale = g.termini | size -%}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ g.meta.titolo }}, plurilingue | Ivan Ferrero</title>
+<meta name="description" content="{{ g.meta.descrizione }}">
+
+<!-- Fonts: Atkinson Hyperlegible (alta leggibilità) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Design System (per il menu condiviso) -->
+<link rel="stylesheet" href="/assets/base-styles.css">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   GLOSSARIO PLURILINGUE, ISOLA CHIARA SU CHROME DARK
+   Stessa palette della dashboard decoder per coerenza visiva.
+   ─────────────────────────────────────────────────────────── */
+:root {
+  --bg: #FAF8F5;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F2EEE7;
+  --text: #1A1F2E;
+  --text-soft: #3D4458;
+  --text-muted: #5D6478;
+  --primary: #1B4965;
+  --primary-soft: #D6E4EC;
+  --primary-strong: #0E3047;
+  --accent: #C77D02;
+  --accent-soft: #FBEFCF;
+  --accent-strong: #8A5500;
+  --success: #3D7B5E;
+  --success-soft: #D6E8DF;
+  --warning: #B8761A;
+  --warning-soft: #FAEED0;
+  --border: #DDD6CC;
+  --border-strong: #B8AE9F;
+  --focus: #1B4965;
+  --radius: 12px;
+  --radius-sm: 6px;
+  --shadow-card: 0 1px 3px rgba(26, 31, 46, 0.06);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+  body { padding-top: 70px; font-size: 17px; }
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 20px;
+  z-index: 2000;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus { top: 70px; }
+
+/* Arabo: font dedicato per leggibilità */
+[lang="ar"] {
+  font-family: 'Noto Sans Arabic', 'Atkinson Hyperlegible', sans-serif;
+  font-size: 1.08em;
+  line-height: 1.8;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+  border-left: 6px solid var(--primary);
+  box-shadow: var(--shadow-card);
+}
+.hero .eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.hero h1 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.hero .sottotitolo {
+  font-size: 1.05rem;
+  color: var(--text-soft);
+  margin: 0 0 6px;
+}
+.hero .stats {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.hero .stats strong { color: var(--primary); }
+
+@media (max-width: 600px) {
+  .hero { padding: 22px 20px; }
+  .hero h1 { font-size: 1.5rem; }
+}
+
+/* ── CONTROLLI: ricerca + toggle lingue + filtri categoria ── */
+.controlli {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 28px;
+  position: sticky;
+  top: 78px;
+  z-index: 50;
+  box-shadow: 0 2px 8px rgba(26,31,46,0.04);
+}
+
+@media (max-width: 768px) {
+  .controlli { position: static; }
+}
+
+.controlli-titolo {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 14px 14px 44px;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--text);
+  min-height: 48px;
+}
+.search-input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+.search-input::placeholder { color: var(--text-muted); }
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: none;
+  min-height: 36px;
+  min-width: 36px;
+}
+.search-clear.visible { display: block; }
+.search-clear:hover { background: var(--bg-soft); color: var(--text); }
+
+.controlli-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .controlli-row { grid-template-columns: 1fr; }
+}
+
+.controllo-gruppo {
+  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+
+.controllo-gruppo-titolo {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-soft);
+  margin-bottom: 8px;
+}
+
+.toggle-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.toggle-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  cursor: pointer;
+  min-height: 36px;
+  transition: all 0.15s ease;
+}
+.toggle-chip:hover, .toggle-chip:focus-visible {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.toggle-chip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.toggle-chip .check {
+  font-size: 0.75rem;
+  opacity: 0;
+}
+.toggle-chip.active .check { opacity: 1; }
+
+.controlli-azioni {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.controlli-azioni button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  min-height: 36px;
+}
+.controlli-azioni button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ── CATEGORIE ── */
+.categoria {
+  margin-bottom: 36px;
+  scroll-margin-top: 200px;
+}
+.categoria-header {
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--primary);
+  margin-bottom: 18px;
+}
+.categoria h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--text);
+}
+.categoria-descrizione {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  font-style: italic;
+}
+.categoria-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  display: none;
+}
+.categoria.is-empty .categoria-empty { display: block; }
+.categoria.is-empty .termini-grid { display: none; }
+.categoria.is-hidden { display: none; }
+
+/* ── GRIGLIA TERMINI ── */
+.termini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.termine {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.termine.is-hidden { display: none; }
+
+.termine-testata {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.termine-simbolo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.termine-simbolo.no-sym {
+  background: var(--bg-soft);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.termine-titolo {
+  flex: 1;
+  min-width: 0;
+}
+
+.termine-it {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.termine-validato {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-top: 4px;
+}
+.termine-validato.ok {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.termine-validato.todo {
+  background: var(--warning-soft);
+  color: var(--warning);
+  cursor: help;
+}
+
+.termine-definizione {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  margin: 0 0 14px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
+}
+
+.traduzioni {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.traduzioni li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 6px 4px;
+  border-bottom: 1px dashed var(--border);
+}
+.traduzioni li:last-child { border-bottom: none; }
+
+.traduzioni li.is-hidden { display: none; }
+
+.lang-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.lang-value {
+  font-size: 1rem;
+  color: var(--text);
+}
+.lang-value[lang="ar"] {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Stato "nessun risultato" globale */
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  display: none;
+}
+.no-results.visible { display: block; }
+.no-results strong { color: var(--text); display: block; margin-bottom: 6px; }
+
+/* ── NOTA D'USO ── */
+.nota-uso {
+  background: var(--accent-soft);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin-top: 32px;
+}
+.nota-uso h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+  margin: 0 0 12px;
+}
+.nota-uso p {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 0.98rem;
+}
+.nota-uso p:last-child { margin-bottom: 0; }
+
+/* ── CROSS-LINK ── */
+.cross-link {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 600px) {
+  .cross-link { grid-template-columns: 1fr; }
+}
+.cross-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s ease;
+}
+.cross-card:hover, .cross-card:focus-visible {
+  border-color: var(--primary);
+}
+.cross-card .icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+.cross-card .label {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.cross-card .descr {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+/* ── FOOTER ── */
+.glossario-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+.glossario-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+.glossario-footer a:hover { text-decoration: underline; }
+
+/* ── PRINT ── */
+@media print {
+  body { padding-top: 0; background: #fff; }
+  #site-menu, .controlli, .cross-link, .glossario-footer { display: none !important; }
+  .termine { page-break-inside: avoid; box-shadow: none; }
+  .categoria { page-break-inside: avoid; }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
+</head>
+<body>
+
+<a href="#contenuto" class="skip-link">Salta al contenuto</a>
+
+<!-- Menu condiviso del sito -->
+<div id="site-menu"></div>
+<script src="/assets/menu.js"></script>
+
+<main id="contenuto" class="container">
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="eyebrow">🌍 Glossario plurilingue</div>
+    <h1>{{ g.meta.titolo }}</h1>
+    <p class="sottotitolo">{{ g.meta.descrizione }}</p>
+    <div class="stats">
+      <strong>{{ totale }}</strong> termini, in <strong>{{ g.lingue | size }}</strong> lingue, organizzati in <strong>{{ g.categorie | size }}</strong> categorie. Ultimo aggiornamento: {{ g.meta.ultimo_aggiornamento }}.
+    </div>
+  </header>
+
+  <!-- ── CONTROLLI ── -->
+  <section class="controlli" aria-label="Filtri e ricerca">
+
+    <div class="search-box">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <label for="search" class="sr-only">Cerca un termine in qualsiasi lingua</label>
+      <input
+        type="search"
+        id="search"
+        class="search-input"
+        placeholder="Cerca un termine in qualsiasi lingua, ad esempio: voltage, rrymë, مقاومة..."
+        autocomplete="off"
+        spellcheck="false">
+      <button type="button" class="search-clear" id="search-clear" aria-label="Cancella ricerca">✕</button>
+    </div>
+
+    <div class="controlli-row">
+
+      <div class="controllo-gruppo">
+        <div class="controllo-gruppo-titolo">Lingue da mostrare</div>
+        <div class="toggle-list" id="filtri-lingue" role="group" aria-label="Lingue visibili">
+          {%- for lingua in g.lingue -%}
+            {%- if lingua.codice != 'it' -%}
+            <button type="button" class="toggle-chip active" data-lingua="{{ lingua.codice }}" aria-pressed="true">
+              <span class="check" aria-hidden="true">✓</span>
+              <span>{{ lingua.nome }}</span>
+            </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="controllo-gruppo">
+        <div class="controllo-gruppo-titolo">Categorie</div>
+        <div class="toggle-list" id="filtri-categorie" role="group" aria-label="Categorie visibili">
+          <button type="button" class="toggle-chip active" data-categoria="tutte" aria-pressed="true">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>Tutte</span>
+          </button>
+          {%- for cat in g.categorie -%}
+          <button type="button" class="toggle-chip" data-categoria="{{ cat.id }}" aria-pressed="false">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>{{ cat.nome }}</span>
+          </button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="controlli-azioni">
+      <span id="conteggio-visibili" aria-live="polite">{{ totale }} di {{ totale }} termini</span>
+      <button type="button" id="reset-tutto">Reimposta filtri</button>
+    </div>
+
+  </section>
+
+  <!-- ── NESSUN RISULTATO ── -->
+  <div class="no-results" id="no-results" role="status">
+    <strong>Nessun termine trovato</strong>
+    <span>Prova a cancellare la ricerca o a riattivare qualche filtro.</span>
+  </div>
+
+  <!-- ── CATEGORIE E TERMINI ── -->
+  {%- for cat in g.categorie -%}
+  <section class="categoria" data-categoria-id="{{ cat.id }}" aria-labelledby="cat-{{ cat.id }}">
+    <div class="categoria-header">
+      <h2 id="cat-{{ cat.id }}">{{ cat.nome }}</h2>
+      <p class="categoria-descrizione">{{ cat.descrizione }}</p>
+    </div>
+
+    <div class="categoria-empty">Nessun termine corrisponde ai filtri in questa categoria.</div>
+
+    <div class="termini-grid">
+      {%- for t in g.termini -%}
+        {%- if t.categoria == cat.id -%}
+        <article class="termine"
+                 data-categoria="{{ t.categoria }}"
+                 data-cerca="{{ t.it | downcase }} {{ t.en | downcase }} {{ t.ro | downcase }} {{ t.sq | downcase }} {{ t.ar }} {{ t.es | downcase }} {{ t.definizione | downcase }}">
+
+          <div class="termine-testata">
+            {%- if t.simbolo and t.simbolo != '' -%}
+            <div class="termine-simbolo" aria-hidden="true">{{ t.simbolo }}</div>
+            {%- else -%}
+            <div class="termine-simbolo no-sym" aria-hidden="true">abc</div>
+            {%- endif -%}
+
+            <div class="termine-titolo">
+              <h3 class="termine-it">{{ t.it }}</h3>
+              {%- if t.validato -%}
+              <span class="termine-validato ok" title="Traduzione verificata">✓ Verificato</span>
+              {%- else -%}
+              <span class="termine-validato todo" title="Traduzione generata in fase di setup, in attesa di validazione da parlante madrelingua. Il termine resta utilizzabile.">🔍 Da validare</span>
+              {%- endif -%}
+            </div>
+          </div>
+
+          {%- if t.definizione and t.definizione != '' -%}
+          <p class="termine-definizione">{{ t.definizione }}</p>
+          {%- endif -%}
+
+          <ul class="traduzioni">
+            {%- for lingua in g.lingue -%}
+              {%- if lingua.codice != 'it' -%}
+                {%- assign campo = lingua.codice -%}
+                {%- assign valore = t[campo] -%}
+                {%- if valore and valore != '' -%}
+                <li data-lingua="{{ lingua.codice }}">
+                  <span class="lang-code">{{ lingua.codice }}</span>
+                  <span class="lang-value"{% if lingua.rtl %} lang="ar" dir="rtl"{% endif %}>{{ valore }}</span>
+                </li>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+
+        </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+  {%- endfor -%}
+
+  <!-- ── NOTA D'USO ── -->
+  <aside class="nota-uso">
+    <h2>💡 {{ g.nota_uso.titolo }}</h2>
+    {%- for p in g.nota_uso.paragrafi -%}
+    <p>{{ p }}</p>
+    {%- endfor -%}
+  </aside>
+
+  <!-- ── CROSS-LINK ── -->
+  <nav class="cross-link" aria-label="Risorse correlate">
+    <a class="cross-card" href="/dashboards/decoder-elettrotecnica-with-menu.html">
+      <span class="icon" aria-hidden="true">⚡</span>
+      <div>
+        <div class="label">Decoder Elettrotecnica</div>
+        <div class="descr">La dashboard interattiva per risolvere problemi sui circuiti.</div>
+      </div>
+    </a>
+    <a class="cross-card" href="/dashboards/decoder-elettrotecnica-scheda-with-menu.html">
+      <span class="icon" aria-hidden="true">🖨️</span>
+      <div>
+        <div class="label">Scheda stampabile A4</div>
+        <div class="descr">Il decoder in versione cartacea, da tenere accanto durante le verifiche.</div>
+      </div>
+    </a>
+  </nav>
+
+  <footer class="glossario-footer">
+    <p>{{ g.meta.ancoraggio_udl }}</p>
+    <p><a href="/digitale-inclusivo/">Digitale Inclusivo</a> · <a href="/dashboards/">Tutte le dashboard</a></p>
+  </footer>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  const searchInput = document.getElementById('search');
+  const searchClear = document.getElementById('search-clear');
+  const conteggio = document.getElementById('conteggio-visibili');
+  const noResults = document.getElementById('no-results');
+  const resetBtn = document.getElementById('reset-tutto');
+  const filtriLingue = document.querySelectorAll('#filtri-lingue .toggle-chip');
+  const filtriCategorie = document.querySelectorAll('#filtri-categorie .toggle-chip');
+  const termini = Array.from(document.querySelectorAll('.termine'));
+  const categorie = Array.from(document.querySelectorAll('.categoria'));
+  const totale = termini.length;
+
+  // ── Stato dei filtri ──
+  let stato = {
+    ricerca: '',
+    lingue: new Set(),  // lingue VISIBILI (es. {'en','ro','sq','ar','es'})
+    categoria: 'tutte'  // 'tutte' o id di una categoria specifica
+  };
+
+  // Init: tutte le lingue attive
+  filtriLingue.forEach(function(btn) {
+    stato.lingue.add(btn.dataset.lingua);
+  });
+
+  // ── Normalizzazione testo ──
+  function normalizza(s) {
+    return (s || '').toString().toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, ''); // rimuove diacritici latini
+  }
+
+  // ── Applica filtri ──
+  function applica() {
+    const q = normalizza(stato.ricerca.trim());
+    let visibili = 0;
+
+    termini.forEach(function(t) {
+      const matchCategoria = stato.categoria === 'tutte' || t.dataset.categoria === stato.categoria;
+      const cerca = normalizza(t.dataset.cerca);
+      const matchRicerca = q === '' || cerca.indexOf(q) !== -1;
+      const mostra = matchCategoria && matchRicerca;
+
+      t.classList.toggle('is-hidden', !mostra);
+      if (mostra) visibili++;
+
+      // Mostra/nasconde le righe di traduzione in base alle lingue selezionate
+      t.querySelectorAll('.traduzioni li').forEach(function(li) {
+        const lang = li.dataset.lingua;
+        li.classList.toggle('is-hidden', !stato.lingue.has(lang));
+      });
+    });
+
+    // Categorie: mostra solo quelle con almeno un termine visibile, o nasconde se filtro categoria attivo
+    categorie.forEach(function(cat) {
+      const catId = cat.dataset.categoriaId;
+      const filtroCatAttivo = stato.categoria !== 'tutte' && stato.categoria !== catId;
+      const termCat = cat.querySelectorAll('.termine');
+      const visibiliInCat = Array.from(termCat).filter(function(t) { return !t.classList.contains('is-hidden'); }).length;
+
+      cat.classList.toggle('is-hidden', filtroCatAttivo);
+      cat.classList.toggle('is-empty', !filtroCatAttivo && visibiliInCat === 0);
+    });
+
+    // Conteggio + nessun risultato
+    conteggio.textContent = visibili + ' di ' + totale + ' termini';
+    noResults.classList.toggle('visible', visibili === 0);
+  }
+
+  // ── Eventi ──
+  searchInput.addEventListener('input', function(e) {
+    stato.ricerca = e.target.value;
+    searchClear.classList.toggle('visible', stato.ricerca.length > 0);
+    applica();
+  });
+
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    stato.ricerca = '';
+    searchClear.classList.remove('visible');
+    searchInput.focus();
+    applica();
+  });
+
+  filtriLingue.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const lang = btn.dataset.lingua;
+      if (stato.lingue.has(lang)) {
+        stato.lingue.delete(lang);
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      } else {
+        stato.lingue.add(lang);
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      applica();
+    });
+  });
+
+  filtriCategorie.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const cat = btn.dataset.categoria;
+      stato.categoria = cat;
+      filtriCategorie.forEach(function(b) {
+        const isActive = b.dataset.categoria === cat;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+      applica();
+    });
+  });
+
+  resetBtn.addEventListener('click', function() {
+    searchInput.value = '';
+    stato.ricerca = '';
+    searchClear.classList.remove('visible');
+
+    stato.lingue.clear();
+    filtriLingue.forEach(function(btn) {
+      stato.lingue.add(btn.dataset.lingua);
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+    });
+
+    stato.categoria = 'tutte';
+    filtriCategorie.forEach(function(b) {
+      const isActive = b.dataset.categoria === 'tutte';
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    applica();
+    searchInput.focus();
+  });
+
+  // Stato iniziale
+  applica();
+})();
+</script>
+
+</body>
+</html>

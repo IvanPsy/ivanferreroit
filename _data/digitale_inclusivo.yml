@@ -138,6 +138,11 @@ sections:
         tag_label: "Elettrotecnica · Scheda Stampabile"
         description: "Scheda A4 stampabile, complementare al decoder interattivo. Pagina 1 con le 5 mosse, le 4 grandezze, il decoder completo delle formule, i triangoli memo e le formule di serie/parallelo. Pagina 2 con esempio risolto da imitare e scaffold guidato per esercitarsi. Pensata come strumento di supporto da tenere accanto durante esercitazioni e verifiche. Layout bianco e nero per stampa economica, codifica ridondante con bordi a tratteggio per il riconoscimento dei passi, compatibile con stampa diretta A4 portrait."
 
+      - title: "🌍 Glossario di Elettrotecnica Plurilingue"
+        url: /dashboards/glossario-elettrotecnica.html
+        tag_label: "Elettrotecnica · Plurilingue"
+        description: "25 termini chiave dell'elettrotecnica in 6 lingue (italiano, inglese, rumeno, albanese, arabo, spagnolo), organizzati per categoria: grandezze, unità di misura, componenti, struttura del circuito, tipi di collegamento, sicurezza e operazioni di calcolo. Ricerca live in qualsiasi lingua, toggle per nascondere le lingue non utili, filtri per categoria, gestione RTL per l'arabo. Costruito come risorsa modulare, alimentato da un dataset YAML che si arricchisce nel tempo. Risorsa pensata per studenti NAI o con L1 non italiana che studiano elettrotecnica, e per chi vuole consolidare il lessico tecnico bilingue. Coerente con UDL 3.0 Guideline 2.3."
+
       - title: "Piano Cartesiano — Esercitazione e Verifica"
         url: /dashboards/piano-cartesiano-with-menu.html
         tag_label: "Matematica · ASD-friendly"
