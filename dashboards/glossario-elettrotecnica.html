@@ -153,50 +153,33 @@ body {
   .hero h1 { font-size: 1.5rem; }
 }
 
-/* ── CONTROLLI: ricerca + toggle lingue + filtri categoria ── */
+/* ── CONTROLLI: ricerca + toggle lingue + filtri categoria ──
+   Non sticky: lasciamo che scrollino via per dare spazio ai termini.
+   Per tornare a filtrare, scroll-to-top (Home, fine pagina, ecc.). */
 .controlli {
   background: var(--bg-card);
   border: 2px solid var(--border);
   border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 28px;
-  position: sticky;
-  top: 78px;
-  z-index: 50;
-  box-shadow: 0 2px 8px rgba(26,31,46,0.04);
-}
-
-@media (max-width: 768px) {
-  .controlli { position: static; }
-}
-
-.controlli-titolo {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-soft);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(26,31,46,0.04);
 }
 
 .search-box {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .search-input {
   width: 100%;
-  padding: 14px 14px 14px 44px;
+  padding: 12px 12px 12px 42px;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.98rem;
   border: 2px solid var(--border-strong);
   border-radius: var(--radius-sm);
   background: #fff;
   color: var(--text);
-  min-height: 48px;
+  min-height: 44px;
 }
 .search-input:focus {
   border-color: var(--primary);
@@ -206,37 +189,37 @@ body {
 
 .search-icon {
   position: absolute;
-  left: 14px;
+  left: 13px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
   pointer-events: none;
 }
 
 .search-clear {
   position: absolute;
-  right: 8px;
+  right: 6px;
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: var(--text-muted);
   cursor: pointer;
-  padding: 4px 10px;
+  padding: 4px 8px;
   border-radius: 4px;
   display: none;
-  min-height: 36px;
-  min-width: 36px;
+  min-height: 32px;
+  min-width: 32px;
 }
 .search-clear.visible { display: block; }
 .search-clear:hover { background: var(--bg-soft); color: var(--text); }
 
 .controlli-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 10px;
 }
 @media (max-width: 600px) {
   .controlli-row { grid-template-columns: 1fr; }
@@ -245,39 +228,40 @@ body {
 .controllo-gruppo {
   background: var(--bg-soft);
   border-radius: var(--radius-sm);
-  padding: 12px 14px;
+  padding: 8px 10px;
 }
 
 .controllo-gruppo-titolo {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-soft);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .toggle-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
 }
 
 .toggle-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 5px;
+  padding: 5px 10px;
   background: #fff;
-  border: 2px solid var(--border);
-  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-soft);
   cursor: pointer;
-  min-height: 36px;
+  min-height: 30px;
   transition: all 0.15s ease;
+  line-height: 1.2;
 }
 .toggle-chip:hover, .toggle-chip:focus-visible {
   border-color: var(--primary);
@@ -289,30 +273,35 @@ body {
   color: #fff;
 }
 .toggle-chip .check {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   opacity: 0;
+  width: 0;
+  transition: opacity 0.15s ease, width 0.15s ease;
 }
-.toggle-chip.active .check { opacity: 1; }
+.toggle-chip.active .check {
+  opacity: 1;
+  width: auto;
+}
 
 .controlli-azioni {
-  margin-top: 14px;
+  margin-top: 10px;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 .controlli-azioni button {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-soft);
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: var(--radius-sm);
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  min-height: 36px;
+  min-height: 30px;
 }
 .controlli-azioni button:hover {
   border-color: var(--primary);
@@ -595,6 +584,48 @@ body {
   white-space: nowrap;
   border: 0;
 }
+
+/* ── BACK TO FILTERS: floating button discreto ── */
+.back-to-filters {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26,31,46,0.25);
+  display: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.back-to-filters.visible { display: inline-flex; }
+.back-to-filters:hover { background: var(--primary-strong); transform: translateY(-2px); }
+.back-to-filters:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .back-to-filters {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+@media print {
+  .back-to-filters { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -773,6 +804,11 @@ body {
 
 </main>
 
+<button type="button" class="back-to-filters" id="back-to-filters" aria-label="Torna ai filtri di ricerca">
+  <span aria-hidden="true">↑</span>
+  <span>Torna ai filtri</span>
+</button>
+
 <script>
 (function() {
   'use strict';
@@ -910,6 +946,24 @@ body {
     applica();
     searchInput.focus();
   });
+
+  // ── Back to filters: appare dopo aver scrollato oltre i controlli ──
+  const backBtn = document.getElementById('back-to-filters');
+  const controlliEl = document.querySelector('.controlli');
+
+  if (backBtn && controlliEl && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(function(entries) {
+      // backBtn visibile quando i controlli sono fuori dal viewport (cioè scrollati su)
+      backBtn.classList.toggle('visible', !entries[0].isIntersecting);
+    }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
+    obs.observe(controlliEl);
+
+    backBtn.addEventListener('click', function() {
+      controlliEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Dopo lo scroll, sposta il focus sulla search per accessibilità tastiera
+      setTimeout(function() { searchInput.focus({ preventScroll: true }); }, 400);
+    });
+  }
 
   // Stato iniziale
   applica();
