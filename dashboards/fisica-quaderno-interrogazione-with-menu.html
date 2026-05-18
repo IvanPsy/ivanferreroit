@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fisica · Quaderno per l'interrogazione — Digitale Inclusivo | Ivan Ferrero</title>
+<meta name="description" content="Quaderno operativo di Fisica per BES: massa, volume, densità, vettori e forze. Palette a significato, 14 domande di ripasso, esempi tarati sull'indirizzo elettrico. Materiale didattico inclusivo progettato per uno studente reale.">
+
+<!-- Fonts del sito (caricati ma non usati nel corpo del documento, che mantiene la sua palette accessibile a Verdana per ragioni didattiche) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     PALETTE A SIGNIFICATO (non decorativa)
+     Blu     = definizioni ("Cosa è")
+     Ambra   = formule
+     Verde   = esempi pratici
+     Viola   = "Dillo a voce alta"
+     Grigio  = struttura, neutro
+     ============================================================ */
+  :root {
+    --font: 'Verdana', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-mono: 'Cascadia Mono', 'Consolas', 'Courier New', monospace;
+    --size-base: 18px;
+    --line: 1.6;
+
+    --bg: #FFFBF0;          /* crema chiaro, riduce affaticamento */
+    --card: #FFFFFF;
+    --text: #1F2937;        /* grigio scuro, non nero puro */
+    --text-soft: #4B5563;
+    --border: #D1D5DB;
+
+    /* Colori funzionali (testo scuro su sfondo chiaro = contrasto > 7:1 WCAG AAA) */
+    --def-bg: #DBEAFE;      --def-fg: #1E3A8A;     --def-border: #3B82F6;
+    --formula-bg: #FEF3C7;  --formula-fg: #78350F; --formula-border: #D97706;
+    --example-bg: #DCFCE7;  --example-fg: #14532D; --example-border: #16A34A;
+    --voice-bg: #EDE9FE;    --voice-fg: #4C1D95;   --voice-border: #7C3AED;
+
+    --primary: #2563EB;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
+    --radius: 10px;
+    --space: 1rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    font-size: var(--size-base);
+    line-height: var(--line);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 1rem;
+    padding-top: 80px; /* spazio per il menu condiviso fixed del sito (60px header + margine) */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 .5rem;
+  }
+
+  /* ----------- Contesto didattico (banner integrazione sito) ----------- */
+  .contesto-sito {
+    background: #FFFFFF;
+    border: 2px solid var(--border);
+    border-left: 5px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0 1.5rem;
+    box-shadow: var(--shadow);
+    font-size: .95rem;
+  }
+  .contesto-sito h2 {
+    margin: 0 0 .5rem;
+    font-size: 1rem;
+    color: var(--primary);
+    font-family: 'Outfit', var(--font);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .contesto-sito p { margin: .35rem 0; color: var(--text-soft); }
+  .contesto-sito p strong { color: var(--text); }
+  .contesto-sito .torna {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    margin-top: .6rem;
+    padding: .4rem .8rem;
+    background: rgba(37, 99, 235, .08);
+    border: 1px solid rgba(37, 99, 235, .25);
+    border-radius: 6px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .9rem;
+    transition: background .15s;
+  }
+  .contesto-sito .torna:hover, .contesto-sito .torna:focus {
+    background: rgba(37, 99, 235, .15);
+    outline: none;
+  }
+
+  /* ----------- Header ----------- */
+  header.doc-header {
+    padding: 1.5rem 0 .5rem;
+    border-bottom: 3px solid var(--text);
+    margin-bottom: 1.5rem;
+  }
+  header.doc-header h1 {
+    font-size: 1.5rem;
+    margin: 0 0 .3rem;
+    line-height: 1.3;
+  }
+  header.doc-header .sottotitolo {
+    color: var(--text-soft);
+    font-style: italic;
+    margin: 0;
+    font-size: .95rem;
+  }
+
+  /* ----------- Box "Come studiare" ----------- */
+  .come-studiare {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .come-studiare h2 {
+    margin: 0 0 .5rem;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .come-studiare ol {
+    margin: .5rem 0 0;
+    padding-left: 1.5rem;
+  }
+  .come-studiare li {
+    margin: .35rem 0;
+  }
+
+  /* ----------- Indice ----------- */
+  .indice {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: .6rem;
+    margin-bottom: 1.5rem;
+  }
+  .indice a {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .85rem 1rem;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    min-height: 48px;
+    transition: border-color .15s, transform .15s;
+  }
+  .indice a:hover, .indice a:focus {
+    border-color: var(--primary);
+    transform: translateY(-1px);
+    outline: none;
+  }
+  .indice a .ancora-emoji {
+    font-size: 1.4rem;
+  }
+
+  /* ----------- Controlli (apri/chiudi tutto) ----------- */
+  .controlli {
+    display: flex;
+    gap: .6rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    min-height: 44px;
+    padding: .6rem 1.1rem;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .btn:hover, .btn:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+
+  /* ----------- Scheda (details/summary accordion) ----------- */
+  details.scheda {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  details.scheda > summary {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    user-select: none;
+    min-height: 48px;
+    background: var(--card);
+    transition: background .15s;
+  }
+  details.scheda > summary::-webkit-details-marker { display: none; }
+  details.scheda > summary:hover { background: #F9FAFB; }
+  details.scheda > summary:focus { outline: 3px solid var(--primary); outline-offset: -3px; }
+
+  .summary-emoji { font-size: 1.6rem; flex-shrink: 0; }
+  .summary-num {
+    background: var(--text);
+    color: white;
+    font-size: .8rem;
+    padding: .2rem .6rem;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .chev {
+    margin-left: auto;
+    transition: transform .2s;
+    color: var(--text-soft);
+    flex-shrink: 0;
+  }
+  details.scheda[open] .chev { transform: rotate(90deg); }
+
+  .scheda-body {
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ----------- Box colorati per sezione (significato) ----------- */
+  .blocco {
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius);
+    margin: 1rem 0;
+    border-left: 5px solid;
+  }
+  .blocco h3 {
+    margin: 0 0 .6rem;
+    font-size: 1.02rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .blocco p:last-child { margin-bottom: 0; }
+  .blocco p:first-of-type { margin-top: 0; }
+
+  .blocco--definizione { background: var(--def-bg);     color: var(--def-fg);     border-left-color: var(--def-border); }
+  .blocco--formula     { background: var(--formula-bg); color: var(--formula-fg); border-left-color: var(--formula-border); }
+  .blocco--esempio     { background: var(--example-bg); color: var(--example-fg); border-left-color: var(--example-border); }
+  .blocco--voce        { background: var(--voice-bg);   color: var(--voice-fg);   border-left-color: var(--voice-border); }
+
+  /* Negli sfondi colorati il testo bold è ancora più scuro per leggibilità */
+  .blocco strong { color: inherit; }
+
+  /* Formula matematica */
+  .formula-grande {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: .8rem 0;
+    letter-spacing: 0.5px;
+  }
+  .vocabolario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem 1.5rem;
+    padding: .6rem 0 0;
+    font-size: .95rem;
+  }
+  .vocabolario span { display: inline-flex; align-items: baseline; gap: .35rem; }
+  .vocabolario kbd {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    background: rgba(0,0,0,.07);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: inherit;
+  }
+
+  /* Lista numerata in "Dillo a voce alta" */
+  .voce ol {
+    margin: .5rem 0 0;
+    padding-left: 1.7rem;
+  }
+  .voce li { margin: .4rem 0; }
+
+  /* Tabella densità */
+  table.densita {
+    width: 100%;
+    border-collapse: collapse;
+    margin: .8rem 0;
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--border);
+  }
+  table.densita th,
+  table.densita td {
+    padding: .7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  table.densita th {
+    background: #F3F4F6;
+    font-weight: 700;
+  }
+  table.densita td.num {
+    text-align: right;
+    font-family: var(--font-mono);
+  }
+  table.densita tr.evidenza td {
+    background: var(--example-bg);
+    color: var(--example-fg);
+    font-weight: 600;
+  }
+  table.densita tr:last-child td { border-bottom: none; }
+
+  /* Tabella tipi di forze */
+  table.tipi {
+    width: 100%;
+    border-collapse: collapse;
+    margin: .8rem 0;
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--border);
+  }
+  table.tipi th, table.tipi td {
+    padding: .7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.tipi th { background: #F3F4F6; }
+  table.tipi td:first-child { font-weight: 700; width: 30%; }
+  table.tipi tr:last-child td { border-bottom: none; }
+
+  /* SVG diagrammi */
+  .diagramma {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .8rem;
+    margin: .8rem 0;
+    text-align: center;
+  }
+  .diagramma svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .diagramma figcaption {
+    font-size: .85rem;
+    color: var(--text-soft);
+    margin-top: .4rem;
+    font-style: italic;
+  }
+  .due-diagrammi {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .8rem;
+  }
+  @media (min-width: 640px) {
+    .due-diagrammi { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Ancora "elettrico" */
+  .ancora-elettrico {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    background: rgba(0,0,0,.06);
+    padding: 1px 8px;
+    border-radius: 12px;
+    font-size: .85rem;
+    color: inherit;
+    margin-left: .4rem;
+  }
+
+  /* ----------- Domande ----------- */
+  #domande {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 3px solid var(--text);
+  }
+  #domande > h2 {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin: 0 0 .3rem;
+  }
+  #domande > .nota {
+    color: var(--text-soft);
+    font-style: italic;
+    margin: 0 0 1rem;
+    font-size: .95rem;
+  }
+  .qa {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: .7rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .qa-domanda {
+    padding: .9rem 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+  }
+  .qa-numero {
+    background: var(--primary);
+    color: white;
+    padding: .15rem .55rem;
+    border-radius: 12px;
+    font-size: .85rem;
+    flex-shrink: 0;
+    font-weight: 700;
+    min-width: 32px;
+    text-align: center;
+  }
+  .qa-domanda .testo { flex: 1; }
+  .qa-azione {
+    padding: 0 1.1rem 1rem;
+  }
+  .qa-azione .btn-mostra {
+    min-height: 44px;
+    padding: .55rem 1rem;
+    background: white;
+    border: 2px dashed var(--primary);
+    color: var(--primary);
+    border-radius: var(--radius);
+    font-family: var(--font);
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background .15s;
+  }
+  .qa-azione .btn-mostra:hover, .qa-azione .btn-mostra:focus {
+    background: var(--def-bg);
+    outline: none;
+  }
+  .qa-risposta {
+    padding: 1rem 1.1rem;
+    border-top: 1px solid var(--border);
+    background: var(--example-bg);
+    color: var(--example-fg);
+    display: flex;
+    align-items: flex-start;
+    gap: .5rem;
+  }
+  .qa-risposta::before {
+    content: "→";
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .qa.aperta .qa-azione { display: none; }
+  .qa:not(.aperta) .qa-risposta { display: none; }
+
+  /* ----------- Footer ----------- */
+  footer.doc-footer {
+    margin-top: 2.5rem;
+    padding: 1rem 0 2rem;
+    text-align: center;
+    color: var(--text-soft);
+    font-size: .85rem;
+  }
+  footer.doc-footer .firma {
+    margin-top: .8rem;
+    padding-top: .8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ----------- Reduce motion ----------- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition: none !important;
+      animation: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ----------- Print ----------- */
+  @media print {
+    body { background: white; padding-top: 1rem; }
+    #site-menu, .contesto-sito { display: none; }
+    details.scheda { break-inside: avoid; box-shadow: none; }
+    details.scheda > summary { background: #F0F0F0 !important; }
+    details > .scheda-body { display: block !important; }
+    .controlli, .indice { display: none; }
+    .qa-azione { display: none; }
+    .qa-risposta { display: flex !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Menu condiviso del sito (iniettato da menu.js) -->
+<div id="site-menu"></div>
+
+<div class="wrap">
+
+<!-- Banner di contesto: spiega perché un documento "light" vive dentro un sito "dark" -->
+<aside class="contesto-sito" aria-label="Contesto didattico del materiale">
+  <h2>📘 Contesto didattico</h2>
+  <p>Questo è un <strong>quaderno operativo di Fisica</strong> progettato per uno studente reale di indirizzo elettrico, in vista di un'interrogazione. È un esempio vivo di <strong>materiale didattico inclusivo</strong>: la palette a significato (blu = definizioni, ambra = formule, verde = esempi, viola = "dillo a voce alta") non è decorazione, è uno scaffold cognitivo. Lo sfondo crema riduce l'affaticamento visivo; il contrasto rispetta WCAG AAA; gli esempi sono tarati sull'indirizzo professionale dello studente.</p>
+  <p>La pagina mantiene la sua palette light originale perché <em>quella palette è parte del contenuto</em>: cambiarla per uniformarsi al tema dark del sito sarebbe come riassumere un romanzo in note.</p>
+  <a class="torna" href="/digitale-inclusivo/">← Torna a Digitale Inclusivo</a>
+</aside>
+
+<header class="doc-header">
+  <h1>Fisica · Quaderno per l'interrogazione</h1>
+  <p class="sottotitolo">Massa, Volume, Densità · Vettori · Forze</p>
+</header>
+
+<!-- Come studiare -->
+<section class="come-studiare" aria-label="Istruzioni per lo studio">
+  <h2>🗺️ Come studiare con questo quaderno</h2>
+  <p style="margin:.3rem 0 .6rem;">Ogni scheda ha 4 parti fisse, riconoscibili dal colore:</p>
+  <ul style="margin:.3rem 0 .8rem; padding-left:1.5rem; list-style:none;">
+    <li style="margin:.25rem 0;"><span style="display:inline-block; width:14px; height:14px; background:var(--def-border); border-radius:3px; vertical-align:middle; margin-right:.4rem;"></span><strong style="color:var(--def-fg);">Blu</strong> = Cosa è</li>
+    <li style="margin:.25rem 0;"><span style="display:inline-block; width:14px; height:14px; background:var(--formula-border); border-radius:3px; vertical-align:middle; margin-right:.4rem;"></span><strong style="color:var(--formula-fg);">Ambra</strong> = Formula</li>
+    <li style="margin:.25rem 0;"><span style="display:inline-block; width:14px; height:14px; background:var(--example-border); border-radius:3px; vertical-align:middle; margin-right:.4rem;"></span><strong style="color:var(--example-fg);">Verde</strong> = Esempio dal mondo elettrico</li>
+    <li style="margin:.25rem 0;"><span style="display:inline-block; width:14px; height:14px; background:var(--voice-border); border-radius:3px; vertical-align:middle; margin-right:.4rem;"></span><strong style="color:var(--voice-fg);">Viola</strong> = Dillo a voce alta</li>
+  </ul>
+  <p style="margin:.6rem 0 .3rem;"><strong>Metodo:</strong></p>
+  <ol>
+    <li>Apri una scheda alla volta. Leggi tutto.</li>
+    <li>Chiudi la scheda e prova a ripetere a voce alta i 3 punti del riquadro viola.</li>
+    <li>Riapri e controlla.</li>
+    <li>Quando le 4 schede sono solide, vai alle 14 domande in fondo.</li>
+  </ol>
+</section>
+
+<!-- Indice rapido -->
+<nav class="indice" aria-label="Indice schede">
+  <a href="#scheda1"><span class="ancora-emoji" aria-hidden="true">📏</span><span>Densità</span></a>
+  <a href="#scheda2"><span class="ancora-emoji" aria-hidden="true">➡️</span><span>Vettori</span></a>
+  <a href="#scheda3"><span class="ancora-emoji" aria-hidden="true">🔗</span><span>Comporre vettori</span></a>
+  <a href="#scheda4"><span class="ancora-emoji" aria-hidden="true">🧲</span><span>Forze</span></a>
+  <a href="#domande"><span class="ancora-emoji" aria-hidden="true">❓</span><span>Domande</span></a>
+</nav>
+
+<!-- Controlli -->
+<div class="controlli">
+  <button class="btn" id="apriTutto" type="button">📖 Apri tutte le schede</button>
+  <button class="btn" id="chiudiTutto" type="button">📕 Chiudi tutte</button>
+</div>
+
+<!-- ============================================================
+     SCHEDA 1 — MASSA, VOLUME, DENSITÀ
+     ============================================================ -->
+<details class="scheda" id="scheda1">
+  <summary>
+    <span class="summary-emoji" aria-hidden="true">📏</span>
+    <span class="summary-num">Scheda 1</span>
+    <span>Massa, Volume, Densità</span>
+    <span class="chev" aria-hidden="true">▶</span>
+  </summary>
+  <div class="scheda-body">
+
+    <div class="blocco blocco--definizione">
+      <h3>🔵 Cosa è</h3>
+      <p>La <strong>massa</strong> è la quantità di materia di un oggetto. Si misura con la bilancia, in <strong>kilogrammi (kg)</strong>.</p>
+      <p>Il <strong>volume</strong> è lo spazio occupato. Si misura in <strong>metri cubi (m³)</strong> oppure in litri (1 L = 1 dm³).</p>
+      <p>La <strong>densità</strong> ti dice quanto è "pesante" un materiale a parità di volume. Il piombo è più denso del legno: nello stesso spazio, ha più massa.</p>
+    </div>
+
+    <div class="blocco blocco--formula">
+      <h3>🟡 Formula</h3>
+      <div class="formula-grande">d = m / V</div>
+      <div class="vocabolario">
+        <span><kbd>d</kbd> densità (kg/m³)</span>
+        <span><kbd>m</kbd> massa (kg)</span>
+        <span><kbd>V</kbd> volume (m³)</span>
+      </div>
+      <p style="margin-top:.7rem;"><strong>Formule girate:</strong></p>
+      <div class="formula-grande" style="font-size:1.15rem; margin:.3rem 0;">m = d · V&nbsp;&nbsp;&nbsp;&nbsp;V = m / d</div>
+    </div>
+
+    <div class="blocco blocco--esempio">
+      <h3>🟢 Esempio <span class="ancora-elettrico" aria-hidden="true">⚡ elettrico</span></h3>
+      <p>Densità del <strong>rame</strong> = 8 900 kg/m³. Densità dell'<strong>alluminio</strong> = 2 700 kg/m³.</p>
+      <p>Stesso volume di cavo: il rame pesa circa 3 volte di più. Per questo i cavi delle linee aeree dell'alta tensione sono in alluminio: pesa meno, anche se conduce un po' peggio.</p>
+
+      <p style="margin-top:.9rem;"><strong>Tabella veloce delle densità:</strong></p>
+      <table class="densita">
+        <thead>
+          <tr><th>Materiale</th><th style="text-align:right;">Densità (kg/m³)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Aria</td><td class="num">1,3</td></tr>
+          <tr><td>Acqua</td><td class="num">1 000</td></tr>
+          <tr class="evidenza"><td>Alluminio</td><td class="num">2 700</td></tr>
+          <tr><td>Ferro</td><td class="num">7 870</td></tr>
+          <tr class="evidenza"><td>Rame</td><td class="num">8 900</td></tr>
+          <tr><td>Piombo</td><td class="num">11 300</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="blocco blocco--voce voce">
+      <h3>🟣 🔊 Dillo a voce alta</h3>
+      <ol>
+        <li>La massa è la quantità di materia (kg), il volume è lo spazio occupato (m³).</li>
+        <li>La densità è la massa diviso il volume: d = m/V, in kg/m³.</li>
+        <li>A parità di volume, un materiale più denso ha più massa: il rame è più denso dell'alluminio.</li>
+      </ol>
+    </div>
+
+  </div>
+</details>
+
+<!-- ============================================================
+     SCHEDA 2 — VETTORI
+     ============================================================ -->
+<details class="scheda" id="scheda2">
+  <summary>
+    <span class="summary-emoji" aria-hidden="true">➡️</span>
+    <span class="summary-num">Scheda 2</span>
+    <span>I Vettori</span>
+    <span class="chev" aria-hidden="true">▶</span>
+  </summary>
+  <div class="scheda-body">
+
+    <div class="blocco blocco--definizione">
+      <h3>🔵 Cosa è</h3>
+      <p>Le <strong>grandezze scalari</strong> sono fatte solo da un numero più l'unità di misura: <em>25 kg, 18 °C, 10 s</em>.</p>
+      <p>Le <strong>grandezze vettoriali</strong> hanno bisogno anche di una direzione. Se cammini per 3 km, devi dire <strong>verso dove</strong>. Si disegnano come frecce.</p>
+    </div>
+
+    <div class="blocco blocco--formula">
+      <h3>🟡 Le 3 parti di un vettore</h3>
+      <p style="margin:0 0 .6rem;">Un vettore è definito da:</p>
+      <ol style="margin:0; padding-left:1.5rem;">
+        <li><strong>Modulo</strong> (o intensità) — quanto è lungo, cioè il numero. Es. <em>4 metri</em>.</li>
+        <li><strong>Direzione</strong> — la retta su cui si trova. Es. <em>orizzontale, verticale, inclinato a 30°</em>.</li>
+        <li><strong>Verso</strong> — da che parte punta la freccia. Es. <em>verso destra, verso l'alto</em>.</li>
+      </ol>
+
+      <figure class="diagramma" style="margin-top:1rem;">
+        <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vettore con modulo, direzione e verso annotati">
+          <defs>
+            <marker id="freccia1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#78350F"/>
+            </marker>
+          </defs>
+          <!-- Linea direzione (tratteggiata) -->
+          <line x1="40" y1="80" x2="310" y2="80" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="315" y="84" font-family="Verdana" font-size="11" fill="#6B7280">direzione</text>
+          <!-- Vettore -->
+          <line x1="60" y1="80" x2="240" y2="80" stroke="#78350F" stroke-width="4" marker-end="url(#freccia1)"/>
+          <!-- Etichette -->
+          <text x="150" y="65" font-family="Verdana" font-size="13" font-weight="700" fill="#78350F" text-anchor="middle">modulo = 4 m</text>
+          <text x="240" y="105" font-family="Verdana" font-size="12" fill="#78350F" text-anchor="middle">verso →</text>
+          <!-- Tacche -->
+          <g stroke="#78350F" stroke-width="1.5">
+            <line x1="60" y1="76" x2="60" y2="84"/>
+            <line x1="105" y1="76" x2="105" y2="84"/>
+            <line x1="150" y1="76" x2="150" y2="84"/>
+            <line x1="195" y1="76" x2="195" y2="84"/>
+            <line x1="240" y1="76" x2="240" y2="84"/>
+          </g>
+        </svg>
+        <figcaption>Esempio: un vettore di 4 m diretto verso destra in orizzontale.</figcaption>
+      </figure>
+
+      <p style="margin-top:.7rem;">Si scrive con una freccetta sopra la lettera. Il suo modulo si scrive senza freccia.</p>
+    </div>
+
+    <div class="blocco blocco--esempio">
+      <h3>🟢 Vettore opposto</h3>
+      <p>Ha <strong>stesso modulo e stessa direzione</strong>, ma <strong>verso contrario</strong>. Se F punta a destra, −F punta a sinistra con la stessa lunghezza.</p>
+      <figure class="diagramma">
+        <svg viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vettore F e vettore opposto −F">
+          <defs>
+            <marker id="freccia2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#14532D"/>
+            </marker>
+          </defs>
+          <!-- F a destra -->
+          <line x1="60" y1="30" x2="180" y2="30" stroke="#14532D" stroke-width="4" marker-end="url(#freccia2)"/>
+          <text x="120" y="20" font-family="Verdana" font-size="13" font-weight="700" fill="#14532D" text-anchor="middle">F</text>
+          <!-- -F a sinistra -->
+          <line x1="180" y1="65" x2="60" y2="65" stroke="#14532D" stroke-width="4" marker-end="url(#freccia2)"/>
+          <text x="120" y="83" font-family="Verdana" font-size="13" font-weight="700" fill="#14532D" text-anchor="middle">−F</text>
+        </svg>
+        <figcaption>Stessa lunghezza, stessa direzione. Cambia solo il verso.</figcaption>
+      </figure>
+    </div>
+
+    <div class="blocco blocco--voce voce">
+      <h3>🟣 🔊 Dillo a voce alta</h3>
+      <ol>
+        <li>Le grandezze scalari sono solo numero + unità di misura; le vettoriali hanno anche direzione e verso.</li>
+        <li>Un vettore è fatto da modulo, direzione e verso.</li>
+        <li>Il vettore opposto ha lo stesso modulo ma verso contrario.</li>
+      </ol>
+    </div>
+
+  </div>
+</details>
+
+<!-- ============================================================
+     SCHEDA 3 — COMPOSIZIONE
+     ============================================================ -->
+<details class="scheda" id="scheda3">
+  <summary>
+    <span class="summary-emoji" aria-hidden="true">🔗</span>
+    <span class="summary-num">Scheda 3</span>
+    <span>Comporre i vettori</span>
+    <span class="chev" aria-hidden="true">▶</span>
+  </summary>
+  <div class="scheda-body">
+
+    <div class="blocco blocco--definizione">
+      <h3>🔵 Caso 1 · Stessa direzione, stesso verso</h3>
+      <p>I moduli si <strong>sommano</strong>. Es: tiri un pallone di 12 m a est, poi altri 4 m a est → <strong>16 m a est</strong>.</p>
+      <figure class="diagramma">
+        <svg viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Somma di due vettori stesso verso">
+          <defs>
+            <marker id="fr_blu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#1E3A8A"/>
+            </marker>
+            <marker id="fr_blu_grosso" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#1E3A8A"/>
+            </marker>
+          </defs>
+          <!-- Vettore 12 m -->
+          <line x1="30" y1="30" x2="210" y2="30" stroke="#3B82F6" stroke-width="3" marker-end="url(#fr_blu)"/>
+          <text x="120" y="22" font-family="Verdana" font-size="11" fill="#1E3A8A" text-anchor="middle">12 m est</text>
+          <!-- Vettore 4 m -->
+          <line x1="210" y1="30" x2="270" y2="30" stroke="#3B82F6" stroke-width="3" marker-end="url(#fr_blu)"/>
+          <text x="240" y="22" font-family="Verdana" font-size="11" fill="#1E3A8A" text-anchor="middle">4 m</text>
+          <!-- Risultante -->
+          <line x1="30" y1="65" x2="270" y2="65" stroke="#1E3A8A" stroke-width="4.5" marker-end="url(#fr_blu_grosso)"/>
+          <text x="150" y="82" font-family="Verdana" font-size="12" font-weight="700" fill="#1E3A8A" text-anchor="middle">Risultante = 16 m a est</text>
+        </svg>
+      </figure>
+    </div>
+
+    <div class="blocco blocco--definizione">
+      <h3>🔵 Caso 2 · Stessa direzione, verso opposto</h3>
+      <p>I moduli si <strong>sottraggono</strong>. Il verso della risultante è quello del vettore più grande. Es: 18 m a est, poi 2 m a ovest → <strong>16 m a est</strong>.</p>
+      <figure class="diagramma">
+        <svg viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Somma di due vettori verso opposto">
+          <defs>
+            <marker id="fr_blu2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#1E3A8A"/>
+            </marker>
+          </defs>
+          <!-- 18 m est -->
+          <line x1="30" y1="25" x2="300" y2="25" stroke="#3B82F6" stroke-width="3" marker-end="url(#fr_blu2)"/>
+          <text x="165" y="18" font-family="Verdana" font-size="11" fill="#1E3A8A" text-anchor="middle">18 m est</text>
+          <!-- 2 m ovest (sotto, va da 300 a 270) -->
+          <line x1="300" y1="42" x2="270" y2="42" stroke="#3B82F6" stroke-width="3" marker-end="url(#fr_blu2)"/>
+          <text x="285" y="55" font-family="Verdana" font-size="11" fill="#1E3A8A" text-anchor="middle">2 m ovest</text>
+          <!-- Risultante 16 m est -->
+          <line x1="30" y1="72" x2="270" y2="72" stroke="#1E3A8A" stroke-width="4.5" marker-end="url(#fr_blu2)"/>
+          <text x="150" y="86" font-family="Verdana" font-size="12" font-weight="700" fill="#1E3A8A" text-anchor="middle">Risultante = 16 m a est</text>
+        </svg>
+      </figure>
+    </div>
+
+    <div class="blocco blocco--esempio">
+      <h3>🟢 Caso 3 · Direzioni diverse — due metodi geometrici</h3>
+      <p style="margin:0 0 .8rem;"><strong>Punta-coda:</strong> attacchi la coda del secondo vettore alla punta del primo. La risultante va dalla coda del primo alla punta del secondo.</p>
+      <p style="margin:0 0 .8rem;"><strong>Parallelogramma:</strong> i due vettori partono dallo stesso punto. Disegni il parallelogramma. La risultante è la diagonale che parte dallo stesso punto.</p>
+
+      <div class="due-diagrammi">
+        <figure class="diagramma">
+          <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Metodo punta-coda">
+            <defs>
+              <marker id="fr_verde" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#14532D"/>
+              </marker>
+              <marker id="fr_verde_grosso" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F3D1F"/>
+              </marker>
+            </defs>
+            <!-- Vettore a -->
+            <line x1="20" y1="110" x2="110" y2="110" stroke="#16A34A" stroke-width="3" marker-end="url(#fr_verde)"/>
+            <text x="60" y="125" font-family="Verdana" font-size="13" font-weight="700" fill="#14532D">a</text>
+            <!-- Vettore b (dalla punta di a) -->
+            <line x1="110" y1="110" x2="170" y2="40" stroke="#16A34A" stroke-width="3" marker-end="url(#fr_verde)"/>
+            <text x="148" y="78" font-family="Verdana" font-size="13" font-weight="700" fill="#14532D">b</text>
+            <!-- Risultante -->
+            <line x1="20" y1="110" x2="170" y2="40" stroke="#0F3D1F" stroke-width="4" marker-end="url(#fr_verde_grosso)"/>
+            <text x="80" y="65" font-family="Verdana" font-size="13" font-weight="700" fill="#0F3D1F">a + b</text>
+          </svg>
+          <figcaption>Punta-coda</figcaption>
+        </figure>
+
+        <figure class="diagramma">
+          <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Metodo del parallelogramma">
+            <defs>
+              <marker id="fr_verde2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#14532D"/>
+              </marker>
+              <marker id="fr_verde2_grosso" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F3D1F"/>
+              </marker>
+            </defs>
+            <!-- Lati tratteggiati del parallelogramma -->
+            <line x1="110" y1="110" x2="190" y2="50" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="3 3"/>
+            <line x1="100" y1="40" x2="190" y2="50" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="3 3"/>
+            <!-- Vettore a (orizzontale) -->
+            <line x1="20" y1="110" x2="110" y2="110" stroke="#16A34A" stroke-width="3" marker-end="url(#fr_verde2)"/>
+            <text x="60" y="125" font-family="Verdana" font-size="13" font-weight="700" fill="#14532D">a</text>
+            <!-- Vettore b (diagonale) -->
+            <line x1="20" y1="110" x2="100" y2="40" stroke="#16A34A" stroke-width="3" marker-end="url(#fr_verde2)"/>
+            <text x="40" y="65" font-family="Verdana" font-size="13" font-weight="700" fill="#14532D">b</text>
+            <!-- Diagonale risultante -->
+            <line x1="20" y1="110" x2="190" y2="50" stroke="#0F3D1F" stroke-width="4" marker-end="url(#fr_verde2_grosso)"/>
+            <text x="115" y="80" font-family="Verdana" font-size="13" font-weight="700" fill="#0F3D1F">a + b</text>
+          </svg>
+          <figcaption>Parallelogramma</figcaption>
+        </figure>
+      </div>
+
+      <p style="margin-top:1rem;">Per la <strong>differenza</strong>: prima disegni l'opposto del secondo vettore, poi sommi al primo. Cioè: <code style="background:rgba(0,0,0,.07); padding:1px 6px; border-radius:4px;">a − b = a + (−b)</code>.</p>
+    </div>
+
+    <div class="blocco blocco--voce voce">
+      <h3>🟣 🔊 Dillo a voce alta</h3>
+      <ol>
+        <li>Stessa direzione e stesso verso: sommo i moduli.</li>
+        <li>Stessa direzione, verso opposto: faccio la differenza e tengo il verso del più grande.</li>
+        <li>Direzioni diverse: punta-coda oppure parallelogramma.</li>
+      </ol>
+    </div>
+
+  </div>
+</details>
+
+<!-- ============================================================
+     SCHEDA 4 — FORZE
+     ============================================================ -->
+<details class="scheda" id="scheda4">
+  <summary>
+    <span class="summary-emoji" aria-hidden="true">🧲</span>
+    <span class="summary-num">Scheda 4</span>
+    <span>Le Forze</span>
+    <span class="chev" aria-hidden="true">▶</span>
+  </summary>
+  <div class="scheda-body">
+
+    <div class="blocco blocco--definizione">
+      <h3>🔵 Cosa è</h3>
+      <p>Una <strong>forza</strong> è un'interazione tra due o più corpi. La forza può fare due cose:</p>
+      <ul style="margin:.4rem 0 0;">
+        <li>cambiare la velocità di un corpo (lo accelera, lo frena, lo devia);</li>
+        <li>deformare un corpo (lo schiaccia, lo allunga, lo piega).</li>
+      </ul>
+    </div>
+
+    <div class="blocco blocco--esempio">
+      <h3>🟢 Tipi di forze <span class="ancora-elettrico" aria-hidden="true">⚡ elettrico</span></h3>
+      <table class="tipi">
+        <thead>
+          <tr><th>Tipo</th><th>Esempio dal tuo indirizzo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>💪 Muscolare</td><td>La forza che fai con le mani per stringere un capocorda.</td></tr>
+          <tr><td>🌍 Gravità</td><td>Tiene a terra il quadro elettrico, fa cadere il cacciavite se ti scivola.</td></tr>
+          <tr><td>🧲 Magnetica</td><td>Fa funzionare un relè, un motore elettrico, un'elettrocalamita.</td></tr>
+          <tr><td>🌀 Elastica</td><td>La molla in un contatto a scatto, in un deviatore, in una pinza.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="blocco blocco--formula">
+      <h3>🟡 Unità di misura</h3>
+      <p style="margin:0 0 .4rem;">La forza si misura in <strong>newton (N)</strong>.</p>
+      <p style="margin:0;">1 N è circa il peso di una massa di 100 grammi (come una mela piccola 🍎).</p>
+    </div>
+
+    <div class="blocco blocco--definizione">
+      <h3>🔵 La forza è un vettore</h3>
+      <p>Non basta dire il numero: devi anche dire da che parte tira o spinge. Una forza è un <strong>vettore</strong> con modulo, direzione e verso. Le forze si compongono come tutti i vettori.</p>
+    </div>
+
+    <div class="blocco blocco--formula">
+      <h3>🟡 Forze perpendicolari (teorema di Pitagora)</h3>
+      <p>Se due forze sono ad angolo retto, la risultante si trova con Pitagora:</p>
+      <div class="formula-grande">F<sub>tot</sub> = √(F₁² + F₂²)</div>
+
+      <figure class="diagramma" style="background:white;">
+        <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Forze perpendicolari e risultante diagonale">
+          <defs>
+            <marker id="fr_amb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#78350F"/>
+            </marker>
+            <marker id="fr_amb_grosso" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#5a2810"/>
+            </marker>
+          </defs>
+          <!-- Angolo retto -->
+          <path d="M 50 140 L 50 130 L 60 130 L 60 140" fill="none" stroke="#78350F" stroke-width="1.5"/>
+          <!-- F1 verticale -->
+          <line x1="50" y1="140" x2="50" y2="40" stroke="#D97706" stroke-width="3.5" marker-end="url(#fr_amb)"/>
+          <text x="32" y="90" font-family="Verdana" font-size="13" font-weight="700" fill="#78350F">F₁</text>
+          <text x="32" y="105" font-family="Verdana" font-size="10" fill="#78350F">500 N</text>
+          <!-- F2 orizzontale -->
+          <line x1="50" y1="140" x2="190" y2="140" stroke="#D97706" stroke-width="3.5" marker-end="url(#fr_amb)"/>
+          <text x="115" y="160" font-family="Verdana" font-size="13" font-weight="700" fill="#78350F">F₂</text>
+          <text x="155" y="160" font-family="Verdana" font-size="10" fill="#78350F">500 N</text>
+          <!-- Tratteggi del parallelogramma -->
+          <line x1="190" y1="140" x2="190" y2="40" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="50" y1="40" x2="190" y2="40" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="3 3"/>
+          <!-- Risultante diagonale -->
+          <line x1="50" y1="140" x2="190" y2="40" stroke="#5a2810" stroke-width="4.5" marker-end="url(#fr_amb_grosso)"/>
+          <text x="130" y="95" font-family="Verdana" font-size="13" font-weight="700" fill="#5a2810">F_tot</text>
+          <text x="130" y="110" font-family="Verdana" font-size="10" fill="#5a2810">≈ 707 N</text>
+        </svg>
+        <figcaption>Esempio: F₁ = 500 N e F₂ = 500 N perpendicolari → F<sub>tot</sub> = √(500² + 500²) ≈ 707 N.</figcaption>
+      </figure>
+    </div>
+
+    <div class="blocco blocco--voce voce">
+      <h3>🟣 🔊 Dillo a voce alta</h3>
+      <ol>
+        <li>Una forza è un'interazione: cambia la velocità di un corpo o lo deforma.</li>
+        <li>Si misura in newton. 1 N è circa il peso di una mela piccola (100 g).</li>
+        <li>La forza è un vettore (modulo, direzione, verso): si compone come gli altri vettori.</li>
+      </ol>
+    </div>
+
+  </div>
+</details>
+
+<!-- ============================================================
+     DOMANDE
+     ============================================================ -->
+<section id="domande" aria-label="Domande tipiche dell'interrogazione">
+  <h2>❓ Domande tipiche dell'interrogazione</h2>
+  <p class="nota">Per ogni domanda: prima rispondi a voce alta, poi premi il pulsante per controllare la risposta-modello.</p>
+
+  <div id="qaContainer">
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">1</span><span class="testo">Cos'è la massa? In che unità si misura?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">La quantità di materia di un oggetto. Si misura in kilogrammi (kg).</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">2</span><span class="testo">Cos'è la densità? Scrivi la formula.</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Massa diviso volume:  d = m / V. Si misura in kg/m³.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">3</span><span class="testo">A parità di volume, pesa di più il rame o l'alluminio?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Il rame, perché è più denso (8 900 contro 2 700 kg/m³).</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">4</span><span class="testo">Differenza fra grandezza scalare e vettoriale?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">La vettoriale ha anche direzione e verso. Es: spostamento, velocità, forza.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">5</span><span class="testo">Da cosa è definito un vettore?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Modulo (lunghezza), direzione (retta), verso (da che parte punta la freccia).</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">6</span><span class="testo">Cos'è il vettore opposto?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Stesso modulo e stessa direzione, ma verso contrario.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">7</span><span class="testo">Due vettori stessa direzione e stesso verso: come si sommano?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Si sommano i moduli. La risultante ha la stessa direzione e lo stesso verso.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">8</span><span class="testo">E con verso opposto?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Si fa la differenza dei moduli; il verso è quello del più grande.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">9</span><span class="testo">Due metodi per sommare vettori con direzioni diverse?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Punta-coda (uno dopo l'altro) e parallelogramma (stessa origine, diagonale).</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">10</span><span class="testo">Cos'è una forza? Cosa può fare?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Un'interazione tra corpi. Cambia la velocità di un corpo, oppure lo deforma.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">11</span><span class="testo">In che unità si misura la forza? Quanto vale 1 N?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">In newton (N). 1 N è circa il peso di una massa di 100 g.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">12</span><span class="testo">La forza è vettore o scalare? Perché?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">Vettore: servono modulo, direzione, verso, non basta il numero.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">13</span><span class="testo">Esempio di forza magnetica nel tuo indirizzo?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">L'ancora del relè che scatta, il rotore del motore elettrico che gira.</div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-domanda"><span class="qa-numero">14</span><span class="testo">Due forze perpendicolari di 300 N: quanto vale la risultante?</span></div>
+      <div class="qa-azione"><button class="btn-mostra" type="button" aria-expanded="false">Mostra risposta</button></div>
+      <div class="qa-risposta">F_tot = √(300² + 300²) = √180 000 ≈ 424 N.</div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="doc-footer">
+  <p>Quaderno operativo · 14 domande di ripasso · Stampabile (apri tutte le schede e usa la stampa del browser)</p>
+  <p class="firma">A cura di <strong>Ivan Ferrero</strong> — Psicologo Psicoterapeuta, Docente di Sostegno, Esperto in Inclusione Digitale · <a href="/digitale-inclusivo/" style="color:var(--primary);">Digitale Inclusivo</a></p>
+</footer>
+
+</div>
+
+<script>
+  // Progressive enhancement: nascondo le risposte solo se JS è attivo
+  // (così se JS è disabilitato, le risposte rimangono visibili)
+  document.querySelectorAll('.qa-risposta').forEach(el => {
+    el.dataset.hideable = 'true';
+    el.style.display = 'none';
+  });
+
+  // Attivo i bottoni "Mostra risposta"
+  document.querySelectorAll('.qa .btn-mostra').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const qa = btn.closest('.qa');
+      const risposta = qa.querySelector('.qa-risposta');
+      risposta.style.display = 'flex';
+      qa.classList.add('aperta');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.parentElement.style.display = 'none';
+    });
+  });
+
+  // ========== Apri/chiudi tutte le schede ==========
+  const schede = document.querySelectorAll('details.scheda');
+  document.getElementById('apriTutto').addEventListener('click', () => {
+    schede.forEach(d => d.open = true);
+  });
+  document.getElementById('chiudiTutto').addEventListener('click', () => {
+    schede.forEach(d => d.open = false);
+  });
+
+  // ========== Quando clicchi un link dell'indice, apri la scheda ==========
+  document.querySelectorAll('.indice a').forEach(a => {
+    a.addEventListener('click', () => {
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target && target.tagName === 'DETAILS') {
+        target.open = true;
+      }
+    });
+  });
+</script>
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

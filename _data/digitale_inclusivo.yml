@@ -108,6 +108,11 @@ sections:
     tag_class: tag-lezione
     cards:
 
+      - title: "⚡ Fisica · Quaderno per l'interrogazione"
+        url: /dashboards/fisica-quaderno-interrogazione-with-menu.html
+        tag_label: "Fisica · BES"
+        description: "Quaderno operativo per BES su massa, volume, densità, vettori e forze, progettato per uno studente reale di indirizzo elettrico. Quattro schede a fisarmonica con palette a significato (blu = definizioni, ambra = formule, verde = esempi tarati sull'indirizzo, viola = 'dillo a voce alta'), 14 domande di ripasso con risposte rivelabili, diagrammi SVG dei vettori. Sfondo crema, contrasto WCAG AAA, font Verdana, stampabile aprendo tutte le schede. La palette light non è decorazione: è uno scaffold cognitivo che riduce affaticamento e codifica il tipo di informazione."
+
       - title: "Abbecedario della Notazione Matematica"
         url: /dashboards/abbecedario-notazione-matematica-with-menu.html
         tag_label: "Matematica · DSA"
