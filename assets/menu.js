@@ -296,3 +296,17 @@ const menuConfig = {
         if (window.innerWidth > 768) closeMenu();
     });
 })();
+
+/* ===========================================
+   Auto-load cookie consent banner
+   ===========================================
+   Carica il banner di consenso GDPR + Google Consent Mode v2.
+   Evita doppio caricamento se cookie-consent.js e' gia' presente.
+   =========================================== */
+(function() {
+    if (window.__ivfConsentLoaded) return;
+    var s = document.createElement('script');
+    s.src = '/assets/cookie-consent.js';
+    s.async = false;
+    document.head.appendChild(s);
+})();
