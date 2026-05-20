@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Cartesiano con Quadranti — Esercitazione e Verifica Interattiva | Ivan Ferrero</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F7F7F7;
+            --card-bg: #FFFFFF;
+            --text: #2D2D2D;
+            --text-light: #5A5A5A;
+            --primary: #3B6FB6;
+            --primary-light: #D6E4F5;
+            --success: #2E8B57;
+            --success-light: #D4EDDA;
+            --error: #C0392B;
+            --error-light: #F8D7DA;
+            --border: #D0D0D0;
+            --grid: #C8D6E5;
+            --axis: #2D2D2D;
+            --point-color: #E67E22;
+            --point-placed: #3B6FB6;
+            --nav-active: #3B6FB6;
+            --nav-inactive: #E0E0E0;
+            --font: 'Verdana', 'Arial', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font);
+            font-size: 18px;
+            line-height: 1.6;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-top: 70px;
+        }
+
+        /* ── HEADER ── */
+        .app-header {
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--border);
+            padding: 16px 24px;
+            text-align: center;
+        }
+        .app-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .app-header .subtitle {
+            font-size: 15px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* ── NAVIGATION ── */
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .pc-nav-btn {
+            font-family: var(--font);
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--nav-inactive);
+            color: var(--text);
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            min-height: 48px;
+        }
+        .pc-nav-btn:hover { border-color: var(--primary); }
+        .pc-nav-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .pc-nav-btn .nav-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        .pc-nav-btn.active .nav-number { background: rgba(255,255,255,0.4); }
+
+        /* ── MAIN CONTAINER ── */
+        .main-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* ── SECTIONS ── */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* ── CARDS ── */
+        .pc-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .pc-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        .pc-card h3 {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        .pc-card p {
+            margin-bottom: 12px;
+        }
+
+        /* ── INSTRUCTION BOX ── */
+        .instruction-box {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .instruction-box .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        /* ── COORDINATE DISPLAY ── */
+        .coord-display {
+            text-align: center;
+            padding: 20px;
+            margin: 16px 0;
+            background: #FFF8E1;
+            border: 2px solid #F0C040;
+            border-radius: 8px;
+        }
+        .coord-display .label {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .coord-display .coords {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 2px;
+        }
+        .coord-display .coord-explain {
+            font-size: 15px;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* ── CANVAS WRAPPER ── */
+        .canvas-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin: 16px 0;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            overflow-x: auto;
+        }
+        canvas {
+            cursor: crosshair;
+            display: block;
+        }
+
+        /* ── FEEDBACK ── */
+        .pc-feedback {
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 16px 0;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+        }
+        .pc-feedback.hidden { visibility: hidden; }
+        .pc-feedback.success {
+            background: var(--success-light);
+            border-color: var(--success);
+            color: var(--success);
+        }
+        .pc-feedback.error {
+            background: var(--error-light);
+            border-color: var(--error);
+            color: var(--error);
+        }
+        .pc-feedback.info {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ── BUTTONS ── */
+        .btn {
+            font-family: var(--font);
+            font-size: 18px;
+            font-weight: 600;
+            padding: 14px 28px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            min-height: 48px;
+            transition: background 0.2s;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover { background: #2E5A9E; }
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        .btn-success:hover { background: #267349; }
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-outline:hover { background: var(--primary-light); }
+        .btn-center { display: block; margin: 16px auto; }
+
+        /* ── PROGRESS ── */
+        .pc-progress-bar {
+            background: #E8E8E8;
+            border-radius: 8px;
+            height: 24px;
+            overflow: hidden;
+            margin: 12px 0;
+            position: relative;
+        }
+        .pc-progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 8px;
+            transition: width 0.4s;
+        }
+        .progress-text {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* ── SCORE ── */
+        .score-box {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin: 16px 0;
+        }
+        .score-item {
+            text-align: center;
+        }
+        .score-item .score-val {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .score-item .score-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        .score-correct .score-val { color: var(--success); }
+        .score-wrong .score-val { color: var(--error); }
+
+        /* ── TUTORIAL ── */
+        .tutorial-step {
+            display: none;
+        }
+        .tutorial-step.active {
+            display: block;
+        }
+        .tutorial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .tutorial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        .tutorial-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--nav-inactive);
+            border: 2px solid var(--border);
+        }
+        .tutorial-dot.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .tutorial-dot.done {
+            background: var(--success);
+            border-color: var(--success);
+        }
+        .example-img {
+            display: block;
+            margin: 16px auto;
+            max-width: 100%;
+        }
+        .highlight-x { color: #C0392B; font-weight: 700; }
+        .highlight-y { color: #2E8B57; font-weight: 700; }
+        .highlight-point { color: #E67E22; font-weight: 700; }
+
+        /* ── QUADRANTS LEGEND ── */
+        .quadrants-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 16px 0;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .quadrant-cell {
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            background: #FAFAFA;
+        }
+        .quadrant-cell strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .quadrant-cell.q1 { background: #E8F5E9; border-color: #2E8B57; }
+        .quadrant-cell.q2 { background: #FFF3E0; border-color: #E67E22; }
+        .quadrant-cell.q3 { background: #FFEBEE; border-color: #C0392B; }
+        .quadrant-cell.q4 { background: #E3F2FD; border-color: #3B6FB6; }
+
+        /* ── MULTI-POINT LIST ── */
+        .point-list {
+            list-style: none;
+            padding: 0;
+        }
+        .point-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        .point-list li.current {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .point-list li.done {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+        .point-list li.wrong {
+            border-color: var(--error);
+            background: var(--error-light);
+        }
+        .point-status {
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .status-pending {
+            background: var(--nav-inactive);
+            color: var(--text-light);
+        }
+        .status-current {
+            background: var(--primary);
+            color: white;
+        }
+        .status-done {
+            background: var(--success);
+            color: white;
+        }
+        .status-wrong {
+            background: var(--error);
+            color: white;
+        }
+
+        /* ── FORM DATI ── */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            font-family: var(--font);
+            font-size: 18px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            color: var(--text);
+            min-height: 48px;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59,111,182,0.2);
+        }
+        .form-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .form-row .form-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        /* ── RESULT TABLE ── */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        .result-table th, .result-table td {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            text-align: center;
+            font-size: 16px;
+        }
+        .result-table th {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .result-table .correct-row { background: var(--success-light); }
+        .result-table .wrong-row { background: var(--error-light); }
+
+        .final-score {
+            text-align: center;
+            padding: 24px;
+            margin: 16px 0;
+            border-radius: 8px;
+        }
+        .final-score.great {
+            background: var(--success-light);
+            border: 2px solid var(--success);
+        }
+        .final-score.ok {
+            background: #FFF8E1;
+            border: 2px solid #F0C040;
+        }
+        .final-score.retry {
+            background: var(--error-light);
+            border: 2px solid var(--error);
+        }
+        .final-score .big-number {
+            font-size: 48px;
+            font-weight: 700;
+        }
+        .final-score .big-label {
+            font-size: 18px;
+            color: var(--text-light);
+        }
+
+        /* ── NAV: non-clickable steps for verifica ── */
+        .pc-nav-btn.locked {
+            cursor: default;
+            opacity: 0.5;
+        }
+        .pc-nav-btn.done-step {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+            opacity: 1;
+            cursor: default;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 700px) {
+            .main-container { padding: 12px; }
+            .pc-card { padding: 16px; }
+            .pc-nav-btn { padding: 10px 16px; font-size: 14px; }
+            .coord-display .coords { font-size: 26px; }
+            .form-row { flex-direction: column; }
+        }
+
+        /* ── RESPONSIVE: menu sito mobile ── */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 120px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<header class="app-header">
+    <h1>Piano Cartesiano con Quadranti</h1>
+    <div class="subtitle">Numeri positivi e negativi — da (-20, -20) a (+20, +20)</div>
+</header>
+
+<nav class="nav-bar">
+    <button class="pc-nav-btn active" onclick="showSection('tutorial')">
+        <span class="nav-number">1</span>Come funziona
+    </button>
+    <button class="pc-nav-btn" onclick="showSection('single')">
+        <span class="nav-number">2</span>Un punto alla volta
+    </button>
+    <button class="pc-nav-btn" onclick="showSection('multi')">
+        <span class="nav-number">3</span>Dieci punti
+    </button>
+    <button class="pc-nav-btn" onclick="showSection('verifica')">
+        <span class="nav-number">4</span>Verifica
+    </button>
+    <button class="pc-nav-btn locked" id="nav-form">
+        <span class="nav-number">5</span>Dati alunno
+    </button>
+    <button class="pc-nav-btn locked" id="nav-results">
+        <span class="nav-number">6</span>Risultato
+    </button>
+</nav>
+
+<div class="main-container">
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE TUTORIAL                              -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-tutorial" class="section active">
+
+    <!-- STEP 1 -->
+    <div class="tutorial-step active" id="tut-step-1">
+        <div class="pc-card">
+            <h2>Il piano cartesiano con i numeri negativi</h2>
+            <p>Il piano cartesiano è come una <strong>mappa</strong> fatta di numeri.</p>
+            <p>Ci sono <strong>due linee</strong> che si incrociano nel mezzo:</p>
+            <div style="margin: 20px 0;">
+                <p><span class="highlight-x">La linea rossa</span> si chiama <strong>asse X</strong>. Va da <strong>sinistra a destra</strong>.</p>
+                <p><span class="highlight-y">La linea verde</span> si chiama <strong>asse Y</strong>. Va dal <strong>basso verso l'alto</strong>.</p>
+            </div>
+            <p>Il punto dove le due linee si incrociano si chiama <strong>origine</strong> ed è il punto <strong>(0, 0)</strong>.</p>
+            <p>I numeri possono essere <strong>positivi</strong> (da 0 in poi) o <strong>negativi</strong> (sotto lo zero, con il segno meno davanti).</p>
+            <div class="canvas-wrapper">
+                <canvas id="tut-canvas-1" width="600" height="600"></canvas>
+            </div>
+            <p style="margin-top: 16px;">Le due linee dividono il piano in <strong>4 zone</strong>, chiamate <strong>quadranti</strong>:</p>
+            <div class="quadrants-legend">
+                <div class="quadrant-cell q2"><strong>2° quadrante</strong>X negativo, Y positivo<br>esempio: (-5, 3)</div>
+                <div class="quadrant-cell q1"><strong>1° quadrante</strong>X positivo, Y positivo<br>esempio: (5, 3)</div>
+                <div class="quadrant-cell q3"><strong>3° quadrante</strong>X negativo, Y negativo<br>esempio: (-5, -3)</div>
+                <div class="quadrant-cell q4"><strong>4° quadrante</strong>X positivo, Y negativo<br>esempio: (5, -3)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="tutorial-step" id="tut-step-2">
+        <div class="pc-card">
+            <h2>Come si leggono le coordinate?</h2>
+            <p>Ogni punto sul piano ha <strong>due numeri</strong>. Si scrivono così: <strong>(X, Y)</strong></p>
+            <div style="margin: 16px 0;">
+                <p><span class="highlight-x">Il primo numero (X)</span>:</p>
+                <p style="margin-left: 20px;">→ se è <strong>positivo</strong>, vai a <strong>destra</strong>.</p>
+                <p style="margin-left: 20px;">→ se è <strong>negativo</strong>, vai a <strong>sinistra</strong>.</p>
+                <p><span class="highlight-y">Il secondo numero (Y)</span>:</p>
+                <p style="margin-left: 20px;">→ se è <strong>positivo</strong>, vai in <strong>alto</strong>.</p>
+                <p style="margin-left: 20px;">→ se è <strong>negativo</strong>, vai in <strong>basso</strong>.</p>
+            </div>
+            <div class="instruction-box">
+                <p><strong>Esempio 1:</strong> il punto <strong>(5, 3)</strong></p>
+                <p><span class="step-number">1</span> Parti dall'origine (0, 0).</p>
+                <p><span class="step-number">2</span> <span class="highlight-x">Vai a destra di 5 quadretti.</span></p>
+                <p><span class="step-number">3</span> <span class="highlight-y">Vai in alto di 3 quadretti.</span></p>
+            </div>
+            <div class="instruction-box" style="background:#FFEBEE; border-color:#C0392B;">
+                <p><strong>Esempio 2:</strong> il punto <strong>(-4, -2)</strong></p>
+                <p><span class="step-number" style="background:#C0392B;">1</span> Parti dall'origine (0, 0).</p>
+                <p><span class="step-number" style="background:#C0392B;">2</span> <span class="highlight-x">Vai a sinistra di 4 quadretti</span> (perché X = -4).</p>
+                <p><span class="step-number" style="background:#C0392B;">3</span> <span class="highlight-y">Vai in basso di 2 quadretti</span> (perché Y = -2).</p>
+            </div>
+            <p>Guarda il piano qui sotto. Ci sono due punti: <span class="highlight-point">arancione</span> a (5, 3) e <span style="color:#9B59B6; font-weight:700;">viola</span> a (-4, -2).</p>
+            <div class="canvas-wrapper">
+                <canvas id="tut-canvas-2" width="600" height="600"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="tutorial-step" id="tut-step-3">
+        <div class="pc-card">
+            <h2>Prova tu!</h2>
+            <p>Adesso prova a mettere un punto sul piano cartesiano.</p>
+            <div class="instruction-box">
+                <p><span class="step-number">1</span> Leggi le coordinate qui sotto.</p>
+                <p><span class="step-number">2</span> Attenzione al <strong>segno</strong> dei numeri!</p>
+                <p><span class="step-number">3</span> Clicca con il mouse sul punto giusto nel piano.</p>
+                <p><span class="step-number">4</span> Se sbagli, puoi riprovare.</p>
+            </div>
+            <div class="coord-display">
+                <div class="label">Metti il punto qui:</div>
+                <div class="coords" id="tut-target-coords">(-6, 4)</div>
+                <div class="coord-explain">
+                    <span class="highlight-x">6 quadretti a sinistra</span>, poi <span class="highlight-y">4 quadretti in alto</span>
+                </div>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="tut-canvas-3" width="600" height="600"></canvas>
+            </div>
+            <div id="tut-feedback" class="pc-feedback hidden">.</div>
+            <div style="text-align:center; margin-top:8px;">
+                <button class="btn btn-outline" onclick="tutorialRetry()" id="tut-retry-btn" style="display:none;">Riprova</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Navigation -->
+    <div class="tutorial-dots" id="tut-dots">
+        <div class="tutorial-dot active"></div>
+        <div class="tutorial-dot"></div>
+        <div class="tutorial-dot"></div>
+    </div>
+    <div class="tutorial-nav">
+        <button class="btn btn-outline" id="tut-prev" onclick="tutorialNav(-1)" style="visibility:hidden;">Indietro</button>
+        <button class="btn btn-primary" id="tut-next" onclick="tutorialNav(1)">Avanti</button>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 1: UN PUNTO                           -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-single" class="section">
+    <div class="pc-card">
+        <h2>Esercizio: un punto alla volta</h2>
+        <div class="instruction-box">
+            <p><span class="step-number">1</span> Leggi le coordinate del punto qui sotto.</p>
+            <p><span class="step-number">2</span> Attenzione al <strong>segno</strong> dei numeri (positivi o negativi).</p>
+            <p><span class="step-number">3</span> Clicca con il mouse sul punto giusto nel piano cartesiano.</p>
+            <p><span class="step-number">4</span> Se è giusto, arriva un nuovo punto. Se sbagli, puoi riprovare.</p>
+        </div>
+    </div>
+
+    <div class="pc-card">
+        <div class="coord-display">
+            <div class="label">Metti il punto qui:</div>
+            <div class="coords" id="single-coords">(0, 0)</div>
+            <div class="coord-explain" id="single-explain"></div>
+        </div>
+        <div class="canvas-wrapper">
+            <canvas id="single-canvas" width="780" height="780"></canvas>
+        </div>
+        <div id="single-feedback" class="pc-feedback hidden">.</div>
+        <div style="text-align:center; margin-top:8px;">
+            <button class="btn btn-outline" onclick="singleRetry()" id="single-retry-btn" style="display:none;">Riprova</button>
+        </div>
+    </div>
+
+    <div class="pc-card">
+        <div class="pc-progress-bar"><div class="pc-progress-fill" id="single-progress" style="width:0%"></div></div>
+        <div class="progress-text" id="single-progress-text">0 di 10 completati</div>
+        <div class="score-box">
+            <div class="score-item score-correct"><div class="score-val" id="single-correct">0</div><div class="score-label">Corretti</div></div>
+            <div class="score-item score-wrong"><div class="score-val" id="single-wrong">0</div><div class="score-label">Sbagliati</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 2: DIECI PUNTI                        -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-multi" class="section">
+    <div class="pc-card">
+        <h2>Esercizio: dieci punti insieme</h2>
+        <div class="instruction-box">
+            <p><span class="step-number">1</span> Qui sotto ci sono 10 punti da mettere nel piano.</p>
+            <p><span class="step-number">2</span> Il punto evidenziato in blu è quello da mettere adesso.</p>
+            <p><span class="step-number">3</span> Attenzione al <strong>segno</strong> dei numeri (positivi o negativi).</p>
+            <p><span class="step-number">4</span> Clicca con il mouse sul punto giusto nel piano cartesiano.</p>
+            <p><span class="step-number">5</span> Quando metti un punto giusto, si passa al prossimo.</p>
+        </div>
+    </div>
+
+    <div class="pc-card">
+        <h3>Punti da mettere:</h3>
+        <ul class="point-list" id="multi-point-list"></ul>
+    </div>
+
+    <div class="pc-card">
+        <div class="canvas-wrapper">
+            <canvas id="multi-canvas" width="780" height="780"></canvas>
+        </div>
+        <div id="multi-feedback" class="pc-feedback hidden">.</div>
+        <div style="text-align:center; margin-top:8px;">
+            <button class="btn btn-outline" onclick="multiRetry()" id="multi-retry-btn" style="display:none;">Riprova</button>
+        </div>
+    </div>
+
+    <div class="pc-card">
+        <div class="pc-progress-bar"><div class="pc-progress-fill" id="multi-progress" style="width:0%"></div></div>
+        <div class="progress-text" id="multi-progress-text">0 di 10 completati</div>
+        <div style="text-align:center; margin-top:16px;">
+            <button class="btn btn-primary" onclick="multiNewRound()" id="multi-new-btn" style="display:none;">Nuova serie di 10 punti</button>
+        </div>
+        <div class="score-box" id="multi-score-box">
+            <div class="score-item"><div class="score-val" id="multi-round">Serie 1</div><div class="score-label">Serie attuale</div></div>
+            <div class="score-item score-correct"><div class="score-val" id="multi-correct">0</div><div class="score-label">Corretti totali</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 4: VERIFICA 20 PUNTI                  -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-verifica" class="section">
+    <div class="pc-card">
+        <h2>Verifica: 20 punti</h2>
+        <div class="instruction-box">
+            <p><span class="step-number">1</span> Leggi le coordinate del punto qui sotto.</p>
+            <p><span class="step-number">2</span> Attenzione al <strong>segno</strong> dei numeri (positivi o negativi).</p>
+            <p><span class="step-number">3</span> Clicca con il mouse sul punto giusto nel piano cartesiano.</p>
+            <p><span class="step-number">4</span> Dopo ogni risposta si passa al punto successivo.</p>
+            <p style="margin-top:10px; color: #C0392B;"><strong>Attenzione: non puoi tornare indietro. Pensa bene prima di cliccare!</strong></p>
+        </div>
+    </div>
+
+    <div class="pc-card">
+        <div class="coord-display">
+            <div class="label">Punto <span id="ver-current-num">1</span> di 20 — Metti il punto qui:</div>
+            <div class="coords" id="ver-coords">(0, 0)</div>
+            <div class="coord-explain" id="ver-explain"></div>
+        </div>
+        <div class="canvas-wrapper">
+            <canvas id="ver-canvas" width="780" height="780"></canvas>
+        </div>
+        <div id="ver-feedback" class="pc-feedback hidden">.</div>
+    </div>
+
+    <div class="pc-card">
+        <div class="pc-progress-bar"><div class="pc-progress-fill" id="ver-progress" style="width:0%"></div></div>
+        <div class="progress-text" id="ver-progress-text">0 di 20 completati</div>
+        <div class="score-box">
+            <div class="score-item score-correct"><div class="score-val" id="ver-correct">0</div><div class="score-label">Corretti</div></div>
+            <div class="score-item score-wrong"><div class="score-val" id="ver-wrong">0</div><div class="score-label">Sbagliati</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 5: FORM DATI ALUNNO                   -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-form" class="section">
+    <div class="pc-card">
+        <h2>I tuoi dati</h2>
+        <p>Scrivi i tuoi dati qui sotto. Servono per il foglio dei risultati.</p>
+        <div style="margin-top: 16px;">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="field-cognome">Cognome</label>
+                    <input type="text" id="field-cognome" placeholder="Scrivi il tuo cognome">
+                </div>
+                <div class="form-group">
+                    <label for="field-nome">Nome</label>
+                    <input type="text" id="field-nome" placeholder="Scrivi il tuo nome">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="field-classe">Classe</label>
+                    <input type="text" id="field-classe" placeholder="Esempio: 1BE">
+                </div>
+                <div class="form-group">
+                    <label for="field-data">Data</label>
+                    <input type="date" id="field-data">
+                </div>
+            </div>
+        </div>
+        <div id="form-error" style="color: #C0392B; font-weight: 600; margin-top: 12px; display: none;">
+            Compila tutti i campi prima di continuare.
+        </div>
+        <div style="text-align: center; margin-top: 24px;">
+            <button class="btn btn-primary" onclick="submitForm()">Vai ai risultati</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ -->
+<!-- SEZIONE 6: RISULTATI + PDF                    -->
+<!-- ═════════════════════════════════════════════ -->
+<div id="section-results" class="section">
+    <div class="pc-card">
+        <h2>Risultati della verifica</h2>
+        <div id="student-info" style="margin-bottom: 16px; font-size: 16px; color: var(--text-light);"></div>
+        <div id="final-score-box"></div>
+        <table class="result-table" id="result-table">
+            <thead>
+                <tr>
+                    <th>Punto</th>
+                    <th>Coordinate richieste</th>
+                    <th>La tua risposta</th>
+                    <th>Risultato</th>
+                </tr>
+            </thead>
+            <tbody id="result-tbody"></tbody>
+        </table>
+    </div>
+    <div class="pc-card" style="text-align: center;">
+        <p style="margin-bottom: 16px;">Clicca il bottone per scaricare il PDF con i risultati.</p>
+        <button class="btn btn-success" onclick="downloadPDF()">Scarica PDF</button>
+    </div>
+</div>
+
+</div><!-- main-container -->
+
+<script>
+// ═══════════════════════════════════════════
+// CONFIG — quadranti con numeri negativi
+// ═══════════════════════════════════════════
+
+const X_MIN = -20, X_MAX = 20;
+const Y_MIN = -20, Y_MAX = 20;
+const X_RANGE = X_MAX - X_MIN;   // 40
+const Y_RANGE = Y_MAX - Y_MIN;   // 40
+
+// ═══════════════════════════════════════════
+// UTILITY
+// ═══════════════════════════════════════════
+
+function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Random point in [-20, +20] x [-20, +20], escluso (0,0) per chiarezza didattica
+function randPoint() {
+    let x, y;
+    do {
+        x = randInt(X_MIN, X_MAX);
+        y = randInt(Y_MIN, Y_MAX);
+    } while (x === 0 && y === 0);
+    return { x, y };
+}
+
+function explainCoord(x, y) {
+    let xPart;
+    if (x > 0) xPart = '<span class="highlight-x">' + x + ' a destra</span>';
+    else if (x < 0) xPart = '<span class="highlight-x">' + Math.abs(x) + ' a sinistra</span>';
+    else xPart = '<span class="highlight-x">sull\'asse Y (X=0)</span>';
+
+    let yPart;
+    if (y > 0) yPart = '<span class="highlight-y">' + y + ' in alto</span>';
+    else if (y < 0) yPart = '<span class="highlight-y">' + Math.abs(y) + ' in basso</span>';
+    else yPart = '<span class="highlight-y">sull\'asse X (Y=0)</span>';
+
+    return xPart + ', poi ' + yPart;
+}
+
+// ═══════════════════════════════════════════
+// SECTION NAVIGATION
+// ═══════════════════════════════════════════
+
+function showSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + name).classList.add('active');
+    document.querySelectorAll('.pc-nav-btn').forEach(b => b.classList.remove('active'));
+    const idx = { tutorial: 0, single: 1, multi: 2, verifica: 3, form: 4, results: 5 }[name];
+    document.querySelectorAll('.pc-nav-btn')[idx].classList.add('active');
+
+    if (name === 'single' && !singleState.initialized) initSingle();
+    if (name === 'multi' && !multiState.initialized) initMulti();
+    if (name === 'verifica' && !verState.initialized) initVerifica();
+    if (name === 'tutorial') drawTutorialCanvases();
+}
+
+function goToVerificaStep(name) {
+    showSection(name);
+    const navBtns = document.querySelectorAll('.pc-nav-btn');
+    const idx = { tutorial: 0, single: 1, multi: 2, verifica: 3, form: 4, results: 5 }[name];
+    if (idx === 4) {
+        navBtns[3].classList.add('done-step');
+        navBtns[3].classList.remove('active');
+        navBtns[4].classList.remove('locked');
+    }
+    if (idx === 5) {
+        navBtns[4].classList.add('done-step');
+        navBtns[4].classList.remove('active');
+        navBtns[5].classList.remove('locked');
+    }
+}
+
+// ═══════════════════════════════════════════
+// DRAW GRID — asse al centro, range simmetrico
+// ═══════════════════════════════════════════
+//
+// Coordinate world → pixel:
+//   px = originX + worldX * step
+//   py = originY - worldY * step
+// dove (originX, originY) è il centro del grafico in pixel.
+
+function drawGrid(ctx, w, h, options = {}) {
+    const margin = options.margin || 40;
+    const plotW = w - margin * 2;
+    const plotH = h - margin * 2;
+    const step = Math.min(plotW / X_RANGE, plotH / Y_RANGE);
+    // Centro origine al centro del canvas
+    const originX = w / 2;
+    const originY = h / 2;
+    const leftEdge = originX + X_MIN * step;   // X_MIN è negativo
+    const rightEdge = originX + X_MAX * step;
+    const topEdge = originY - Y_MAX * step;
+    const bottomEdge = originY - Y_MIN * step; // Y_MIN è negativo
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, w, h);
+
+    // Sub-grid (mezzo quadretto) per dare effetto millimetrico
+    ctx.strokeStyle = '#EEF2F7';
+    ctx.lineWidth = 0.5;
+    for (let i = X_MIN * 2; i <= X_MAX * 2; i++) {
+        if (i % 2 === 0) continue;
+        const x = originX + (i / 2) * step;
+        ctx.beginPath(); ctx.moveTo(x, topEdge); ctx.lineTo(x, bottomEdge); ctx.stroke();
+    }
+    for (let j = Y_MIN * 2; j <= Y_MAX * 2; j++) {
+        if (j % 2 === 0) continue;
+        const y = originY - (j / 2) * step;
+        ctx.beginPath(); ctx.moveTo(leftEdge, y); ctx.lineTo(rightEdge, y); ctx.stroke();
+    }
+
+    // Main grid (unità intera)
+    ctx.strokeStyle = '#C8D6E5';
+    ctx.lineWidth = 1;
+    for (let i = X_MIN; i <= X_MAX; i++) {
+        const x = originX + i * step;
+        ctx.beginPath(); ctx.moveTo(x, topEdge); ctx.lineTo(x, bottomEdge); ctx.stroke();
+    }
+    for (let j = Y_MIN; j <= Y_MAX; j++) {
+        const y = originY - j * step;
+        ctx.beginPath(); ctx.moveTo(leftEdge, y); ctx.lineTo(rightEdge, y); ctx.stroke();
+    }
+
+    // Linee ogni 5 unità più marcate
+    ctx.strokeStyle = '#A8B8CC';
+    ctx.lineWidth = 1.5;
+    for (let i = X_MIN; i <= X_MAX; i++) {
+        if (i === 0 || i % 5 !== 0) continue;
+        const x = originX + i * step;
+        ctx.beginPath(); ctx.moveTo(x, topEdge); ctx.lineTo(x, bottomEdge); ctx.stroke();
+    }
+    for (let j = Y_MIN; j <= Y_MAX; j++) {
+        if (j === 0 || j % 5 !== 0) continue;
+        const y = originY - j * step;
+        ctx.beginPath(); ctx.moveTo(leftEdge, y); ctx.lineTo(rightEdge, y); ctx.stroke();
+    }
+
+    // Bordo
+    ctx.strokeStyle = '#B0BEC5';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(leftEdge, topEdge, rightEdge - leftEdge, bottomEdge - topEdge);
+
+    // ASSI principali (passano per l'origine)
+    ctx.strokeStyle = '#2D2D2D';
+    ctx.lineWidth = 2.5;
+    // X axis (orizzontale, y = 0)
+    ctx.beginPath(); ctx.moveTo(leftEdge - 4, originY); ctx.lineTo(rightEdge + 12, originY); ctx.stroke();
+    // Y axis (verticale, x = 0)
+    ctx.beginPath(); ctx.moveTo(originX, bottomEdge + 4); ctx.lineTo(originX, topEdge - 12); ctx.stroke();
+
+    // Frecce
+    ctx.fillStyle = '#2D2D2D';
+    // freccia X+
+    ctx.beginPath();
+    ctx.moveTo(rightEdge + 12, originY);
+    ctx.lineTo(rightEdge + 4, originY - 6);
+    ctx.lineTo(rightEdge + 4, originY + 6);
+    ctx.closePath(); ctx.fill();
+    // freccia Y+
+    ctx.beginPath();
+    ctx.moveTo(originX, topEdge - 12);
+    ctx.lineTo(originX - 6, topEdge - 4);
+    ctx.lineTo(originX + 6, topEdge - 4);
+    ctx.closePath(); ctx.fill();
+
+    // Etichette numeri sugli assi
+    ctx.fillStyle = '#5A5A5A';
+    ctx.font = '12px Verdana, Arial, sans-serif';
+
+    // X labels (ogni 5)
+    ctx.textAlign = 'center';
+    for (let i = X_MIN; i <= X_MAX; i++) {
+        if (i === 0 || i % 5 !== 0) continue;
+        const x = originX + i * step;
+        // tick
+        ctx.strokeStyle = '#2D2D2D';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(x, originY - 4); ctx.lineTo(x, originY + 4); ctx.stroke();
+        // label sotto (per X positivi) o sopra leggermente
+        ctx.fillStyle = '#5A5A5A';
+        ctx.fillText(i, x, originY + 18);
+    }
+    // Y labels (ogni 5)
+    ctx.textAlign = 'right';
+    for (let j = Y_MIN; j <= Y_MAX; j++) {
+        if (j === 0 || j % 5 !== 0) continue;
+        const y = originY - j * step;
+        ctx.strokeStyle = '#2D2D2D';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(originX - 4, y); ctx.lineTo(originX + 4, y); ctx.stroke();
+        ctx.fillStyle = '#5A5A5A';
+        ctx.fillText(j, originX - 8, y + 4);
+    }
+    // Etichetta origine (0)
+    ctx.fillStyle = '#5A5A5A';
+    ctx.textAlign = 'right';
+    ctx.fillText('0', originX - 6, originY + 14);
+
+    // Nomi degli assi
+    ctx.fillStyle = '#C0392B';
+    ctx.font = 'bold 15px Verdana, Arial, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('X', rightEdge + 18, originY + 5);
+    ctx.fillStyle = '#2E8B57';
+    ctx.textAlign = 'center';
+    ctx.fillText('Y', originX, topEdge - 20);
+
+    return { margin, step, plotW, plotH, originX, originY, leftEdge, rightEdge, topEdge, bottomEdge };
+}
+
+function worldToPixel(grid, wx, wy) {
+    return {
+        px: grid.originX + wx * grid.step,
+        py: grid.originY - wy * grid.step
+    };
+}
+
+function drawPoint(ctx, grid, wx, wy, color, radius) {
+    const { px, py } = worldToPixel(grid, wx, wy);
+    ctx.beginPath();
+    ctx.arc(px, py, radius || 8, 0, Math.PI * 2);
+    ctx.fillStyle = color || '#E67E22';
+    ctx.fill();
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+}
+
+function drawPointLabel(ctx, grid, wx, wy, label, color) {
+    const { px, py } = worldToPixel(grid, wx, wy);
+    ctx.fillStyle = color || '#2D2D2D';
+    ctx.font = 'bold 13px Verdana, Arial, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(label, px + 12, py - 8);
+}
+
+// ═══════════════════════════════════════════
+// HOVER SNAP
+// ═══════════════════════════════════════════
+
+function setupHoverSnap(canvas, getGridFn, redrawFn) {
+    let lastSnap = null;
+    canvas.addEventListener('mousemove', (e) => {
+        const info = getGridFn(e);
+        if (!info) return;
+        const { gx, gy, grid } = info;
+        const key = gx + ',' + gy;
+        if (lastSnap === key) return;
+        lastSnap = key;
+        redrawFn();
+        const ctx = canvas.getContext('2d');
+        const { px, py } = worldToPixel(grid, gx, gy);
+        // Crosshair
+        ctx.strokeStyle = 'rgba(59,111,182,0.35)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath(); ctx.moveTo(px, grid.topEdge); ctx.lineTo(px, grid.bottomEdge); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(grid.leftEdge, py); ctx.lineTo(grid.rightEdge, py); ctx.stroke();
+        ctx.setLineDash([]);
+        // Dot
+        ctx.beginPath();
+        ctx.arc(px, py, 6, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(59,111,182,0.4)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(59,111,182,0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        // Coordinate label
+        ctx.fillStyle = 'rgba(59,111,182,0.9)';
+        ctx.font = 'bold 12px Verdana, Arial, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('(' + gx + ', ' + gy + ')', px + 10, py - 10);
+    });
+    canvas.addEventListener('mouseleave', () => {
+        lastSnap = null;
+        redrawFn();
+    });
+}
+
+function setupHoverSnapNoCoords(canvas, getGridFn, redrawFn) {
+    let lastSnap = null;
+    canvas.addEventListener('mousemove', (e) => {
+        const info = getGridFn(e);
+        if (!info) return;
+        const { gx, gy, grid } = info;
+        const key = gx + ',' + gy;
+        if (lastSnap === key) return;
+        lastSnap = key;
+        redrawFn();
+        const ctx = canvas.getContext('2d');
+        const { px, py } = worldToPixel(grid, gx, gy);
+        ctx.strokeStyle = 'rgba(59,111,182,0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath(); ctx.moveTo(px, grid.topEdge); ctx.lineTo(px, grid.bottomEdge); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(grid.leftEdge, py); ctx.lineTo(grid.rightEdge, py); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(59,111,182,0.35)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(59,111,182,0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+    });
+    canvas.addEventListener('mouseleave', () => {
+        lastSnap = null;
+        redrawFn();
+    });
+}
+
+function getGridCoords(canvas, e, grid) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+    const gx = Math.round((mx - grid.originX) / grid.step);
+    const gy = Math.round((grid.originY - my) / grid.step);
+    return {
+        x: Math.max(X_MIN, Math.min(X_MAX, gx)),
+        y: Math.max(Y_MIN, Math.min(Y_MAX, gy))
+    };
+}
+
+function getGridSnap(canvas, e, grid) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+    const gx = Math.max(X_MIN, Math.min(X_MAX, Math.round((mx - grid.originX) / grid.step)));
+    const gy = Math.max(Y_MIN, Math.min(Y_MAX, Math.round((grid.originY - my) / grid.step)));
+    return { gx, gy, grid };
+}
+
+// ═══════════════════════════════════════════
+// TUTORIAL
+// ═══════════════════════════════════════════
+
+let tutStep = 0;
+const tutTotalSteps = 3;
+let tutGrid = null;
+let tutPracticeTarget = { x: -6, y: 4 };
+let tutPracticeDone = false;
+
+function drawTutorialCanvases() {
+    // Step 1: piano vuoto con etichette quadranti
+    const c1 = document.getElementById('tut-canvas-1');
+    if (c1) {
+        const ctx = c1.getContext('2d');
+        const g = drawGrid(ctx, 600, 600, { margin: 40 });
+
+        // Overlay colorato sugli assi per richiamare attenzione
+        ctx.strokeStyle = 'rgba(192,57,43,0.35)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(g.leftEdge, g.originY); ctx.lineTo(g.rightEdge, g.originY);
+        ctx.stroke();
+        ctx.strokeStyle = 'rgba(46,139,87,0.35)';
+        ctx.beginPath();
+        ctx.moveTo(g.originX, g.bottomEdge); ctx.lineTo(g.originX, g.topEdge);
+        ctx.stroke();
+
+        // Etichette quadranti (Q1..Q4)
+        ctx.fillStyle = 'rgba(46,139,87,0.7)';
+        ctx.font = 'bold 22px Verdana';
+        ctx.textAlign = 'center';
+        const qx = 10 * g.step;
+        const qy = 10 * g.step;
+        ctx.fillText('Q1', g.originX + qx, g.originY - qy);
+        ctx.fillStyle = 'rgba(230,126,34,0.7)';
+        ctx.fillText('Q2', g.originX - qx, g.originY - qy);
+        ctx.fillStyle = 'rgba(192,57,43,0.7)';
+        ctx.fillText('Q3', g.originX - qx, g.originY + qy);
+        ctx.fillStyle = 'rgba(59,111,182,0.7)';
+        ctx.fillText('Q4', g.originX + qx, g.originY + qy);
+
+        // Etichetta origine
+        ctx.fillStyle = '#2D2D2D';
+        ctx.font = 'bold 13px Verdana';
+        ctx.textAlign = 'left';
+        ctx.fillText('Origine (0,0)', g.originX + 8, g.originY - 8);
+        // pallino origine
+        ctx.beginPath();
+        ctx.arc(g.originX, g.originY, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#2D2D2D';
+        ctx.fill();
+    }
+
+    // Step 2: due esempi (5,3) arancione e (-4,-2) viola
+    const c2 = document.getElementById('tut-canvas-2');
+    if (c2) {
+        const ctx = c2.getContext('2d');
+        const g = drawGrid(ctx, 600, 600, { margin: 40 });
+
+        // Linee guida per (5,3)
+        ctx.setLineDash([6, 4]);
+        const p1 = worldToPixel(g, 5, 3);
+        ctx.strokeStyle = 'rgba(192,57,43,0.5)';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(g.originX, g.originY); ctx.lineTo(p1.px, g.originY); ctx.stroke();
+        ctx.strokeStyle = 'rgba(46,139,87,0.5)';
+        ctx.beginPath(); ctx.moveTo(p1.px, g.originY); ctx.lineTo(p1.px, p1.py); ctx.stroke();
+
+        // Linee guida per (-4,-2)
+        const p2 = worldToPixel(g, -4, -2);
+        ctx.strokeStyle = 'rgba(192,57,43,0.5)';
+        ctx.beginPath(); ctx.moveTo(g.originX, g.originY); ctx.lineTo(p2.px, g.originY); ctx.stroke();
+        ctx.strokeStyle = 'rgba(46,139,87,0.5)';
+        ctx.beginPath(); ctx.moveTo(p2.px, g.originY); ctx.lineTo(p2.px, p2.py); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Marker "5" su X
+        ctx.fillStyle = '#C0392B';
+        ctx.font = 'bold 16px Verdana';
+        ctx.textAlign = 'center';
+        ctx.fillText('+5', p1.px, g.originY + 18);
+        // Marker "3" su Y
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#2E8B57';
+        ctx.fillText('+3', g.originX - 8, p1.py + 5);
+        // Marker "-4" su X
+        ctx.fillStyle = '#C0392B';
+        ctx.textAlign = 'center';
+        ctx.fillText('-4', p2.px, g.originY + 18);
+        // Marker "-2" su Y
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#2E8B57';
+        ctx.fillText('-2', g.originX + 8, p2.py + 5);
+
+        drawPoint(ctx, g, 5, 3, '#E67E22', 10);
+        drawPointLabel(ctx, g, 5, 3, '(5, 3)', '#E67E22');
+        drawPoint(ctx, g, -4, -2, '#9B59B6', 10);
+        drawPointLabel(ctx, g, -4, -2, '(-4, -2)', '#9B59B6');
+    }
+
+    // Step 3: practice
+    drawTutorialPractice();
+}
+
+function drawTutorialPractice() {
+    const c3 = document.getElementById('tut-canvas-3');
+    if (!c3) return;
+    const ctx = c3.getContext('2d');
+    tutGrid = drawGrid(ctx, 600, 600, { margin: 40 });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const c3 = document.getElementById('tut-canvas-3');
+    c3.addEventListener('click', (e) => {
+        if (tutPracticeDone) return;
+        const coords = getGridCoords(c3, e, tutGrid);
+        const fb = document.getElementById('tut-feedback');
+        fb.classList.remove('hidden', 'success', 'error');
+
+        if (coords.x === tutPracticeTarget.x && coords.y === tutPracticeTarget.y) {
+            fb.classList.add('success');
+            fb.textContent = 'Perfetto! Hai messo il punto nel posto giusto!';
+            tutPracticeDone = true;
+            document.getElementById('tut-retry-btn').style.display = 'none';
+            const ctx = c3.getContext('2d');
+            drawPoint(ctx, tutGrid, tutPracticeTarget.x, tutPracticeTarget.y, '#E67E22', 10);
+            drawPointLabel(ctx, tutGrid, tutPracticeTarget.x, tutPracticeTarget.y,
+                '(' + tutPracticeTarget.x + ', ' + tutPracticeTarget.y + ')', '#E67E22');
+        } else {
+            fb.classList.add('error');
+            fb.textContent = 'Non è il punto giusto. Hai cliccato su (' + coords.x + ', ' + coords.y + '). Riprova!';
+            document.getElementById('tut-retry-btn').style.display = 'inline-block';
+            const ctx = c3.getContext('2d');
+            drawPoint(ctx, tutGrid, coords.x, coords.y, 'rgba(192,57,43,0.3)', 7);
+        }
+    });
+
+    setupHoverSnap(c3,
+        (e) => {
+            if (!tutGrid || tutPracticeDone) return null;
+            return getGridSnap(c3, e, tutGrid);
+        },
+        () => drawTutorialPractice()
+    );
+
+    drawTutorialCanvases();
+});
+
+function tutorialRetry() {
+    const fb = document.getElementById('tut-feedback');
+    fb.classList.add('hidden');
+    document.getElementById('tut-retry-btn').style.display = 'none';
+    drawTutorialPractice();
+}
+
+function tutorialNav(dir) {
+    const steps = document.querySelectorAll('.tutorial-step');
+    const dots = document.querySelectorAll('.tutorial-dot');
+    steps[tutStep].classList.remove('active');
+    dots[tutStep].classList.remove('active');
+    dots[tutStep].classList.add('done');
+    tutStep += dir;
+    tutStep = Math.max(0, Math.min(tutTotalSteps - 1, tutStep));
+    steps[tutStep].classList.add('active');
+    dots[tutStep].classList.add('active');
+    dots[tutStep].classList.remove('done');
+
+    document.getElementById('tut-prev').style.visibility = tutStep === 0 ? 'hidden' : 'visible';
+    document.getElementById('tut-next').textContent = tutStep === tutTotalSteps - 1 ? 'Vai agli esercizi' : 'Avanti';
+
+    if (tutStep === tutTotalSteps - 1) {
+        document.getElementById('tut-next').onclick = () => showSection('single');
+    } else {
+        document.getElementById('tut-next').onclick = () => tutorialNav(1);
+    }
+
+    drawTutorialCanvases();
+}
+
+// ═══════════════════════════════════════════
+// SECTION 1: SINGLE POINT
+// ═══════════════════════════════════════════
+
+const singleState = {
+    initialized: false,
+    target: { x: 0, y: 0 },
+    correct: 0,
+    wrong: 0,
+    total: 10,
+    current: 0,
+    grid: null,
+    waiting: false
+};
+
+function initSingle() {
+    singleState.initialized = true;
+    singleState.correct = 0;
+    singleState.wrong = 0;
+    singleState.current = 0;
+    singleNewPoint();
+
+    const canvas = document.getElementById('single-canvas');
+    canvas.addEventListener('click', singleClick);
+
+    setupHoverSnap(canvas,
+        (e) => {
+            if (singleState.waiting || !singleState.grid) return null;
+            return getGridSnap(canvas, e, singleState.grid);
+        },
+        () => {
+            const ctx = canvas.getContext('2d');
+            singleState.grid = drawGrid(ctx, canvas.width, canvas.height, { margin: 40 });
+        }
+    );
+}
+
+function singleNewPoint() {
+    singleState.target = randPoint();
+    singleState.waiting = false;
+    const t = singleState.target;
+
+    document.getElementById('single-coords').textContent = '(' + t.x + ', ' + t.y + ')';
+    document.getElementById('single-explain').innerHTML = explainCoord(t.x, t.y);
+
+    const fb = document.getElementById('single-feedback');
+    fb.classList.add('hidden');
+    document.getElementById('single-retry-btn').style.display = 'none';
+
+    const canvas = document.getElementById('single-canvas');
+    const ctx = canvas.getContext('2d');
+    singleState.grid = drawGrid(ctx, canvas.width, canvas.height, { margin: 40 });
+}
+
+function singleClick(e) {
+    if (singleState.waiting) return;
+    if (singleState.current >= singleState.total) return;
+
+    const canvas = document.getElementById('single-canvas');
+    const g = singleState.grid;
+    const coords = getGridCoords(canvas, e, g);
+    const t = singleState.target;
+    const fb = document.getElementById('single-feedback');
+    fb.classList.remove('hidden', 'success', 'error', 'info');
+    const ctx = canvas.getContext('2d');
+
+    const tolerance = 1;
+    const dx = Math.abs(coords.x - t.x);
+    const dy = Math.abs(coords.y - t.y);
+
+    if (dx === 0 && dy === 0) {
+        singleState.correct++;
+        singleState.current++;
+        fb.classList.add('success');
+        fb.textContent = 'Perfetto! (' + t.x + ', ' + t.y + ') è giusto!';
+        drawPoint(ctx, g, t.x, t.y, '#2E8B57', 9);
+        drawPointLabel(ctx, g, t.x, t.y, '(' + t.x + ', ' + t.y + ')', '#2E8B57');
+        singleState.waiting = true;
+        updateSingleProgress();
+        if (singleState.current < singleState.total) {
+            setTimeout(() => singleNewPoint(), 1500);
+        } else {
+            singleFinish();
+        }
+    } else if (dx <= tolerance && dy <= tolerance) {
+        fb.classList.add('info');
+        fb.textContent = 'Quasi! Hai cliccato su (' + coords.x + ', ' + coords.y + '). Riprova, sei vicino!';
+        drawPoint(ctx, g, coords.x, coords.y, 'rgba(59,111,182,0.3)', 6);
+    } else {
+        singleState.wrong++;
+        fb.classList.add('error');
+        fb.textContent = 'Non è il punto giusto. Hai cliccato su (' + coords.x + ', ' + coords.y + '). Riprova!';
+        drawPoint(ctx, g, coords.x, coords.y, 'rgba(192,57,43,0.3)', 6);
+        document.getElementById('single-retry-btn').style.display = 'inline-block';
+        updateSingleProgress();
+    }
+}
+
+function singleRetry() {
+    document.getElementById('single-retry-btn').style.display = 'none';
+    const fb = document.getElementById('single-feedback');
+    fb.classList.add('hidden');
+    const canvas = document.getElementById('single-canvas');
+    const ctx = canvas.getContext('2d');
+    singleState.grid = drawGrid(ctx, canvas.width, canvas.height, { margin: 40 });
+}
+
+function updateSingleProgress() {
+    const pct = Math.round((singleState.current / singleState.total) * 100);
+    document.getElementById('single-progress').style.width = pct + '%';
+    document.getElementById('single-progress-text').textContent = singleState.current + ' di ' + singleState.total + ' completati';
+    document.getElementById('single-correct').textContent = singleState.correct;
+    document.getElementById('single-wrong').textContent = singleState.wrong;
+}
+
+function singleFinish() {
+    const fb = document.getElementById('single-feedback');
+    fb.classList.remove('hidden', 'error', 'info');
+    fb.classList.add('success');
+    fb.textContent = 'Hai finito! ' + singleState.correct + ' su ' + singleState.total + ' corretti al primo tentativo. Bravo!';
+}
+
+// ═══════════════════════════════════════════
+// SECTION 2: MULTI POINT (10 points)
+// ═══════════════════════════════════════════
+
+const MULTI_TOTAL = 10;
+
+const multiState = {
+    initialized: false,
+    points: [],
+    currentIdx: 0,
+    placed: [],
+    grid: null,
+    round: 1,
+    totalCorrect: 0,
+    waiting: false
+};
+
+function initMulti() {
+    multiState.initialized = true;
+    multiState.round = 1;
+    multiState.totalCorrect = 0;
+    multiNewRound();
+
+    const canvas = document.getElementById('multi-canvas');
+    canvas.addEventListener('click', multiClick);
+
+    setupHoverSnap(canvas,
+        (e) => {
+            if (multiState.waiting || !multiState.grid) return null;
+            return getGridSnap(canvas, e, multiState.grid);
+        },
+        () => multiDrawCanvas()
+    );
+}
+
+function multiNewRound() {
+    multiState.points = [];
+    multiState.placed = [];
+    multiState.currentIdx = 0;
+    multiState.waiting = false;
+    document.getElementById('multi-new-btn').style.display = 'none';
+
+    const usedKeys = new Set();
+    while (multiState.points.length < MULTI_TOTAL) {
+        const p = randPoint();
+        const key = p.x + ',' + p.y;
+        if (!usedKeys.has(key)) {
+            usedKeys.add(key);
+            multiState.points.push(p);
+            multiState.placed.push(false);
+        }
+    }
+
+    document.getElementById('multi-round').textContent = 'Serie ' + multiState.round;
+    updateMultiProgress();
+    renderMultiList();
+    multiDrawCanvas();
+}
+
+function renderMultiList() {
+    const ul = document.getElementById('multi-point-list');
+    ul.innerHTML = '';
+    multiState.points.forEach((p, i) => {
+        const li = document.createElement('li');
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'point-status';
+
+        if (multiState.placed[i]) {
+            li.className = 'done';
+            statusDiv.className += ' status-done';
+            statusDiv.textContent = '✓';
+        } else if (i === multiState.currentIdx) {
+            li.className = 'current';
+            statusDiv.className += ' status-current';
+            statusDiv.textContent = (i + 1);
+        } else {
+            li.className = '';
+            statusDiv.className += ' status-pending';
+            statusDiv.textContent = (i + 1);
+        }
+
+        const span = document.createElement('span');
+        span.innerHTML = 'Punto ' + (i + 1) + ': <strong>(' + p.x + ', ' + p.y + ')</strong>';
+        if (i === multiState.currentIdx && !multiState.placed[i]) {
+            span.innerHTML += '  —  ' + explainCoord(p.x, p.y);
+        }
+
+        li.appendChild(statusDiv);
+        li.appendChild(span);
+        ul.appendChild(li);
+    });
+}
+
+function multiDrawCanvas() {
+    const canvas = document.getElementById('multi-canvas');
+    const ctx = canvas.getContext('2d');
+    multiState.grid = drawGrid(ctx, canvas.width, canvas.height, { margin: 40 });
+    const g = multiState.grid;
+
+    multiState.points.forEach((p, i) => {
+        if (multiState.placed[i]) {
+            drawPoint(ctx, g, p.x, p.y, '#2E8B57', 8);
+            drawPointLabel(ctx, g, p.x, p.y, (i + 1) + '', '#2E8B57');
+        }
+    });
+}
+
+function multiClick(e) {
+    if (multiState.waiting) return;
+    if (multiState.currentIdx >= MULTI_TOTAL) return;
+
+    const canvas = document.getElementById('multi-canvas');
+    const g = multiState.grid;
+    const coords = getGridCoords(canvas, e, g);
+    const t = multiState.points[multiState.currentIdx];
+    const fb = document.getElementById('multi-feedback');
+    fb.classList.remove('hidden', 'success', 'error', 'info');
+    const ctx = canvas.getContext('2d');
+
+    const dx = Math.abs(coords.x - t.x);
+    const dy = Math.abs(coords.y - t.y);
+
+    if (dx === 0 && dy === 0) {
+        multiState.placed[multiState.currentIdx] = true;
+        multiState.totalCorrect++;
+        fb.classList.add('success');
+        fb.textContent = 'Punto ' + (multiState.currentIdx + 1) + ' giusto!';
+        drawPoint(ctx, g, t.x, t.y, '#2E8B57', 8);
+        drawPointLabel(ctx, g, t.x, t.y, (multiState.currentIdx + 1) + '', '#2E8B57');
+
+        multiState.currentIdx++;
+        document.getElementById('multi-retry-btn').style.display = 'none';
+        updateMultiProgress();
+        renderMultiList();
+
+        if (multiState.currentIdx >= MULTI_TOTAL) {
+            multiState.waiting = true;
+            fb.textContent = 'Hai messo tutti i ' + MULTI_TOTAL + ' punti! Bravo!';
+            document.getElementById('multi-new-btn').style.display = 'inline-block';
+            multiState.round++;
+        }
+    } else if (dx <= 1 && dy <= 1) {
+        fb.classList.add('info');
+        fb.textContent = 'Quasi! Hai cliccato su (' + coords.x + ', ' + coords.y + '). Il punto ' + (multiState.currentIdx + 1) + ' è a (' + t.x + ', ' + t.y + '). Riprova!';
+        drawPoint(ctx, g, coords.x, coords.y, 'rgba(59,111,182,0.25)', 5);
+    } else {
+        fb.classList.add('error');
+        fb.textContent = 'Hai cliccato su (' + coords.x + ', ' + coords.y + '). Il punto ' + (multiState.currentIdx + 1) + ' deve andare a (' + t.x + ', ' + t.y + '). Riprova!';
+        drawPoint(ctx, g, coords.x, coords.y, 'rgba(192,57,43,0.25)', 5);
+        document.getElementById('multi-retry-btn').style.display = 'inline-block';
+    }
+
+    document.getElementById('multi-correct').textContent = multiState.totalCorrect;
+}
+
+function multiRetry() {
+    document.getElementById('multi-retry-btn').style.display = 'none';
+    const fb = document.getElementById('multi-feedback');
+    fb.classList.add('hidden');
+    multiDrawCanvas();
+}
+
+function updateMultiProgress() {
+    const done = multiState.placed.filter(Boolean).length;
+    const pct = Math.round((done / MULTI_TOTAL) * 100);
+    document.getElementById('multi-progress').style.width = pct + '%';
+    document.getElementById('multi-progress-text').textContent = done + ' di ' + MULTI_TOTAL + ' completati';
+    document.getElementById('multi-correct').textContent = multiState.totalCorrect;
+}
+
+// ═══════════════════════════════════════════
+// SECTION 4: VERIFICA (20 points, no retry)
+// ═══════════════════════════════════════════
+
+const VER_TOTAL = 20;
+
+const verState = {
+    initialized: false,
+    grid: null,
+    points: [],
+    answers: [],
+    results: [],
+    current: 0,
+    total: VER_TOTAL,
+    correct: 0,
+    wrong: 0,
+    locked: false
+};
+
+function initVerifica() {
+    verState.initialized = true;
+    verState.points = [];
+    verState.answers = [];
+    verState.results = [];
+    verState.current = 0;
+    verState.correct = 0;
+    verState.wrong = 0;
+    verState.locked = false;
+
+    const usedKeys = new Set();
+    while (verState.points.length < verState.total) {
+        const p = randPoint();
+        const key = p.x + ',' + p.y;
+        if (!usedKeys.has(key)) {
+            usedKeys.add(key);
+            verState.points.push(p);
+        }
+    }
+
+    verShowCurrentPoint();
+    verRedrawCanvas();
+
+    const canvas = document.getElementById('ver-canvas');
+    canvas.addEventListener('click', verClick);
+
+    setupHoverSnapNoCoords(canvas,
+        (e) => {
+            if (verState.locked || !verState.grid) return null;
+            return getGridSnap(canvas, e, verState.grid);
+        },
+        () => verRedrawCanvas()
+    );
+
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    document.getElementById('field-data').value = yyyy + '-' + mm + '-' + dd;
+}
+
+function verShowCurrentPoint() {
+    const t = verState.points[verState.current];
+    document.getElementById('ver-current-num').textContent = verState.current + 1;
+    document.getElementById('ver-coords').textContent = '(' + t.x + ', ' + t.y + ')';
+    document.getElementById('ver-explain').innerHTML = explainCoord(t.x, t.y);
+    const fb = document.getElementById('ver-feedback');
+    fb.classList.add('hidden');
+    fb.classList.remove('success', 'error', 'info');
+}
+
+function verRedrawCanvas() {
+    const canvas = document.getElementById('ver-canvas');
+    const ctx = canvas.getContext('2d');
+    verState.grid = drawGrid(ctx, canvas.width, canvas.height, { margin: 40 });
+    const g = verState.grid;
+    for (let i = 0; i < verState.current; i++) {
+        const t = verState.points[i];
+        const a = verState.answers[i];
+        const ok = verState.results[i];
+        if (ok) {
+            drawPoint(ctx, g, t.x, t.y, '#2E8B57', 7);
+        } else {
+            drawPoint(ctx, g, t.x, t.y, 'rgba(46,139,87,0.4)', 6);
+            drawPoint(ctx, g, a.x, a.y, 'rgba(192,57,43,0.4)', 6);
+        }
+    }
+}
+
+function verClick(e) {
+    if (verState.locked) return;
+    if (verState.current >= verState.total) return;
+
+    const canvas = document.getElementById('ver-canvas');
+    const g = verState.grid;
+    const coords = getGridCoords(canvas, e, g);
+    const t = verState.points[verState.current];
+    const ctx = canvas.getContext('2d');
+    const fb = document.getElementById('ver-feedback');
+    fb.classList.remove('hidden', 'success', 'error', 'info');
+
+    const isCorrect = (coords.x === t.x && coords.y === t.y);
+
+    verState.answers.push({ x: coords.x, y: coords.y });
+    verState.results.push(isCorrect);
+
+    if (isCorrect) {
+        verState.correct++;
+        fb.classList.add('success');
+        fb.textContent = 'Punto ' + (verState.current + 1) + ': Giusto!';
+        drawPoint(ctx, g, t.x, t.y, '#2E8B57', 8);
+    } else {
+        verState.wrong++;
+        fb.classList.add('error');
+        fb.textContent = 'Punto ' + (verState.current + 1) + ': Sbagliato. Hai messo (' + coords.x + ', ' + coords.y + '), il punto era (' + t.x + ', ' + t.y + ').';
+        drawPoint(ctx, g, coords.x, coords.y, 'rgba(192,57,43,0.5)', 6);
+        drawPoint(ctx, g, t.x, t.y, 'rgba(46,139,87,0.5)', 6);
+    }
+
+    verState.current++;
+    verUpdateProgress();
+
+    if (verState.current >= verState.total) {
+        verState.locked = true;
+        setTimeout(() => goToVerificaStep('form'), 2000);
+    } else {
+        verState.locked = true;
+        setTimeout(() => {
+            verState.locked = false;
+            verShowCurrentPoint();
+            verRedrawCanvas();
+        }, 1500);
+    }
+}
+
+function verUpdateProgress() {
+    const pct = Math.round((verState.current / verState.total) * 100);
+    document.getElementById('ver-progress').style.width = pct + '%';
+    document.getElementById('ver-progress-text').textContent = verState.current + ' di ' + verState.total + ' completati';
+    document.getElementById('ver-correct').textContent = verState.correct;
+    document.getElementById('ver-wrong').textContent = verState.wrong;
+}
+
+// ═══════════════════════════════════════════
+// SECTION 5: FORM
+// ═══════════════════════════════════════════
+
+let studentData = {};
+
+function submitForm() {
+    const cognome = document.getElementById('field-cognome').value.trim();
+    const nome = document.getElementById('field-nome').value.trim();
+    const classe = document.getElementById('field-classe').value.trim();
+    const data = document.getElementById('field-data').value;
+
+    if (!cognome || !nome || !classe || !data) {
+        document.getElementById('form-error').style.display = 'block';
+        return;
+    }
+    document.getElementById('form-error').style.display = 'none';
+
+    studentData = { cognome, nome, classe, data };
+    buildResults();
+    goToVerificaStep('results');
+}
+
+function formatDate(dateStr) {
+    const parts = dateStr.split('-');
+    return parts[2] + '/' + parts[1] + '/' + parts[0];
+}
+
+// ═══════════════════════════════════════════
+// SECTION 6: RESULTS
+// ═══════════════════════════════════════════
+
+function buildResults() {
+    const d = studentData;
+    document.getElementById('student-info').innerHTML =
+        '<strong>' + d.cognome + ' ' + d.nome + '</strong> — Classe ' + d.classe + ' — Data: ' + formatDate(d.data);
+
+    const pct = Math.round((verState.correct / verState.total) * 100);
+    let scoreClass, label;
+    if (pct >= 80) { scoreClass = 'great'; label = 'Ottimo lavoro!'; }
+    else if (pct >= 50) { scoreClass = 'ok'; label = 'Buon lavoro, puoi migliorare!'; }
+    else { scoreClass = 'retry'; label = 'Devi esercitarti ancora.'; }
+
+    document.getElementById('final-score-box').innerHTML =
+        '<div class="final-score ' + scoreClass + '">' +
+        '<div class="big-number">' + verState.correct + ' / ' + verState.total + '</div>' +
+        '<div class="big-label">' + label + '</div>' +
+        '</div>';
+
+    const tbody = document.getElementById('result-tbody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < verState.total; i++) {
+        const t = verState.points[i];
+        const a = verState.answers[i];
+        const ok = verState.results[i];
+        const tr = document.createElement('tr');
+        tr.className = ok ? 'correct-row' : 'wrong-row';
+        tr.innerHTML =
+            '<td>' + (i + 1) + '</td>' +
+            '<td>(' + t.x + ', ' + t.y + ')</td>' +
+            '<td>(' + a.x + ', ' + a.y + ')</td>' +
+            '<td>' + (ok ? 'Corretto' : 'Sbagliato') + '</td>';
+        tbody.appendChild(tr);
+    }
+}
+
+// ═══════════════════════════════════════════
+// PDF GENERATION
+// ═══════════════════════════════════════════
+
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const d = studentData;
+    const pageW = 210;
+    let y = 20;
+
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Verifica — Piano Cartesiano con Quadranti', pageW / 2, y, { align: 'center' });
+    y += 6;
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(110, 110, 110);
+    doc.text('Range coordinate: da (-20, -20) a (+20, +20)', pageW / 2, y, { align: 'center' });
+    doc.setTextColor(0, 0, 0);
+    y += 10;
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Cognome: ' + d.cognome, 20, y);
+    doc.text('Nome: ' + d.nome, 110, y);
+    y += 7;
+    doc.text('Classe: ' + d.classe, 20, y);
+    doc.text('Data: ' + formatDate(d.data), 110, y);
+    y += 10;
+
+    doc.setDrawColor(180);
+    doc.setLineWidth(0.5);
+    doc.line(20, y, 190, y);
+    y += 8;
+
+    const pct = Math.round((verState.correct / verState.total) * 100);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Punteggio: ' + verState.correct + ' / ' + verState.total + '  (' + pct + '%)', pageW / 2, y, { align: 'center' });
+    y += 12;
+
+    // Table — due colonne per stare in una sola pagina anche con 20 righe
+    const halfCount = Math.ceil(verState.total / 2);
+    const col1 = { x0: 14, label: 18, req: 36, ans: 64, res: 90 };
+    const col2 = { x0: 110, label: 114, req: 132, ans: 160, res: 186 };
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setFillColor(214, 228, 245);
+    doc.rect(col1.x0, y - 5, 92, 7, 'F');
+    doc.rect(col2.x0, y - 5, 92, 7, 'F');
+    doc.setTextColor(59, 111, 182);
+    doc.text('#', col1.label, y);
+    doc.text('Richiesta', col1.req, y);
+    doc.text('Risposta', col1.ans, y);
+    doc.text('Esito', col1.res, y);
+    doc.text('#', col2.label, y);
+    doc.text('Richiesta', col2.req, y);
+    doc.text('Risposta', col2.ans, y);
+    doc.text('Esito', col2.res, y);
+    y += 7;
+
+    const startY = y;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    for (let i = 0; i < verState.total; i++) {
+        const t = verState.points[i];
+        const a = verState.answers[i];
+        const ok = verState.results[i];
+
+        const inCol2 = i >= halfCount;
+        const col = inCol2 ? col2 : col1;
+        const rowIdx = inCol2 ? (i - halfCount) : i;
+        const ry = startY + rowIdx * 6.5;
+
+        if (ok) doc.setFillColor(212, 237, 218);
+        else doc.setFillColor(248, 215, 218);
+        doc.rect(col.x0, ry - 5, 92, 6, 'F');
+
+        doc.setTextColor(45, 45, 45);
+        doc.text('' + (i + 1), col.label, ry);
+        doc.text('(' + t.x + ', ' + t.y + ')', col.req, ry);
+        doc.text('(' + a.x + ', ' + a.y + ')', col.ans, ry);
+        doc.text(ok ? 'OK' : 'Err', col.res, ry);
+    }
+    y = startY + halfCount * 6.5 + 6;
+
+    doc.setDrawColor(180);
+    doc.line(20, y, 190, y);
+    y += 12;
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(90, 90, 90);
+    doc.text('Firma alunno: ___________________________', 20, y);
+    y += 10;
+    doc.text('Firma docente: ___________________________', 20, y);
+    y += 16;
+
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text('Generato automaticamente — Piano Cartesiano con Quadranti (Verifica)', pageW / 2, 285, { align: 'center' });
+
+    const fileName = 'Verifica_PianoCartesianoQuadranti_' + d.cognome + '_' + d.nome + '.pdf';
+    doc.save(fileName);
+}
+
+</script>
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+</body>
+</html>

@@ -153,6 +153,11 @@ sections:
         tag_label: "Matematica · ASD-friendly"
         description: "Design ASD-friendly con tutorial guidato, esercizi liberi e modalità verifica. Form dati alunno e PDF scaricabile con risultati. Utilizzabile come verifica formativa inclusiva."
 
+      - title: "Piano Cartesiano con Quadranti (numeri negativi)"
+        url: /dashboards/piano-cartesiano-quadranti-with-menu.html
+        tag_label: "Matematica · ASD-friendly"
+        description: "Estensione del piano cartesiano ai quattro quadranti, con coordinate da (-20, -20) a (+20, +20). Tutorial guidato che introduce esplicitamente i numeri negativi e i 4 quadranti, esercizio libero da 10 punti, serie da 10 punti consecutivi e modalità verifica da 20 punti. Origine al centro del grafico, esplicitazione del segno in ogni consegna ('a destra/sinistra', 'in alto/basso'). Form dati alunno e PDF scaricabile con tabella a due colonne. Pensata come naturale prosecuzione della scheda di base, quando l'alunno ha consolidato il primo quadrante."
+
       - title: "Funzioni Continue e Discontinuità"
         url: /dashboards/funzioni-continue-discontinuita-with-menu.html
         tag_label: "Matematica · BES"
