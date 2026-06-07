@@ -33,6 +33,7 @@
         .stream-edu     { --stream-accent: #3fb950; --stream-bg: rgba(63, 185, 80, 0.08);  --stream-border: rgba(63, 185, 80, 0.30);  --stream-glow: rgba(63, 185, 80, 0.06); }
         .stream-cyber   { --stream-accent: #a371f7; --stream-bg: rgba(163, 113, 247, 0.08);--stream-border: rgba(163, 113, 247, 0.30);--stream-glow: rgba(163, 113, 247, 0.06); }
         .stream-include { --stream-accent: #db6d28; --stream-bg: rgba(219, 109, 40, 0.08); --stream-border: rgba(219, 109, 40, 0.30); --stream-glow: rgba(219, 109, 40, 0.06); }
+        .stream-speciale{ --stream-accent: #d29922; --stream-bg: rgba(210, 153, 34, 0.08); --stream-border: rgba(210, 153, 34, 0.30); --stream-glow: rgba(210, 153, 34, 0.06); }
 
         /* ===== CONTAINER ===== */
         .osservatorio-container {
@@ -235,6 +236,24 @@
             flex-shrink: 0;
             margin-right: 0.6rem;
         }
+        /* Marcatore SPECIALE nell'archivio (articolo extra, fuori cadenza) */
+        .entry-speciale-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #d29922;
+            background: rgba(210, 153, 34, 0.10);
+            border: 1px solid rgba(210, 153, 34, 0.45);
+            padding: 0.15rem 0.6rem;
+            border-radius: 100px;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
         .entry-title {
             color: #e6edf3;
             font-size: 0.95rem;
@@ -353,7 +372,11 @@
             {%- endcase -%}
 
             <div class="archive-entry stream-{{ s }}" data-stream="{{ s }}">
+                {%- if r.speciale -%}
+                <span class="entry-speciale-badge"><span aria-hidden="true">★</span>SPECIALE</span>
+                {%- else -%}
                 <span class="entry-stream"><span aria-hidden="true">{{ s_icon }}</span>{{ s_label }}</span>
+                {%- endif -%}
                 <span class="entry-date">{{ r.date | date: "%Y.%m.%d" }}</span>
                 <a href="{{ r.url }}" class="entry-title">{{ r.title }}</a>
             </div>

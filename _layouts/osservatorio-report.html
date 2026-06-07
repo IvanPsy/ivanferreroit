@@ -31,6 +31,7 @@
         .stream-edu     { --stream-accent: #3fb950; --stream-bg: rgba(63, 185, 80, 0.08);  --stream-border: rgba(63, 185, 80, 0.30);  --stream-glow: rgba(63, 185, 80, 0.06); }
         .stream-cyber   { --stream-accent: #a371f7; --stream-bg: rgba(163, 113, 247, 0.08);--stream-border: rgba(163, 113, 247, 0.30);--stream-glow: rgba(163, 113, 247, 0.06); }
         .stream-include { --stream-accent: #db6d28; --stream-bg: rgba(219, 109, 40, 0.08); --stream-border: rgba(219, 109, 40, 0.30); --stream-glow: rgba(219, 109, 40, 0.06); }
+        .stream-speciale{ --stream-accent: #d29922; --stream-bg: rgba(210, 153, 34, 0.08); --stream-border: rgba(210, 153, 34, 0.30); --stream-glow: rgba(210, 153, 34, 0.06); }
 
         /* ===== CONTAINER ===== */
         .report-container {
@@ -59,6 +60,24 @@
         .report-stream-pill .stream-icon {
             font-size: 0.95rem;
             line-height: 1;
+        }
+
+        /* Badge SPECIALE (articolo extra, fuori cadenza) */
+        .report-speciale-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #d29922;
+            background: rgba(210, 153, 34, 0.10);
+            border: 1px solid rgba(210, 153, 34, 0.45);
+            padding: 0.3rem 0.85rem;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1rem;
         }
 
         .report-date {
@@ -280,10 +299,17 @@
 <main class="report-container stream-{{ stream }}">
 
     <!-- A. Header -->
+    {%- if page.speciale -%}
+    <span class="report-speciale-badge">
+        <span aria-hidden="true">★</span>
+        <span>SPECIALE</span>
+    </span>
+    {%- else -%}
     <span class="report-stream-pill">
         <span class="stream-icon" aria-hidden="true">{{ stream_icon }}</span>
         <span>{{ stream_label }}</span>
     </span>
+    {%- endif -%}
     <div class="report-date">{{ page.date | date: "%Y.%m.%d" }}</div>
     <h1 class="report-title">{{ page.title }}</h1>
 
@@ -302,7 +328,11 @@
 
     <!-- D. Footer -->
     <nav class="report-footer">
+        {%- if page.speciale -%}
+        <a href="/osservatorio/">← Speciale fuori cadenza</a>
+        {%- else -%}
         <a href="/osservatorio/?stream={{ stream }}">← Tutti i report {{ stream_label }}</a>
+        {%- endif -%}
         <a href="/osservatorio/">Torna all'osservatorio →</a>
     </nav>
 
