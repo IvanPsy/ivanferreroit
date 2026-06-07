@@ -130,6 +130,95 @@
         .return-link { margin-top: 2.5rem; }
         .return-link a { font-family: var(--font-mono); font-size: 0.85rem; }
 
+        /* ---- Data tables ---- */
+        .table-wrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 8px; }
+        table.data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 520px; }
+        table.data-table thead th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        table.data-table tbody td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        table.data-table tbody tr:last-child td { border-bottom: none; }
+        table.data-table tbody tr:hover td { background: var(--bg-hover); }
+        table.data-table td.row-head {
+            color: var(--text-primary);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        table.data-table .num { font-family: var(--font-mono); color: var(--accent-cyan); white-space: nowrap; }
+        .col-a { border-left: 3px solid var(--accent-cyan); }
+        .col-b { border-left: 3px solid var(--accent-orange); }
+
+        /* ---- Timeline ---- */
+        .timeline { position: relative; margin: 1.5rem 0; padding-left: 1.75rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 6px; top: 0.4rem; bottom: 0.4rem;
+            width: 2px; background: var(--border-color);
+        }
+        .tl-item { position: relative; margin-bottom: 1.4rem; }
+        .tl-item:last-child { margin-bottom: 0; }
+        .tl-item::before {
+            content: ''; position: absolute; left: -1.75rem; top: 0.35rem;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--bg-primary); border: 2px solid var(--accent-cyan);
+        }
+        .tl-item.muted::before { border-color: var(--text-muted); }
+        .tl-year {
+            font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+            color: var(--accent-cyan); margin-bottom: 0.15rem;
+        }
+        .tl-item.muted .tl-year { color: var(--text-muted); }
+        .tl-title { color: var(--text-primary); font-weight: 600; font-size: 0.98rem; margin-bottom: 0.2rem; }
+        .tl-body { color: var(--text-secondary); font-size: 0.92rem; margin: 0; }
+
+        /* ---- Scenario cards ---- */
+        .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .scenario { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.4rem; }
+        .scenario.down { border-top: 3px solid var(--accent-red); }
+        .scenario.up { border-top: 3px solid var(--accent-green); }
+        .scenario .scenario-tag {
+            font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase;
+            letter-spacing: 0.08em; margin-bottom: 0.5rem; display: block;
+        }
+        .scenario.down .scenario-tag { color: var(--accent-red); }
+        .scenario.up .scenario-tag { color: var(--accent-green); }
+        .scenario h4 { color: var(--text-primary); margin-bottom: 0.5rem; }
+        .scenario p { margin: 0; font-size: 0.95rem; }
+
+        /* ---- Standard callout ---- */
+        .callout { border-radius: 8px; padding: 1.3rem 1.5rem; margin: 1.5rem 0; background: var(--bg-card); border: 1px solid var(--border-color); }
+        .callout p { color: var(--text-primary); margin: 0; }
+        .callout.cyan { border-left: 3px solid var(--accent-cyan); }
+        .callout.yellow { border-left: 3px solid var(--accent-yellow); }
+        .callout.orange { border-left: 3px solid var(--accent-orange); }
+        .callout-label {
+            font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase;
+            letter-spacing: 0.08em; display: block; margin-bottom: 0.5rem;
+        }
+        .callout.cyan .callout-label { color: var(--accent-cyan); }
+        .callout.yellow .callout-label { color: var(--accent-yellow); }
+        .callout.orange .callout-label { color: var(--accent-orange); }
+
+        /* ---- Two-question grid ---- */
+        .q-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .q-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.4rem; border-top: 3px solid var(--accent-cyan); }
+        .q-card .q-num { font-family: var(--font-mono); color: var(--accent-cyan); font-size: 0.8rem; }
+        .q-card h4 { color: var(--text-primary); margin: 0.3rem 0 0.6rem; }
+        .q-card p { margin: 0; font-size: 0.95rem; }
+
         @media (max-width: 768px) {
             .dash-hero h1 { font-size: 1.7rem; }
         }
@@ -278,6 +367,44 @@
                 </div>
 
                 <div class="subsection">
+                    <h3>Due binari da non confondere</h3>
+                    <p>Il cuore della legge sta in una distinzione che quasi tutte le cronache hanno appiattito: <strong>consenso delle famiglie</strong> e <strong>vaglio degli esperti</strong> sono due meccanismi separati, che colpiscono insiemi di attività diversi.</p>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Tipo di attività</th>
+                                    <th class="col-a">Serve il consenso dei genitori?</th>
+                                    <th class="col-b">Serve il vaglio sull'esperto esterno?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="row-head">Curricolare<br><span class="text-muted" style="font-weight:400; font-size:0.85rem;">(es. scienze, ed. civica)</span></td>
+                                    <td class="col-a">No — il curricolo non è mai oggetto di consenso</td>
+                                    <td class="col-b">Sì — se entra un soggetto esterno (art. 2)</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Extracurricolare<br><span class="text-muted" style="font-weight:400; font-size:0.85rem;">(PTOF, comma 2)</span></td>
+                                    <td class="col-a">Sì — scritto, preventivo, 7 giorni prima; chi non aderisce si astiene</td>
+                                    <td class="col-b">Sì — delibera collegio + consiglio d'istituto</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Ampliamento offerta<br><span class="text-muted" style="font-weight:400; font-size:0.85rem;">(comma 3)</span></td>
+                                    <td class="col-a">Sì — ma chi non aderisce ha diritto ad attività alternativa equivalente</td>
+                                    <td class="col-b">Sì — delibera collegio + consiglio d'istituto</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Infanzia e primaria<br><span class="text-muted" style="font-weight:400; font-size:0.85rem;">(comma 5)</span></td>
+                                    <td class="col-a">Vietata in ogni caso qualsiasi attività sui temi della sessualità</td>
+                                    <td class="col-b">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="subsection">
                     <h3>Tre fatti che il dibattito ha confuso</h3>
                     <p>Da questa lettura ravvicinata emergono tre fatti che il dibattito ha sistematicamente confuso, e che reggono tutto il resto.</p>
 
@@ -316,17 +443,67 @@
             <!-- ===== COSA C'ERA PRIMA ===== -->
             <section id="prima" class="section">
                 <h2>Cosa c'era prima</h2>
-                <p>Per dire onestamente cosa cambia, bisogna ricordare da dove si parte, ed è la cosa che nessuna delle due tifoserie ha interesse a fare.</p>
+                <p class="lead">Per dire onestamente cosa cambia, bisogna ricordare da dove si parte, ed è la cosa che nessuna delle due tifoserie ha interesse a fare. Il punto di partenza è un vuoto: l'Italia non ha mai avuto un'educazione sessuo-affettiva curricolare obbligatoria.</p>
 
-                <p>Il punto di partenza è un vuoto. L'Italia non ha mai avuto un'educazione sessuo-affettiva curricolare obbligatoria. È uno dei pochissimi Paesi dell'Unione europea senza una legge che la renda obbligatoria, insieme, secondo le ricognizioni più citate, a Bulgaria, Cipro, Lituania, Polonia, Romania e Ungheria. Gli unici agganci normativi storici sono indiretti: la legge 405/1975 che istituì i consultori familiari e la legge 194/1978, nessuna delle quali ha mai imposto che quella divulgazione avvenisse a scuola. Decenni di proposte si sono arenati su un intreccio di sensibilità culturali, politiche e religiose.</p>
-
-                <p>Questo significa che, prima della legge Valditara, l'educazione sessuo-affettiva nelle scuole esisteva, ma come pulviscolo: progetti attivati dalle singole scuole nell'esercizio dell'autonomia scolastica (DPR 275/1999), spesso in collaborazione con enti esterni, in molti casi già con il consenso dei genitori raccolto come buona prassi. Non c'era un programma nazionale uniforme, c'era una geografia a macchia di leopardo.</p>
-
-                <div class="card" style="border-left:3px solid var(--accent-yellow);">
-                    <p style="color:var(--text-primary); margin:0;">Qui sta il fulcro di onestà. Una parte non piccola di ciò che la legge introduce non è un'invenzione, è la codificazione e la standardizzazione di una prassi già diffusa, il consenso preventivo, più due elementi nuovi e pesanti: il divieto totale in infanzia e primaria, e la procedimentalizzazione del vaglio sugli esterni. Sostenere che "prima si poteva fare tutto" o, all'opposto, che "adesso non si può più fare niente" è falso in entrambe le direzioni.</p>
+                <div class="stat-grid mb-3">
+                    <div class="stat-card">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">i Paesi UE senza obbligo (con IT: anche BG, CY, LT, PL, RO, HU)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1975</div>
+                        <div class="stat-label">unico aggancio storico indiretto (consultori, L. 405)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">macchia di leopardo</div>
+                        <div class="stat-label">la geografia dei progetti prima del 2026</div>
+                    </div>
                 </div>
 
-                <p>C'è poi una specifica affermazione del ministro che va misurata sul calendario. È stato detto che il governo, "per la prima volta", rende obbligatoria in tutti i gradi di scuola l'educazione al rispetto, alle relazioni e all'empatia. Il "per la prima volta" è discutibile. La dimensione del rispetto, della parità e della prevenzione della violenza di genere ha già diversi agganci giuridici precedenti: la Convenzione di Istanbul, ratificata con legge 77/2013, il cui articolo 14 impegna gli Stati a includere nei programmi scolastici di ogni ordine e grado materiali su parità tra i sessi, ruoli di genere non stereotipati, rispetto reciproco e soluzione non violenta dei conflitti; la legge 107/2015 che già chiedeva al PTOF di promuovere i principi di pari opportunità; e soprattutto la legge 92/2019 sull'educazione civica, che ha reso questo insegnamento obbligatorio e trasversale e che include esplicitamente la parità di genere, il rispetto dell'altro e la prevenzione della violenza di genere. La novità reale, semmai, sarà nei contenuti delle nuove Indicazioni nazionali; ma l'idea che prima del 2026 la scuola italiana non avesse alcun mandato sul rispetto e sulle relazioni non regge.</p>
+                <p>Prima della legge Valditara l'educazione sessuo-affettiva nelle scuole esisteva, ma come pulviscolo: progetti attivati dalle singole scuole nell'esercizio dell'autonomia (DPR 275/1999), spesso con enti esterni, in molti casi già con il consenso dei genitori raccolto come buona prassi. Nessun programma nazionale uniforme. Gli agganci normativi sul rispetto e le relazioni, però, esistevano già da anni.</p>
+
+                <div class="subsection">
+                    <h3>Gli agganci normativi che già c'erano</h3>
+                    <div class="timeline">
+                        <div class="tl-item muted">
+                            <div class="tl-year">1975 · 1978</div>
+                            <div class="tl-title">Consultori familiari (L. 405/1975) e L. 194/1978</div>
+                            <p class="tl-body">Unici riferimenti storici, ma indiretti: nessuno dei due ha mai imposto che la divulgazione avvenisse a scuola.</p>
+                        </div>
+                        <div class="tl-item muted">
+                            <div class="tl-year">1999</div>
+                            <div class="tl-title">DPR 275 — Autonomia scolastica</div>
+                            <p class="tl-body">La base con cui le singole scuole attivavano progetti su affettività e sessualità: da qui la "macchia di leopardo".</p>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-year">2013</div>
+                            <div class="tl-title">Convenzione di Istanbul (art. 14, ratifica L. 77/2013)</div>
+                            <p class="tl-body">Impegna gli Stati a includere, in ogni ordine e grado, materiali su parità tra i sessi, ruoli non stereotipati, rispetto reciproco e soluzione non violenta dei conflitti.</p>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-year">2015</div>
+                            <div class="tl-title">L. 107 — "Buona scuola"</div>
+                            <p class="tl-body">Chiedeva già al PTOF di promuovere i principi di pari opportunità.</p>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-year">2019</div>
+                            <div class="tl-title">L. 92 — Educazione civica</div>
+                            <p class="tl-body">Rende l'insegnamento obbligatorio e trasversale, includendo esplicitamente parità di genere, rispetto dell'altro e prevenzione della violenza di genere.</p>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-year">2026</div>
+                            <div class="tl-title">Legge Valditara — consenso informato</div>
+                            <p class="tl-body">Codifica la prassi del consenso preventivo e aggiunge due elementi nuovi: il divieto in infanzia/primaria e il vaglio procedurale sugli esterni.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout yellow">
+                    <span class="callout-label">★ Il fulcro di onestà</span>
+                    <p>Una parte non piccola di ciò che la legge introduce non è un'invenzione: è la codificazione di una prassi già diffusa (il consenso preventivo), più due elementi nuovi e pesanti, il divieto totale in infanzia e primaria e la procedimentalizzazione del vaglio sugli esterni. Sostenere che "prima si poteva fare tutto" o che "adesso non si può più fare niente" è falso in entrambe le direzioni.</p>
+                </div>
+
+                <p>Va misurata sul calendario anche l'affermazione del ministro secondo cui il governo, "per la prima volta", rende obbligatoria l'educazione al rispetto e alle relazioni. La timeline qui sopra mostra che quel mandato esisteva già (Istanbul, L. 107, L. 92). La novità reale, semmai, sarà nei contenuti delle nuove Indicazioni nazionali; ma l'idea che prima del 2026 la scuola italiana non avesse alcun mandato sul rispetto e sulle relazioni non regge.</p>
             </section>
 
             <!-- ===== LE TRE PAROLE ===== -->
@@ -350,6 +527,39 @@
                     <div class="tab-content" id="tab-dati">
                         <p>E c'è il <strong>consenso al trattamento dei dati personali</strong>, dove i dati relativi alla vita sessuale e all'orientamento sessuale sono categorie particolari ai sensi dell'articolo 9 del GDPR, con tutele rafforzate e una logica di protezione dei dati che non coincide né con l'autorizzazione scolastica né con il consenso clinico.</p>
                     </div>
+
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Istituto</th>
+                                    <th>Chi decide</th>
+                                    <th>Fonte normativa</th>
+                                    <th>Radice</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="row-head">Autorizzazione a partecipare<br><span class="text-muted" style="font-weight:400; font-size:0.85rem;">(questa legge)</span></td>
+                                    <td>Il genitore, per il minore</td>
+                                    <td class="num">DDL 1735</td>
+                                    <td>Responsabilità educativa del terzo</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Consenso clinico-bioetico</td>
+                                    <td>La persona, per sé</td>
+                                    <td class="num">L. 219/2017</td>
+                                    <td>Autodeterminazione del soggetto</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Consenso sui dati</td>
+                                    <td>Il titolare del dato</td>
+                                    <td class="num">GDPR art. 9</td>
+                                    <td>Protezione dei dati personali</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <p>Tenerli distinti non è pedanteria. Chiamare "consenso informato" un'autorizzazione genitoriale prende a prestito l'aura di autodeterminazione e di tutela che appartiene agli altri due istituti, e fa sembrare la norma più garantista di quanto la sua meccanica effettiva sia. Per il lettore è utile saperlo: qui la parola "consenso" descrive un atto di un adulto che autorizza un'attività per un minore, non l'esercizio dell'autodeterminazione del minore stesso.</p>
@@ -358,15 +568,36 @@
             <!-- ===== COSA DICE L'EVIDENZA ===== -->
             <section id="evidenza" class="section">
                 <h2>Cosa dice l'evidenza</h2>
-                <p class="lead">Sul terreno empirico bisogna distinguere due domande: l'educazione sessuo-affettiva funziona? E a che età ha senso introdurla?</p>
+                <p class="lead">Sul terreno empirico bisogna distinguere due domande, che spesso vengono mescolate.</p>
 
-                <p>Sulla prima, il corpo di evidenza internazionale più solido è abbastanza convergente. L'International Technical Guidance on Sexuality Education dell'UNESCO, nella sua revisione del 2018, sostiene sulla base della letteratura disponibile che l'educazione sessuale completa non aumenta l'attività sessuale, i comportamenti a rischio o le infezioni, mentre i programmi basati sulla sola astinenza si rivelano inefficaci nel ritardare l'inizio dei rapporti; gli approcci più strutturati, di tipo "whole school", risultano associati a un posticipo del debutto sessuale e a un maggior uso di contraccezione. Va detto, per correttezza, che esiste una contestazione metodologica: alcune organizzazioni e ricercatori critici sostengono che le prove di efficacia siano più deboli e meno generalizzabili di come vengano presentate. La lettura più equa è che l'educazione sessuo-affettiva di buona qualità non risulta dannosa e mostra benefici su diversi esiti, con effetti la cui ampiezza è oggetto di dibattito scientifico legittimo.</p>
+                <div class="q-grid">
+                    <div class="q-card">
+                        <span class="q-num">DOMANDA 1</span>
+                        <h4>L'educazione sessuo-affettiva funziona?</h4>
+                        <p>Cioè: aumenta o riduce rischi, attività precoce, comportamenti pericolosi?</p>
+                    </div>
+                    <div class="q-card">
+                        <span class="q-num">DOMANDA 2</span>
+                        <h4>A che età ha senso introdurla?</h4>
+                        <p>Cioè: quali contenuti sono adeguati a quale fase dello sviluppo?</p>
+                    </div>
+                </div>
 
-                <p>Sulla seconda domanda, l'età, il riferimento europeo sono gli Standard per l'educazione sessuale in Europa dell'OMS-Ufficio regionale per l'Europa e del BZgA del 2010, che propongono un approccio olistico e per fasce d'età, a partire da 0-4 anni e fino a 15 e oltre, con contenuti ovviamente diversissimi a seconda dell'età: nei più piccoli si parla di corpo, igiene, emozioni, fiducia, confini personali, non certo di pratiche sessuali. È proprio questa fascia più giovane il punto in cui la divergenza diventa più aspra, ed è onesto riconoscere che lì il disaccordo non è solo tecnico.</p>
+                <div class="subsection">
+                    <h3>1. Funziona? — Il riferimento UNESCO</h3>
+                    <p>Sulla prima, il corpo di evidenza internazionale più solido è abbastanza convergente. L'<em>International Technical Guidance on Sexuality Education</em> dell'UNESCO, nella revisione del 2018, sostiene che l'educazione sessuale completa non aumenta l'attività sessuale, i comportamenti a rischio o le infezioni, mentre i programmi basati sulla sola astinenza si rivelano inefficaci nel ritardare l'inizio dei rapporti; gli approcci "whole school" risultano associati a un posticipo del debutto e a un maggior uso di contraccezione.</p>
+                    <p>Va detto, per correttezza, che esiste una <strong>contestazione metodologica</strong>: alcuni ricercatori critici sostengono che le prove di efficacia siano più deboli e meno generalizzabili di come vengano presentate. La lettura più equa: l'educazione sessuo-affettiva di buona qualità non risulta dannosa e mostra benefici su diversi esiti, con effetti la cui ampiezza è oggetto di dibattito scientifico legittimo.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>2. A che età? — Gli standard OMS/BZgA</h3>
+                    <p>Sulla seconda, il riferimento europeo sono gli <em>Standard per l'educazione sessuale in Europa</em> dell'OMS-Ufficio regionale e del BZgA (2010): approccio olistico e per fasce d'età, da 0-4 anni fino a 15 e oltre, con contenuti diversissimi secondo l'età. Nei più piccoli si parla di corpo, igiene, emozioni, fiducia, confini personali, non di pratiche sessuali. È proprio questa fascia il punto in cui la divergenza diventa più aspra, ed è onesto riconoscere che lì il disaccordo non è solo tecnico.</p>
+                </div>
 
                 <div class="subsection">
                     <h3>I numeri italiani sullo sfondo</h3>
-                    <div class="stat-grid">
+                    <p>L'ancora meno ideologica di tutte: cosa vivono davvero gli adolescenti italiani oggi.</p>
+                    <div class="stat-grid mb-3">
                         <div class="stat-card">
                             <div class="stat-value">~7/10</div>
                             <div class="stat-label">adolescenti che hanno visto pornografia</div>
@@ -384,12 +615,50 @@
                             <div class="stat-label">quasi raddoppio vittime di pedopornografia</div>
                         </div>
                     </div>
-                </div>
 
-                <p>A fare da sfondo, e questa è l'ancora meno ideologica di tutte, ci sono i numeri italiani su cosa vivono davvero gli adolescenti. L'indagine Save the Children-Ipsos del 2025 rileva che la maggioranza dei 14-18enni dichiara di aver già avuto esperienze sessuali e, soprattutto, che la principale fonte di informazione sulla sessualità sono gli amici, seguiti dai genitori, mentre la scuola resta marginale. La ricerca "Gen/Z" dell'associazione Differenza donna, sempre del 2025, fotografa che circa sette adolescenti su dieci hanno visto materiale pornografico, con una larghissima maggioranza tra i maschi, che una quota rilevante lo fa quotidianamente e che la maggioranza vi è arrivata prima delle scuole medie; più di uno su tre ha visto pornografia violenta o non consensuale e quasi uno su cinque ha ricevuto richieste di replicare comportamenti visti nei video. Il Censis registra una diffusione crescente di sexting e autoripresa tra i più giovani. I dati della Polizia Postale diffusi da Save the Children segnalano, nel primo semestre 2024, quasi un raddoppio delle vittime di pornografia minorile rispetto all'anno prima, con la maggioranza sotto i 14 anni, e una crescita di revenge porn e sextortion tra i minori. Il CNR-IRPPS, infine, documenta gli effetti del consumo precoce di pornografia su autostima, emozioni e adesione agli stereotipi di genere.</p>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Fonte</th>
+                                    <th>Anno</th>
+                                    <th>Cosa rileva</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="row-head">Save the Children–Ipsos</td>
+                                    <td class="num">2025</td>
+                                    <td>Maggioranza dei 14-18enni ha già avuto esperienze sessuali; la fonte principale di informazione sono gli amici, poi i genitori; la scuola resta marginale.</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Differenza donna "Gen/Z"</td>
+                                    <td class="num">2025</td>
+                                    <td>~7/10 ha visto pornografia (larga maggioranza tra i maschi), molti quotidianamente, la maggioranza già prima delle medie; &gt;1/3 porno violento/non consensuale; ~1/5 richieste di replicarlo.</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Censis</td>
+                                    <td class="num">2025</td>
+                                    <td>Diffusione crescente di sexting e autoripresa tra i più giovani.</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">Polizia Postale / Save the Children</td>
+                                    <td class="num">2024</td>
+                                    <td>Primo semestre: quasi raddoppio delle vittime di pornografia minorile, maggioranza sotto i 14 anni; crescita di revenge porn e sextortion tra i minori.</td>
+                                </tr>
+                                <tr>
+                                    <td class="row-head">CNR-IRPPS</td>
+                                    <td class="num">—</td>
+                                    <td>Documenta gli effetti del consumo precoce di pornografia su autostima, emozioni e adesione agli stereotipi di genere.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                <div class="card" style="border-left:3px solid var(--accent-cyan);">
-                    <p style="color:var(--text-primary); margin:0;">Il punto che questi numeri impongono, al di là di ogni schieramento, è semplice: i ragazzi un'educazione sessuale la ricevono comunque, e oggi gliela fa in larga parte la pornografia online, spesso prima della scuola media. La domanda vera non è "se" verranno educati, ma "da chi" e "con quali contenuti".</p>
+                    <div class="callout cyan">
+                        <span class="callout-label">→ Il punto che i numeri impongono</span>
+                        <p>I ragazzi un'educazione sessuale la ricevono comunque, e oggi gliela fa in larga parte la pornografia online, spesso prima della scuola media. La domanda vera non è "se" verranno educati, ma "da chi" e "con quali contenuti".</p>
+                    </div>
                 </div>
             </section>
 
@@ -488,10 +757,26 @@
                     </div>
                 </div>
 
-                <p>È qui che si colloca la previsione più realistica su "cosa sarà davvero". Diversi soggetti auditi, tra cui la Fondazione "Una Nessuna Centomila" ed Educare alle Differenze, hanno avanzato la stessa ipotesi: di fronte all'attrito procedurale e alla temperatura politica del tema, molte scuole sceglieranno i progetti "più facili" e sacrificheranno quelli sull'affettività e la sessualità. Non per divieto, ma per costo. Se questa previsione è corretta, l'effetto netto della legge potrebbe essere una contrazione di fatto dell'educazione sessuo-affettiva, ottenuta senza scriverla nel testo. C'è anche l'ipotesi opposta, meno citata ma reale: il vaglio sui titoli dell'articolo 2 potrebbe alzare la qualità media degli interventi, premiando i professionisti strutturati rispetto agli ingressi improvvisati. Quale delle due dinamiche prevarrà dipenderà quasi interamente da come verranno scritte le circolari attuative e da come ogni scuola interpreterà il confine tra curricolare ed extracurricolare.</p>
+                <div class="subsection">
+                    <h3>Due scenari opposti, entrambi plausibili</h3>
+                    <p>È qui che si colloca la previsione su "cosa sarà davvero". L'esito dipenderà quasi interamente da come verranno scritte le circolari attuative e da come ogni scuola interpreterà il confine tra curricolare ed extracurricolare.</p>
+                    <div class="scenario-grid">
+                        <div class="scenario down">
+                            <span class="scenario-tag">▼ Contrazione di fatto</span>
+                            <h4>Le scuole rinunciano per costo</h4>
+                            <p>Ipotesi avanzata da soggetti auditi (Fondazione "Una Nessuna Centomila", Educare alle Differenze): di fronte all'attrito procedurale e alla temperatura politica, molte scuole sceglieranno i progetti "più facili" e sacrificheranno quelli su affettività e sessualità. Non per divieto, ma per costo. L'effetto netto sarebbe una riduzione mai scritta nel testo.</p>
+                        </div>
+                        <div class="scenario up">
+                            <span class="scenario-tag">▲ Innalzamento di qualità</span>
+                            <h4>Il vaglio premia i professionisti seri</h4>
+                            <p>Ipotesi opposta, meno citata ma reale: il vaglio sui titoli dell'articolo 2 potrebbe alzare la qualità media degli interventi, premiando i professionisti strutturati rispetto agli ingressi improvvisati.</p>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="card" style="border-left:3px solid var(--accent-orange);">
-                    <p style="color:var(--text-primary); margin:0;">C'è infine una conseguenza che riguarda l'equità, sollevata da più parti. Quando l'accesso a un'attività dipende da un consenso firmato, i ragazzi che restano fuori tendono a essere proprio quelli con le famiglie meno presenti o più diffidenti, cioè spesso i più fragili, per i quali la scuola era l'unico luogo in cui certi temi potevano essere affrontati in modo sano. È un rischio di ampliamento delle disuguaglianze che non si risolve leggendo il testo, ma che il testo rende possibile.</p>
+                <div class="callout orange">
+                    <span class="callout-label">⚠ Il rischio equità</span>
+                    <p>Quando l'accesso a un'attività dipende da un consenso firmato, i ragazzi che restano fuori tendono a essere quelli con le famiglie meno presenti o più diffidenti, cioè spesso i più fragili, per i quali la scuola era l'unico luogo in cui certi temi potevano essere affrontati in modo sano. È un rischio di ampliamento delle disuguaglianze che non si risolve leggendo il testo, ma che il testo rende possibile.</p>
                 </div>
             </section>
 
