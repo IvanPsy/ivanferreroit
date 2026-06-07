@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educazione sessuo-affettiva e consenso — Speciale Osservatorio | Ivan Ferrero</title>
+    <meta name="description" content="Una lettura della legge Valditara sul consenso informato in ambito scolastico oltre i due copioni opposti: cosa dice il testo, cosa c'era prima, cosa dice l'evidenza, e dove finisce il fatto e comincia il valore.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <!-- Page-specific styles -->
+    <style>
+        .main-container { padding-top: 6rem; }
+
+        /* Hero */
+        .dash-hero { margin-bottom: 2.5rem; }
+        .speciale-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-yellow);
+            background: #d2992218;
+            border: 1px solid #d2992270;
+            padding: 0.3rem 0.85rem;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.1rem;
+        }
+        .dash-hero h1 {
+            font-size: 2.4rem;
+            line-height: 1.15;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(120deg, #e6edf3 0%, #00d9ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dash-meta {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+        }
+        .dash-meta span { color: var(--accent-cyan); }
+
+        /* Occhiello / callout */
+        .occhiello {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-glow);
+        }
+        .occhiello p { color: var(--text-primary); font-style: italic; font-size: 1.05rem; margin: 0; }
+
+        /* Section heading */
+        .section h2 { color: var(--text-primary); }
+        .section > p, .subsection > p, .card-body p, .tab-content p { font-size: 1.02rem; }
+        .lead { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; }
+
+        /* Two-narrative contrast */
+        .copioni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+        .copione {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.4rem;
+        }
+        .copione.a { border-top: 3px solid var(--accent-red); }
+        .copione.b { border-top: 3px solid var(--accent-orange); }
+        .copione .copione-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
+        }
+        .copione.a .copione-label { color: var(--accent-red); }
+        .copione.b .copione-label { color: var(--accent-orange); }
+        .copione blockquote { margin: 0; color: var(--text-primary); font-style: italic; }
+
+        /* Numbered fact */
+        .fact-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.7rem; height: 1.7rem;
+            border-radius: 50%;
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            font-family: var(--font-mono);
+            font-weight: 600;
+            margin-right: 0.6rem;
+            flex-shrink: 0;
+        }
+        .card.expandable .card-header h3 { display: flex; align-items: center; }
+
+        /* Value vs fact split */
+        .split-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .split-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.4rem; }
+        .split-card.empirico { border-left: 3px solid var(--accent-green); }
+        .split-card.valore { border-left: 3px solid var(--accent-purple); }
+        .split-card h4 { color: var(--text-primary); }
+        .split-card.empirico h4 { color: var(--accent-green); }
+        .split-card.valore h4 { color: var(--accent-purple); }
+        .split-card ul { margin: 0.5rem 0 0 1.1rem; color: var(--text-secondary); }
+        .split-card li { margin-bottom: 0.5rem; }
+
+        /* Source list */
+        .fonti-list .bib-item { font-size: 0.92rem; line-height: 1.6; }
+
+        .return-link { margin-top: 2.5rem; }
+        .return-link a { font-family: var(--font-mono); font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .dash-hero h1 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Il percorso</div>
+                <a href="#sintesi" class="sidebar-link active" data-target="sintesi">Sintesi</a>
+                <a href="#copioni" class="sidebar-link" data-target="copioni">I due copioni</a>
+                <a href="#legge" class="sidebar-link" data-target="legge">Cosa dice davvero la legge</a>
+                <a href="#prima" class="sidebar-link" data-target="prima">Cosa c'era prima</a>
+                <a href="#parole" class="sidebar-link" data-target="parole">Le tre parole "consenso informato"</a>
+                <a href="#evidenza" class="sidebar-link" data-target="evidenza">Cosa dice l'evidenza</a>
+                <a href="#valore" class="sidebar-link" data-target="valore">Empirico e valore</a>
+                <a href="#voci" class="sidebar-link" data-target="voci">Le voci che contano</a>
+                <a href="#cambia" class="sidebar-link" data-target="cambia">Cosa cambia, in concreto</a>
+                <a href="#mappa" class="sidebar-link" data-target="mappa">La mappa è ancora aperta</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Strumenti</div>
+                <a href="#glossario" class="sidebar-link" data-target="glossario">Glossario normativo</a>
+                <a href="#fonti" class="sidebar-link" data-target="fonti">Fonti essenziali</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+
+            <!-- ===== SINTESI ===== -->
+            <section id="sintesi" class="section active">
+                <div class="dash-hero">
+                    <span class="speciale-pill"><span aria-hidden="true">★</span> Speciale · Osservatorio</span>
+                    <h1>Educazione sessuo-affettiva e consenso: istruzioni per leggere una legge oltre il tifo</h1>
+                    <div class="dash-meta">07·06·2026 &nbsp;·&nbsp; <span>Ivan Ferrero</span> &nbsp;·&nbsp; psicologo-psicoterapeuta</div>
+                    <div class="mb-3">
+                        <span class="tag tag-green">Educazione</span>
+                        <span class="tag tag-cyan">Cyberpsicologia</span>
+                        <span class="tag tag-yellow">Scuola &amp; Adolescenti</span>
+                        <span class="tag tag-purple">Consenso informato</span>
+                    </div>
+                </div>
+
+                <div class="occhiello">
+                    <p>Il 4 giugno 2026 è diventata legge la cosiddetta "legge Valditara" sul consenso informato in ambito scolastico. Nelle stesse ore è stata raccontata come la fine dell'educazione sessuale e come uno scudo contro la "propaganda gender". Tutte e due le versioni distorcono. Qui provo a separare il testo dai suoi doppiaggi, su tre ancore che le opinioni non possono spostare: cosa dice la norma, cosa c'era prima, cosa dice l'evidenza. E a segnare la linea, di solito invisibile, oltre la quale non è più questione di dati ma di valori.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>La legge in numeri</h3>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">articoli in tutto</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">78&ndash;38</div>
+                            <div class="stat-label">voti al Senato (favorevoli&ndash;contrari)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">04·06·26</div>
+                            <div class="stat-label">entrata in vigore</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">decreti attuativi previsti</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Come è organizzato questo speciale</h3>
+                    <p class="lead">Un articolo extra rispetto alla cadenza dell'Osservatorio, qui in versione dashboard navigabile. Usa la barra laterale per muoverti tra le sezioni: dalla lettura ravvicinata del testo di legge, a cosa esisteva prima, all'evidenza scientifica, fino al confine tra ciò che i dati possono dire e ciò che resta scelta di valore. In coda trovi un glossario normativo consultabile e le fonti essenziali.</p>
+                    <p class="text-muted" style="font-size:0.9rem;">Versione lineare dell'articolo: <a href="/osservatorio/speciale/2026-06-07/">leggila nell'Osservatorio →</a></p>
+                </div>
+            </section>
+
+            <!-- ===== I DUE COPIONI ===== -->
+            <section id="copioni" class="section">
+                <h2>I due copioni</h2>
+
+                <div class="copioni-grid">
+                    <div class="copione a">
+                        <div class="copione-label">Copione 1</div>
+                        <blockquote>"Hanno vietato l'educazione sessuale a scuola, l'Italia torna al Medioevo."</blockquote>
+                    </div>
+                    <div class="copione b">
+                        <div class="copione-label">Copione 2</div>
+                        <blockquote>"Finalmente tuteliamo i bambini dalla confusione gender e ridiamo voce ai genitori."</blockquote>
+                    </div>
+                </div>
+
+                <p>Appena il Senato ha approvato in via definitiva il disegno di legge n. 1735, con 78 voti favorevoli e 38 contrari, sono partiti due racconti speculari. Da una parte "hanno vietato l'educazione sessuale a scuola, l'Italia torna al Medioevo". Dall'altra "finalmente tuteliamo i bambini dalla confusione gender e ridiamo voce ai genitori". Sono due cornici emotivamente efficaci e fattualmente entrambe imprecise, ciascuna a modo suo.</p>
+
+                <p>Il problema, per chi vuole capire davvero, è che il dibattito si è giocato quasi interamente sul piano dell'interpretazione politica e quasi mai su quello del testo. Eppure il testo è breve, tre articoli, e dice cose precise. Quando lo si legge accanto a cosa esisteva prima e a cosa sappiamo dalla ricerca, la maggior parte del rumore si dissolve, e resta un nucleo di scelte reali su cui si può discutere in modo onesto. È quello che proverò a fare, sapendo in anticipo che una parte della discussione non è risolvibile con i dati, ed è giusto dirlo apertamente.</p>
+            </section>
+
+            <!-- ===== COSA DICE LA LEGGE ===== -->
+            <section id="legge" class="section">
+                <h2>Cosa dice davvero la legge</h2>
+                <p class="lead">La legge è un atto ufficiale dello Stato, quindi vale la pena leggerla per quello che scrive, non per come la si riassume. Si compone di tre articoli.</p>
+
+                <div class="subsection">
+                    <h3>I tre articoli</h3>
+
+                    <div class="card expandable expanded">
+                        <div class="card-header">
+                            <h3>Articolo 1 — Il consenso informato preventivo delle famiglie</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">L'<strong>articolo 1</strong> disciplina il consenso informato preventivo delle famiglie. Stabilisce che le istituzioni scolastiche devono richiedere il consenso informato preventivo dei genitori, o degli studenti se maggiorenni, per la partecipazione ad attività che riguardino temi attinenti all'ambito della sessualità, dopo aver messo a disposizione il materiale didattico, e che adeguino a questo principio il Patto educativo di corresponsabilità previsto dall'articolo 5-bis del DPR 249/1998. Qui si annida la prima distinzione che quasi tutti hanno appiattito. Per le <strong>attività extracurricolari</strong> previste dal PTOF il consenso è scritto, preventivo, va richiesto entro il settimo giorno antecedente, e la richiesta deve esplicitare finalità, obiettivi educativi e formativi, contenuti, argomenti, temi, modalità e l'eventuale presenza di esperti esterni o di enti e associazioni; chi non aderisce, semplicemente si astiene dalla frequenza. Per le <strong>attività di ampliamento dell'offerta formativa</strong>, invece, le modalità sono le stesse, ma chi non aderisce ha diritto a un'attività formativa alternativa equivalente, garantita dalla scuola dentro il PTOF. È una differenza concreta per il diritto allo studio di chi resta fuori, e quasi nessuna cronaca l'ha colta. Durante queste attività, con i minori, è sempre garantita la presenza di un docente. Infine, il comma 5 esclude in ogni caso, nella scuola dell'infanzia e nella primaria, qualunque attività didattica, progettuale o di altro tipo avente a oggetto temi attinenti all'ambito della sessualità.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Articolo 2 — Il vaglio dei soggetti esterni</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">L'<strong>articolo 2</strong> riguarda i soggetti esterni. Stabilisce che il loro coinvolgimento nelle attività formative, sia curricolari sia extracurricolari, è subordinato alla deliberazione del collegio dei docenti e all'approvazione del consiglio di istituto, sulla base di criteri che il collegio definisce per comparare titoli ed esperienza professionale, scientifica o accademica nelle materie dell'intervento, oltre alla coerenza con la finalità educativa e all'adeguatezza all'età.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Articolo 3 — L'invarianza finanziaria</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">L'<strong>articolo 3</strong> è la clausola di invarianza finanziaria: dall'attuazione non devono derivare nuovi o maggiori oneri, e le scuole provvedono con le risorse già disponibili.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Tre fatti che il dibattito ha confuso</h3>
+                    <p>Da questa lettura ravvicinata emergono tre fatti che il dibattito ha sistematicamente confuso, e che reggono tutto il resto.</p>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3><span class="fact-num">1</span>Il curricolo non richiede consenso</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il primo. L'obbligo di consenso vive solo nei commi 2 e 3 dell'articolo 1, cioè extracurricolare e ampliamento dell'offerta formativa. Il curricolo non è mai nominato come oggetto di consenso. Una lezione di scienze sull'apparato riproduttivo, o l'educazione al rispetto e alle relazioni dentro l'educazione civica, non richiedono alcuna firma. Non è un'interpretazione benevola, è la struttura letterale del testo. Detto altrimenti: la legge non vieta l'educazione sessuale curricolare nella secondaria, e non la rende neppure obbligatoria. Mette dei paletti procedurali ai progetti che le scuole decidono volontariamente di attivare.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3><span class="fact-num">2</span>Consenso ed esperti sono due binari distinti</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il secondo. Consenso dei genitori e vaglio degli esperti sono due binari distinti che colpiscono insiemi diversi. Il consenso (commi 2 e 3) riguarda le attività non curricolari sulla sessualità. Il vaglio dell'articolo 2 riguarda tutti gli esperti esterni, anche nelle attività curricolari. Significa che un esperto che entra in una lezione curricolare non ha bisogno del consenso dei genitori, ma ha bisogno della delibera del collegio e dell'approvazione del consiglio d'istituto.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3><span class="fact-num">3</span>Nessun decreto attuativo</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Il terzo, quasi mai segnalato. Il testo non rinvia ad alcun decreto attuativo. Vuol dire che l'operatività reale, cioè come si definisce in concreto "l'ambito della sessualità", quali progetti vi rientrano, come si redige la richiesta di consenso, sarà fissata da circolari e linee guida ministeriali e, in mancanza, dall'interpretazione di ogni singola scuola. È il punto in cui il "come sarà davvero" si stacca dal "cosa dice la legge".</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== COSA C'ERA PRIMA ===== -->
+            <section id="prima" class="section">
+                <h2>Cosa c'era prima</h2>
+                <p>Per dire onestamente cosa cambia, bisogna ricordare da dove si parte, ed è la cosa che nessuna delle due tifoserie ha interesse a fare.</p>
+
+                <p>Il punto di partenza è un vuoto. L'Italia non ha mai avuto un'educazione sessuo-affettiva curricolare obbligatoria. È uno dei pochissimi Paesi dell'Unione europea senza una legge che la renda obbligatoria, insieme, secondo le ricognizioni più citate, a Bulgaria, Cipro, Lituania, Polonia, Romania e Ungheria. Gli unici agganci normativi storici sono indiretti: la legge 405/1975 che istituì i consultori familiari e la legge 194/1978, nessuna delle quali ha mai imposto che quella divulgazione avvenisse a scuola. Decenni di proposte si sono arenati su un intreccio di sensibilità culturali, politiche e religiose.</p>
+
+                <p>Questo significa che, prima della legge Valditara, l'educazione sessuo-affettiva nelle scuole esisteva, ma come pulviscolo: progetti attivati dalle singole scuole nell'esercizio dell'autonomia scolastica (DPR 275/1999), spesso in collaborazione con enti esterni, in molti casi già con il consenso dei genitori raccolto come buona prassi. Non c'era un programma nazionale uniforme, c'era una geografia a macchia di leopardo.</p>
+
+                <div class="card" style="border-left:3px solid var(--accent-yellow);">
+                    <p style="color:var(--text-primary); margin:0;">Qui sta il fulcro di onestà. Una parte non piccola di ciò che la legge introduce non è un'invenzione, è la codificazione e la standardizzazione di una prassi già diffusa, il consenso preventivo, più due elementi nuovi e pesanti: il divieto totale in infanzia e primaria, e la procedimentalizzazione del vaglio sugli esterni. Sostenere che "prima si poteva fare tutto" o, all'opposto, che "adesso non si può più fare niente" è falso in entrambe le direzioni.</p>
+                </div>
+
+                <p>C'è poi una specifica affermazione del ministro che va misurata sul calendario. È stato detto che il governo, "per la prima volta", rende obbligatoria in tutti i gradi di scuola l'educazione al rispetto, alle relazioni e all'empatia. Il "per la prima volta" è discutibile. La dimensione del rispetto, della parità e della prevenzione della violenza di genere ha già diversi agganci giuridici precedenti: la Convenzione di Istanbul, ratificata con legge 77/2013, il cui articolo 14 impegna gli Stati a includere nei programmi scolastici di ogni ordine e grado materiali su parità tra i sessi, ruoli di genere non stereotipati, rispetto reciproco e soluzione non violenta dei conflitti; la legge 107/2015 che già chiedeva al PTOF di promuovere i principi di pari opportunità; e soprattutto la legge 92/2019 sull'educazione civica, che ha reso questo insegnamento obbligatorio e trasversale e che include esplicitamente la parità di genere, il rispetto dell'altro e la prevenzione della violenza di genere. La novità reale, semmai, sarà nei contenuti delle nuove Indicazioni nazionali; ma l'idea che prima del 2026 la scuola italiana non avesse alcun mandato sul rispetto e sulle relazioni non regge.</p>
+            </section>
+
+            <!-- ===== LE TRE PAROLE ===== -->
+            <section id="parole" class="section">
+                <h2>Le tre parole dette "consenso informato"</h2>
+                <p class="lead">Vale la pena fermarsi su un nodo che il dibattito pubblico ha completamente schiacciato, e che da psicologo non posso lasciar passare. "Consenso informato" non è una cosa sola. Nella discussione se ne sovrappongono almeno tre, con logiche e radici diverse.</p>
+
+                <div class="subsection">
+                    <h3>Tre istituti diversi sotto la stessa etichetta</h3>
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="autorizzazione">Autorizzazione a partecipare</button>
+                        <button class="tab-btn" data-tab="clinico">Consenso clinico-bioetico</button>
+                        <button class="tab-btn" data-tab="dati">Consenso sui dati</button>
+                    </div>
+                    <div class="tab-content active" id="tab-autorizzazione">
+                        <p>C'è il consenso di questa legge, che è un'<strong>autorizzazione preventiva a partecipare</strong> a un'attività: il genitore, informato di finalità e materiali, acconsente o no alla presenza del figlio.</p>
+                    </div>
+                    <div class="tab-content" id="tab-clinico">
+                        <p>C'è il <strong>consenso informato in senso clinico e bioetico</strong>, disciplinato dalla legge 219/2017, che è tutt'altro: è l'atto con cui una persona, adeguatamente informata, accetta o rifiuta un trattamento che la riguarda direttamente, ed è radicato nell'autodeterminazione del soggetto, non di un terzo.</p>
+                    </div>
+                    <div class="tab-content" id="tab-dati">
+                        <p>E c'è il <strong>consenso al trattamento dei dati personali</strong>, dove i dati relativi alla vita sessuale e all'orientamento sessuale sono categorie particolari ai sensi dell'articolo 9 del GDPR, con tutele rafforzate e una logica di protezione dei dati che non coincide né con l'autorizzazione scolastica né con il consenso clinico.</p>
+                    </div>
+                </div>
+
+                <p>Tenerli distinti non è pedanteria. Chiamare "consenso informato" un'autorizzazione genitoriale prende a prestito l'aura di autodeterminazione e di tutela che appartiene agli altri due istituti, e fa sembrare la norma più garantista di quanto la sua meccanica effettiva sia. Per il lettore è utile saperlo: qui la parola "consenso" descrive un atto di un adulto che autorizza un'attività per un minore, non l'esercizio dell'autodeterminazione del minore stesso.</p>
+            </section>
+
+            <!-- ===== COSA DICE L'EVIDENZA ===== -->
+            <section id="evidenza" class="section">
+                <h2>Cosa dice l'evidenza</h2>
+                <p class="lead">Sul terreno empirico bisogna distinguere due domande: l'educazione sessuo-affettiva funziona? E a che età ha senso introdurla?</p>
+
+                <p>Sulla prima, il corpo di evidenza internazionale più solido è abbastanza convergente. L'International Technical Guidance on Sexuality Education dell'UNESCO, nella sua revisione del 2018, sostiene sulla base della letteratura disponibile che l'educazione sessuale completa non aumenta l'attività sessuale, i comportamenti a rischio o le infezioni, mentre i programmi basati sulla sola astinenza si rivelano inefficaci nel ritardare l'inizio dei rapporti; gli approcci più strutturati, di tipo "whole school", risultano associati a un posticipo del debutto sessuale e a un maggior uso di contraccezione. Va detto, per correttezza, che esiste una contestazione metodologica: alcune organizzazioni e ricercatori critici sostengono che le prove di efficacia siano più deboli e meno generalizzabili di come vengano presentate. La lettura più equa è che l'educazione sessuo-affettiva di buona qualità non risulta dannosa e mostra benefici su diversi esiti, con effetti la cui ampiezza è oggetto di dibattito scientifico legittimo.</p>
+
+                <p>Sulla seconda domanda, l'età, il riferimento europeo sono gli Standard per l'educazione sessuale in Europa dell'OMS-Ufficio regionale per l'Europa e del BZgA del 2010, che propongono un approccio olistico e per fasce d'età, a partire da 0-4 anni e fino a 15 e oltre, con contenuti ovviamente diversissimi a seconda dell'età: nei più piccoli si parla di corpo, igiene, emozioni, fiducia, confini personali, non certo di pratiche sessuali. È proprio questa fascia più giovane il punto in cui la divergenza diventa più aspra, ed è onesto riconoscere che lì il disaccordo non è solo tecnico.</p>
+
+                <div class="subsection">
+                    <h3>I numeri italiani sullo sfondo</h3>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">~7/10</div>
+                            <div class="stat-label">adolescenti che hanno visto pornografia</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">&gt;1/3</div>
+                            <div class="stat-label">ha visto porno violento o non consensuale</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">~1/5</div>
+                            <div class="stat-label">ha ricevuto richieste di emulare i video</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">2024</div>
+                            <div class="stat-label">quasi raddoppio vittime di pedopornografia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>A fare da sfondo, e questa è l'ancora meno ideologica di tutte, ci sono i numeri italiani su cosa vivono davvero gli adolescenti. L'indagine Save the Children-Ipsos del 2025 rileva che la maggioranza dei 14-18enni dichiara di aver già avuto esperienze sessuali e, soprattutto, che la principale fonte di informazione sulla sessualità sono gli amici, seguiti dai genitori, mentre la scuola resta marginale. La ricerca "Gen/Z" dell'associazione Differenza donna, sempre del 2025, fotografa che circa sette adolescenti su dieci hanno visto materiale pornografico, con una larghissima maggioranza tra i maschi, che una quota rilevante lo fa quotidianamente e che la maggioranza vi è arrivata prima delle scuole medie; più di uno su tre ha visto pornografia violenta o non consensuale e quasi uno su cinque ha ricevuto richieste di replicare comportamenti visti nei video. Il Censis registra una diffusione crescente di sexting e autoripresa tra i più giovani. I dati della Polizia Postale diffusi da Save the Children segnalano, nel primo semestre 2024, quasi un raddoppio delle vittime di pornografia minorile rispetto all'anno prima, con la maggioranza sotto i 14 anni, e una crescita di revenge porn e sextortion tra i minori. Il CNR-IRPPS, infine, documenta gli effetti del consumo precoce di pornografia su autostima, emozioni e adesione agli stereotipi di genere.</p>
+
+                <div class="card" style="border-left:3px solid var(--accent-cyan);">
+                    <p style="color:var(--text-primary); margin:0;">Il punto che questi numeri impongono, al di là di ogni schieramento, è semplice: i ragazzi un'educazione sessuale la ricevono comunque, e oggi gliela fa in larga parte la pornografia online, spesso prima della scuola media. La domanda vera non è "se" verranno educati, ma "da chi" e "con quali contenuti".</p>
+                </div>
+            </section>
+
+            <!-- ===== EMPIRICO E VALORE ===== -->
+            <section id="valore" class="section">
+                <h2>Dove finisce l'empirico e comincia il valore</h2>
+                <p class="lead">È qui che mi sembra utile piantare un paletto, perché gran parte del conflitto nasce dallo spacciare un piano per l'altro.</p>
+
+                <div class="split-grid">
+                    <div class="split-card empirico">
+                        <h4>Domande empiriche</h4>
+                        <p style="margin:0; color:var(--text-secondary);">Hanno una risposta che i dati possono almeno avvicinare.</p>
+                        <ul>
+                            <li>L'educazione sessuo-affettiva aumenta o no i comportamenti a rischio?</li>
+                            <li>Quali formati funzionano?</li>
+                            <li>Quali contenuti sono adeguati a quale età sul piano dello sviluppo?</li>
+                        </ul>
+                    </div>
+                    <div class="split-card valore">
+                        <h4>Domande di valore</h4>
+                        <p style="margin:0; color:var(--text-secondary);">Nessun dato le chiuderà.</p>
+                        <ul>
+                            <li>Quanto deve pesare la libertà educativa dei genitori rispetto al diritto del minore a ricevere informazioni corrette?</li>
+                            <li>A chi spetta, in ultima istanza, decidere: famiglia o comunità educante?</li>
+                            <li>Che cosa è "appropriato" insegnare a un bambino di cinque anni?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p>Alcune domande sono empiriche, cioè hanno una risposta che i dati possono almeno avvicinare. L'educazione sessuo-affettiva aumenta o no i comportamenti a rischio? Quali formati funzionano? Quali contenuti sono adeguati a quale età sul piano dello sviluppo? Su queste possiamo, e dobbiamo, ragionare con la ricerca in mano.</p>
+
+                <p>Altre domande non sono empiriche, e nessun dato le chiuderà. Quanto deve pesare la libertà educativa dei genitori rispetto al diritto del minore a ricevere informazioni corrette? A chi spetta, in ultima istanza, decidere su questi temi, alla famiglia o alla comunità educante? Che cosa è "appropriato" insegnare a un bambino di cinque anni? Queste sono scelte di valore, e legittimamente le persone vi rispondono in modo diverso. La Costituzione stessa contiene la tensione, perché tanto chi sostiene la legge quanto chi la critica può appellarsi a essa: all'articolo 30, che attribuisce ai genitori il diritto-dovere di educare i figli; all'articolo 34, sul diritto all'istruzione; all'articolo 3, sull'uguaglianza e la pari dignità.</p>
+
+                <p>Il divieto totale in infanzia e primaria è l'esempio perfetto di questo intreccio. Una parte è empirica: cosa è adeguato proporre a quell'età è in buona misura una questione di psicologia dello sviluppo, e gli standard internazionali parlano di temi come emozioni, corpo e confini, non di sessualità in senso stretto. Ma un'altra parte è puramente valoriale: anche ammesso che certi contenuti relazionali siano adeguati e benefici a quell'età, si può comunque ritenere che quella sfera spetti alla famiglia e non alla scuola. Confondere i due piani, presentare una preferenza di valore come se fosse un dato scientifico, o liquidare una preoccupazione genitoriale legittima come pura ignoranza, è esattamente ciò che ha avvelenato il dibattito. Riconoscere il confine è il servizio più rigoroso che si possa rendere a chi legge.</p>
+            </section>
+
+            <!-- ===== LE VOCI CHE CONTANO ===== -->
+            <section id="voci" class="section">
+                <h2>Le voci che contano</h2>
+                <p class="lead">Una cosa è la posizione dei partiti e delle associazioni schierate, un'altra è quella dei soggetti scientifici e professionali. Distinguere le due è dirimente.</p>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>Il fronte politico e associativo</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Sul fronte politico e associativo le posizioni sono nette e prevedibili: le opposizioni hanno votato contro parlando di norma "anacronistica e antiscientifica" e "oscurantista", mentre realtà come Pro Vita &amp; Famiglia e il MOIGE hanno salutato la legge come una vittoria a tutela della libertà educativa dei genitori. Sono voci legittime, ma di parte, e vanno lette come tali.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>I soggetti tecnici auditi in Commissione</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Più interessante, per chi cerca un ancoraggio meno schierato, è ciò che hanno detto i soggetti tecnici. La Commissione Cultura del Senato, durante l'esame, ha audito tra gli altri Save the Children, l'associazione AltraPsicologia, la Fondazione "Una Nessuna Centomila", Educare alle Differenze, il MOIGE, l'Associazione Italiana Genitori e singole esperte: un ventaglio ampio, le cui memorie sono pubbliche sul sito della Commissione e costituiscono una base argomentata, non sloganistica.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>La posizione del CNOP (e la sfumatura che smentisce le tinte unite)</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">E poi c'è la mia categoria. Il Consiglio Nazionale dell'Ordine degli Psicologi, con la presidente Maria Antonietta Gulino, è intervenuto con una lettera del 17 ottobre 2025 indirizzata alla Presidenza del Consiglio, al Ministro dell'Istruzione, alla Ministra per la Famiglia e alla Commissione Cultura della Camera, sottoscritta da numerosi Ordini territoriali, chiedendo di rivedere la scelta di escludere l'educazione sessuo-affettiva dai percorsi scolastici. La posizione del CNOP è che vietare o censurare questa educazione costituisca un ostacolo allo sviluppo sano e consapevole dell'identità, e che la sua assenza aumenti i rischi di violenza, bullismo, cyberbullismo e disinformazione. C'è però una sfumatura che merita attenzione, perché smentisce la lettura a tinte unite: il CNOP propone di fondare questa educazione proprio su un patto di corresponsabilità tra scuola, famiglie e studenti. È lo stesso strumento, il Patto educativo di corresponsabilità, che la legge richiama. Segno che, sul principio del coinvolgimento delle famiglie, la distanza è minore di quanto i toni lascino credere; lo scontro vero è sulla portata e sul divieto, non sull'idea che le famiglie vadano informate e coinvolte.</p>
+                    </div>
+                </div>
+
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>Lo slogan dei "venti paesi europei", smontato</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-2">Sul piano comparato, infine, conviene smontare uno slogan. Si sente ripetere che "venti paesi europei hanno reso obbligatoria l'educazione sessuale". Il dato dipende dal criterio. Se il criterio è "esiste una legge che la rende obbligatoria", l'Italia risulta tra i pochissimi a non averla, insieme al gruppo ristretto citato sopra. Se il criterio è "viene offerta in forma curricolare e olistica", una ricognizione UNESCO su venticinque Paesi europei ne contava dieci con programmi pienamente integrati. In entrambe le letture il messaggio di fondo regge, l'Italia è in netta minoranza, ma il numero esatto cambia con la definizione, e un Osservatorio serio lo dice.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== COSA CAMBIA ===== -->
+            <section id="cambia" class="section">
+                <h2>Cosa cambia, in concreto</h2>
+                <p class="lead">Per chi sta dentro la scuola, al di là delle dichiarazioni, cambiano alcune cose molto pratiche.</p>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Per le famiglie</h3>
+                        <p>Per le famiglie cambia che, per i progetti non curricolari su affettività e sessualità nella secondaria, riceveranno una richiesta di consenso almeno sette giorni prima, con l'indicazione di obiettivi, contenuti, materiali ed eventuali esperti. È un aumento di trasparenza che, in sé, è difficile contestare in linea di principio; molti genitori, fino a ieri, non avevano idea di chi entrasse in classe e con quali finalità.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Per le scuole</h3>
+                        <p>Per le scuole cambia il carico procedurale. Ogni progetto di questo tipo richiede una richiesta di consenso ben costruita, e ogni esperto esterno, anche in attività curricolari, richiede una delibera del collegio docenti e un'approvazione del consiglio d'istituto con criteri di selezione formalizzati. Tutto questo, ed è il nodo dell'articolo 3, va fatto a costo zero, con le risorse esistenti. È un mandato senza finanziamento, e la storia recente insegna che l'attrito amministrativo non finanziato tende a ridurre, non ad aumentare, le attività su cui grava.</p>
+                    </div>
+                </div>
+
+                <p>È qui che si colloca la previsione più realistica su "cosa sarà davvero". Diversi soggetti auditi, tra cui la Fondazione "Una Nessuna Centomila" ed Educare alle Differenze, hanno avanzato la stessa ipotesi: di fronte all'attrito procedurale e alla temperatura politica del tema, molte scuole sceglieranno i progetti "più facili" e sacrificheranno quelli sull'affettività e la sessualità. Non per divieto, ma per costo. Se questa previsione è corretta, l'effetto netto della legge potrebbe essere una contrazione di fatto dell'educazione sessuo-affettiva, ottenuta senza scriverla nel testo. C'è anche l'ipotesi opposta, meno citata ma reale: il vaglio sui titoli dell'articolo 2 potrebbe alzare la qualità media degli interventi, premiando i professionisti strutturati rispetto agli ingressi improvvisati. Quale delle due dinamiche prevarrà dipenderà quasi interamente da come verranno scritte le circolari attuative e da come ogni scuola interpreterà il confine tra curricolare ed extracurricolare.</p>
+
+                <div class="card" style="border-left:3px solid var(--accent-orange);">
+                    <p style="color:var(--text-primary); margin:0;">C'è infine una conseguenza che riguarda l'equità, sollevata da più parti. Quando l'accesso a un'attività dipende da un consenso firmato, i ragazzi che restano fuori tendono a essere proprio quelli con le famiglie meno presenti o più diffidenti, cioè spesso i più fragili, per i quali la scuola era l'unico luogo in cui certi temi potevano essere affrontati in modo sano. È un rischio di ampliamento delle disuguaglianze che non si risolve leggendo il testo, ma che il testo rende possibile.</p>
+                </div>
+            </section>
+
+            <!-- ===== LA MAPPA È ANCORA APERTA ===== -->
+            <section id="mappa" class="section">
+                <h2>La mappa è ancora aperta</h2>
+
+                <p>Provo a non chiudere con un verdetto, perché un verdetto sarebbe fuori posto. La legge Valditara non è né la fine dell'educazione sessuale né uno scudo eroico contro un nemico immaginario. È una norma breve, in larga parte procedurale, che codifica una prassi esistente, introduce un divieto netto nella fascia più piccola e sposta sul terreno del consenso e del vaglio degli esperti un'attività che prima viveva nell'autonomia delle scuole.</p>
+
+                <p>Il suo significato reale non è ancora scritto. Lo scriveranno le circolari attuative, i modelli aggiornati di Patto di corresponsabilità e, soprattutto, il modo in cui ogni singolo istituto leggerà quella linea sottile tra ciò che è curricolo e ciò che richiede il consenso. È lì che si deciderà se questa legge sarà uno strumento di trasparenza o un freno silenzioso. Per questo il lavoro di un Osservatorio non finisce con l'approvazione: comincia adesso, andando a vedere cosa accade davvero nelle scuole nei prossimi mesi. La mappa, su questo territorio, è ancora in buona parte da disegnare.</p>
+
+                <div class="return-link">
+                    <a href="/osservatorio/">← Torna all'Osservatorio</a>
+                </div>
+            </section>
+
+            <!-- ===== GLOSSARIO ===== -->
+            <section id="glossario" class="section">
+                <h2>Glossario normativo</h2>
+                <p class="lead">I riferimenti giuridici e tecnici citati nell'articolo, con una definizione operativa. Usa la ricerca per filtrare.</p>
+
+                <input type="text" class="search-input mb-3" id="glossarySearch" placeholder="Cerca un termine (es. articolo 1, GDPR, UNESCO, PTOF)...">
+
+                <div class="glossary-grid">
+                    <div class="glossary-item visible" data-term="ddl 1735 legge valditara consenso informato scolastico senato">
+                        <h4>DDL S. 1735 — Legge "Valditara"</h4>
+                        <div class="definition">Disposizioni in materia di consenso informato in ambito scolastico. Approvata in via definitiva dal Senato (78 favorevoli, 38 contrari) e in vigore dal 4 giugno 2026. Si compone di tre articoli.</div>
+                        <div class="application"><strong>Nel testo:</strong> è la norma di cui l'articolo separa il testo dai suoi "doppiaggi" politici.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="articolo 1 consenso preventivo extracurricolare ampliamento offerta formativa comma 5 infanzia primaria">
+                        <h4>Articolo 1 — Consenso informato preventivo</h4>
+                        <div class="definition">Obbliga le scuole a richiedere il consenso preventivo di genitori (o studenti maggiorenni) per attività su temi della sessualità. Distingue attività extracurricolari e di ampliamento dell'offerta formativa; il comma 5 esclude ogni attività su tali temi in infanzia e primaria.</div>
+                        <div class="application"><strong>Punto chiave:</strong> l'obbligo vive solo nei commi 2 e 3; il curricolo non è mai oggetto di consenso.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="articolo 2 esperti esterni collegio docenti consiglio istituto titoli">
+                        <h4>Articolo 2 — Vaglio dei soggetti esterni</h4>
+                        <div class="definition">Subordina il coinvolgimento di esperti esterni (curricolari ed extracurricolari) a delibera del collegio dei docenti e approvazione del consiglio di istituto, con criteri su titoli ed esperienza, coerenza educativa e adeguatezza all'età.</div>
+                        <div class="application"><strong>Punto chiave:</strong> riguarda tutti gli esperti esterni, anche in lezioni curricolari, ed è un binario distinto dal consenso dei genitori.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="articolo 3 invarianza finanziaria costo zero risorse">
+                        <h4>Articolo 3 — Invarianza finanziaria</h4>
+                        <div class="definition">Clausola che esclude nuovi o maggiori oneri: le scuole provvedono con le risorse già disponibili.</div>
+                        <div class="application"><strong>Implicazione:</strong> mandato senza finanziamento; l'attrito amministrativo non finanziato tende a ridurre le attività.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="ptof piano triennale offerta formativa">
+                        <h4>PTOF</h4>
+                        <div class="definition">Piano Triennale dell'Offerta Formativa: il documento che definisce l'identità e la progettualità di ogni istituto, incluse attività extracurricolari e di ampliamento.</div>
+                        <div class="application"><strong>Nel testo:</strong> è la cornice dentro cui ricadono le attività soggette a consenso e l'attività alternativa equivalente.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="patto educativo corresponsabilita dpr 249 1998 articolo 5-bis">
+                        <h4>Patto educativo di corresponsabilità</h4>
+                        <div class="definition">Accordo tra scuola, famiglia e studente sui reciproci diritti e doveri (art. 5-bis del DPR 249/1998). La legge chiede di adeguarlo al principio del consenso informato.</div>
+                        <div class="application"><strong>Convergenza:</strong> è lo stesso strumento che il CNOP propone come base dell'educazione sessuo-affettiva.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="consenso clinico bioetico legge 219 2017 autodeterminazione trattamento">
+                        <h4>Consenso informato clinico-bioetico (L. 219/2017)</h4>
+                        <div class="definition">Atto con cui una persona, adeguatamente informata, accetta o rifiuta un trattamento che la riguarda direttamente. È radicato nell'autodeterminazione del soggetto, non di un terzo.</div>
+                        <div class="application"><strong>Distinzione:</strong> diverso dall'autorizzazione genitoriale della legge scolastica.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="gdpr articolo 9 dati categorie particolari vita sessuale orientamento">
+                        <h4>Consenso ai dati — GDPR art. 9</h4>
+                        <div class="definition">I dati su vita sessuale e orientamento sessuale sono categorie particolari, con tutele rafforzate e una logica di protezione dei dati distinta dagli altri due "consensi".</div>
+                        <div class="application"><strong>Distinzione:</strong> terzo significato che il dibattito tende a confondere con gli altri.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="convenzione istanbul articolo 14 legge 77 2013 parita violenza genere">
+                        <h4>Convenzione di Istanbul (art. 14, L. 77/2013)</h4>
+                        <div class="definition">Impegna gli Stati a includere nei programmi di ogni ordine e grado materiali su parità tra i sessi, ruoli non stereotipati, rispetto reciproco e soluzione non violenta dei conflitti.</div>
+                        <div class="application"><strong>Nel testo:</strong> aggancio giuridico che precede il "per la prima volta" del ministro.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="legge 92 2019 educazione civica obbligatoria trasversale parita rispetto">
+                        <h4>Legge 92/2019 — Educazione civica</h4>
+                        <div class="definition">Ha reso l'educazione civica insegnamento obbligatorio e trasversale, includendo esplicitamente parità di genere, rispetto dell'altro e prevenzione della violenza di genere.</div>
+                        <div class="application"><strong>Nel testo:</strong> mandato preesistente su rispetto e relazioni, che ridimensiona il "per la prima volta".</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="dpr 275 1999 autonomia scolastica progetti">
+                        <h4>DPR 275/1999 — Autonomia scolastica</h4>
+                        <div class="definition">Base normativa dell'autonomia con cui le singole scuole attivavano (e attivano) progetti, anche su affettività e sessualità, in collaborazione con enti esterni.</div>
+                        <div class="application"><strong>Nel testo:</strong> spiega la "geografia a macchia di leopardo" precedente alla legge.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="unesco itgse 2018 international technical guidance sexuality education astinenza whole school">
+                        <h4>UNESCO — ITGSE (2018)</h4>
+                        <div class="definition">International Technical Guidance on Sexuality Education: l'educazione sessuale completa non aumenta attività, rischi o infezioni; i programmi solo-astinenza sono inefficaci; gli approcci "whole school" si associano a posticipo del debutto e maggior uso di contraccezione.</div>
+                        <div class="application"><strong>Nel testo:</strong> riferimento empirico principale, con la relativa contestazione metodologica.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="oms bzga standards educazione sessuale europa 2010 olistico fasce eta">
+                        <h4>Standard OMS-Europa / BZgA (2010)</h4>
+                        <div class="definition">Standard per l'educazione sessuale in Europa: approccio olistico e per fasce d'età (0-4 fino a 15 e oltre); nei più piccoli corpo, igiene, emozioni, fiducia, confini, non pratiche sessuali.</div>
+                        <div class="application"><strong>Nel testo:</strong> riferimento sulla questione dell'età.</div>
+                    </div>
+                    <div class="glossary-item visible" data-term="cnop ordine psicologi gulino lettera 17 ottobre 2025">
+                        <h4>CNOP — Consiglio Nazionale Ordine Psicologi</h4>
+                        <div class="definition">Con la presidente Maria Antonietta Gulino, lettera del 17 ottobre 2025 che chiede di rivedere l'esclusione dell'educazione sessuo-affettiva dai percorsi scolastici, fondandola su un patto di corresponsabilità.</div>
+                        <div class="application"><strong>Nel testo:</strong> voce professionale che mostra come la distanza sul coinvolgimento delle famiglie sia minore di quanto i toni lascino credere.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== FONTI ===== -->
+            <section id="fonti" class="section">
+                <h2>Fonti essenziali</h2>
+                <div class="card fonti-list">
+                    <div class="bib-item">Senato della Repubblica, DDL S. 1735 "Disposizioni in materia di consenso informato in ambito scolastico", testo e fascicolo iter (XIX Legislatura).</div>
+                    <div class="bib-item">Convenzione di Istanbul, art. 14 (ratifica: legge 77/2013).</div>
+                    <div class="bib-item">Legge 92/2019 (educazione civica); legge 107/2015; legge 405/1975; legge 194/1978; DPR 275/1999 (autonomia scolastica); DPR 249/1998 (Statuto delle studentesse e degli studenti); legge 219/2017 (consenso informato); GDPR art. 9.</div>
+                    <div class="bib-item">UNESCO, <em>International Technical Guidance on Sexuality Education</em> (2018).</div>
+                    <div class="bib-item">OMS Ufficio regionale per l'Europa e BZgA, <em>Standards for Sexuality Education in Europe</em> (2010).</div>
+                    <div class="bib-item">Save the Children-Ipsos, indagine sugli adolescenti italiani e la sessualità (2025).</div>
+                    <div class="bib-item">Differenza donna, ricerca "Gen/Z" (2025); Censis, rapporto sulla sessualità degli italiani (2025); CNR-IRPPS, <em>Rapporto sullo Stato dell'Adolescenza</em>; dati Polizia Postale / Save the Children sulla pedopornografia (2024-2025); ISTAT, stereotipi di genere (2023).</div>
+                    <div class="bib-item">CNOP, lettera del 17 ottobre 2025 sull'educazione affettiva, sessuale ed etica nelle scuole.</div>
+                    <div class="bib-item">Memorie delle audizioni della 7ª Commissione del Senato sul DDL 1735 (pubblicate sul sito della Commissione).</div>
+                </div>
+
+                <div class="card mt-4" style="text-align:center;">
+                    <p class="text-muted" style="font-size:0.85rem; margin:0;">
+                        Speciale dell'Osservatorio · Ivan Ferrero — psicologo-psicoterapeuta — 7 giugno 2026 ·
+                        <a href="/osservatorio/speciale/2026-06-07/">versione lineare</a>
+                    </p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity -->
+    <script>
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (history.replaceState) history.replaceState(null, '', '#' + sectionId);
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        // Deep-link via hash on load
+        (function() {
+            const id = (location.hash || '').replace('#', '');
+            if (id && document.getElementById(id) && document.getElementById(id).classList.contains('section')) {
+                showSection(id);
+            }
+        })();
+
+        // Expandable cards
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const c = btn.closest('.subsection') || btn.closest('.section');
+                c.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                c.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add('active');
+            });
+        });
+
+        // Glossary search
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+        glossarySearch?.addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase();
+            glossaryItems.forEach(item => {
+                const terms = item.dataset.term.toLowerCase();
+                const text = item.textContent.toLowerCase();
+                item.classList.toggle('visible', q === '' || terms.includes(q) || text.includes(q));
+            });
+        });
+
+        // Reading progress (current section)
+        window.addEventListener('scroll', () => {
+            const top = document.body.scrollTop || document.documentElement.scrollTop;
+            const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const bar = document.getElementById('progressBar');
+            if (bar) bar.style.width = (h > 0 ? (top / h) * 100 : 0) + '%';
+        });
+    </script>
+</body>
+</html>
