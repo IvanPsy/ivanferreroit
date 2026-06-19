@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fahrenheit 451: la mappa esplorabile | Ivan Ferrero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <!-- Page-specific styles -->
+    <style>
+        /* Hero */
+        .hero {
+            border: 1px solid var(--border-accent);
+            border-radius: 8px;
+            background: var(--gradient-cyber);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-glow);
+        }
+        .hero .kicker {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+        }
+        .hero h1 { margin-bottom: 0.75rem; }
+        .hero .lead { color: var(--text-secondary); max-width: 70ch; }
+        .hero .companion-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        /* Dittico conchiglia / proiettile verde, componente ricorrente */
+        .dyad {
+            display: grid;
+            grid-template-columns: 1fr 64px 1fr;
+            align-items: stretch;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .dyad-col { padding: 1.4rem 1.5rem; }
+        .dyad-col.shell { background: linear-gradient(180deg, #6e768112, transparent); }
+        .dyad-col.bullet { background: var(--gradient-cyber); }
+        .dyad-label {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+        .dyad-col.shell .dyad-label { color: var(--text-muted); }
+        .dyad-col.bullet .dyad-label { color: var(--accent-cyan); }
+        .dyad-col h4 { margin-bottom: 0.4rem; }
+        .dyad-col.shell h4 { color: var(--text-secondary); }
+        .dyad-col.bullet h4 { color: var(--accent-cyan); }
+        .dyad-col p { font-size: 0.9rem; margin-bottom: 0; color: var(--text-secondary); }
+        .dyad-divider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            background: var(--bg-tertiary);
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+        }
+        .dyad-divider .glyph { color: var(--accent-cyan); font-size: 1.1rem; line-height: 1; }
+        .dyad-divider .dev {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* Strato evidenza dentro le schede */
+        .evidence {
+            border-left: 2px solid var(--accent-purple);
+            background: #a371f710;
+            padding: 0.85rem 1.1rem;
+            margin: 1rem 0 0.5rem;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9rem;
+        }
+        .evidence .ev-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-purple);
+            margin-bottom: 0.35rem;
+        }
+        .evidence.contested { border-left-color: var(--accent-yellow); background: #d2992212; }
+        .evidence.contested .ev-label { color: var(--accent-yellow); }
+        .evidence p { margin-bottom: 0.5rem; }
+        .evidence p:last-child { margin-bottom: 0; }
+        .evidence .ref { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); }
+
+        /* Riquadro stance */
+        .stance {
+            border: 1px dashed var(--accent-cyan);
+            background: var(--gradient-cyber);
+            padding: 1.25rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .stance .ev-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+        .stance p:last-child { margin-bottom: 0; }
+
+        /* Evita il taglio delle schede espandibili alte (griglia + evidenza + dittico) su mobile */
+        .card.expandable.expanded .card-body { max-height: 5000px; }
+
+        /* Legenda dei riquadri */
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.6rem 1.5rem;
+            margin: 1.25rem 0 0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+        .legend-dot {
+            flex: 0 0 auto;
+            width: 13px;
+            height: 13px;
+            border-radius: 3px;
+            margin-top: 0.28rem;
+        }
+        .legend-item strong { color: var(--text-primary); font-weight: 600; }
+
+        /* Card cliccabili per i cross-link */
+        a.card { text-decoration: none; color: inherit; display: block; }
+        a.card:hover { text-decoration: none; }
+        .card .kick {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-cyan);
+            margin-bottom: 0.4rem;
+        }
+
+        /* Pull-quote arioso */
+        .pullquote {
+            border-left: 3px solid var(--accent-cyan);
+            padding: 0.25rem 0 0.25rem 1.75rem;
+            margin: 2.25rem 0;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+        .pullquote .attr {
+            display: block;
+            margin-top: 0.9rem;
+            font-size: 0.8rem;
+            font-style: normal;
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        /* Riquadro stato normativo */
+        .lawbox {
+            border-left: 2px solid var(--accent-green);
+            background: #3fb95012;
+            padding: 0.85rem 1.1rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .lawbox .ev-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-green);
+            margin-bottom: 0.4rem;
+        }
+        .lawbox p { margin-bottom: 0.5rem; font-size: 0.92rem; }
+        .lawbox p:last-child { margin-bottom: 0; }
+        .lawbox .ref { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); }
+
+        /* Profezia / realtà dentro le schede mappa */
+        .pr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.5rem 0 0.5rem; }
+        .pr-block { background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem 1.1rem; }
+        .pr-block .pr-label {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.4rem;
+        }
+        .pr-block.profezia .pr-label { color: var(--accent-orange); }
+        .pr-block.realta .pr-label { color: var(--accent-green); }
+        .pr-block p { font-size: 0.9rem; margin-bottom: 0; }
+
+        /* Stub sezioni in lavorazione */
+        .stub {
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2.5rem 2rem;
+            color: var(--text-muted);
+        }
+        .stub .ev-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+        }
+        .stub h3 { color: var(--text-secondary); }
+        .stub ul { margin: 0.75rem 0 0 1.1rem; color: var(--text-muted); font-size: 0.9rem; }
+        .stub li { margin-bottom: 0.35rem; }
+
+        @media (max-width: 768px) {
+            .dyad { grid-template-columns: 1fr; }
+            .dyad-divider { flex-direction: row; padding: 0.5rem; border: none; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+            .dyad-divider .dev { writing-mode: horizontal-tb; }
+            .pr-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu condiviso -->
+    <div id="site-menu"></div>
+
+    <!-- Progress bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">La mappa</div>
+                <a href="#tesi" class="sidebar-link active" data-target="tesi">0 · La tesi-spina</a>
+                <a href="#mappa" class="sidebar-link" data-target="mappa">1 · Mappa 1953 → oggi</a>
+                <a href="#cervello" class="sidebar-link" data-target="cervello">2 · Il cervello che legge</a>
+                <a href="#scuola" class="sidebar-link" data-target="scuola">3 · Smartphone a scuola</a>
+                <a href="#specchio" class="sidebar-link" data-target="specchio">4 · La distopia come specchio</a>
+                <a href="#filone" class="sidebar-link" data-target="filone">5 · Il filone</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Strumenti</div>
+                <a href="#glossario" class="sidebar-link" data-target="glossario">Glossario</a>
+                <a href="#bibliografia" class="sidebar-link" data-target="bibliografia">Bibliografia</a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main>
+
+            <!-- ===== SEZIONE 0 · LA TESI-SPINA ===== -->
+            <section id="tesi" class="section active">
+
+                <div class="hero">
+                    <div class="kicker">★ Companion · Osservatorio · per addetti ai lavori</div>
+                    <h1>Fahrenheit 451: la mappa esplorabile</h1>
+                    <p class="lead">Questa non è la versione lunga dell'articolo. L'articolo è il racconto, lineare, calibrato sui ragazzi di 16-18 anni. Questa è la mappa grezza e navigabile per chi insegna, forma o lavora in clinica: gli stessi nodi, ma con sotto lo strato di evidenza, e con la libertà di picchiare dove l'articolo restava leggero.</p>
+                    <a class="companion-link" href="https://ivanferrero.it/osservatorio/speciale/fahrenheit-451/">→ Leggi prima l'articolo</a>
+                </div>
+
+                <div class="subsection">
+                    <h3>La tesi che non si molla mai</h3>
+                    <p>Il bersaglio di Bradbury non è la tecnologia. È la <strong class="text-cyan">relazione</strong> che le costruiamo attorno. Non è un'interpretazione affettuosa: è scritto nel testo, e ha un nome preciso. Lo stesso oggetto compare due volte nel romanzo, con segno opposto.</p>
+
+                    <div class="dyad">
+                        <div class="dyad-col shell">
+                            <div class="dyad-label">La conchiglia · Mildred</div>
+                            <h4>Anestesia</h4>
+                            <p>Le radio-conchiglia che Mildred si infila nelle orecchie la notte: un flusso continuo di suono perché non resti mai un secondo di vuoto. Ha imparato a leggere le labbra, perché con le orecchie tappate non sente più nessuno. Serve a chiudere fuori il mondo.</p>
+                        </div>
+                        <div class="dyad-divider">
+                            <span class="glyph">⟷</span>
+                            <span class="dev">stesso<br>auricolare</span>
+                        </div>
+                        <div class="dyad-col bullet">
+                            <div class="dyad-label">Il proiettile verde · Faber</div>
+                            <h4>Cognizione aumentata</h4>
+                            <p>Il trasmettitore che Faber dà a Montag, stesso oggetto, stessa forma, stesso posto nell'orecchio. Ma tiene insieme due menti: pensare in due, accompagnare chi ha paura, leggere poesia a distanza. Serve ad aprire il mondo.</p>
+                        </div>
+                    </div>
+
+                    <p>Uno isola, l'altro connette. Uno addormenta, l'altro sveglia. È la cosa che, da cyberpsicologo, vale per il telefono come per qualunque tecnologia: il problema non è quasi mai lo strumento, è l'uso e la relazione. Bradbury non aveva paura della tecnologia. Aveva paura di cosa scegliamo di farne. Questo dittico ricompare in testa a ogni blocco, ri-tarato sul tema: tienilo come bussola.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Colpo d'occhio</h3>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">1953</div>
+                            <div class="stat-label">Anno di pubblicazione</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">70+</div>
+                            <div class="stat-label">Anni di anticipo sulle nostre tasche</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">1 → 2</div>
+                            <div class="stat-label">Un oggetto, due usi opposti</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">451°F</div>
+                            <div class="stat-label">La temperatura del titolo: dove (secondo Bradbury) brucia la carta</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>La postura: possibilista, coi piedi per terra</h3>
+                    <div class="stance">
+                        <span class="ev-label">Dove batte il martello (e dove no)</span>
+                        <p>Qui si picchia duro, ma su un bersaglio preciso: la pigrizia interpretativa, da entrambi i lati. Contro il panico morale ("gli schermi friggono il cervello") e contro l'ottimismo ingenuo ("è solo uno strumento, rilassati"). Tutte e due le posizioni sono comode perché tolgono la responsabilità: una alla persona, l'altra alla cultura.</p>
+                        <p>La posizione di lavoro è la terza: <strong class="text-cyan">non lo strumento, ma l'uso</strong>. È più scomoda perché chiede di guardare la relazione caso per caso, ma è l'unica che il romanzo, e come vedremo l'evidenza, sostengono davvero.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Come leggere questa dashboard</h3>
+                    <p>È una mappa, non un percorso. I blocchi si esplorano in qualsiasi ordine dalla barra laterale, e le schede con il segno + si aprono al clic per chi vuole scendere in profondità. I riquadri colorati seguono una grammatica fissa.</p>
+                    <div class="legend">
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--accent-cyan);"></span><span><strong>Postura</strong> e prese di posizione, la tesi che attraversa tutto.</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--accent-purple);"></span><span><strong>Evidenza</strong> scientifica, con riferimento alla fonte.</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--accent-yellow);"></span><span><strong>Cautela</strong>, evidenza contesa o da maneggiare con prudenza.</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background: var(--accent-green);"></span><span><strong>Quadro normativo</strong>, leggi e circolari.</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background: linear-gradient(90deg, var(--text-muted) 50%, var(--accent-cyan) 50%);"></span><span><strong>Dittico</strong>, lo stesso strumento in due usi opposti, conchiglia contro proiettile verde.</span></div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ===== SEZIONE 1 · MAPPA 1953 → OGGI ===== -->
+            <section id="mappa" class="section">
+                <h2>Mappa 1953 → oggi</h2>
+                <p class="text-secondary">Le profezie di Bradbury non sono gadget indovinati per caso. Sono la descrizione anticipata di una <em>relazione</em> con i media. Per questo ogni scheda non si ferma al "guarda, l'aveva previsto": riapre il dittico sul tema e ci mette sotto lo strato di evidenza. Apri le schede per scendere in profondità.</p>
+
+                <!-- Scheda 1 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>Le conchiglie → gli auricolari</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="pr-grid mt-2">
+                            <div class="pr-block profezia">
+                                <div class="pr-label">Profezia · 1953</div>
+                                <p>Piccole radio a forma di conchiglia, infilate nell'orecchio, un mare di suono che riempie ogni silenzio.</p>
+                            </div>
+                            <div class="pr-block realta">
+                                <div class="pr-label">Realtà · oggi</div>
+                                <p>Auricolari sempre dentro, rumore bianco per dormire, podcast a 1.5x per non restare mai soli con un pensiero.</p>
+                            </div>
+                        </div>
+                        <p>È la scheda madre, perché qui l'oggetto è letteralmente lo stesso del dittico di apertura. Non c'è bisogno di letteratura per vederlo: c'è bisogno del testo.</p>
+                        <div class="dyad">
+                            <div class="dyad-col shell">
+                                <div class="dyad-label">Conchiglia</div>
+                                <h4>Riempire il vuoto</h4>
+                                <p>L'auricolare come tappo: copre il silenzio per non doverci stare. Il suono come anestetico, non come contenuto.</p>
+                            </div>
+                            <div class="dyad-divider"><span class="glyph">⟷</span><span class="dev">stesso<br>oggetto</span></div>
+                            <div class="dyad-col bullet">
+                                <div class="dyad-label">Proiettile verde</div>
+                                <h4>Abitare il tempo</h4>
+                                <p>Lo stesso auricolare per imparare una lingua camminando, ascoltare un saggio, tenere una mente vicina. Il suono come ponte.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scheda 2 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>Le pareti-parlatorio → gli schermi e le relazioni parasociali</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="pr-grid mt-2">
+                            <div class="pr-block profezia">
+                                <div class="pr-label">Profezia · 1953</div>
+                                <p>Tre pareti trasformate in schermi giganti. Mildred chiama "la famiglia" i personaggi degli show: sono loro la sua compagnia, non il marito.</p>
+                            </div>
+                            <div class="pr-block realta">
+                                <div class="pr-label">Realtà · oggi</div>
+                                <p>Streamer e creator che senti "amici", legami con personaggi che non sanno di esistere per te, fino ai companion conversazionali in chat.</p>
+                            </div>
+                        </div>
+                        <p>Qui Bradbury non descrive uno schermo, descrive un <em>legame</em>: a senso unico, intimo, e per questo capace di sostituire le persone vere senza che te ne accorga. Questo legame ha un nome in letteratura da settant'anni.</p>
+                        <div class="evidence">
+                            <span class="ev-label">Strato di evidenza · relazioni parasociali</span>
+                            <p>Horton e Wohl coniano il concetto di <strong>interazione parasociale</strong> nel 1956, tre anni dopo il romanzo, descrivendo come il pubblico costruisca con le figure mediali un rapporto di "intimità a distanza": ci si comporta come dentro una relazione reale, ma è a senso unico. Nato per radio e TV, oggi il quadro è applicato a influencer, streamer e agenti conversazionali.</p>
+                            <p class="ref">Horton D., Wohl R. R. (1956). Mass Communication and Para-Social Interaction. <em>Psychiatry</em>, 19(3), 215-229.</p>
+                        </div>
+                        <div class="dyad">
+                            <div class="dyad-col shell">
+                                <div class="dyad-label">Conchiglia</div>
+                                <h4>Sostituire le persone</h4>
+                                <p>Il legame parasociale come fuga dalla reciprocità: nessuno ti contraddice, nessuno chiede niente. La "famiglia" di Mildred.</p>
+                            </div>
+                            <div class="dyad-divider"><span class="glyph">⟷</span><span class="dev">stesso<br>legame</span></div>
+                            <div class="dyad-col bullet">
+                                <div class="dyad-label">Proiettile verde</div>
+                                <h4>Aprire mondi</h4>
+                                <p>Lo stesso legame come porta: un divulgatore che ti fa innamorare di un tema, una comunità che ti spinge a leggere, un maestro a distanza.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scheda 3 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>La cultura della velocità → l'attenzione frammentata</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="pr-grid mt-2">
+                            <div class="pr-block profezia">
+                                <div class="pr-label">Profezia · 1953</div>
+                                <p>Auto così veloci che non puoi più guardare niente fuori dal finestrino. La velocità come modo per non vedere.</p>
+                            </div>
+                            <div class="pr-block realta">
+                                <div class="pr-label">Realtà · oggi</div>
+                                <p>Feed infiniti, scroll, salti continui da uno stimolo all'altro. La velocità come modo per non stare.</p>
+                            </div>
+                        </div>
+                        <p>Questa è la scheda dove conviene rallentare, perché è quella dove la predica scatta più facile e l'evidenza è più scivolosa di quanto si dica in giro. Qui si picchia duro, ma onestamente.</p>
+                        <div class="evidence contested">
+                            <span class="ev-label">Strato di evidenza · attenzione e multitasking (conteso)</span>
+                            <p>Lo studio che tutti citano per dire "il multitasking distrugge l'attenzione" è Ophir, Nass e Wagner (2009): i grandi multitasker mediali risultavano più vulnerabili alle interferenze e peggiori nel passaggio tra compiti. È diventato uno slogan. Ma la prudenza è d'obbligo: la meta-analisi di Parry e le Roux (2021), su 118 misurazioni, trova un'associazione <strong>piccola</strong> (intorno a d = 0,17), e diverse repliche dirette non hanno confermato l'effetto originale.</p>
+                            <p>Tradotto per chi forma: l'idea che "lo scroll ti rompe il cervello" è molto più fragile di come viene venduta. Il dato non autorizza il panico. Ma non autorizza nemmeno l'alibi "tutto regolare": l'esperienza soggettiva di frammentazione resta, e va presa sul serio come questione di abitudine e di uso, non come danno cerebrale dimostrato.</p>
+                            <p class="ref">Ophir E., Nass C., Wagner A. D. (2009). Cognitive Control in Media Multitaskers. <em>PNAS</em>, 106(37), 15583-15587. · Parry D. A., le Roux D. B. (2021). "Cognitive control in media multitaskers" ten years on: A meta-analysis. <em>Cyberpsychology</em>, 15(2).</p>
+                        </div>
+                        <div class="dyad">
+                            <div class="dyad-col shell">
+                                <div class="dyad-label">Conchiglia</div>
+                                <h4>Velocità per fuggire</h4>
+                                <p>Accelerare per non sentire la noia, lo scroll come anestesia del vuoto. Il finestrino tutto sfocato di Bradbury.</p>
+                            </div>
+                            <div class="dyad-divider"><span class="glyph">⟷</span><span class="dev">stessa<br>velocità</span></div>
+                            <div class="dyad-col bullet">
+                                <div class="dyad-label">Proiettile verde</div>
+                                <h4>Velocità per orientarsi</h4>
+                                <p>La stessa rapidità usata per scremare, indicizzare, trovare in fretta la fonte giusta e poi fermarsi a leggerla davvero.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scheda 4 -->
+                <div class="card expandable">
+                    <div class="card-header">
+                        <h3>I digesti → i contenuti compressi</h3>
+                        <span class="expand-icon">+</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="pr-grid mt-2">
+                            <div class="pr-block profezia">
+                                <div class="pr-label">Profezia · 1953</div>
+                                <p>Beatty lo spiega: i classici tagliati per stare in un riassunto, poi il riassunto del riassunto, fino a una riga. La cultura ridotta a digesto.</p>
+                            </div>
+                            <div class="pr-block realta">
+                                <div class="pr-label">Realtà · oggi</div>
+                                <p>TL;DR, video da 30 secondi, "il libro in 5 minuti", riassunti generati in automatico. La compressione come default.</p>
+                            </div>
+                        </div>
+                        <p>È la profezia più sottile, perché la compressione in sé non è il male: è il gesto della conoscenza (una mappa è una compressione del territorio). Il punto è cosa ci fai. E qui c'è un cortocircuito utile da nominare ad alta voce.</p>
+                        <div class="evidence">
+                            <span class="ev-label">Nota di metodo · anche questa dashboard è un digesto</span>
+                            <p>Questa pagina è una compressione: schede, dittici, sintesi. La domanda onesta è se funziona come la conchiglia o come il proiettile verde. È conchiglia se la leggi al posto del romanzo e dell'articolo, e ti basta. È proiettile verde se la usi come indice che ti rimanda a leggere Bradbury piano, Wolf per esteso, le fonti per davvero. La differenza, di nuovo, non la fa l'oggetto. La fai tu.</p>
+                        </div>
+                        <div class="dyad">
+                            <div class="dyad-col shell">
+                                <div class="dyad-label">Conchiglia</div>
+                                <h4>Compressione che sostituisce</h4>
+                                <p>Il riassunto come scorciatoia per non leggere. Beatty sarebbe contento: niente attriti, niente fatica, niente che resti.</p>
+                            </div>
+                            <div class="dyad-divider"><span class="glyph">⟷</span><span class="dev">stessa<br>sintesi</span></div>
+                            <div class="dyad-col bullet">
+                                <div class="dyad-label">Proiettile verde</div>
+                                <h4>Compressione che rilancia</h4>
+                                <p>La mappa come invito ad andare nel territorio: la sintesi che apre la fame, non la spegne. Un indice, non un sostituto.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ===== SEZIONE 2 · IL CERVELLO CHE LEGGE ===== -->
+            <section id="cervello" class="section">
+                <h2>Il cervello che legge</h2>
+                <p class="text-secondary">Qui la dashboard si guadagna il titolo "Osservatorio". La domanda seria, sotto il romanzo, è una sola: la lettura lenta e faticosa "una pagina alla volta" è solo nostalgia, o fa qualcosa di concreto al cervello? La risposta della neuroscienza è netta, e più sfumata di come la si racconta in giro.</p>
+                <p>Il punto di partenza di Maryanne Wolf spiazza: <strong class="text-cyan">leggere non è naturale</strong>. A differenza del parlare, non abbiamo un circuito innato per la lettura. Il cervello, imparando, ne costruisce uno da zero, riciclando aree nate per altri scopi. È un circuito fragile per definizione, perché va allenato, e quello che alleni decide cosa diventa. Apri le schede per scendere nei concetti.</p>
+
+                <div class="subsection">
+                    <h3>I concetti di Wolf</h3>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Il circuito della lettura: costruito, non dato</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La lettura ricicla circuiti nati per la vista e per il linguaggio (sullo sfondo c'è il "riciclo neuronale" di Dehaene). Wolf parla degli strati cognitivi sotto la superficie delle parole: riconoscere la lettera è solo l'inizio, sotto stanno inferenza, analogia, ragionamento critico, immaginazione. La conseguenza è scomoda e precisa: se alleni solo la superficie, costruisci un circuito di superficie. Non è una metafora morale, è plasticità.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>La pazienza cognitiva</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">È la capacità di restare dentro qualcosa di complesso senza scappare al primo attrito. Wolf l'ha studiata e poi l'ha vista cedere su se stessa: esperta mondiale di lettura, si è accorta di leggere ormai troppo in fretta per cogliere i livelli profondi, costretta a rileggere la stessa frase con crescente frustrazione. Il suo motto è il latino <em>festina lente</em>, affrettarsi lentamente. È lo stesso muscolo che nell'articolo manca a Mildred: piena di stimoli, vuota di pensieri, incapace persino di ricordare le proprie emozioni.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>La dimensione contemplativa</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">Quando processiamo informazione a raffiche brevi e veloci, riduciamo lo sviluppo di quella che Wolf chiama dimensione contemplativa: lo spazio mentale lento dove nascono intuizione ed empatia. Non è poesia, sono i processi cognitivi "lenti" (pensiero critico, riflessione personale, immaginazione) che insieme costituiscono la lettura profonda. Coincide quasi parola per parola con la ricetta di Faber nel romanzo: qualità di ciò che entra in testa, tempo per digerirlo con calma, libertà di agire in base a ciò che si è capito.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Empatia e perspective-taking</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La lettura profonda è entrare nel mondo di un altro, tenere insieme la sua prospettiva e la propria: il terreno naturale dell'empatia. Wolf collega esplicitamente il circuito della lettura profonda alle risposte etiche, e segnala con preoccupazione il calo delle capacità empatiche nei più giovani, in parallelo alla lettura digitale, alla multi-attività mediale, all'esternalizzazione della memoria. Da addetti ai lavori, una cautela: è un parallelo osservato, non una causa dimostrata. Va detto così, altrimenti scivoliamo nel panico che vogliamo evitare.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Il cervello biliterato: qui Wolf diventa possibilista</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">È il concetto che smonta la lettura "Wolf contro il digitale". Il suo obiettivo dichiarato non è tornare alla carta, è costruire cervelli <strong class="text-cyan">biliterati</strong>: lettori capaci di passare con flessibilità tra due modi, lo skimming veloce "a cavalletta" che il digitale allena bene, e l'immersione lenta e riflessiva. Riconosce apertamente i vantaggi della mente allenata sugli schermi, come il passaggio rapido tra compiti. La questione non è schermo sì o schermo no, è se sappiamo ancora scegliere la marcia giusta al momento giusto. È, di nuovo, la conchiglia contro il proiettile verde, raccontata da una neuroscienziata invece che da un romanziere.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Lo strato di evidenza</h3>
+                    <p class="text-secondary">Wolf è autorevole, ma resta una sintesi d'autore. Per chi forma conviene avere sotto due ancore empiriche solide, e maneggiarle con la stessa onestà della scheda sull'attenzione: dire cosa mostrano e dove si fermano.</p>
+
+                    <div class="evidence">
+                        <span class="ev-label">Evidenza · Stavanger Declaration (2019)</span>
+                        <p>Documento conclusivo del network europeo E-READ (azione COST, circa 200 studiosi, quattro anni di ricerca tra 2014 e 2018). Conclusione di fondo: il passaggio dalla carta allo schermo <strong>non è neutro</strong>. La comprensione di testi informativi lunghi è migliore su carta che su schermo, soprattutto sotto pressione di tempo; sui testi narrativi non emergono differenze. E un dettaglio cruciale per la scuola: su schermo tendiamo alla sovrastima, ci crediamo più comprensivi di quanto siamo, e questo spinge verso lo skimming e meno concentrazione. La raccomandazione operativa non è "via gli schermi", è insegnare strategie di lettura profonda anche sul digitale.</p>
+                        <p class="ref">COST E-READ (2019). Stavanger Declaration Concerning the Future of Reading.</p>
+                    </div>
+
+                    <div class="evidence">
+                        <span class="ev-label">Evidenza · meta-analisi Delgado et al. (2018)</span>
+                        <p>È la meta-analisi che regge la riga di Stavanger: 54 studi (2000-2017), oltre 171.000 partecipanti. Vantaggio della carta sulla comprensione, effetto piccolo ma reale (g = -0,21; e secondo Kraft, 2019, effetti di questa taglia sono rilevanti sul piano delle politiche educative). Tre moderatori da tenere a mente: primo, sotto pressione di tempo il vantaggio della carta cresce; secondo, vale per i testi informativi, non per i narrativi; terzo, e controintuitivo, il vantaggio è aumentato dal 2000 a oggi invece di calare, a smentita del mito dei "nativi digitali" che leggerebbero meglio a schermo con l'esperienza.</p>
+                        <p class="ref">Delgado P., Vargas C., Ackerman R., Salmerón L. (2018). Don't throw away your printed books: A meta-analysis on the effects of reading media on reading comprehension. <em>Educational Research Review</em>, 25, 23-38.</p>
+                    </div>
+
+                    <div class="evidence contested">
+                        <span class="ev-label">Come maneggiarlo senza scivolare</span>
+                        <p>Il martello va calibrato anche qui. L'effetto è piccolo, non è "lo schermo rovina il cervello", e sullo smartphone in particolare la ricerca è ancora scarsa. Ma c'è la chiave possibilista, ed è sperimentale: l'inferiorità dello schermo si riduce quando si inducono strategie di elaborazione profonda (riassumere, estrarre parole chiave, rallentare, rileggere). Tradotto per la pratica: non è il dispositivo a decidere il risultato, è la modalità di lettura che ci attiviamo sopra. Lo stesso schermo legge male in automatico e bene con intenzione.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Lo stesso testo, due letture</h3>
+                    <div class="dyad">
+                        <div class="dyad-col shell">
+                            <div class="dyad-label">Conchiglia</div>
+                            <h4>Lettura di superficie</h4>
+                            <p>Lo skimming "a cavalletta" in automatico: veloce, sicuro di sé, troppo rapido per cogliere la profondità. La modalità in cui è caduta persino Wolf, senza accorgersene.</p>
+                        </div>
+                        <div class="dyad-divider"><span class="glyph">⟷</span><span class="dev">stesso<br>testo</span></div>
+                        <div class="dyad-col bullet">
+                            <div class="dyad-label">Proiettile verde</div>
+                            <h4>Lettura profonda, con intenzione</h4>
+                            <p>Rallentare, rileggere, riassumere, estrarre il senso. Le stesse strategie portate sullo schermo lo riavvicinano alla carta. Il circuito profondo che si riaccende.</p>
+                        </div>
+                    </div>
+                    <div class="stance">
+                        <span class="ev-label">La prova vivente</span>
+                        <p>Wolf è la dimostrazione della tesi fatta persona. La massima esperta mondiale di lettura ha perso la pazienza cognitiva a furia di schermi, e poi l'ha ricostruita di proposito, con un allenamento deliberato. Lo strumento non l'ha condannata e non l'ha salvata. L'ha fatto l'uso, nei due sensi. Non lo strumento, la relazione.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== SEZIONE 3 · SMARTPHONE A SCUOLA ===== -->
+            <section id="scuola" class="section">
+                <h2>Smartphone a scuola</h2>
+                <p class="text-secondary">Qui il romanzo tocca la cronaca. Il dibattito sugli smartphone in classe è rumoroso e quasi sempre mal posto, perché mescola due domande diverse. La mossa utile, da subito, è separarle: una è empirica (il divieto migliora gli esiti misurabili?), l'altra è di valore (che tipo di attenzione e di presenza vogliamo in aula?). I dati rispondono alla prima, non alla seconda. Tenere distinte le due cose è anche il filo che lega questo blocco al pezzo dell'Osservatorio sulla legge Valditara, e lo riprendiamo alla fine.</p>
+
+                <div class="subsection">
+                    <h3>Lo stato della norma (giugno 2026)</h3>
+                    <div class="lawbox">
+                        <span class="ev-label">Stato attuale · giugno 2026</span>
+                        <p><strong>Primo ciclo</strong> (infanzia, primaria, secondaria di primo grado): divieto d'uso dello smartphone, anche a fini didattici, con la nota ministeriale n. 5274 dell'11 luglio 2024.</p>
+                        <p><strong>Secondo ciclo</strong> (secondaria di secondo grado): divieto esteso anche alle superiori, sempre anche a fini didattici, con la disposizione n. 3392 del 16 giugno 2025, in vigore dal 1° settembre 2025.</p>
+                        <p>Nel febbraio 2026 il Ministero ha avviato un monitoraggio nazionale tramite gli USR per verificarne l'applicazione, e ha legato le violazioni alla valutazione della condotta.</p>
+                        <p class="ref">Fonti: MIM, nota 5274/2024 e disposizione 3392/2025. Catena precedente: DPR 249/1998, DPR 235/2007, Direttiva ministeriale 15 marzo 2007.</p>
+                    </div>
+                    <p>Tre precisazioni cambiano la conversazione.</p>
+                    <div class="card-grid">
+                        <div class="card">
+                            <h4 class="text-cyan">Uso, non possesso</h4>
+                            <p>Il telefono può stare nello zaino spento. È l'utilizzo durante l'orario (lezioni, intervalli, persino l'uso passivo come notifiche o musica) a essere proibito, smartwatch inclusi.</p>
+                        </div>
+                        <div class="card">
+                            <h4 class="text-cyan">Autonomia scolastica</h4>
+                            <p>Sanzioni, modalità di custodia (dalle scatole agli armadietti alle custodie sigillate) e deroghe le decide ogni istituto. Risultato: i regolamenti variano molto da scuola a scuola.</p>
+                        </div>
+                        <div class="card">
+                            <h4 class="text-cyan">Più educazione, non solo divieto</h4>
+                            <p>La norma chiede di accompagnare il divieto con percorsi di educazione civica digitale. Nelle parole stesse del Ministero, il divieto non esaurisce il compito educativo.</p>
+                        </div>
+                    </div>
+
+                    <div class="card expandable">
+                        <div class="card-header">
+                            <h3>Le eccezioni, e perché contano più del divieto</h3>
+                            <span class="expand-icon">+</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mt-2">La norma tiene aperte alcune porte: l'uso previsto da PEI o PDP come strumento compensativo per alunni con disabilità o DSA, le motivate e documentate necessità personali, gli indirizzi tecnici di informatica e telecomunicazioni dove il dispositivo è funzionale, e l'uso supervisionato dei dispositivi forniti dalla scuola (PC, tablet e LIM restano pienamente ammessi per la didattica).</p>
+                            <p>Qui c'è il punto che da addetti ai lavori non va perso: letta con attenzione, la norma non dice "telefono uguale male". Vieta l'uso-conchiglia (ricreativo, distraente, passivo) e tiene esplicitamente aperto l'uso-proiettile verde (compensativo, didattico, supervisionato). Persino il legislatore, suo malgrado, sta facendo la distinzione di Bradbury: non lo strumento, l'uso.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Funziona? L'evidenza senza sconti</h3>
+                    <p class="text-secondary">Il Ministero motiva il divieto con effetti negativi "ampiamente dimostrati dalla ricerca scientifica". È vero a metà, e la metà che manca è proprio quella che interessa a chi deve applicarlo.</p>
+
+                    <div class="evidence">
+                        <span class="ev-label">Evidenza · ciò che mostrano PISA e UNESCO</span>
+                        <p>Le fonti citate dal Ministero (OCSE PISA 2022, Rapporto UNESCO GEM 2023) documentano una correlazione: gli studenti che usano molto lo smartphone a scuola tendono a rendere meno, soprattutto in matematica, e, secondo UNESCO, in alcuni Paesi anche la vicinanza al dispositivo si associa a una maggiore distrazione. È un dato di partenza serio, ma va maneggiato per quello che è: una correlazione sull'uso, non una prova che il divieto come politica migliori gli esiti. Sono due domande diverse, e qui vengono fuse.</p>
+                        <p class="ref">OECD (2023), PISA 2022 Results, Vol. II. · UNESCO (2023), Global Education Monitoring Report: Technology in education.</p>
+                    </div>
+
+                    <div class="evidence">
+                        <span class="ev-label">Evidenza · lo studio SMART Schools (2025)</span>
+                        <p>Il primo studio rigoroso che misura la politica in sé, non l'uso: Goodyear e colleghi, 1227 studenti di 30 scuole inglesi (20 con divieto), su Lancet Regional Health Europe. Risultato netto: nessuna differenza tra scuole con e senza divieto su benessere mentale, ansia e depressione, sonno, attività fisica, rendimento in inglese e matematica, comportamento in aula. Il divieto riduce l'uso a scuola (circa 40 minuti di telefono in meno), ma non l'uso complessivo della giornata, ed è quello complessivo a correlare con gli esiti peggiori.</p>
+                        <p class="ref">Goodyear V. A. et al. (2025). School phone policies and their association with mental wellbeing, phone use, and social media use (SMART Schools). <em>The Lancet Regional Health - Europe</em>, 51, 101211.</p>
+                    </div>
+
+                    <div class="evidence contested">
+                        <span class="ev-label">Le cautele, in entrambe le direzioni</span>
+                        <p>SMART Schools è osservazionale e trasversale, non stabilisce nessi causali, e ha avuto una bassa adesione delle scuole (intorno al 10%); è stato anche contestato. Sul fronte opposto, altri lavori trovano benefici dei divieti, specie per gli studenti più fragili (Beland e Murphy, 2015; alcuni studi nazionali). E vale anche per i claim più citati in chiave allarmistica: l'idea che la sola presenza del telefono riduca di per sé le risorse cognitive è stata ridimensionata da diverse repliche fallite, non è un fatto acquisito. I dati ministeriali preliminari che parlano di attenzione in aumento dove il divieto è totale, poi, non sono ad oggi validati in modo indipendente. La lettura onesta: prove miste in tutte le direzioni, e una sola convergenza solida, ciò che pesa è l'uso complessivo e la relazione con il dispositivo, non spostarlo di stanza per qualche ora.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Il bivio: domanda empirica e domanda di valore</h3>
+                    <p>Qui sta la mossa che tiene in piedi il resto: sul tavolo ci sono due domande continuamente confuse.</p>
+                    <div class="card-grid">
+                        <div class="card">
+                            <h4 class="text-cyan">La domanda empirica</h4>
+                            <p>Il divieto migliora gli esiti misurabili? Oggi la risposta è prudente: piccola o incerta, sulla politica presa da sola.</p>
+                        </div>
+                        <div class="card">
+                            <h4 class="text-cyan">La domanda di valore</h4>
+                            <p>Che tipo di aula vogliamo? Quanta presenza, quanto silenzio fertile, quanto guardarsi in faccia? Non è una domanda da dati, ed è perfettamente legittima.</p>
+                        </div>
+                    </div>
+                    <p>La conseguenza per chi decide è scomoda. Un divieto può poggiare su una scelta di valore legittima, per esempio volere tempo d'aula in cui ci si ascolta e ci si guarda davvero, e questo è un discorso serio. Ma il fatto che dietro ci sia un decreto ministeriale non lo rende automaticamente giusto: è una scelta politica, e come tale si discute e si contesta. Anzi, proprio perché l'evidenza sul divieto in sé è debole, l'intero peso della giustificazione cade sui valori, dove nessuna circolare ha l'ultima parola e dove ci si può permettere di spingere forte.</p>
+                    <p>E qui un'avvertenza da chi lavora per l'inclusione digitale, non contro. Il rischio del divieto generalizzato è che diventi la scorciatoia comoda: si toglie l'oggetto e si dichiara risolto un problema che è di relazione, non di possesso. Ma se la scuola si limita a togliere, l'uso competente del dispositivo, il proiettile verde, lo impareranno solo i ragazzi a cui qualcuno lo insegna a casa. Gli altri restano indietro due volte. È una faccia del divario cognitivo, il terzo livello del divario digitale: non più l'accesso allo strumento, ma la capacità di usarlo per pensare. Vietare senza educare quel divario lo allarga, non lo chiude.</p>
+
+                    <div class="dyad">
+                        <div class="dyad-col shell">
+                            <div class="dyad-label">Conchiglia</div>
+                            <h4>Quando il modo di usarlo ruba la lezione</h4>
+                            <p>Non il telefono in sé, ma un certo modo di starci dentro: lo scroll a vuoto durante la spiegazione, le notifiche che spezzano il filo, il multitasking che si paga in comprensione. È l'uso che svuota il tempo dell'aula, ed è questo, non l'oggetto, che ha senso disinnescare.</p>
+                        </div>
+                        <div class="dyad-divider"><span class="glyph">⟷</span><span class="dev">stesso<br>dispositivo</span></div>
+                        <div class="dyad-col bullet">
+                            <div class="dyad-label">Proiettile verde</div>
+                            <h4>Il telefono in aula come strumento</h4>
+                            <p>Strumento compensativo per DSA e disabilità, ricerca e apprendimento supervisionati, gli indirizzi tecnici. È l'uso che la norma stessa tiene aperto, e che educare significa coltivare, non vietare.</p>
+                        </div>
+                    </div>
+
+                    <div class="stance">
+                        <span class="ev-label">Il guardrail non è la guida</span>
+                        <p>Le circolari stesse lo riconoscono: il divieto va accompagnato all'educazione civica digitale. È un guardrail, utile a tenere la strada, ma non insegna a guidare. Allenare al proiettile verde, fuori e dentro la scuola, è il lavoro vero, e non lo fa nessuna circolare al posto nostro. Come dice l'articolo, l'antidoto non è dare la colpa all'auricolare.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== SEZIONE 4 · LA DISTOPIA COME SPECCHIO ===== -->
+            <section id="specchio" class="section">
+                <h2>La distopia come specchio</h2>
+                <p class="text-secondary">Questo blocco non ha uno strato di evidenza, e va bene così. Qui non si misura, si guarda. La domanda è perché una distopia del 1953 continui a inquietarci, e la risposta è scomoda: non perché sia lontana, ma perché è vicina.</p>
+
+                <p>Una distopia funziona come uno specchio. Non ci spaventa il mondo che inventa, ci spaventa quanto di quel mondo riconosciamo già nel nostro. Quel senso di vuoto che resta a fine lettura non è un difetto del libro: è il libro che funziona. È la forma in cui ce ne accorgiamo.</p>
+
+                <div class="subsection">
+                    <h3>Nessuno ce l'ha imposto</h3>
+                    <p>C'è un dettaglio che ribalta la lettura scolastica del romanzo, quella della censura calata dall'alto. Nel libro i pompieri arrivano dopo. Prima vengono gli schermi che sostituiscono le persone, le radio nelle orecchie che cancellano il silenzio, la velocità che impedisce di guardare fuori. E quando Montag chiede com'è successo, è il capo dei pompieri a spiegarlo: nessuno ha imposto questo mondo con un decreto. È stata la gente a chiederlo, scegliendo lo stimolo facile al posto della fatica del pensiero. I libri sono stati abbandonati molto prima di essere bruciati.</p>
+
+                    <p>Qui c'è la dimensione che nell'articolo, pensato per i ragazzi, era tenuta leggera per non sbilanciare la tesi: è una storia sulla domanda, non sull'oppressione. Non un tiranno che toglie, ma una collettività che rinuncia. Per chi educa è il punto più ruvido, perché sposta la responsabilità da "loro" a "noi", e perché rende la resistenza una scelta quotidiana e privata, non una barricata.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>La diagnosi dall'interno</h3>
+                    <p>E poi c'è chi quella diagnosi l'ha fatta da dentro. Una studentessa, dopo aver letto il romanzo piano, una pagina alla volta, ha scritto una cosa che vale più di qualunque commento.</p>
+
+                    <div class="pullquote">
+                        A scuola leggiamo una poesia non per il piacere di farlo, ma perché il professore l'ha assegnata e per la verifica in arrivo.
+                        <span class="attr">una studentessa, anonima</span>
+                    </div>
+
+                    <p>Ci è arrivata da sola, ed è la stessa diagnosi di Faber: quando la lettura diventa solo un mezzo per ottenere altro, smettiamo di leggere e iniziamo a estrarre. È il primo passo verso il mondo di Mildred, molto prima che arrivi qualcuno a bruciare qualcosa. La cosa che conta è cosa ha fatto lei: si è accorta del vuoto. E accorgersi, nel romanzo, è già l'unica vera forma di resistenza.</p>
+
+                    <p>Per chi lavora a scuola, è qui che la distopia diventa uno strumento e non solo un programma da svolgere. Il suo valore non è la trama, è la funzione-specchio: dà ai ragazzi una cornice per nominare una condizione in cui sono immersi e che, da dentro, è quasi invisibile. Far leggere Fahrenheit 451 non serve a spaventare, serve a rendere visibile.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Lo stesso specchio, due reazioni</h3>
+                    <div class="dyad">
+                        <div class="dyad-col shell">
+                            <div class="dyad-label">Conchiglia</div>
+                            <h4>Lo specchio che anestetizza</h4>
+                            <p>Riconoscersi e distogliere subito lo sguardo. Come Mildred, piena di immagini e incapace di ricordare le proprie emozioni: vede e non sente. Il disagio si spegne in un attimo, e tutto resta com'era.</p>
+                        </div>
+                        <div class="dyad-divider"><span class="glyph">⟷</span><span class="dev">stesso<br>specchio</span></div>
+                        <div class="dyad-col bullet">
+                            <div class="dyad-label">Proiettile verde</div>
+                            <h4>Lo specchio che sveglia</h4>
+                            <p>Lasciare che il vuoto faccia il suo lavoro e trasformarlo in domanda. È la posizione di Clarisse, che non consuma il mondo ma lo attraversa e lo guarda. Accorgersi è già muoversi.</p>
+                        </div>
+                    </div>
+
+                    <div class="stance">
+                        <span class="ev-label">Il vuoto come accorgersi</span>
+                        <p>Il disagio che resta a fine lettura non è disperazione, è il primo movimento del risveglio. La distopia inquieta proprio perché molte sue tendenze sono già qui, e quell'inquietudine è la prova che ce ne stiamo accorgendo. Clarisse e Faber non sono nostalgici: sono persone che hanno scelto di restare sveglie in un mondo che invita a dormire. Lo specchio che ci mette a disagio è lo stesso che ci libera, perché accorgersi è l'inizio dello scegliere.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== SEZIONE 5 · IL FILONE ===== -->
+            <section id="filone" class="section">
+                <h2>Il filone</h2>
+                <p class="text-secondary">Un'ultima cosa, ed è la più importante per chi segue il lavoro dell'Osservatorio: questa dashboard non è un oggetto isolato. È un tassello di una linea coerente, e quello che la tiene insieme alle altre non è il tema, è il metodo.</p>
+
+                <div class="subsection">
+                    <h3>La lente: cosa dicono i dati, cosa decidono i valori</h3>
+                    <p>La lente ricorrente è quella che nel blocco precedente abbiamo usato sugli smartphone: separare la domanda empirica dalla domanda di valore. Cosa possono dire i dati, e cosa invece resta una scelta che i dati non prendono al posto nostro. È una distinzione semplice e quasi sempre saltata, ed è esattamente la stessa con cui, nell'Osservatorio, ho letto la legge Valditara sul consenso e l'educazione sessuo-affettiva: una legge che divide, dove gran parte del tifo nasce proprio dal confondere ciò che si può misurare con ciò che si deve scegliere.</p>
+                    <p>Fahrenheit 451 e quel dibattito sembrano lontanissimi. Hanno la stessa ossatura. In entrambi i casi la tentazione è chiedere ai dati una risposta che i dati non possono dare, e in entrambi i casi la postura possibilista è la stessa: niente panico, niente entusiasmo automatico, la responsabilità della scelta tenuta in mano invece che delegata. Chi ha letto un pezzo riconosce il metodo nell'altro, ed è quello il filo.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>I tasselli collegati</h3>
+                    <div class="card-grid">
+                        <a class="card" href="https://ivanferrero.it/osservatorio/speciale/fahrenheit-451/">
+                            <span class="kick">L'articolo</span>
+                            <h4 class="text-cyan">Fahrenheit 451 →</h4>
+                            <p>Il racconto lineare da cui nasce questa mappa, pensato per ragazzi di 16-18 anni. Leggilo prima: la dashboard lo approfondisce, non lo sostituisce.</p>
+                        </a>
+                        <a class="card" href="https://ivanferrero.it/osservatorio/speciale/2026-06-07/">
+                            <span class="kick">Stesso metodo, altra legge</span>
+                            <h4 class="text-cyan">Consenso e legge Valditara →</h4>
+                            <p>Il pezzo dell'Osservatorio sull'educazione sessuo-affettiva e il consenso: stessa lente, separare la domanda empirica da quella di valore, su una legge che divide.</p>
+                        </a>
+                        <a class="card" href="https://ivanferrero.it/osservatorio/">
+                            <span class="kick">La linea intera</span>
+                            <h4 class="text-cyan">L'Osservatorio →</h4>
+                            <p>Tutti i tasselli sull'ecosistema digitale adolescenziale. Questa dashboard è uno di quelli, parte di un discorso, non un'uscita singola.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="stance">
+                    <span class="ev-label">La dashboard come proiettile verde</span>
+                    <p>Chiudiamo dove abbiamo aperto. Una mappa è una compressione, e una compressione può funzionare in due modi. Questa dashboard è un proiettile verde solo se ti rimanda all'articolo, al romanzo letto piano, alle fonti, agli altri tasselli dell'Osservatorio. Se la usi come indice che apre, ha fatto il suo lavoro. Se la usi come sostituto che chiude, è diventata una conchiglia. Anche qui, fino all'ultimo, non è lo strumento. Sei tu.</p>
+                </div>
+            </section>
+
+            <!-- ===== GLOSSARIO ===== -->
+            <section id="glossario" class="section">
+                <h2>Glossario</h2>
+                <p class="text-secondary">I termini tecnici usati nella dashboard, ciascuno con definizione e applicazione pratica per chi insegna o lavora in clinica. Filtra per parola chiave.</p>
+                <input type="text" id="glossarySearch" class="search-input" placeholder="Cerca un termine, una definizione, un autore..." style="margin: 1rem 0 1.5rem;">
+                <div class="glossary-grid">
+
+                    <div class="glossary-item">
+                        <h4>Interazione parasociale</h4>
+                        <p class="definition">Legame a senso unico con una figura mediale (personaggio, streamer, creator, agente conversazionale) vissuto come una relazione reale e reciproca, pur non essendolo. Coniato da Horton e Wohl nel 1956.</p>
+                        <p class="application">In aula e in clinica, riconoscerla aiuta a leggere senza giudizio l'attaccamento dei ragazzi a influencer o chatbot: non è "finto", è un legame vero ma asimmetrico, da accompagnare, non da deridere.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Lettura profonda (deep reading)</h4>
+                        <p class="definition">L'insieme dei processi cognitivi lenti attivati quando si legge per capire davvero: inferenza, analogia, pensiero critico, immaginazione, presa di prospettiva. Si contrappone allo skimming di superficie.</p>
+                        <p class="application">È l'obiettivo didattico nascosto dietro "far leggere": non la quantità di pagine, ma l'attivazione di questi processi. Si può allenare anche su schermo, con strategie esplicite.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Pazienza cognitiva</h4>
+                        <p class="definition">La capacità di restare dentro un contenuto complesso senza cedere alla fretta o alla distrazione. Termine di Maryanne Wolf.</p>
+                        <p class="application">È allenabile e si può perdere, come è successo a Wolf stessa. In classe si coltiva con tempi protetti, riletture e compiti che premiano la profondità invece della velocità.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Dimensione contemplativa</h4>
+                        <p class="definition">Lo spazio mentale lento in cui, secondo Wolf, maturano intuizione, riflessione personale ed empatia. Si riduce quando si processa l'informazione solo a raffiche brevi e veloci.</p>
+                        <p class="application">Spiega perché "stare su un testo" non è tempo perso: è il terreno dove si formano competenze che nessuna sintesi rapida produce.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Cervello biliterato (biliteracy)</h4>
+                        <p class="definition">Il cervello del lettore esperto capace di passare con flessibilità tra due modalità: lo skimming veloce, adatto al digitale, e l'immersione lenta e riflessiva. È l'obiettivo possibilista di Wolf.</p>
+                        <p class="application">Ribalta il dilemma "carta o schermo": il punto non è scegliere un medium, è insegnare a scegliere la marcia giusta al momento giusto.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Riciclo neuronale (neuronal recycling)</h4>
+                        <p class="definition">L'ipotesi di Dehaene per cui la lettura, abilità troppo recente per essere innata, riusa circuiti cerebrali nati per altri scopi (vista, linguaggio). Leggere costruisce un circuito, non ne attiva uno già pronto.</p>
+                        <p class="application">Da qui la posta in gioco educativa: ciò che alleniamo plasma il circuito. Allenare solo la superficie costruisce un lettore di superficie.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Inferiorità dello schermo (screen inferiority effect)</h4>
+                        <p class="definition">Il vantaggio della carta sulla comprensione rispetto allo schermo, documentato dalla meta-analisi Delgado et al. (2018). Effetto piccolo, più forte sui testi informativi e sotto pressione di tempo, assente sui narrativi.</p>
+                        <p class="application">Non è un verdetto contro il digitale: l'effetto si riduce inducendo strategie di lettura profonda. Utile per decidere quando preferire la carta (testi lunghi, studio) senza demonizzare lo schermo.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Media multitasking</h4>
+                        <p class="definition">L'uso simultaneo di più flussi mediali (studiare con notifiche, chat e video aperti). Lo studio di Ophir, Nass e Wagner (2009) lo associò a un minore controllo dell'attenzione.</p>
+                        <p class="application">La cautela è d'obbligo: meta-analisi successive ne ridimensionano l'effetto. Più che vietare, conviene insegnare a creare finestre di attenzione singola.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Sovrastima metacognitiva (shallowing)</h4>
+                        <p class="definition">La tendenza, leggendo su schermo, a credersi più comprensivi di quanto si è: porta a leggere più in fretta e più in superficie. Segnalata dalla Stavanger Declaration.</p>
+                        <p class="application">È il meccanismo più sottile da nominare con gli studenti: il problema non è capire meno, è non accorgersi di aver capito meno.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Domanda empirica e domanda di valore</h4>
+                        <p class="definition">Distinzione di metodo: la prima ("funziona?") può essere indagata con i dati; la seconda ("è giusto? cosa vogliamo?") è una scelta che i dati non prendono al posto nostro.</p>
+                        <p class="application">È la lente trasversale dell'Osservatorio. Tenere separate le due domande disinnesca gran parte del tifo nei dibattiti su smartphone, scuola e leggi.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Divario cognitivo</h4>
+                        <p class="definition">Un terzo livello del divario digitale: non l'accesso allo strumento (primo livello) né le competenze d'uso di base (secondo), ma la capacità di usare il digitale per pensare, approfondire e creare.</p>
+                        <p class="application">Spiega perché vietare senza educare può allargare le disuguaglianze: l'uso competente lo imparano i ragazzi a cui qualcuno lo insegna. La scuola che solo confisca abdica proprio dove servirebbe di più.</p>
+                    </div>
+
+                    <div class="glossary-item">
+                        <h4>Postura possibilista</h4>
+                        <p class="definition">L'atteggiamento che rifiuta sia il panico ("il digitale rovina") sia l'entusiasmo automatico ("è solo uno strumento"), e tiene il focus sull'uso e sulla relazione: non lo strumento, ma cosa ne facciamo.</p>
+                        <p class="application">È la postura operativa di tutta la dashboard. In formazione permette di affrontare con durezza l'evidenza e le scelte senza scivolare nel determinismo tecnologico.</p>
+                    </div>
+
+                </div>
+                <p class="text-muted" id="glossaryEmpty" style="display:none; font-family: var(--font-mono); font-size: 0.85rem; margin-top: 1rem;">Nessun termine corrisponde alla ricerca.</p>
+            </section>
+
+            <!-- ===== BIBLIOGRAFIA ===== -->
+            <section id="bibliografia" class="section">
+                <h2>Bibliografia</h2>
+                <p class="text-secondary">Solo ciò che è davvero citato nella dashboard, raggruppato per tema. Niente voci decorative.</p>
+
+                <div class="bib-section">
+                    <h4>Il romanzo</h4>
+                    <div class="bib-item">Bradbury R. (1953). <em>Fahrenheit 451</em>. Ballantine Books.</div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Lettura e cervello</h4>
+                    <div class="bib-item">Wolf M. (2007). <em>Proust and the Squid: The Story and Science of the Reading Brain</em>. Harper.</div>
+                    <div class="bib-item">Wolf M. (2018). <em>Reader, Come Home: The Reading Brain in a Digital World</em>. Harper.</div>
+                    <div class="bib-item">Dehaene S. (2007). <em>Les neurones de la lecture</em> (trad. it. <em>I neuroni della lettura</em>). Odile Jacob / Raffaello Cortina.</div>
+                    <div class="bib-item">COST Action E-READ (2019). <em>Stavanger Declaration Concerning the Future of Reading</em>.</div>
+                    <div class="bib-item">Delgado P., Vargas C., Ackerman R., Salmerón L. (2018). Don't throw away your printed books: A meta-analysis on the effects of reading media on reading comprehension. <em>Educational Research Review</em>, 25, 23-38.</div>
+                    <div class="bib-item">Kraft M. A. (2019). Interpreting Effect Sizes of Education Interventions. <em>EdWorkingPaper</em> (poi <em>Educational Researcher</em>, 2020).</div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Attenzione e multitasking</h4>
+                    <div class="bib-item">Ophir E., Nass C., Wagner A. D. (2009). Cognitive Control in Media Multitaskers. <em>PNAS</em>, 106(37), 15583-15587.</div>
+                    <div class="bib-item">Parry D. A., le Roux D. B. (2021). "Cognitive control in media multitaskers" ten years on: A meta-analysis. <em>Cyberpsychology</em>, 15(2).</div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Relazioni con i media</h4>
+                    <div class="bib-item">Horton D., Wohl R. R. (1956). Mass Communication and Para-Social Interaction: Observations on Intimacy at a Distance. <em>Psychiatry</em>, 19(3), 215-229.</div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Smartphone, scuola, policy</h4>
+                    <div class="bib-item">OECD (2023). <em>PISA 2022 Results (Volume II): Learning During and From Disruption</em>. OECD Publishing.</div>
+                    <div class="bib-item">UNESCO (2023). <em>Global Education Monitoring Report 2023: Technology in education, a tool on whose terms?</em></div>
+                    <div class="bib-item">Goodyear V. A. et al. (2025). School phone policies and their association with adolescent mental wellbeing, phone and social media use (SMART Schools). <em>The Lancet Regional Health - Europe</em>, 51, 101211.</div>
+                    <div class="bib-item">Beland L.-P., Murphy R. (2015/2016). Ill Communication: Technology, distraction & student performance. <em>Centre for Economic Performance (LSE)</em>, Discussion Paper 1350.</div>
+                </div>
+
+                <div class="bib-section">
+                    <h4>Quadro normativo italiano</h4>
+                    <div class="bib-item">MIM, nota ministeriale n. 5274 dell'11 luglio 2024 (divieto smartphone nel primo ciclo).</div>
+                    <div class="bib-item">MIM, disposizione n. 3392 del 16 giugno 2025 (estensione alla secondaria di secondo grado, dal 1° settembre 2025).</div>
+                    <div class="bib-item">DPR 249/1998 e DPR 235/2007, Statuto delle studentesse e degli studenti.</div>
+                    <div class="bib-item">Direttiva ministeriale del 15 marzo 2007 (uso dei cellulari a scuola).</div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="card mt-4" style="text-align: center;">
+                <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
+                    Companion esplorabile dell'articolo <a href="https://ivanferrero.it/osservatorio/speciale/fahrenheit-451/">Fahrenheit 451</a> · Osservatorio · Ivan Ferrero, 2026
+                </p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Menu Script -->
+    <script src="/assets/menu.js"></script>
+
+    <!-- Interactivity -->
+    <script>
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[data-target]');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId)?.classList.add('active');
+            document.querySelector(`.sidebar-link[data-target="${sectionId}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.target);
+            });
+        });
+
+        document.querySelectorAll('.expandable').forEach(card => {
+            card.querySelector('.card-header')?.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Ricerca glossario
+        const glossarySearch = document.getElementById('glossarySearch');
+        const glossaryItems = document.querySelectorAll('.glossary-item');
+        const glossaryEmpty = document.getElementById('glossaryEmpty');
+        function filterGlossary(q) {
+            const t = q.trim().toLowerCase();
+            let shown = 0;
+            glossaryItems.forEach(it => {
+                const match = it.textContent.toLowerCase().includes(t);
+                it.classList.toggle('visible', match);
+                if (match) shown++;
+            });
+            if (glossaryEmpty) glossaryEmpty.style.display = shown === 0 ? 'block' : 'none';
+        }
+        if (glossarySearch) {
+            filterGlossary('');
+            glossarySearch.addEventListener('input', e => filterGlossary(e.target.value));
+        }
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
