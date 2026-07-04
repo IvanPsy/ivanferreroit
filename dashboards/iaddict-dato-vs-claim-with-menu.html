@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dato vs Claim — Systematic Review iADDICT | Ivan Ferrero</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===== IVAN FERRERO DESIGN SYSTEM (inline per standalone) ===== */
+:root{
+--bg-primary:#0a0e14;--bg-secondary:#0f1419;--bg-tertiary:#151b23;--bg-card:#1a222d;--bg-hover:#222c3a;
+--text-primary:#e6edf3;--text-secondary:#8b949e;--text-muted:#6e7681;
+--accent-cyan:#00d9ff;--accent-cyan-dim:#00d9ff40;--accent-green:#3fb950;--accent-yellow:#d29922;--accent-orange:#db6d28;--accent-red:#f85149;--accent-purple:#a371f7;
+--border-color:#30363d;--border-accent:#00d9ff30;--gradient-cyber:linear-gradient(135deg,#00d9ff15 0%,#3fb95010 100%);--shadow-glow:0 0 30px #00d9ff15;
+--font-display:'Outfit',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-display);background:var(--bg-primary);color:var(--text-primary);line-height:1.7;min-height:100vh;}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(var(--border-color) 1px,transparent 1px),linear-gradient(90deg,var(--border-color) 1px,transparent 1px);background-size:50px 50px;opacity:0.15;pointer-events:none;z-index:-1;}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;color:var(--text-primary);}
+h1{font-size:2.4rem;margin-bottom:1rem;}
+h2{font-size:1.7rem;margin-bottom:1.1rem;}
+h3{font-size:1.3rem;margin-bottom:0.8rem;}
+h4{font-size:1rem;margin-bottom:0.6rem;}
+p{margin-bottom:1rem;color:var(--text-secondary);}
+a{color:var(--accent-cyan);text-decoration:none;transition:opacity 0.2s ease;}
+a:hover{opacity:0.8;}
+code,.mono{font-family:var(--font-mono);}
+
+/* Header/menu: fornito dal menu condiviso (/assets/menu.js) */
+
+/* Layout */
+.main-container{max-width:1200px;margin:0 auto;padding:6rem 2rem 3rem;}
+.intro p{max-width:820px;}
+.subsection{margin-bottom:2.5rem;}
+
+/* Verdict banner */
+.verdict{background:var(--gradient-cyber);border:1px solid var(--border-accent);border-left:4px solid var(--accent-red);border-radius:8px;padding:1.5rem 1.75rem;margin-bottom:2rem;}
+.verdict .label{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);}
+.verdict .rating{font-size:1.6rem;font-weight:700;color:var(--accent-red);letter-spacing:-0.02em;margin:0.2rem 0 0.6rem;}
+.verdict p{margin-bottom:0;color:var(--text-secondary);}
+
+/* Stat grid */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2.5rem;}
+.stat-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:1.1rem;text-align:center;}
+.stat-value{font-size:1.8rem;font-weight:700;color:var(--accent-cyan);font-family:var(--font-mono);}
+.stat-value.warn{color:var(--accent-yellow);} .stat-value.bad{color:var(--accent-red);} .stat-value.ok{color:var(--accent-green);}
+.stat-label{font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;}
+
+/* Legend / how to read */
+.legend{background:var(--bg-tertiary);border:1px solid var(--border-color);border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:2rem;}
+.legend h4{color:var(--accent-cyan);}
+.legend .rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0.8rem;margin-top:0.75rem;}
+.legend .row{display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:var(--text-secondary);}
+.dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.dot.g{background:var(--accent-green);} .dot.y{background:var(--accent-yellow);} .dot.r{background:var(--accent-red);} .dot.p{background:var(--accent-purple);}
+
+/* Filter */
+.filters{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;}
+.filter-btn{padding:0.45rem 0.95rem;background:transparent;border:1px solid var(--border-color);color:var(--text-secondary);font-family:var(--font-display);font-size:0.82rem;font-weight:500;cursor:pointer;border-radius:6px;transition:all 0.2s ease;}
+.filter-btn:hover{color:var(--text-primary);background:var(--bg-hover);}
+.filter-btn.active{color:var(--accent-cyan);background:var(--accent-cyan-dim);border-color:var(--accent-cyan);}
+
+/* Confronto card */
+.confronto{background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:1.5rem;margin-bottom:1.5rem;transition:all 0.2s ease;}
+.confronto:hover{border-color:var(--border-accent);box-shadow:var(--shadow-glow);}
+.conf-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;margin-bottom:1.1rem;}
+.conf-title{font-size:1.15rem;font-weight:600;color:var(--text-primary);}
+.tag{display:inline-block;padding:0.22rem 0.7rem;font-size:0.72rem;font-weight:500;border-radius:4px;font-family:var(--font-mono);}
+.tag-cyan{background:var(--accent-cyan-dim);color:var(--accent-cyan);border:1px solid var(--accent-cyan);}
+.tag-purple{background:#a371f720;color:var(--accent-purple);border:1px solid var(--accent-purple);}
+.tag-green{background:#3fb95020;color:var(--accent-green);border:1px solid var(--accent-green);}
+.tag-yellow{background:#d2992220;color:var(--accent-yellow);border:1px solid var(--accent-yellow);}
+.tag-red{background:#f8514920;color:var(--accent-red);border:1px solid var(--accent-red);}
+
+/* Two panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.panel{border-radius:8px;padding:1.1rem 1.2rem;border:1px solid var(--border-color);}
+.panel.claim{background:#f8514908;border-left:3px solid var(--accent-red);}
+.panel.dato{background:#00d9ff08;border-left:3px solid var(--accent-cyan);}
+.panel .p-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;}
+.panel.claim .p-label{color:var(--accent-red);}
+.panel.dato .p-label{color:var(--accent-cyan);}
+.panel p{color:var(--text-primary);font-size:0.92rem;margin-bottom:0.6rem;}
+.panel p:last-child{margin-bottom:0;}
+.panel .src{font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);}
+.hl{color:var(--accent-red);font-weight:600;}
+.hl-c{color:var(--accent-cyan);font-weight:600;}
+
+/* Gap meter */
+.gap{margin:1.2rem 0 0.4rem;}
+.gap-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.35rem;}
+.gap-track{position:relative;height:8px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:20px;overflow:hidden;}
+.gap-fill{position:absolute;left:0;top:0;height:100%;border-radius:20px;}
+.gap-fill.basso{width:33%;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-green));}
+.gap-fill.medio{width:64%;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-yellow));}
+.gap-fill.alto{width:100%;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-red));}
+.gap-ends{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.66rem;color:var(--text-muted);margin-top:0.3rem;}
+
+/* Scarto */
+.scarto{margin-top:1.1rem;padding:0.9rem 1.1rem;background:var(--bg-tertiary);border-radius:8px;border:1px dashed var(--border-color);}
+.scarto .p-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-yellow);margin-bottom:0.4rem;}
+.scarto p{margin-bottom:0;font-size:0.92rem;color:var(--text-secondary);}
+
+/* callout */
+.callout{background:#a371f710;border:1px solid var(--accent-purple);border-radius:8px;padding:1rem 1.2rem;margin-top:0.9rem;font-size:0.88rem;color:var(--text-primary);}
+.callout strong{color:var(--accent-purple);}
+
+/* Note box bottom */
+.notebox{background:var(--bg-tertiary);border:1px solid var(--border-color);border-radius:8px;padding:1.5rem;margin-top:2.5rem;}
+.notebox h3{color:var(--accent-cyan);}
+.notebox ul{margin:0.5rem 0 0 1.1rem;} .notebox li{color:var(--text-secondary);margin-bottom:0.4rem;font-size:0.9rem;}
+
+.footer{text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border-color);}
+.footer p{font-size:0.82rem;color:var(--text-muted);margin:0;}
+
+.hidden{display:none;}
+
+@media (max-width:760px){
+.panels{grid-template-columns:1fr;}
+.main-container{padding:5rem 1.1rem 2rem;}
+h1{font-size:1.8rem;}
+}
+</style>
+</head>
+<body>
+
+<div id="site-menu"></div>
+
+<div class="main-container">
+
+  <div class="intro">
+    <h1>Dato vs Claim</h1>
+    <p class="text-muted mono" style="font-size:0.85rem;">Systematic Review iADDICT — <em>Impacts of Screen Time on Under 2s during the first 1001 Critical Days</em> (mag 2026)</p>
+    <p>Questa non è una mappa delle evidenze. È uno strumento per leggere criticamente. Per ogni tema, metto a confronto <span class="hl">come lo formula il report</span> e <span class="hl-c">cosa dicono davvero gli studi</span> che cita. Tra le due c'è una distanza, e quella distanza è misurabile: quando il linguaggio si irrigidisce da "associato a" verso "causa / danno / inequivocabile", la barra dello scarto si allunga. È lì che si localizza la cattura da advocacy, dall'interno del documento, senza doverla dimostrare da fuori.</p>
+  </div>
+
+  <div class="verdict">
+    <div class="label">Verdetto AMSTAR-2 (qualità di conduzione)</div>
+    <div class="rating">Critically Low</div>
+    <p>Review proceduralmente reale (preregistrata su PROSPERO, stringa di ricerca trasparente, screening a più codificatori) ma con fallimenti in più domini critici. Non affidabile come sintesi comprensiva dell'evidenza. I dati grezzi restano utilizzabili come indice verso studi primari, separati dal framing.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-value">144</div><div class="stat-label">pagine</div></div>
+    <div class="stat-card"><div class="stat-value warn">2</div><div class="stat-label">database (WoS + Scopus)</div></div>
+    <div class="stat-card"><div class="stat-value bad">0</div><div class="stat-label">valutazioni risk of bias</div></div>
+    <div class="stat-card"><div class="stat-value bad">0</div><div class="stat-label">GRADE / flow PRISMA</div></div>
+    <div class="stat-card"><div class="stat-value ok">✓</div><div class="stat-label">PROSPERO preregistrato</div></div>
+    <div class="stat-card"><div class="stat-value bad">≥5</div><div class="stat-label">domini critici falliti</div></div>
+  </div>
+
+  <div class="legend">
+    <h4>Come leggere il misuratore di scarto</h4>
+    <p style="margin-bottom:0;font-size:0.88rem;">La barra va da <span class="hl-c">DATO</span> (sinistra, ciò che gli studi permettono di dire) a <span class="hl">CLAIM</span> (destra, ciò che il report afferma). Più è lunga, più il report supera i suoi dati.</p>
+    <div class="rows">
+      <div class="row"><span class="dot g"></span> <strong>Scarto basso</strong> — il claim resta descrittivo, aderente</div>
+      <div class="row"><span class="dot y"></span> <strong>Scarto medio</strong> — da associazione a causa lieve</div>
+      <div class="row"><span class="dot r"></span> <strong>Scarto alto</strong> — causale / assoluto su base correlazionale</div>
+      <div class="row"><span class="dot p"></span> <strong>Conflitto</strong> — interesse acquisito non dichiarato</div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-f="all">Tutti</button>
+    <button class="filter-btn" data-f="meta">Meta-claim</button>
+    <button class="filter-btn" data-f="cult">Culturale</button>
+    <button class="filter-btn" data-f="fis">Fisico</button>
+    <button class="filter-btn" data-f="psi">Psicologico</button>
+    <button class="filter-btn" data-f="rel">Relazionale/Evolutivo</button>
+    <button class="filter-btn" data-f="pol">Policy</button>
+    <button class="filter-btn" data-f="coi">Conflitto</button>
+  </div>
+
+  <div id="cards">
+
+    <!-- META 1 -->
+    <div class="confronto" data-domain="meta">
+      <div class="conf-top">
+        <div class="conf-title">Il beneficio degli schermi è "negligibile"</div>
+        <div><span class="tag tag-cyan">META-CLAIM</span> <span class="tag tag-red">scarto alto</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — come lo formula il report</div>
+          <p>Il beneficio dell'esposizione agli schermi per i bambini è <span class="hl">negligibile</span>; lo screen time offre <span class="hl">"limited developmental benefit... without any meaningful benefit"</span>. Certezza assoluta.</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — cosa dicono gli studi inclusi</div>
+          <p>Studi presenti <span class="hl-c">nella review stessa</span> dicono il contrario. Uso <span class="hl-c">interattivo e condiviso</span> associato a esiti migliori.</p>
+          <p class="src">Yue 2025 (n=1825, longitudinale): esposizione positivamente associata allo sviluppo cognitivo · Paoletti 2025 (n=187): l'uso interattivo sostiene sviluppo socio-emotivo, linguistico, cognitivo</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>distanza dato → claim</span><span class="text-red">ALTO</span></div>
+        <div class="gap-track"><div class="gap-fill alto"></div></div>
+        <div class="gap-ends"><span>DATO</span><span>CLAIM</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>Il "negligibile" è contraddetto da dati che la review stessa ha incluso. Cancellando la distinzione tra uso passivo e uso interattivo/condiviso, il segnale positivo viene semplicemente rimosso dal riassunto.</p></div>
+    </div>
+
+    <!-- META 2 -->
+    <div class="confronto" data-domain="meta">
+      <div class="conf-top">
+        <div class="conf-title">Effetti "causali" su base correlazionale</div>
+        <div><span class="tag tag-cyan">META-CLAIM</span> <span class="tag tag-red">scarto alto</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — come lo formula il report</div>
+          <p>Review "<span class="hl">focused around understanding the causal effects</span> of screen time". Il summary usa verbi causali: <span class="hl">displaces, leads to, is a significant driver of developmental risk</span>.</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — cosa permettono i disegni</div>
+          <p>I disegni inclusi sono <span class="hl-c">in gran parte cross-sectional e osservazionali</span>: catturano associazioni, non cause.</p>
+          <p class="src">I Research Gaps del report ammettono che servono longitudinali prospettici, EMA/ESM e cohort, cioè proprio i disegni mancanti</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>distanza dato → claim</span><span class="text-red">ALTO</span></div>
+        <div class="gap-track"><div class="gap-fill alto"></div></div>
+        <div class="gap-ends"><span>DATO</span><span>CLAIM</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>Contraddizione interna documentabile: il report afferma la causalità nel summary e, nella sezione gap, ammette di non avere la base che servirebbe per sostenerla. I verbi causali corrono più veloci dei dati.</p></div>
+    </div>
+
+    <!-- CULT 1 -->
+    <div class="confronto" data-domain="cult">
+      <div class="conf-top">
+        <div class="conf-title">Screen time come norma "eccessiva"</div>
+        <div><span class="tag tag-cyan">CULTURALE</span> <span class="tag tag-yellow">scarto medio</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — come lo formula il report</div>
+          <p>L'uso è "now common and is <span class="hl">excessive</span>"; una norma culturale che entrenches "harmful screen behaviour".</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — la prevalenza misurata</div>
+          <p>I numeri di prevalenza sono <span class="hl-c">solidi e descrittivi</span>.</p>
+          <p class="src">Brushe 2023 (n=220): ~1h16/die a 6 mesi, ~2h28 a 24 mesi · ~9,5% a 2 anni con uso persistente alto (~4h/die) · ~20% senza alcuna interazione genitoriale</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>distanza dato → claim</span><span class="text-yellow">MEDIO</span></div>
+        <div class="gap-track"><div class="gap-fill medio"></div></div>
+        <div class="gap-ends"><span>DATO</span><span>CLAIM</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>La descrizione della prevalenza regge. Ma "eccessivo" è un giudizio rispetto a una soglia (WHO/AAP = zero schermi sotto i 2), non un dato empirico. Descrizione forte, valutazione caricata sopra.</p></div>
+    </div>
+
+    <!-- FIS 1 -->
+    <div class="confronto" data-domain="fis">
+      <div class="conf-top">
+        <div class="conf-title">Sonno, adiposità, salute oculare</div>
+        <div><span class="tag tag-cyan">FISICO</span> <span class="tag tag-yellow">scarto medio</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — come lo formula il report</div>
+          <p>Lo screen time "<span class="hl">negatively impacts</span> sleep", causa "<span class="hl">increased adiposity in later childhood</span>", e danni oculari / da campi elettromagnetici a radiofrequenza (RF-EMF).</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — cosa dicono gli studi</div>
+          <p>Sono <span class="hl-c">associazioni</span>, non effetti causali. La sezione oculare/RF-EMF è trainata dalla composizione del team.</p>
+          <p class="src">Sonno: Lestari 2020, Kahn 2021, Mutlu 2024 · Adiposità: Azab/Kracht/Ma 2025 · RF-EMF: i gap ammettono che servono "well-designed prospective studies" · 2 optometristi su 5 autori</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>distanza dato → claim</span><span class="text-yellow">MEDIO</span></div>
+        <div class="gap-track"><div class="gap-fill medio"></div></div>
+        <div class="gap-ends"><span>DATO</span><span>CLAIM</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>"Impacts" causale su associazioni, senza alcun risk of bias per pesare la qualità degli studi. L'eterogeneità è riconosciuta in un punto ma mai indagata. Il peso disciplinare (optometria) inclina l'enfasi verso l'oculare.</p></div>
+    </div>
+
+    <!-- PSI 1 -->
+    <div class="confronto" data-domain="psi">
+      <div class="conf-top">
+        <div class="conf-title">Sintomi "ASD-like" e "dipendenza" negli under-2</div>
+        <div><span class="tag tag-cyan">PSICOLOGICO</span> <span class="tag tag-red">scarto alto</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — come lo formula il report</div>
+          <p>"Several studies point toward a potential <span class="hl">increase in ASD-like symptoms</span>". Il costrutto <span class="hl">"addiction / problematic use"</span> è nel nome stesso del team (iADDICT).</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — cosa dicono gli studi</div>
+          <p>Lo studio più grande <span class="hl-c">smorza</span> il nesso. Le misure di "dipendenza" per l'infanzia <span class="hl-c">non sono validate</span> (lo ammettono).</p>
+          <p class="src">ASD: Dikkala 2022 (n=80) e Heffler 2020, piccoli/cross-sectional · Melchior 2022 (n=12.950): associazione "complessa, NON-lineare, molteplici fattori" · Problematic use: 38 studi la sfiorano, solo 12 la misurano, gran parte da un singolo grande studio; PMUM-SF "da validare"</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>distanza dato → claim</span><span class="text-red">ALTO</span></div>
+        <div class="gap-track"><div class="gap-fill alto"></div></div>
+        <div class="gap-ends"><span>DATO</span><span>CLAIM</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>Un costrutto di "dipendenza" applicato a bambini di due anni con strumenti non validati, e collocato nel nome del team prima di aver pesato l'evidenza. Lo studio più ampio (Melchior) contraddice proprio l'enfasi del summary.</p></div>
+      <div class="callout"><strong>Connessione trasversale.</strong> È la stessa grammatica di over-patologizzazione del dominio CSBD/PPU in Equilibrio: nominare la patologia prima del dato, con il gate del giudizio che precede l'evidenza. Qui la monta una charity, lì il costrutto clinico. Il meccanismo è identico.</div>
+    </div>
+
+    <!-- REL 1 -->
+    <div class="confronto" data-domain="rel">
+      <div class="conf-top">
+        <div class="conf-title">"Displacement" e ritardo dello sviluppo</div>
+        <div><span class="tag tag-cyan">RELAZIONALE/EVOLUTIVO</span> <span class="tag tag-red">scarto alto</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — come lo formula il report</div>
+          <p>Lo schermo "<span class="hl">displaces</span> rich caregiver interactions", "<span class="hl">negatively impacts</span> cognitive/motor/language", "development <span class="hl">is delayed</span>", "negatively impacts education performance in later life".</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — cosa dicono gli studi</div>
+          <p>Associazioni reali, ma uno studio incluso <span class="hl-c">mina il nesso schermo-specifico</span>.</p>
+          <p class="src">Brushe 2024 (n=220): associato a meno parole/turni · Huang 2024 (n=4617): associato a esiti peggiori · Chamam 2024 (n=52): la distrazione del caregiver nuoce "regardless of whether the distraction is digital or non-digital"</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>distanza dato → claim</span><span class="text-red">ALTO</span></div>
+        <div class="gap-track"><div class="gap-fill alto"></div></div>
+        <div class="gap-ends"><span>DATO</span><span>CLAIM</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>Chamam sposta il bersaglio: a contare è la distrazione del caregiver, non il device in sé. "Displaces / delays" è un verbo causale montato su prevalenza cross-sectional. La variabile confondente (l'attenzione del genitore) resta non controllata.</p></div>
+    </div>
+
+    <!-- POL 1 -->
+    <div class="confronto" data-domain="pol">
+      <div class="conf-top">
+        <div class="conf-title">Raccomandazione massimalista e disabilità</div>
+        <div><span class="tag tag-cyan">POLICY</span> <span class="tag tag-red">scarto alto</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — come lo formula il report</div>
+          <p>"<span class="hl">No under 2s should receive regular intentional screen time</span>." E: rivedere ogni linea guida che indirizzi verso screen time per bambini "<span class="hl">experiencing disabilities / learning difficulties</span>".</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — cosa c'è (e cosa manca)</div>
+          <p>Il criterio di eleggibilità <span class="hl-c">1.2 esclude per design</span> gli usi purpose-specific (app di salute, quindi assistivi/AAC/riabilitativi). I gap ammettono evidenza <span class="hl-c">insufficiente su disabilità/SEN</span>.</p>
+          <p class="src">Studi di intervento (Tab.14): riducono lo screen time ma con esiti misti (Lee 2023: "no effect on attention", "no effect on physical activity")</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>distanza dato → claim</span><span class="text-red">ALTO</span></div>
+        <div class="gap-track"><div class="gap-fill alto"></div></div>
+        <div class="gap-ends"><span>DATO</span><span>CLAIM</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>Una raccomandazione che tocca i bambini con disabilità è costruita su un'evidenza <em>esclusa per design</em> e <em>ammessa insufficiente</em>. È assenza di evidenza trattata come evidenza di assenza di beneficio.</p></div>
+      <div class="callout"><strong>Rilevante per il tuo lavoro.</strong> È la falla con più implicazioni per il framework ADA (autonomia digitale assistita) e per l'inclusione: una policy che potrebbe indebolire l'uso di tecnologia assistiva per bambini disabili, costruita proprio sul vuoto di evidenza che il report riconosce di avere.</div>
+    </div>
+
+    <!-- COI 1 -->
+    <div class="confronto" data-domain="coi">
+      <div class="conf-top">
+        <div class="conf-title">Il tool raccomandato è del team stesso</div>
+        <div><span class="tag tag-purple">CONFLITTO</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel claim"><div class="p-label">Claim — la raccomandazione</div>
+          <p>Raccomandano la creazione di un "<span class="hl">Baby's Screen Time Risk Assessment</span>" per genitori e professionisti.</p>
+        </div>
+        <div class="panel dato"><div class="p-label">Dato — chi lo sta costruendo</div>
+          <p>Testuale: "<span class="hl-c">As a team, iADDICT are actively pursuing research around developing such an aid</span>". Nessuna dichiarazione di conflitto di interessi degli autori.</p>
+          <p class="src">Finanziatore = 1001 Critical Days Foundation, la stessa charity di advocacy che ha commissionato la review</p>
+        </div>
+      </div>
+      <div class="gap"><div class="gap-head"><span>tipo di problema</span><span class="text-purple">CONFLITTO</span></div>
+        <div class="gap-track"><div class="gap-fill alto" style="background:linear-gradient(90deg,var(--accent-cyan),var(--accent-purple));"></div></div>
+        <div class="gap-ends"><span>RACCOMANDAZIONE</span><span>INTERESSE</span></div></div>
+      <div class="scarto"><div class="p-label">Lo scarto</div>
+        <p>La raccomandazione di policy coincide con un prodotto che il team sta sviluppando, senza COI statement. Non invalida i dati, ma allinea la conclusione all'interesse di chi la scrive: il segnale di cattura più diretto del documento.</p></div>
+    </div>
+
+  </div>
+
+  <div class="notebox">
+    <h3>Cosa resta utilizzabile</h3>
+    <p style="margin-bottom:0.5rem;">Il valore recuperabile non è nelle conclusioni, ma nel materiale che la review ha aggregato, da rileggere alla fonte:</p>
+    <ul>
+      <li>Un catalogo tematico di studi 2020-2026 su under-2 e schermi, per dominio, con paese, n, età, esito.</li>
+      <li>Le tabelle degli interventi (Tab.14) e degli studi "nuanced" (Tab.15): dati primari verificabili.</li>
+      <li>La stringa di ricerca completa (Tab.1): riproducibile, riusabile per un aggiornamento su MEDLINE/PsycINFO.</li>
+      <li>Candidato migliore per una sintesi solida, già nella loro bibliografia: Toledo-Vargas et al. (2025), <em>JAMA Pediatrics</em> (review con meta-analisi), da verificare direttamente.</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <p>Dashboard "Dato vs Claim" — appraisal AMSTAR-2 + PRISMA · Ivan Ferrero, 2026 · le affermazioni sono ancorate a passaggi verificati del documento originale</p>
+  </div>
+
+</div>
+
+<script>
+// Filtro per dominio
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.confronto');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.f;
+    cards.forEach(c=>{
+      if(f==='all' || c.dataset.domain===f){ c.classList.remove('hidden'); }
+      else { c.classList.add('hidden'); }
+    });
+  });
+});
+</script>
+
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>
