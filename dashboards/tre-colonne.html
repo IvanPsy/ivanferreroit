@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tre colonne | Osservatorio · ivanferrero.it</title>
+<meta name="description" content="Gli stessi tratti testuali descritti da tre mondi che non si sono mai parlati: le guide per riconoscere i testi scritti dall'AI, la letteratura clinica sulla lingua autistica, gli strumenti compensativi di PDP e PEI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg-primary:#0a0e14;--bg-secondary:#0f1419;--bg-tertiary:#151b23;--bg-card:#1a222d;--bg-hover:#222c3a;
+--text-primary:#e6edf3;--text-secondary:#8b949e;--text-muted:#6e7681;--border-color:#30363d;
+--accent-cyan:#00d9ff;--accent-green:#3fb950;--accent-yellow:#d29922;--accent-orange:#db6d28;--accent-red:#f85149;--accent-purple:#a371f7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+background:var(--bg-primary);color:var(--text-primary);
+font-family:'Outfit',system-ui,-apple-system,sans-serif;font-weight:300;line-height:1.7;
+padding-top:20px;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 90px}
+.hero{padding:48px 0 28px;border-bottom:1px solid var(--border-color);margin-bottom:30px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-cyan);margin-bottom:14px}
+h1{font-size:clamp(1.9rem,4.5vw,3rem);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin-bottom:16px}
+.sub{color:var(--text-secondary);font-size:1.05rem;max-width:70ch}
+.notebox{background:linear-gradient(135deg,#00d9ff15 0%,#3fb95010 100%);border:1px solid var(--border-color);border-left:3px solid var(--accent-cyan);border-radius:8px;padding:18px 20px;margin:26px 0;font-size:.95rem;color:var(--text-secondary)}
+.notebox strong{color:var(--text-primary);font-weight:500}
+.notebox a{color:var(--accent-cyan);text-decoration:none;border-bottom:1px solid #00d9ff40}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 10px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:6px;border:1px solid;white-space:nowrap}
+.tag-cyan{color:var(--accent-cyan);border-color:#00d9ff40;background:#00d9ff10}
+.tag-red{color:var(--accent-red);border-color:#f8514940;background:#f8514910}
+.tag-purple{color:var(--accent-purple);border-color:#a371f740;background:#a371f710}
+.tag-green{color:var(--accent-green);border-color:#3fb95040;background:#3fb95010}
+.tag-yellow{color:var(--accent-yellow);border-color:#d2992240;background:#d2992210}
+.tag-muted{color:var(--text-muted);border-color:var(--border-color);background:var(--bg-tertiary)}
+.colheads{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:26px 0 14px;padding:14px 0;border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}
+.chead{padding:0 4px}
+.chead-n{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em}
+.chead:nth-child(1) .chead-n{color:var(--accent-red)}
+.chead:nth-child(2) .chead-n{color:var(--accent-purple)}
+.chead:nth-child(3) .chead-n{color:var(--accent-green)}
+.chead-t{font-size:.95rem;font-weight:600;letter-spacing:-.01em;margin-top:4px;line-height:1.35}
+.chead-s{font-size:.78rem;color:var(--text-muted);margin-top:4px;line-height:1.45}
+.controls{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.ctrl{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:7px 14px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-tertiary);color:var(--text-secondary);cursor:pointer;transition:.2s ease}
+.ctrl:hover{border-color:#00d9ff40;color:var(--accent-cyan);background:var(--bg-hover)}
+.row{background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;margin-bottom:14px;overflow:hidden;transition:.2s ease}
+.row:hover{border-color:#00d9ff40;box-shadow:0 0 30px #00d9ff15}
+.row-head{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;flex-wrap:wrap}
+.row-head:hover{background:var(--bg-hover)}
+.row-num{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text-muted);min-width:24px}
+.row-title{font-size:1.05rem;font-weight:500;flex:1;letter-spacing:-.01em;min-width:200px}
+.expand{color:var(--accent-cyan);font-size:1.3rem;font-weight:300;transition:.2s ease;line-height:1}
+.row.open .expand{transform:rotate(45deg)}
+.cells{display:none;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:0 20px 20px}
+.row.open .cells{display:grid}
+.cell{background:var(--bg-tertiary);border:1px solid var(--border-color);border-radius:6px;padding:14px 16px;font-size:.9rem;color:var(--text-secondary)}
+.cell-l{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:block}
+.c-a .cell-l{color:var(--accent-red)}
+.c-b .cell-l{color:var(--accent-purple)}
+.c-c .cell-l{color:var(--accent-green)}
+.c-a{border-top:2px solid #f8514960}
+.c-b{border-top:2px solid #a371f760}
+.c-c{border-top:2px solid #3fb95060}
+.cell em{color:var(--text-primary);font-style:normal;font-weight:500}
+.verdict{grid-column:1/-1;border-left:3px solid var(--accent-cyan);background:var(--bg-secondary);border-radius:6px;padding:14px 16px;font-size:.92rem;color:var(--text-secondary)}
+.verdict strong{color:var(--text-primary);font-weight:500}
+.srcbox{margin-top:44px;padding-top:26px;border-top:1px solid var(--border-color);font-size:.87rem;color:var(--text-muted)}
+.srcbox h4{color:var(--text-secondary);font-size:.78rem;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:400}
+.srcbox p{margin-bottom:12px;max-width:82ch}
+.srcbox strong{color:var(--text-secondary);font-weight:500}
+.backlink{display:inline-block;margin-top:26px;color:var(--accent-cyan);text-decoration:none;font-size:.95rem;border-bottom:1px solid #00d9ff40;padding-bottom:2px}
+@media(max-width:860px){
+.colheads{display:none}
+.cells{grid-template-columns:1fr}
+.row.open .cells{display:grid}
+}
+@media(max-width:768px){
+body{padding-top:40px}
+.hero{padding-top:24px}
+.row-title{font-size:.98rem}
+}
+</style>
+</head>
+<body>
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<div class="wrap">
+
+<div class="hero">
+  <div class="kicker">Osservatorio · Reperto</div>
+  <h1>Tre colonne</h1>
+  <p class="sub">Gli stessi tratti di un testo, descritti da tre mondi che non si sono mai parlati: le guide che insegnano a riconoscere i testi scritti dall'intelligenza artificiale, la letteratura clinica sulla lingua autistica, e le strategie compensative che finiscono nei PDP e nei PEI. Apri una riga per confrontarle.</p>
+</div>
+
+<div class="notebox">
+  <strong>Come leggere questa tabella.</strong> Non è una dimostrazione di equivalenza e non pretende di esserlo. È un accostamento: nessuna delle tre colonne è stata scritta pensando alle altre due. Il collegamento lo fa il lettore. Sette righe su nove convergono, due no, e le due che non convergono sono state lasciate dentro apposta. Questo reperto accompagna lo Speciale <a href="/osservatorio/speciale/scrivi-troppo-bene/">Scrivi troppo bene</a>, ma è pensato per essere consultato e citato anche da solo.
+</div>
+
+<div class="legend">
+  <span class="tag tag-red">A · Indizio di AI</span>
+  <span class="tag tag-purple">B · Descrittore clinico</span>
+  <span class="tag tag-green">C · Strategia compensativa</span>
+  <span class="tag tag-muted">clicca una riga per aprirla</span>
+</div>
+
+<div class="colheads">
+  <div class="chead"><div class="chead-n">COLONNA A</div><div class="chead-t">Come si riconosce un testo scritto dall'AI</div><div class="chead-s">Guide divulgative e per docenti, 2023-2026</div></div>
+  <div class="chead"><div class="chead-n">COLONNA B</div><div class="chead-t">Come viene descritta la lingua autistica</div><div class="chead-s">Letteratura clinica e strumenti diagnostici</div></div>
+  <div class="chead"><div class="chead-n">COLONNA C</div><div class="chead-t">Cosa prescriviamo per l'inclusione</div><div class="chead-s">Strumenti compensativi, PDP e PEI</div></div>
+</div>
+
+<div class="controls">
+  <button class="ctrl" id="openAll">Apri tutte</button>
+  <button class="ctrl" id="closeAll">Chiudi tutte</button>
+</div>
+
+<div id="rows">
+
+<div class="row">
+  <div class="row-head"><span class="row-num">01</span><span class="row-title">Struttura regolare e simmetrica</span><span class="tag tag-red">converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Struttura coerente e molto ordinata, paragrafi di lunghezza simile, introduzione e conclusione simmetriche, tendenza a organizzare il testo in blocchi schematici.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Linguaggio descritto come <em>stereotipato</em> e <em>rigido</em>: adesione stabile a uno schema, scarsa variazione della forma da un testo all'altro.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Tracce guida e scalette, struttura ricorrente, mappe e schemi costruiti prima della stesura per ridurre il carico organizzativo. Sono strumenti compensativi funzionali di uso corrente, richiamati dalle Linee guida allegate alla L. 170/2010 e ricorrenti nei PEI.</div>
+    <div class="verdict"><strong>Convergenza.</strong> La regolarità strutturale è insieme il primo indizio di sospetto, un descrittore diagnostico e l'esito atteso di un intervento didattico riuscito.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">02</span><span class="row-title">Connettivi logici espliciti</span><span class="tag tag-red">converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Abbondanza di connettivi testuali: <em>inoltre, dunque, perciò, quindi, di conseguenza, in conclusione</em>. È una delle spie più citate in assoluto dalle guide italiane.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Linguaggio descritto come <em>formale</em> e <em>pedantico</em>: esplicitazione di nessi che un parlante tipico lascerebbe impliciti.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Esplicitare i nessi logici, fornire un repertorio di connettivi, insegnare a segnalare i passaggi del ragionamento invece di darli per scontati.</div>
+    <div class="verdict"><strong>Convergenza.</strong> Rendere visibile il ragionamento è esattamente ciò che chiediamo a chi fatica a organizzare un testo, ed è esattamente ciò che oggi lo rende sospetto.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">03</span><span class="row-title">Registro formale, lessico ricercato</span><span class="tag tag-red">converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Lessico ricercato o innaturalmente elevato, tono neutro, assenza di colloquialismi, scelte lessicali che "funzionano sempre" ma suonano anonime e prive di intenzione.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Linguaggio <em>formale</em> e <em>pedantico</em>, registro adulto in bocca a un adolescente, precisione lessicale marcata, letteralità.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Lavorare sul lessico disciplinare univoco, costruire glossari, ridurre la complessità lessicale delle consegne, evitare ambiguità, modi di dire e figure retoriche.</div>
+    <div class="verdict"><strong>Convergenza.</strong> La precisione lessicale è una richiesta didattica, un tratto descritto in diagnostica e un indizio di frode, a seconda di chi tiene in mano il foglio.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">04</span><span class="row-title">Testo pulito, pochi errori</span><span class="tag tag-red">converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Testi molto accurati sul piano grammaticale e lessicale, quasi assenza di errori di battitura, correzione formale impeccabile.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Attenzione marcata al dettaglio formale, controllo ripetuto, bassa tolleranza per l'imprecisione.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Videoscrittura con correttore ortografico e sintesi vocale, procedure di revisione finale, tempi aggiuntivi per la rilettura (indicativamente un 30% in più). Sono misure esplicitamente previste dalla normativa sui disturbi specifici di apprendimento.</div>
+    <div class="verdict"><strong>Convergenza.</strong> Gli strumenti che la scuola concede per legge producono precisamente il tipo di testo che un'altra parte della scuola ha imparato a leggere come artificiale.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">05</span><span class="row-title">Formule ricorrenti e ripetizioni</span><span class="tag tag-red">converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Ripetizione di parole e formule, conclusioni che riprendono l'introduzione, espressioni di chiusura standard.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Linguaggio <em>ripetitivo</em> e <em>stereotipato</em>, uso di formule fisse e frasi fatte come ancoraggio.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Modelli e template riutilizzabili, formule di apertura e chiusura ricorrenti, procedure stabili che riducono l'incertezza di partenza.</div>
+    <div class="verdict"><strong>Convergenza.</strong> La formula è una stampella cognitiva prima di essere un vizio stilistico. Qui viene letta solo come vizio.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">06</span><span class="row-title">Manca il calore, manca la voce personale</span><span class="tag tag-red">converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Mancanza di stile personale: secondo una guida rivolta esplicitamente agli insegnanti, ai testi generati mancherebbero il calore e le sfumature tipici della scrittura degli alunni.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Differenze pragmatiche e modulazione affettiva atipica nella produzione linguistica, minore ricorso ai marcatori emotivi convenzionali.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Restare sul contenuto, non divagare, mantenere un registro neutro e verificabile: la scelta più sicura per chi teme di sbagliare il tono.</div>
+    <div class="verdict"><strong>Convergenza, e la più grave.</strong> Il criterio qui non è più stilistico ma antropologico: si sta misurando quanto un testo trasmette calore umano. È il punto esatto in cui una lista di indizi diventa un giudizio sulla persona.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">07</span><span class="row-title">Salto improvviso di qualità</span><span class="tag tag-yellow">asimmetrica</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Un improvviso salto di qualità nella scrittura viene indicato come indizio evidente. Si consiglia di confrontare i compiti dello stesso studente e di insospettirsi davanti a un cambiamento di stile non giustificato da un percorso reale.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Nessuna corrispondenza diretta. La colonna clinica qui non dice nulla.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Il miglioramento della produzione scritta è l'obiettivo dichiarato del piano. Quando le strategie funzionano, il salto di qualità è il risultato atteso, previsto e messo per iscritto.</div>
+    <div class="verdict"><strong>Collisione frontale fra A e C.</strong> Il progresso previsto da un documento della scuola coincide con l'indizio di colpevolezza suggerito da una fonte che la scuola legge. Qui non serve nessuna terza colonna per vedere il problema.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">08</span><span class="row-title">Nessuna bozza, stesura unica</span><span class="tag tag-red">converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Verifica del processo: cronologia del documento, versioni intermedie, tracce di revisione. In assenza di bozze il sospetto aumenta.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Pianificazione interna estesa e produzione in un'unica stesura: il lavoro avviene prima, in un luogo che non lascia tracce sul foglio.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Si investe deliberatamente sulla fase di pianificazione preventiva, con mappe e schemi costruiti prima, proprio per rendere sostenibile il momento della stesura.</div>
+    <div class="verdict"><strong>Convergenza.</strong> La prova richiesta è l'esibizione dello sforzo. Chi ha faticato altrove, e in modo invisibile, non ha nulla da esibire.</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="row-head"><span class="row-num">09</span><span class="row-title">Marcatori tipografici</span><span class="tag tag-muted">non converge</span><span class="expand">+</span></div>
+  <div class="cells">
+    <div class="cell c-a"><span class="cell-l">Indizio di AI</span>Trattino lungo, elenchi puntati a tre voci, virgola di Oxford, frasi spezzate da una domanda retorica.</div>
+    <div class="cell c-b"><span class="cell-l">Descrittore clinico</span>Nessuna sovrapposizione. Questi marcatori non compaiono in alcuna descrizione della lingua autistica.</div>
+    <div class="cell c-c"><span class="cell-l">Strategia compensativa</span>Nessuna corrispondenza rilevante.</div>
+    <div class="verdict"><strong>Riga lasciata dentro apposta.</strong> Non tutti gli indizi delle guide hanno un corrispettivo nelle altre due colonne, e dirlo serve a mostrare che questa tabella non è stata costruita per far tornare i conti. La sovrapposizione riguarda i tratti strutturali e di registro, non l'intero repertorio.</div>
+  </div>
+</div>
+
+</div>
+
+<div class="srcbox">
+  <h4>Nota sulle fonti</h4>
+  <p><strong>Colonna A.</strong> Voci raccolte da guide in lingua italiana pubblicate fra il 2023 e il 2026, alcune generaliste e alcune rivolte esplicitamente agli insegnanti. Sono i materiali che un docente trova per primo cercando in rete come riconoscere un testo scritto dall'intelligenza artificiale. Nessuno di essi è uno strumento validato, e nessuno dichiara un tasso di errore.</p>
+  <p><strong>Colonna B.</strong> Descrittori ripresi dalla letteratura sulla comunicazione autistica e dai criteri in uso in ambito diagnostico, nella formulazione con cui circolano in letteratura secondaria. Vanno verificati sulle fonti primarie prima di essere citati come testo normativo o diagnostico.</p>
+  <p><strong>Colonna C.</strong> Strategie compensative di uso corrente nella documentazione per l'inclusione, riformulate in forma generale. Non si riferiscono ad alcun caso reale e non riproducono alcun documento esistente.</p>
+  <p><strong>Licenza d'uso.</strong> Questa tabella può essere citata, condivisa e riprodotta con indicazione della fonte. È stata costruita per essere usata, non per essere ammirata.</p>
+  <a class="backlink" href="/osservatorio/speciale/scrivi-troppo-bene/">Leggi lo Speciale: Scrivi troppo bene &rarr;</a>
+</div>
+
+</div>
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+<script>
+document.querySelectorAll('.row-head').forEach(function(h){
+  h.addEventListener('click',function(){h.parentElement.classList.toggle('open')});
+});
+document.getElementById('openAll').addEventListener('click',function(){
+  document.querySelectorAll('.row').forEach(function(r){r.classList.add('open')});
+});
+document.getElementById('closeAll').addEventListener('click',function(){
+  document.querySelectorAll('.row').forEach(function(r){r.classList.remove('open')});
+});
+</script>
+</body>
+</html>
