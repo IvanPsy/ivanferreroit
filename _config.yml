@@ -1,3 +1,9 @@
+# URL canonico del sito. Serve a jekyll-sitemap e ai tag canonical.
+url: https://ivanferrero.it
+baseurl: ""
+title: "Ivan Ferrero"
+description: "Psicologo psicoterapeuta e cyberpsicologo. Dashboard, osservatorio e archivio."
+
 # Ivan Ferrero — ivanferrero.it
 # Jekyll config per GitHub Pages
 
@@ -5,6 +11,19 @@ collections:
   dialoghi:
     output: true
     permalink: /dialoghi/:title/
+
+  # Archivio BullismoOnline (2009-2020) - selezione ragionata degli articoli del
+  # portale divulgativo, ricostruita su ivanferrero.it l'11-12/08/2026.
+  # Il repository IvanPsy/bullismoonline resta la copia integrale non modificata;
+  # ivanferrero.it e' la versione CANONICA (vedi rel=canonical nei due sensi).
+  # Convenzione frontmatter:
+  #   layout: archivio-articolo   (impostato nei defaults qui sotto)
+  #   title / date  -> DATA ORIGINALE di pubblicazione, non toccare
+  #   autore, slug, pila (A = regge ancora, B = documento d'epoca)
+  #   sommario, perche_regge, nota_epoca (solo pila B), originale (URL archivio)
+  archivio:
+    output: true
+    permalink: /archivio/:title/
 
   # Osservatorio — intelligence brief settimanali (TECH, EDU, CYBER, INCLUDE).
   # Convenzione frontmatter di un report:
@@ -26,3 +45,19 @@ defaults:
       type: osservatorio
     values:
       layout: osservatorio-report
+
+  - scope:
+      path: ""
+      type: archivio
+    values:
+      layout: archivio-articolo
+
+# Plugin (nella whitelist di GitHub Pages)
+plugins:
+  - jekyll-sitemap
+
+# Esclusioni dal build
+exclude:
+  - CLAUDE.md
+  - README.md
+  - .DS_Store

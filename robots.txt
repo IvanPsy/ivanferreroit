@@ -1,0 +1,5 @@
+# ivanferrero.it
+User-agent: *
+Allow: /
+
+Sitemap: https://ivanferrero.it/sitemap.xml

@@ -25,6 +25,7 @@ const menuConfig = {
         { label: 'Osservatorio', href: '/osservatorio/' },
         { label: 'Digitale Inclusivo', href: '/digitale-inclusivo/' },
         { label: 'Dialoghi', href: '/dialoghi/' },
+        { label: 'Archivio', href: '/archivio/' },
         { label: 'Chi Sono', href: '/#chi-sono' },
         { label: 'Contatti', href: '/#contatti' }
     ]
