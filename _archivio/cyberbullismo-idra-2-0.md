@@ -7,7 +7,7 @@ slug: cyberbullismo-idra-2-0
 pila: A
 sommario: "La metafora che ha retto tutto il progetto: il cyberbullismo come Idra, con i tre ruoli che si sfumano, l'osservatore come attore decisivo, e il passaggio del genitore da monitore a mentore."
 perche_regge: "Nessuna piattaforma, nessun dato d'epoca, nessuna norma. I tre elementi portanti sono ancora quelli che si insegnano oggi."
-image: /assets/archivio/Cyberbullismo-e-Idra-2.0.png
+image: /assets/archivio/Cyberbullismo-e-Idra-2.0.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/cosa-bullismo-online-idra-2-0/"
 tags: ["affrontare cyberbullismo", "cosa è bullismo online"]
 ---

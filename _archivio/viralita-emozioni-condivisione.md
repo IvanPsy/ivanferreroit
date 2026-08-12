@@ -37,8 +37,8 @@ Uno degli ultimi casi di propagazione di un messaggio in modo rapido e massiccio
 Il video, girato per un contest interno, non era pensato per circolare al di fuori delle varie sedi aziendali, è un filmato artigianale nel quale i dipendenti di ogni filiale si sfidano nel presentare con creatività la propria sede.
 
 <a href="http://www.repubblica.it/tecnologia/social-network/2017/10/04/news/_io_ci_sto_ci_metto_la_faccia_cosi_il_video_interno_di_banca_intesa_e_diventato_virale-177369206/">Evaso dai confini aziendali</a>, però, il filmato è diventato virale e ha scatenato il web con una ondata di cyberbullismo riversatasi in particolar modo sulla direttrice della filiale, tanto da spingerla a rendere invisibile nelle ricerche il proprio profilo Facebook per arginare i commenti e le derisioni delle migliaia di persone che hanno scelto di prenderla di mira in modo diretto.
-<p style="text-align: center;"><img class="aligncenter size-large wp-image-927" src="/assets/archivio/Banca-Intesa-Sanpaolo-video-virale-01-730x396.png" alt="Banca Intesa Sanpaolo video virale 01" width="730" height="396" />(Fonte: <a href="https://www.ilmessaggero.it/primopiano/cronaca/intesa_sanpaolo_castiglione_delle_stiviere-3282445.html">Il video virale della direttrice di banca che scatena gli odiatori del web</a>)</p>
-<img class="aligncenter size-large wp-image-928" src="/assets/archivio/Banca-Intesa-Sanpaolo-video-virale-02-730x341.png" alt="Banca Intesa Sanpaolo video virale 02" width="730" height="341" />
+<p style="text-align: center;"><img class="aligncenter size-large wp-image-927" src="/assets/archivio/Banca-Intesa-Sanpaolo-video-virale-01-730x396.jpg" alt="Banca Intesa Sanpaolo video virale 01" width="730" height="396" />(Fonte: <a href="https://www.ilmessaggero.it/primopiano/cronaca/intesa_sanpaolo_castiglione_delle_stiviere-3282445.html">Il video virale della direttrice di banca che scatena gli odiatori del web</a>)</p>
+<img class="aligncenter size-large wp-image-928" src="/assets/archivio/Banca-Intesa-Sanpaolo-video-virale-02-730x341.jpg" alt="Banca Intesa Sanpaolo video virale 02" width="730" height="341" />
 <p style="text-align: center;">(Fonte: <a href="http://www.repubblica.it/tecnologia/social-network/2017/10/04/news/_io_ci_sto_ci_metto_la_faccia_cosi_il_video_interno_di_banca_intesa_e_diventato_virale-177369206/">Il video virale di Intesa Sanpaolo e la gogna senza senso dei social</a>)</p>
 Oppure, sicuramente ognuno di noi avrà visto qualche filmato fatto ad un amico o amica e non ha resistito a diffonderlo a sua volta.
 
@@ -54,7 +54,7 @@ Una tra le più celebri classificazioni delle emozioni è quella dello psicologo
 
 In quello che viene chiamato il <strong>fiore di Plutchick</strong>, le emozioni contrapposte sono rappresentate con colori più intensi al centro e più leggeri allontanandosi verso l’esterno, per rappresentare i diversi livelli di intensità delle emozioni.
 
-<img class="aligncenter size-large wp-image-930" src="/assets/archivio/Fiore-di-Plutchik-730x731.png" alt="Fiore di Plutchik" width="730" height="731" />
+<img class="aligncenter size-large wp-image-930" src="/assets/archivio/Fiore-di-Plutchik-730x731.jpg" alt="Fiore di Plutchik" width="730" height="731" />
 <p style="text-align: center;">(Fonte: <a href="https://en.wikiversity.org/wiki/Motivation_and_emotion/Book/2014/Plutchik%27s_wheel_of_emotions" target="_blank" rel="nofollow noopener">Motivation and emotion/Book/2014/Plutchik's wheel of emotions</a>)</p>
 <p lang="en-US">Tra i vari petali colorati troviamo dei petali bianchi, che rappresentano gli stati d’animo derivanti dall’incontro di una coppia di emozioni.</p>
 

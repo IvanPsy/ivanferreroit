@@ -8,12 +8,12 @@ pila: B
 sommario: "Uno studio di neuroimaging associa il media multitasking a una minore densità di materia grigia nella corteccia cingolata anteriore, con riserva esplicita sulla direzione causale."
 perche_regge: "Il caveat metodologico scritto a metà pezzo è la parte che regge."
 nota_epoca: "Studio correlazionale cross-sezionale su campione piccolo, del filone neuroimaging precedente alla crisi di replicabilità: oggi non è citabile come evidenza. Interessante anche perché il commento finale scavalca il caveat che l'articolo stesso aveva posto."
-image: /assets/archivio/Multitasking-Brain.png
+image: /assets/archivio/Multitasking-Brain.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/come-eccessivo-multitasking-potrebbe-influenzare-tuo-cervello/"
 tags: ["ACC", "adolescenti e bullismo", "corteccia cingolata anteriore", "media multitasking", "ricerche bullismo online"]
 ---
 
-<blockquote><a href="/assets/archivio/Multitasking-Brain.png"><img class="alignleft wp-image-194 size-full" src="/assets/archivio/Multitasking-Brain.png" alt="Effects of a Multitasking Brain" width="806" height="736" /></a>Per la prima volta, i neuroscienziati hanno scoperto che le persone che fanno uso di più dispositivi contemporaneamente hanno minore densità della sostanza grigia in una zona del cervello associata al controllo cognitivo ed emotivo.</blockquote>
+<blockquote><a href="/assets/archivio/Multitasking-Brain.jpg"><img class="alignleft wp-image-194 size-full" src="/assets/archivio/Multitasking-Brain.jpg" alt="Effects of a Multitasking Brain" width="806" height="736" /></a>Per la prima volta, i neuroscienziati hanno scoperto che le persone che fanno uso di più dispositivi contemporaneamente hanno minore densità della sostanza grigia in una zona del cervello associata al controllo cognitivo ed emotivo.</blockquote>
 Utilizzare computer portatili, telefoni cellulari e altri dispositivi multimediali nello stesso momento <strong>potrebbe risultare in un'atrofizzazione di importanti strutture nel nostro cervello.</strong>
 
 In questo caso per multitasking si intende ad esempio l'ascolto di musica durante la riproduzione di un videogioco, o guardare la TV mentre si effettua una telefonata o addirittura legge il giornale mantenendo la televisione accesa.
