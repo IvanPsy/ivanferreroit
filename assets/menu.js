@@ -21,6 +21,7 @@ const menuConfig = {
     // Voci di navigazione
     items: [
         { label: 'Home', href: '/' },
+        { label: 'Libri', href: '/libri/' },
         { label: 'Dashboard', href: '/dashboards/' },
         { label: 'Osservatorio', href: '/osservatorio/' },
         { label: 'Digitale Inclusivo', href: '/digitale-inclusivo/' },

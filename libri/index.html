@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genitori senza stress — 370 schede pratiche per genitori | Ivan Ferrero</title>
+<meta name="description" content="Una domanda, una pagina. 370 schede pratiche su comunicazione, emozioni, regole, vita digitale e denaro, ricavate dai quattro libri della collana Genitori senza stress. PDF gratuiti, senza registrazione.">
+<link rel="canonical" href="https://ivanferrero.it/libri/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Genitori senza stress — 370 schede pratiche per genitori">
+<meta property="og:description" content="Una domanda, una pagina. Cerca il tuo problema, scarica la scheda, stampala.">
+<meta property="og:url" content="https://ivanferrero.it/libri/">
+<meta property="og:locale" content="it_IT">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base-styles.css">
+<style>
+/* =========================================================
+   PAGINA DI COLLANA — stili con prefisso gs- per non toccare
+   nessuna classe di base-styles.css (.card, .header, .tag...)
+   ========================================================= */
+body { padding-top: 60px; }
+
+.gs-wrap { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+/* --- apertura --- */
+.gs-hero { padding: 4rem 0 2.5rem; border-bottom: 1px solid var(--border-color); }
+.gs-occhiello {
+    font-family: var(--font-mono); font-size: .75rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 1rem;
+}
+.gs-hero h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); margin-bottom: 1.25rem; }
+.gs-lead { font-size: 1.15rem; color: var(--text-primary); max-width: 62ch; margin-bottom: 1rem; }
+.gs-lead-2 { color: var(--text-secondary); max-width: 62ch; }
+.gs-strati {
+    display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.75rem;
+    font-size: .9rem; color: var(--text-secondary);
+}
+.gs-strati b { color: var(--text-primary); font-weight: 600; }
+
+.gs-numeri {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem; margin: 2.5rem 0 0;
+}
+.gs-numero {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 8px; padding: 1.1rem 1.25rem;
+}
+.gs-numero b {
+    display: block; font-family: var(--font-mono); font-size: 1.9rem;
+    color: var(--accent-cyan); line-height: 1.1;
+}
+.gs-numero span { font-size: .82rem; color: var(--text-secondary); }
+
+/* --- sezioni --- */
+.gs-sez { padding: 3.5rem 0 0; }
+.gs-sez > h2 { font-size: 1.9rem; margin-bottom: .5rem; }
+.gs-sez > .gs-sottotitolo { color: var(--text-secondary); max-width: 62ch; margin-bottom: 2rem; }
+
+/* --- filtri --- */
+.gs-filtri {
+    position: sticky; top: 60px; z-index: 50; background: var(--bg-primary);
+    padding: 1.25rem 0 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.75rem;
+}
+.gs-cerca-riga { display: flex; gap: .75rem; align-items: center; margin-bottom: 1rem; }
+.gs-cerca {
+    flex: 1; padding: .85rem 1.1rem; background: var(--bg-tertiary);
+    border: 1px solid var(--border-color); border-radius: 8px;
+    color: var(--text-primary); font-family: var(--font-display); font-size: 1rem;
+}
+.gs-cerca:focus { outline: none; border-color: var(--accent-cyan); box-shadow: var(--shadow-glow); }
+.gs-cerca::placeholder { color: var(--text-muted); }
+.gs-azzera {
+    padding: .85rem 1.1rem; background: transparent; color: var(--text-secondary);
+    border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer;
+    font-family: var(--font-display); font-size: .85rem; white-space: nowrap;
+}
+.gs-azzera:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
+.gs-azzera[hidden] { display: none; }
+
+.gs-gruppo { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem; margin-bottom: .55rem; }
+.gs-gruppo > .gs-etichetta {
+    font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--text-muted); width: 100%; margin-bottom: .15rem;
+}
+.gs-chip {
+    padding: .35rem .8rem; font-size: .82rem; font-family: var(--font-display);
+    background: var(--bg-tertiary); color: var(--text-secondary);
+    border: 1px solid var(--border-color); border-radius: 999px; cursor: pointer;
+    transition: all .15s ease;
+}
+.gs-chip:hover { color: var(--text-primary); border-color: var(--text-muted); }
+.gs-chip[aria-pressed="true"] {
+    background: var(--accent-cyan-dim); color: var(--accent-cyan); border-color: var(--accent-cyan);
+}
+.gs-chip small { font-family: var(--font-mono); opacity: .65; margin-left: .35rem; font-size: .9em; }
+
+.gs-conteggio {
+    font-family: var(--font-mono); font-size: .82rem; color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+.gs-conteggio b { color: var(--accent-cyan); }
+
+/* --- griglia delle schede --- */
+.gs-griglia {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem;
+}
+.gs-scheda {
+    display: flex; flex-direction: column; gap: .6rem;
+    background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px;
+    padding: 1.35rem; text-decoration: none; transition: all .2s ease;
+}
+.gs-scheda[hidden] { display: none; }
+.gs-scheda:hover {
+    border-color: var(--border-accent); background: var(--bg-hover);
+    transform: translateY(-2px); opacity: 1;
+}
+.gs-scheda h3 {
+    font-size: 1.06rem; line-height: 1.35; margin: 0; color: var(--text-primary); font-weight: 600;
+}
+.gs-scheda p { font-size: .88rem; color: var(--text-secondary); margin: 0; flex: 1; line-height: 1.6; }
+.gs-badge-riga { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .2rem; }
+.gs-badge {
+    font-family: var(--font-mono); font-size: .68rem; letter-spacing: .04em;
+    padding: .2rem .5rem; border-radius: 4px;
+    background: var(--bg-tertiary); color: var(--text-muted); border: 1px solid var(--border-color);
+}
+.gs-badge.eta { color: var(--accent-yellow); border-color: #d2992240; }
+.gs-badge.tema { color: var(--accent-cyan); border-color: var(--border-accent); }
+.gs-giu {
+    display: flex; justify-content: space-between; align-items: center; gap: .5rem;
+    margin-top: .35rem; padding-top: .75rem; border-top: 1px solid var(--border-color);
+    font-size: .78rem; color: var(--text-muted);
+}
+.gs-scarica { color: var(--accent-cyan); font-weight: 500; white-space: nowrap; }
+
+/* la scheda-percorso: sta nell'indice come le altre, ma apre un pannello */
+.gs-scheda.percorso { border-color: #a371f750; background: linear-gradient(135deg, #a371f712 0%, var(--bg-card) 60%); }
+.gs-scheda.percorso:hover { border-color: var(--accent-purple); }
+.gs-scheda.percorso .gs-badge.tema { color: var(--accent-purple); border-color: #a371f740; }
+.gs-scheda.percorso .gs-scarica { color: var(--accent-purple); }
+
+.gs-vuoto {
+    padding: 3rem 1.5rem; text-align: center; color: var(--text-secondary);
+    border: 1px dashed var(--border-color); border-radius: 8px;
+}
+.gs-vuoto[hidden] { display: none; }
+
+/* --- pannello del percorso --- */
+.gs-dialogo {
+    margin: auto;   /* il reset globale di base-styles.css lo azzera: senza
+                       questa riga il dialog nativo finisce in alto a sinistra */
+    border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-secondary);
+    color: var(--text-primary); max-width: 780px; width: calc(100% - 2rem);
+    padding: 0; max-height: 85vh; overflow: hidden;
+    display: flex; flex-direction: column;
+}
+.gs-dialogo:not([open]) { display: none; }
+.gs-dialogo::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(3px); }
+.gs-dialogo-testa {
+    position: sticky; top: 0; background: var(--bg-secondary); padding: 1.75rem 1.75rem 1rem;
+    border-bottom: 1px solid var(--border-color); display: flex; gap: 1rem; align-items: flex-start;
+}
+.gs-dialogo-testa h2 { font-size: 1.35rem; margin: 0 0 .4rem; }
+.gs-dialogo-testa p { margin: 0; font-size: .88rem; color: var(--text-secondary); }
+.gs-chiudi {
+    margin-left: auto; background: transparent; border: 1px solid var(--border-color);
+    color: var(--text-secondary); border-radius: 6px; width: 34px; height: 34px;
+    cursor: pointer; font-size: 1.1rem; line-height: 1; flex-shrink: 0;
+}
+.gs-chiudi:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
+.gs-dialogo-corpo { padding: 1.25rem 1.75rem 2rem; overflow-y: auto; }
+.gs-esercizio {
+    display: flex; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid var(--border-color);
+    text-decoration: none; align-items: baseline;
+}
+.gs-esercizio:last-child { border-bottom: none; }
+.gs-esercizio:hover { opacity: 1; }
+.gs-esercizio:hover .gs-es-titolo { color: var(--accent-cyan); }
+.gs-es-giorni {
+    font-family: var(--font-mono); font-size: .72rem; color: var(--accent-purple);
+    white-space: nowrap; min-width: 92px; padding-top: .15rem;
+}
+.gs-es-titolo { display: block; color: var(--text-primary); font-weight: 500; font-size: .96rem; }
+.gs-es-cornice { display: block; color: var(--text-secondary); font-size: .82rem; margin-top: .15rem; }
+
+/* --- i libri --- */
+.gs-libri { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+.gs-libro {
+    display: flex; flex-direction: column; background: var(--bg-card);
+    border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;
+    transition: all .2s ease;
+}
+.gs-libro:hover { border-color: var(--border-accent); }
+.gs-coverbox {
+    position: relative; aspect-ratio: 1 / 1.5; background: var(--bg-tertiary);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.gs-coverbox img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--bg-tertiary); }
+.gs-coverfallback {
+    padding: 1.5rem 1.25rem; text-align: center; font-weight: 600; font-size: 1.05rem;
+    line-height: 1.35; color: var(--text-secondary);
+    background: var(--gradient-cyber); width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+}
+.gs-libro-corpo { padding: 1.25rem; display: flex; flex-direction: column; gap: .6rem; flex: 1; }
+.gs-libro-corpo h3 { font-size: 1.1rem; margin: 0; }
+.gs-libro-corpo p { font-size: .85rem; color: var(--text-secondary); margin: 0; flex: 1; }
+.gs-libro-azioni { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .35rem; }
+.gs-mini {
+    font-size: .8rem; padding: .45rem .8rem; border-radius: 6px; cursor: pointer;
+    font-family: var(--font-display); text-decoration: none; border: 1px solid var(--border-color);
+    background: transparent; color: var(--text-secondary);
+}
+.gs-mini:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); opacity: 1; }
+.gs-mini.primario { border-color: var(--accent-cyan); color: var(--accent-cyan); background: var(--accent-cyan-dim); }
+
+/* --- chiusura --- */
+.gs-uso { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+.gs-uso-blocco {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-left: 3px solid var(--accent-cyan); border-radius: 8px; padding: 1.5rem;
+}
+.gs-uso-blocco h3 { font-size: 1.05rem; margin-bottom: .6rem; }
+.gs-uso-blocco p { font-size: .9rem; color: var(--text-secondary); margin: 0; }
+.gs-contatto {
+    margin-top: 2.5rem; padding: 2rem; border-radius: 8px;
+    background: var(--gradient-cyber); border: 1px solid var(--border-accent);
+}
+.gs-contatto h3 { margin-bottom: .6rem; }
+.gs-contatto p { max-width: 60ch; }
+.gs-piede {
+    margin-top: 3.5rem; padding-top: 1.75rem; border-top: 1px solid var(--border-color);
+    font-size: .82rem; color: var(--text-muted); display: flex; flex-wrap: wrap;
+    gap: .5rem 1.5rem; justify-content: space-between;
+}
+
+/* --- mobile: il menu del sito passa da 60 a 120px --- */
+@media (max-width: 768px) {
+    body { padding-top: 60px; }
+    .gs-filtri { position: static; }
+    .gs-hero { padding-top: 2.5rem; }
+    .gs-griglia { grid-template-columns: 1fr; }
+    .gs-cerca-riga { flex-wrap: wrap; }
+    .gs-dialogo { width: calc(100% - 1rem); max-height: 92vh; }
+    .gs-dialogo-testa, .gs-dialogo-corpo { padding-left: 1.1rem; padding-right: 1.1rem; }
+    .gs-esercizio { flex-direction: column; gap: .2rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="site-menu"></div>
+
+<div class="gs-wrap">
+
+  <header class="gs-hero">
+    <div class="gs-occhiello">Collana · Genitori senza stress</div>
+    <h1>Una domanda,<br>una <span class="text-cyan">pagina</span>.</h1>
+    <p class="gs-lead">Quattro libri, e da quei libri <b id="gs-totale-lead">370</b> schede pratiche. Ogni scheda parte da una domanda che i genitori fanno davvero, sta in una pagina sola, e si stampa.</p>
+    <p class="gs-lead-2">Cerca il problema che hai adesso. Non c'è un ordine di lettura, non c'è un percorso obbligato, e non devi lasciare la mail per scaricare niente.</p>
+    <div class="gs-strati">
+      <span><b>Questa pagina</b> ti dà la domanda e la cornice.</span>
+      <span><b>La scheda</b> ti dà che cosa fare.</span>
+      <span><b>Il libro</b> è la versione lunga.</span>
+    </div>
+    <div class="gs-numeri">
+      <div class="gs-numero"><b id="gs-n-schede">370</b><span>schede, una per domanda</span></div>
+      <div class="gs-numero"><b id="gs-n-temi">12</b><span>temi di ricerca</span></div>
+      <div class="gs-numero"><b id="gs-n-libri">4</b><span>libri alle spalle</span></div>
+      <div class="gs-numero"><b>PDF</b><span>gratis, senza registrazione</span></div>
+    </div>
+  </header>
+
+  <!-- ============================ INDICE ============================ -->
+  <section class="gs-sez" id="indice">
+    <h2>Cerca il tuo <span class="text-cyan">problema</span></h2>
+    <p class="gs-sottotitolo">Scrivi una parola, oppure filtra per tema e per tipo di intervento. L'età è un'informazione sulla scheda, non un filtro: quasi tutto quello che funziona a undici anni funziona anche a sedici, detto in un altro modo.</p>
+
+    <div class="gs-filtri">
+      <div class="gs-cerca-riga">
+        <input type="search" id="gs-cerca" class="gs-cerca" autocomplete="off"
+               placeholder="urla, silenzio, paghetta, smartphone, bugie, scuola…"
+               aria-label="Cerca fra le schede">
+        <button type="button" id="gs-azzera" class="gs-azzera" hidden>Azzera i filtri</button>
+      </div>
+      <div class="gs-gruppo" id="gs-f-tema" data-campo="t"><span class="gs-etichetta">Di che cosa parla</span></div>
+      <div class="gs-gruppo" id="gs-f-intervento" data-campo="i"><span class="gs-etichetta">Che cosa ti chiede di fare</span></div>
+      <div class="gs-gruppo" id="gs-f-libro" data-campo="l"><span class="gs-etichetta">Da quale libro nasce</span></div>
+    </div>
+
+    <p class="gs-conteggio" id="gs-conteggio" aria-live="polite" role="status">Carico l'indice…</p>
+    <div class="gs-griglia" id="gs-griglia"></div>
+    <div class="gs-vuoto" id="gs-vuoto" hidden>
+      <p>Nessuna scheda con questi filtri.</p>
+      <p style="margin:0">Prova con una parola sola, o <button type="button" class="gs-azzera" onclick="document.getElementById('gs-azzera').click()">azzera i filtri</button>.</p>
+    </div>
+  </section>
+
+  <!-- ============================ I LIBRI ============================ -->
+  <section class="gs-sez" id="libri">
+    <h2>I quattro <span class="text-cyan">libri</span></h2>
+    <p class="gs-sottotitolo">Le schede sono la versione corta e operativa. Se una ti serve tutti i giorni, il libro da cui nasce la spiega per esteso, con i casi e le eccezioni.</p>
+    <div class="gs-libri" id="gs-libri"></div>
+  </section>
+
+  <!-- ============================ COME SI USANO ============================ -->
+  <section class="gs-sez" id="come">
+    <h2>Come si <span class="text-cyan">usano</span></h2>
+    <p class="gs-sottotitolo">Sono nate per essere consegnate, non collezionate.</p>
+    <div class="gs-uso">
+      <div class="gs-uso-blocco">
+        <h3>Se sei un genitore</h3>
+        <p>Cerca la domanda che ti somiglia di più, scarica la scheda, stampala e tienila dove serve. Una scheda alla volta: se ne prendi dieci non ne applichi nessuna. Nella scheda c'è anche quando la cosa smette di essere una fase e conviene farsi aiutare.</p>
+      </div>
+      <div class="gs-uso-blocco">
+        <h3>Se lavori con le famiglie</h3>
+        <p>Sono pensate per essere allegate a una mail dopo un colloquio, o consegnate a fine incontro. Puoi stamparle e distribuirle liberamente, purché restino intere e con la firma: sono materiale professionale, non volantini.</p>
+      </div>
+      <div class="gs-uso-blocco">
+        <h3>Se fai formazione</h3>
+        <p>Filtra per tema e porta in aula il pacchetto che ti serve. Ogni chip di questa pagina è un indirizzo: il link nella barra cambia con i filtri, quindi puoi mandare ai partecipanti la selezione già fatta.</p>
+      </div>
+    </div>
+
+    <div class="gs-contatto">
+      <h3>Una domanda che qui non c'è</h3>
+      <p>Se il problema che hai non compare fra le 370 domande, scrivimi due righe a <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a>. Rispondo io, e se la domanda torna spesso diventa la prossima scheda.</p>
+    </div>
+
+    <div class="gs-piede">
+      <span><b style="color:var(--text-secondary)">Ivan Ferrero</b> · Psicologo psicoterapeuta · Ordine Psicologi Lombardia n. 16571</span>
+      <span>Le schede sono gratuite. I libri sono su Amazon.</span>
+    </div>
+  </section>
+
+</div>
+
+<!-- pannello del percorso in 96 giorni -->
+<dialog class="gs-dialogo" id="gs-dialogo" aria-labelledby="gs-dialogo-titolo">
+  <div class="gs-dialogo-testa">
+    <div>
+      <h2 id="gs-dialogo-titolo">Il percorso in 96 giorni</h2>
+      <p id="gs-dialogo-sotto"></p>
+    </div>
+    <button type="button" class="gs-chiudi" id="gs-dialogo-chiudi" aria-label="Chiudi">&times;</button>
+  </div>
+  <div class="gs-dialogo-corpo" id="gs-dialogo-corpo"></div>
+</dialog>
+
+<script src="/assets/menu.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var DATI = null;
+  var VOCI = [];                       // schede + scheda-percorso, in ordine di domanda
+  var stato = { q: "", t: "", i: "", l: "" };
+
+  var $griglia = document.getElementById("gs-griglia");
+  var $conteggio = document.getElementById("gs-conteggio");
+  var $vuoto = document.getElementById("gs-vuoto");
+  var $cerca = document.getElementById("gs-cerca");
+  var $azzera = document.getElementById("gs-azzera");
+  var $dialogo = document.getElementById("gs-dialogo");
+
+  // ------------------------------------------------------------ utilità
+  function testo(s) { return (s || "").toString(); }
+
+  function normalizza(s) {
+    return testo(s).toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  function etichettaEta(e) {
+    return e === "trasversale" ? "ogni età" : e + " anni";
+  }
+
+  function crea(tag, cls, txt) {
+    var el = document.createElement(tag);
+    if (cls) el.className = cls;
+    if (txt !== undefined) el.textContent = txt;
+    return el;
+  }
+
+  // ------------------------------------------------------------ card
+  function cardScheda(v) {
+    var a = crea("a", "gs-scheda" + (v.percorso ? " percorso" : ""));
+    a.href = v.percorso ? "#percorso" : "schede/" + v.s + ".pdf";
+    if (!v.percorso) { a.target = "_blank"; a.rel = "noopener"; }
+    a.appendChild(crea("h3", null, v.d));
+    if (v.c) a.appendChild(crea("p", null, v.c));
+
+    var badge = crea("div", "gs-badge-riga");
+    badge.appendChild(crea("span", "gs-badge tema", DATI.mappaTemi[v.t] || v.t));
+    badge.appendChild(crea("span", "gs-badge eta", etichettaEta(v.e)));
+    a.appendChild(badge);
+
+    var giu = crea("div", "gs-giu");
+    giu.appendChild(crea("span", null, DATI.mappaInterventi[v.i] || v.i));
+    giu.appendChild(crea("span", "gs-scarica",
+      v.percorso ? "Apri il percorso →" : "Scarica il PDF ↓"));
+    a.appendChild(giu);
+
+    if (v.percorso) {
+      a.addEventListener("click", function (ev) { ev.preventDefault(); apriPercorso(); });
+    }
+    return a;
+  }
+
+  // ------------------------------------------------------------ filtri
+  function chip(gruppo, campo, valore, etichetta, quanti) {
+    var b = crea("button", "gs-chip");
+    b.type = "button";
+    b.setAttribute("aria-pressed", "false");
+    b.dataset.valore = valore;
+    b.appendChild(document.createTextNode(etichetta));
+    if (quanti !== undefined) {
+      var s = crea("small", null, quanti);
+      b.appendChild(s);
+    }
+    b.addEventListener("click", function () {
+      stato[campo] = (stato[campo] === valore) ? "" : valore;
+      aggiorna(true);
+    });
+    gruppo.appendChild(b);
+  }
+
+  function costruisciFiltri() {
+    var gt = document.getElementById("gs-f-tema");
+    DATI.temi.forEach(function (t) { if (t.q) chip(gt, "t", t.s, t.n, t.q); });
+
+    var gi = document.getElementById("gs-f-intervento");
+    DATI.interventi.forEach(function (i) { if (i.q) chip(gi, "i", i.s, i.n, i.q); });
+
+    var gl = document.getElementById("gs-f-libro");
+    DATI.libri.forEach(function (l) {
+      if (l.schede) chip(gl, "l", l.slug, l.slug === "collana" ? "Solo scheda" : l.titolo, l.schede);
+    });
+  }
+
+  function passa(v) {
+    if (stato.t && v.t !== stato.t) return false;
+    if (stato.i && v.i !== stato.i) return false;
+    if (stato.l && v.l !== stato.l) return false;
+    if (stato.q && v.cerca.indexOf(stato.q) === -1) return false;
+    return true;
+  }
+
+  function aggiorna(scrivi) {
+    var n = 0;
+    VOCI.forEach(function (v) {
+      var ok = passa(v);
+      if (ok) n++;
+      if (v.el.hidden === ok) v.el.hidden = !ok;
+    });
+
+    document.querySelectorAll(".gs-gruppo").forEach(function (g) {
+      var campo = g.dataset.campo;
+      g.querySelectorAll(".gs-chip").forEach(function (b) {
+        b.setAttribute("aria-pressed", stato[campo] === b.dataset.valore ? "true" : "false");
+      });
+    });
+
+    var filtrato = !!(stato.q || stato.t || stato.i || stato.l);
+    $azzera.hidden = !filtrato;
+    $vuoto.hidden = n > 0;
+    $conteggio.innerHTML = filtrato
+      ? "<b>" + n + "</b> schede su " + VOCI.length
+      : "<b>" + VOCI.length + "</b> schede";
+
+    if (scrivi) scriviHash();
+  }
+
+  // ------------------------------------------------------------ indirizzo
+  // I filtri finiscono nella barra: una selezione si manda per mail com'è.
+  function scriviHash() {
+    var p = [];
+    ["t", "i", "l"].forEach(function (k) {
+      if (stato[k]) p.push({ t: "tema", i: "intervento", l: "libro" }[k] + "=" + encodeURIComponent(stato[k]));
+    });
+    if (stato.q) p.push("cerca=" + encodeURIComponent($cerca.value.trim()));
+    var nuovo = p.length ? "#" + p.join("&") : " ";
+    history.replaceState(null, "", location.pathname + location.search + (p.length ? nuovo : ""));
+  }
+
+  function leggiHash() {
+    var h = location.hash.replace(/^#/, "");
+    if (!h) return;
+    if (h === "percorso") { apriPercorso(); return; }
+    h.split("&").forEach(function (pezzo) {
+      var kv = pezzo.split("=");
+      var k = kv[0], v = decodeURIComponent(kv[1] || "");
+      if (k === "tema") stato.t = v;
+      if (k === "intervento") stato.i = v;
+      if (k === "libro") stato.l = v;
+      if (k === "cerca") { $cerca.value = v; stato.q = normalizza(v); }
+    });
+  }
+
+  // ------------------------------------------------------------ percorso
+  function apriPercorso() {
+    var p = DATI.percorso;
+    if (!p) return;
+    var corpo = document.getElementById("gs-dialogo-corpo");
+    if (!corpo.dataset.pronto) {
+      document.getElementById("gs-dialogo-titolo").textContent = p.d;
+      document.getElementById("gs-dialogo-sotto").textContent =
+        p.c + " Giorni " + p.g + ". Qui lavora il genitore, non il figlio.";
+
+      var apri = crea("a", "gs-mini primario", "Scarica la scheda del percorso (PDF) ↓");
+      apri.href = "schede/" + p.s + ".pdf";
+      apri.target = "_blank"; apri.rel = "noopener";
+      apri.style.marginBottom = "1.25rem";
+      apri.style.display = "inline-block";
+      corpo.appendChild(apri);
+
+      p.esercizi.forEach(function (e) {
+        var a = crea("a", "gs-esercizio");
+        a.href = "schede/" + e.s + ".pdf";
+        a.target = "_blank"; a.rel = "noopener";
+        a.appendChild(crea("span", "gs-es-giorni", "Giorni " + e.g));
+        var d = crea("div");
+        d.appendChild(crea("span", "gs-es-titolo", e.n + ". " + e.d));
+        if (e.c) d.appendChild(crea("span", "gs-es-cornice", e.c));
+        a.appendChild(d);
+        corpo.appendChild(a);
+      });
+      corpo.dataset.pronto = "1";
+    }
+    if (typeof $dialogo.showModal === "function") $dialogo.showModal();
+    else $dialogo.setAttribute("open", "");
+  }
+
+  function chiudiPercorso() {
+    if (typeof $dialogo.close === "function") $dialogo.close();
+    else $dialogo.removeAttribute("open");
+    if (location.hash === "#percorso") {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  }
+
+  // ------------------------------------------------------------ libri
+  function costruisciLibri() {
+    var box = document.getElementById("gs-libri");
+    DATI.libri.forEach(function (l) {
+      var card = crea("div", "gs-libro");
+
+      var cover = crea("div", "gs-coverbox");
+      cover.appendChild(crea("div", "gs-coverfallback", l.titolo));
+      if (l.asin) {
+        var img = document.createElement("img");
+        img.alt = "Copertina di " + l.titolo;
+        img.referrerPolicy = "no-referrer";
+        // Se Amazon cambia indirizzo, blocca l'hotlink o l'immagine non
+        // arriva, l'img sparisce e resta la copertina tipografica: la card
+        // non si rompe mai e non resta nessun rettangolo vuoto.
+        // ⚠️ i gestori vanno agganciati PRIMA di src, altrimenti un errore
+        // immediato scatta quando ancora non ascolta nessuno.
+        var caduta = function () { if (img.parentNode) img.remove(); };
+        img.addEventListener("error", caduta);
+        img.addEventListener("load", function () {
+          if (!img.naturalWidth) caduta();
+        });
+        img.src = "https://m.media-amazon.com/images/P/" + l.asin + ".01._SCLZZZZZZZ_.jpg";
+        setTimeout(function () {
+          if (!img.complete || !img.naturalWidth) caduta();
+        }, 6000);
+        cover.appendChild(img);
+      }
+      card.appendChild(cover);
+
+      var corpo = crea("div", "gs-libro-corpo");
+      corpo.appendChild(crea("h3", null, l.titolo));
+      corpo.appendChild(crea("p", null, l.sottotitolo));
+
+      var azioni = crea("div", "gs-libro-azioni");
+      var filtra = crea("button", "gs-mini", l.schede + " schede →");
+      filtra.type = "button";
+      filtra.addEventListener("click", function () {
+        stato.l = l.slug; stato.q = ""; $cerca.value = "";
+        aggiorna(true);
+        document.getElementById("indice").scrollIntoView({ behavior: "smooth" });
+      });
+      azioni.appendChild(filtra);
+
+      if (l.asin) {
+        var amazon = crea("a", "gs-mini primario", "Il libro su Amazon");
+        amazon.href = "https://www.amazon.it/gp/product/" + l.asin;
+        amazon.target = "_blank"; amazon.rel = "noopener";
+        azioni.appendChild(amazon);
+      }
+      corpo.appendChild(azioni);
+      card.appendChild(corpo);
+      box.appendChild(card);
+    });
+  }
+
+  // ------------------------------------------------------------ avvio
+  function avvia(d) {
+    DATI = d;
+    DATI.mappaTemi = {}; DATI.temi.forEach(function (t) { DATI.mappaTemi[t.s] = t.n; });
+    DATI.mappaInterventi = {}; DATI.interventi.forEach(function (i) { DATI.mappaInterventi[i.s] = i.n; });
+    DATI.mappaLibri = {}; DATI.libri.forEach(function (l) { DATI.mappaLibri[l.slug] = l.titolo; });
+
+    VOCI = DATI.schede.slice();
+    if (DATI.percorso) {
+      var p = Object.assign({}, DATI.percorso, { percorso: true });
+      VOCI.push(p);
+    }
+    VOCI.sort(function (a, b) { return a.d.localeCompare(b.d, "it"); });
+
+    var frammento = document.createDocumentFragment();
+    VOCI.forEach(function (v) {
+      v.cerca = normalizza([v.d, v.c, DATI.mappaTemi[v.t], DATI.mappaLibri[v.l],
+                            DATI.mappaInterventi[v.i]].join(" "));
+      v.el = cardScheda(v);
+      frammento.appendChild(v.el);
+    });
+    $griglia.appendChild(frammento);
+
+    costruisciFiltri();
+    costruisciLibri();
+
+    document.getElementById("gs-totale-lead").textContent = VOCI.length;
+    document.getElementById("gs-n-schede").textContent = VOCI.length;
+    document.getElementById("gs-n-temi").textContent = DATI.temi.filter(function (t) { return t.q; }).length;
+    document.getElementById("gs-n-libri").textContent =
+      DATI.libri.filter(function (l) { return l.asin; }).length;
+
+    leggiHash();
+    aggiorna(false);
+  }
+
+  // eventi
+  var attesa = null;
+  $cerca.addEventListener("input", function () {
+    clearTimeout(attesa);
+    attesa = setTimeout(function () { stato.q = normalizza($cerca.value); aggiorna(true); }, 120);
+  });
+  $azzera.addEventListener("click", function () {
+    stato = { q: "", t: "", i: "", l: "" };
+    $cerca.value = "";
+    aggiorna(true);
+    $cerca.focus();
+  });
+  document.getElementById("gs-dialogo-chiudi").addEventListener("click", chiudiPercorso);
+  $dialogo.addEventListener("click", function (ev) { if (ev.target === $dialogo) chiudiPercorso(); });
+  $dialogo.addEventListener("close", function () {
+    if (location.hash === "#percorso") {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  });
+
+  fetch("schede.json", { cache: "no-cache" })
+    .then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then(avvia)
+    .catch(function (err) {
+      $conteggio.innerHTML =
+        "Non riesco a caricare l'indice delle schede (" + err.message + "). " +
+        "Scrivimi a <a href=\"mailto:ivan@ivanferrero.it\">ivan@ivanferrero.it</a> e te le mando io.";
+    });
+})();
+</script>
+</body>
+</html>
