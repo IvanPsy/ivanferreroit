@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I numeri del femminicidio | Osservatorio · ivanferrero.it</title>
+<meta name="description" content="Tre conteggi diversi del femminicidio in Italia, tutti veri: Istat, art. 577-bis e osservatori di movimento a confronto. Serie storica del nucleo che non si muove, confronto internazionale e fonti dichiarate.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+:root{
+  --bg-primary:#0a0e14; --bg-secondary:#0f1419; --bg-tertiary:#151b23;
+  --bg-card:#1a222d; --bg-hover:#222c3a;
+  --text-primary:#e6edf3; --text-secondary:#8b949e; --text-muted:#6e7681;
+  --border-color:#30363d;
+  --accent-cyan:#00d9ff; --accent-green:#3fb950; --accent-yellow:#d29922;
+  --accent-orange:#db6d28; --accent-red:#f85149; --accent-purple:#a371f7;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg-primary); color:var(--text-primary);
+  font-family:'Outfit',system-ui,sans-serif; line-height:1.7; font-weight:300;
+  background-image:
+    linear-gradient(rgba(48,54,61,.15) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,54,61,.15) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.wrap{max-width:960px;margin:0 auto;padding:88px 20px 80px}
+@media(max-width:768px){.wrap{padding-top:80px}}
+h1,h2,h3{letter-spacing:-.02em;font-weight:600;line-height:1.25}
+h1{font-size:clamp(1.7rem,5vw,2.6rem);margin:0 0 12px}
+h2{font-size:clamp(1.25rem,3.5vw,1.7rem);margin:36px 0 10px}
+h3{font-size:1.05rem;margin:0 0 8px}
+.lede{color:var(--text-secondary);font-size:1.05rem;max-width:70ch}
+.mono{font-family:'JetBrains Mono',monospace}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-cyan);margin-bottom:10px}
+hr{border:0;border-top:1px solid var(--border-color);margin:32px 0}
+
+/* Tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 22px;
+  border-bottom:1px solid var(--border-color);padding-bottom:14px}
+.tab-btn{background:var(--bg-tertiary);color:var(--text-secondary);
+  border:1px solid var(--border-color);border-radius:6px;padding:9px 14px;
+  font-family:'Outfit',sans-serif;font-size:.9rem;cursor:pointer;transition:.2s ease}
+.tab-btn:hover{background:var(--bg-hover);color:var(--text-primary)}
+.tab-btn.active{background:linear-gradient(135deg,#00d9ff15 0%,#3fb95010 100%);
+  color:var(--accent-cyan);border-color:var(--accent-cyan);box-shadow:0 0 30px #00d9ff15}
+.tab-content{display:none}
+.tab-content.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Cards */
+.card{background:var(--bg-card);border:1px solid var(--border-color);
+  border-radius:8px;padding:18px 20px;margin-bottom:14px}
+.card-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.stat-value{font-family:'JetBrains Mono',monospace;font-size:2.6rem;font-weight:600;
+  color:var(--accent-cyan);line-height:1}
+.stat-label{color:var(--text-secondary);font-size:.9rem;margin-top:6px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.68rem;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;
+  border:1px solid;margin:0 6px 6px 0}
+.tag-cyan{color:var(--accent-cyan);border-color:#00d9ff55;background:#00d9ff12}
+.tag-green{color:var(--accent-green);border-color:#3fb95055;background:#3fb95012}
+.tag-yellow{color:var(--accent-yellow);border-color:#d2992255;background:#d2992212}
+.tag-purple{color:var(--accent-purple);border-color:#a371f755;background:#a371f712}
+
+/* Selettore definizione */
+.def-picker{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:22px}
+.def-btn{text-align:left;background:var(--bg-tertiary);border:1px solid var(--border-color);
+  border-radius:8px;padding:14px;cursor:pointer;transition:.2s ease;color:var(--text-primary);
+  font-family:'Outfit',sans-serif}
+.def-btn:hover{background:var(--bg-hover)}
+.def-btn.active{border-color:var(--accent-cyan);background:linear-gradient(135deg,#00d9ff15 0%,#3fb95010 100%);
+  box-shadow:0 0 30px #00d9ff15}
+.def-btn strong{display:block;font-weight:600;font-size:.98rem;margin-bottom:3px}
+.def-btn span{color:var(--text-muted);font-size:.82rem;line-height:1.4;display:block}
+.result{background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;
+  padding:24px;display:grid;gap:22px;grid-template-columns:minmax(150px,190px) 1fr}
+@media(max-width:640px){.result{grid-template-columns:1fr}}
+.big-num{font-family:'JetBrains Mono',monospace;font-size:4.2rem;font-weight:600;
+  line-height:.95;color:var(--accent-cyan)}
+.big-sub{color:var(--text-muted);font-size:.82rem;margin-top:8px;line-height:1.45}
+.row{margin-bottom:14px}
+.row b{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-muted);font-weight:500;font-family:'JetBrains Mono',monospace;margin-bottom:3px}
+.row p{margin:0;font-size:.95rem;color:var(--text-secondary)}
+.warn{border-left:3px solid var(--accent-yellow);background:#d2992210;padding:12px 16px;
+  border-radius:0 6px 6px 0;font-size:.92rem;color:var(--text-secondary)}
+.warn b{color:var(--accent-yellow)}
+
+/* Chart */
+.chart-box{background:var(--bg-card);border:1px solid var(--border-color);
+  border-radius:8px;padding:18px 14px}
+svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:.85rem;color:var(--text-secondary)}
+.legend i{display:inline-block;width:22px;height:3px;border-radius:2px;margin-right:7px;vertical-align:middle}
+
+/* Barre */
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:12px;
+  align-items:center;margin-bottom:9px;font-size:.9rem}
+.bar-track{background:var(--bg-tertiary);border-radius:4px;height:22px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#00d9ff 0%,#a371f7 100%)}
+.bar-fill.alt{background:linear-gradient(90deg,#db6d28 0%,#f85149 100%)}
+.bar-val{font-family:'JetBrains Mono',monospace;color:var(--text-primary);font-size:.85rem}
+.bar-label{color:var(--text-secondary)}
+footer{border-top:1px solid var(--border-color);margin-top:48px;padding-top:22px;
+  color:var(--text-muted);font-size:.85rem}
+a{color:var(--accent-cyan)}
+.backlink{display:inline-block;margin-top:8px;color:var(--accent-cyan);text-decoration:none;
+  font-size:.95rem;border-bottom:1px solid #00d9ff40;padding-bottom:2px}
+.backlink:hover{color:var(--text-primary);border-bottom-color:#e6edf3}
+.pair{background:var(--bg-card);border:1px solid var(--border-color);border-left:3px solid var(--accent-cyan);
+  border-radius:0 8px 8px 0;padding:16px 20px;margin:26px 0 0}
+.pair p{margin:0 0 8px}.pair p:last-child{margin:0}
+ul{padding-left:18px;color:var(--text-secondary)}
+li{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<div id="site-menu"></div>
+
+<div class="wrap">
+
+  <div class="kicker">Osservatorio · Strumento interattivo</div>
+  <h1>I numeri del femminicidio</h1>
+  <p class="lede">Tre conteggi diversi, tutti veri, pubblicati nello stesso mese. Questa non è una raccolta di statistiche: è uno strumento per capire <strong>perché</strong> i numeri non coincidono, e per usarli senza farsi ingannare (né ingannare gli altri).</p>
+
+  <div class="pair">
+    <p style="color:var(--text-secondary);font-size:.93rem">Questa dashboard accompagna lo Speciale dell'Osservatorio <a href="/osservatorio/speciale/femminicidio-numeri-legge-patriarcato/">Tre numeri, tutti veri</a>, ed è pensata per essere consultata e citata anche da sola.</p>
+    <p style="color:var(--text-secondary);font-size:.93rem">Se quello che ti serve non sono i numeri ma cosa fare, la guida pratica è qui: <a href="/osservatorio/speciale/quando-qualcuno-sa-sempre-dove-sei/">Lui sa sempre dove sei e cosa fai</a>.</p>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" data-tab="def">1 · Quale numero stai usando?</button>
+    <button class="tab-btn" role="tab" data-tab="serie">2 · Cosa non si muove</button>
+    <button class="tab-btn" role="tab" data-tab="mondo">3 · Il confronto internazionale</button>
+    <button class="tab-btn" role="tab" data-tab="fonti">📚 Fonti e metodo</button>
+  </div>
+
+  <!-- ============ TAB 1 ============ -->
+  <section class="tab-content active" id="tab-def">
+    <h2>Scegli la definizione, guarda il numero cambiare</h2>
+    <p class="lede">Le tre fonti non sbagliano: rispondono a tre domande diverse. Seleziona un criterio per vedere cosa entra nel conteggio, cosa resta fuori, e come quel numero viene usato male nel dibattito.</p>
+
+    <div class="def-picker" id="picker">
+      <button class="def-btn active" data-def="istat">
+        <strong>Statistico (Istat / UNODC)</strong>
+        <span>Standard internazionale, incrocia relazione, movente e ambito</span>
+      </button>
+      <button class="def-btn" data-def="giuridico">
+        <strong>Giudiziario (art. 577-bis)</strong>
+        <span>Reato autonomo introdotto dalla legge 181/2025</span>
+      </button>
+      <button class="def-btn" data-def="osservatorio">
+        <strong>Sociologico (osservatori)</strong>
+        <span>Censimento della cronaca in tempo reale</span>
+      </button>
+    </div>
+
+    <div class="result">
+      <div>
+        <div class="big-num" id="num">106</div>
+        <div class="big-sub" id="numsub">femminicidi presunti<br>anno 2024</div>
+      </div>
+      <div>
+        <div id="tags"></div>
+        <div class="row"><b>Come si costruisce</b><p id="metodo"></p></div>
+        <div class="row"><b>Cosa comprende</b><p id="dentro"></p></div>
+        <div class="row"><b>Cosa resta fuori</b><p id="fuori"></p></div>
+        <div class="row"><b>A cosa serve davvero</b><p id="uso"></p></div>
+        <div class="warn"><b>⚠ Uso scorretto ricorrente:</b> <span id="abuso"></span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>La regola in una riga</h3>
+      <p style="color:var(--text-secondary);margin:0">La malafede, quando c'è, sta in due mosse speculari: usare il <em>numero giudiziario</em> per negare il fenomeno sociale, oppure usare il <em>numero sociale</em> per rivendicare l'efficacia di una norma penale.</p>
+    </div>
+  </section>
+
+  <!-- ============ TAB 2 ============ -->
+  <section class="tab-content" id="tab-serie">
+    <h2>Il totale scende. Il nucleo no.</h2>
+    <p class="lede">È il grafico che nessuna delle due tifoserie ama mostrare per intero. Le donne uccise da partner o ex sono ferme, mentre il totale cala.</p>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 700 320" role="img" aria-label="Serie storica delle donne uccise in Italia dal 2019 al 2025">
+        <g stroke="#30363d" stroke-width="1">
+          <line x1="45" y1="280" x2="700" y2="280"/>
+          <line x1="45" y1="230" x2="700" y2="230" stroke-dasharray="3 5" opacity=".5"/>
+          <line x1="45" y1="180" x2="700" y2="180" stroke-dasharray="3 5" opacity=".5"/>
+          <line x1="45" y1="130" x2="700" y2="130" stroke-dasharray="3 5" opacity=".5"/>
+          <line x1="45" y1="80"  x2="700" y2="80"  stroke-dasharray="3 5" opacity=".5"/>
+          <line x1="45" y1="30"  x2="700" y2="30"  stroke-dasharray="3 5" opacity=".5"/>
+        </g>
+        <g fill="#6e7681" font-size="11" font-family="JetBrains Mono, monospace" text-anchor="end">
+          <text x="38" y="284">0</text><text x="38" y="234">25</text><text x="38" y="184">50</text>
+          <text x="38" y="134">75</text><text x="38" y="84">100</text><text x="38" y="34">125</text>
+        </g>
+        <g fill="#6e7681" font-size="11" font-family="JetBrains Mono, monospace" text-anchor="middle">
+          <text x="45" y="300">2019</text><text x="152" y="300">2020</text><text x="258" y="300">2021</text>
+          <text x="365" y="300">2022</text><text x="472" y="300">2023</text><text x="578" y="300">2024</text>
+          <text x="680" y="300">2025</text>
+        </g>
+
+        <!-- Totale donne uccise -->
+        <polyline fill="none" stroke="#00d9ff" stroke-width="2.5"
+          points="45,58 152,48 258,42 365,28 472,46 578,48 685,86"/>
+        <g fill="#00d9ff">
+          <circle cx="45" cy="58" r="4"/><circle cx="152" cy="48" r="4"/><circle cx="258" cy="42" r="4"/>
+          <circle cx="365" cy="28" r="4"/><circle cx="472" cy="46" r="4"/><circle cx="578" cy="48" r="4"/>
+          <circle cx="685" cy="86" r="4"/>
+        </g>
+
+        <!-- Femminicidi presunti Istat -->
+        <polyline fill="none" stroke="#a371f7" stroke-width="2.5" stroke-dasharray="6 4"
+          points="45,78 152,68 258,72 365,70 472,88 578,68"/>
+        <g fill="#a371f7">
+          <circle cx="45" cy="78" r="3.5"/><circle cx="152" cy="68" r="3.5"/><circle cx="258" cy="72" r="3.5"/>
+          <circle cx="365" cy="70" r="3.5"/><circle cx="472" cy="88" r="3.5"/><circle cx="578" cy="68" r="3.5"/>
+        </g>
+
+        <!-- Uccise da partner o ex -->
+        <polyline fill="none" stroke="#f85149" stroke-width="3"
+          points="472,154 578,156 685,156"/>
+        <g fill="#f85149">
+          <circle cx="472" cy="154" r="4.5"/><circle cx="578" cy="156" r="4.5"/><circle cx="685" cy="156" r="4.5"/>
+        </g>
+        <g fill="#f85149" font-size="12" font-family="JetBrains Mono, monospace" text-anchor="middle" font-weight="600">
+          <text x="472" y="145">63</text><text x="578" y="147">62</text><text x="685" y="147">62</text>
+        </g>
+      </svg>
+
+      <div class="legend">
+        <span><i style="background:#00d9ff"></i>Donne uccise (totale)</span>
+        <span><i style="background:#a371f7"></i>Femminicidi presunti (Istat)</span>
+        <span><i style="background:#f85149"></i>Uccise da partner o ex</span>
+      </div>
+    </div>
+
+    <div class="card-grid" style="margin-top:18px">
+      <div class="card"><div class="stat-value">-18%</div><div class="stat-label">Donne uccise nel 2025 rispetto al 2024 (da 118 circa a 97)</div></div>
+      <div class="card"><div class="stat-value">0%</div><div class="stat-label">Variazione delle uccise da partner o ex tra 2024 e 2025 (62 e 62)</div></div>
+      <div class="card"><div class="stat-value">87,6%</div><div class="stat-label">Quota di donne uccise in ambito familiare o affettivo nel 2025</div></div>
+    </div>
+
+    <div class="warn" style="margin-top:18px">
+      <b>⚠ Nota sui dati:</b> la riga rossa è disponibile solo dal 2023, perché il dettaglio per relazione con l'autore non è ricostruibile in modo omogeneo per gli anni precedenti con la stessa fonte. I valori 2023 e 2024 sono stime Istat (63 e 62); il valore 2025 proviene dal report del Ministero dell'Interno (62), quindi da una banca dati diversa. Alcune elaborazioni giornalistiche riportano 64 per il 2023. Le fonti non coincidono nemmeno sul totale: per il 2024 l'Istat conta 116 donne uccise, altre elaborazioni su banche dati delle forze dell'ordine ne riportano 118 o 119. Chiunque brandisca uno scarto di due o tre unità come prova di qualcosa sta facendo rumore, non analisi.
+    </div>
+
+    <h2>Il primo semestre 2026, e perché non dimostra ciò che gli si fa dire</h2>
+    <div class="card-grid">
+      <div class="card"><div class="stat-value" style="color:var(--accent-green)">-37%</div><div class="stat-label">Donne uccise nel primo semestre 2026: 34 contro 54</div></div>
+      <div class="card"><div class="stat-value" style="color:var(--accent-yellow)">-15,3%</div><div class="stat-label">Omicidi volontari <em>totali</em> nello stesso semestre</div></div>
+      <div class="card"><div class="stat-value" style="color:var(--accent-yellow)">-7,1%</div><div class="stat-label">Violenze sessuali nello stesso semestre</div></div>
+    </div>
+    <div class="card">
+      <h3>Cinque ragioni per non attribuirlo alla legge</h3>
+      <ul>
+        <li><strong>Il tempo non torna.</strong> La legge è in vigore dal 17 dicembre 2025, ma il calo era iniziato prima: già il primo trimestre 2025 segnava meno 35%.</li>
+        <li><strong>Non è specifico.</strong> Nello stesso semestre calano omicidi totali, furti, rapine, violenze sessuali e truffe informatiche. Cala anche il numero di uomini uccisi.</li>
+        <li><strong>I numeri sono piccoli.</strong> Il 37% corrisponde a 20 unità semestrali: con eventi rari la varianza casuale è enorme.</li>
+        <li><strong>La serie è discontinua.</strong> 54 casi contati con una griglia, 34 con un'altra.</li>
+        <li><strong>Il meccanismo è implausibile.</strong> Circa un terzo dei femminicidi nella coppia è seguito dal suicidio dell'autore: su quella quota l'ergastolo non è un deterrente.</li>
+      </ul>
+      <div class="warn"><b>⚠ Ma attenzione all'obiezione opposta:</b> «sono solo etichette» è altrettanto sbagliato. Il confronto 54 contro 34 è tra due totali omogenei di donne uccise. Il calo del semestre è reale, non è un artificio contabile. Ciò che non è confrontabile con nulla è il sotto-conteggio giudiziario (3, poi 8), perché prima non esisteva.</div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 3 ============ -->
+  <section class="tab-content" id="tab-mondo">
+    <h2>Due scale, due storie opposte</h2>
+    <p class="lede">Il confronto internazionale è il punto in cui entrambi gli schieramenti trovano una conferma, perché il segno della correlazione cambia a seconda della scala che guardi. Vanno lette insieme.</p>
+
+    <div class="card">
+      <span class="tag tag-cyan">Scala globale</span>
+      <h3>Femminicidi da partner o familiari, per 100.000 donne</h3>
+      <p style="color:var(--text-secondary);font-size:.92rem">Fonte: UNODC e UN Women, 2025.</p>
+      <div class="bar-row"><span class="bar-label">Africa</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">3,0</span></div>
+      <div class="bar-row"><span class="bar-label">Americhe</span><span class="bar-track"><span class="bar-fill" style="width:50%"></span></span><span class="bar-val">1,5</span></div>
+      <div class="bar-row"><span class="bar-label">Oceania</span><span class="bar-track"><span class="bar-fill" style="width:47%"></span></span><span class="bar-val">1,4</span></div>
+      <div class="bar-row"><span class="bar-label">Asia</span><span class="bar-track"><span class="bar-fill" style="width:23%"></span></span><span class="bar-val">0,7</span></div>
+      <div class="bar-row"><span class="bar-label">Europa</span><span class="bar-track"><span class="bar-fill" style="width:17%"></span></span><span class="bar-val">0,5</span></div>
+      <p style="color:var(--text-secondary);font-size:.93rem;margin-top:14px">Stesso gradiente sulla violenza non letale (OMS): Oceania 37%, Africa subsahariana 32%, Asia meridionale 31% di prevalenza di violenza da partner. È la mappa delle società con gli assetti di genere più rigidamente gerarchici. <strong>A questa scala la tesi del «patriarcato protettivo» non regge, e non regge di un ordine di grandezza.</strong></p>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-yellow">Scala intra-europea</span>
+      <h3>Il paradosso nordico</h3>
+      <p style="color:var(--text-secondary);font-size:.92rem">Prevalenza lifetime di violenza fisica o sessuale da partner. Fonte: indagine FRA sui 28 Stati membri, 2014.</p>
+      <div class="bar-row"><span class="bar-label">Danimarca</span><span class="bar-track"><span class="bar-fill alt" style="width:100%"></span></span><span class="bar-val">32%</span></div>
+      <div class="bar-row"><span class="bar-label">Finlandia</span><span class="bar-track"><span class="bar-fill alt" style="width:94%"></span></span><span class="bar-val">30%</span></div>
+      <div class="bar-row"><span class="bar-label">Svezia</span><span class="bar-track"><span class="bar-fill alt" style="width:87%"></span></span><span class="bar-val">28%</span></div>
+      <div class="bar-row"><span class="bar-label">Media UE</span><span class="bar-track"><span class="bar-fill alt" style="width:69%"></span></span><span class="bar-val">22%</span></div>
+      <p style="color:var(--text-secondary);font-size:.93rem;margin-top:14px">Italia e Spagna si collocano nella fascia bassa. Uno studio psicometrico che ha confrontato Svezia e Spagna ha concluso che la differenza è reale e non un artefatto di rilevazione. <strong>A questa scala lo slogan «dove il patriarcato è ridotto ci sono meno reati» non è supportato.</strong></p>
+    </div>
+
+    <div class="card">
+      <h3>Perché l'appiglio si sfalda quando guardi il meccanismo</h3>
+      <ul>
+        <li><strong>Denominatore.</strong> Dove le unioni si formano e si sciolgono più spesso ci sono più separazioni, che sono la finestra di rischio più alta. Misura quante donne riescono ad andarsene, non quanti uomini sono violenti.</li>
+        <li><strong>Forma della violenza.</strong> Nei Paesi più egualitari le donne riportano <em>meno</em> controllo coercitivo. Aggregare tutto in una percentuale cancella la dimensione che il concetto di patriarcato serve a descrivere.</li>
+        <li><strong>Backlash.</strong> La transizione verso la parità può essere il periodo di rischio, non la parità in sé: la curva potrebbe essere a U.</li>
+        <li><strong>Il caso italiano.</strong> Tasso di omicidi tra i più bassi d'Europa (0,57 per 100.000 nel 2023), ma per la violenza generale complessivamente bassa, non per gli assetti di genere. La componente di genere è precisamente quella che non scende.</li>
+      </ul>
+    </div>
+
+    <div class="warn">
+      <b>⚠ Il salto logico che nessun dato copre:</b> dal fatto che la parità non riduca automaticamente la violenza non discende che la disuguaglianza la riduca. Non esiste un caso documentato di società che abbia ridotto la violenza contro le donne aumentando l'autorità maschile.
+    </div>
+
+    <div class="card">
+      <span class="tag tag-purple">Il dato che cambia la domanda</span>
+      <h3>Dove sta la minaccia</h3>
+      <div class="card-grid" style="margin-top:10px">
+        <div><div class="stat-value">60%</div><div class="stat-label">Donne uccise nel mondo per mano di partner o familiari</div></div>
+        <div><div class="stat-value" style="color:var(--accent-green)">11%</div><div class="stat-label">Uomini uccisi nel mondo per mano di partner o familiari</div></div>
+        <div><div class="stat-value" style="color:var(--accent-orange)">87,6%</div><div class="stat-label">Donne uccise in Italia in ambito familiare o affettivo (2025)</div></div>
+      </div>
+      <p style="color:var(--text-secondary);font-size:.93rem;margin-top:14px">Qualunque modello che assegni la protezione della donna alla figura maschile domestica affida il ruolo di guardiano alla categoria che nei dati è l'attore di minaccia dominante. Non è una battuta polemica: è un errore di <em>threat model</em>.</p>
+    </div>
+  </section>
+
+  <!-- ============ TAB 4 ============ -->
+  <section class="tab-content" id="tab-fonti">
+    <h2>Fonti e metodo</h2>
+    <p class="lede">Ogni cifra presente in questa dashboard è riconducibile a una delle fonti elencate qui sotto. Dove le fonti divergono, la divergenza è segnalata invece che appianata. Questa dashboard non produce stime proprie.</p>
+
+    <div class="card">
+      <span class="tag tag-cyan">Fonti primarie italiane</span>
+      <h3>Dati ufficiali</h3>
+      <ul>
+        <li>Istat, <em>Le vittime di omicidio. Anno 2024</em>, comunicato stampa del 25 novembre 2025 (327 omicidi, 116 donne, 106 femminicidi presunti, tasso 0,55 per 100mila). <a href="https://www.istat.it/wp-content/uploads/2025/11/Report_Le-vittime-di-omicidio_Anno-2024.pdf" target="_blank" rel="noopener">PDF</a></li>
+        <li>Istat, <em>Le vittime di omicidio. Anno 2023</em>, comunicato stampa del 20 novembre 2024 (334 omicidi, 117 donne, 96 femminicidi presunti, serie 2019-2022, 63 donne uccise nella coppia). <a href="https://www.istat.it/wp-content/uploads/2024/11/Report_Vittime-di-omicidio_Anno-2023.pdf" target="_blank" rel="noopener">PDF</a></li>
+        <li>Istat, indagine sulla violenza contro le donne, primi risultati anno 2025, comunicato del 21 novembre 2025 (31,9% delle donne 16-75 anni ha subito violenza fisica o sessuale nella vita).</li>
+        <li>Istat, archivio tematico: <a href="https://www.istat.it/tag/femminicidio/" target="_blank" rel="noopener">istat.it/tag/femminicidio</a> e <a href="https://www.istat.it/tag/omicidi-di-donne/" target="_blank" rel="noopener">istat.it/tag/omicidi-di-donne</a></li>
+        <li>Istat, <em>Rapporto SDGs</em> (divergenza fra il crollo degli omicidi maschili e la sostanziale stabilità degli omicidi di donne in ambito familiare).</li>
+        <li>Ministero dell'Interno, Direzione centrale della polizia criminale, report periodici sulla delittuosità (dati 2025 e primo semestre 2026, ammonimenti del questore). <a href="https://www.interno.gov.it/" target="_blank" rel="noopener">interno.gov.it</a></li>
+        <li>Commissione parlamentare di inchiesta sul femminicidio, relazione sui dati 2017-2018 (211 femminicidi; 15% aveva denunciato, 35% aveva confidato a qualcuno; 78% vittime italiane).</li>
+        <li>Legge 181/2025, che introduce l'art. 577-bis c.p., in vigore dal 17 dicembre 2025. Testo su <a href="https://www.normattiva.it/" target="_blank" rel="noopener">Normattiva</a> e dossier dei Servizi studi di Camera e Senato.</li>
+        <li>Eures, ricerca sull'omicidio volontario in Italia (serie 2000-2019: 3.230 donne uccise, 2.355 in ambito familiare, 1.564 da partner o ex).</li>
+        <li>Ministero della Salute, rilevazione degli accessi in pronto soccorso con indicazione di violenza (19.518 accessi di donne nel 2024).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-purple">Fonti internazionali</span>
+      <h3>Organismi sovranazionali</h3>
+      <ul>
+        <li>UNODC e UN Women, <em>Femicides in 2024: Global estimates of intimate partner/family member femicides</em>, 25 novembre 2025 (circa 83.000 donne uccise, 60% da partner o familiari, tassi regionali per 100mila donne). <a href="https://www.unodc.org/" target="_blank" rel="noopener">unodc.org</a></li>
+        <li>UNODC e UN Women, <em>Femicides in 2023</em>, novembre 2024 (in Europa il 64% delle donne uccise in ambito domestico lo è per mano del partner).</li>
+        <li>UNODC, UN Women, CEGS e Centro di eccellenza UNODC-INEGI, <em>Statistical framework for measuring the gender-related killings of women and girls</em>, approvato dalla Commissione statistica ONU nel 2022. È lo standard cui l'Italia ha aderito. <a href="https://unstats.un.org/" target="_blank" rel="noopener">unstats.un.org</a></li>
+        <li>Organizzazione Mondiale della Sanità, stime globali e regionali di prevalenza della violenza contro le donne. <a href="https://www.who.int/" target="_blank" rel="noopener">who.int</a></li>
+        <li>FRA (Agenzia dell'Unione europea per i diritti fondamentali), <em>Violence against women: an EU-wide survey</em>, 2014. È la fonte dei dati sul paradosso nordico. <a href="https://fra.europa.eu/" target="_blank" rel="noopener">fra.europa.eu</a></li>
+        <li>Eurostat ed EIGE, indicatori su omicidi di donne da partner o familiari e Gender Equality Index. <a href="https://eige.europa.eu/" target="_blank" rel="noopener">eige.europa.eu</a></li>
+        <li>GREVIO (Consiglio d'Europa), rapporti di valutazione sull'attuazione della Convenzione di Istanbul in Italia. <a href="https://www.coe.int/en/web/istanbul-convention/grevio" target="_blank" rel="noopener">coe.int/grevio</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-green">Letteratura scientifica</span>
+      <h3>Fattori di rischio e letalità</h3>
+      <ul>
+        <li>Campbell J.C. et al. (2003), <em>Risk factors for femicide in abusive relationships: results from a multisite case control study</em>, American Journal of Public Health, 93(7), 1089-1097.</li>
+        <li>McFarlane J., Campbell J.C. et al. (1999), <em>Stalking and intimate partner femicide</em>, Homicide Studies, 3(4), 300-316.</li>
+        <li>Glass N. et al. (2008), sullo strangolamento non fatale come fattore di rischio di successivo omicidio, The Journal of Emergency Medicine.</li>
+        <li>Glass N. et al., trial randomizzati sul decision aid per la sicurezza (<em>IRIS</em> e <em>myPlan</em>), American Journal of Preventive Medicine e riviste collegate.</li>
+      </ul>
+      <h3 style="margin-top:16px">Parità di genere e violenza</h3>
+      <ul>
+        <li>Gracia E., Merlo J. (2016), <em>Intimate partner violence against women and the Nordic paradox</em>, Social Science &amp; Medicine, 157, 27-30.</li>
+        <li>Gracia E. et al., studio psicometrico comparativo Svezia-Spagna sull'ipotesi che il paradosso nordico sia un artefatto di rilevazione.</li>
+        <li>Sanz-Barbero B. et al., analisi europea sul ruolo della formazione e dissoluzione delle unioni nella prevalenza di violenza da partner.</li>
+        <li>Glick P., Fiske S.T. (1996), <em>The Ambivalent Sexism Inventory</em>, Journal of Personality and Social Psychology, 70(3), 491-512.</li>
+        <li>Glick P., Fiske S.T. et al. (2000), <em>Beyond prejudice as simple antipathy: hostile and benevolent sexism across cultures</em>, Journal of Personality and Social Psychology, 79(5), 763-775.</li>
+        <li>Studio cross-nazionale su 62 Paesi sulla correlazione fra sessismo ambivalente, accettazione della violenza da partner ed esiti nazionali.</li>
+      </ul>
+      <h3 style="margin-top:16px">Controllo coercitivo tecnologico</h3>
+      <ul>
+        <li>Dragiewicz M., Burgess J., Matamoros-Fernández A., Salter M., Suzor N., Woodlock D., Harris B. (2018), <em>Technology facilitated coercive control</em>, Feminist Media Studies, 18(4), 609-625.</li>
+        <li>Havron S., Freed D., Chatterjee R., McCoy D., Dell N., Ristenpart T. (2019), <em>Clinical Computer Security for Victims of Intimate Partner Violence</em>, USENIX Security Symposium.</li>
+        <li>Freed D. et al. (2018), <em>A Stalker's Paradise: how intimate partner abusers exploit technology</em>, CHI Conference on Human Factors in Computing Systems.</li>
+        <li>Zou Y. et al. (2021), sul ruolo dell'assistenza clienti delle piattaforme nei casi di abuso tecnologico, USENIX Security Symposium.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-yellow">Osservatori e fonti di movimento</span>
+      <h3>Conteggi in tempo reale</h3>
+      <ul>
+        <li>Osservatorio di Non Una Di Meno sui femminicidi e le morti violente di genere. <a href="https://nonunadimeno.wordpress.com/" target="_blank" rel="noopener">nonunadimeno.wordpress.com</a></li>
+        <li>D.i.Re, Donne in Rete contro la violenza, dati dei centri antiviolenza aderenti. <a href="https://www.direcontrolaviolenza.it/" target="_blank" rel="noopener">direcontrolaviolenza.it</a></li>
+      </ul>
+      <div class="warn"><b>⚠ Avvertenza:</b> questi conteggi usano criteri più larghi rispetto allo standard UNODC e sono aggiornati in tempo reale sulla base della cronaca. Vanno citati dichiarando ogni volta il criterio adottato, non come dati ufficiali.</div>
+    </div>
+
+    <div class="card">
+      <span class="tag tag-cyan">Sitografia operativa</span>
+      <h3>Dove chiedere aiuto</h3>
+      <ul>
+        <li><strong class="mono">1522</strong>, numero nazionale antiviolenza e stalking: gratuito, anonimo, attivo 24 ore su 24, con chat. <a href="https://www.1522.eu/" target="_blank" rel="noopener">1522.eu</a> e mappa dei centri su <a href="https://www.1522.eu/mappatura/" target="_blank" rel="noopener">1522.eu/mappatura</a></li>
+        <li>Garante per la protezione dei dati personali, procedura di segnalazione preventiva contro la diffusione non consensuale di immagini intime. <a href="https://www.garanteprivacy.it/" target="_blank" rel="noopener">garanteprivacy.it</a></li>
+        <li><a href="https://stopncii.org/" target="_blank" rel="noopener">StopNCII.org</a>, blocco preventivo della diffusione di immagini intime sulle principali piattaforme.</li>
+        <li>Polizia Postale e per la sicurezza cibernetica. <a href="https://www.commissariatodips.it/" target="_blank" rel="noopener">commissariatodips.it</a></li>
+        <li>Coalition Against Stalkerware. <a href="https://stopstalkerware.org/" target="_blank" rel="noopener">stopstalkerware.org</a></li>
+        <li>Safety Net Project (NNEDV), risorse su sicurezza tecnologica e violenza domestica. <a href="https://www.techsafety.org/" target="_blank" rel="noopener">techsafety.org</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Nota di trasparenza</h3>
+      <p style="color:var(--text-secondary);margin:0 0 10px">Alcuni dati citati (in particolare i report semestrali del Ministero dell'Interno e la relazione della Commissione parlamentare) sono stati consultati anche attraverso rassegne e articoli che li riportano. Dove la fonte primaria non è direttamente linkabile, il riferimento è indicato per titolo e organismo emittente, così che possa essere verificato.</p>
+      <p style="color:var(--text-secondary);margin:0">Le date di pubblicazione dei report ufficiali cadono quasi sempre attorno al 25 novembre. I dati qui riportati sono aggiornati alle edizioni disponibili al momento della pubblicazione di questa pagina.</p>
+    </div>
+  </section>
+
+  <hr>
+  <footer>
+    <p><strong>Nota metodologica.</strong> Tutti i dati provengono da fonti pubbliche primarie: Istat (omicidi e femminicidi, stime su standard UNODC dal 2019), report semestrali e trimestrali del Ministero dell'Interno, rapporto UNODC e UN Women 2025, stime OMS, indagine FRA 2014, letteratura peer reviewed sul paradosso nordico. Dove le fonti divergono, la divergenza è segnalata invece che appianata. Questa dashboard non produce stime proprie.</p>
+    <p><strong>Approfondimento discorsivo:</strong> <a href="/osservatorio/speciale/femminicidio-numeri-legge-patriarcato/">Tre numeri, tutti veri. Perché sul femminicidio non riusciamo a parlare della stessa cosa</a>.</p>
+    <p><strong>Guida pratica:</strong> <a href="/osservatorio/speciale/quando-qualcuno-sa-sempre-dove-sei/">Lui sa sempre dove sei e cosa fai. Cosa puoi fare tu, e soprattutto in che ordine.</a></p>
+    <p>Se stai vivendo una situazione di controllo o violenza, il numero <strong class="mono">1522</strong> è gratuito, anonimo e attivo 24 ore su 24.</p>
+    <p><a class="backlink" href="/osservatorio/">Torna all'Osservatorio &rarr;</a></p>
+  </footer>
+</div>
+
+<script src="/assets/menu.js"></script>
+<script>
+(function(){
+  var DATA = {
+    istat:{
+      num:"106", sub:"femminicidi presunti<br>anno 2024 (su 116 donne uccise)",
+      tags:'<span class="tag tag-green">Più solido metodologicamente</span><span class="tag tag-cyan">Standard ONU</span>',
+      metodo:"Istat incrocia relazione tra vittima e autore, movente e ambito dell'omicidio a partire dal database del Ministero dell'Interno, seguendo lo Statistical Framework UNODC. Non richiede la prova di un movente ideologico, che non è osservabile, ma usa indicatori di contesto.",
+      dentro:"62 donne uccise nell'ambito della coppia, 37 per mano di un altro parente, 7 casi classificati per l'accanimento sul corpo.",
+      fuori:"Gli omicidi di donne senza indicatori di contesto riconducibili al genere (10 casi sui 116 del 2024).",
+      uso:"Misurare il fenomeno nel tempo e confrontarlo con altri Paesi. È il numero da usare quando si parla di andamento.",
+      abuso:"Viene citato come se fosse un dato giudiziario, cioè come se 106 persone fossero state condannate per femminicidio. Sono stime statistiche, non sentenze."
+    },
+    giuridico:{
+      num:"8", sub:"procedimenti per femminicidio<br>primo semestre 2026 (su 34 donne uccise)",
+      tags:'<span class="tag tag-yellow">Il più recente</span><span class="tag tag-cyan">Non confrontabile con il passato</span>',
+      metodo:"Contestazione dell'art. 577-bis c.p., introdotto dalla legge 181/2025 ed entrato in vigore il 17 dicembre 2025. Richiede che l'uccisione sia commessa come atto di odio, discriminazione, prevaricazione, controllo, possesso o dominio in quanto donna, o in relazione al rifiuto di un rapporto affettivo.",
+      dentro:"Solo i casi in cui la pubblica accusa ha ritenuto di poter sostenere quell'elemento soggettivo.",
+      fuori:"Tutto ciò che non supera la soglia probatoria. Nel primo trimestre 2026 i procedimenti erano 3 su 15 omicidi di donne.",
+      uso:"Misurare quanta parte del fenomeno il diritto penale riesce ad afferrare. Ha prodotto la prima statistica giudiziaria dedicata mai esistita in Italia.",
+      abuso:"Viene usato per sostenere che il fenomeno è marginale («solo 8 veri femminicidi»). Sono contestazioni provvisorie, non sentenze: quante reggeranno in dibattimento non lo sa nessuno, e non lo sapremo per anni."
+    },
+    osservatorio:{
+      num:"40", sub:"femminicidi su 49 casi censiti<br>al 20 agosto 2026",
+      tags:'<span class="tag tag-purple">Tempo reale</span><span class="tag tag-yellow">Criteri più larghi</span>',
+      metodo:"Censimento della cronaca giornalistica in tempo reale da parte di osservatori di movimento (qui: Non Una Di Meno). Include categorie che le altre fonti non contemplano, come i suicidi indotti.",
+      dentro:"Nel 2026: 40 femminicidi, 2 suicidi indotti, l'omicidio di un ragazzo, il suicidio di una ragazza trans, 5 casi in accertamento.",
+      fuori:"Nulla per definizione a priori: è il conteggio più inclusivo, e per questo il più contestato.",
+      uso:"Rendere visibile il fenomeno in tempo reale, mesi prima che le statistiche ufficiali si consolidino. È un conteggio costruito per la visibilità, non per il tribunale.",
+      abuso:"Viene citato come dato ufficiale, e viceversa liquidato in blocco come propaganda. È né l'uno né l'altro: è una fonte tempestiva con criteri più larghi, che vanno dichiarati ogni volta che la si usa."
+    }
+  };
+
+  function setDef(k){
+    var d = DATA[k];
+    document.getElementById('num').innerHTML = d.num;
+    document.getElementById('numsub').innerHTML = d.sub;
+    document.getElementById('tags').innerHTML = d.tags;
+    document.getElementById('metodo').textContent = d.metodo;
+    document.getElementById('dentro').textContent = d.dentro;
+    document.getElementById('fuori').textContent = d.fuori;
+    document.getElementById('uso').textContent = d.uso;
+    document.getElementById('abuso').textContent = d.abuso;
+  }
+
+  document.querySelectorAll('.def-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.def-btn').forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active');
+      setDef(b.dataset.def);
+    });
+  });
+  setDef('istat');
+
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active')});
+      document.querySelectorAll('.tab-content').forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active');
+      document.getElementById('tab-' + b.dataset.tab).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+})();
+</script>
+</body>
+</html>
