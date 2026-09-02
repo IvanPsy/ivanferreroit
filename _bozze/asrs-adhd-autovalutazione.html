@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASRS v1.1 — Autovalutazione ADHD adulti | Ivan Ferrero</title>
+<meta name="description" content="Il questionario ASRS v1.1 dell'Organizzazione Mondiale della Sanità per l'autovalutazione dei sintomi ADHD negli adulti: 18 domande, punteggio immediato, nessun dato inviato o salvato. Strumento di screening, non diagnostico.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg-primary:#0a0e14; --bg-secondary:#0f1419; --bg-tertiary:#151b23;
+  --bg-card:#1a222d; --bg-hover:#222c3a;
+  --text-primary:#e6edf3; --text-secondary:#8b949e; --text-muted:#6e7681;
+  --border-color:#30363d;
+  --accent-cyan:#00d9ff; --accent-green:#3fb950; --accent-yellow:#d29922;
+  --accent-orange:#db6d28; --accent-red:#f85149; --accent-purple:#a371f7;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg-primary); color:var(--text-primary);
+  font-family:'Outfit',system-ui,sans-serif; line-height:1.7; font-weight:300;
+  background-image:
+    linear-gradient(rgba(48,54,61,.15) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,54,61,.15) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.wrap{max-width:900px;margin:0 auto;padding:88px 20px 80px}
+@media(max-width:768px){.wrap{padding-top:80px}}
+
+h1,h2,h3{letter-spacing:-.02em;font-weight:600;line-height:1.25}
+h1{font-size:clamp(1.7rem,5vw,2.5rem);margin:0 0 14px}
+h2{font-size:clamp(1.2rem,3.5vw,1.6rem);margin:0}
+h3{font-size:1rem;margin:0 0 8px}
+p{margin:0 0 14px}
+.lede{color:var(--text-secondary);font-size:1.05rem;max-width:70ch}
+.mono{font-family:'JetBrains Mono',monospace}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-cyan);margin-bottom:10px}
+a{color:var(--accent-cyan)}
+hr{border:0;border-top:1px solid var(--border-color);margin:34px 0}
+
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 26px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent-cyan);background:rgba(0,217,255,.07);border:1px solid rgba(0,217,255,.25);
+  border-radius:3px;padding:4px 9px}
+
+.box{border:1px solid var(--border-color);border-radius:10px;background:var(--bg-card);
+  padding:18px 20px;margin:0 0 18px}
+.box h3{color:var(--text-primary)}
+.box p:last-child{margin-bottom:0}
+.box.warn{border-left:3px solid var(--accent-yellow)}
+.box.info{border-left:3px solid var(--accent-cyan)}
+.box.quiet{background:var(--bg-secondary)}
+.small{font-size:.88rem;color:var(--text-secondary)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 26px}
+.step{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;padding:13px 15px}
+.step b{display:block;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em;
+  color:var(--accent-cyan);margin-bottom:5px}
+.step span{font-size:.88rem;color:var(--text-secondary)}
+@media(max-width:640px){.steps{grid-template-columns:1fr}}
+
+.ident{display:grid;grid-template-columns:1fr 180px;gap:18px;margin:26px 0 8px}
+.ident label{display:block;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.ident input{width:100%;background:var(--bg-secondary);border:1px solid var(--border-color);
+  border-radius:6px;padding:9px 11px;font:inherit;font-size:.95rem;color:var(--text-primary)}
+.ident input:focus{outline:0;border-color:var(--accent-cyan)}
+@media(max-width:640px){.ident{grid-template-columns:1fr}}
+
+.partbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  margin:38px 0 6px;padding-bottom:9px;border-bottom:1px solid var(--border-color)}
+.partbar .tag{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  color:#0a0e14;background:var(--accent-cyan);padding:3px 8px;border-radius:3px;font-weight:600}
+.partbar .n{margin-left:auto;font-size:.8rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.parthint{font-size:.9rem;color:var(--text-secondary);margin:10px 0 18px}
+
+.item{padding:16px 0;border-bottom:1px solid rgba(48,54,61,.55)}
+.q{font-size:1rem;margin-bottom:11px;color:var(--text-primary)}
+.q .num{font-family:'JetBrains Mono',monospace;color:var(--accent-cyan);font-weight:600;margin-right:7px}
+.opts{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.opts label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  cursor:pointer;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:7px;
+  padding:9px 2px 7px;text-align:center;transition:background .12s,border-color .12s,color .12s;
+  -webkit-tap-highlight-color:transparent}
+.opts label:hover{background:var(--bg-hover)}
+.opts .v{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--text-secondary);line-height:1}
+.opts .w{font-size:.68rem;color:var(--text-muted);line-height:1.2}
+.opts input{position:absolute;opacity:0;width:0;height:0}
+.opts label.on{background:rgba(0,217,255,.12);border-color:var(--accent-cyan)}
+.opts label.on .v{color:var(--accent-cyan)}
+.opts label.on .w{color:var(--accent-cyan)}
+.opts label:focus-within{border-color:var(--accent-cyan)}
+
+.scorehead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  margin:44px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--border-color)}
+.scorehead .n{margin-left:auto;font-size:.8rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:15px 17px}
+.card .lab{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:8px}
+.card .val{font-size:2rem;font-weight:600;line-height:1;letter-spacing:-.02em}
+.card .note{font-size:.82rem;color:var(--text-secondary);margin-top:7px}
+.card.pos{border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.07)}
+.card.pos .val{color:var(--accent-red)}
+.card.neg{border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.07)}
+.card.neg .val{color:var(--accent-green)}
+.card.mid{border-color:rgba(210,153,34,.45);background:rgba(210,153,34,.07)}
+.card.mid .val{color:var(--accent-yellow)}
+
+.interp{margin-top:15px;border:1px solid var(--border-color);border-left:3px solid var(--accent-cyan);
+  border-radius:8px;padding:16px 18px;background:var(--bg-secondary);font-size:.95rem}
+.interp p{margin:0 0 10px}
+.interp p:last-child{margin:0}
+.interp .caveat{color:var(--text-secondary);font-size:.88rem}
+
+.cta{margin-top:22px;border:1px solid rgba(0,217,255,.35);border-radius:10px;
+  background:linear-gradient(135deg,rgba(0,217,255,.10),rgba(163,113,247,.06));padding:20px 22px}
+.cta h3{font-size:1.1rem;margin-bottom:8px}
+.cta p{font-size:.94rem;color:var(--text-secondary)}
+.btnrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.btn{font:inherit;font-size:.92rem;font-weight:500;padding:11px 18px;border-radius:7px;cursor:pointer;
+  border:1px solid var(--accent-cyan);background:var(--accent-cyan);color:#06202b;text-decoration:none;
+  display:inline-block;-webkit-tap-highlight-color:transparent}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent-cyan)}
+.btn.ghost:hover{background:rgba(0,217,255,.1)}
+.btn[disabled]{opacity:.35;cursor:not-allowed;filter:none}
+.copied{font-size:.85rem;color:var(--accent-green);margin-top:9px;min-height:1.2em}
+
+.qlist{margin:0;padding-left:20px;font-size:.94rem;color:var(--text-secondary)}
+.qlist li{margin-bottom:9px}
+.qlist b{color:var(--text-primary);font-weight:600}
+
+.rel{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:640px){.rel{grid-template-columns:1fr}}
+.rel a{display:block;background:var(--bg-card);border:1px solid var(--border-color);border-radius:9px;
+  padding:14px 16px;text-decoration:none;color:var(--text-primary)}
+.rel a:hover{border-color:var(--accent-cyan);background:var(--bg-hover)}
+.rel .t{font-weight:600;font-size:.95rem;margin-bottom:4px}
+.rel .d{font-size:.83rem;color:var(--text-secondary);font-weight:300}
+
+footer{border-top:1px solid var(--border-color);margin-top:48px;padding-top:22px;
+  font-size:.83rem;color:var(--text-muted);line-height:1.75}
+footer b{color:var(--text-secondary)}
+
+@media print{
+  @page{size:A4;margin:14mm 13mm}
+  body{background:#fff !important;background-image:none !important;color:#111 !important;font-weight:400}
+  .wrap{padding:0;max-width:none}
+  #site-menu,.btnrow,.steps,.rel,.copied,.noprint{display:none !important}
+  .box,.card,.interp,.cta,.step{background:#fff !important;border-color:#c9ced4 !important}
+  .card .val,.card.pos .val,.card.neg .val,.card.mid .val{color:#111 !important}
+  h1,h2,h3,.q,.lede,p,.card .lab,.card .note,.interp,.small,footer{color:#111 !important}
+  .kicker,.chip,.partbar .tag,.q .num{color:#1f4e79 !important;background:none !important;border-color:#c9ced4 !important}
+  .ident input{background:#fff !important;color:#111 !important;border-color:#c9ced4 !important;-webkit-text-fill-color:#111 !important}
+  .ident label{color:#555 !important}
+  .opts label{background:#fff !important;border-color:#c9ced4 !important}
+  .opts .v,.opts .w{color:#555 !important}
+  .opts label.on{border-color:#1f4e79 !important;background:#e8f0f8 !important}
+  .opts label.on .v,.opts label.on .w{color:#1f4e79 !important;font-weight:700}
+  .item{border-bottom-color:#e4e7ea !important;page-break-inside:avoid}
+  .scorehead{page-break-before:always}
+}
+</style>
+</head>
+<body>
+
+<div id="site-menu"></div>
+
+<div class="wrap">
+<form id="f" autocomplete="off">
+
+<div class="kicker">Risorsa clinica · Autovalutazione</div>
+<h1>ASRS v1.1 — Autovalutazione ADHD per adulti</h1>
+<p class="lede">Il questionario dell'Organizzazione Mondiale della Sanità sui sintomi del deficit di attenzione e iperattività nell'adulto. Diciotto domande, cinque minuti, punteggio immediato.</p>
+
+<div class="meta">
+  <span class="chip">18 domande</span>
+  <span class="chip">~5 minuti</span>
+  <span class="chip">Nessun dato inviato</span>
+  <span class="chip">Screening, non diagnosi</span>
+</div>
+
+<div class="box warn">
+  <h3>Che cosa può dirti questo test, e che cosa no</h3>
+  <p>La ASRS misura <b>quanto pesano certe difficoltà nella tua vita di adesso</b>. Non dice da dove vengono. Un punteggio alto è compatibile con l'ADHD, ma anche con un sonno frammentato, l'uso di sostanze, un periodo di ansia o di umore basso, una condizione medica, o un disturbo dell'apprendimento mai riconosciuto. Sono cause diverse, con risposte diverse.</p>
+  <p>Per questo un punteggio, da solo, <b>non è una diagnosi e non deve diventare un'etichetta</b>. È un punto di partenza per una conversazione, non una conclusione da portarsi a casa.</p>
+</div>
+
+<div class="box info">
+  <h3>I tuoi dati restano tuoi</h3>
+  <p class="small">Il test funziona interamente dentro il tuo telefono o computer. Le risposte non vengono inviate a nessun server, non vengono salvate e non vengono viste da nessuno: se chiudi la pagina, spariscono. Se vuoi conservare il risultato, usa i pulsanti che compaiono a fine questionario.</p>
+</div>
+
+<div class="steps">
+  <div class="step"><b>1 · Rispondi</b><span>Diciotto domande. Rispondi di getto, senza tornare indietro a correggere: la prima risposta è quella buona.</span></div>
+  <div class="step"><b>2 · Leggi</b><span>Il punteggio si calcola da solo in fondo alla pagina, con la spiegazione di che cosa significa.</span></div>
+  <div class="step"><b>3 · Portalo a qualcuno</b><span>Se vuoi una lettura professionale, il pulsante in fondo prepara una mail già scritta con il tuo risultato.</span></div>
+</div>
+
+<div class="ident">
+  <div><label>Nome (facoltativo)</label><input type="text" id="pname" placeholder="Come vuoi essere chiamato"></div>
+  <div><label>Data</label><input type="text" id="pdate" placeholder="gg / mm / aaaa"></div>
+</div>
+
+<div class="partbar">
+  <span class="tag">Parte A</span>
+  <h2>Le sei domande principali</h2>
+  <span class="n">1&ndash;6</span>
+</div>
+<p class="parthint">Rispondi pensando a <b>come ti sei sentito e comportato negli ultimi sei mesi</b>. Non ci sono risposte giuste o sbagliate.</p>
+<div id="partA"></div>
+
+<div class="partbar">
+  <span class="tag">Parte B</span>
+  <h2>Le altre dodici</h2>
+  <span class="n">7&ndash;18</span>
+</div>
+<p class="parthint">Stessa scala, stesso periodo di riferimento.</p>
+<div id="partB"></div>
+
+<div class="scorehead">
+  <h2>Il tuo risultato</h2>
+  <span class="n" id="progress">0/18</span>
+</div>
+
+<div class="grid2">
+  <div class="card" id="cScreener">
+    <div class="lab">Parte A &mdash; Screener</div>
+    <div class="val" id="vScreener">&ndash;</div>
+    <div class="note" id="nScreener">soglia: almeno 4 domande su 6 in zona critica</div>
+  </div>
+  <div class="card" id="cTot">
+    <div class="lab">Punteggio totale (0&ndash;72)</div>
+    <div class="val" id="vTot">&ndash;</div>
+    <div class="note" id="nTot">18 domande</div>
+  </div>
+  <div class="card" id="cIn">
+    <div class="lab">Disattenzione (0&ndash;36)</div>
+    <div class="val" id="vIn">&ndash;</div>
+    <div class="note" id="nIn">0/9 domande</div>
+  </div>
+  <div class="card" id="cHi">
+    <div class="lab">Iperattività / Impulsività (0&ndash;36)</div>
+    <div class="val" id="vHi">&ndash;</div>
+    <div class="note" id="nHi">0/9 domande</div>
+  </div>
+</div>
+
+<div class="interp" id="interp">
+  <p>Rispondi a tutte e diciotto le domande e qui comparirà la lettura del punteggio.</p>
+</div>
+
+<div class="cta">
+  <h3>Per una lettura professionale del test</h3>
+  <p>Un punteggio si interpreta insieme alla tua storia: quando queste difficoltà sono cominciate, in quali contesti si presentano, che cosa ti hanno impedito di fare, e che cos'altro potrebbe spiegarle. Quel lavoro non lo fa un questionario.</p>
+  <p>Se vuoi che ne parliamo, scrivimi a <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a>. Sono uno psicologo psicoterapeuta e cyberpsicologo: ti rispondo io.</p>
+  <div class="btnrow">
+    <a class="btn" id="mailBtn" href="mailto:ivan@ivanferrero.it">Prepara la mail con il mio risultato</a>
+    <button type="button" class="btn ghost" id="copyBtn">Copia il risultato</button>
+    <button type="button" class="btn ghost" onclick="window.print()">Stampa o salva in PDF</button>
+  </div>
+  <div class="copied" id="copied"></div>
+  <p class="small" style="margin-top:12px">Il pulsante apre la tua app di posta con il risultato già scritto: puoi rileggerlo, modificarlo o cancellarlo prima di inviare. Nulla parte senza che tu lo decida.</p>
+</div>
+
+<hr>
+
+<h2>Le sette domande a cui un punteggio non risponde</h2>
+<p class="small">Se porti questo risultato a un professionista, sono queste le cose che vi servirà guardare insieme. Vale la pena arrivarci avendoci già pensato.</p>
+<ol class="qlist">
+  <li><b>Da quando.</b> Queste difficoltà c'erano già <b>prima dei dodici anni</b>? Le pagelle, le note dei professori, i ricordi di chi ti ha cresciuto sono materiale utile.</li>
+  <li><b>Dove.</b> Si presentano in <b>almeno due contesti diversi</b> (lavoro, casa, relazioni, tempo libero) o solo in uno?</li>
+  <li><b>Il sonno.</b> Dormi male, russi, ti svegli spesso, sei assonnato di giorno? Le apnee notturne producono da sole difficoltà di attenzione e memoria molto simili.</li>
+  <li><b>Le sostanze.</b> Cannabis, alcol, nicotina, caffeina: quanto, da quando, e che cosa cambiava nei periodi in cui ne hai usate meno.</li>
+  <li><b>La scuola.</b> Difficoltà di lettura o scrittura, righe saltate, parole invertite, un invio dalla logopedista mai concluso. Un disturbo dell'apprendimento non riconosciuto somiglia molto a un deficit di attenzione.</li>
+  <li><b>Che altro c'è.</b> Periodi di umore basso, ansia, tiroide, anemia, dolore cronico, lutti o cambiamenti importanti in corso.</li>
+  <li><b>Che cosa ti costa.</b> Concretamente: che cosa queste difficoltà ti hanno impedito o fatto perdere negli ultimi sei mesi. È la domanda che pesa di più, e nessun punteggio la contiene.</li>
+</ol>
+
+<h2 style="margin-top:34px">Da leggere accanto</h2>
+<div class="rel">
+  <a href="/dashboards/neuroscienze-adhd-autismo-with-menu.html">
+    <div class="t">Neuroscienze, ADHD, autismo e dopamina</div>
+    <div class="d">Che cosa dice la ricerca recente sui meccanismi, al di là delle semplificazioni che circolano online.</div>
+  </a>
+  <a href="/dashboards/2026-adhd-dsa-school-best-practices-dashboard-with-menu.html">
+    <div class="t">ADHD, DSA e ODD a scuola</div>
+    <div class="d">Dashboard operativa sulle buone pratiche scolastiche, per genitori e insegnanti.</div>
+  </a>
+</div>
+
+<footer>
+  <b>ASRS v1.1</b> &copy; World Health Organization &mdash; Composite International Diagnostic Interview.<br>
+  Kessler RC, Adler L, Ames M et al. (2005). The World Health Organization Adult ADHD Self-Report Scale (ASRS). <i>Psychological Medicine</i>, 35(2), 245&ndash;256.<br><br>
+  <b>Strumento di screening, non diagnostico.</b> Un esito positivo indica l'opportunità di un approfondimento clinico strutturato (colloquio, ricostruzione della storia evolutiva, strumenti come la DIVA-5), non una diagnosi. La diagnosi di ADHD nell'adulto può essere formulata solo da un professionista sanitario a valle di una valutazione completa.<br><br>
+  Pagina a cura di <a href="/">Ivan Ferrero</a>, psicologo psicoterapeuta e cyberpsicologo &middot; <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a> &middot; <a href="/dashboards/">tutte le risorse</a>
+</footer>
+
+</form>
+</div>
+
+<script src="/assets/menu.js"></script>
+<script>
+(function(){
+  var ITEMS = [
+    {n:1,  d:"IN", t:"Con quale frequenza hai difficoltà a concludere i dettagli finali di un progetto, una volta completate le parti più impegnative?"},
+    {n:2,  d:"IN", t:"Con quale frequenza hai difficoltà a mettere in ordine le cose quando devi svolgere un compito che richiede organizzazione?"},
+    {n:3,  d:"IN", t:"Con quale frequenza hai problemi a ricordare appuntamenti o impegni?"},
+    {n:4,  d:"IN", t:"Quando hai un compito che richiede molta riflessione, con quale frequenza eviti o ritardi l'inizio?"},
+    {n:5,  d:"HI", t:"Con quale frequenza ti agiti o muovi mani e piedi quando devi stare seduto a lungo?"},
+    {n:6,  d:"HI", t:"Con quale frequenza ti senti eccessivamente attivo e spinto a fare cose, come se fossi mosso da un motore?"},
+    {n:7,  d:"IN", t:"Con quale frequenza commetti errori di distrazione quando lavori a un progetto noioso o difficile?"},
+    {n:8,  d:"IN", t:"Con quale frequenza hai difficoltà a mantenere l'attenzione su lavori noiosi o ripetitivi?"},
+    {n:9,  d:"IN", t:"Con quale frequenza hai difficoltà a concentrarti su ciò che le persone ti dicono, anche quando ti parlano direttamente?"},
+    {n:10, d:"IN", t:"Con quale frequenza perdi o hai difficoltà a trovare oggetti a casa o al lavoro?"},
+    {n:11, d:"IN", t:"Con quale frequenza vieni distratto da attività o rumori intorno a te?"},
+    {n:12, d:"HI", t:"Con quale frequenza lasci il tuo posto durante riunioni o situazioni in cui ci si aspetta che tu resti seduto?"},
+    {n:13, d:"HI", t:"Con quale frequenza ti senti irrequieto o agitato?"},
+    {n:14, d:"HI", t:"Con quale frequenza hai difficoltà a rilassarti nel tempo libero?"},
+    {n:15, d:"HI", t:"Con quale frequenza ti ritrovi a parlare troppo in situazioni sociali?"},
+    {n:16, d:"HI", t:"Durante una conversazione, con quale frequenza ti ritrovi a finire le frasi degli altri prima che possano completarle?"},
+    {n:17, d:"HI", t:"Con quale frequenza hai difficoltà ad aspettare il tuo turno?"},
+    {n:18, d:"HI", t:"Con quale frequenza interrompi gli altri quando sono occupati?"}
+  ];
+  var CRIT = {1:2, 2:2, 3:2, 4:3, 5:3, 6:3};
+  var LAB = ["Mai","Raram.","Qualche","Spesso","Molto"];
+  var LABFULL = ["Mai","Raramente","Qualche volta","Spesso","Molto spesso"];
+
+  function render(host, list){
+    var h = "";
+    list.forEach(function(it){
+      h += '<div class="item"><div class="q"><span class="num">' + it.n + '.</span>' + it.t + '</div><div class="opts">';
+      for(var v = 0; v < 5; v++){
+        h += '<label data-q="' + it.n + '" data-v="' + v + '">' +
+             '<input type="radio" name="q' + it.n + '" value="' + v + '">' +
+             '<span class="v">' + v + '</span><span class="w">' + LAB[v] + '</span></label>';
+      }
+      h += '</div></div>';
+    });
+    document.getElementById(host).innerHTML = h;
+  }
+  render("partA", ITEMS.slice(0, 6));
+  render("partB", ITEMS.slice(6));
+
+  var f = document.getElementById("f");
+  var LAST = null;
+
+  function band(tot){
+    if(tot <= 19) return {p:"sotto la media (meno del 50&deg; percentile)", txt:"sotto la media", k:"neg"};
+    if(tot <= 29) return {p:"nella media (circa 50&deg;&ndash;70&deg; percentile)", txt:"nella media", k:"neg"};
+    if(tot <= 39) return {p:"sopra la media (circa 70&deg;&ndash;79&deg; percentile)", txt:"sopra la media", k:"mid"};
+    if(tot <= 49) return {p:"elevato (circa 80&deg;&ndash;89&deg; percentile)", txt:"elevato", k:"pos"};
+    if(tot <= 59) return {p:"molto elevato (circa 90&deg;&ndash;95&deg; percentile)", txt:"molto elevato", k:"pos"};
+    return {p:"estremo (oltre il 95&deg; percentile)", txt:"estremo", k:"pos"};
+  }
+
+  function paint(){
+    var vals = {}, filled = 0, tot = 0, sIn = 0, nIn = 0, sHi = 0, nHi = 0, crit = 0, aFilled = 0;
+
+    ITEMS.forEach(function(it){
+      var el = f.querySelector('input[name="q' + it.n + '"]:checked');
+      if(el){
+        var v = parseInt(el.value, 10);
+        vals[it.n] = v; filled++; tot += v;
+        if(it.d === "IN"){ sIn += v; nIn++; } else { sHi += v; nHi++; }
+        if(it.n <= 6){ aFilled++; if(v >= CRIT[it.n]) crit++; }
+      }
+    });
+
+    Array.prototype.forEach.call(f.querySelectorAll(".opts label"), function(l){
+      l.classList.toggle("on", String(vals[l.getAttribute("data-q")]) === l.getAttribute("data-v"));
+    });
+
+    document.getElementById("progress").textContent = filled + "/18";
+
+    var cS = document.getElementById("cScreener");
+    cS.className = "card";
+    var screenerTxt = "";
+    if(aFilled < 6){
+      document.getElementById("vScreener").innerHTML = "&ndash;";
+      document.getElementById("nScreener").textContent = aFilled + "/6 domande della Parte A";
+    } else {
+      var pos = crit >= 4;
+      screenerTxt = pos ? "POSITIVO" : "NEGATIVO";
+      document.getElementById("vScreener").textContent = screenerTxt;
+      cS.className = "card " + (pos ? "pos" : "neg");
+      document.getElementById("nScreener").textContent = crit + "/6 domande in zona critica (soglia: 4)";
+    }
+
+    var cT = document.getElementById("cTot");
+    cT.className = "card";
+    var b = band(tot);
+    if(filled < 18){
+      document.getElementById("vTot").innerHTML = "&ndash;";
+      document.getElementById("nTot").textContent = filled + "/18 domande";
+    } else {
+      document.getElementById("vTot").textContent = tot;
+      cT.className = "card " + b.k;
+      document.getElementById("nTot").innerHTML = b.p;
+    }
+
+    document.getElementById("vIn").innerHTML = nIn ? sIn : "&ndash;";
+    document.getElementById("nIn").textContent = nIn + "/9 domande";
+    document.getElementById("vHi").innerHTML = nHi ? sHi : "&ndash;";
+    document.getElementById("nHi").textContent = nHi + "/9 domande";
+
+    var box = document.getElementById("interp");
+    var copyBtn = document.getElementById("copyBtn");
+    var mailBtn = document.getElementById("mailBtn");
+
+    if(filled < 18){
+      LAST = null;
+      box.innerHTML = "<p>Rispondi a tutte e diciotto le domande e qui comparirà la lettura del punteggio. Ne mancano <b>" + (18 - filled) + "</b>.</p>";
+      copyBtn.setAttribute("disabled", "disabled");
+      mailBtn.style.opacity = ".35";
+      mailBtn.style.pointerEvents = "none";
+      return;
+    }
+
+    copyBtn.removeAttribute("disabled");
+    mailBtn.style.opacity = "";
+    mailBtn.style.pointerEvents = "";
+
+    var out = [];
+    out.push("<p><b>Punteggio totale " + tot + " su 72</b> &mdash; " + b.p + ".</p>");
+    if(crit >= 4){
+      out.push("<p><b>Le sei domande principali risultano positive</b> (" + crit + " su 6 in zona critica). Vuol dire che i sintomi che hai descritto sono coerenti con un profilo ADHD adulto, e che ha senso approfondire con un professionista.</p>");
+    } else {
+      out.push("<p><b>Le sei domande principali non risultano positive</b> (" + crit + " su 6 in zona critica, la soglia è 4). Il risultato non orienta verso un profilo ADHD. Se però queste difficoltà ti stanno costando molto nella vita di tutti i giorni, il punteggio da solo non basta a chiudere la questione.</p>");
+    }
+    var diff = sIn - sHi;
+    if(diff >= 6){
+      out.push("<p>Pesano di più le difficoltà di <b>attenzione e organizzazione</b> (" + sIn + " su 36) rispetto a quelle di <b>irrequietezza e impulsività</b> (" + sHi + " su 36).</p>");
+    } else if(diff <= -6){
+      out.push("<p>Pesano di più le difficoltà di <b>irrequietezza e impulsività</b> (" + sHi + " su 36) rispetto a quelle di <b>attenzione e organizzazione</b> (" + sIn + " su 36).</p>");
+    } else {
+      out.push("<p>Le due aree pesano in modo simile: <b>attenzione e organizzazione</b> " + sIn + " su 36, <b>irrequietezza e impulsività</b> " + sHi + " su 36.</p>");
+    }
+    out.push('<p class="caveat"><b>Come leggerlo.</b> Questo è uno strumento di screening: misura quanto certe difficoltà pesano oggi, non da dove vengono. Non valuta due criteri necessari alla diagnosi, cioè se le difficoltà fossero già presenti prima dei dodici anni e se si presentino in più contesti di vita. Un punteggio elevato è compatibile con l\'ADHD ma anche con disturbi del sonno, uso di sostanze, ansia o umore basso, condizioni mediche e disturbi dell\'apprendimento non diagnosticati. Nessuna diagnosi si formula da qui.</p>');
+    box.innerHTML = out.join("");
+
+    var lines = [];
+    lines.push("ASRS v1.1 - Autovalutazione ADHD adulti");
+    lines.push("Compilato su ivanferrero.it/dashboards/asrs-adhd-autovalutazione.html");
+    lines.push("");
+    var nm = (document.getElementById("pname").value || "").trim();
+    var dt = (document.getElementById("pdate").value || "").trim();
+    if(nm) lines.push("Nome: " + nm);
+    if(dt) lines.push("Data: " + dt);
+    lines.push("");
+    lines.push("RISULTATO");
+    lines.push("Screener Parte A: " + screenerTxt + " (" + crit + "/6 in zona critica, soglia 4)");
+    lines.push("Punteggio totale: " + tot + "/72 (" + b.txt + ")");
+    lines.push("Disattenzione: " + sIn + "/36");
+    lines.push("Iperattivita/Impulsivita: " + sHi + "/36");
+    lines.push("");
+    lines.push("RISPOSTE");
+    ITEMS.forEach(function(it){
+      lines.push(it.n + ". " + vals[it.n] + " - " + LABFULL[vals[it.n]]);
+    });
+    lines.push("");
+    lines.push("Strumento di screening, non diagnostico.");
+    LAST = lines.join("\n");
+
+    mailBtn.setAttribute("href",
+      "mailto:ivan@ivanferrero.it" +
+      "?subject=" + encodeURIComponent("Risultato ASRS v1.1" + (nm ? " - " + nm : "")) +
+      "&body=" + encodeURIComponent(LAST + "\n\nBuongiorno Ivan,\nho compilato il test sul suo sito e le allego il risultato.\n\n"));
+  }
+
+  document.getElementById("copyBtn").addEventListener("click", function(){
+    var msg = document.getElementById("copied");
+    if(!LAST) return;
+    function done(){ msg.textContent = "Risultato copiato: ora puoi incollarlo dove vuoi."; setTimeout(function(){ msg.textContent = ""; }, 4000); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(LAST).then(done, fallback);
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = LAST; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); }
+      catch(e){ msg.textContent = "Non sono riuscito a copiare: usa il pulsante della mail."; }
+      document.body.removeChild(ta);
+    }
+  });
+
+  f.addEventListener("change", paint);
+  f.addEventListener("input", paint);
+  f.addEventListener("submit", function(e){ e.preventDefault(); });
+  paint();
+})();
+</script>
+</body>
+</html>
