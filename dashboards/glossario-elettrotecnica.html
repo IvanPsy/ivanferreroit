@@ -627,6 +627,15 @@ body {
   .back-to-filters { display: none !important; }
 }
 </style>
+
+<!-- SEO (P03, 10/09/2026): description, canonical e Open Graph. Il resto della pagina non e' stato toccato. -->
+<link rel="canonical" href="https://ivanferrero.it/dashboards/glossario-elettrotecnica.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ g.meta.titolo | escape }}, plurilingue">
+<meta property="og:description" content="{{ g.meta.descrizione | escape }}">
+<meta property="og:url" content="https://ivanferrero.it/dashboards/glossario-elettrotecnica.html">
+<meta property="og:locale" content="it_IT">
+<style>@media print { footer.site-footer-nav { display: none !important; } }</style>
 </head>
 <body>
 
@@ -970,5 +979,6 @@ body {
 })();
 </script>
 
+{% include footer-nav.html %}
 </body>
 </html>

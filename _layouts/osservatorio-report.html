@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} — Osservatorio | Ivan Ferrero</title>
     {% seo title=false %}
+    <link rel="alternate" type="application/atom+xml" title="Osservatorio · Ivan Ferrero" href="{{ '/osservatorio/feed.xml' | absolute_url }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -263,9 +264,61 @@
             color: var(--stream-accent, #00d9ff);
         }
 
+        /* ===== E. NELLO STESSO STREAM (P03) ===== */
+        a.report-stream-pill:hover { color: #e6edf3; }
+        .report-stream-nav {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #30363d;
+        }
+        .report-stream-nav-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #6e7681;
+            margin-bottom: 1rem;
+        }
+        .report-stream-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.9rem;
+            margin-bottom: 1.1rem;
+        }
+        .report-stream-nav-item {
+            display: block;
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 0.9rem 1.1rem;
+            color: #e6edf3;
+        }
+        a.report-stream-nav-item:hover {
+            border-color: var(--stream-border, #30363d);
+            box-shadow: 0 0 30px var(--stream-glow, rgba(0, 217, 255, 0.05));
+        }
+        .report-stream-nav-item .dir {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--stream-accent, #00d9ff);
+            margin-bottom: 0.3rem;
+        }
+        .report-stream-nav-item .t { display: block; font-size: 0.95rem; line-height: 1.45; }
+        .report-stream-nav-item.next { text-align: right; }
+        .report-stream-nav-item.empty { color: #6e7681; font-size: 0.9rem; font-style: italic; }
+        .report-stream-nav-all {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--stream-accent, #00d9ff);
+        }
+        .report-stream-nav-all:hover { color: #e6edf3; }
+        .report-stream-nav + .report-footer { margin-top: 2rem; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             body { padding-top: 8rem; }
+            .report-stream-nav-item.next { text-align: left; }
             .report-container { padding: 1.5rem 1rem 3rem; }
             .report-title { font-size: 1.5rem; }
             .report-footer { flex-direction: column; gap: 0.75rem; }
@@ -296,6 +349,24 @@
     {%- else -%}           {%- assign stream_icon = '📡' -%}{%- assign stream_label = stream | upcase -%}
 {%- endcase -%}
 
+{%- comment -%}
+    P03: precedente e successivo nello stesso stream (per data), solo per i quattro stream con una pagina propria.
+{%- endcomment -%}
+{%- assign stream_pages = "tech,edu,cyber,include" | split: "," -%}
+{%- assign prev_brief = nil -%}
+{%- assign next_brief = nil -%}
+{%- if stream_pages contains stream and page.speciale != true -%}
+    {%- assign stessi = site.osservatorio | where: "stream", stream | sort: "date" -%}
+    {%- for r in stessi -%}
+        {%- if r.url == page.url -%}
+            {%- assign i_prev = forloop.index0 | minus: 1 -%}
+            {%- assign i_next = forloop.index0 | plus: 1 -%}
+            {%- if i_prev >= 0 -%}{%- assign prev_brief = stessi[i_prev] -%}{%- endif -%}
+            {%- if i_next < stessi.size -%}{%- assign next_brief = stessi[i_next] -%}{%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endif -%}
+
 <main class="report-container stream-{{ stream }}">
 
     <!-- A. Header -->
@@ -305,10 +376,10 @@
         <span>SPECIALE</span>
     </span>
     {%- else -%}
-    <span class="report-stream-pill">
+    <a class="report-stream-pill" href="{% if stream_pages contains stream %}/osservatorio/{{ stream }}/{% else %}/osservatorio/{% endif %}" title="Tutti i brief {{ stream_label }}">
         <span class="stream-icon" aria-hidden="true">{{ stream_icon }}</span>
         <span>{{ stream_label }}</span>
-    </span>
+    </a>
     {%- endif -%}
     <div class="report-date">{{ page.date | date: "%Y.%m.%d" }}</div>
     <h1 class="report-title">{{ page.title }}</h1>
@@ -325,6 +396,36 @@
     <div class="report-body">
         {{ content }}
     </div>
+
+    <!-- E. Nello stesso stream (P03) -->
+    {%- if stream_pages contains stream and page.speciale != true %}
+    <nav class="report-stream-nav" aria-label="Nello stesso stream">
+        <div class="report-stream-nav-label">Nello stesso stream · {{ stream_label }}</div>
+        <div class="report-stream-nav-grid">
+            {%- if prev_brief %}
+            <a class="report-stream-nav-item prev" href="{{ prev_brief.url }}" rel="prev">
+                <span class="dir">← Precedente · {{ prev_brief.date | date: "%Y.%m.%d" }}</span>
+                <span class="t">{{ prev_brief.title }}</span>
+            </a>
+            {%- else %}
+            <span class="report-stream-nav-item empty">È il primo brief {{ stream_label }}.</span>
+            {%- endif %}
+            {%- if next_brief %}
+            <a class="report-stream-nav-item next" href="{{ next_brief.url }}" rel="next">
+                <span class="dir">Successivo · {{ next_brief.date | date: "%Y.%m.%d" }} →</span>
+                <span class="t">{{ next_brief.title }}</span>
+            </a>
+            {%- else %}
+            <span class="report-stream-nav-item empty next">È il brief {{ stream_label }} più recente.</span>
+            {%- endif %}
+        </div>
+        <a class="report-stream-nav-all" href="/osservatorio/{{ stream }}/">Tutti i brief {{ stream_label }} →</a>
+    </nav>
+    {%- else %}
+    <nav class="report-stream-nav" aria-label="Osservatorio">
+        <a class="report-stream-nav-all" href="/osservatorio/">Tutti i brief e gli speciali dell'Osservatorio →</a>
+    </nav>
+    {%- endif %}
 
     <!-- D. Footer -->
     <nav class="report-footer">

@@ -1,0 +1,382 @@
+{%- comment -%}
+    CSS condiviso dall'indice dell'Osservatorio (/osservatorio/) e dalle quattro pagine di stream
+    (_layouts/osservatorio-stream.html). Estratto da osservatorio/index.html in P03 (10/09/2026).
+{%- endcomment -%}
+<style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0e14;
+            color: #e6edf3;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            padding-top: 5rem;
+        }
+
+        a { color: #00d9ff; text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: #e6edf3; }
+
+        /* ===== STREAM ACCENTS ===== */
+        .stream-tech    { --stream-accent: #00d9ff; --stream-bg: rgba(0, 217, 255, 0.08);  --stream-border: rgba(0, 217, 255, 0.30);  --stream-glow: rgba(0, 217, 255, 0.06); }
+        .stream-edu     { --stream-accent: #3fb950; --stream-bg: rgba(63, 185, 80, 0.08);  --stream-border: rgba(63, 185, 80, 0.30);  --stream-glow: rgba(63, 185, 80, 0.06); }
+        .stream-cyber   { --stream-accent: #a371f7; --stream-bg: rgba(163, 113, 247, 0.08);--stream-border: rgba(163, 113, 247, 0.30);--stream-glow: rgba(163, 113, 247, 0.06); }
+        .stream-include { --stream-accent: #db6d28; --stream-bg: rgba(219, 109, 40, 0.08); --stream-border: rgba(219, 109, 40, 0.30); --stream-glow: rgba(219, 109, 40, 0.06); }
+        .stream-speciale{ --stream-accent: #d29922; --stream-bg: rgba(210, 153, 34, 0.08); --stream-border: rgba(210, 153, 34, 0.30); --stream-glow: rgba(210, 153, 34, 0.06); }
+
+        /* ===== CONTAINER ===== */
+        .osservatorio-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== HEADER & MANIFESTO ===== */
+        .osservatorio-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #e6edf3;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .osservatorio-manifesto {
+            color: #c9d1d9;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 4rem;
+            max-width: 720px;
+        }
+        .osservatorio-manifesto p { margin-bottom: 1.1rem; color: #c9d1d9; }
+        .osservatorio-manifesto em { color: #00d9ff; font-style: normal; font-weight: 500; }
+
+        /* ===== SECTION TITLES ===== */
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #6e7681;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #30363d;
+        }
+
+        /* ===== ULTIMO PER STREAM (4 cards) ===== */
+        .latest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .latest-card {
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+        .latest-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            width: 3px; height: 100%;
+            background: var(--stream-accent, #6e7681);
+        }
+        .latest-card:hover {
+            border-color: var(--stream-border, #30363d);
+            box-shadow: 0 0 30px var(--stream-glow, rgba(0,217,255,0.05));
+        }
+
+        .latest-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
+        }
+        .latest-card-stream {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--stream-accent, #6e7681);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .latest-card-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #6e7681;
+        }
+        .latest-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e6edf3;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .latest-card-tldr {
+            font-size: 0.88rem;
+            color: #8b949e;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        .latest-card-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--stream-accent, #6e7681);
+            margin-top: auto;
+        }
+        .latest-card:hover .latest-card-link { color: #e6edf3; }
+
+        .latest-card.empty {
+            opacity: 0.55;
+            cursor: default;
+        }
+        .latest-card.empty:hover {
+            border-color: #30363d;
+            box-shadow: none;
+        }
+        .latest-card.empty .latest-card-title {
+            color: #6e7681;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* ===== FILTER PILLS ===== */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .filter-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            padding: 0.4rem 0.85rem;
+            background: transparent;
+            border: 1px solid #30363d;
+            border-radius: 100px;
+            color: #8b949e;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .filter-pill:hover { color: #e6edf3; border-color: #6e7681; }
+        .filter-pill.active {
+            background: rgba(0, 217, 255, 0.08);
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+        .filter-pill[data-stream="tech"].active    { background: rgba(0, 217, 255, 0.08);   border-color: #00d9ff; color: #00d9ff; }
+        .filter-pill[data-stream="edu"].active     { background: rgba(63, 185, 80, 0.10);   border-color: #3fb950; color: #3fb950; }
+        .filter-pill[data-stream="cyber"].active   { background: rgba(163, 113, 247, 0.10); border-color: #a371f7; color: #a371f7; }
+        .filter-pill[data-stream="include"].active { background: rgba(219, 109, 40, 0.10);  border-color: #db6d28; color: #db6d28; }
+
+        /* ===== ARCHIVE LIST ===== */
+        .archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .archive-entry {
+            display: flex;
+            align-items: baseline;
+            gap: 0;
+            line-height: 1.6;
+            flex-wrap: wrap;
+            padding: 0.4rem 0;
+        }
+        .archive-entry.hidden { display: none; }
+
+        .entry-stream {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--stream-accent, #6e7681);
+            background: var(--stream-bg, transparent);
+            border: 1px solid var(--stream-border, #30363d);
+            padding: 0.15rem 0.6rem;
+            border-radius: 100px;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .entry-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #6e7681;
+            flex-shrink: 0;
+            margin-right: 0.6rem;
+        }
+        /* Marcatore SPECIALE nell'archivio (articolo extra, fuori cadenza) */
+        .entry-speciale-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #d29922;
+            background: rgba(210, 153, 34, 0.10);
+            border: 1px solid rgba(210, 153, 34, 0.45);
+            padding: 0.15rem 0.6rem;
+            border-radius: 100px;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .entry-title {
+            color: #e6edf3;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+        .entry-title:hover { color: var(--stream-accent, #00d9ff); }
+
+        /* ===== EMPTY STATES ===== */
+        .empty-state {
+            color: #6e7681;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 2rem 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body { padding-top: 8rem; }
+            .osservatorio-container { padding: 1.5rem 1rem 3rem; }
+            .osservatorio-title { font-size: 1.7rem; }
+            .archive-entry {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            .entry-stream, .entry-date { margin-right: 0; }
+        }
+    </style>
+    <style>
+        /* ===== P03: pagine di stream, link agli stream, speciali e reperti, feed ===== */
+        .stream-pages {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.5rem 0.6rem;
+            margin: -2.5rem 0 4rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+        .stream-pages-label {
+            color: #6e7681;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-right: 0.25rem;
+        }
+        .stream-pages a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--stream-border, #30363d);
+            border-radius: 100px;
+            color: var(--stream-accent, #00d9ff);
+            background: var(--stream-bg, transparent);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .stream-pages a:hover { color: #e6edf3; }
+        .stream-pages a.current { color: #e6edf3; border-color: var(--stream-accent, #6e7681); }
+
+        .stream-header { margin-bottom: 3rem; max-width: 720px; }
+        .stream-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #6e7681;
+            margin-bottom: 0.75rem;
+        }
+        .stream-kicker a { color: #6e7681; }
+        .stream-kicker a:hover { color: #e6edf3; }
+        .stream-header .osservatorio-title .accent { color: var(--stream-accent, #00d9ff); }
+        .stream-header p { color: #c9d1d9; line-height: 1.8; margin-bottom: 1rem; }
+        .stream-header p.stream-meta { color: #8b949e; font-size: 0.92rem; }
+
+        .stream-list { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 4rem; }
+        .stream-entry {
+            display: block;
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-left: 3px solid var(--stream-accent, #6e7681);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            color: inherit;
+        }
+        .stream-entry:hover {
+            border-color: var(--stream-border, #30363d);
+            border-left-color: var(--stream-accent, #6e7681);
+            box-shadow: 0 0 30px var(--stream-glow, rgba(0,217,255,0.05));
+        }
+        .stream-entry-date {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: #6e7681;
+            margin-bottom: 0.3rem;
+        }
+        .stream-entry-title {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e6edf3;
+            line-height: 1.4;
+            margin-bottom: 0.4rem;
+        }
+        .stream-entry:hover .stream-entry-title { color: var(--stream-accent, #00d9ff); }
+        .stream-entry-tldr { display: block; font-size: 0.9rem; color: #8b949e; line-height: 1.65; }
+
+        .speciali-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 2.5rem; }
+        .speciali-list li { line-height: 1.6; }
+        .speciali-list .entry-date { margin-right: 0.6rem; }
+        .speciali-list a { color: #e6edf3; }
+        .speciali-list a:hover { color: #d29922; }
+        .speciali-kind {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #d29922;
+            margin-right: 0.6rem;
+        }
+
+        .osservatorio-feed {
+            margin-top: 3rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid #30363d;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #6e7681;
+        }
+        .osservatorio-feed a { color: #00d9ff; }
+        .osservatorio-feed a:hover { color: #e6edf3; }
+
+        @media (max-width: 768px) {
+            .stream-pages { margin-top: -2rem; }
+        }
+    </style>

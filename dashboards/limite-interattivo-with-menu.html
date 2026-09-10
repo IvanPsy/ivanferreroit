@@ -690,6 +690,16 @@
             }
         }
     </style>
+
+<!-- SEO (P03, 10/09/2026): description, canonical e Open Graph. Il resto della pagina non e' stato toccato. -->
+<meta name="description" content="Grafico interattivo con cursore per vedere dove va una funzione vicino a un punto: il concetto di limite su cinque funzioni. Materiale per studenti delle superiori.">
+<link rel="canonical" href="https://ivanferrero.it/dashboards/limite-interattivo-with-menu.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Esplora i Limiti — Matematica Interattiva">
+<meta property="og:description" content="Grafico interattivo con cursore per vedere dove va una funzione vicino a un punto: il concetto di limite su cinque funzioni. Materiale per studenti delle superiori.">
+<meta property="og:url" content="https://ivanferrero.it/dashboards/limite-interattivo-with-menu.html">
+<meta property="og:locale" content="it_IT">
+<style>@media print { footer.site-footer-nav { display: none !important; } }</style>
 </head>
 <body>
 
@@ -1600,6 +1610,100 @@
     </script>
 
     <!-- Menu condiviso del sito -->
+<!-- Footer di navigazione del sito, in HTML puro (senza JavaScript), cosi' i link interni esistono anche per chi non esegue menu.js.
+     Sorgente unica: _includes/footer-nav.html (lo usano i layout e le pagine con front matter).
+     ATTENZIONE: e' copiato tale e quale anche in index.html, privacy-policy/index.html e
+     digitale-inclusivo/decodificatore-icf/index.html (pagine senza front matter, dove l'include non funziona).
+     Se modifichi questo file, replica la modifica anche in quei tre. -->
+<footer class="site-footer-nav">
+<style>
+footer.site-footer-nav {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 3rem 0 0;
+    padding: 1.75rem 1.5rem 2rem;
+    background: #0a0e14;
+    border-top: 1px solid #30363d;
+    color: #e6edf3;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: left;
+}
+.site-footer-nav .site-footer-nav__inner { max-width: 1100px; margin: 0 auto; }
+.site-footer-nav .site-footer-nav__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin: 0 0 0.7rem;
+    padding: 0;
+}
+.site-footer-nav .site-footer-nav__label {
+    flex: 0 0 auto;
+    min-width: 6.5rem;
+    margin-right: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8b949e;
+}
+.site-footer-nav a {
+    color: #00d9ff;
+    text-decoration: none;
+    opacity: 1;
+    white-space: nowrap;
+}
+.site-footer-nav a:hover,
+.site-footer-nav a:focus-visible { color: #e6edf3; }
+/* Separatori "·" tra i link: ogni link ne ha uno davanti, e quello a inizio riga
+   resta nascosto fuori dal bordo (cosi' quando le righe vanno a capo non restano puntini orfani). */
+.site-footer-nav .site-footer-nav__links { flex: 1 1 0; min-width: 0; overflow: hidden; }
+.site-footer-nav .site-footer-nav__links > span {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 0.3rem;
+    margin-left: -1.2rem;
+}
+.site-footer-nav .site-footer-nav__links a::before {
+    content: "·";
+    content: "·" / "";
+    display: inline-block;
+    width: 1.2rem;
+    text-align: center;
+    color: #6e7681;
+}
+.site-footer-nav .site-footer-nav__links a:hover::before,
+.site-footer-nav .site-footer-nav__links a:focus-visible::before { color: #6e7681; }
+.site-footer-nav p.site-footer-nav__id {
+    margin: 1.1rem 0 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid #21262d;
+    color: #e6edf3;
+    font-size: 0.85rem;
+    text-align: left;
+}
+.site-footer-nav p.site-footer-nav__id span { white-space: nowrap; }
+@media (max-width: 600px) {
+    footer.site-footer-nav { padding: 1.5rem 1rem 1.75rem; }
+    .site-footer-nav .site-footer-nav__label { flex-basis: 100%; margin: 0 0 0.2rem; }
+    .site-footer-nav .site-footer-nav__links { flex-basis: 100%; }
+    .site-footer-nav p.site-footer-nav__id span { white-space: normal; }
+}
+</style>
+<div class="site-footer-nav__inner">
+    <nav class="site-footer-nav__row" aria-label="Sezioni del sito">
+        <span class="site-footer-nav__label">Sezioni</span>
+        <div class="site-footer-nav__links"><span><a href="/">Home</a><a href="/libri/">Libri e schede</a><a href="/dashboards/">Dashboard</a><a href="/osservatorio/">Osservatorio</a><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="/dialoghi/">Dialoghi</a><a href="/archivio/">Archivio</a><a href="/#chi-sono">Chi sono</a><a href="/#contatti">Contatti</a></span></div>
+    </nav>
+    <nav class="site-footer-nav__row" aria-label="Progetti">
+        <span class="site-footer-nav__label">Progetti</span>
+        <div class="site-footer-nav__links"><span><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="https://equilibrio.ivanferrero.it/">Equilibrio</a></span></div>
+    </nav>
+    <p class="site-footer-nav__id"><span>Ivan Ferrero</span> · <span>Psicologo-psicoterapeuta, iscritto OPL n. 16571 dal 2006</span> · <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a> · <a href="/privacy-policy/">Privacy policy</a></p>
+</div>
+</footer>
     <script src="/assets/menu.js"></script>
 </body>
 </html>

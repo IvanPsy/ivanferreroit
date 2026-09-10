@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} | Ivan Ferrero</title>
+    {% seo title=false %}
+    <link rel="alternate" type="application/atom+xml" title="Osservatorio · Ivan Ferrero" href="{{ '/osservatorio/feed.xml' | absolute_url }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    {% include osservatorio-style.html %}
+</head>
+<body>
+
+{%- comment -%}
+    Layout delle quattro pagine di stream dell'Osservatorio (/osservatorio/tech/, /edu/, /cyber/, /include/).
+    Ogni pagina ha solo il front matter: stream, stream_label, stream_icon, stream_topic.
+    L'elenco dei brief si costruisce da solo dalla collezione _osservatorio (campo stream).
+    Creato in P03, 10/09/2026.
+{%- endcomment -%}
+{%- assign stream = page.stream -%}
+{%- assign brief = site.osservatorio | where: "stream", stream | sort: "date" | reverse -%}
+{%- assign speciali = site.osservatorio | where: "stream", "speciale" | sort: "date" | reverse %}
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<main class="osservatorio-container stream-{{ stream }}">
+
+    <header class="stream-header">
+        <div class="stream-kicker"><a href="/osservatorio/">Osservatorio</a> / stream</div>
+        <h1 class="osservatorio-title"><span aria-hidden="true">{{ page.stream_icon }}</span> <span class="accent">{{ page.stream_label }}</span> · {{ page.stream_topic }}</h1>
+        <p>Una delle quattro linee dell'Osservatorio. Ogni settimana raccolgo, leggo e annoto le notizie su {{ page.stream_topic }} che monitoro per il mio lavoro, con i link alle fonti. Qui ci sono tutti i brief {{ page.stream_label }}, dal più recente al primo.</p>
+        <p class="stream-meta">{{ brief.size }} brief. Ogni brief è datato al lunedì della settimana coperta e non viene aggiornato retroattivamente: rappresenta quello che si vedeva quel giorno.</p>
+    </header>
+
+    <nav class="stream-pages" aria-label="Pagine degli stream" style="margin-top: 0;">
+        <span class="stream-pages-label">Stream</span>
+        <a href="/osservatorio/tech/" class="stream-tech{% if stream == 'tech' %} current" aria-current="page{% endif %}"><span aria-hidden="true">🛰️</span>TECH</a>
+        <a href="/osservatorio/edu/" class="stream-edu{% if stream == 'edu' %} current" aria-current="page{% endif %}"><span aria-hidden="true">🎓</span>EDU</a>
+        <a href="/osservatorio/cyber/" class="stream-cyber{% if stream == 'cyber' %} current" aria-current="page{% endif %}"><span aria-hidden="true">🛡️</span>CYBER</a>
+        <a href="/osservatorio/include/" class="stream-include{% if stream == 'include' %} current" aria-current="page{% endif %}"><span aria-hidden="true">♿</span>INCLUDE</a>
+        <a href="/osservatorio/">Tutto l'Osservatorio</a>
+    </nav>
+
+    <h2 class="section-title">Tutti i brief {{ page.stream_label }}</h2>
+    <div class="stream-list">
+        {%- for r in brief %}
+        <a href="{{ r.url }}" class="stream-entry">
+            <span class="stream-entry-date">{{ r.date | date: "%Y.%m.%d" }}</span>
+            <span class="stream-entry-title">{{ r.title }}</span>
+            {%- if r.tldr %}
+            <span class="stream-entry-tldr">{{ r.tldr | strip_html | truncate: 240 }}</span>
+            {%- endif %}
+        </a>
+        {%- endfor %}
+        {%- if brief.size == 0 %}
+        <p class="empty-state">&gt; Nessun brief ancora pubblicato in questo stream</p>
+        {%- endif %}
+    </div>
+
+    <h2 class="section-title">Speciali e reperti</h2>
+    <p style="color:#8b949e; font-size:0.92rem; margin-bottom:1rem;">Gli speciali sono articoli fuori cadenza, trasversali agli stream. I reperti sono le dashboard che li accompagnano, consultabili anche da sole.</p>
+    <ul class="speciali-list">
+        {%- for r in speciali %}
+        <li><span class="speciali-kind">★ Speciale</span><span class="entry-date">{{ r.date | date: "%Y.%m.%d" }}</span><a href="{{ r.url }}">{{ r.title }}</a></li>
+        {%- endfor %}
+        <li><span class="speciali-kind">Reperto</span><a href="/dashboards/femminicidio-numeri.html">I numeri del femminicidio</a></li>
+        <li><span class="speciali-kind">Reperto</span><a href="/dashboards/tre-colonne.html">Tre colonne</a></li>
+        <li><span class="speciali-kind">Reperto</span><a href="/dashboards/fahrenheit-451.html">Fahrenheit 451: la mappa esplorabile</a></li>
+        <li><span class="speciali-kind">Reperto</span><a href="/dashboards/educazione-sessuo-affettiva-consenso-with-menu.html">Educazione sessuo-affettiva e consenso: leggere la legge oltre il tifo</a></li>
+    </ul>
+
+    <p class="osservatorio-feed"><a href="/osservatorio/feed.xml">Feed RSS dell'Osservatorio</a> · i nuovi brief in un lettore di feed</p>
+
+</main>
+
+{% include footer-nav.html %}
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

@@ -320,6 +320,24 @@ description: "Dashboard interattive gratuite per docenti, genitori e professioni
                     <p>Analisi critica della review sistematica Chang & Lee (2024). Gap modello-dati, limitazioni metodologiche, confronto con framework I-PACE, implicazioni per pratica clinica e formazione docenti.</p>
                 </a>
 
+                <a href="/dashboards/social-media-salute-mentale-with-menu.html" class="card" style="text-decoration: none;">
+                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
+                    <h3 style="color: var(--text-primary);">Social Media e Salute Mentale</h3>
+                    <p>Undici studi 2024-2026 su social media e salute mentale degli adolescenti: meccanismi, uso problematico e limiti della ricerca. Per docenti, genitori e clinici.</p>
+                </a>
+
+                <a href="/dashboards/sonno-schermi-with-menu.html" class="card" style="text-decoration: none;">
+                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
+                    <h3 style="color: var(--text-primary);">Sonno e Schermi</h3>
+                    <p>Cinque studi 2025-2026 sull'effetto degli schermi sul sonno di bambini e adolescenti, il legame con l'umore e i limiti delle evidenze. Per genitori, docenti e clinici.</p>
+                </a>
+
+                <a href="/dashboards/cyberbullismo-gaming-pornografia-with-menu.html" class="card" style="text-decoration: none;">
+                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
+                    <h3 style="color: var(--text-primary);">Cyberbullismo, Gaming e Pornografia</h3>
+                    <p>Cinque ricerche 2024-2026 su cyberbullismo, gaming disorder, pornografia e grooming online negli adolescenti, lette in modo critico. Per docenti, genitori e clinici.</p>
+                </a>
+
                 <a href="/dashboards/timeline-percorso-umanita-with-menu.html" class="card" style="text-decoration: none;">
                     <span class="tag tag-green" style="margin-bottom: 0.75rem;">Educazione</span>
                     <h3 style="color: var(--text-primary);">Il Cammino dell'Umanità — Arte, Architettura, Pensiero</h3>
@@ -395,6 +413,26 @@ description: "Dashboard interattive gratuite per docenti, genitori e professioni
                 -->
 
             </div>
+
+            <!-- ── Materiale per la classe (P03) ──
+                 Le card vengono da _data/digitale_inclusivo.yml, sezione "lezioni-accessibili":
+                 per aggiungere un materiale si aggiunge la voce li', non qui. -->
+            {%- assign lezioni = site.data.digitale_inclusivo.sections | where: "id", "lezioni-accessibili" | first %}
+            <section id="materiale-per-la-classe" aria-labelledby="titolo-materiale-classe" style="margin-top: 3rem;">
+                <h2 id="titolo-materiale-classe">Materiale per la <span class="text-cyan">classe</span></h2>
+                <p class="text-secondary" style="margin-bottom: 1.5rem;">Materiali che uso nelle mie lezioni di sostegno, costruiti per studenti reali e resi pubblici. Possono servire a chi insegna le stesse materie, o a chi deve adattarle per uno studente con BES.</p>
+                <div class="card-grid">
+                {%- for c in lezioni.cards %}
+
+                    <a href="{{ c.url }}" class="card" style="text-decoration: none;">
+                        <span class="tag tag-green" style="margin-bottom: 0.75rem;">{{ c.tag_label }}</span>
+                        <h3 style="color: var(--text-primary);">{{ c.title }}</h3>
+                        <p>{{ c.description }}</p>
+                    </a>
+                {%- endfor %}
+
+                </div>
+            </section>
 
             <!-- Footer -->
             <div class="card mt-4" style="text-align: center;">

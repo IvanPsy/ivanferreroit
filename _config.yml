@@ -81,6 +81,17 @@ defaults:
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-feed
+
+# Feed Atom dell'Osservatorio (jekyll-feed, in whitelist GitHub Pages). Esce a /osservatorio/feed.xml
+# con gli ultimi 10 brief. Il plugin genera comunque anche /feed.xml per i "post" del blog: il sito
+# non ne ha, quindi quel feed resta vuoto e non e' linkato da nessuna parte.
+# Nota: il tag {% feed_meta %} punterebbe a /feed.xml (quello vuoto): per questo nelle pagine
+# dell'Osservatorio il <link rel="alternate"> e' scritto a mano e punta a /osservatorio/feed.xml.
+feed:
+  collections:
+    osservatorio:
+      path: "/osservatorio/feed.xml"
 
 # Esclusioni dal build
 exclude:
