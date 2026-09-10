@@ -4,6 +4,7 @@ title: "Le storie che restano dicibili"
 date: 2026-05-10
 tags: [identità-narrativa, inclusione, dispositivi-mediatici]
 excerpt: "L'identità non si difende contro l'etichetta. Si difende moltiplicando le storie che restano dicibili su di sé."
+description: "L'identità non si difende contro l'etichetta. Si difende moltiplicando le storie che restano dicibili su di sé."
 ---
 
 Capita di osservare che un nome può fare cose, non solo dire cose. Quando una società decide di nominare un gruppo di adolescenti come problema (i bulli, i drogati di turno, i ragazzi delle periferie, i figli di una migrazione che ha trovato uno stile riconoscibile) accade qualcosa che va oltre la descrizione. Il nome circola nei media, viene rilanciato dalla politica, riappare nelle conversazioni in sala professori e nelle chat tra pari. E a un certo punto comincia a tornare addosso ai ragazzi che ne sono il bersaglio, modificando ciò che essi possono pensare di sé.

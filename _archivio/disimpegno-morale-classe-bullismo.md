@@ -9,6 +9,7 @@ sommario: "Sintesi di uno studio multilivello su disimpegno morale collettivo e 
 perche_regge: "Costrutti tuttora standard nella ricerca, e l'indicazione operativa è la stessa che regge i programmi evidence-based di oggi."
 originale: "https://ivanpsy.github.io/bullismoonline/processi-cognitivi-individuali-classe-bullismo/"
 tags: ["socializzazione tra adolescenti", "effetti bullismo", "effetti cyberbullismo"]
+description: "Sintesi di uno studio multilivello su disimpegno morale collettivo e autoefficacia del difensore come predittori del bullismo a livello di classe."
 ---
 
 ## Processi socio-cognitivi individuali e di classe nel bullismo: uno studio multilivello longitudinale a breve termine

@@ -11,6 +11,7 @@ nota_epoca: "Studio correlazionale cross-sezionale su campione piccolo, del filo
 image: /assets/archivio/Multitasking-Brain.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/come-eccessivo-multitasking-potrebbe-influenzare-tuo-cervello/"
 tags: ["ACC", "adolescenti e bullismo", "corteccia cingolata anteriore", "media multitasking", "ricerche bullismo online"]
+description: "Uno studio di neuroimaging associa il media multitasking a una minore densità di materia grigia nella corteccia cingolata anteriore, con riserva esplicita sulla direzione causale."
 ---
 
 <blockquote><a href="/assets/archivio/Multitasking-Brain.jpg"><img class="alignleft wp-image-194 size-full" src="/assets/archivio/Multitasking-Brain.jpg" alt="Effects of a Multitasking Brain" width="806" height="736" /></a>Per la prima volta, i neuroscienziati hanno scoperto che le persone che fanno uso di più dispositivi contemporaneamente hanno minore densità della sostanza grigia in una zona del cervello associata al controllo cognitivo ed emotivo.</blockquote>

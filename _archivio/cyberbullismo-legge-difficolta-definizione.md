@@ -11,6 +11,7 @@ nota_epoca: "ATTENZIONE, quadro normativo superato. Scritto pochi mesi prima del
 image: /assets/archivio/cyberbullismo_leggi.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/cyberbullismo-legge-internazionale-complessita-fenomeno/"
 tags: ["cyberbullismo nel mondo"]
+description: "Perché il cyberbullismo sfugge a una definizione giuridica, con il caso del video che diventa virale per ricondivisioni successive e l'intenzione che si diluisce."
 ---
 
 Nonostante il Cyberbullismo sia iniziato molti anni fa, <a href="/archivio/cyberbullismo-idra-2-0/">la sua natura fluida</a> lo rende un fenomeno difficile da definire, che <strong>si evolve con la stessa velocità con la quale si evolve il Web.</strong>

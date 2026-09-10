@@ -11,6 +11,7 @@ nota_epoca: "La diagnosi operativa è stata risolta dal design, non dall'educazi
 image: /assets/archivio/Loss-Smartphone.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/siamo-consapevoli-dei-rischi-derivanti-da-la-perdita-del-nostro-smartphone/"
 tags: ["Cybersecurity", "Educazione digitale", "Privacy"]
+description: "Uno studio sulla scarsa preparazione degli utenti alla perdita o al furto dello smartphone, fra ignoranza delle contromisure e negazione del rischio."
 ---
 
 &nbsp;

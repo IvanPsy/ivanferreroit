@@ -1,6 +1,8 @@
 ---
 # Frontmatter vuoto: serve solo a dire a Jekyll di processare il file
 # con Liquid, così possiamo leggere _data/digitale_inclusivo.yml.
+title: "Digitale Inclusivo: risorse per BES, DSA e neurodiversità"
+description: "Risorse, strumenti e dashboard per docenti, genitori e professionisti che lavorano con studenti BES, DSA, ADHD e autismo. Il canale dove digitale e inclusione si incontrano."
 ---
 {%- assign total = 0 -%}
 {%- for s in site.data.digitale_inclusivo.sections -%}
@@ -12,7 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digitale Inclusivo — Ivan Ferrero | Risorse per BES, DSA e Neurodiversità</title>
-    <meta name="description" content="Risorse, strumenti e dashboard per docenti, genitori e professionisti che lavorano con studenti BES, DSA, ADHD e autismo. Il canale dove digitale e inclusione si incontrano.">
+    {% seo title=false %}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -380,6 +382,8 @@
         </div>
 
     </div>
+
+{% include footer-nav.html %}
 
     <!-- Script menu -->
     <script src="/assets/menu.js"></script>

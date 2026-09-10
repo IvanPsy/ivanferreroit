@@ -11,6 +11,7 @@ nota_epoca: "Metà delle voci sono piattaforme oggi morte o marginali, e manca t
 image: /assets/archivio/Cyberbullismo_Parole_110914_031719_PM.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/parole-cyberbullismo/"
 tags: ["che cosa significa", "cyberbullismo", "hikikomori"]
+description: "Glossario per genitori: le forme di aggressione online secondo la tassonomia Willard, e le piattaforme che nel 2014 contavano."
 ---
 
 <a href="/assets/archivio/Cyberbullismo_Parole_110914_031719_PM.jpg"><img class="alignnone size-full wp-image-228" src="/assets/archivio/Cyberbullismo_Parole_110914_031719_PM.jpg" alt="Cyberbullismo_Parole_110914_031719_PM" width="1907" height="944" /></a>

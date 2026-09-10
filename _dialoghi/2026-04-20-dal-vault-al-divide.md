@@ -4,6 +4,7 @@ title: "Dal vault al divide"
 date: 2026-04-20
 tags: [architettura-cognitiva, identità-professionale, divide-cognitivo]
 excerpt: "L'invidia per i setup altrui è un sensore della propria frizione, non una diagnosi della propria architettura."
+description: "L'invidia per i setup altrui è un sensore della propria frizione, non una diagnosi della propria architettura."
 ---
 
 Ho iniziato chiedendo a Sheila se fosse il caso di spostare tutto in un vault Obsidian, quel tipo di setup che vedi su YouTube, Markdown dappertutto, LLM puntato al filesystem, second brain frictionless. L'ho detto con un po' di invidia, perché sembrava accessibile, elegante, senza attrito.

@@ -1,6 +1,8 @@
 ---
 # Frontmatter vuoto: serve solo a dire a Jekyll di processare il file
 # con Liquid, così possiamo leggere _data/digitale_inclusivo.yml.
+title: "Dashboard"
+description: "Dashboard interattive gratuite per docenti, genitori e professionisti: analisi critiche della ricerca, inclusione e BES, adolescenti e digitale, IA e scuola."
 ---
 {%- assign total = 0 -%}
 {%- for s in site.data.digitale_inclusivo.sections -%}
@@ -16,6 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Ivan Ferrero</title>
+    {% seo title=false %}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -402,6 +405,8 @@
             </div>
         </main>
     </div>
+
+{% include footer-nav.html %}
 
     <!-- Menu Script -->
     <script src="/assets/menu.js"></script>

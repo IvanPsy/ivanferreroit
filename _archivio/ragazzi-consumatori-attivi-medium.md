@@ -10,6 +10,7 @@ perche_regge: "La tesi non dipende dalle piattaforme citate, che sono illustrazi
 image: /assets/archivio/Adolescente_libri.jpeg
 originale: "https://ivanpsy.github.io/bullismoonline/ragazzi-consumatori-passivi-attivi/"
 tags: ["social media per gli adolescenti", "Educazione digitale per adulti"]
+description: "I ragazzi non leggono e non si informano meno: cambiano il contenitore. Separare il medium dal contenuto per capire cosa stanno davvero facendo."
 ---
 
 Non è vero che i nostri ragazzi guardano meno film o leggono di meno: semplicemente **si è evoluto il modo con il quale le nuove generazioni consumano questi tipi di contenuti.**

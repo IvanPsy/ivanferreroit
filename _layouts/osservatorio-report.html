@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} — Osservatorio | Ivan Ferrero</title>
-    <meta name="description" content="{{ page.tldr | default: page.excerpt | strip_html | truncate: 200 }}">
+    {% seo title=false %}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -337,6 +337,8 @@
     </nav>
 
 </main>
+
+{% include footer-nav.html %}
 
 <!-- Menu condiviso del sito -->
 <script src="/assets/menu.js"></script>

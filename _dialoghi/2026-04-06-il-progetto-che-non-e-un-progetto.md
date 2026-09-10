@@ -4,6 +4,7 @@ title: "Il progetto che non è un progetto"
 date: 2026-04-06
 tags: [architettura-cognitiva, identità-professionale]
 excerpt: "Il progetto che sembra non un vero progetto perché nasce dal piacere è spesso quello fondante."
+description: "Il progetto che sembra non un vero progetto perché nasce dal piacere è spesso quello fondante."
 ---
 
 Stavo discutendo con Sheila di come condividere le nostre conversazioni meta — quelle riflessioni sull'architettura cognitiva, sull'identità professionale, sul rapporto tra piacere e lavoro che emergono quando non sto producendo qualcosa per un committente.

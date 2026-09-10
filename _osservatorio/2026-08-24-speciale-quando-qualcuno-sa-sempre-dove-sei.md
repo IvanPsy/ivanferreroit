@@ -11,6 +11,7 @@ autore: Ivan Ferrero
 tags: [controllo coercitivo, violenza domestica, stalkerware, sicurezza digitale, 1522, centri antiviolenza, piano di sicurezza, femminicidio, cyberpsicologia, guida pratica]
 tldr: "Il primo impulso di chi capisce di essere controllata è cambiare tutte le password e togliere la posizione. È l'unica cosa da non fare per prima: segnala all'altro la perdita di controllo, che è precisamente ciò che precede l'escalation. Qui la sequenza corretta, cosa preparare e cosa non fare mai; e una seconda parte per l'amica, l'amico, il collega, che nei dati è il vero punto di rilevazione precoce."
 descrizione: "Guida pratica sul controllo digitale nelle relazioni: come riconoscerlo, in che ordine revocare gli accessi senza aumentare il rischio, cosa preparare, e cosa può fare concretamente chi le sta accanto."
+description: "Il primo impulso di chi capisce di essere controllata è cambiare tutte le password e togliere la posizione. È l'unica cosa da non fare per prima: segnala all'altro la perdita di controllo, che è…"
 ---
 
 *Una guida pratica per chi vive sotto controllo digitale, e per chi le sta accanto. In questa materia l'ordine conta più dei singoli consigli: quella che segue è una sequenza, non una checklist.*

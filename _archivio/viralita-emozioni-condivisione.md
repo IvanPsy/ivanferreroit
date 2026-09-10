@@ -10,6 +10,7 @@ perche_regge: "Meccanismo psicologico indipendente dalla piattaforma. Plutchik �
 image: /assets/archivio/Fiore-di-Plutchik.png
 originale: "https://ivanpsy.github.io/bullismoonline/viralita-adolescenti-condivisioni-emozioni/"
 tags: ["adolescenti ed emozioni", "Banca Intesa Sanpaolo video", "Featured"]
+description: "Perché un contenuto diventa virale, con il modello delle emozioni di Plutchik. In premessa il punto più utile: il cyberbullismo ha bisogno della viralità per funzionare."
 ---
 
 <p lang="en-US">Il Cyberbullismo si avvale delle caratteristiche del Web per esprimere tutta la sua efficacia.

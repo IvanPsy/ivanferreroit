@@ -1,0 +1,144 @@
+---
+layout: null
+permalink: /404.html
+sitemap: false
+title: "Pagina non trovata"
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina non trovata | Ivan Ferrero</title>
+    <meta name="robots" content="noindex">
+    <meta name="description" content="La pagina che cercavi non esiste o è stata spostata. Da qui puoi raggiungere tutte le sezioni del sito di Ivan Ferrero.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0e14;
+            color: #e6edf3;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            padding-top: 5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { color: #00d9ff; text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: #e6edf3; }
+
+        .nf-container {
+            flex: 1 0 auto;
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 2rem;
+        }
+
+        .nf-code {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #00d9ff;
+            background: rgba(0, 217, 255, 0.08);
+            border: 1px solid rgba(0, 217, 255, 0.25);
+            border-radius: 100px;
+            padding: 0.3rem 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .nf-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .nf-text {
+            color: #8b949e;
+            font-size: 1.05rem;
+            margin-bottom: 2.25rem;
+            max-width: 38rem;
+        }
+
+        .nf-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #6e7681;
+            margin-bottom: 0.9rem;
+        }
+
+        .nf-grid {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .nf-grid a {
+            display: block;
+            height: 100%;
+            background: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 0.9rem 1.1rem;
+            color: #e6edf3;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .nf-grid a:hover,
+        .nf-grid a:focus-visible { border-color: #00d9ff; background: #151b23; }
+
+        .nf-grid strong { display: block; color: #00d9ff; font-weight: 600; }
+        .nf-grid span { display: block; color: #8b949e; font-size: 0.9rem; line-height: 1.5; margin-top: 0.2rem; }
+
+        @media (max-width: 768px) {
+            body { padding-top: 6rem; }
+            .nf-container { padding: 2rem 1rem 1.5rem; }
+            .nf-title { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Menu del sito -->
+<div id="site-menu"></div>
+
+<main class="nf-container">
+    <span class="nf-code">Errore 404</span>
+    <h1 class="nf-title">Questa pagina non c'è</h1>
+    <p class="nf-text">L'indirizzo che hai aperto non esiste, oppure la pagina è stata spostata. Capita, soprattutto con i link vecchi. Da qui puoi ripartire da una delle sezioni del sito.</p>
+
+    <p class="nf-label">Dove andare</p>
+    <ul class="nf-grid">
+        <li><a href="/"><strong>Home</strong><span>Chi sono e di cosa mi occupo</span></a></li>
+        <li><a href="/libri/"><strong>Libri e schede</strong><span>Le schede pratiche per genitori e i libri</span></a></li>
+        <li><a href="/dashboards/"><strong>Dashboard</strong><span>Risorse interattive per lo studio e la formazione</span></a></li>
+        <li><a href="/osservatorio/"><strong>Osservatorio</strong><span>I brief settimanali su tecnologia, scuola, minori e inclusione</span></a></li>
+        <li><a href="/digitale-inclusivo/"><strong>Digitale Inclusivo</strong><span>Strumenti per BES, DSA e neurodiversità</span></a></li>
+        <li><a href="/dialoghi/"><strong>Dialoghi</strong><span>Conversazioni con una AI</span></a></li>
+        <li><a href="/archivio/"><strong>Archivio</strong><span>BullismoOnline 2009-2020</span></a></li>
+        <li><a href="/#contatti"><strong>Contatti</strong><span>Per scrivermi</span></a></li>
+    </ul>
+</main>
+
+{% include footer-nav.html %}
+
+<!-- Menu condiviso del sito -->
+<script src="/assets/menu.js"></script>
+
+</body>
+</html>

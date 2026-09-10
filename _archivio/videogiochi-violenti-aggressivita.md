@@ -10,6 +10,7 @@ perche_regge: "Posizione controcorrente nel 2020, poi consolidata dalla letterat
 image: /assets/archivio/ricerche-scientifiche-cyberbullismo-post-lores.jpeg
 originale: "https://ivanpsy.github.io/bullismoonline/videogiochi-violenti-studio-dubbi/"
 tags: ["social media per gli adolescenti", "Educazione digitale per adulti", "socializzazione", "adolescenti e videogames", "ricerche scientifiche sul cyberbullismo"]
+description: "Uno studio longitudinale su 15.000 soggetti non trova correlazione fra videogiochi violenti e aggressività, e la direzione causale sembra opposta a quella che si assume."
 ---
 
 ## Che cosa ci dice la ricerca

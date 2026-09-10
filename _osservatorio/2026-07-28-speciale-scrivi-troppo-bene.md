@@ -11,6 +11,7 @@ autore: Ivan Ferrero
 tags: [intelligenza artificiale, scuola, inclusione, autismo, neurodivergenza, valutazione, DSA, BES, PDP, PEI, docenti, cyberpsicologia]
 tldr: "I criteri che circolano per riconoscere un testo scritto dall'intelligenza artificiale (struttura ordinata, connettivi espliciti, lessico ricercato, assenza di errori) coincidono quasi voce per voce con i descrittori clinici della lingua autistica e con le strategie compensative che scriviamo nei PDP e nei PEI. Il primo studio sistematico (Chambers e Kelley, 2026) trova che i testi di area autistica hanno il 25-50% di probabilità in più di essere classificati come generati, e nessuna caratteristica testuale misurata spiega l'effetto. Ma il problema non è nato con i rilevatori: i docenti che ho visto accusare degli studenti non ne stavano usando nessuno."
 descrizione: "Come i criteri per riconoscere i testi scritti dall'intelligenza artificiale stanno colpendo gli studenti neurodivergenti, e perché il problema non è nato con i rilevatori."
+description: "I criteri che circolano per riconoscere un testo scritto dall'intelligenza artificiale (struttura ordinata, connettivi espliciti, lessico ricercato, assenza di errori) coincidono quasi voce per voce…"
 ---
 
 *Come i criteri per riconoscere i testi scritti dall'intelligenza artificiale stanno colpendo gli studenti neurodivergenti, e perché il problema non è nato con i rilevatori. Tempo di lettura circa 20 minuti.*

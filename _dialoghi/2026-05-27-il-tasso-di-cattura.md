@@ -4,6 +4,7 @@ title: "Il tasso di cattura"
 date: 2026-05-27
 tags: [architettura-cognitiva, cognizione-estesa, ai-pratica]
 excerpt: "La differenza non è in cosa fai con l'AI. È in quanto resta nel sistema quando l'AI è spenta."
+description: "La differenza non è in cosa fai con l'AI. È in quanto resta nel sistema quando l'AI è spenta."
 ---
 
 C'è una dicotomia che circola molto nei discorsi sull'uso delle AI: da una parte l'acceleratore di produttività, dall'altra il nodo cognitivo, l'estensione della mente nel senso di Clark e Chalmers. La prima modalità velocizza ciò che già si sa fare. La seconda partecipa al pensiero, costruisce categorie nuove, distribuisce la cognizione tra cervello e sistema esterno. Vengono spesso presentate come scelte alternative, come se si dovesse decidere a quale campo si appartiene, e c'è anche una valenza implicita: la prima è un po' inferiore, la seconda è la modalità "nobile".

@@ -10,6 +10,7 @@ perche_regge: "Il nucleo è un meccanismo relazionale, non una piattaforma. La s
 image: /assets/archivio/Clash-of-Clans.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/clash-of-clans-rapporto-adolescenti/"
 tags: ["clash of clans", "come relazionarsi con gli adolescenti", "Educazione digitale"]
+description: "Racconto clinico in prima persona: usare il videogioco del ragazzo come chiave di ingaggio per costruire l'alleanza terapeutica con un quattordicenne chiuso."
 ---
 
 <h2>Come ho usato Clash of Clans per iniziare con un adolescente</h2>

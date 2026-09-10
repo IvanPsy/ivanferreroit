@@ -10,6 +10,7 @@ perche_regge: "Insegna un metodo invece di riportare un risultato, e la lezione 
 image: /assets/archivio/No-Smartphone.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/bps-research-digest-did-five-day-camp-without-digital-devices-really-boost-childrens-interpersonal-skills/"
 tags: ["adolescenti ed emozioni", "gestire le emozioni"]
+description: "Demolizione metodologica di uno studio molto citato sul campo estivo senza dispositivi: gruppi non randomizzati, baseline diverse, nessun controllo di umore e motivazione."
 ---
 
 <blockquote><a href="/assets/archivio/No-Smartphone.jpg"><img class="alignleft wp-image-204 size-full" src="/assets/archivio/No-Smartphone.jpg" alt="No Smartphone" width="414" height="414" /></a> C'è un brillante studio: hanno sottratto a tutti i pre-adolescenti del gruppo i loro dispositivi digitali per cinque giorni e li hanno inviati in un campo estivo e testato le loro abilità interpersonali, e indovinate un po ', anche nei soli cinque giorni queste abilità erano cambiate!</blockquote>

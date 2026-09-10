@@ -4,6 +4,7 @@ title: "Il freno che non sapevi di avere"
 date: 2026-04-13
 tags: [architettura-cognitiva, cognizione-estesa, ai-pratica]
 excerpt: "Rimuovere una barriera senza sostituirla con un regolatore non è empowerment — è destabilizzazione."
+description: "Rimuovere una barriera senza sostituirla con un regolatore non è empowerment — è destabilizzazione."
 ---
 
 Stavo leggendo un thread su Reddit — centinaia di sviluppatori con ADHD che raccontano la loro esperienza con Claude. Il pattern era identico per tutti: euforia iniziale, iperproduzione furiosa, poi il crash. Dodici ore al giorno a programmare, progetti che si moltiplicano, burnout spettacolare. Lo chiamavano "una trappola bellissima".

@@ -4,6 +4,7 @@ title: "Dove vive il pensiero"
 date: 2026-05-02
 tags: [cognizione-estesa, metacognizione, ai-pratica]
 excerpt: "Non è quanto automatizzi a fare la differenza. È cosa consideri substrato di pensiero."
+description: "Non è quanto automatizzi a fare la differenza. È cosa consideri substrato di pensiero."
 ---
 
 Un certo discorso sull'AI è ormai dominante: gli strumenti automatici servono a salvare tempo, a togliere ore di lavoro ripetitivo, a liberare il professionista per attività a maggior valore. È un framing efficace, vendibile, e in larga parte vero. Esiste però una cornice alternativa, meno popolare ma più antica: quella della cognizione estesa, secondo cui certi strumenti non sono fuori dalla mente, ne sono parte. La tentazione è leggere le due cornici come gradazioni dello stesso fenomeno, più o meno integrazione, più o meno automazione. In realtà sono due cosmologie distinte, e producono decisioni opposte.

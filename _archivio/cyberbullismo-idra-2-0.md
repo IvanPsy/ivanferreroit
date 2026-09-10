@@ -10,6 +10,7 @@ perche_regge: "Nessuna piattaforma, nessun dato d'epoca, nessuna norma. I tre el
 image: /assets/archivio/Cyberbullismo-e-Idra-2.0.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/cosa-bullismo-online-idra-2-0/"
 tags: ["affrontare cyberbullismo", "cosa è bullismo online"]
+description: "La metafora che ha retto tutto il progetto: il cyberbullismo come Idra, con i tre ruoli che si sfumano, l'osservatore come attore decisivo, e il passaggio del genitore da monitore a mentore."
 ---
 
 <iframe src="https://www.youtube-nocookie.com/embed/fK8LrzzC4-8" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>

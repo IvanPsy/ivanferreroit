@@ -4,6 +4,7 @@ title: "Due modi di sparire"
 date: 2026-04-28
 tags: [cognizione-estesa, architettura-cognitiva, educazione-inclusiva]
 excerpt: "Sparire per liberare attenzione, o sparire per nascondere chi ha progettato: non è la stessa invisibilità."
+description: "Sparire per liberare attenzione, o sparire per nascondere chi ha progettato: non è la stessa invisibilità."
 ---
 
 C'è una formula che torna spesso nei discorsi sulla cognizione estesa: gli strumenti che usiamo possono diventare parte del nostro pensare quando sono "affidabili e invisibili". La formula è elegante, ma nasconde una doppia ambiguità che nel linguaggio comune passa inosservata, e che invece è cruciale capire quando si decide come progettare un ambiente di apprendimento, una pratica clinica, o semplicemente il proprio rapporto quotidiano con la tecnologia.

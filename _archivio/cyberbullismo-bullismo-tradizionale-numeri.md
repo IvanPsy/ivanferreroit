@@ -10,6 +10,7 @@ perche_regge: "Tesi anti-panico ancora sostenuta dalla letteratura. Le percentua
 image: /assets/archivio/Cyberbullying.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/cyberbulllismo-e-bullismo-tradizionale-mass-media/"
 tags: ["adolescenti e suicidio", "bullismo online", "cyberbullismo"]
+description: "Il cyberbullismo raramente è un fenomeno puro, e quasi mai è fattore unico nei suicidi adolescenziali: la sovrapposizione con il bullismo offline è la regola."
 ---
 
 <p style="color: #333333;"><a href="/assets/archivio/Cyberbullying.jpg"><img class="aligncenter wp-image-77 size-full" src="/assets/archivio/Cyberbullying.jpg" alt="Cyberbullying" width="2048" height="1365" /></a>Mentre tutto il mondo sta parlando di <a style="color: #000000;" title="Cyberbullismo Wikipedia" href="http://it.wikipedia.org/wiki/Cyberbullismo" target="_blank" rel="nofollow noopener"><strong>cyberbullismo</strong></a>, dobbiamo discernere la realtà (numeri) dalla percezione (quello che pensiamo).</p>

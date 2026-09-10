@@ -4,6 +4,7 @@ title: "Il lutto del completista"
 date: 2026-07-26
 tags: [esplorazione, videogiochi, finitezza]
 excerpt: "Non è che non hai tempo per finire i giochi. È che non vuoi più finirli, e questo va attraversato."
+description: "Non è che non hai tempo per finire i giochi. È che non vuoi più finirli, e questo va attraversato."
 ---
 
 C'è una frase che gli adulti si dicono per anni, e che sembra un dato di fatto: mi piacerebbe tornare a giocare, ma non avrei mai il tempo di finire un gioco. Suona come aritmetica. Ore disponibili contro ore richieste, il conto non torna, meglio lasciar perdere. Ma se si guarda cosa quella frase produce davvero, si scopre che non è un calcolo: è un modo per non doversi sedere davanti a una perdita.

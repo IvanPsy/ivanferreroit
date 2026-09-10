@@ -10,6 +10,7 @@ perche_regge: "Cornice sistemica, non cronaca. Posizione minoritaria nel 2020, o
 image: /assets/archivio/20200922-quale-senso-della-vita-per-i-nostri-ragazzi-01.jpeg
 originale: "https://ivanpsy.github.io/bullismoonline/senso-vita-adolescenti/"
 tags: ["social media per gli adolescenti", "Educazione digitale per ragazzi", "socializzazione", "adolescenti e videogames"]
+description: "Il digitale come luogo di vita e non come problema, e il comportamento dei ragazzi come risposta adattiva all'ambiente che gli adulti hanno costruito."
 ---
 
 ## Adolescenti e digitale, un binomio spesso portatore di disagio, malessere e confusione.

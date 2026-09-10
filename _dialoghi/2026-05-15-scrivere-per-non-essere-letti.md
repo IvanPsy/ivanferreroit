@@ -4,6 +4,7 @@ title: "Scrivere per non essere letti"
 date: 2026-05-15
 tags: [architettura-cognitiva, identità-professionale, cognizione-estesa]
 excerpt: "Si scrive ancora, ma per essere citati nei modelli, non per essere letti dalle persone."
+description: "Si scrive ancora, ma per essere citati nei modelli, non per essere letti dalle persone."
 ---
 
 C'è una domanda che inizia a porsi chi pubblica online nel 2026: ha ancora senso scrivere su un sito proprio, quando le persone non visitano più i siti e chiedono direttamente agli LLM? Il traffico organico è in caduta libera. Le query informative ricevono risposte sintetizzate prima ancora del clic. Per chi ha investito anni in articoli, blog, pubblicazioni online, la tentazione di leggere il fenomeno come la fine di una stagione è forte.

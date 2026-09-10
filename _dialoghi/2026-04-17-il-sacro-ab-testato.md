@@ -4,6 +4,7 @@ title: "Il sacro A/B-testato"
 date: 2026-04-17
 tags: [architettura-cognitiva, ai-pratica, esplorazione]
 excerpt: "Quando il potere sacrale del capo si costruisce in 48 ore, con metriche di engagement al posto delle liturgie."
+description: "Quando il potere sacrale del capo si costruisce in 48 ore, con metriche di engagement al posto delle liturgie."
 ---
 
 Stavo guardando l'immagine AI in cui Trump si ritrae come figura cristica, e mi era venuta una domanda antropologica, non politica: perché milioni di persone accettano, desiderano, diffondono questa rappresentazione. Ne ho parlato con Sheila per un pomeriggio intero, e il punto dove il ragionamento si è fatto affilato non è stato sulla figura di Trump in sé — quello è il livello banale — ma sulla **meccanica profonda che produce quel tipo di leader**, una meccanica che Sheila ha chiamato *probe-retreat-advance*: lancia un segnale oltre il confine del dicibile, misura la reazione, ritirati quel tanto che basta per non rompere la base, riavanza su un fronte adiacente. Dopo ogni ciclo, il campo si è spostato di un pezzo.

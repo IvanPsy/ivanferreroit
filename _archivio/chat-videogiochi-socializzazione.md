@@ -10,6 +10,7 @@ perche_regge: "Il gioco online come contesto di socializzazione strutturata è u
 image: /assets/archivio/ragazzi-adolescenti-socializzazione-gruppo.jpeg
 originale: "https://ivanpsy.github.io/bullismoonline/ragazzi-socializzazione-videogames/"
 tags: ["social media per gli adolescenti", "Educazione digitale per adulti", "socializzazione", "adolescenti e videogames"]
+description: "Le chat dei giochi multiplayer come palestra di abilità sociali: clan, gerarchie, leadership, lealtà e tradimento."
 ---
 
 Che cosa fanno i nostri ragazzi mentre sono su Clash Royale, Fortnite, e altri giochi?

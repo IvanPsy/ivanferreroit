@@ -4,6 +4,7 @@ title: "Vincere in tribunale, perdere in aula"
 date: 2026-05-11
 tags: [cornici-retoriche, educazione-digitale, evidenza-vs-narrazione]
 excerpt: "Le cornici retoriche più potenti sono anche le più disposte a cancellare l'eterogeneità del fenomeno che descrivono."
+description: "Le cornici retoriche più potenti sono anche le più disposte a cancellare l'eterogeneità del fenomeno che descrivono."
 ---
 
 C'è un momento, quando si segue il dibattito pubblico su un fenomeno nuovo e complesso, in cui si riconosce un'operazione retorica che agisce a un livello profondo. Una cornice vincente, costruita in un dominio (tipicamente quello legale o mediatico), comincia a migrare in altri domini portando con sé non solo la sua morale ma anche la sua policy implicita, ossia il tipo di risposta che quella cornice rende politicamente naturale. E spesso, in quel passaggio, qualcosa si rompe.

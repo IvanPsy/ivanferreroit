@@ -4,6 +4,7 @@ title: "Curatore senza saperlo"
 date: 2026-04-27
 tags: [architettura-cognitiva, identità-professionale, cognizione-estesa]
 excerpt: "La frizione tra te e i tuoi strumenti non è tecnica. È che pensano ancora che tu sia un produttore."
+description: "La frizione tra te e i tuoi strumenti non è tecnica. È che pensano ancora che tu sia un produttore."
 ---
 
 C'è un momento, quando si lavora intensamente con un'AI, in cui ci si accorge che gli strumenti di tutti i giorni cominciano a fare resistenza. Non in modo drammatico, in modo sottile. Un editor che non si aggiorna quando il file cambia da fuori. Una suite di office che vuole convertire ogni documento nel suo formato chiuso. Un fastidio diffuso davanti a barre di formattazione che non si useranno mai.

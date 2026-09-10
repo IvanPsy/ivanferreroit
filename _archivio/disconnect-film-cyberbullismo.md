@@ -11,6 +11,7 @@ nota_epoca: "Il veicolo è un film del 2012 oggi fuori dal circuito, con estetic
 image: /assets/archivio/Disconnect-Movie-Cyberbullying.jpg
 originale: "https://ivanpsy.github.io/bullismoonline/disconnect-film-cyberbullismo-recensione-genitori-adolescenti/"
 tags: ["adolescenti e bullismo", "adolescenti e suicidio", "adolescenti ed emozioni", "bullismo online", "cyberbullismo"]
+description: "Se e come proporre agli adolescenti un film sul cyberbullismo, con la tesi che il Web sia amplificatore e non causa del disagio."
 ---
 
 <b>Disconnect</b> è un film forte del 2012 molto duro in cui si parla di Cyberbullismo ma non solo, non lascia tregua al buonismo e ci presenta le Ombre del Web in tutta la loro crudezza e realtà.

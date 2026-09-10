@@ -4,6 +4,7 @@ title: "L'architettura invisibile del pensiero"
 date: 2026-04-12
 tags: [architettura-cognitiva, cognizione-estesa, metacognizione]
 excerpt: "La variabile critica non è lo strumento AI, ma chi progetta l'infrastruttura entro cui la cognizione avviene."
+description: "La variabile critica non è lo strumento AI, ma chi progetta l'infrastruttura entro cui la cognizione avviene."
 ---
 
 Stavo ragionando su quei titoli allarmistici che ciclicamente tornano — "l'AI riduce le capacità cognitive del 55%", "ChatGPT ci rende stupidi" — e volevo capire cosa dicesse davvero la letteratura scientifica. Quello che è emerso dal dialogo con Sheila è un viaggio che parte dal dato grezzo e arriva a un concetto che la ricerca sta appena cominciando a formalizzare.

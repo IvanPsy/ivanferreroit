@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} — Dialoghi con una AI | Ivan Ferrero</title>
-    <meta name="description" content="{{ page.excerpt }}">
+    {% seo title=false %}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -273,6 +273,8 @@
     <a href="/dialoghi/" class="dialogo-back">← tutti i dialoghi</a>
 
 </main>
+
+{% include footer-nav.html %}
 
 <!-- Menu condiviso del sito -->
 <script src="/assets/menu.js"></script>

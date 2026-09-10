@@ -10,6 +10,7 @@ perche_regge: "Il nucleo non è la piattaforma ma il meccanismo di design, lo st
 image: /assets/archivio/storytelling-storie.jpeg
 originale: "https://ivanpsy.github.io/bullismoonline/instagram-storie-adolescenti/"
 tags: ["social media per gli adolescenti", "Educazione digitale per adulti"]
+description: "Perché il formato effimero è un'arma nella guerra per l'attenzione: flusso di micromomenti, perdita della percezione del tempo, esclusività imposta dall'attimo fuggente."
 ---
 
 Prosegue la mia analisi del mondo social dei nostri ragazzi.

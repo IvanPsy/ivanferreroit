@@ -11,6 +11,7 @@ autore: Ivan Ferrero
 tags: [femminicidio, violenza di genere, dati, statistica, Istat, UNODC, legge 181/2025, art. 577-bis, patriarcato, paradosso nordico, controllo coercitivo, stalkerware, cyberpsicologia, politiche pubbliche]
 tldr: "Ministero dell'Interno 8, Istat 106, Non Una Di Meno 40: tre numeri pubblicati nello stesso mese, tutti veri, che misurano tre oggetti diversi. Qui si smonta la guerra dei conteggi, si guarda cosa fa davvero la legge 181/2025, e si mette alla prova la tesi del patriarcato protettivo con i dati globali e con il paradosso nordico. Il numero che nessuno cita per intero: le donne uccise da partner o ex sono 63 nel 2023, 62 nel 2024, 62 nel 2025. Il calo complessivo è avvenuto tutto fuori da lì."
 descrizione: "Perché le fonti sul femminicidio danno numeri incompatibili pur avendo tutte ragione, cosa fa davvero la legge 181/2025, e cosa reggono e cosa non reggono le due tesi opposte sul rapporto fra patriarcato e violenza."
+description: "Ministero dell'Interno 8, Istat 106, Non Una Di Meno 40: tre numeri pubblicati nello stesso mese, tutti veri, che misurano tre oggetti diversi. Qui si smonta la guerra dei conteggi, si guarda cosa…"
 ---
 
 *La guerra dei conteggi, la legge del 2025, il patriarcato protettivo e il muro dei tassi base: quello che i dati dicono e quello che nessuno dei due schieramenti vuole sentirsi dire. Tempo di lettura circa 25 minuti.*

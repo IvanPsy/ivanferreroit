@@ -11,6 +11,7 @@ autore: Ivan Ferrero
 tags: [lettura, adolescenti, cyberpsicologia, ecosistema digitale, attenzione, scuola, distopia]
 tldr: "Una studentessa ha ritrovato la voglia di leggere grazie a un romanzo del 1953. Lo stesso romanzo descrive, con settant'anni di anticipo, il mondo che quella voglia gliel'aveva tolta. Ma non è la solita storia in cui la tecnologia è il mostro: è una storia sul tipo di relazione che costruiamo con gli strumenti che abbiamo in tasca."
 descrizione: "Una studentessa ha ritrovato la voglia di leggere grazie a un romanzo del 1953. Lo stesso romanzo descrive, con settant'anni di anticipo, il mondo che quella voglia gliel'aveva tolta. Ma non è la solita storia in cui la tecnologia è il mostro: è una storia sul tipo di relazione che costruiamo con gli strumenti che abbiamo in tasca."
+description: "Una studentessa ha ritrovato la voglia di leggere grazie a un romanzo del 1953. Lo stesso romanzo descrive, con settant'anni di anticipo, il mondo che quella voglia gliel'aveva tolta. Ma non è la…"
 ---
 
 *Qualche giorno fa una studentessa mi ha scritto che un romanzo del 1953 le aveva ridato la voglia di leggere, una voglia che credeva di aver perso da anni. Il romanzo è Fahrenheit 451. Quello che lei non sapeva, e che voglio raccontarti qui, è che quel libro descrive con settant'anni di anticipo proprio il mondo che quella voglia gliel'aveva tolta. Ma attenzione, non è la solita storia in cui la tecnologia è il cattivo. È una storia molto più interessante, e parla di te.*

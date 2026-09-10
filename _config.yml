@@ -2,7 +2,25 @@
 url: https://ivanferrero.it
 baseurl: ""
 title: "Ivan Ferrero"
-description: "Psicologo psicoterapeuta e cyberpsicologo. Dashboard, osservatorio e archivio."
+description: "Ivan Ferrero, psicologo-psicoterapeuta e cyberpsicologo. Formazione per docenti, inclusione e digitale, adolescenti e schermi, risorse per genitori."
+
+# Dati per jekyll-seo-tag (meta description, canonical, Open Graph, JSON-LD).
+# Le URL social sono copiate dalla home (index.html): se ne cambia una, va cambiata anche qui.
+lang: it
+# og:locale nel formato lingua_PAESE (senza questa riga il plugin scriverebbe solo "it")
+locale: it_IT
+author:
+  name: "Ivan Ferrero"
+social:
+  name: "Ivan Ferrero"
+  links:
+    - "https://www.linkedin.com/in/ivan-ferrero-psicologo/"
+    - "https://www.instagram.com/ivanpsy/"
+    - "https://www.facebook.com/ivanferreropsicologo"
+    - "https://www.youtube.com/channel/UCwtpXynvhq5PG7K22q55-Qg"
+    - "https://www.agendadigitale.eu/giornalista/ivan-ferrero/"
+    - "https://genitorisenzastress.substack.com/"
+    - "https://www.amazon.it/dp/B0B3LL21DR"
 
 # Ivan Ferrero — ivanferrero.it
 # Jekyll config per GitHub Pages
@@ -52,12 +70,22 @@ defaults:
     values:
       layout: archivio-articolo
 
+  # File di verifica di Google Search Console: resta pubblicato (non va mai
+  # cancellato) ma fuori da sitemap.xml. Il file non ha front matter e non va toccato.
+  - scope:
+      path: "googled29362825b2f1d97.html"
+    values:
+      sitemap: false
+
 # Plugin (nella whitelist di GitHub Pages)
 plugins:
   - jekyll-sitemap
+  - jekyll-seo-tag
 
 # Esclusioni dal build
 exclude:
   - CLAUDE.md
   - README.md
   - .DS_Store
+  - _to_delete
+  - "*.lock"
