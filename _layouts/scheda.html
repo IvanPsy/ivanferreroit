@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{%- comment -%}
+    Layout delle schede per genitori (collana Genitori senza stress), creato in P04 il 17/09/2026.
+    Serve tre tipi di pagina:
+    - le 369 schede e la scheda del percorso (collezione _schede, /libri/schede/<slug>/);
+    - i 21 esercizi del percorso in 96 giorni (_schede/percorso-96-giorni/, front matter percorso: true);
+    - le 12 pagine indice per tema (libri/tema/<tema>/index.html, front matter indice_tema: true).
+    I file in _schede/ sono generati da uno script (cartella di lavoro, scripts/schede_to_md.py) a partire
+    dai sorgenti delle schede: il testo non si corregge qui, si corregge nel sorgente e si rigenera.
+{%- endcomment -%}
+{%- if page.indice_tema %}
+    <title>{{ page.title | escape }} — Genitori senza stress | Ivan Ferrero</title>
+{%- else %}
+    <title>{{ page.title | escape }} — Schede per genitori | Ivan Ferrero</title>
+{%- endif %}
+    {% seo title=false %}
+{%- assign percorso_scheda = site.schede | where: "percorso_indice", true | first -%}
+{%- if page.percorso %}
+    {%- assign bc_nome = "Il percorso in 96 giorni" -%}
+    {%- assign bc_url = percorso_scheda.url -%}
+{%- else %}
+    {%- assign bc_nome = page.tema_label -%}
+    {%- capture bc_url %}/libri/tema/{{ page.tema }}/{% endcapture -%}
+{%- endif %}
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"{{ '/' | absolute_url }}"},
+      {"@type":"ListItem","position":2,"name":"Libri e schede","item":"{{ '/libri/' | absolute_url }}"},
+      {"@type":"ListItem","position":3,"name":{{ bc_nome | jsonify }},"item":"{{ bc_url | absolute_url }}"}
+      {%- unless page.indice_tema -%},
+      {"@type":"ListItem","position":4,"name":{{ page.title | jsonify }},"item":"{{ page.url | absolute_url }}"}
+      {%- endunless %}
+    ]}
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #0a0e14; color: #e6edf3;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7; padding-top: 5rem;
+        }
+        a { color: #00d9ff; text-decoration: none; transition: color .2s ease; }
+        a:hover { color: #e6edf3; }
+
+        .scheda-wrap { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+
+        /* --- testata --- */
+        .scheda-briciole {
+            font-family: 'JetBrains Mono', monospace; font-size: .75rem; letter-spacing: .06em;
+            color: #6e7681; margin-bottom: 1.1rem;
+        }
+        .scheda-briciole a { color: #8b949e; }
+        .scheda-briciole a:hover { color: #00d9ff; }
+        .scheda-briciole span[aria-hidden] { margin: 0 .45rem; }
+        .scheda-meta {
+            display: flex; flex-wrap: wrap; gap: .4rem .5rem; margin-bottom: 1.1rem;
+            font-family: 'JetBrains Mono', monospace; font-size: .72rem; letter-spacing: .03em;
+        }
+        .scheda-meta span {
+            padding: .2rem .55rem; border-radius: 4px; background: #151b23;
+            border: 1px solid #30363d; color: #8b949e;
+        }
+        .scheda-meta .m-tema { color: #00d9ff; border-color: #00d9ff40; }
+        .scheda-meta .m-eta { color: #d29922; border-color: #d2992240; }
+        .scheda-meta .m-percorso { color: #a371f7; border-color: #a371f740; }
+        .scheda-collana {
+            font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: #6e7681;
+            margin-bottom: 1.75rem;
+        }
+        .scheda-collana em { font-style: normal; color: #c9d1d9; }
+        h1.scheda-titolo {
+            font-size: clamp(1.75rem, 4.5vw, 2.35rem); line-height: 1.22; font-weight: 700;
+            letter-spacing: -.015em; color: #e6edf3; margin-bottom: 2rem;
+        }
+
+        /* --- corpo --- */
+        .scheda-corpo { font-size: 1.06rem; color: #c9d1d9; }
+        .scheda-corpo h2 {
+            font-family: 'JetBrains Mono', monospace; font-size: .8rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .14em; color: #00d9ff;
+            margin: 2.4rem 0 .9rem;
+        }
+        .scheda-corpo > h2:first-child { margin-top: 0; }
+        .scheda-corpo p { margin-bottom: 1rem; }
+        .scheda-corpo strong { color: #e6edf3; font-weight: 600; }
+        .scheda-corpo em { color: #e6edf3; }
+        .scheda-corpo ol { margin: 0 0 1rem; padding-left: 0; list-style: none; counter-reset: passo; }
+        .scheda-corpo ol li {
+            counter-increment: passo; position: relative; padding: .15rem 0 0 2.6rem; margin-bottom: 1.05rem;
+        }
+        .scheda-corpo ol li::before {
+            content: counter(passo); position: absolute; left: 0; top: .2rem;
+            width: 1.75rem; height: 1.75rem; border-radius: 50%;
+            border: 1px solid #00d9ff60; color: #00d9ff; background: #00d9ff12;
+            font-family: 'JetBrains Mono', monospace; font-size: .8rem; font-weight: 600;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .scheda-corpo ul { margin: 0 0 1rem 1.25rem; }
+        .scheda-soglia {
+            margin: 2.4rem 0 1.5rem; padding: 1.4rem 1.5rem .5rem;
+            background: #151b23; border: 1px solid #30363d; border-left: 3px solid #e6edf3; border-radius: 8px;
+        }
+        .scheda-soglia h2 { margin-top: 0 !important; color: #e6edf3; }
+        .scheda-soglia.acuto { border-left-color: #f85149; background: #f8514910; border-color: #f8514940; }
+        .scheda-soglia.acuto h2 { color: #f85149; }
+        .scheda-contatto {
+            display: block; margin: 1.5rem 0 0; padding: 1.3rem 1.5rem .4rem;
+            border: 1px solid #00d9ff30; border-radius: 8px;
+            background: linear-gradient(135deg, #00d9ff0f 0%, #0a0e14 70%);
+        }
+        .scheda-contatto h2 { margin-top: 0 !important; }
+        .scheda-corpo table { width: 100%; border-collapse: collapse; margin: .5rem 0 1.25rem; font-size: .92rem; }
+        .scheda-corpo th {
+            text-align: left; font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .1em; color: #6e7681;
+            border-bottom: 1px solid #30363d; padding: 0 .75rem .5rem 0;
+        }
+        .scheda-corpo td { border-bottom: 1px solid #21262d; padding: .55rem .75rem .55rem 0; vertical-align: top; }
+        .scheda-corpo td:first-child { font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: #a371f7; white-space: nowrap; }
+
+        /* --- riquadri sotto il testo --- */
+        .scheda-box {
+            margin-top: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;
+        }
+        .scheda-riquadro {
+            background: #1a222d; border: 1px solid #30363d; border-radius: 8px; padding: 1.2rem 1.35rem;
+            display: flex; flex-direction: column; gap: .45rem;
+        }
+        .scheda-riquadro .etichetta {
+            font-family: 'JetBrains Mono', monospace; font-size: .68rem; letter-spacing: .14em;
+            text-transform: uppercase; color: #6e7681;
+        }
+        .scheda-riquadro h3 { font-size: 1.05rem; line-height: 1.35; color: #e6edf3; font-weight: 600; }
+        .scheda-riquadro p { font-size: .88rem; color: #8b949e; line-height: 1.55; }
+        .scheda-bottone {
+            align-self: flex-start; margin-top: .35rem; padding: .5rem .9rem; border-radius: 6px;
+            border: 1px solid #00d9ff; color: #00d9ff; background: #00d9ff14; font-size: .88rem; font-weight: 500;
+        }
+        .scheda-bottone:hover { background: #00d9ff26; color: #e6edf3; }
+
+        .scheda-sezione { margin-top: 3rem; }
+        .scheda-sezione > h2 {
+            font-family: 'JetBrains Mono', monospace; font-size: .78rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .14em; color: #6e7681; margin-bottom: .9rem;
+        }
+        .scheda-lista { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+        .scheda-lista a {
+            display: block; padding: .9rem 1.1rem; border-radius: 8px; background: #151b23;
+            border: 1px solid #30363d; color: #e6edf3; font-weight: 500; line-height: 1.4;
+        }
+        .scheda-lista a:hover { border-color: #00d9ff50; background: #1a222d; }
+        .scheda-lista small {
+            display: block; margin-top: .3rem; font-weight: 400; font-size: .86rem; color: #8b949e; line-height: 1.5;
+        }
+        .scheda-lista .sigla {
+            display: block; margin-bottom: .2rem; font-family: 'JetBrains Mono', monospace;
+            font-size: .7rem; letter-spacing: .06em; color: #a371f7; font-weight: 400;
+        }
+        .scheda-lista .badge { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: #d29922; margin-top: .4rem; display: block; font-weight: 400; }
+        .scheda-uscite {
+            margin-top: 2.25rem; padding-top: 1.25rem; border-top: 1px solid #21262d;
+            display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; font-size: .92rem;
+        }
+        .scheda-temi { display: flex; flex-wrap: wrap; gap: .45rem; }
+        .scheda-temi a {
+            padding: .35rem .8rem; border-radius: 999px; font-size: .85rem;
+            background: #151b23; border: 1px solid #30363d; color: #8b949e;
+        }
+        .scheda-temi a:hover { color: #e6edf3; border-color: #6e7681; }
+        .scheda-temi a[aria-current] { color: #00d9ff; border-color: #00d9ff; background: #00d9ff14; }
+        .scheda-intro { color: #c9d1d9; font-size: 1.05rem; margin-bottom: 1rem; max-width: 62ch; }
+        .scheda-conteggio { font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: #6e7681; }
+        .scheda-conteggio b { color: #00d9ff; font-weight: 600; }
+
+        @media (max-width: 600px) {
+            .scheda-wrap { padding: 1.25rem 1rem 2.5rem; }
+            .scheda-corpo { font-size: 1rem; }
+            .scheda-soglia, .scheda-contatto { padding-left: 1.1rem; padding-right: 1.1rem; }
+            .scheda-corpo table { display: block; overflow-x: auto; }
+            .scheda-corpo td:first-child { white-space: normal; }
+        }
+        @media print {
+            #site-menu, .site-footer-nav, .scheda-box, .scheda-sezione, .scheda-uscite { display: none !important; }
+            body { background: #fff; color: #000; padding-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="site-menu"></div>
+
+<main class="scheda-wrap">
+{%- if page.indice_tema %}
+{%- comment -%} ===================== PAGINA INDICE DI UN TEMA ===================== {%- endcomment -%}
+{%- assign lista = site.schede | where: "tema", page.tema | where_exp: "s", "s.percorso != true" | sort: "ordine_alfa" %}
+    <nav class="scheda-briciole" aria-label="Percorso di navigazione">
+        <a href="/libri/">Libri e schede</a><span aria-hidden="true">›</span>Temi
+    </nav>
+    <div class="scheda-collana">Collana <em>Genitori senza stress</em> · schede per genitori</div>
+    <h1 class="scheda-titolo">{{ page.title }}</h1>
+    <p class="scheda-intro">{{ page.intro }}</p>
+    <p class="scheda-conteggio"><b>{{ lista.size }}</b> schede · in ordine alfabetico di domanda · ogni scheda si legge qui e si scarica in PDF</p>
+
+    <section class="scheda-sezione">
+        <h2>Le schede</h2>
+        <ul class="scheda-lista">
+        {%- for s in lista %}
+            <li><a href="{{ s.url }}">{{ s.title }}<small>{{ s.description }}</small><span class="badge">{{ s.eta_label }} · {{ s.intervento_label }}</span></a></li>
+        {%- endfor %}
+        </ul>
+    </section>
+
+    <section class="scheda-sezione">
+        <h2>Gli altri temi</h2>
+        {%- assign temi = site.pages | where: "indice_tema", true | sort: "ordine_tema" %}
+        <nav class="scheda-temi" aria-label="Temi delle schede">
+        {%- for t in temi %}
+            <a href="{{ t.url }}"{% if t.url == page.url %} aria-current="page"{% endif %}>{{ t.tema_label }}</a>
+        {%- endfor %}
+        </nav>
+    </section>
+
+    <div class="scheda-uscite">
+        <a href="/libri/">Tutte le schede, con la ricerca</a>
+        {%- if percorso_scheda %}<a href="{{ percorso_scheda.url }}">Il percorso in 96 giorni</a>{% endif %}
+    </div>
+
+{%- else %}
+{%- comment -%} ===================== SCHEDA O ESERCIZIO ===================== {%- endcomment -%}
+    <nav class="scheda-briciole" aria-label="Percorso di navigazione">
+        <a href="/libri/">Libri e schede</a><span aria-hidden="true">›</span><a href="{{ bc_url }}">{{ bc_nome }}</a>
+    </nav>
+    <div class="scheda-meta">
+        {%- if page.percorso %}
+        <span class="m-percorso">Esercizio {{ page.ordine }} di 21 · giorni {{ page.giorni }}</span>
+        {%- endif %}
+        <span class="m-tema">{{ page.tema_label }}</span>
+        <span class="m-eta">{{ page.eta_label }}</span>
+        <span>{{ page.intervento_label }}</span>
+    </div>
+    <div class="scheda-collana">Dalla collana <em>Genitori senza stress</em>{% if page.libro_titolo %} · dal libro <em>{{ page.libro_titolo }}</em>{% endif %}</div>
+
+    <h1 class="scheda-titolo">{{ page.title }}</h1>
+
+    <article class="scheda-corpo">
+{{ content }}
+    </article>
+
+    <div class="scheda-box">
+        <div class="scheda-riquadro">
+            <span class="etichetta">PDF</span>
+            <h3>Scarica la scheda in PDF</h3>
+            <p>{% if page.percorso_indice %}Il percorso in 96 giorni, da stampare.{% else %}Una pagina, da stampare.{% endif %}</p>
+            <a class="scheda-bottone" href="{{ page.pdf }}" download>Scarica il PDF ↓</a>
+        </div>
+        {%- if page.asin %}
+        <div class="scheda-riquadro">
+            <span class="etichetta">Il libro</span>
+            <h3>{{ page.libro_titolo }}</h3>
+            <p>{{ page.libro_sottotitolo }}</p>
+            <a class="scheda-bottone" href="https://www.amazon.it/dp/{{ page.asin }}" rel="nofollow sponsored">Il libro su Amazon</a>
+        </div>
+        {%- endif %}
+    </div>
+
+    {%- if page.percorso %}
+    {%- assign esercizi = site.schede | where: "percorso", true | sort: "ordine" %}
+    {%- assign i = page.ordine | minus: 1 %}
+    {%- assign i_prec = i | minus: 1 %}
+    {%- assign i_succ = i | plus: 1 %}
+    <section class="scheda-sezione">
+        <h2>Nel percorso in 96 giorni</h2>
+        <ul class="scheda-lista">
+            {%- if i_prec >= 0 %}{% assign e = esercizi[i_prec] %}
+            <li><a href="{{ e.url }}"><span class="sigla">← Esercizio precedente · {{ e.ordine }} · giorni {{ e.giorni }}</span>{{ e.title }}</a></li>
+            {%- endif %}
+            {%- if i_succ < esercizi.size %}{% assign e = esercizi[i_succ] %}
+            <li><a href="{{ e.url }}"><span class="sigla">Esercizio successivo → · {{ e.ordine }} · giorni {{ e.giorni }}</span>{{ e.title }}</a></li>
+            {%- endif %}
+            <li><a href="{{ percorso_scheda.url }}"><span class="sigla">Il percorso · i 21 esercizi e il calendario</span>{{ percorso_scheda.title }}</a></li>
+        </ul>
+    </section>
+    {%- else %}
+    {%- assign stesso_tema = site.schede | where: "tema", page.tema | where_exp: "s", "s.percorso != true" | sort: "slug" %}
+    {%- assign tot = stesso_tema.size %}
+    {%- assign idx = 0 %}
+    {%- for s in stesso_tema %}{% if s.url == page.url %}{% assign idx = forloop.index0 %}{% endif %}{% endfor %}
+    {%- assign quante = tot | minus: 1 %}
+    {%- if quante > 3 %}{% assign quante = 3 %}{% endif %}
+    {%- if quante > 0 %}
+    <section class="scheda-sezione">
+        <h2>Altre schede su {{ page.tema_label | downcase }}</h2>
+        <ul class="scheda-lista">
+            {%- for k in (1..quante) %}
+            {%- assign j = idx | plus: k | modulo: tot %}
+            {%- assign r = stesso_tema[j] %}
+            <li><a href="{{ r.url }}">{{ r.title }}</a></li>
+            {%- endfor %}
+        </ul>
+    </section>
+    {%- endif %}
+    {%- endif %}
+
+    <div class="scheda-uscite">
+        <a href="/libri/">Tutte le schede</a>
+        <a href="/libri/tema/{{ page.tema }}/">Tutte le schede su {{ page.tema_label | downcase }}</a>
+    </div>
+{%- endif %}
+</main>
+
+{% include footer-nav.html %}
+
+<script src="/assets/menu.js"></script>
+</body>
+</html>

@@ -57,6 +57,15 @@ collections:
     output: true
     permalink: /osservatorio/:categories/:slug/
 
+  # Schede per genitori (collana Genitori senza stress), P04 17/09/2026.
+  # 370 schede + 21 esercizi del percorso in 96 giorni, una pagina HTML per ogni PDF.
+  # I file _schede/*.md sono GENERATI da script (cartella di lavoro, scripts/schede_to_md.py):
+  # il testo si corregge nel sorgente delle schede e si rigenera, non qui.
+  # :path conserva la sottocartella: /libri/schede/<slug>/ e /libri/schede/percorso-96-giorni/<slug>/
+  schede:
+    output: true
+    permalink: /libri/schede/:path/
+
 defaults:
   - scope:
       path: ""
@@ -74,6 +83,20 @@ defaults:
   # cancellato) ma fuori da sitemap.xml. Il file non ha front matter e non va toccato.
   - scope:
       path: "googled29362825b2f1d97.html"
+    values:
+      sitemap: false
+
+  # Schede per genitori: layout unico per le pagine della collezione
+  - scope:
+      path: ""
+      type: schede
+    values:
+      layout: scheda
+
+  # I PDF delle schede restano scaricabili ma escono da sitemap.xml
+  # (in sitemap ci sono le pagine HTML delle schede)
+  - scope:
+      path: "libri/schede"
     values:
       sitemap: false
 

@@ -110,6 +110,25 @@ body { padding-top: 60px; }
     padding: 1.35rem; text-decoration: none; transition: all .2s ease;
 }
 .gs-scheda[hidden] { display: none; }
+/* P04: la card porta alla pagina HTML della scheda (link sul titolo, esteso a tutta la card);
+   il link al PDF resta accanto, sopra il link esteso */
+.gs-scheda { position: relative; }
+.gs-scheda h3 a { color: inherit; text-decoration: none; }
+.gs-scheda h3 a::after { content: ""; position: absolute; inset: 0; border-radius: 8px; }
+.gs-scheda h3 a:focus-visible { outline: none; }
+.gs-scheda:focus-within { border-color: var(--accent-cyan); }
+.gs-azioni { display: flex; gap: .9rem; align-items: baseline; white-space: nowrap; }
+.gs-pdf { position: relative; z-index: 2; color: var(--text-secondary); font-size: .76rem; text-decoration: none; }
+.gs-pdf:hover { color: var(--accent-cyan); opacity: 1; }
+.gs-temi-html { margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); }
+.gs-temi-html h3 { font-size: 1.05rem; margin-bottom: .35rem; }
+.gs-temi-html p { font-size: .88rem; color: var(--text-secondary); margin-bottom: .9rem; }
+.gs-temi-html nav { display: flex; flex-wrap: wrap; gap: .45rem; }
+.gs-temi-html nav a {
+    padding: .35rem .8rem; font-size: .84rem; border-radius: 999px; text-decoration: none;
+    background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid var(--border-color);
+}
+.gs-temi-html nav a:hover { color: var(--accent-cyan); border-color: var(--accent-cyan); opacity: 1; }
 .gs-scheda:hover {
     border-color: var(--border-accent); background: var(--bg-hover);
     transform: translateY(-2px); opacity: 1;
@@ -294,6 +313,27 @@ body { padding-top: 60px; }
       <p>Nessuna scheda con questi filtri.</p>
       <p style="margin:0">Prova con una parola sola, o <button type="button" class="gs-azzera" onclick="document.getElementById('gs-azzera').click()">azzera i filtri</button>.</p>
     </div>
+
+    <!-- P04: link HTML statici alle 12 pagine per tema (raggiungibili anche senza JavaScript) -->
+    <div class="gs-temi-html">
+      <h3>Le schede per tema</h3>
+      <p>Ogni tema ha una pagina con l'elenco completo delle sue schede.</p>
+      <nav aria-label="Schede per tema">
+        <a href="/libri/tema/comunicazione/">Comunicazione</a>
+        <a href="/libri/tema/emozioni/">Emozioni</a>
+        <a href="/libri/tema/conflitto/">Conflitto</a>
+        <a href="/libri/tema/regole-e-limiti/">Regole e limiti</a>
+        <a href="/libri/tema/autonomia/">Autonomia</a>
+        <a href="/libri/tema/abitudini/">Abitudini</a>
+        <a href="/libri/tema/vita-digitale/">Vita digitale</a>
+        <a href="/libri/tema/isolamento-e-ritiro-sociale/">Isolamento e ritiro sociale</a>
+        <a href="/libri/tema/educazione-finanziaria/">Educazione finanziaria</a>
+        <a href="/libri/tema/osservazione/">Osservazione</a>
+        <a href="/libri/tema/bias-cognitivi/">Bias cognitivi</a>
+        <a href="/libri/tema/lavoro-su-di-se/">Lavoro su di sé</a>
+        <a href="/libri/schede/percorso-96-giorni/00-il-percorso/">Il percorso in 96 giorni</a>
+      </nav>
+    </div>
   </section>
 
   <!-- ============================ I LIBRI ============================ -->
@@ -347,6 +387,102 @@ body { padding-top: 60px; }
   <div class="gs-dialogo-corpo" id="gs-dialogo-corpo"></div>
 </dialog>
 
+<!-- Footer di navigazione del sito, in HTML puro (senza JavaScript), cosi' i link interni esistono anche per chi non esegue menu.js.
+     Sorgente unica: _includes/footer-nav.html (lo usano i layout e le pagine con front matter).
+     ATTENZIONE: e' copiato tale e quale anche in index.html, privacy-policy/index.html e
+     digitale-inclusivo/decodificatore-icf/index.html (pagine senza front matter, dove l'include non funziona).
+     Se modifichi questo file, replica la modifica anche in quei tre.
+     P04 (17/09/2026): copiato tale e quale anche in libri/index.html, che non ha front matter. -->
+<footer class="site-footer-nav">
+<style>
+footer.site-footer-nav {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 3rem 0 0;
+    padding: 1.75rem 1.5rem 2rem;
+    background: #0a0e14;
+    border-top: 1px solid #30363d;
+    color: #e6edf3;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: left;
+}
+.site-footer-nav .site-footer-nav__inner { max-width: 1100px; margin: 0 auto; }
+.site-footer-nav .site-footer-nav__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin: 0 0 0.7rem;
+    padding: 0;
+}
+.site-footer-nav .site-footer-nav__label {
+    flex: 0 0 auto;
+    min-width: 6.5rem;
+    margin-right: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8b949e;
+}
+.site-footer-nav a {
+    color: #00d9ff;
+    text-decoration: none;
+    opacity: 1;
+    white-space: nowrap;
+}
+.site-footer-nav a:hover,
+.site-footer-nav a:focus-visible { color: #e6edf3; }
+/* Separatori "·" tra i link: ogni link ne ha uno davanti, e quello a inizio riga
+   resta nascosto fuori dal bordo (cosi' quando le righe vanno a capo non restano puntini orfani). */
+.site-footer-nav .site-footer-nav__links { flex: 1 1 0; min-width: 0; overflow: hidden; }
+.site-footer-nav .site-footer-nav__links > span {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 0.3rem;
+    margin-left: -1.2rem;
+}
+.site-footer-nav .site-footer-nav__links a::before {
+    content: "·";
+    content: "·" / "";
+    display: inline-block;
+    width: 1.2rem;
+    text-align: center;
+    color: #6e7681;
+}
+.site-footer-nav .site-footer-nav__links a:hover::before,
+.site-footer-nav .site-footer-nav__links a:focus-visible::before { color: #6e7681; }
+.site-footer-nav p.site-footer-nav__id {
+    margin: 1.1rem 0 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid #21262d;
+    color: #e6edf3;
+    font-size: 0.85rem;
+    text-align: left;
+}
+.site-footer-nav p.site-footer-nav__id span { white-space: nowrap; }
+@media (max-width: 600px) {
+    footer.site-footer-nav { padding: 1.5rem 1rem 1.75rem; }
+    .site-footer-nav .site-footer-nav__label { flex-basis: 100%; margin: 0 0 0.2rem; }
+    .site-footer-nav .site-footer-nav__links { flex-basis: 100%; }
+    .site-footer-nav p.site-footer-nav__id span { white-space: normal; }
+}
+</style>
+<div class="site-footer-nav__inner">
+    <nav class="site-footer-nav__row" aria-label="Sezioni del sito">
+        <span class="site-footer-nav__label">Sezioni</span>
+        <div class="site-footer-nav__links"><span><a href="/">Home</a><a href="/libri/">Libri e schede</a><a href="/dashboards/">Dashboard</a><a href="/osservatorio/">Osservatorio</a><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="/dialoghi/">Dialoghi</a><a href="/archivio/">Archivio</a><a href="/#chi-sono">Chi sono</a><a href="/#contatti">Contatti</a></span></div>
+    </nav>
+    <nav class="site-footer-nav__row" aria-label="Progetti">
+        <span class="site-footer-nav__label">Progetti</span>
+        <div class="site-footer-nav__links"><span><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="https://equilibrio.ivanferrero.it/">Equilibrio</a></span></div>
+    </nav>
+    <p class="site-footer-nav__id"><span>Ivan Ferrero</span> · <span>Psicologo-psicoterapeuta, iscritto OPL n. 16571 dal 2006</span> · <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a> · <a href="/privacy-policy/">Privacy policy</a></p>
+</div>
+</footer>
+
 <script src="/assets/menu.js"></script>
 <script>
 (function () {
@@ -385,10 +521,13 @@ body { padding-top: 60px; }
 
   // ------------------------------------------------------------ card
   function cardScheda(v) {
-    var a = crea("a", "gs-scheda" + (v.percorso ? " percorso" : ""));
-    a.href = v.percorso ? "#percorso" : "schede/" + v.s + ".pdf";
-    if (!v.percorso) { a.target = "_blank"; a.rel = "noopener"; }
-    a.appendChild(crea("h3", null, v.d));
+    // P04: la card è un div; il titolo porta alla pagina HTML della scheda, il PDF è un link a parte
+    var a = crea("div", "gs-scheda" + (v.percorso ? " percorso" : ""));
+    var titolo = crea("h3");
+    var link = crea("a", null, v.d);
+    link.href = v.percorso ? "#percorso" : "schede/" + v.s + "/";
+    titolo.appendChild(link);
+    a.appendChild(titolo);
     if (v.c) a.appendChild(crea("p", null, v.c));
 
     var badge = crea("div", "gs-badge-riga");
@@ -398,12 +537,22 @@ body { padding-top: 60px; }
 
     var giu = crea("div", "gs-giu");
     giu.appendChild(crea("span", null, DATI.mappaInterventi[v.i] || v.i));
-    giu.appendChild(crea("span", "gs-scarica",
-      v.percorso ? "Apri il percorso →" : "Scarica il PDF ↓"));
+    if (v.percorso) {
+      giu.appendChild(crea("span", "gs-scarica", "Apri il percorso →"));
+    } else {
+      var azioni = crea("span", "gs-azioni");
+      azioni.appendChild(crea("span", "gs-scarica", "Leggi la scheda →"));
+      var pdf = crea("a", "gs-pdf", "PDF ↓");
+      pdf.href = "schede/" + v.s + ".pdf";
+      pdf.target = "_blank"; pdf.rel = "noopener";
+      pdf.setAttribute("aria-label", "Scarica il PDF: " + v.d);
+      azioni.appendChild(pdf);
+      giu.appendChild(azioni);
+    }
     a.appendChild(giu);
 
     if (v.percorso) {
-      a.addEventListener("click", function (ev) { ev.preventDefault(); apriPercorso(); });
+      link.addEventListener("click", function (ev) { ev.preventDefault(); apriPercorso(); });
     }
     return a;
   }
@@ -508,17 +657,21 @@ body { padding-top: 60px; }
       document.getElementById("gs-dialogo-sotto").textContent =
         p.c + " Giorni " + p.g + ". Qui lavora il genitore, non il figlio.";
 
-      var apri = crea("a", "gs-mini primario", "Scarica la scheda del percorso (PDF) ↓");
-      apri.href = "schede/" + p.s + ".pdf";
-      apri.target = "_blank"; apri.rel = "noopener";
+      var apri = crea("a", "gs-mini primario", "Leggi la scheda del percorso →");
+      apri.href = "schede/" + p.s + "/";
       apri.style.marginBottom = "1.25rem";
+      apri.style.marginRight = ".5rem";
       apri.style.display = "inline-block";
       corpo.appendChild(apri);
+      var apriPdf = crea("a", "gs-mini", "PDF ↓");
+      apriPdf.href = "schede/" + p.s + ".pdf";
+      apriPdf.target = "_blank"; apriPdf.rel = "noopener";
+      apriPdf.style.display = "inline-block";
+      corpo.appendChild(apriPdf);
 
       p.esercizi.forEach(function (e) {
         var a = crea("a", "gs-esercizio");
-        a.href = "schede/" + e.s + ".pdf";
-        a.target = "_blank"; a.rel = "noopener";
+        a.href = "schede/" + e.s + "/";
         a.appendChild(crea("span", "gs-es-giorni", "Giorni " + e.g));
         var d = crea("div");
         d.appendChild(crea("span", "gs-es-titolo", e.n + ". " + e.d));
