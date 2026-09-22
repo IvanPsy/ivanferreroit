@@ -1,10 +1,14 @@
+---
+title: "Scrivere per l'audiovisivo. Una lezione, tre versioni"
+description: "Una lezione accessibile in tre versioni, progettata con lo Universal Design for Learning 3.0 e le WCAG 2.2: per tutta la classe, ad alta leggibilità, a tappe."
+---
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scrivere per l'audiovisivo. Una lezione, tre versioni | Ivan Ferrero</title>
-<meta name="description" content="Una lezione accessibile in tre versioni, progettata con lo Universal Design for Learning 3.0 e le WCAG 2.2: per tutta la classe, ad alta leggibilità, a tappe.">
+{% seo title=false %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -100,6 +104,8 @@
  .sp-toc ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}}
 @media (max-width:768px){.sp-layout{padding-left:1rem;padding-right:1rem}.sp-toc a{font-size:.88rem}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+/* integrazione sito: su mobile base-styles.css mette l'header in colonna e l'hamburger esce dalla barra fissa, coprendo i contenuti */
+@media (max-width:768px){.header-content{flex-direction:row;gap:1rem}}
 </style>
 </head>
 <body>
@@ -222,6 +228,9 @@
 <li>Testo di partenza: [DA COMPLETARE: autore e opera originale].</li></ul></div>
 </section>
 </div></main></div>
+
+{% include footer-nav.html %}
+
 <script src="/assets/menu.js"></script>
 <script>
 (function(){
