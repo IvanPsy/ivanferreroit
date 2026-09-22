@@ -1,219 +1,246 @@
----
-title: "Scrivere per l'audiovisivo. Una lezione, tre versioni"
-description: "Capitolo 1 di Scrivere per l'audiovisivo in tre versioni accessibili (per tutta la classe con UDL 3.0, ad alta leggibilità, a tappe) e i principi UDL 3.0 applicati a ciascuna."
----
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrivere per l'audiovisivo. Una lezione, tre versioni | Lezioni accessibili | Ivan Ferrero</title>
-    {% seo title=false %}
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/assets/base-styles.css">
-    <link rel="stylesheet" href="/lezioni-accessibili/assets/sezione.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scrivere per l'audiovisivo. Una lezione, tre versioni | Ivan Ferrero</title>
+<meta name="description" content="Una lezione accessibile in tre versioni, progettata con lo Universal Design for Learning 3.0 e le WCAG 2.2: per tutta la classe, ad alta leggibilità, a tappe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base-styles.css">
+<style>
+.sp{--text-muted:#9aa4ae;--v-classe:#00d9ff;--v-alta:#b692ff;--v-tappe:#3fb950;--p-coinv:#e3a03a;--p-rappr:#00d9ff;--p-azione:#b692ff;font-size:1.05rem}
+.sp-skip{position:absolute;left:-9999px;top:0;z-index:2000;background:#00d9ff;color:#0a0e14;padding:.6rem 1rem;border-radius:6px;font-weight:600}
+.sp-skip:focus{left:1rem;top:calc(var(--menu-h,72px) + .5rem)}
+.sp :focus-visible{outline:3px solid #00d9ff;outline-offset:3px;border-radius:4px}
+.sp .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sp-layout{max-width:1280px;margin:0 auto;padding:calc(var(--menu-h,72px) + 2rem) 2rem 3rem;display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-areas:'toc hero' 'toc body';column-gap:3rem;outline:none}
+.sp-hero{grid-area:hero;max-width:960px}.sp-toc{grid-area:toc}.sp-main{grid-area:body}
+.sp-toc{position:sticky;top:calc(var(--menu-h,72px) + 1.5rem);align-self:start;grid-row:1 / span 2}
+@media (max-width:1024px){.sp-toc{grid-row:auto}}
+.sp-toc p{font-size:.8rem;font-weight:600;color:var(--text-muted);margin:0 0 .6rem .75rem;letter-spacing:.04em}
+.sp-toc ol{list-style:none;margin:0;padding:0;counter-reset:t}
+.sp-toc li{counter-increment:t}
+.sp-toc a{display:flex;gap:.6rem;align-items:baseline;min-height:44px;padding:.55rem .75rem;border-radius:6px;color:#b8c1cc;font-size:.92rem;border-left:3px solid transparent}
+.sp-toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted)}
+.sp-toc a:hover{background:#222c3a;color:#e6edf3;opacity:1}
+.sp-toc a[aria-current="true"]{color:#e6edf3;border-left-color:#00d9ff;background:#00d9ff14}
+.sp-main{min-width:0;max-width:960px}
+.sp section{scroll-margin-top:calc(var(--menu-h,72px) + 1.5rem);padding-top:1rem;margin-bottom:3.5rem}
+.sp h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;letter-spacing:-.02em;margin:0 0 .8rem}
+.sp h2{font-size:1.7rem;letter-spacing:-.02em;margin:0 0 1rem;padding-bottom:.5rem;border-bottom:1px solid #30363d}
+.sp h3{font-size:1.2rem;margin:0 0 .5rem}
+.sp p,.sp li{color:#c9d1d9;line-height:1.7}
+.sp strong{color:#e6edf3}
+.sp a{color:#00d9ff}
+.sp-kicker{font-family:var(--font-mono);font-size:.85rem;color:#00d9ff;margin:0 0 1rem}
+.sp-lead{font-size:1.25rem;color:#c9d1d9;max-width:44em}
+.sp-hero{padding:1.5rem 0 1rem}
+.sp-stats{list-style:none;padding:0;margin:2rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}
+.sp-stats li{background:#151b23;border:1px solid #30363d;border-radius:8px;padding:1.1rem 1.2rem;color:#c9d1d9;font-size:.95rem}
+.sp-stats b{display:block;font-family:var(--font-mono);font-size:2rem;color:#00d9ff;line-height:1.1;margin-bottom:.3rem;font-weight:600}
+.sp-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.sp-btn{display:inline-flex;align-items:center;min-height:48px;padding:.7rem 1.3rem;border-radius:6px;background:#00d9ff;color:#0a0e14!important;font-weight:600;text-decoration:none}
+.sp-btn:hover{background:#6be8ff;opacity:1}
+.sp-btn-ghost{background:transparent;color:#e6edf3!important;border:1px solid #30363d}
+.sp-btn-ghost:hover{background:#222c3a;border-color:#00d9ff}
+.sp-key{background:linear-gradient(135deg,#00d9ff12 0%,#3fb9500d 100%);border:1px solid #00d9ff55;border-radius:8px;padding:1.2rem 1.4rem;margin:1rem 0 1.5rem}
+.sp-key .lbl{font-family:var(--font-mono);font-size:.8rem;color:#00d9ff;margin:0 0 .4rem}
+.sp-key p:last-child{margin-bottom:0}
+.sp-vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;align-items:start}
+.sp-vcard{background:#1a222d;border:1px solid #30363d;border-top:4px solid var(--vc);border-radius:8px;padding:1.3rem 1.3rem 1.2rem}
+.sp-v-classe{--vc:var(--v-classe)}.sp-v-alta{--vc:var(--v-alta)}.sp-v-tappe{--vc:var(--v-tappe)}
+.sp-vtag{display:inline-block;font-family:var(--font-mono);font-size:.75rem;color:var(--vc);border:1px solid var(--vc);border-radius:4px;padding:.1rem .5rem;margin:0 0 .8rem}
+.sp-vcard ul{padding-left:1.2rem;margin:.6rem 0}
+.sp-who{font-size:.95rem}
+.sp-details{border-top:1px solid #30363d;margin-top:.8rem;padding-top:.4rem}
+.sp-details summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:#e6edf3;font-weight:500}
+.sp-details summary::marker{color:var(--vc)}
+.sp-princ-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1rem 0 2rem}
+.sp-princ{background:#151b23;border:1px solid #30363d;border-left:4px solid var(--pc);border-radius:8px;padding:1.1rem 1.2rem}
+.sp-p-coinv{--pc:var(--p-coinv)}.sp-p-rappr{--pc:var(--p-rappr)}.sp-p-azione{--pc:var(--p-azione)}
+.sp-princ .sp-why{font-family:var(--font-mono);font-size:.8rem;color:var(--pc);margin:0 0 .5rem}
+.sp-princ ol{margin:0;padding-left:1.6rem}
+.sp-steps{list-style:none;counter-reset:s;padding:0;margin:1rem 0}
+.sp-steps li{counter-increment:s;position:relative;padding:.9rem 1rem .9rem 3.6rem;background:#151b23;border:1px solid #30363d;border-radius:8px;margin-bottom:.7rem}
+.sp-steps li::before{content:counter(s);position:absolute;left:1rem;top:.85rem;width:1.8rem;height:1.8rem;border:2px solid #00d9ff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.85rem;color:#00d9ff}
+.sp-scroll{overflow-x:auto;max-width:100%;position:relative;margin:1rem 0 1.5rem;border:1px solid #30363d;border-radius:8px}
+.sp table{width:100%;border-collapse:collapse;font-size:.93rem}
+.sp caption{text-align:left;font-weight:600;color:#e6edf3;padding:.8rem 1rem;caption-side:top}
+.sp th,.sp td{border-top:1px solid #30363d;padding:.7rem .9rem;text-align:left;vertical-align:top;color:#c9d1d9}
+.sp thead th{background:#151b23;color:#e6edf3;font-weight:600}
+.sp tbody th{color:#e6edf3;font-weight:500}
+.sp-map{min-width:760px}.sp-map tbody th{width:24%}
+.sp td.sp-na{color:var(--text-muted);font-style:italic}
+.sp-cov{min-width:560px}
+.sp-cov td{white-space:nowrap}
+.sp-bar{display:inline-block;width:90px;height:10px;border:1px solid #30363d;border-radius:5px;background:#0f1419;overflow:hidden;vertical-align:middle;margin-right:.6rem}
+.sp-bar span{display:block;height:100%;background:#3fb950}
+.sp-num{font-family:var(--font-mono);font-size:.85rem}
+.sp tfoot th,.sp tfoot td{background:#151b23;color:#e6edf3}
+.sp-cov-group th{background:#0f1419;color:#00d9ff;font-family:var(--font-mono);font-size:.8rem;font-weight:500}
+.sp-filter{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:1.2rem 0 .4rem}
+.sp-filter p{margin:0 .5rem 0 0;font-size:.9rem}
+.sp-chip{min-height:44px;padding:.5rem 1rem;border-radius:999px;border:1px solid #30363d;background:#151b23;color:#c9d1d9;font:inherit;font-size:.9rem;cursor:pointer}
+.sp-chip:hover{border-color:#00d9ff}
+.sp-chip[aria-pressed="true"]{background:#00d9ff;border-color:#00d9ff;color:#0a0e14;font-weight:600}
+.sp-wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
+.sp-wtile{background:#151b23;border:1px solid #30363d;border-radius:8px;padding:1rem 1.1rem}
+.sp-wtile h3{font-size:1rem;color:#00d9ff;font-family:var(--font-mono);font-weight:500;margin-bottom:.4rem}
+.sp-wtile p{margin:0;font-size:.95rem}
+.sp-warn{background:#d299220f;border:1px solid #d2992266;border-left:4px solid #d29922;border-radius:8px;padding:1rem 1.3rem}
+.sp-warn ul{margin:0;padding-left:1.2rem}
+.sp-end{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+.sp-endcard{background:#1a222d;border:1px solid #30363d;border-radius:8px;padding:1.4rem}
+.sp-foot{color:var(--text-muted);font-size:.9rem;border-top:1px solid #30363d;padding-top:1rem;margin-top:2rem}
+.sp-foot li{color:#b8c1cc}
+@media (max-width:1024px){.sp-layout{grid-template-columns:1fr;grid-template-areas:'hero' 'toc' 'body';gap:1rem}
+ .sp-toc{position:static;border:1px solid #30363d;border-radius:8px;padding:.8rem}
+ .sp-toc ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}}
+@media (max-width:768px){.sp-layout{padding-left:1rem;padding-right:1rem}.sp-toc a{font-size:.88rem}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
 </head>
 <body>
-    <a class="la-skip" href="#contenuto">Salta il menu</a>
-    <div id="site-menu"></div>
+<a class="sp-skip" href="#contenuto">Vai al contenuto</a>
+<div id="site-menu"></div>
+<div class="sp">
+<main id="contenuto" class="sp-layout" tabindex="-1">
+<header class="sp-hero">
+<p class="sp-kicker">Lezioni accessibili, lezione 1</p>
+<h1>Scrivere per l'audiovisivo</h1>
+<p class="sp-lead">Una lezione, tre versioni. Il capitolo sulla scrittura per il cinema e la televisione, progettato con lo Universal Design for Learning 3.0 e le linee guida WCAG 2.2, per insegnanti e professionisti dell'inclusione.</p>
+<ul class="sp-stats">
+<li><b>3</b>versioni sullo stesso contenuto</li>
+<li><b>9 su 9</b>linee guida UDL 3.0 applicate</li>
+<li><b>29 su 36</b>considerazioni UDL 3.0 presenti in almeno una versione</li>
+<li><b>AA</b>livello WCAG 2.2 di riferimento</li>
+</ul>
+<div class="sp-actions"><a class="sp-btn" href="#versioni">Vai alle tre versioni</a><a class="sp-btn sp-btn-ghost" href="scrivere-audiovisivo-scheda-progettazione-udl.pdf">Scarica la scheda in PDF</a></div>
+</header>
+<nav class="sp-toc" aria-label="In questa pagina"><p>In questa pagina</p><ol><li><a href="#sintesi">In sintesi</a></li><li><a href="#versioni">Le tre versioni</a></li><li><a href="#metodo">Il metodo</a></li><li><a href="#mappa">Mappa dei principi</a></li><li><a href="#wcag">Accessibilità tecnica</a></li><li><a href="#uso">Come usarle in classe</a></li><li><a href="#limiti">Limiti dichiarati</a></li><li><a href="#scarica">Scarica e contatti</a></li></ol></nav>
+<div class="sp-main">
 
-    <main id="contenuto" class="la-main" tabindex="-1">
-        <nav class="la-crumbs" aria-label="Percorso">
-            <ol>
-                <li><a href="/lezioni-accessibili/">Lezioni accessibili</a></li>
-                <li aria-current="page">Scrivere per l'audiovisivo</li>
-            </ol>
-        </nav>
+<section id="sintesi" aria-labelledby="h-sintesi">
+<h2 id="h-sintesi">In sintesi</h2>
+<div class="sp-key"><p class="lbl">Il punto</p>
+<p>Lo stesso capitolo è diventato tre materiali digitali: una versione progettata per tutta la classe secondo lo UDL 3.0, una versione ad alta leggibilità (anche in PDF accessibile) e un percorso a tappe per studenti con disturbo dello spettro autistico e bisogni di supporto più alti. Il contenuto disciplinare è lo stesso; cambiano la forma, il ritmo e le possibilità di scelta.</p></div>
+<p>Il capitolo tratta la produzione audiovisiva, le fasi della scrittura (idea, soggetto, trattamento, scaletta, sceneggiatura), i modelli di formattazione all'italiana e all'americana e lo stile della sceneggiatura. Tutte e tre le versioni sono state verificate su desktop, su mobile e da tastiera; i dati degli studenti restano solo nel loro browser.</p>
+</section>
 
-        <span class="tag tag-green">Educazione</span>
-        <h1>Scrivere per l'audiovisivo. <span class="text-cyan">Una lezione, tre versioni</span></h1>
+<section id="versioni" aria-labelledby="h-versioni">
+<h2 id="h-versioni">Le tre versioni</h2>
+<p>Scegli la versione in base a chi la userà. Possono convivere nella stessa classe: stesso contenuto, forme diverse.</p>
+<div class="sp-vgrid">
+<article class="sp-vcard sp-v-classe" aria-labelledby="vc-classe">
+  <p class="sp-vtag">UDL 3.0</p>
+  <h3 id="vc-classe">Per tutta la classe</h3>
+  <p class="sp-who"><strong>Per chi è.</strong> L'intera classe, comprese classi multilingui e con profili diversi.</p>
+  <ul><li>Ogni parte in tre modi: in breve, testo completo, schemi ed esempi.</li><li>Glossario plurilingue che gli studenti completano.</li><li>Progetto finale in sette formati, con criteri condivisi.</li></ul>
+  <details class="sp-details"><summary>Che cosa trovi, nel dettaglio</summary><ul><li>Pagina personalizzabile: carattere (Atkinson Hyperlegible, Lexend, con grazie), dimensione, interlinea, spaziatura, cinque temi tra cui carta e alto contrasto, velocità della voce.</li><li>Glossario plurilingue: sei termini chiave in cinque lingue e una colonna che ogni studente completa nella propria lingua o nel proprio dialetto.</li><li>In ogni parte: «Collegalo alla tua vita», «Pensaci in modo critico», un quiz con feedback orientato all'azione, un'autovalutazione con un'azione suggerita.</li><li>Laboratorio: generatore di idee a dadi, allenamento al «test della videocamera» con aiuti a scalini, writers' room con cinque ruoli e regole della stanza, timer silenzioso facoltativo.</li><li>Il mio percorso: obiettivo scelto, tabella so, voglio sapere, ho imparato, diario di bordo, copia di tutto ciò che si è scritto.</li></ul><p><strong>Scelta chiave.</strong> Le opzioni sono le stesse per tutti: nessuna deroga individuale da chiedere. È la differenza tra adattamento e agency strutturale.</p></details>
+  <div class="sp-actions"><a class="sp-btn" href="scrivere-audiovisivo-udl.html">Apri la lezione<span class="sr"> Per tutta la classe</span></a></div>
+</article>
+<article class="sp-vcard sp-v-alta" aria-labelledby="vc-alta">
+  <p class="sp-vtag">Anche in PDF/UA</p>
+  <h3 id="vc-alta">Ad alta leggibilità</h3>
+  <p class="sp-who"><strong>Per chi è.</strong> Studenti con disturbo dello spettro autistico e buona autonomia di lettura, e chiunque tragga beneficio da un testo esplicito e prevedibile.</p>
+  <ul><li>Il capitolo intero, con frasi brevi e soggetto esplicito.</li><li>Frasi figurate e impliciti resi espliciti.</li><li>Box con significato sempre uguale.</li></ul>
+  <details class="sp-details"><summary>Che cosa trovi, nel dettaglio</summary><ul><li>Dodici frasi figurate tradotte in significato letterale.</li><li>Impliciti resi espliciti, per esempio nello spot del casco: perché il fratello cerca il casco, perché il bambino è mortificato, il doppio senso di «usa la testa».</li><li>Box con significato fisso (obiettivi, frase figurata, attenzione, regola, esempio, in sintesi), riconoscibili dal nome e non solo dal colore.</li><li>La regola sulle emozioni osservabili trasformata in uno strumento: il test della videocamera.</li><li>La sceneggiatura all'americana annotata riga per riga con il nome di ogni elemento.</li><li>Sette esercizi con feedback e compito finale in quattro formati.</li></ul><p><strong>Scelta chiave.</strong> Semplificare la forma, non il contenuto: il capitolo è completo, e il PDF segue lo standard PDF/UA per gli screen reader.</p></details>
+  <div class="sp-actions"><a class="sp-btn" href="scrivere-audiovisivo-cap1.html">Apri la lezione<span class="sr"> Ad alta leggibilità</span></a><a class="sp-btn sp-btn-ghost" href="scrivere-audiovisivo-cap1.pdf">Scarica il PDF accessibile</a></div>
+</article>
+<article class="sp-vcard sp-v-tappe" aria-labelledby="vc-tappe">
+  <p class="sp-vtag">Supporto più alto</p>
+  <h3 id="vc-tappe">A tappe</h3>
+  <p class="sp-who"><strong>Per chi è.</strong> Studenti con disturbo dello spettro autistico, bisogni di supporto più alti e tempi di attenzione brevi.</p>
+  <ul><li>Sei tappe da circa tre minuti.</li><li>Una sola informazione per schermata.</li><li>Colori con significato fisso, sempre con icona e parola.</li></ul>
+  <details class="sp-details"><summary>Che cosa trovi, nel dettaglio</summary><ul><li>Indietro, Ascolta e Avanti sempre nello stesso posto; striscia delle tappe sempre visibile e riga «adesso e dopo».</li><li>Colori con un solo significato: blu per dove, viola per quando, verde acqua per che cosa si vede, arancio per chi parla.</li><li>Attività a tocco, senza trascinamento e senza scrittura. Dopo due errori la risposta giusta viene evidenziata. Il feedback non usa il rosso.</li><li>A fine tappa: una stella e una scelta tra pausa di due minuti, continuare, fermarsi per oggi.</li><li>Pulsante «Ricomincia» con schermata di conferma.</li></ul><p><strong>Scelta chiave.</strong> Restano gli obiettivi essenziali; produzione, sequenza, formati, Courier e SIAE sono tolti. La sequenza è il primo contenuto da reintrodurre quando la tappa sulla scena è consolidata.</p></details>
+  <div class="sp-actions"><a class="sp-btn" href="scrivere-un-video-a-tappe.html">Apri la lezione<span class="sr"> A tappe</span></a></div>
+</article></div>
+</section>
 
-        <p class="la-lead">Il capitolo 1 tratta la produzione audiovisiva, le fasi della scrittura (idea, soggetto, trattamento, scaletta, sceneggiatura), i modelli di formattazione all'italiana e all'americana e lo stile della sceneggiatura. Lo stesso contenuto è disponibile in tre versioni: scegli quella adatta a chi la userà.</p>
+<section id="metodo" aria-labelledby="h-metodo">
+<h2 id="h-metodo">Il metodo</h2>
+<p>Lo Universal Design for Learning propone di progettare fin dall'inizio per la variabilità degli studenti, invece di costruire un materiale standard e adattarlo dopo. La versione 3.0 (CAST, 2024) ha come obiettivo la <strong>learner agency</strong>: studenti che scelgono, riflettono e agiscono con un piano, anche quando il traguardo non è ancora raggiunto.</p>
+<h3>Tre principi, nove linee guida</h3>
+<div class="sp-princ-grid"><div class="sp-princ sp-p-coinv"><h3>Coinvolgimento</h3><p class="sp-why">il perché</p><ol><li value="7">Accogliere interessi e identità</li><li value="8">Sostenere impegno e persistenza</li><li value="9">Capacità emotiva</li></ol></div><div class="sp-princ sp-p-rappr"><h3>Rappresentazione</h3><p class="sp-why">il che cosa</p><ol><li value="1">Percezione</li><li value="2">Linguaggio e simboli</li><li value="3">Costruzione di conoscenza</li></ol></div><div class="sp-princ sp-p-azione"><h3>Azione ed espressione</h3><p class="sp-why">il come</p><ol><li value="4">Interazione</li><li value="5">Espressione e comunicazione</li><li value="6">Sviluppo di strategie</li></ol></div></div>
+<h3>Che cosa cambia con la versione 3.0</h3>
+<ol class="sp-steps">
+<li><strong>Dall'esperto alla learner agency.</strong> L'orizzonte non è l'esperto come traguardo, ma la capacità di decidere e riflettere lungo tutto il percorso.</li>
+<li><strong>L'identità come parte della variabilità.</strong> Lingue, culture, biografie, neurodivergenza sono variabili di progetto, non fattori di rischio.</li>
+<li><strong>I bias come barriere.</strong> Pregiudizi individuali, istituzionali e sistemici vanno riconosciuti e ridotti come qualsiasi altro ostacolo.</li>
+<li><strong>Gioia, gioco, empatia, interdipendenza, plurilinguismo</strong> diventano temi centrali, non accessori.</li>
+<li><strong>Un linguaggio che anche lo studente può usare.</strong> Le linee guida sono scritte in modo che studenti e docenti possano agirle insieme.</li>
+</ol>
+<div class="sp-key"><p class="lbl">Universale e individuale convivono</p>
+<p>Una lezione progettata per tutti non elimina il bisogno di versioni calibrate su profili specifici. Le versioni individuali rinunciano ad alcune opzioni della versione universale per ridurre il carico e aumentare la prevedibilità. È una scelta di progettazione, non una mancanza.</p></div>
+<p><a href="../metodo.html">Leggi come progettiamo tutte le lezioni accessibili</a></p>
+</section>
 
-        <!-- DA COMPLETARE prima del push: credito del testo di partenza -->
-        <p class="la-todo">Testo di partenza: [DA COMPLETARE: autore e opera originale]</p>
+<section id="mappa" aria-labelledby="h-mappa">
+<h2 id="h-mappa">Mappa dei principi applicati</h2>
+<p>Prima il colpo d'occhio: per ogni linea guida, quante delle sue considerazioni sono applicate in ciascuna versione. Poi il dettaglio, riga per riga, che puoi filtrare per principio.</p>
+<div class="sp-scroll"><table class="sp-cov"><caption>Quante considerazioni di ogni linea guida UDL 3.0 sono applicate in ciascuna versione</caption><thead><tr><th scope="col">Linea guida</th><th scope="col">Per tutta la classe</th><th scope="col">Alta leggibilità</th><th scope="col">A tappe</th></tr></thead><tbody><tr class="sp-cov-group"><th scope="rowgroup" colspan="4">Coinvolgimento</th></tr><tr><th scope="row">7. Accogliere interessi e identità</th><td><span class="sp-bar" aria-hidden="true"><span style="width:75%"></span></span><span class="sp-num">3 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:25%"></span></span><span class="sp-num">1 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:50%"></span></span><span class="sp-num">2 di 4</span></td></tr><tr><th scope="row">8. Sostenere impegno e persistenza</th><td><span class="sp-bar" aria-hidden="true"><span style="width:60%"></span></span><span class="sp-num">3 di 5</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:40%"></span></span><span class="sp-num">2 di 5</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:40%"></span></span><span class="sp-num">2 di 5</span></td></tr><tr><th scope="row">9. Capacità emotiva</th><td><span class="sp-bar" aria-hidden="true"><span style="width:75%"></span></span><span class="sp-num">3 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:50%"></span></span><span class="sp-num">2 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:50%"></span></span><span class="sp-num">2 di 4</span></td></tr><tr class="sp-cov-group"><th scope="rowgroup" colspan="4">Rappresentazione</th></tr><tr><th scope="row">1. Percezione</th><td><span class="sp-bar" aria-hidden="true"><span style="width:100%"></span></span><span class="sp-num">3 di 3</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:100%"></span></span><span class="sp-num">3 di 3</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:67%"></span></span><span class="sp-num">2 di 3</span></td></tr><tr><th scope="row">2. Linguaggio e simboli</th><td><span class="sp-bar" aria-hidden="true"><span style="width:100%"></span></span><span class="sp-num">5 di 5</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:60%"></span></span><span class="sp-num">3 di 5</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:60%"></span></span><span class="sp-num">3 di 5</span></td></tr><tr><th scope="row">3. Costruzione di conoscenza</th><td><span class="sp-bar" aria-hidden="true"><span style="width:50%"></span></span><span class="sp-num">2 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:50%"></span></span><span class="sp-num">2 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:25%"></span></span><span class="sp-num">1 di 4</span></td></tr><tr class="sp-cov-group"><th scope="rowgroup" colspan="4">Azione ed espressione</th></tr><tr><th scope="row">4. Interazione</th><td><span class="sp-bar" aria-hidden="true"><span style="width:100%"></span></span><span class="sp-num">2 di 2</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:100%"></span></span><span class="sp-num">2 di 2</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:100%"></span></span><span class="sp-num">2 di 2</span></td></tr><tr><th scope="row">5. Espressione e comunicazione</th><td><span class="sp-bar" aria-hidden="true"><span style="width:75%"></span></span><span class="sp-num">3 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:75%"></span></span><span class="sp-num">3 di 4</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:75%"></span></span><span class="sp-num">3 di 4</span></td></tr><tr><th scope="row">6. Sviluppo di strategie</th><td><span class="sp-bar" aria-hidden="true"><span style="width:100%"></span></span><span class="sp-num">5 di 5</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:80%"></span></span><span class="sp-num">4 di 5</span></td><td><span class="sp-bar" aria-hidden="true"><span style="width:80%"></span></span><span class="sp-num">4 di 5</span></td></tr></tbody><tfoot><tr><th scope="row">Totale</th><td><strong>29 di 36</strong></td><td><strong>22 di 36</strong></td><td><strong>21 di 36</strong></td></tr></tfoot></table></div>
+<h3>Il dettaglio</h3>
+<div class="sp-filter" role="group" aria-label="Filtra la tabella per principio"><p>Mostra:</p><button type="button" class="sp-chip" data-f="tutti" aria-pressed="true">Tutte</button><button type="button" class="sp-chip" data-f="coinv" aria-pressed="false">Coinvolgimento</button><button type="button" class="sp-chip" data-f="rappr" aria-pressed="false">Rappresentazione</button><button type="button" class="sp-chip" data-f="azione" aria-pressed="false">Azione ed espressione</button></div>
+<p id="mapstatus" class="sp-foot" role="status" style="border:0;margin:0;padding:0"></p>
+<div class="sp-scroll"><table class="sp-map" id="maptable"><caption>Come ogni linea guida è stata applicata in ciascuna versione</caption><thead><tr><th scope="col">Linea guida UDL 3.0</th><th scope="col">Per tutta la classe</th><th scope="col">Alta leggibilità</th><th scope="col">A tappe</th></tr></thead><tbody><tr data-p="rappr"><th scope="row">1.1 Personalizzare la visualizzazione</th><td class="">Carattere, dimensione, interlinea, spaziatura, 5 temi tra cui alto contrasto.</td><td class="">Dimensione del testo; tema chiaro e scuro.</td><td class="">Dimensione del testo; tema chiaro e scuro.</td></tr><tr data-p="rappr"><th scope="row">1.2 Percezione multipla e 2.2 Decodifica</th><td class="">Tre modi di lettura; lettura ad alta voce.</td><td class="">Lettura ad alta voce per paragrafo; PDF/UA per screen reader.</td><td class="">Lettura ad alta voce per ogni carta.</td></tr><tr data-p="rappr"><th scope="row">1.3 Diversità di prospettive e identità</th><td class="">Esempi e nomi plurali; domande sulla rappresentazione.</td><td class="">Illustrazioni con persone diverse.</td><td class="sp-na">Non prevista.</td></tr><tr data-p="rappr"><th scope="row">2.1 Vocabolario e simboli</th><td class="">Glossario; modi di dire spiegati.</td><td class="">Glossario; frasi figurate spiegate; impliciti resi espliciti.</td><td class="">Parole spiegate nella carta; linguaggio letterale.</td></tr><tr data-p="rappr"><th scope="row">2.3 Lingue e dialetti</th><td class="">Glossario plurilingue completabile; dialetto come risorsa.</td><td class="sp-na">Non prevista.</td><td class="sp-na">Non prevista.</td></tr><tr data-p="azione coinv rappr"><th scope="row">2.4, 6.5, 7.4 Bias come barriere</th><td class="">Domande critiche: chi decide le storie, gli standard, gli stereotipi espressivi.</td><td class="sp-na">Non prevista.</td><td class="sp-na">Non prevista.</td></tr><tr data-p="rappr"><th scope="row">2.5 Media multipli</th><td class="">Schemi, illustrazioni, tabelle, audio.</td><td class="">Schemi, illustrazioni, tabelle.</td><td class="">Icone, esempi visivi.</td></tr><tr data-p="rappr"><th scope="row">3.2 Idee chiave</th><td class="">«L'idea chiave» di ogni parte.</td><td class="">Box «In sintesi».</td><td class="">Una sola idea per carta.</td></tr><tr data-p="rappr"><th scope="row">3.4 Transfer</th><td class="">«Collegalo alla tua vita».</td><td class="">Compito finale su argomento scelto.</td><td class="sp-na">Non prevista.</td></tr><tr data-p="coinv"><th scope="row">7.1 Scelta e autonomia</th><td class="">Ordine delle parti, modo di lettura, formato del progetto.</td><td class="">Compito in 4 formati.</td><td class="">Pausa, continua, «mi fermo per oggi».</td></tr><tr data-p="coinv"><th scope="row">7.3 Gioia e gioco</th><td class="">Generatore di idee a dadi.</td><td class="sp-na">Non prevista.</td><td class="">Stelle a fine tappa.</td></tr><tr data-p="coinv"><th scope="row">8.2 Sfida e supporto</th><td class="">Aiuti a scalini nella riscrittura.</td><td class="">Struttura costante.</td><td class="">Apprendimento senza errore: aiuto dopo 2 errori.</td></tr><tr data-p="coinv"><th scope="row">8.3 e 9.4 Collaborazione ed empatia</th><td class="">Writers' room con ruoli e regole della stanza.</td><td class="sp-na">Non prevista.</td><td class="sp-na">Non prevista.</td></tr><tr data-p="coinv"><th scope="row">8.5 Feedback orientato all'azione</th><td class="">«Che cosa puoi fare adesso», con link al paragrafo.</td><td class="">Feedback con spiegazione; si può riprovare.</td><td class="">Feedback con spiegazione; si può riprovare.</td></tr><tr data-p="azione"><th scope="row">4.1 e 4.2 Interazione e strumenti</th><td class="">Uso completo da tastiera e a tocco; lettura ad alta voce; nessun trascinamento obbligatorio.</td><td class="">Uso da tastiera; PDF/UA per le tecnologie assistive.</td><td class="">Solo tocchi su pulsanti grandi (64 pixel); nessuna scrittura richiesta.</td></tr><tr data-p="azione"><th scope="row">5.1, 5.2, 5.3 Espressione e comunicazione</th><td class="">Progetto finale in 7 formati; aiuti a scalini nella riscrittura.</td><td class="">Compito finale in 4 formati.</td><td class="">Risposte a scelta; intestazione costruita un pezzo alla volta.</td></tr><tr data-p="azione coinv"><th scope="row">6.1, 6.4, 9.1, 9.3 Obiettivi, monitoraggio, riflessione</th><td class="">Obiettivo scelto; autovalutazione; diario di bordo.</td><td class="">Obiettivi e sintesi per parte; spunte «ho finito».</td><td class="">Striscia delle tappe; «adesso e dopo»; stelle.</td></tr><tr data-p="azione"><th scope="row">6.2 e 6.3 Anticipare le sfide, organizzare</th><td class="">«Anticipa le sfide»; criteri condivisi prima di iniziare.</td><td class="">Criteri espliciti nel compito.</td><td class="">Struttura annunciata all'inizio.</td></tr></tbody></table></div>
+<p>La versione per la classe copre più linee guida; le altre due rinunciano ad alcune opzioni per ridurre il carico e aumentare la prevedibilità.</p>
+</section>
 
-        <h2 id="versioni">Le tre versioni</h2>
-        <div class="la-cards">
-            <article class="la-card">
-                <h3>Per tutta la classe (UDL 3.0)</h3>
-                <p class="la-label">Per chi è</p>
-                <p>L'intera classe, comprese classi multilingui e con profili diversi.</p>
-                <p class="la-label">Che cosa trovi</p>
-                <ul>
-                    <li>ogni parte in tre modi (in breve, testo completo, schemi ed esempi);</li>
-                    <li>pagina personalizzabile (carattere, interlinea, spaziatura, cinque temi tra cui alto contrasto);</li>
-                    <li>glossario plurilingue completabile dagli studenti;</li>
-                    <li>domande critiche su bias e rappresentazione;</li>
-                    <li>laboratorio con generatore di idee e writers' room cooperativa;</li>
-                    <li>quiz con feedback orientato all'azione, autovalutazione e diario;</li>
-                    <li>progetto finale in sette formati con criteri condivisi.</li>
-                </ul>
-                <div class="la-actions">
-                    <a class="la-btn la-btn-primary" href="scrivere-audiovisivo-udl.html">Apri la lezione<span class="sr">: versione per tutta la classe</span></a>
-                </div>
-            </article>
+<section id="wcag" aria-labelledby="h-wcag">
+<h2 id="h-wcag">Accessibilità tecnica</h2>
+<p>Misure applicate a tutte le versioni, con riferimento alle WCAG 2.2 di livello AA.</p>
+<div class="sp-wgrid"><div class="sp-wtile"><h3>Contrasto e colore</h3><p>Contrasto del testo almeno 4.5:1 in tutti i temi. Nessuna informazione affidata al solo colore: sempre anche testo, icona o forma.</p></div><div class="sp-wtile"><h3>Dimensioni</h3><p>Pulsanti di almeno 44 pixel, 48 nelle interazioni principali, 64 nel percorso a tappe.</p></div><div class="sp-wtile"><h3>Tastiera</h3><p>Tutto utilizzabile da tastiera, focus sempre visibile, link «Vai al contenuto» come primo elemento, conferme con uscita tramite Esc.</p></div><div class="sp-wtile"><h3>Struttura</h3><p>Titoli in ordine, tabelle con intestazioni e didascalia, lingua dichiarata, gruppi di scelte annunciati agli screen reader, feedback letti quando cambiano.</p></div><div class="sp-wtile"><h3>Movimento e suono</h3><p>Nessun audio né animazione automatica. La lettura ad alta voce parte solo su richiesta e si ferma con un pulsante.</p></div><div class="sp-wtile"><h3>Mobile</h3><p>Nessuno scroll orizzontale: le tabelle larghe scorrono dentro il proprio riquadro. Verificato fino a 360 pixel di larghezza.</p></div><div class="sp-wtile"><h3>PDF</h3><p>Il PDF ad alta leggibilità e la scheda di progettazione sono PDF/UA-1: tag strutturali, lingua, titolo, segnalibri, testo alternativo, carattere incorporato.</p></div><div class="sp-wtile"><h3>Dati e privacy</h3><p>Quello che gli studenti scrivono resta nel browser del loro dispositivo e non viene inviato a nessuno. Ogni versione ha un pulsante per ricominciare da zero.</p></div></div>
+</section>
 
-            <article class="la-card">
-                <h3>Ad alta leggibilità</h3>
-                <p class="la-label">Per chi è</p>
-                <p>Studenti autistici con buona autonomia di lettura, e chiunque tragga beneficio da un testo esplicito e prevedibile.</p>
-                <p class="la-label">Che cosa trovi</p>
-                <ul>
-                    <li>il capitolo intero, con frasi figurate spiegate e impliciti resi espliciti;</li>
-                    <li>box con significato sempre uguale;</li>
-                    <li>la regola trasformata nel “test della videocamera”;</li>
-                    <li>sceneggiatura all'americana annotata elemento per elemento;</li>
-                    <li>esercizi con feedback e compito finale in quattro formati.</li>
-                </ul>
-                <div class="la-actions">
-                    <a class="la-btn la-btn-primary" href="scrivere-audiovisivo-cap1.html">Apri la lezione<span class="sr">: versione ad alta leggibilità</span></a>
-                </div>
-            </article>
+<section id="uso" aria-labelledby="h-uso">
+<h2 id="h-uso">Come usarle in classe</h2>
+<ol class="sp-steps"><li><strong>Partite dalla versione per la classe</strong> come ambiente comune. Le versioni individuali sono percorsi paralleli sullo stesso contenuto: lo studente che usa il percorso a tappe può partecipare alla writers' room con un ruolo concordato.</li><li><strong>Presentate la personalizzazione a tutti,</strong> non solo a chi «ne ha bisogno»: normalizza gli strumenti e toglie lo stigma.</li><li><strong>Usate i criteri del progetto finale fin dall'inizio.</strong> Sono quattro, con tre livelli descrittivi che non sono voti.</li><li><strong>Fate verificare il glossario plurilingue</strong> agli studenti che parlano quelle lingue: diventano le persone esperte della classe.</li><li><strong>Provate la lettura ad alta voce sui dispositivi della scuola</strong> prima della lezione: senza una voce italiana installata, la pronuncia è straniera.</li><li><strong>Raccogliete i lavori con «Copia tutto».</strong> I testi restano sul dispositivo dello studente: il docente li vede solo se lo studente li condivide.</li></ol>
+<div class="sp-scroll"><table><caption>Criteri condivisi del progetto finale</caption><thead><tr><th scope="col">Criterio</th><th scope="col">Sto iniziando</th><th scope="col">Ci sono</th><th scope="col">Vado oltre</th></tr></thead><tbody><tr><th scope="row">Struttura</th><td>Le scene ci sono, ma l'ordine non è ancora chiaro.</td><td>Le scene sono in un ordine chiaro; ogni scena ha luogo e momento.</td><td>L'ordine crea un effetto (sorpresa, attesa) e l'hai scelto di proposito.</td></tr><tr><th scope="row">Scrivere per immagini</th><td>Alcune frasi dicono emozioni o pensieri.</td><td>Quasi tutto supera il test della videocamera.</td><td>Le azioni scelte fanno capire i personaggi senza spiegarli.</td></tr><tr><th scope="row">Chiarezza per chi legge</th><td>Chi legge deve chiederti delle spiegazioni.</td><td>Chi legge capisce dove siamo, chi parla, che cosa succede.</td><td>Una troupe potrebbe usare il tuo lavoro per girare.</td></tr><tr><th scope="row">Processo</th><td>Hai lavorato su una sola versione.</td><td>Hai usato almeno un metodo per le idee e raccolto un feedback.</td><td>Hai rivisto il lavoro più volte e sai spiegare che cosa hai cambiato e perché.</td></tr></tbody></table></div>
+</section>
 
-            <article class="la-card">
-                <h3>A tappe</h3>
-                <p class="la-label">Per chi è</p>
-                <p>Studenti autistici con bisogni di supporto più alti e tempi di attenzione brevi.</p>
-                <p class="la-label">Che cosa trovi</p>
-                <ul>
-                    <li>sei tappe da circa tre minuti, una sola informazione per schermata;</li>
-                    <li>colori con un significato fisso, sempre accompagnati da icona e parola (blu dove, viola quando, verde acqua che cosa si vede, arancio chi parla);</li>
-                    <li>feedback senza rosso e aiuto automatico dopo due errori;</li>
-                    <li>pause facoltative e “mi fermo per oggi”;</li>
-                    <li>pulsante “Ricomincia” con conferma.</li>
-                </ul>
-                <div class="la-actions">
-                    <a class="la-btn la-btn-primary" href="scrivere-un-video-a-tappe.html">Apri la lezione<span class="sr">: versione a tappe</span></a>
-                </div>
-            </article>
-        </div>
+<section id="limiti" aria-labelledby="h-limiti">
+<h2 id="h-limiti">Limiti dichiarati</h2>
+<div class="sp-warn"><ul><li>Le icone del percorso a tappe sono disegnate apposta, in stile lineare. Per studenti che usano la comunicazione aumentativa, pittogrammi ARASAAC o foto del vostro laboratorio funzionerebbero meglio.</li><li>Le traduzioni in arabo e cinese del glossario sono corrette nella sostanza, ma vanno confermate da chi parla quelle lingue.</li><li>I PDF sono conformi nella struttura; per una certificazione formale conviene una verifica con PAC 2024.</li><li>Le tre versioni partono da profili tipici, non da un singolo studente: per un alunno con PEI vanno calibrate sugli obiettivi del suo piano.</li></ul></div>
+</section>
 
-        <h2 id="principi">Come sono state progettate: i principi UDL 3.0 applicati</h2>
-        <p class="la-scrollhint">La tabella è larga: scorrila in orizzontale dentro il riquadro.</p>
-        <div class="la-tablewrap" role="region" aria-labelledby="cap-udl" tabindex="0">
-            <table class="la-table la-wide">
-                <caption id="cap-udl">Linee guida UDL 3.0 applicate nelle tre versioni della lezione</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Linea guida UDL 3.0</th>
-                        <th scope="col">Per tutta la classe</th>
-                        <th scope="col">Alta leggibilità</th>
-                        <th scope="col">A tappe</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1.1 Personalizzare la visualizzazione</th>
-                        <td>carattere, dimensione, interlinea, spaziatura, 5 temi</td>
-                        <td>dimensione del testo, tema chiaro e scuro</td>
-                        <td>dimensione del testo, tema chiaro e scuro</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1.2 Percezione multipla / 2.2 Decodifica</th>
-                        <td>tre modi di lettura, lettura ad alta voce</td>
-                        <td>lettura ad alta voce per paragrafo, PDF/UA per screen reader</td>
-                        <td>lettura ad alta voce per carta</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1.3 Diversità di prospettive e identità</th>
-                        <td>esempi e nomi plurali, domande sulla rappresentazione</td>
-                        <td>illustrazioni con persone diverse</td>
-                        <td class="la-none">non prevista</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2.1 Vocabolario e simboli</th>
-                        <td>glossario, modi di dire spiegati</td>
-                        <td>glossario, frasi figurate spiegate, impliciti resi espliciti</td>
-                        <td>parole spiegate nella carta, linguaggio letterale</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2.3 Lingue e dialetti</th>
-                        <td>glossario plurilingue completabile, dialetto come risorsa</td>
-                        <td class="la-none">non prevista</td>
-                        <td class="la-none">non prevista</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2.4 / 6.5 / 7.4 Bias</th>
-                        <td>domande critiche su chi decide le storie, gli standard, gli stereotipi espressivi</td>
-                        <td class="la-none">non prevista</td>
-                        <td class="la-none">non prevista</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2.5 Media multipli</th>
-                        <td>schemi, illustrazioni, tabelle, audio</td>
-                        <td>schemi, illustrazioni, tabelle</td>
-                        <td>icone, esempi visivi</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3.2 Idee chiave</th>
-                        <td>“l'idea chiave” di ogni parte</td>
-                        <td>box “In sintesi”</td>
-                        <td>una sola idea per carta</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3.4 Transfer</th>
-                        <td>“Collegalo alla tua vita”</td>
-                        <td>compito finale su argomento scelto</td>
-                        <td class="la-none">non prevista</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">7.1 Scelta e autonomia</th>
-                        <td>ordine delle parti, modo di lettura, formato del progetto</td>
-                        <td>compito in 4 formati</td>
-                        <td>pausa, continua o mi fermo per oggi</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">7.3 Gioia e gioco</th>
-                        <td>generatore di idee a dadi</td>
-                        <td class="la-none">non prevista</td>
-                        <td>stelle a fine tappa</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8.2 Sfida e supporto</th>
-                        <td>aiuti a scalini nella riscrittura</td>
-                        <td>struttura costante</td>
-                        <td>apprendimento senza errore (aiuto dopo 2 errori)</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8.3 / 9.4 Collaborazione ed empatia</th>
-                        <td>writers' room con ruoli e regole della stanza</td>
-                        <td class="la-none">non prevista</td>
-                        <td class="la-none">non prevista</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8.5 Feedback orientato all'azione</th>
-                        <td>“che cosa puoi fare adesso” con link al paragrafo</td>
-                        <td>feedback con spiegazione, riprova</td>
-                        <td>feedback con spiegazione, riprova</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">6.1 / 6.4 / 9.1 / 9.3 Obiettivi, monitoraggio, riflessione</th>
-                        <td>obiettivo scelto, autovalutazione, diario</td>
-                        <td>obiettivi e sintesi per parte, spunte “ho finito”</td>
-                        <td>striscia delle tappe, “adesso e dopo”, stelle</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">6.2 / 6.3 Anticipare le sfide, organizzare</th>
-                        <td>“anticipa le sfide”, criteri condivisi prima di iniziare</td>
-                        <td>criteri espliciti nel compito</td>
-                        <td>struttura annunciata all'inizio</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="la-note">
-            <p>La versione per la classe copre più linee guida; le altre due rinunciano ad alcune opzioni per ridurre il carico e aumentare la prevedibilità. Anche questa è una scelta di progettazione, non una mancanza.</p>
-        </div>
-        <p><a href="/lezioni-accessibili/metodo.html">Il metodo: come progettiamo le lezioni accessibili</a></p>
-    </main>
-
-    {% include footer-nav.html %}
-
-    <script src="/assets/menu.js"></script>
+<section id="scarica" aria-labelledby="h-scarica">
+<h2 id="h-scarica">Scarica e contatti</h2>
+<div class="sp-end">
+<div class="sp-endcard"><h3>La scheda di progettazione</h3>
+<p>Tutto il contenuto di questa pagina in un PDF accessibile di 10 pagine (PDF/UA), da stampare o condividere con il consiglio di classe.</p>
+<div class="sp-actions"><a class="sp-btn" href="scrivere-audiovisivo-scheda-progettazione-udl.pdf">Scarica la scheda (PDF, 10 pagine)</a></div></div>
+<div class="sp-endcard"><h3>Chi ha curato questa lezione</h3>
+<p><strong>Ivan Ferrero</strong> è psicologo e psicoterapeuta, cyberpsicologo e docente di sostegno nella scuola secondaria di secondo grado. Si occupa di pratica clinica, didattica inclusiva e formazione degli insegnanti.</p>
+<p>Per domande su questi materiali, per usarli nella tua scuola o anche solo per un confronto sul metodo:</p>
+<div class="sp-actions"><a class="sp-btn sp-btn-ghost" href="/#contatti">Scrivimi dalla pagina Contatti</a></div></div>
+</div>
+<div class="sp-foot"><p><strong>Fonti e crediti</strong></p>
+<ul><li>CAST (2024). Universal Design for Learning Guidelines version 3.0. <a href="https://udlguidelines.cast.org">udlguidelines.cast.org</a></li>
+<li>W3C (2023). Web Content Accessibility Guidelines (WCAG) 2.2. <a href="https://www.w3.org/TR/WCAG22/">w3.org/TR/WCAG22</a></li>
+<li>Testo di partenza: [DA COMPLETARE: autore e opera originale].</li></ul></div>
+</section>
+</div></main></div>
+<script src="/assets/menu.js"></script>
+<script>
+(function(){
+  function fit(){var h=document.querySelector('#site-menu .header');var mh=h?h.offsetHeight:72;
+    document.documentElement.style.setProperty('--menu-h',mh+'px')}
+  fit();window.addEventListener('resize',fit);setTimeout(fit,300);
+  var links=[].slice.call(document.querySelectorAll('.sp-toc a'));
+  var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))});
+  function spy(){var y=window.scrollY+(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--menu-h'))||72)+60,cur=secs[0];secs.forEach(function(s){if(s&&s.offsetTop<=y)cur=s});
+    links.forEach(function(a){a.getAttribute('href')==='#'+cur.id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current')})}
+  window.addEventListener('scroll',spy,{passive:true});spy();
+  var chips=[].slice.call(document.querySelectorAll('.sp-chip')),rows=[].slice.call(document.querySelectorAll('#maptable tbody tr')),st=document.getElementById('mapstatus');
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false')});
+    var f=c.getAttribute('data-f'),n=0;
+    rows.forEach(function(r){var ok=f==='tutti'||(' '+r.getAttribute('data-p')+' ').indexOf(' '+f+' ')>=0;r.hidden=!ok;if(ok)n++});
+    st.textContent='Righe visibili: '+n+' su '+rows.length+'.'})});
+  st.textContent='Righe visibili: '+rows.length+' su '+rows.length+'.';
+})();
+</script>
 </body>
 </html>
