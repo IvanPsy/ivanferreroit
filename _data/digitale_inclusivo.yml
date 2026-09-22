@@ -197,3 +197,8 @@ sections:
         url: /dashboards/generi-cinema-with-menu.html
         tag_label: "Cinema · ASD-friendly"
         description: "Mappa navigabile dei 6 macrogeneri cinematografici con tre porte d'ingresso: per categoria (avventura, crime, horror, amore, speculative, comico), per emozione che si vuole provare, oppure tramite glossario di termini tecnici. Pensata per studenti nello spettro autistico: linguaggio concreto e diretto, struttura prevedibile, navigazione lineare, nessuna animazione rapida (rispetta `prefers-reduced-motion`), sezione approfondimenti opzionale. Utile anche per chi sta imparando a parlare di film senza dare nulla per scontato."
+
+      - title: "🎬 Scrivere per l'audiovisivo — Una lezione, tre versioni"
+        url: /lezioni-accessibili/scrivere-per-audiovisivo/
+        tag_label: "Audiovisivo · UDL 3.0"
+        description: "Capitolo 1 di scrittura per l'audiovisivo (produzione, fasi della scrittura, formattazione all'italiana e all'americana, stile della sceneggiatura) in tre versioni: per tutta la classe secondo UDL 3.0, ad alta leggibilità, a tappe. Con la tabella dei principi UDL 3.0 applicati a ciascuna versione."

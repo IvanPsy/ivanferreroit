@@ -1,0 +1,146 @@
+/* ===========================================
+   LEZIONI ACCESSIBILI — stili delle pagine di sezione
+   (index della sezione, metodo, pagina di ogni lezione).
+   Si appoggia a /assets/base-styles.css; qui solo aggiustamenti
+   locali per WCAG 2.2 AA. NON usato dalle pagine delle lezioni.
+   =========================================== */
+
+:root {
+    /* testo secondario piu' chiaro del --text-secondary del sito,
+       per restare sopra 4.5:1 anche su --bg-card */
+    --la-text: #c9d1d9;
+    --la-text-soft: #aab4bf;
+    --la-focus: #00d9ff;
+}
+
+html { scroll-behavior: auto; scroll-padding-top: 80px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+body { font-size: 1.05rem; }
+
+/* ---- Menu del sito: target di almeno 44px e focus visibile (solo qui) ---- */
+.header-content { padding-top: 0; padding-bottom: 0; }
+.nav-btn { min-height: 44px; display: inline-flex; align-items: center; }
+.hamburger { width: 44px !important; height: 44px !important; }
+@media (max-width: 768px) {
+    /* base-styles.css mette in colonna l'header su mobile: con l'hamburger va in riga */
+    .header-content { flex-direction: row; gap: 1rem; }
+    .nav-btn { min-height: 48px; }
+}
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 3px solid var(--la-focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* ---- Salta il menu ---- */
+.la-skip {
+    position: absolute; left: -9999px; top: 0; z-index: 2000;
+    background: #0a0e14; color: #e6edf3; border: 2px solid var(--la-focus);
+    padding: 12px 16px; border-radius: 6px; font-weight: 600; text-decoration: underline;
+}
+.la-skip:focus { left: 12px; top: 8px; }
+
+/* ---- Impaginazione ---- */
+.la-main {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 96px 24px 48px;
+}
+@media (max-width: 768px) { .la-main { padding: 84px 16px 40px; } }
+
+.la-main p, .la-main li, .la-main td { color: var(--la-text); }
+.la-main li { margin-bottom: .4rem; }
+.la-main ul { padding-left: 1.3rem; margin-bottom: 1rem; }
+.la-main h1 { font-size: 2.3rem; line-height: 1.2; margin-bottom: 1rem; }
+.la-main h2 { font-size: 1.6rem; line-height: 1.25; margin: 2.75rem 0 1rem; }
+.la-main h3 { font-size: 1.25rem; line-height: 1.3; }
+@media (max-width: 768px) {
+    .la-main h1 { font-size: 1.8rem; }
+    .la-main h2 { font-size: 1.35rem; }
+}
+
+/* i link nel testo sono sottolineati: non si affidano al solo colore */
+.la-main a:not(.la-btn):not(.la-cardlink) { text-decoration: underline; text-underline-offset: 3px; }
+.la-main a:hover { opacity: 1; color: #e6edf3; }
+
+.la-lead { font-size: 1.15rem; max-width: 70ch; }
+
+.la-crumbs { font-size: .95rem; margin-bottom: 1.25rem; }
+.la-crumbs ol { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .5rem; }
+.la-crumbs li { margin: 0; color: var(--la-text-soft); display: flex; align-items: center; min-height: 44px; }
+.la-crumbs li + li::before { content: "›"; content: "›" / ""; margin-right: .5rem; color: var(--la-text-soft); }
+.la-crumbs a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ---- Card ---- */
+.la-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+.la-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex; flex-direction: column;
+}
+.la-card h2, .la-card h3 { margin-top: 0; }
+.la-card .tag { align-self: flex-start; }
+.la-card .la-actions { margin-top: auto; display: flex; flex-direction: column; gap: .75rem; padding-top: 1rem; }
+.la-label { font-weight: 600; color: #e6edf3; margin-bottom: .35rem; }
+
+.la-cardlink { color: var(--accent-cyan); text-decoration: underline; text-underline-offset: 4px; }
+
+/* tag verde: testo schiarito rispetto a base-styles per il contrasto su --bg-card */
+.la-main .tag-green { color: #56d364; }
+
+.la-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    min-height: 48px; padding: 0 1.25rem;
+    border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none;
+}
+.la-btn-primary { background: var(--accent-cyan); color: #0a0e14; border: 2px solid var(--accent-cyan); }
+.la-btn-primary:hover { background: #7ae9ff; border-color: #7ae9ff; color: #0a0e14; }
+.la-btn-secondary { background: transparent; color: #e6edf3; border: 2px solid #8b949e; }
+.la-btn-secondary:hover { border-color: var(--accent-cyan); color: #e6edf3; }
+
+/* ---- Riquadri ---- */
+.la-note {
+    border-left: 4px solid var(--accent-cyan);
+    background: var(--bg-tertiary);
+    padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0;
+}
+.la-note p:last-child { margin-bottom: 0; }
+.la-todo {
+    border: 2px dashed #d29922; background: #2a2210; color: #f2cc60;
+    padding: .75rem 1rem; border-radius: 8px; margin: 1rem 0; font-weight: 600;
+}
+.la-main .la-todo, .la-main .la-todo p { color: #f2cc60; }
+
+/* ---- Tabelle ---- */
+.la-tablewrap {
+    width: 100%; max-width: 100%; overflow-x: auto;
+    border: 1px solid var(--border-color); border-radius: 8px; margin: 1rem 0 1.5rem;
+    background: var(--bg-secondary);
+}
+.la-table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .95rem; }
+.la-table.la-wide { min-width: 820px; }
+.la-table.la-narrow { min-width: 0; }
+.la-table caption {
+    caption-side: top; text-align: left; padding: .9rem 1rem .6rem;
+    font-weight: 600; color: #e6edf3;
+}
+.la-table th, .la-table td {
+    border-top: 1px solid var(--border-color);
+    padding: .65rem .9rem; text-align: left; vertical-align: top; line-height: 1.5;
+}
+.la-table thead th { background: var(--bg-card); color: #e6edf3; font-weight: 600; }
+.la-table tbody th { color: #e6edf3; font-weight: 600; background: var(--bg-tertiary); }
+.la-table td.la-none { color: var(--la-text-soft); font-style: italic; }
+.la-scrollhint { font-size: .9rem; color: var(--la-text-soft); }
+@media (min-width: 900px) { .la-scrollhint { display: none; } }
+
+.sr {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
