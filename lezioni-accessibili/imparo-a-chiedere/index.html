@@ -1,0 +1,259 @@
+---
+title: "Imparo a chiedere. Un chatbot per allenarsi a chiedere aiuto"
+description: "Un'attività accessibile per studenti che faticano a chiedere aiuto: tre mosse con un chatbot sui propri appunti e una domanda portata a una persona. Due schede stampabili e modificabili, progettate con lo Universal Design for Learning 3.0."
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imparo a chiedere. Un chatbot per allenarsi a chiedere aiuto | Ivan Ferrero</title>
+{% seo title=false %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base-styles.css">
+<style>
+.sp{--text-muted:#9aa4ae;--v-guidata:#b692ff;--v-essenziale:#3fb950;font-size:1.05rem}
+.sp-skip{position:absolute;left:-9999px;top:0;z-index:2000;background:#00d9ff;color:#0a0e14;padding:.6rem 1rem;border-radius:6px;font-weight:600}
+.sp-skip:focus{left:1rem;top:calc(var(--menu-h,72px) + .5rem)}
+.sp :focus-visible{outline:3px solid #00d9ff;outline-offset:3px;border-radius:4px}
+.sp .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sp-layout{max-width:1280px;margin:0 auto;padding:calc(var(--menu-h,72px) + 2rem) 2rem 3rem;display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-areas:'toc hero' 'toc body';column-gap:3rem;outline:none}
+.sp-hero{grid-area:hero;max-width:960px}.sp-toc{grid-area:toc}.sp-main{grid-area:body}
+.sp-toc{position:sticky;top:calc(var(--menu-h,72px) + 1.5rem);align-self:start;grid-row:1 / span 2}
+@media (max-width:1024px){.sp-toc{grid-row:auto}}
+.sp-toc p{font-size:.8rem;font-weight:600;color:var(--text-muted);margin:0 0 .6rem .75rem;letter-spacing:.04em}
+.sp-toc ol{list-style:none;margin:0;padding:0;counter-reset:t}
+.sp-toc li{counter-increment:t}
+.sp-toc a{display:flex;gap:.6rem;align-items:baseline;min-height:44px;padding:.55rem .75rem;border-radius:6px;color:#b8c1cc;font-size:.92rem;border-left:3px solid transparent}
+.sp-toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted)}
+.sp-toc a:hover{background:#222c3a;color:#e6edf3;opacity:1}
+.sp-toc a[aria-current="true"]{color:#e6edf3;border-left-color:#00d9ff;background:#00d9ff14}
+.sp-main{min-width:0;max-width:960px}
+.sp section{scroll-margin-top:calc(var(--menu-h,72px) + 1.5rem);padding-top:1rem;margin-bottom:3.5rem}
+.sp h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;letter-spacing:-.02em;margin:0 0 .8rem}
+.sp h2{font-size:1.7rem;letter-spacing:-.02em;margin:0 0 1rem;padding-bottom:.5rem;border-bottom:1px solid #30363d}
+.sp h3{font-size:1.2rem;margin:0 0 .5rem}
+.sp p,.sp li{color:#c9d1d9;line-height:1.7}
+.sp strong{color:#e6edf3}
+.sp a{color:#00d9ff}
+.sp-main a:not(.sp-btn){text-decoration:underline;text-underline-offset:3px}
+.sp-kicker{font-family:var(--font-mono);font-size:.85rem;color:#00d9ff;margin:0 0 1rem}
+.sp-lead{font-size:1.25rem;color:#c9d1d9;max-width:44em}
+.sp-hero{padding:1.5rem 0 1rem}
+.sp-stats{list-style:none;padding:0;margin:2rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}
+.sp-stats li{background:#151b23;border:1px solid #30363d;border-radius:8px;padding:1.1rem 1.2rem;color:#c9d1d9;font-size:.95rem}
+.sp-stats b{display:block;font-family:var(--font-mono);font-size:2rem;color:#00d9ff;line-height:1.1;margin-bottom:.3rem;font-weight:600}
+.sp-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.sp-btn{display:inline-flex;align-items:center;min-height:48px;padding:.7rem 1.3rem;border-radius:6px;background:#00d9ff;color:#0a0e14!important;font-weight:600;text-decoration:none}
+.sp-btn:hover{background:#6be8ff;opacity:1}
+.sp-btn-ghost{background:transparent;color:#e6edf3!important;border:1px solid #8b949e}
+.sp-btn-ghost:hover{background:#222c3a;border-color:#00d9ff}
+.sp-key{background:linear-gradient(135deg,#00d9ff12 0%,#3fb9500d 100%);border:1px solid #00d9ff55;border-radius:8px;padding:1.2rem 1.4rem;margin:1rem 0 1.5rem}
+.sp-key .lbl{font-family:var(--font-mono);font-size:.8rem;color:#00d9ff;margin:0 0 .4rem}
+.sp-key p:last-child{margin-bottom:0}
+.sp-vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;align-items:start}
+.sp-vcard{background:#1a222d;border:1px solid #30363d;border-top:4px solid var(--vc);border-radius:8px;padding:1.3rem 1.3rem 1.2rem}
+.sp-v-guidata{--vc:var(--v-guidata)}.sp-v-essenziale{--vc:var(--v-essenziale)}
+.sp-vtag{display:inline-block;font-family:var(--font-mono);font-size:.75rem;color:var(--vc);border:1px solid var(--vc);border-radius:4px;padding:.1rem .5rem;margin:0 0 .8rem}
+.sp-vcard ul{padding-left:1.2rem;margin:.6rem 0}
+.sp-who{font-size:.95rem}
+.sp-steps{list-style:none;counter-reset:s;padding:0;margin:1rem 0}
+.sp-steps li{counter-increment:s;position:relative;padding:.9rem 1rem .9rem 3.6rem;background:#151b23;border:1px solid #30363d;border-radius:8px;margin-bottom:.7rem}
+.sp-steps li::before{content:counter(s);position:absolute;left:1rem;top:.85rem;width:1.8rem;height:1.8rem;border:2px solid #00d9ff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.85rem;color:#00d9ff}
+.sp-say{font-family:var(--font-mono);font-size:.92rem;color:#e6edf3;background:#0f1419;border:1px solid #30363d;border-radius:4px;padding:.05rem .4rem}
+.sp-scroll{overflow-x:auto;max-width:100%;position:relative;margin:1rem 0 1.5rem;border:1px solid #30363d;border-radius:8px}
+.sp table{width:100%;border-collapse:collapse;font-size:.93rem}
+.sp caption{text-align:left;font-weight:600;color:#e6edf3;padding:.8rem 1rem;caption-side:top}
+.sp th,.sp td{border-top:1px solid #30363d;padding:.7rem .9rem;text-align:left;vertical-align:top;color:#c9d1d9}
+.sp thead th{background:#151b23;color:#e6edf3;font-weight:600}
+.sp tbody th{color:#e6edf3;font-weight:500}
+.sp-wide{min-width:760px}
+.sp-mid{min-width:560px}
+.sp-warn{background:#d299220f;border:1px solid #d2992266;border-left:4px solid #d29922;border-radius:8px;padding:1rem 1.3rem}
+.sp-warn ul{margin:0;padding-left:1.2rem}
+.sp-end{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+.sp-endcard{background:#1a222d;border:1px solid #30363d;border-radius:8px;padding:1.4rem}
+.sp-foot{color:var(--text-muted);font-size:.9rem;border-top:1px solid #30363d;padding-top:1rem;margin-top:2rem}
+.sp-foot li{color:#b8c1cc}
+@media (max-width:1024px){.sp-layout{grid-template-columns:1fr;grid-template-areas:'hero' 'toc' 'body';gap:1rem}
+.sp-toc{position:static;border:1px solid #30363d;border-radius:8px;padding:.8rem}
+.sp-toc ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}}
+@media (max-width:768px){.sp-layout{padding-left:1rem;padding-right:1rem}.sp-toc a{font-size:.88rem}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+/* integrazione sito: su mobile base-styles.css mette l'header in colonna e l'hamburger esce dalla barra fissa */
+@media (max-width:768px){.header-content{flex-direction:row;gap:1rem}}
+</style>
+</head>
+<body>
+<a class="sp-skip" href="#contenuto">Vai al contenuto</a>
+<div id="site-menu"></div>
+<div class="sp">
+<main id="contenuto" class="sp-layout" tabindex="-1">
+<header class="sp-hero">
+<p class="sp-kicker">Lezioni accessibili, attività 1 · versione 0.1, in sperimentazione</p>
+<h1>Imparo a chiedere</h1>
+<p class="sp-lead">Un chatbot come palestra per imparare a chiedere aiuto. Lo studente lavora sui propri appunti in tre mosse sempre uguali e porta ogni volta una domanda a una persona. Per insegnanti di sostegno, educatori e genitori.</p>
+<ul class="sp-stats">
+<li><b>3</b>mosse sempre nello stesso ordine</li>
+<li><b>1</b>domanda a una persona, in ogni sessione</li>
+<li><b>2</b>schede: guidata ed essenziale</li>
+<li><b>0</b>dati dello studente da inserire nel chatbot</li>
+</ul>
+<div class="sp-actions"><a class="sp-btn" href="#versioni">Vai alle due schede</a><a class="sp-btn sp-btn-ghost" href="#chatbot">Come si configura il chatbot</a></div>
+</header>
+<nav class="sp-toc" aria-label="In questa pagina"><p>In questa pagina</p><ol><li><a href="#sintesi">In sintesi</a></li><li><a href="#versioni">Le due schede</a></li><li><a href="#funziona">Come funziona</a></li><li><a href="#chatbot">Il chatbot</a></li><li><a href="#uso">Come usarla</a></li><li><a href="#osservare">Cosa osservare</a></li><li><a href="#scuola">Telefono e account</a></li><li><a href="#udl">Principi UDL</a></li><li><a href="#limiti">Limiti dichiarati</a></li><li><a href="#scarica">Scarica e contatti</a></li></ol></nav>
+<div class="sp-main">
+
+<section id="sintesi" aria-labelledby="h-sintesi">
+<h2 id="h-sintesi">In sintesi</h2>
+<div class="sp-key"><p class="lbl">Il punto</p>
+<p>Per molti studenti la difficoltà non è capire, è chiedere. Un chatbot non giudica e non si stanca: è un interlocutore a basso rischio su cui allenare il gesto. Ma chiedere al chatbot è l'allenamento, non il traguardo. Per questo ogni sessione finisce con una domanda portata a una persona.</p></div>
+<p>Chiedere ha tre momenti: <strong>accorgersi</strong> di avere un bisogno, <strong>metterlo in parole</strong>, <strong>valutare la risposta</strong> e chiedere di nuovo se non basta. L'attività li allena tutti e tre, usando come materiale gli appunti dello studente, in qualunque materia. La pensiamo in particolare per studenti con disturbo dello spettro autistico, con disabilità intellettiva o con ansia sociale, e per chiunque abbia imparato a restare in silenzio quando non capisce.</p>
+</section>
+
+<section id="versioni" aria-labelledby="h-versioni">
+<h2 id="h-versioni">Le due schede</h2>
+<p>Stesse mosse, due livelli di guida. Entrambe sono in Word modificabile, perché alcuni passaggi li completa l'adulto (il nome del chatbot, come si aggiunge una foto, le persone a cui chiedere), e in PDF da stampare.</p>
+<div class="sp-vgrid">
+<article class="sp-vcard sp-v-guidata" aria-labelledby="vc-guidata">
+<p class="sp-vtag">9 pagine</p>
+<h3 id="vc-guidata">Scheda guidata</h3>
+<p class="sp-who"><strong>Per chi è.</strong> Studenti che hanno bisogno di una sequenza esplicita, un passo alla volta, per esempio studenti con disturbo dello spettro autistico o con disabilità intellettiva.</p>
+<ul><li>Un passaggio per riquadro, con il quadratino da spuntare.</li><li>Le frasi da scrivere al chatbot già pronte.</li><li>Cartoncini da ritagliare con le frasi intere.</li></ul>
+<div class="sp-actions"><a class="sp-btn" href="imparo-a-chiedere-scheda-guidata.docx" download>Scarica in Word<span class="sr">, scheda guidata</span></a><a class="sp-btn sp-btn-ghost" href="imparo-a-chiedere-scheda-guidata.pdf">Scarica in PDF<span class="sr">, scheda guidata</span></a></div>
+</article>
+<article class="sp-vcard sp-v-essenziale" aria-labelledby="vc-essenziale">
+<p class="sp-vtag">3 pagine</p>
+<h3 id="vc-essenziale">Scheda essenziale</h3>
+<p class="sp-who"><strong>Per chi è.</strong> Studenti più autonomi, oppure chi ha già usato la scheda guidata e conosce la sequenza: è anche il passo successivo del percorso.</p>
+<ul><li>Le tre mosse e la domanda a una persona in due pagine.</li><li>Cartoncini con il solo inizio della frase: il resto lo scrive lo studente.</li></ul>
+<div class="sp-actions"><a class="sp-btn" href="imparo-a-chiedere-scheda-essenziale.docx" download>Scarica in Word<span class="sr">, scheda essenziale</span></a><a class="sp-btn sp-btn-ghost" href="imparo-a-chiedere-scheda-essenziale.pdf">Scarica in PDF<span class="sr">, scheda essenziale</span></a></div>
+</article></div>
+</section>
+
+<section id="funziona" aria-labelledby="h-funziona">
+<h2 id="h-funziona">Come funziona</h2>
+<ol class="sp-steps">
+<li><strong>Metti in ordine.</strong> Lo studente fotografa i suoi appunti e scrive <span class="sp-say">Metti in ordine questi appunti.</span> È il riscaldamento: il gesto di chiedere, con il rischio più basso.</li>
+<li><strong>Non capisco.</strong> Legge il testo, trova da solo una parola che non capisce e la chiede. Se la risposta non basta, chiede di nuovo: <span class="sp-say">Non ho ancora capito. Fammi un esempio.</span> È il cuore dell'attività, perché allena ad accorgersi del bisogno e a valutare la risposta.</li>
+<li><strong>Cosa manca?</strong> Il chatbot non completa gli appunti: elenca tre domande sulle parti mancanti. Lo studente ne sceglie una.</li>
+<li><strong>Una domanda a una persona.</strong> Quella domanda non va al chatbot: va all'insegnante, all'insegnante di sostegno, a un compagno. Lo studente sceglie a chi e prepara la frase per cominciare.</li>
+</ol>
+<h3>Due scelte da tenere ferme</h3>
+<ul>
+<li><strong>Il chatbot non completa i contenuti mancanti.</strong> Può inventare con sicurezza, e molti studenti per cui l'attività è pensata non hanno modo di accorgersene. I vuoti diventano domande per le persone, che sono anche il motivo per andare a chiedere.</li>
+<li><strong>Anche «ho capito tutto» è una richiesta.</strong> Se lo studente non trova parole difficili, la scheda gli chiede di dirlo all'adulto: <span class="sp-say">Ho capito tutto. Può controllare?</span> È proprio il segnale «ho finito» che molti di questi studenti faticano a dare da soli. Chiedetegli allora di spiegare a voce una riga: se emerge un punto oscuro, diventa la sua prossima domanda.</li>
+</ul>
+</section>
+
+<section id="chatbot" aria-labelledby="h-chatbot">
+<h2 id="h-chatbot">Il chatbot</h2>
+<p>L'attività funziona con qualunque chatbot che accetti istruzioni fisse, per esempio un Gem in Gemini o un progetto in ChatGPT. Le istruzioni sono pubbliche e gratuite: fanno parte di <strong>ADA, Assisted Digital Autonomy</strong>, un progetto aperto di istruzioni per chatbot rivolti a studenti con bisogni educativi speciali.</p>
+<ol class="sp-steps">
+<li><strong>Parti dalle regole comuni</strong> di ADA, che valgono per ogni studente: le decisioni restano sue, il chatbot dichiara cosa fa al testo, non si presenta come un amico, non invita a tornare, e se lo studente non è al sicuro si ferma e lo indirizza a una persona.</li>
+<li><strong>Aggiungi il modulo «Asking for help»</strong>, scritto per questa attività: ordina gli appunti senza aggiungere fatti, spiega una parola in tre frasi con un esempio, se lo studente non ha capito spiega in un altro modo, e alla domanda «cosa manca?» risponde con tre domande da fare a una persona, mai con i contenuti.</li>
+<li><strong>Completa i campi</strong>, per esempio le persone a cui lo studente può chiedere. Il progetto ha una scheda apposita e una guida all'installazione.</li>
+</ol>
+<p>Le istruzioni sono in inglese, ma non vanno tradotte: c'è un campo per la lingua, e il chatbot risponde in italiano.</p>
+<div class="sp-actions"><a class="sp-btn" href="https://github.com/IvanPsy/ada-assisted-digital-autonomy/blob/main/channels/student/modules/asking-for-help.md" hreflang="en">Il modulo «Asking for help»</a><a class="sp-btn sp-btn-ghost" href="https://github.com/IvanPsy/ada-assisted-digital-autonomy" hreflang="en">Il progetto ADA</a></div>
+<div class="sp-key"><p class="lbl">Privacy</p>
+<p>Nel chatbot non serve, e non va scritto, nulla che identifichi lo studente: né cognome, né scuola, né diagnosi. Bastano ruoli o nomi di battesimo delle persone di riferimento.</p></div>
+</section>
+
+<section id="uso" aria-labelledby="h-uso">
+<h2 id="h-uso">Come usarla</h2>
+<ol class="sp-steps">
+<li><strong>Una volta a settimana, stesso giorno e stessa ora,</strong> per 30-40 minuti. La prevedibilità fa parte dell'attività.</li>
+<li><strong>Completate insieme la scheda Word</strong> prima di stamparla: nome del chatbot, come si aggiunge una foto sul vostro dispositivo, persone a cui chiedere. Scrivete esattamente quello che lo studente vedrà sullo schermo.</li>
+<li><strong>La prima sessione la fate insieme,</strong> dall'inizio alla fine. Dalla seconda restate vicini senza intervenire, finché non è lo studente a chiedere: è quella richiesta che state allenando.</li>
+<li><strong>I cartoncini restano allo studente,</strong> vicino al dispositivo. La scheda compilata torna a voi: è la traccia di cosa ha chiesto, a chi e quante volte.</li>
+</ol>
+<h3>Togliere gli aiuti, un passo alla volta</h3>
+<p>Gli aiuti si riducono con un calendario deciso prima, non giorno per giorno. Ogni cambiamento riguarda una cosa sola e va annunciato allo studente almeno due settimane prima, con una frase scritta che può rileggere. Se arriva un periodo difficile si torna indietro di una fase: fa parte del percorso.</p>
+<div class="sp-scroll"><table class="sp-mid"><caption>Le quattro fasi</caption><thead><tr><th scope="col">Fase</th><th scope="col">Durata indicativa</th><th scope="col">L'unica cosa che cambia</th></tr></thead><tbody>
+<tr><th scope="row">1</th><td>8-12 settimane</td><td>Nulla: scheda guidata, cartoncini con la frase intera, promemoria del chatbot a fine risposta.</td></tr>
+<tr><th scope="row">2</th><td>almeno 8 settimane</td><td>Scheda essenziale: cartoncini con il solo inizio della frase.</td></tr>
+<tr><th scope="row">3</th><td>almeno 8 settimane</td><td>Si toglie dalle istruzioni del chatbot il promemoria finale.</td></tr>
+<tr><th scope="row">4</th><td>in avanti</td><td>Cartoncini girati: la frase la costruisce lo studente.</td></tr>
+</tbody></table></div>
+<p>Una cosa non si toglie mai: la domanda portata a una persona.</p>
+</section>
+
+<section id="osservare" aria-labelledby="h-osservare">
+<h2 id="h-osservare">Cosa osservare</h2>
+<p>L'indicatore che conta di più è uno solo: <strong>quante richieste fa lo studente senza che nessuno gliele suggerisca.</strong> Per ogni sessione basta una riga. Per l'aiuto usate tre lettere: <strong>A</strong> autonomo, <strong>C</strong> con il cartoncino, <strong>V</strong> con un'indicazione a voce.</p>
+<div class="sp-scroll"><table class="sp-wide"><caption>Griglia di osservazione, una riga per sessione</caption><thead><tr><th scope="col">Data</th><th scope="col">Richieste al chatbot (A, C, V)</th><th scope="col">Ha trovato da solo cosa non capiva?</th><th scope="col">Ha chiesto di nuovo quando la risposta non bastava?</th><th scope="col">Domanda a una persona: fatta? A chi? (A, C, V)</th><th scope="col">«Ho finito» o «Ho capito tutto» detto da solo?</th></tr></thead><tbody>
+<tr><th scope="row">Esempio</th><td>4 (1 A, 3 C)</td><td>Sì, una parola</td><td>No</td><td>Sì, all'insegnante di storia (C)</td><td>No</td></tr>
+</tbody></table></div>
+<p>Il chatbot, a fine sessione, scrive un breve riepilogo con il numero di domande fatte e la domanda scelta per una persona. È la traccia dello studente: leggetela insieme a lui, non al posto suo.</p>
+</section>
+
+<section id="scuola" aria-labelledby="h-scuola">
+<h2 id="h-scuola">Telefono e account</h2>
+<ul>
+<li><strong>Il telefono a scuola.</strong> La prima mossa richiede una foto degli appunti. La circolare del Ministero dell'Istruzione e del Merito n. 3392 del 16 giugno 2025 vieta l'uso dello smartphone anche nella scuola secondaria di secondo grado, con deroghe quando l'uso è previsto dal PEI o dal PDP. Se volete usare il telefono, scrivetelo nel piano dello studente. In alternativa: un tablet, la fotocamera del computer, oppure le foto scattate a casa.</li>
+<li><strong>L'account.</strong> Dove la scuola lo consente, l'account scolastico è di solito l'opzione più protetta. Le regole sull'età cambiano da servizio a servizio: il progetto ADA tiene una tabella aggiornata delle piattaforme.</li>
+</ul>
+</section>
+
+<section id="udl" aria-labelledby="h-udl">
+<h2 id="h-udl">Principi UDL applicati</h2>
+<div class="sp-scroll"><table class="sp-mid"><caption>Le considerazioni UDL 3.0 su cui si regge l'attività</caption><thead><tr><th scope="col">Considerazione UDL 3.0</th><th scope="col">Come è applicata</th></tr></thead><tbody>
+<tr><th scope="row">2.1 Chiarire vocabolario e strutture linguistiche</th><td>La parola che non si capisce diventa una richiesta, e la risposta arriva in frasi brevi con un esempio.</td></tr>
+<tr><th scope="row">4.2 Accesso a tecnologie e strumenti accessibili</th><td>Il chatbot è usato come strumento, configurato con istruzioni pubbliche che lo tengono al suo posto.</td></tr>
+<tr><th scope="row">5.3 Fluenza con supporto graduato</th><td>Frase intera, poi solo l'inizio, poi nessun cartoncino: il supporto si riduce secondo un calendario.</td></tr>
+<tr><th scope="row">6.4 Monitorare il proprio progresso</th><td>A fine sessione lo studente conta le domande fatte al chatbot e alle persone.</td></tr>
+<tr><th scope="row">8.2 Ottimizzare sfida e supporto</th><td>Due schede con due livelli di guida, sulla stessa sequenza.</td></tr>
+<tr><th scope="row">8.3 Collaborazione e interdipendenza</th><td>Ogni sessione finisce con una domanda a una persona: chiedere è un gesto che si fa con gli altri.</td></tr>
+</tbody></table></div>
+<p><a href="../metodo.html">Leggi come progettiamo tutte le lezioni accessibili</a></p>
+</section>
+
+<section id="limiti" aria-labelledby="h-limiti">
+<h2 id="h-limiti">Limiti dichiarati</h2>
+<div class="sp-warn"><ul>
+<li><strong>È una versione 0.1:</strong> l'attività è appena stata progettata ed è in sperimentazione da ottobre 2026. Questa pagina verrà aggiornata con quello che emerge dall'uso.</li>
+<li>Il chatbot può sbagliare anche con buone istruzioni. Le schede lo dicono allo studente, e le istruzioni vanno provate con gli scenari di prova del progetto ADA prima di consegnarle.</li>
+<li>Le interfacce dei chatbot cambiano spesso: per questo i passaggi tecnici (come aggiungere una foto) li scrive l'adulto sulla scheda, e non sono stampati.</li>
+<li>Non c'è ancora una versione per chi usa la comunicazione aumentativa e alternativa, che richiederebbe simboli al posto delle frasi scritte.</li>
+<li>I PDF hanno la struttura a tag per gli screen reader, ma non sono ancora stati verificati con PAC 2024.</li>
+</ul></div>
+</section>
+
+<section id="scarica" aria-labelledby="h-scarica">
+<h2 id="h-scarica">Scarica e contatti</h2>
+<div class="sp-end">
+<div class="sp-endcard"><h3>Le schede</h3>
+<p>In Word per completarle e adattarle, in PDF per stamparle.</p>
+<div class="sp-actions"><a class="sp-btn" href="imparo-a-chiedere-scheda-guidata.docx" download>Scheda guidata (Word)</a><a class="sp-btn sp-btn-ghost" href="imparo-a-chiedere-scheda-guidata.pdf">Scheda guidata (PDF, 9 pagine)</a><a class="sp-btn" href="imparo-a-chiedere-scheda-essenziale.docx" download>Scheda essenziale (Word)</a><a class="sp-btn sp-btn-ghost" href="imparo-a-chiedere-scheda-essenziale.pdf">Scheda essenziale (PDF, 3 pagine)</a></div></div>
+<div class="sp-endcard"><h3>Chi ha curato questa attività</h3>
+<p><strong>Ivan Ferrero</strong> è psicologo e psicoterapeuta, cyberpsicologo e docente di sostegno nella scuola secondaria di secondo grado. Si occupa di pratica clinica, didattica inclusiva e formazione degli insegnanti.</p>
+<p>Se usi l'attività, raccontami com'è andata: è così che la versione 0.1 diventa uno strumento verificato.</p>
+<div class="sp-actions"><a class="sp-btn sp-btn-ghost" href="/#contatti">Scrivimi dalla pagina Contatti</a></div></div>
+</div>
+<div class="sp-foot"><p><strong>Fonti e crediti</strong></p>
+<ul><li>CAST (2024). Universal Design for Learning Guidelines version 3.0. <a href="https://udlguidelines.cast.org" hreflang="en">udlguidelines.cast.org</a></li>
+<li>Ministero dell'Istruzione e del Merito, circolare n. 3392 del 16 giugno 2025 sull'uso dei telefoni cellulari a scuola. <a href="https://www.mim.gov.it/documents/20182/0/m_pi.AOODPIT.REGISTRO+UFFICIALE(U).0003392.16-06-2025+(2).pdf/80241c55-1b9e-1b8b-46b7-599854ceef58?version=1.0&amp;t=1750095941877">Testo della circolare (PDF)</a></li>
+<li>ADA, Assisted Digital Autonomy: istruzioni aperte per chatbot che lavorano con studenti con bisogni educativi speciali (CC BY-SA 4.0). <a href="https://github.com/IvanPsy/ada-assisted-digital-autonomy" hreflang="en">github.com/IvanPsy/ada-assisted-digital-autonomy</a></li></ul></div>
+</section>
+</div></main></div>
+
+{% include footer-nav.html %}
+
+<script src="/assets/menu.js"></script>
+<script>
+(function(){
+function fit(){var h=document.querySelector('#site-menu .header');var mh=h?h.offsetHeight:72;
+document.documentElement.style.setProperty('--menu-h',mh+'px')}
+fit();window.addEventListener('resize',fit);setTimeout(fit,300);
+var links=[].slice.call(document.querySelectorAll('.sp-toc a'));
+var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))});
+function spy(){var y=window.scrollY+(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--menu-h'))||72)+60,cur=secs[0];secs.forEach(function(s){if(s&&s.offsetTop<=y)cur=s});
+links.forEach(function(a){a.getAttribute('href')==='#'+cur.id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current')})}
+window.addEventListener('scroll',spy,{passive:true});spy();
+})();
+</script>
+</body>
+</html>
