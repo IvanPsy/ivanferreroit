@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Per docenti: Dopo il diploma, nel digitale | Ivan Ferrero</title>
+<meta name="description" content="Come usare la mappa «Dopo il diploma, nel digitale» nei moduli di orientamento da 30 ore, come leggere i dati e il quadro completo delle schede.">
+<link rel="canonical" href="https://ivanferrero.it/dashboards/dopo-il-diploma/docenti.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Per docenti: Dopo il diploma, nel digitale">
+<meta property="og:description" content="Come usare la mappa «Dopo il diploma, nel digitale» nei moduli di orientamento da 30 ore, come leggere i dati e il quadro completo delle schede.">
+<meta property="og:url" content="https://ivanferrero.it/dashboards/dopo-il-diploma/docenti.html">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Ivan Ferrero">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="stile.css">
+<script>try{if(localStorage.getItem('dd-tema')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+</head>
+<body>
+<a class="skip-link" href="#contenuto">Vai al contenuto</a>
+<div id="site-menu"></div>
+<script src="/assets/menu.js"></script>
+
+<main id="contenuto" tabindex="-1">
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <h1>Per docenti</h1>
+        <button type="button" class="btn btn-ghost theme-toggle" id="theme-toggle" aria-pressed="false"><span aria-hidden="true">🌙</span> Tema scuro</button>
+      </div>
+      <p class="sottotitolo">La pagina di servizio di <a href="./">Dopo il diploma, nel digitale</a>, per tutor, orientatori e docenti di sostegno.</p>
+      <p class="meta" id="meta-controllo"></p>
+    </header>
+
+    <section class="prosa" aria-labelledby="intro-titolo">
+      <h2 id="intro-titolo" class="sr-only">Introduzione</h2>
+      <p id="intro"></p>
+      <p class="no-print"><a class="btn" href="./"><span aria-hidden="true">←</span> Apri la mappa per gli studenti</a></p>
+    </section>
+
+    <div class="voci-docenti" id="voci"></div>
+
+    <section class="sezione" aria-labelledby="quadro-titolo">
+      <h2 id="quadro-titolo">Il quadro delle schede</h2>
+      <p class="prosa">Tutte le schede in una tabella, dallo stesso file dati della mappa. Tocca un'intestazione per ordinare. Su telefono la tabella scorre di lato.</p>
+      <p class="no-print"><button type="button" class="btn" onclick="window.print()"><span aria-hidden="true">🖨️</span> Stampa la tabella</button></p>
+      <div class="tabella-box" tabindex="0" role="region" aria-label="Tabella delle schede, scorre di lato">
+        <table class="tab" id="tabella">
+          <caption>Percorsi, costo, compatibilità con il lavoro, luogo, titolo, accessibilità, stato e data del controllo</caption>
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="piede">
+  <div class="wrap">
+    <nav aria-label="Altre pagine">
+      <a href="./">La mappa per gli studenti</a>
+      <a href="/dashboards/">Tutte le dashboard</a>
+      <a href="/">ivanferrero.it</a>
+    </nav>
+    <p>A cura di Ivan Ferrero, psicologo e docente di sostegno. Nessun ente ha pagato per stare in questa pagina.</p>
+  </div>
+</footer>
+
+<script src="comune.js"></script>
+<script>
+(function () {
+  const { FILTRI, ACCESS, esc, etichetta, data, linkFonte, stato } = DD;
+  DD.initTema();
+  const $ = id => document.getElementById(id);
+
+  const COLONNE = [
+    { k: 'nome', t: 'Percorso', v: s => s.nome, html: s => `<a href="./#scheda-${esc(s.id)}">${esc(s.nome)}</a>` },
+    { k: 'tipo', t: 'Tipo', v: s => s.tipo_scheda.charAt(0).toUpperCase() + s.tipo_scheda.slice(1) },
+    { k: 'costo', t: 'Costo', v: s => etichetta('filtro_costo', s.filtro_costo) || 'Dipende' },
+    { k: 'lavoro', t: 'Lavorare intanto', v: s => etichetta('filtro_lavoro', s.filtro_lavoro) || 'Non noto' },
+    { k: 'dove', t: 'Dove', v: s => etichetta('filtro_dove', s.filtro_dove) || 'Dipende' },
+    { k: 'resta', t: 'Cosa resta', v: s => etichetta('filtro_resta', s.filtro_resta) || 'Non noto' },
+    { k: 'durata', t: 'Durata', v: s => s.durata || '' },
+    { k: 'access', t: 'Accessibilità', v: s => (ACCESS[s.accessibilita_livello] || ACCESS['non dichiarato']).label,
+      sortv: s => (ACCESS[s.accessibilita_livello] || ACCESS['non dichiarato']).rank,
+      html: s => { const a = ACCESS[s.accessibilita_livello] || ACCESS['non dichiarato']; return `<span aria-hidden="true">${a.ico}</span> ${a.label}`; } },
+    { k: 'esiti', t: 'Esiti', v: s => s.esiti_occupazionali ? (s.dichiarato_da_ente === false ? 'Verificato' : s.dichiarato_da_ente === true ? "Dichiarato dall'ente" : 'Presente') : 'Nessun dato' },
+    { k: 'stato', t: 'Stato', v: s => stato(s).testo + (s.a_scadenza ? ' · con scadenza' : '') },
+    { k: 'controllo', t: 'Controllato', v: s => s.ultimo_controllo, html: s => esc(data(s.ultimo_controllo)) },
+    { k: 'fonte', t: 'Fonte', v: s => s.fonte_ufficiale, html: s => linkFonte(s.fonte_ufficiale, 'Apri'), nosort: true }
+  ];
+
+  let SCHEDE = [], ord = { k: null, dir: 1 };
+
+  function disegnaTabella() {
+    $('tabella').querySelector('thead').innerHTML = '<tr>' + COLONNE.map(c => {
+      const sort = ord.k === c.k ? (ord.dir > 0 ? 'ascending' : 'descending') : 'none';
+      return c.nosort ? `<th scope="col">${c.t}</th>` : `<th scope="col" aria-sort="${sort}"><button type="button" data-k="${c.k}">${c.t}</button></th>`;
+    }).join('') + '</tr>';
+    let righe = SCHEDE.slice();
+    if (ord.k) {
+      const c = COLONNE.find(x => x.k === ord.k);
+      const f = c.sortv || c.v;
+      righe.sort((a, b) => { const x = f(a), y = f(b); return (x > y ? 1 : x < y ? -1 : 0) * ord.dir; });
+    }
+    $('tabella').querySelector('tbody').innerHTML = righe.map(s => '<tr>' + COLONNE.map((c, i) => {
+      const cont = c.html ? c.html(s) : esc(c.v(s));
+      return i === 0 ? `<th scope="row">${cont}</th>` : `<td>${cont}</td>`;
+    }).join('') + '</tr>').join('');
+  }
+
+  $('tabella').addEventListener('click', e => {
+    const b = e.target.closest('th button');
+    if (!b) return;
+    ord = { k: b.dataset.k, dir: ord.k === b.dataset.k ? -ord.dir : 1 };
+    disegnaTabella();
+    $('tabella').querySelector(`th button[data-k="${b.dataset.k}"]`).focus();
+  });
+
+  DD.caricaDati().then(d => {
+    SCHEDE = d.schede;
+    const p = d.sezioni.per_docenti;
+    $('meta-controllo').textContent = `${SCHEDE.length} schede · ultimo controllo il ${data(DD.ultimoControllo(d))}`;
+    $('intro').textContent = p.intro;
+    $('voci').innerHTML = p.voci.map(v => `<div class="voce"><h2 style="font-size:1.15rem;margin-bottom:0.3rem">${esc(v.titolo)}</h2><p>${esc(v.testo)}</p>${(v.fonti || []).length ? `<p class="fonti">Fonte: ${v.fonti.map(u => linkFonte(u)).join(' · ')}</p>` : ''}</div>`).join('');
+    disegnaTabella();
+  }).catch(() => {
+    $('voci').innerHTML = '<p class="errore">Non riesco a caricare i dati. Ricarica la pagina tra poco.</p>';
+  });
+})();
+</script>
+</body>
+</html>

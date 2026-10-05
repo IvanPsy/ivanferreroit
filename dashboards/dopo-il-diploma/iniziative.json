@@ -1,0 +1,841 @@
+{
+  "meta": {
+    "progetto": "HITECH26",
+    "nome_pubblico": "Dopo il diploma, nel digitale",
+    "versione_schema": 1,
+    "generato_il": "2026-10-04",
+    "nota": "Fonte di verità delle schede. Dove un dato non è noto o non confermato il valore è null.",
+    "nota_testi": "Tutti i campi testuali delle schede e delle sezioni sono pubblici: niente appunti di lavoro. Ripuliti il 2026-10-04 (F5)."
+  },
+  "schede": [
+    {
+      "id": "its-rizzoli",
+      "nome": "ITS Angelo Rizzoli",
+      "ente": "Fondazione ITS Angelo Rizzoli",
+      "tipo_ente": "misto",
+      "tipo_scheda": "percorso",
+      "sedi": [
+        "Milano",
+        "Seregno",
+        "Pavia",
+        "Codogno",
+        "Bergamo"
+      ],
+      "famiglia": "B",
+      "tipologia": "ITS Academy: due anni di scuola superiore di tecnologia con stage in azienda",
+      "requisiti": "Diploma di scuola superiore, oppure quinta superiore in corso, diploma quadriennale o IFTS. Prova scritta e colloquio. Di solito serve residenza o domicilio in Lombardia.",
+      "costo": "Circa 1.000 € l'anno (cifra scritta nella pagina di un corso, non nel bando). Ci sono borse per reddito e per merito che possono ridurla o azzerarla.",
+      "costo_fascia": "a pagamento",
+      "modalita": "presenza",
+      "durata": "2 anni, con almeno il 30% delle ore in stage",
+      "titolo_rilasciato": "Diploma di tecnico superiore (V livello EQF)",
+      "valore_titolo": "legale",
+      "sbocchi": "Sviluppo software, cloud, cyber security, dati e IA, 3D e realtà virtuale, comunicazione digitale, robotica per l'automazione",
+      "esiti_occupazionali": "Un solo dato terzo: il corso Cyber Defense Specialist 2022/24 è risultato primo su 94 percorsi ICT (28 diplomati, indice di efficacia 90,74).",
+      "fonte_esiti": "INDIRE, monitoraggio ITS Academy 2026, area ICT",
+      "dichiarato_da_ente": false,
+      "accessibilita": "Nelle pagine di iscrizione e di borse non c'è scritto nulla su misure per DSA o disabilità nelle prove di selezione.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": true,
+      "nota_scadenza": "Per chi si è diplomato nel 2026 le iscrizioni chiudevano il 4 ottobre 2026, con le prove il 6 ottobre. Per chi si diploma nel 2027 le date non sono ancora uscite: chiedile alla segreteria. Chi è in quarta può fare una preselezione.",
+      "fonte_ufficiale": "https://www.itsrizzoli.it/iscrizione/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "un titolo",
+        "lavorare presto"
+      ],
+      "filtro_costo": "pochi soldi",
+      "filtro_lavoro": null,
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "due anni o più",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "programmare",
+        "reti e sicurezza",
+        "dati e IA",
+        "grafica 3D e giochi",
+        "macchine e automazione",
+        "digitale per le aziende"
+      ],
+      "stato_etichetta": "Date 2027 non ancora uscite",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Scrivi alla segreteria per sapere quando sono le selezioni per chi si diploma nel 2027. Intanto guarda i corsi e scegli quelli che ti piacciono.",
+      "costi_nascosti": "La quota non copre viaggi e pasti. Sullo stage non c'è scritto se è pagato. Le borse non si sommano tra loro."
+    },
+    {
+      "id": "its-ict-italia",
+      "nome": "Tutti gli ITS dell'area ICT d'Italia",
+      "ente": "INDIRE (monitoraggio nazionale ITS Academy)",
+      "tipo_ente": "pubblico",
+      "tipo_scheda": "chiave trasversale",
+      "sedi": null,
+      "famiglia": "B",
+      "tipologia": "Porta verso la rete nazionale degli ITS di informatica e comunicazione, con i dati sul lavoro",
+      "requisiti": "Diploma di scuola superiore e selezione. Cambia da ITS a ITS: leggi il bando di quello che ti interessa.",
+      "costo": "Cambia da ITS a ITS. Guarda la scheda o il bando di ciascuno.",
+      "costo_fascia": null,
+      "modalita": "presenza",
+      "durata": "2 anni",
+      "titolo_rilasciato": "Diploma di tecnico superiore (V livello EQF)",
+      "valore_titolo": "legale",
+      "sbocchi": "Lavori digitali: sviluppo, cloud, cyber security, dati",
+      "esiti_occupazionali": "78,3% di occupati a un anno dal diploma (diplomati 2024, area ICT: 1.666 su 2.127). La media di tutti gli ITS è 79,7%, quindi l'ICT è un po' sotto.",
+      "fonte_esiti": "INDIRE, Monitoraggio nazionale ITS Academy 2026, focus sull'area ICT (luglio 2026)",
+      "dichiarato_da_ente": false,
+      "accessibilita": "Dipende dal singolo ITS. Chiedi prima della prova se puoi avere tempo in più e strumenti compensativi.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "nazionale",
+      "a_scadenza": false,
+      "nota_scadenza": null,
+      "fonte_ufficiale": "https://www.indire.it/progetto/its-istituti-tecnologici-superiori/sistema-its-le-aree-tecnologiche/tecnologie-dellinformazione-e-della-comunicazione/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "un titolo",
+        "lavorare presto"
+      ],
+      "filtro_costo": null,
+      "filtro_lavoro": null,
+      "filtro_dove": "devo spostarmi",
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "due anni o più",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "programmare",
+        "reti e sicurezza",
+        "dati e IA"
+      ],
+      "stato_etichetta": null,
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Apri la pagina INDIRE dell'area ICT, trova gli ITS vicino a casa tua e leggi il loro bando.",
+      "costi_nascosti": "Se l'ITS è lontano da casa possono servire affitto e viaggi. Ogni ITS ha le sue borse e le sue regole."
+    },
+    {
+      "id": "its-incom",
+      "nome": "ITS INCOM Academy",
+      "ente": "Fondazione ITS INCOM",
+      "tipo_ente": "misto",
+      "tipo_scheda": "percorso",
+      "sedi": [
+        "Busto Arsizio",
+        "Legnano"
+      ],
+      "famiglia": "B",
+      "tipologia": "ITS Academy: due anni di tecnologia e stage in azienda",
+      "requisiti": "Diploma di scuola superiore (oppure diploma professionale quadriennale più IFTS). Test online e colloquio.",
+      "costo": "1.000 € l'anno. Puoi pagare a rate o chiedere il prestito «per Merito» di Intesa Sanpaolo, che restituisci dopo gli studi. Borse pubbliche: non confermate per questo ITS.",
+      "costo_fascia": "a pagamento",
+      "modalita": "presenza",
+      "durata": "2 anni, con circa 800 ore di stage",
+      "titolo_rilasciato": "Diploma di tecnico superiore (V livello EQF)",
+      "valore_titolo": "legale",
+      "sbocchi": "Web developer, cloud e IA, analisi dati, cyber security, IoT, realtà virtuale e giochi, digital twin, marketing digitale",
+      "esiti_occupazionali": "Oltre il 92% di occupati (area programmazione e nuove tecnologie).",
+      "fonte_esiti": "Sito di ITS INCOM e stampa locale (MalpensaNews)",
+      "dichiarato_da_ente": true,
+      "accessibilita": "Le FAQ e la pagina delle selezioni non dicono nulla su DSA o disabilità, né nelle prove né durante il corso.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": true,
+      "nota_scadenza": "Selezioni online con un test e un colloquio. L'ultima data sul sito è il 9 settembre 2026 (già passata). Le date del 2027 non sono pubblicate: «tra maggio e luglio» è una stima dalle edizioni passate (13/5/2025, 1/7/2026, 9/9/2026).",
+      "fonte_ufficiale": "https://itsincom.it/faq-its/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "un titolo",
+        "lavorare presto"
+      ],
+      "filtro_costo": "pochi soldi",
+      "filtro_lavoro": "solo part-time",
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "due anni o più",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "programmare",
+        "reti e sicurezza",
+        "dati e IA",
+        "grafica 3D e giochi",
+        "macchine e automazione",
+        "digitale per le aziende"
+      ],
+      "stato_etichetta": "Di solito riapre tra maggio e luglio",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Quando esce la prossima data, iscriviti alla selezione online. Intanto fai i test di simulazione che trovi sul sito.",
+      "costi_nascosti": "La frequenza è obbligatoria e in sede, quindi i viaggi sono tuoi. Lo stage lo paga l'azienda solo se vuole. Per lavorare ti resta la sera."
+    },
+    {
+      "id": "its-lombardia-meccatronica",
+      "nome": "ITS Lombardia Meccatronica",
+      "ente": "Fondazione ITS Lombardia Meccatronica Academy",
+      "tipo_ente": "misto",
+      "tipo_scheda": "percorso",
+      "sedi": [
+        "Sesto San Giovanni",
+        "Bergamo",
+        "Lonato del Garda",
+        "Lecco",
+        "Pavia",
+        "Saronno",
+        "Como"
+      ],
+      "famiglia": "B",
+      "tipologia": "ITS Academy: macchine, robot e automazione, con stage in azienda",
+      "requisiti": "Diploma di scuola superiore, oppure diploma professionale dei corsi quadriennali o IFTS. Test online e colloquio in presenza.",
+      "costo": "500 € il primo anno e 1.000 € il secondo. Borsa da 1.000 € (donazione delle aziende) per chi è meritevole e senza mezzi. Esenzione della quota da 1.000 € per le ragazze.",
+      "costo_fascia": "a pagamento",
+      "modalita": "presenza",
+      "durata": "2 anni: 1.200 ore tra aula e azienda e 800 ore di stage",
+      "titolo_rilasciato": "Diploma di tecnico superiore (V livello EQF), più certificazioni di settore (per Factory Automation: Cetop, Eplan, Siemens, SolidWorks, ABB)",
+      "valore_titolo": "legale",
+      "sbocchi": "Progettista di soluzioni meccatroniche, programmatore di sistemi di automazione, manutentore e installatore di linee, tecnico di assistenza, tecnico commerciale",
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Sul sito non abbiamo trovato nulla su DSA o disabilità.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": true,
+      "nota_scadenza": "Le sessioni di test online sono molte nell'anno. Sul sito ci sono l'8 luglio e il 16 settembre, poi il 2, l'8 e il 14 ottobre (iscrizioni fino al 7 e al 13 ottobre), senza l'anno scritto in pagina. Le date del 2027 non sono pubblicate: «luglio» è una stima.",
+      "fonte_ufficiale": "https://itslombardiameccatronica.it/iscrizioni/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "un titolo",
+        "lavorare presto"
+      ],
+      "filtro_costo": "pochi soldi",
+      "filtro_lavoro": null,
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "due anni o più",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "macchine e automazione"
+      ],
+      "stato_etichetta": "Di solito riapre a luglio",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Scegli la sede più vicina e iscriviti a una sessione di test online. Dopo il test c'è un colloquio in presenza, che conta molto.",
+      "costi_nascosti": "Per lo stage di 800 ore non è scritto se è pagato. I viaggi fino alla sede sono tuoi."
+    },
+    {
+      "id": "ifts-lombardia",
+      "nome": "IFTS in Lombardia",
+      "ente": "Regione Lombardia, con enti formativi (per esempio ITS Rizzoli, ITS INCOM, ITS GREEN)",
+      "tipo_ente": "misto",
+      "tipo_scheda": "percorso",
+      "sedi": null,
+      "famiglia": "B",
+      "tipologia": "Scheda di categoria: corsi di un anno pagati dall'Europa, con stage",
+      "requisiti": "Diploma di scuola superiore (per alcuni corsi anche diploma professionale quadriennale). Di solito domicilio o residenza in Lombardia; alcuni corsi fino a 29 anni. Prova di selezione.",
+      "costo": "Gratis: li pagano il Fondo sociale europeo e Regione Lombardia.",
+      "costo_fascia": "gratuito",
+      "modalita": "presenza",
+      "durata": "1 anno, circa 1.000 ore, con 400 o 450 ore di stage",
+      "titolo_rilasciato": "Certificato di specializzazione tecnica superiore (livello EQF 4), rilasciato da Regione Lombardia",
+      "valore_titolo": "legale",
+      "sbocchi": "Tecnico specializzato: esempi sono sviluppo con IA, amministrazione di sistemi, digitalizzazione di sistemi energetici, domotica e IoT",
+      "esiti_occupazionali": "Oltre il 95% di occupati per gli IFTS di INCOM.",
+      "fonte_esiti": "Sito di ITS INCOM",
+      "dichiarato_da_ente": true,
+      "accessibilita": "Sui siti degli enti non abbiamo trovato nulla su DSA o disabilità.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": true,
+      "nota_scadenza": "Ogni anno c'è un nuovo avviso della Regione e l'elenco dei corsi cambia. Per il 2026/27 l'avviso è del 5 maggio 2026 (decreto 5855) e i progetti sono stati approvati il 4 agosto 2026 (decreto 10618). Per il 2027/28 non c'è ancora nulla. Gli IFTS AI del Rizzoli 2026/27 risultano esauriti.",
+      "fonte_ufficiale": "https://www.bandi.regione.lombardia.it/servizi/servizio/comunicazioni/dettaglio/avviso-pubblico-selezione-nuovi-progetti-istruzione-formazione-tecnica-superiore-ifts-realizzare-anno-formativo-2026-2027-8a5aa37d9fcf0361019fd218e255002d",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "un titolo",
+        "lavorare presto"
+      ],
+      "filtro_costo": "gratis",
+      "filtro_lavoro": "no tempo pieno",
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "un anno",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "programmare",
+        "dati e IA",
+        "reti e sicurezza",
+        "macchine e automazione"
+      ],
+      "stato_etichetta": "Si riapre con il nuovo avviso della Regione (nel 2026 è uscito a maggio)",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Guarda i corsi IFTS sui siti degli ITS lombardi e segna quando esce l'avviso della Regione.",
+      "costi_nascosti": "Il corso è gratis, ma viaggi e pasti sono tuoi. Sullo stage non è scritto se è pagato. Devi esserci ad almeno il 75% delle ore."
+    },
+    {
+      "id": "scuole-42",
+      "nome": "Scuole 42 (Milano, Roma, Firenze)",
+      "ente": "42 Milano ELIS, 42 Roma ELIS, 42 Firenze (Fondazione CR Firenze)",
+      "tipo_ente": "privato",
+      "tipo_scheda": "percorso",
+      "sedi": [
+        "Milano",
+        "Roma",
+        "Firenze"
+      ],
+      "famiglia": "B",
+      "tipologia": "Scuola di programmazione gratuita, senza lezioni: impari con i compagni, a progetti",
+      "requisiti": "Almeno 18 anni, nessun titolo di studio e nessun limite di età. Giochi online di logica e memoria, un incontro e poi la Piscine: una full immersion in presenza di circa 4 settimane (a Firenze 26 giorni).",
+      "costo": "Gratis, nessuna retta.",
+      "costo_fascia": "gratuito",
+      "modalita": "presenza",
+      "durata": "In media da 6 a 24 mesi a Milano e da 12 a 18 a Roma",
+      "titolo_rilasciato": "Certificazione del network 42 (non è un titolo di legge)",
+      "valore_titolo": "partecipazione",
+      "sbocchi": "Sviluppo software, cyber security, giochi",
+      "esiti_occupazionali": "93% di occupati a fine percorso. Il sito scrive anche che oltre il 90% trova un impiego prima della fine. Milano e Roma riportano gli stessi numeri: probabilmente sono del network, non della singola sede.",
+      "fonte_esiti": "42milano.it e 42roma.it",
+      "dichiarato_da_ente": true,
+      "accessibilita": "Sui siti non c'è scritto nulla su DSA o disabilità, né per i giochi online né per la Piscine.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "nazionale",
+      "a_scadenza": false,
+      "nota_scadenza": "Le Piscine hanno date fisse per sede. Roma: 5 al 30 ottobre 2026 e 18 gennaio al 12 febbraio 2027. Firenze: 5 al 30 ottobre 2026. Milano: 22 febbraio, 12 aprile e 24 maggio, ma sul sito non c'è l'anno.",
+      "fonte_ufficiale": "https://www.42milano.it/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "lavorare presto",
+        "provare prima"
+      ],
+      "filtro_costo": "gratis",
+      "filtro_lavoro": "solo part-time",
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": "attestato",
+      "filtro_durata": "un anno",
+      "filtro_ingresso": "selezione tosta",
+      "settori": [
+        "programmare",
+        "reti e sicurezza",
+        "grafica 3D e giochi"
+      ],
+      "stato_etichetta": "Di solito riapre a gennaio e febbraio",
+      "prossima_finestra": "Roma dal 18 gennaio 2027. Milano il 22 febbraio (anno non scritto sul sito).",
+      "cosa_fai_adesso": "Fai i giochi online sul sito della sede che preferisci e prenota la prossima Piscine. Non serve saper programmare.",
+      "costi_nascosti": "La scuola è gratis, ma vitto, alloggio e trasporti sono tuoi. Durante la Piscine sei in campus tutto il giorno, quindi lavorare è difficile. Non c'è un titolo di legge."
+    },
+    {
+      "id": "apple-developer-academy",
+      "nome": "Apple Developer Academy",
+      "ente": "Università di Napoli Federico II, con Apple",
+      "tipo_ente": "misto",
+      "tipo_scheda": "percorso",
+      "sedi": [
+        "Napoli"
+      ],
+      "famiglia": "B",
+      "tipologia": "Nove mesi a Napoli per imparare a creare app, con un'indennità",
+      "requisiti": "Diploma di scuola superiore già preso (il bando 2026/27 chiedeva di averlo entro l'anno scolastico 2025/26), 18 anni compiuti all'inizio, prova online e colloquio in inglese. Non serve saper programmare.",
+      "costo": "Gratis. In più prendi 7.350 € lordi (6.774,19 € netti) se vai ad almeno l'80% delle ore (750 ore).",
+      "costo_fascia": "gratuito",
+      "modalita": "presenza",
+      "durata": "9 mesi",
+      "titolo_rilasciato": null,
+      "valore_titolo": null,
+      "sbocchi": "Sviluppo di app per iPhone e iPad",
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Chi ha una disabilità lo segna nel modulo e scrive all'Academy entro la scadenza (nel 2026: 20 aprile) per avere assistenza. Per i DSA il bando non dice nulla.",
+      "accessibilita_livello": "supporto dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "altro",
+      "a_scadenza": true,
+      "nota_scadenza": "Un bando l'anno. Quello 2026/27 è del 29 gennaio 2026: iscrizioni fino al 17 aprile, test dal 28 aprile al 5 maggio, colloqui dal 18 al 22 maggio, avvio il 28 settembre. Il bando 2027/28 non è ancora uscito e va letto bene: se chiede il diploma già preso, chi finisce a giugno 2027 potrebbe non rientrare. Il Federico II Foundation Program 2026/27 è riservato a studenti già iscritti alla Federico II: non è una porta per chi si diploma.",
+      "fonte_ufficiale": "https://www.developeracademy.unina.it/it/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "lavorare presto",
+        "provare prima"
+      ],
+      "filtro_costo": "gratis e mi pagano",
+      "filtro_lavoro": "no tempo pieno",
+      "filtro_dove": "devo spostarmi",
+      "filtro_resta": "esperienza pagata",
+      "filtro_durata": "un anno",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "programmare"
+      ],
+      "stato_etichetta": "Di solito riapre a febbraio",
+      "prossima_finestra": "Febbraio o marzo 2027 (stima dalle edizioni passate)",
+      "cosa_fai_adesso": "Allena l'inglese e controlla il bando 2027 appena esce. Leggi con calma i requisiti sul diploma.",
+      "costi_nascosti": "Vivi a Napoli per 9 mesi: affitto e spese sono tuoi. Prova e lezioni sono in inglese. Se vai sotto l'80% delle ore perdi l'indennità."
+    },
+    {
+      "id": "generation-italy",
+      "nome": "Generation Italy (corsi tech)",
+      "ente": "Generation Italy",
+      "tipo_ente": "privato",
+      "tipo_scheda": "percorso",
+      "sedi": null,
+      "famiglia": "B",
+      "tipologia": "Corsi online gratuiti e intensivi per un primo lavoro nel tech, con colloquio garantito",
+      "requisiti": "Da 18 a 29 anni. Per le classi in Lombardia: non lavorare, non essere iscritto a scuola o università quando ti candidi e avere residenza o domicilio in Lombardia. Test di attitudine, inglese e logica, poi colloquio.",
+      "costo": "Gratis.",
+      "costo_fascia": "gratuito",
+      "modalita": "online",
+      "durata": "14 settimane (corso Java Developer)",
+      "titolo_rilasciato": "Attestato Generation (non è un titolo di legge) e almeno un colloquio di lavoro garantito",
+      "valore_titolo": "partecipazione",
+      "sbocchi": "Junior Java Developer. Altri corsi: Salesforce, .NET, cloud, dati, cyber security",
+      "esiti_occupazionali": "80% di occupati dalla fine del corso e oltre 12.200 persone inserite dal 2018. Il primo contratto vale in mediana 1.100 € netti (stage compresi).",
+      "fonte_esiti": "italy.generation.org (home)",
+      "dichiarato_da_ente": true,
+      "accessibilita": "Sul sito non abbiamo trovato nulla su DSA o disabilità.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "nazionale",
+      "a_scadenza": false,
+      "nota_scadenza": "Le classi partono più volte l'anno. Oggi sul sito c'è la classe Java in Lombardia dal 14 ottobre 2026. Il calendario 2027 non è pubblicato. Il corso si ferma due settimane ad agosto e dal 24 dicembre al 6 gennaio.",
+      "fonte_ufficiale": "https://italy.generation.org/programs/java-developer/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "lavorare presto",
+        "ripartire"
+      ],
+      "filtro_costo": "gratis",
+      "filtro_lavoro": "no tempo pieno",
+      "filtro_dove": "da casa",
+      "filtro_resta": "attestato",
+      "filtro_durata": "pochi mesi",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "programmare",
+        "reti e sicurezza",
+        "dati e IA"
+      ],
+      "stato_etichetta": "Ora c'è la classe Java in Lombardia dal 14 ottobre 2026",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Se hai già il diploma e non studi né lavori, fai la candidatura online: sono poco più di un'ora di test. Se sei ancora in quinta, tieni d'occhio le classi dopo giugno.",
+      "costi_nascosti": "È gratis, ma sei collegato dal lunedì al venerdì, dalle 9 alle 18, per 14 settimane: niente altro lavoro nel frattempo. I colloqui sono nella città della candidatura."
+    },
+    {
+      "id": "aws-restart-galdus",
+      "nome": "AWS re/Start con Galdus",
+      "ente": "Galdus (Milano), con AWS re/Start",
+      "tipo_ente": "privato",
+      "tipo_scheda": "percorso",
+      "sedi": [
+        "Milano"
+      ],
+      "famiglia": "B",
+      "tipologia": "Due mesi di corso sul cloud, poi sei mesi di lavoro in apprendistato",
+      "requisiti": "Meno di 25 anni, diploma (o quarto anno di formazione professionale o ITIS), senza lavoro e con domicilio in Lombardia. Si parte da un colloquio gratuito.",
+      "costo": "Gratis, compreso l'esame per la certificazione AWS Cloud Practitioner. Nei 6 mesi di apprendistato lavori con un contratto.",
+      "costo_fascia": "gratuito",
+      "modalita": null,
+      "durata": "2 mesi di corso e 6 mesi di apprendistato",
+      "titolo_rilasciato": "Qualifica IFTS (livello EQF 4) e certificazione AWS Cloud Practitioner",
+      "valore_titolo": "legale",
+      "sbocchi": "Sistemista cloud AWS",
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Sulla pagina di Galdus non c'è scritto nulla su DSA o disabilità.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": false,
+      "nota_scadenza": "Non c'è un calendario pubblicato: si parte prenotando il colloquio. Dopo i sei mesi l'assunzione non è garantita: si concorda con l'azienda.",
+      "fonte_ufficiale": "https://www.galdus.it/aws/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "ripartire",
+        "lavorare presto"
+      ],
+      "filtro_costo": "gratis e mi pagano",
+      "filtro_lavoro": "no tempo pieno",
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "pochi mesi",
+      "filtro_ingresso": null,
+      "settori": [
+        "reti e sicurezza"
+      ],
+      "stato_etichetta": null,
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Prenota il colloquio gratuito sul sito di Galdus e chiedi quando parte la prossima edizione.",
+      "costi_nascosti": "Servono tutti i requisiti insieme: meno di 25 anni, nessun lavoro e domicilio in Lombardia. Il lavoro dopo i 6 mesi si concorda con l'azienda."
+    },
+    {
+      "id": "servizio-civile-digitale",
+      "nome": "Servizio civile, progetti digitali",
+      "ente": "Dipartimento per le politiche giovanili e il Servizio civile universale",
+      "tipo_ente": "pubblico",
+      "tipo_scheda": "percorso",
+      "sedi": null,
+      "famiglia": "B",
+      "tipologia": "Un anno pagato per toccare il digitale: non è un lavoro tech",
+      "requisiti": "Da 18 a 28 anni. Domanda con SPID sulla piattaforma DOL.",
+      "costo": "Non paghi niente. Prendi 519,47 € al mese.",
+      "costo_fascia": "gratuito",
+      "modalita": "presenza",
+      "durata": "Da 8 a 12 mesi, 25 ore a settimana",
+      "titolo_rilasciato": "Attestato di partecipazione al Servizio civile, con crediti formativi e riconoscimento delle competenze",
+      "valore_titolo": "partecipazione",
+      "sbocchi": "Esperienza nel digitale dentro un ente. Il servizio vale come titolo di preferenza nei concorsi pubblici, con una riserva del 15% dei posti",
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Il bando ha progetti con posti riservati a giovani con disabilità e con altre fragilità.",
+      "accessibilita_livello": "supporto dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "nazionale",
+      "a_scadenza": true,
+      "nota_scadenza": "Il bando di settembre 2026 ha 1.000 posti digitali (28 programmi, 83 progetti) e chiude il 6 novembre 2026 alle 14:00. Il servizio parte entro l'8 gennaio 2027. Nessuna fonte ufficiale dice che il filone digitale si ripeta nel 2027.",
+      "fonte_ufficiale": "https://scelgoilserviziocivile.gov.it/leggi-il-bando/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "provare prima",
+        "lavorare presto",
+        "ripartire"
+      ],
+      "filtro_costo": "gratis e mi pagano",
+      "filtro_lavoro": "solo part-time",
+      "filtro_dove": null,
+      "filtro_resta": "esperienza pagata",
+      "filtro_durata": "un anno",
+      "filtro_ingresso": "test e colloquio",
+      "settori": null,
+      "stato_etichetta": "Aperto fino al 6 novembre 2026",
+      "prossima_finestra": "6 novembre 2026, ore 14:00",
+      "cosa_fai_adesso": "Se hai già 18 anni e hai finito la scuola, guarda i progetti digitali e fai domanda con SPID entro il 6 novembre. Se sei in quinta, 25 ore a settimana sono difficili da conciliare con la scuola: guarda il prossimo bando.",
+      "costi_nascosti": "Prendi 519,47 € al mese, ma dai 25 ore a settimana per 8 o 12 mesi, quindi resta poco tempo per altro. Il progetto può essere lontano da casa."
+    },
+    {
+      "id": "universita-quanto-paghi",
+      "nome": "Università: quanto paghi davvero",
+      "ente": "Università statali e Regione Lombardia (diritto allo studio)",
+      "tipo_ente": "pubblico",
+      "tipo_scheda": "chiave trasversale",
+      "sedi": null,
+      "famiglia": "A",
+      "tipologia": "No tax area e borse di studio: quanto costa l'università con un ISEE basso",
+      "requisiti": "Un ISEE per le prestazioni universitarie fatto in tempo. Borsa regionale 2026/27: ISEE fino a 26.887,93 € e ISPE fino a 58.452,06 €, tutti e due.",
+      "costo": "Con la no tax area non paghi le tasse sotto una soglia ISEE che cambia da ateneo ad ateneo (a Bicocca è 30.000 €). La borsa regionale va da circa 2.100 a 8.250 € l'anno, secondo la fascia e se abiti in sede, pendolare o fuori sede (importi del bando Bicocca).",
+      "costo_fascia": "legato all'ISEE",
+      "modalita": null,
+      "durata": "3 anni per la laurea triennale",
+      "titolo_rilasciato": "Laurea triennale",
+      "valore_titolo": "legale",
+      "sbocchi": null,
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Gli atenei hanno servizi per studenti con DSA e disabilità: tempo in più nei test e negli esami, tutor, strumenti. La borsa può salire fino al 40% per studenti con disabilità.",
+      "accessibilita_livello": "supporto dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": true,
+      "nota_scadenza": "La domanda di borsa 2026/27 a Bicocca è stata dal 7 luglio al 30 settembre 2026 (già chiusa). Nel 2027 la finestra sarà probabilmente luglio-settembre: è una stima. Soglie e importi del 2027/28 arriveranno con il nuovo bando.",
+      "fonte_ufficiale": "https://www.regione.lombardia.it/istruzione-formazione-e-lavoro/universita-e-formazione-accademica/borse-di-studio-universitarie-2026-2027",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "un titolo"
+      ],
+      "filtro_costo": "dipende dall'ISEE",
+      "filtro_lavoro": null,
+      "filtro_dove": null,
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "due anni o più",
+      "filtro_ingresso": null,
+      "settori": null,
+      "stato_etichetta": "Di solito riapre a luglio",
+      "prossima_finestra": "Luglio 2027 (stima dalla finestra 2026 di Bicocca)",
+      "cosa_fai_adesso": "Fai l'ISEE per l'università appena puoi e segnati le scadenze dell'ateneo che ti interessa. Non aspettare l'estate 2027.",
+      "costi_nascosti": "Anche con la no tax area paghi la tassa regionale (130, 160 o 190 € secondo l'ISEE) e il bollo. Se non presenti l'ISEE in tempo, paghi la tassa massima. Il test d'ingresso si paga al CISIA."
+    },
+    {
+      "id": "pok-polimi",
+      "nome": "POK Polimi (con i corsi Edvance)",
+      "ente": "Politecnico di Milano",
+      "tipo_ente": "pubblico",
+      "tipo_scheda": "palestra",
+      "sedi": null,
+      "famiglia": "A",
+      "tipologia": "Corsi online gratuiti per provare un argomento prima di scegliere",
+      "requisiti": "Ti registri e basta.",
+      "costo": "Gratis.",
+      "costo_fascia": "gratuito",
+      "modalita": "online",
+      "durata": "Corsi brevi, al tuo ritmo o con un calendario",
+      "titolo_rilasciato": "Attestato o Open Badge, secondo il corso. Non dà crediti universitari.",
+      "valore_titolo": "partecipazione",
+      "sbocchi": "Per provare e prepararti: fondamenti di informatica, logica digitale, intelligenza artificiale",
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Sul sito non abbiamo trovato una dichiarazione sull'accessibilità dei corsi.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "nazionale",
+      "a_scadenza": true,
+      "nota_scadenza": "I corsi Edvance sono nati con fondi PNRR: il progetto è finito il 31 marzo 2026. Il catalogo è ancora online, ma il futuro non è garantito.",
+      "fonte_ufficiale": "https://www.pok.polimi.it/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "provare prima"
+      ],
+      "filtro_costo": "gratis",
+      "filtro_lavoro": "sì",
+      "filtro_dove": "da casa",
+      "filtro_resta": "attestato",
+      "filtro_durata": "pochi mesi",
+      "filtro_ingresso": "basta iscriversi",
+      "settori": [
+        "programmare",
+        "dati e IA"
+      ],
+      "stato_etichetta": "Sempre aperto",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Registrati e prova un corso, per esempio «Fondamenti di informatica» o la serie sulla logica digitale.",
+      "costi_nascosti": "Nessun costo, ma l'attestato non dà crediti né un titolo di legge."
+    },
+    {
+      "id": "federica-web-learning",
+      "nome": "Federica Web Learning",
+      "ente": "Università di Napoli Federico II",
+      "tipo_ente": "pubblico",
+      "tipo_scheda": "palestra",
+      "sedi": null,
+      "famiglia": "A",
+      "tipologia": "Corsi online gratuiti di livello universitario, aperti a tutti",
+      "requisiti": "Nessun titolo di studio: ti iscrivi e inizi.",
+      "costo": "Gratis, anche l'attestato di partecipazione. I corsi Federica Pro e i certificati sulle piattaforme esterne possono costare.",
+      "costo_fascia": "gratuito",
+      "modalita": "online",
+      "durata": "Al tuo ritmo",
+      "titolo_rilasciato": "Attestato di partecipazione, senza valore di legge",
+      "valore_titolo": "partecipazione",
+      "sbocchi": "Per provare: orientamento, competenze digitali, intelligenza artificiale, lingue",
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Il sito ha una pagina sull'accessibilità e una risposta su cosa fare se una lezione non è accessibile per te.",
+      "accessibilita_livello": "tutele di legge",
+      "accessibilita_richiesta_il": null,
+      "territorio": "nazionale",
+      "a_scadenza": false,
+      "nota_scadenza": null,
+      "fonte_ufficiale": "https://www.federica.eu/faq/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "provare prima"
+      ],
+      "filtro_costo": "gratis",
+      "filtro_lavoro": "sì",
+      "filtro_dove": "da casa",
+      "filtro_resta": "attestato",
+      "filtro_durata": "pochi mesi",
+      "filtro_ingresso": "basta iscriversi",
+      "settori": [
+        "dati e IA"
+      ],
+      "stato_etichetta": "Sempre aperto",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Scegli un corso di orientamento o di intelligenza artificiale e fai le prime lezioni: ti serve solo l'iscrizione.",
+      "costi_nascosti": "I corsi Pro e i certificati esterni possono costare. L'attestato non vale come titolo."
+    },
+    {
+      "id": "its-green",
+      "nome": "ITS GREEN Academy",
+      "ente": "Fondazione ITS Academy Energia, Ambiente ed Edilizia Sostenibile",
+      "tipo_ente": "misto",
+      "tipo_scheda": "percorso",
+      "sedi": [
+        "Vimercate",
+        "Lissone",
+        "Milano"
+      ],
+      "famiglia": "B",
+      "tipologia": "ITS Academy: energia, edifici intelligenti e digitale, con stage",
+      "requisiti": "Diploma di scuola superiore. Nessun limite di età. Test online (informatica di base e inglese) e colloquio. Per iscriverti alla selezione servono 30 € di spese di segreteria.",
+      "costo": "1.000 € l'anno. Ogni anno almeno una borsa di studio per ogni corso del primo anno. Niente libri da comprare: i materiali sono digitali.",
+      "costo_fascia": "a pagamento",
+      "modalita": "presenza",
+      "durata": "2 anni (4 semestri), con un massimo di 25 studenti per corso",
+      "titolo_rilasciato": "Diploma di specializzazione per le tecnologie applicate (V livello EQF)",
+      "valore_titolo": "legale",
+      "sbocchi": "Digital Energy Specialist, Smart Building & Digital Construction Manager, specialista di energie alternative, impianti termotecnici ad alta efficienza, Innovation Manager, ESG Analyst",
+      "esiti_occupazionali": "Il 98% dei diplomati ha un lavoro coerente.",
+      "fonte_esiti": "Sito di ITS GREEN (cifra non ricontrollata nell'ultimo controllo)",
+      "dichiarato_da_ente": true,
+      "accessibilita": "Le FAQ non dicono nulla su DSA o disabilità.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": true,
+      "nota_scadenza": "Selezione online il 6 ottobre 2026 alle 15:30, con i documenti da inviare entro il giorno prima. Sul sito c'è un avviso di selezione in PDF caricato ad aprile 2026. Le date del 2027 non sono pubblicate.",
+      "fonte_ufficiale": "https://its-green.it/processo-di-selezione/",
+      "ultimo_controllo": "2026-10-04",
+      "porte": [
+        "un titolo",
+        "lavorare presto"
+      ],
+      "filtro_costo": "pochi soldi",
+      "filtro_lavoro": "solo part-time",
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": "titolo riconosciuto dallo Stato",
+      "filtro_durata": "due anni o più",
+      "filtro_ingresso": "test e colloquio",
+      "settori": [
+        "macchine e automazione"
+      ],
+      "stato_etichetta": "Si riapre con il nuovo avviso di selezione",
+      "prossima_finestra": null,
+      "cosa_fai_adesso": "Guarda i sei corsi ITS e l'avviso di selezione sul sito, e scegli quello che ti incuriosisce.",
+      "costi_nascosti": "Ai 1.000 € si aggiungono 30 € per fare la selezione. Il tirocinio del secondo anno non ha uno stipendio obbligatorio. La presenza obbligatoria è almeno all'80%."
+    }
+  ],
+  "sezioni": {
+    "cosa_puoi_chiedere": {
+      "titolo": "Cosa puoi chiedere",
+      "intro": "Se hai DSA o una disabilità hai diritti precisi, soprattutto all'università. Chiedere non ti fa passare per quello che pretende: è il modo normale per avere le stesse possibilità degli altri. ITS, IFTS e scuole private di solito non scrivono nulla sulle loro prove: chiedi lo stesso, per iscritto.",
+      "voci": [
+        {
+          "titolo": "Tempo in più nei test d'ingresso",
+          "testo": "Alla Statale di Milano puoi chiedere tempo aggiuntivo, un tutor che legge per te, una calcolatrice non scientifica e assistenza personale. A Milano Bicocca il tempo in più arriva fino al 30% con DSA e fino al 50% con una disabilità, con in più affiancamento nella lettura e nella scrittura. Le richieste vanno fatte con i documenti, quando ti iscrivi al test.",
+          "fonti": [
+            "https://www.unimi.it/en/study/student-services/services-students-disabilities",
+            "https://www.unimib.it/studiare/servizi-studenti-e-laureati/disabilita-e-dsa-spazio-binclusion/come-partecipare-ai-test-dingresso"
+          ]
+        },
+        {
+          "titolo": "Tempo in più negli esami",
+          "testo": "Alla Statale, negli scritti, di solito il tempo in più è del 50%. Per mappe concettuali e formule devi mandarle al docente almeno 15 giorni prima, perché le approvi.",
+          "fonti": [
+            "https://www.unimi.it/en/study/student-services/services-students-disabilities"
+          ]
+        },
+        {
+          "titolo": "Controlla la tua diagnosi di DSA in quinta",
+          "testo": "A Bicocca una diagnosi di DSA fatta prima dei 18 anni vale per 3 anni. Se la tua è vecchia, rifarla o aggiornarla in quinta ti evita problemi quando ti iscrivi ai test.",
+          "fonti": [
+            "https://www.unimib.it/studiare/servizi-studenti-e-laureati/disabilita-e-dsa-spazio-binclusion/come-partecipare-ai-test-dingresso"
+          ]
+        },
+        {
+          "titolo": "Borsa di studio più alta",
+          "testo": "Con una disabilità la borsa regionale può salire fino al 40%. Nel bando di Bicocca serve un'invalidità dal 66%. Fai l'ISEE per l'università presto.",
+          "fonti": [
+            "https://www.regione.lombardia.it/istruzione-formazione-e-lavoro/universita-e-formazione-accademica/borse-di-studio-universitarie-2026-2027"
+          ]
+        },
+        {
+          "titolo": "Lavorare mentre studi in un ITS",
+          "testo": "Con un diploma, tra i 18 e i 29 anni, puoi essere assunto in apprendistato di alta formazione e studiare in un ITS. Il contratto lo attiva l'azienda, quindi un'azienda devi trovarla tu: non c'è uno sportello che lo fa per te.",
+          "fonti": [
+            "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2015-06-15;81"
+          ]
+        }
+      ],
+      "frase_per_chiedere": "Buongiorno, ho una certificazione di DSA (L. 170/2010) oppure di disabilità (L. 104/1992). Vorrei sapere se nelle prove di selezione è previsto tempo aggiuntivo o altri strumenti compensativi, quale documentazione devo presentare e entro quando. Grazie.",
+      "ultimo_controllo": "2026-10-04"
+    },
+    "a_chi_chiedere": {
+      "titolo": "A chi chiedere",
+      "intro": "Per lavoro e supporti hai dei punti di riferimento gratuiti. Basta una telefonata o una mail.",
+      "voci": [
+        {
+          "titolo": "Collocamento mirato (legge 68/1999), AFOL Metropolitana",
+          "testo": "Serve a trovare lavoro se hai una disabilità riconosciuta: invalidità civile dal 46%, invalidità del lavoro dal 34%, non vedenti, sordi e altre categorie. Si chiede un appuntamento al servizio della Città metropolitana di Milano.",
+          "contatti": {
+            "telefono": "02 7740 6477",
+            "email": "info.disabili@afolmet.it",
+            "orari": "dal lunedì al giovedì 9:00 12:00 e 14:00 16:00, venerdì 9:00 12:00"
+          },
+          "fonti": [
+            "https://www.afolmet.it/collocamento-mirato/"
+          ]
+        },
+        {
+          "titolo": "Ufficio disabilità e DSA della Statale di Milano",
+          "testo": "Ti aiuta con test d'ingresso, iscrizione e servizi fino alla laurea. Si va su appuntamento.",
+          "contatti": {
+            "telefono": "02 503 12366",
+            "email": "ufficiodisabili@unimi.it",
+            "indirizzo": "Via Festa del Perdono 7, Milano",
+            "orari": "dal lunedì al venerdì 9:00 12:00, su appuntamento"
+          },
+          "fonti": [
+            "https://www.unimi.it/en/study/student-services/services-students-disabilities"
+          ]
+        },
+        {
+          "titolo": "Spazio B.Inclusion di Milano Bicocca",
+          "testo": "Il servizio per studenti con disabilità e DSA di Bicocca. Le regole per i test d'ingresso sono sulla pagina dedicata.",
+          "contatti": null,
+          "fonti": [
+            "https://www.unimib.it/studiare/servizi-studenti-e-laureati/disabilita-e-dsa-spazio-binclusion/come-partecipare-ai-test-dingresso"
+          ]
+        },
+        {
+          "titolo": "Centro per l'impiego e Informagiovani",
+          "testo": "Il Centro per l'impiego della tua zona e l'Informagiovani del tuo Comune ti aiutano a orientarti tra corsi e lavoro.",
+          "contatti": null,
+          "fonti": null
+        }
+      ],
+      "ultimo_controllo": "2026-10-04"
+    },
+    "per_docenti": {
+      "titolo": "Per docenti",
+      "intro": "Una pagina breve per chi accompagna gli studenti all'uscita: come usare la mappa dentro l'orientamento, come leggere i dati e perché alcune strade note non ci sono.",
+      "voci": [
+        {
+          "titolo": "Dentro i moduli da 30 ore",
+          "testo": "Le Linee guida per l'orientamento (DM 22 dicembre 2022, n. 328) prevedono nell'ultimo triennio delle superiori moduli curricolari di almeno 30 ore l'anno, anche dentro i PCTO. Il docente tutor accompagna lo studente nell'E-Portfolio e nelle scelte; il docente orientatore raccoglie i dati del territorio e li mette a disposizione di famiglie e tutor. La mappa è pensata per stare dentro quelle ore.",
+          "fonti": [
+            "https://www.istruzioneer.gov.it/wp-content/uploads/2023/10/ALLEGATO-B-%E2%80%93-Indicazioni-per-le-Istituzioni-scolastiche-per-l_attuazione-delle-Linee-guida-per-l_orientamento.pdf"
+          ]
+        },
+        {
+          "titolo": "Un'attività da un'ora",
+          "testo": "Ogni studente sceglie una porta d'ingresso dal proprio telefono, usa due filtri e tiene due schede. Per ciascuna scrive in tre righe cosa farebbe adesso e quale costo nascosto lo preoccupa. Le due scelte, motivate, possono entrare nella sezione Autovalutazione dell'E-Portfolio. Chi ha DSA o una disabilità legge insieme al tutor il riquadro «Cosa puoi chiedere».",
+          "fonti": null
+        },
+        {
+          "titolo": "Come leggere gli esiti",
+          "testo": "L'unico dato di esito di fonte terza è quello INDIRE sugli ITS: nell'area ICT il 78,3% dei diplomati 2024 lavora a un anno dal diploma, contro il 79,7% della media ITS. Tutte le altre percentuali di occupazione sono dichiarate dagli enti e nelle schede portano l'etichetta «Lo dice l'ente»: vanno lette come promozione, non come misura.",
+          "fonti": [
+            "https://www.indire.it/progetto/its-istituti-tecnologici-superiori/sistema-its-le-aree-tecnologiche/tecnologie-dellinformazione-e-della-comunicazione/"
+          ]
+        },
+        {
+          "titolo": "Perché EDUNEXT non c'è",
+          "testo": "Lo spunto della mappa è EDUNEXT, la rete di 35 atenei e 5 AFAM sulla didattica digitale. Nel catalogo letto il 4 ottobre 2026 (45 corsi) non c'è nessuna triennale di informatica o ICT accessibile con il diploma: per questo la rete non è una scheda. Resta utile per chi cerca una laurea blended in altri ambiti.",
+          "fonti": [
+            "https://edunext.eu/corsi-di-laurea/"
+          ]
+        },
+        {
+          "titolo": "Il confronto con le telematiche private",
+          "testo": "Le università telematiche private non sono nella mappa perché il costo non è basso. Un esempio: all'Università Pegaso la retta standard 2026/27, senza agevolazioni, è di 2.450 € l'anno, più 300 € di contributo per i servizi e la tassa regionale. In un ateneo statale come Milano Bicocca, con un ISEE fino a 30.000 € le tasse non si pagano (resta la tassa regionale): è la scheda «Università: quanto paghi davvero».",
+          "fonti": [
+            "https://www.unipegaso.it/iscriviti"
+          ]
+        },
+        {
+          "titolo": "Accessibilità: cosa si sa e cosa no",
+          "testo": "Nessun ITS, IFTS o ente privato della mappa scrive quali misure offre a studenti con DSA o disabilità nelle prove di selezione; lo scrivono solo gli atenei. Per questo l'accessibilità è un'etichetta su ogni scheda e non un filtro: nascondere le schede senza dichiarazione toglierebbe quasi tutto. Agli enti viene chiesto per iscritto, e la data della richiesta compare nella scheda.",
+          "fonti": null
+        },
+        {
+          "titolo": "Territorio e aggiornamento",
+          "testo": "La mappa copre la Lombardia e quello che si fa da ovunque; per gli ITS di altre regioni rimanda alla porta nazionale di INDIRE. Ogni scheda riporta la data dell'ultimo controllo sulla fonte ufficiale, con un controllo ogni tre mesi e uno in più prima delle iscrizioni di primavera e di fine estate.",
+          "fonti": null
+        }
+      ],
+      "ultimo_controllo": "2026-10-04"
+    }
+  }
+}

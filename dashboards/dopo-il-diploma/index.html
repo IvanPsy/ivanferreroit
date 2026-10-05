@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dopo il diploma, nel digitale | Ivan Ferrero</title>
+<meta name="description" content="Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con fonte ufficiale, data del controllo e cosa offre a studenti con DSA o disabilità.">
+<link rel="canonical" href="https://ivanferrero.it/dashboards/dopo-il-diploma/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dopo il diploma, nel digitale">
+<meta property="og:description" content="Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con fonte ufficiale, data del controllo e cosa offre a studenti con DSA o disabilità.">
+<meta property="og:url" content="https://ivanferrero.it/dashboards/dopo-il-diploma/">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Ivan Ferrero">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="stile.css">
+<script>try{if(localStorage.getItem('dd-tema')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+</head>
+<body>
+<a class="skip-link" href="#schede">Vai alle schede</a>
+<div id="site-menu"></div>
+<script src="/assets/menu.js"></script>
+
+<main>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <h1>Dopo il diploma, nel digitale</h1>
+        <button type="button" class="btn btn-ghost theme-toggle" id="theme-toggle" aria-pressed="false"><span aria-hidden="true">🌙</span> Tema scuro</button>
+      </div>
+      <p class="sottotitolo">Strade gratis o quasi verso il lavoro digitale. Le abbiamo controllate una per una.</p>
+      <p class="meta" id="meta-controllo"></p>
+    </header>
+
+    <section class="porte" aria-labelledby="porte-titolo">
+      <h2 id="porte-titolo">Da dove parti?</h2>
+      <div class="porte-grid" id="porte"></div>
+    </section>
+
+    <div class="layout">
+      <aside class="filtri" aria-labelledby="filtri-titolo">
+        <h2 id="filtri-titolo">Filtra</h2>
+        <p class="sr-only">Puoi scegliere più risposte per ogni domanda. Le schede si aggiornano subito.</p>
+        <div id="filtri-visibili"></div>
+        <details class="altri" id="altri-filtri">
+          <summary class="summary-btn" id="altri-summary">Altri filtri</summary>
+          <div id="filtri-altri"></div>
+        </details>
+        <div class="filtri-azioni">
+          <a class="btn btn-primario vai-schede" href="#schede" id="vai-schede">Vedi le strade <span aria-hidden="true">↓</span></a>
+          <button type="button" class="btn" id="azzera">Azzera i filtri</button>
+        </div>
+      </aside>
+
+      <div>
+        <details class="diritti" id="cosa-puoi-chiedere">
+          <summary class="summary-btn"><span><span aria-hidden="true">♿</span> Cosa puoi chiedere se hai DSA o una disabilità</span></summary>
+          <div id="diritti-corpo"></div>
+        </details>
+
+        <div class="risultati-bar">
+          <p class="conteggio" id="conteggio" role="status" aria-live="polite"></p>
+          <div class="ordina">
+            <label for="ordine">Ordina:</label>
+            <select id="ordine">
+              <option value="access">Prima chi dichiara supporto</option>
+              <option value="presto">Prima chi apre presto</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="schede" tabindex="-1">
+          <noscript><p class="errore">Per vedere le schede serve JavaScript attivo nel browser.</p></noscript>
+        </div>
+      </div>
+    </div>
+
+    <section class="sezione" id="a-chi-chiedere" aria-labelledby="chiedere-titolo"></section>
+
+    <section class="sezione" aria-labelledby="leggere-titolo">
+      <h2 id="leggere-titolo">Come leggere le schede</h2>
+      <ul class="legenda">
+        <li><span class="badge badge-aperto"><span aria-hidden="true">✅</span> Aperto</span> ti puoi candidare adesso.</li>
+        <li><span class="badge badge-riapre"><span aria-hidden="true">🔁</span> Di solito riapre</span> la data viene dagli anni passati: è una stima.</li>
+        <li><span class="badge badge-scadenza"><span aria-hidden="true">⏳</span> Con scadenza</span> ci sono date da non perdere, o il finanziamento può finire. Apri «Tutti i dettagli».</li>
+        <li><span class="esito-badge esito-verificato">✔ Dato verificato</span> il numero viene da un ente terzo, come INDIRE.</li>
+        <li><span class="esito-badge esito-ente">📣 Lo dice l'ente</span> il numero lo scrive chi organizza il corso: prendilo con le pinze.</li>
+      </ul>
+      <p style="margin-top:0.75rem">In fondo a ogni scheda trovi la data dell'ultimo controllo e il link alla fonte ufficiale. Prima di iscriverti, controlla sempre lì.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="piede">
+  <div class="wrap">
+    <nav aria-label="Altre pagine">
+      <a href="docenti.html">Per docenti</a>
+      <a href="/dashboards/">Tutte le dashboard</a>
+      <a href="/">ivanferrero.it</a>
+    </nav>
+    <p>A cura di Ivan Ferrero, psicologo e docente di sostegno. Nessun ente ha pagato per stare in questa pagina.</p>
+  </div>
+</footer>
+
+<script src="comune.js"></script>
+<script>
+(function () {
+  const { PORTE, FILTRI, ACCESS, TIPO, esc, etichetta, data, linkFonte, stato, mesiAllaFinestra } = DD;
+  DD.initTema();
+
+  const st = { porta: null, filtri: {}, ordine: 'access' };
+  FILTRI.forEach(f => { st.filtri[f.key] = new Set(); });
+  let SCHEDE = [];
+
+  const $ = id => document.getElementById(id);
+
+  function valori(s, key) {
+    const v = s[key];
+    if (v == null) return null;
+    return Array.isArray(v) ? v : [v];
+  }
+
+  // Ritorna 'si', 'no' oppure 'ignoto' (dato mancante per un filtro attivo)
+  function corrisponde(s) {
+    if (st.porta && !(s.porte || []).includes(st.porta)) return 'no';
+    let ignoto = false;
+    for (const f of FILTRI) {
+      const scelti = st.filtri[f.key];
+      if (!scelti.size) continue;
+      const v = valori(s, f.key);
+      if (v === null) { ignoto = true; continue; }
+      if (!v.some(x => scelti.has(x))) return 'no';
+    }
+    return ignoto ? 'ignoto' : 'si';
+  }
+
+  function ordina(lista) {
+    const oggi = new Date();
+    const idx = s => SCHEDE.indexOf(s);
+    return lista.slice().sort((a, b) => {
+      if (st.ordine === 'presto') {
+        const d = mesiAllaFinestra(a, oggi) - mesiAllaFinestra(b, oggi);
+        if (d) return d;
+      }
+      const r = (ACCESS[a.accessibilita_livello] || ACCESS['non dichiarato']).rank - (ACCESS[b.accessibilita_livello] || ACCESS['non dichiarato']).rank;
+      return r || idx(a) - idx(b);
+    });
+  }
+
+  function fatto(s, key) {
+    const f = FILTRI.find(x => x.key === key);
+    const v = s[key];
+    let dd;
+    if (v == null) {
+      const testo = (s.tipo_scheda === 'chiave trasversale' || s.territorio === 'nazionale') ? 'Dipende' : 'Non lo sappiamo ancora';
+      dd = `<dd class="ignoto">${testo}</dd>`;
+    } else {
+      dd = `<dd>${esc(etichetta(key, v))}</dd>`;
+    }
+    return `<div class="fatto"><dt><span aria-hidden="true">${f.ico}</span> ${esc(f.titolo)}</dt>${dd}</div>`;
+  }
+
+  function riga(titolo, testo, extra) {
+    if (!testo) return '';
+    return `<div class="riga ${extra || ''}"><h4>${titolo}</h4><p>${esc(testo)}</p></div>`;
+  }
+
+  function scheda(s) {
+    const a = ACCESS[s.accessibilita_livello] || ACCESS['non dichiarato'];
+    const so = stato(s);
+    const tipo = TIPO[s.tipo_scheda];
+    const richiesta = s.accessibilita_livello === 'non dichiarato' && s.accessibilita_richiesta_il
+      ? ` · abbiamo chiesto all'ente il ${data(s.accessibilita_richiesta_il)}` : '';
+
+    let esiti = '';
+    if (s.esiti_occupazionali) {
+      const badge = s.dichiarato_da_ente === true
+        ? '<span class="esito-badge esito-ente">📣 Lo dice l\'ente</span>'
+        : s.dichiarato_da_ente === false ? '<span class="esito-badge esito-verificato">✔ Dato verificato</span>' : '';
+      esiti = `<div class="riga"><h4>Trovano lavoro?</h4>${badge}<p>${esc(s.esiti_occupazionali)}</p>${s.fonte_esiti ? `<p class="fonti">Fonte: ${esc(s.fonte_esiti)}</p>` : ''}</div>`;
+    }
+    const settori = (s.settori || []).length
+      ? `<div class="riga"><h4>Di cosa?</h4><div class="tags">${s.settori.map(x => `<span class="tag">${esc(etichetta('settori', x))}</span>`).join('')}</div></div>` : '';
+    const ingresso = s.filtro_ingresso ? ` (${etichetta('filtro_ingresso', s.filtro_ingresso).toLowerCase()})` : '';
+    const sedi = (s.sedi || []).length ? s.sedi.join(', ') : null;
+
+    return `<li class="scheda" id="scheda-${esc(s.id)}">
+      <div class="scheda-top">
+        <span class="badge ${so.cls}"><span aria-hidden="true">${so.ico}</span> ${esc(so.testo)}</span>
+        ${s.a_scadenza ? '<span class="badge badge-scadenza"><span aria-hidden="true">⏳</span> Con scadenza</span>' : ''}
+        ${tipo ? `<span class="badge badge-tipo"><span aria-hidden="true">${tipo.ico}</span> ${tipo.label}</span>` : ''}
+      </div>
+      <div>
+        <h3>${esc(s.nome)}</h3>
+        <p class="tipologia">${esc(s.tipologia)}</p>
+      </div>
+      <div class="access ${a.cls}">
+        <div class="access-titolo"><span aria-hidden="true">${a.ico}</span> <span><span class="sr-only">Accessibilità: </span>${a.label}${esc(richiesta)}</span></div>
+        <p>${esc(s.accessibilita)}</p>
+        <a href="#cosa-puoi-chiedere" class="link-diritti">Cosa puoi chiedere <span aria-hidden="true">→</span></a>
+      </div>
+      <dl class="fatti">
+        ${fatto(s, 'filtro_costo')}${fatto(s, 'filtro_lavoro')}${fatto(s, 'filtro_dove')}${fatto(s, 'filtro_resta')}
+      </dl>
+      <div class="adesso"><strong><span aria-hidden="true">👉</span> Cosa fai adesso</strong><p>${esc(s.cosa_fai_adesso)}</p></div>
+      <details class="dettagli">
+        <summary class="summary-btn">Tutti i dettagli<span class="sr-only"> su ${esc(s.nome)}</span></summary>
+        <div class="dettagli-corpo">
+          ${riga('<span aria-hidden="true">🤫</span> Costi che nessuno ti dice', s.costi_nascosti, 'riga-nascosti')}
+          ${riga('Quanto costa', s.costo)}
+          ${riga('Cosa serve per entrare' + esc(ingresso), s.requisiti)}
+          ${riga('Quanto dura', s.durata)}
+          ${riga('Cosa ti resta in mano', s.titolo_rilasciato)}
+          ${riga('Che lavori puoi fare', s.sbocchi)}
+          ${esiti}
+          ${riga('Date e scadenze', s.nota_scadenza)}
+          ${riga('Dove', sedi)}
+          ${settori}
+          <p class="fonti">Chi lo organizza: ${esc(s.ente)}</p>
+        </div>
+      </details>
+      <div class="scheda-piede">
+        <span>Controllato il ${data(s.ultimo_controllo)}</span>
+        ${linkFonte(s.fonte_ufficiale, 'Fonte ufficiale').replace('<span class="sr-only">', '<span class="sr-only"> di ' + esc(s.nome) + ',')}
+      </div>
+    </li>`;
+  }
+
+  function conta(key, v) {
+    // Quante schede avrebbero questo valore, con gli altri filtri come sono
+    return SCHEDE.filter(s => {
+      if (st.porta && !(s.porte || []).includes(st.porta)) return false;
+      const vv = valori(s, key);
+      return vv && vv.includes(v);
+    }).length;
+  }
+
+  function disegnaFiltri() {
+    const html = vis => FILTRI.filter(f => f.visibile === vis).map(f => `
+      <div class="gruppo" role="group" aria-labelledby="g-${f.key}">
+        <h3 id="g-${f.key}"><span class="ico" aria-hidden="true">${f.ico}</span>${esc(f.titolo)}</h3>
+        <div class="chips">
+          ${f.opzioni.map(([v, l]) => `<button type="button" class="chip" data-k="${f.key}" data-v="${esc(v)}" aria-pressed="${st.filtri[f.key].has(v)}">${esc(l)} <span class="n">(${conta(f.key, v)})</span></button>`).join('')}
+        </div>
+      </div>`).join('');
+    $('filtri-visibili').innerHTML = html(true);
+    $('filtri-altri').innerHTML = html(false);
+    const attiviAltri = FILTRI.filter(f => !f.visibile).reduce((n, f) => n + st.filtri[f.key].size, 0);
+    $('altri-summary').textContent = attiviAltri ? `Altri filtri (${attiviAltri} attivi)` : 'Altri filtri';
+  }
+
+  function disegnaPorte() {
+    $('porte').innerHTML = PORTE.map(p => `<button type="button" class="porta" data-porta="${esc(p.v)}" aria-pressed="${st.porta === p.v}"><span class="ico" aria-hidden="true">${p.ico}</span><span class="scelta">${esc(p.label)}</span></button>`).join('')
+      + `<button type="button" class="porta porta-tutto" data-porta="" aria-pressed="${st.porta === null}"><span class="scelta">Fammi vedere tutto</span></button>`;
+  }
+
+  function disegnaSchede() {
+    const si = [], ignoti = [];
+    SCHEDE.forEach(s => { const c = corrisponde(s); if (c === 'si') si.push(s); else if (c === 'ignoto') ignoti.push(s); });
+    const tot = SCHEDE.length;
+    let html = '';
+    if (si.length) html += `<ul class="lista" aria-label="Strade che corrispondono ai tuoi filtri">${ordina(si).map(scheda).join('')}</ul>`;
+    else html += `<div class="vuoto"><p><strong>Nessuna strada con tutti questi filtri.</strong></p><p>Prova a toglierne uno: spesso basta il filtro sul costo o sul luogo.</p><button type="button" class="btn" data-azzera>Azzera i filtri</button></div>`;
+    if (ignoti.length) {
+      html += `<div class="separatore"><h2>Non sappiamo ancora se vanno bene per te</h2><p>Per queste strade l'ente non dice cosa hai scelto nei filtri. Leggi i dettagli o chiedi direttamente.</p></div>`;
+      html += `<ul class="lista" aria-label="Strade da verificare">${ordina(ignoti).map(scheda).join('')}</ul>`;
+    }
+    $('schede').innerHTML = html;
+    const n = si.length;
+    $('vai-schede').innerHTML = `${n === 0 ? 'Vedi i risultati' : n === 1 ? 'Vedi la strada' : 'Vedi le ' + n + ' strade'} <span aria-hidden="true">↓</span>`;
+    $('conteggio').textContent = (n === tot ? `${tot} strade` : `${n} ${n === 1 ? 'strada' : 'strade'} su ${tot}`) + (ignoti.length ? `, più ${ignoti.length} da verificare` : '');
+  }
+
+  function tutto() { disegnaPorte(); disegnaFiltri(); disegnaSchede(); }
+
+  function azzera() {
+    FILTRI.forEach(f => st.filtri[f.key].clear());
+    st.porta = null;
+    tutto();
+  }
+
+  function disegnaDiritti(sez) {
+    const c = sez.cosa_puoi_chiedere;
+    $('diritti-corpo').innerHTML = `
+      <p class="lead">${esc(c.intro)}</p>
+      <div class="diritti-voci">${c.voci.map(v => `<div class="voce"><h3>${esc(v.titolo)}</h3><p>${esc(v.testo)}</p>${(v.fonti || []).length ? `<p class="fonti">Fonte: ${v.fonti.map(u => linkFonte(u)).join(' · ')}</p>` : ''}</div>`).join('')}</div>
+      <div class="frase">
+        <strong>La frase pronta per chiedere</strong>
+        <blockquote id="frase-testo">${esc(c.frase_per_chiedere)}</blockquote>
+        <button type="button" class="btn" id="copia-frase"><span aria-hidden="true">📋</span> Copia la frase</button>
+        <span id="copia-esito" role="status" aria-live="polite"></span>
+      </div>
+      <p class="fonti" style="margin-top:0.6rem">Controllato il ${data(c.ultimo_controllo)}</p>`;
+    $('copia-frase').addEventListener('click', async () => {
+      let ok = false;
+      try { await navigator.clipboard.writeText(c.frase_per_chiedere); ok = true; } catch (e) {}
+      $('copia-esito').textContent = ok ? ' Copiata. Incollala nella tua mail.' : ' Non riesco a copiarla: tieni premuto sul testo e copialo tu.';
+    });
+
+    const a = sez.a_chi_chiedere;
+    $('a-chi-chiedere').innerHTML = `
+      <h2 id="chiedere-titolo">${esc(a.titolo)}</h2>
+      <p>${esc(a.intro)}</p>
+      <div class="diritti-voci">${a.voci.map(v => {
+        const k = v.contatti || {};
+        const contatti = [
+          k.telefono ? `<li><a href="tel:${esc(k.telefono.replace(/\s/g, ''))}"><span aria-hidden="true">📞</span>&nbsp;${esc(k.telefono)}</a></li>` : '',
+          k.email ? `<li><a href="mailto:${esc(k.email)}"><span aria-hidden="true">✉️</span>&nbsp;${esc(k.email)}</a></li>` : '',
+          k.indirizzo ? `<li><span aria-hidden="true">📍</span> ${esc(k.indirizzo)}</li>` : '',
+          k.orari ? `<li><span aria-hidden="true">🕘</span> ${esc(k.orari)}</li>` : ''
+        ].join('');
+        return `<div class="voce"><h3>${esc(v.titolo)}</h3><p>${esc(v.testo)}</p>${contatti ? `<ul class="contatti">${contatti}</ul>` : ''}${(v.fonti || []).length ? `<p class="fonti">Fonte: ${v.fonti.map(u => linkFonte(u)).join(' · ')}</p>` : ''}</div>`;
+      }).join('')}</div>
+      <p class="fonti" style="margin-top:0.6rem">Controllato il ${data(a.ultimo_controllo)}</p>`;
+  }
+
+  document.addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (chip) {
+      const set = st.filtri[chip.dataset.k];
+      set.has(chip.dataset.v) ? set.delete(chip.dataset.v) : set.add(chip.dataset.v);
+      disegnaFiltri(); disegnaSchede();
+      const nuovo = document.querySelector(`.chip[data-k="${chip.dataset.k}"][data-v="${CSS.escape(chip.dataset.v)}"]`);
+      if (nuovo) nuovo.focus();
+      return;
+    }
+    const porta = e.target.closest('.porta');
+    if (porta) {
+      st.porta = porta.dataset.porta || null;
+      tutto();
+      const nuovo = document.querySelector(`.porta[data-porta="${CSS.escape(porta.dataset.porta)}"]`);
+      if (nuovo) nuovo.focus();
+      return;
+    }
+    if (e.target.closest('#azzera, [data-azzera]')) { azzera(); return; }
+    const ld = e.target.closest('.link-diritti');
+    if (ld) {
+      e.preventDefault();
+      const box = $('cosa-puoi-chiedere');
+      box.open = true;
+      box.scrollIntoView({ block: 'start' });
+      box.querySelector('summary').focus({ preventScroll: true });
+    }
+  });
+  $('ordine').addEventListener('change', e => { st.ordine = e.target.value; disegnaSchede(); });
+
+  DD.caricaDati().then(d => {
+    SCHEDE = d.schede;
+    $('meta-controllo').textContent = `${SCHEDE.length} strade · ultimo controllo il ${data(DD.ultimoControllo(d))}`;
+    disegnaDiritti(d.sezioni);
+    tutto();
+  }).catch(() => {
+    $('schede').innerHTML = '<p class="errore">Non riesco a caricare le schede. Ricarica la pagina tra poco.</p>';
+  });
+})();
+</script>
+</body>
+</html>
