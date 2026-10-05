@@ -30,7 +30,7 @@
         <h1>Dopo il diploma, nel digitale</h1>
         <button type="button" class="btn btn-ghost theme-toggle" id="theme-toggle" aria-pressed="false"><span aria-hidden="true">🌙</span> Tema scuro</button>
       </div>
-      <p class="sottotitolo">Strade gratis o quasi verso il lavoro digitale. Le abbiamo controllate una per una.</p>
+      <p class="sottotitolo">Strade gratis o quasi verso il lavoro digitale. Le ho controllate una per una.</p>
       <p class="meta" id="meta-controllo"></p>
       <p class="avviso-fonti"><span aria-hidden="true">🔎</span> Raccolte in modo indipendente dalle fonti ufficiali: prima di iscriverti, controlla sempre sul sito dell'ente. <a href="#contatti">Hai visto un errore?</a></p>
     </header>
@@ -164,7 +164,7 @@
     const v = s[key];
     let dd;
     if (v == null) {
-      const testo = (s.tipo_scheda === 'chiave trasversale' || s.territorio === 'nazionale') ? 'Dipende' : 'Non lo sappiamo ancora';
+      const testo = (s.tipo_scheda === 'chiave trasversale' || s.territorio === 'nazionale') ? 'Dipende' : 'Non è ancora noto';
       dd = `<dd class="ignoto">${testo}</dd>`;
     } else {
       dd = `<dd>${esc(etichetta(key, v))}</dd>`;
@@ -182,7 +182,7 @@
     const so = stato(s);
     const tipo = TIPO[s.tipo_scheda];
     const richiesta = s.accessibilita_livello === 'non dichiarato' && s.accessibilita_richiesta_il
-      ? ` · abbiamo chiesto all'ente il ${data(s.accessibilita_richiesta_il)}` : '';
+      ? ` · ho chiesto all'ente il ${data(s.accessibilita_richiesta_il)}` : '';
 
     let esiti = '';
     if (s.esiti_occupazionali) {
@@ -274,7 +274,7 @@
     if (si.length) html += `<ul class="lista" aria-label="Strade che corrispondono ai tuoi filtri">${ordina(si).map(scheda).join('')}</ul>`;
     else html += `<div class="vuoto"><p><strong>Nessuna strada con tutti questi filtri.</strong></p><p>Prova a toglierne uno: spesso basta il filtro sul costo o sul luogo.</p><button type="button" class="btn" data-azzera>Azzera i filtri</button></div>`;
     if (ignoti.length) {
-      html += `<div class="separatore"><h2>Non sappiamo ancora se vanno bene per te</h2><p>Per queste strade l'ente non dice cosa hai scelto nei filtri. Leggi i dettagli o chiedi direttamente.</p></div>`;
+      html += `<div class="separatore"><h2>Non so ancora se vanno bene per te</h2><p>Per queste strade l'ente non dice cosa hai scelto nei filtri. Leggi i dettagli o chiedi direttamente.</p></div>`;
       html += `<ul class="lista" aria-label="Strade da verificare">${ordina(ignoti).map(scheda).join('')}</ul>`;
     }
     $('schede').innerHTML = html;
