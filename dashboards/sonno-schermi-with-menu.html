@@ -584,6 +584,133 @@
 <meta property="og:url" content="https://ivanferrero.it/dashboards/sonno-schermi-with-menu.html">
 <meta property="og:locale" content="it_IT">
 <style>@media print { footer.site-footer-nav { display: none !important; } }</style>
+
+    <!-- Strato visual (ottobre 2026): stili dei grafici in apertura della Panoramica. -->
+    <style>
+        .viz {
+            --v-cyan: #00d9ff; --v-purple: #a371f7; --v-green: #3fb950; --v-yellow: #d29922;
+            --v-card: #1a222d; --v-tert: #151b23; --v-border: #30363d;
+            --v-text: #e6edf3; --v-text2: #8b949e; --v-muted: #8b949e;
+            margin-bottom: 1rem;
+        }
+        .viz-kicker { font-family: 'JetBrains Mono', monospace; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--v-cyan); margin: .5rem 0 .4rem; }
+        .viz-h { font-size: 1.45rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.25; color: var(--v-text); margin: 2.6rem 0 .5rem; }
+        .viz-kicker + .viz-h { margin-top: 0; }
+        .viz-lede { color: var(--v-text2); font-size: 1.02rem; max-width: 72ch; margin-bottom: 1.1rem; }
+        .viz-src { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--v-muted); }
+        .viz-src-block { display: block; margin-top: 1rem; line-height: 1.5; }
+        .viz-box, .viz-calc { background: var(--v-card); border: 1px solid var(--v-border); border-radius: 8px; padding: 1.4rem 1.5rem; position: relative; }
+        .viz-note { margin-top: 1.2rem; border-left: 3px solid var(--v-yellow); background: #d2992210; padding: .8rem 1rem; border-radius: 0 6px 6px 0; font-size: .92rem; color: var(--v-text2); }
+        .viz-note b { color: var(--v-yellow); font-weight: 600; }
+
+        /* Calcolatore */
+        .viz-calc { display: grid; gap: 1.4rem; grid-template-columns: minmax(220px, 300px) 1fr; background: linear-gradient(135deg, #00d9ff12 0%, #3fb95008 100%), var(--v-card); box-shadow: 0 0 30px #00d9ff12; }
+        .viz-calc-ctrl label { display: block; color: var(--v-text2); font-size: .95rem; margin-bottom: .6rem; }
+        .viz-calc-ctrl label strong { color: var(--v-text); font-weight: 600; }
+        .viz-slider-row { display: flex; align-items: center; gap: .9rem; }
+        .viz-slider-row input[type=range] { flex: 1; accent-color: var(--v-cyan); height: 44px; cursor: pointer; }
+        .viz-slider-row input[type=range]:focus-visible { outline: 3px solid var(--v-cyan); outline-offset: 3px; border-radius: 4px; }
+        .viz-hours-out { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 600; color: var(--v-text); min-width: 3.2ch; }
+        .viz-scale { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--v-muted); padding: 0 4px; margin-right: 4.2rem; }
+        .viz-calc-res { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; align-items: start; }
+        .viz-big { font-family: 'JetBrains Mono', monospace; font-size: 3.6rem; font-weight: 600; line-height: .95; color: var(--v-cyan); white-space: nowrap; }
+        .viz-big-2 { color: var(--v-purple); font-size: 2.6rem; }
+        .viz-big-sub { color: var(--v-text2); font-size: .9rem; margin-top: .55rem; line-height: 1.45; }
+        .viz-night { grid-column: 1 / -1; }
+        .viz-night-label { color: var(--v-text2); font-size: .88rem; margin-bottom: .5rem; }
+        .viz-night-track { height: 26px; border-radius: 4px; background: #00d9ff66; position: relative; overflow: hidden; }
+        .viz-night-lost { position: absolute; right: 0; top: 0; bottom: 0; background: var(--v-yellow); border-left: 2px solid var(--v-card); border-radius: 0 4px 4px 0; transition: width .3s ease; }
+        .viz-night-legend, .viz-split-legend { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin-top: .55rem; font-size: .85rem; color: var(--v-text2); }
+        .viz-night-legend strong { color: var(--v-text); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+        .viz-sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: .45rem; vertical-align: -1px; }
+        .viz-sw-sleep { background: #00d9ff; } .viz-night-legend .viz-sw-sleep { background: #00d9ff66; } .viz-sw-lost { background: #d29922; } .viz-sw-other { background: #3a4452; }
+        .viz-sw-ci { background: transparent; border-top: 2px solid #e6edf3; height: 0; width: 18px; border-radius: 0; vertical-align: 4px; }
+        .viz-calc .viz-note { grid-column: 1 / -1; margin-top: 0; }
+
+        /* Barre */
+        .viz-bar-row { display: grid; grid-template-columns: minmax(120px, 200px) 1fr 6.5rem; gap: .9rem; align-items: center; padding: .35rem .4rem; margin: 0 -.4rem .2rem; border-radius: 6px; cursor: default; outline: none; }
+        .viz-bar-row:hover, .viz-bar-row:focus-visible { background: #ffffff08; }
+        .viz-bar-row:focus-visible { box-shadow: 0 0 0 2px var(--v-cyan); }
+        .viz-bar-label { color: var(--v-text2); font-size: .92rem; }
+        .viz-strong .viz-bar-label { color: var(--v-text); font-weight: 600; }
+        .viz-bar-track { height: 24px; background: var(--v-tert); border-radius: 4px; position: relative; overflow: hidden; }
+        .viz-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; background: linear-gradient(90deg, #00d9ff 0%, #a371f7 100%); }
+        .viz-bar-fill.viz-range { left: 0; width: var(--to); background: linear-gradient(90deg, #00d9ff 0%, #00d9ff 66%, #00d9ff55 66%, #00d9ff55 100%); }
+        .viz-strong .viz-bar-fill { background: linear-gradient(90deg, #a371f7 0%, #f85149 100%); }
+        .viz-bar-val { font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: var(--v-text); text-align: right; }
+        .viz-axis-row { margin-top: -.1rem; padding-top: 0; }
+        .viz-axis-row:hover { background: none; }
+        .viz-axis { position: relative; height: 1.4rem; border-top: 1px solid var(--v-border); font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--v-muted); }
+        .viz-axis span { position: absolute; top: .2rem; transform: translateX(-50%); white-space: nowrap; }
+        .viz-axis span:first-child { transform: none; }
+        .viz-axis span:last-child { transform: translateX(-100%); }
+        .viz-path-mobile { display: none; list-style: none; padding: 0; margin: 0 0 1.2rem; }
+        .viz-path-mobile li { position: relative; background: #151b23; border: 1px solid #30363d; border-radius: 8px; padding: .6rem .9rem; margin-bottom: 1.4rem; color: #e6edf3; font-weight: 600; }
+        .viz-path-mobile li span { display: block; font-weight: 400; font-size: .85rem; color: #8b949e; }
+        .viz-path-mobile li.viz-pm-hi { border-color: #00d9ff; background: #00d9ff14; }
+        .viz-path-mobile li:not(:last-child)::after { content: "↓"; position: absolute; left: 50%; bottom: -1.35rem; transform: translateX(-50%); color: #8b949e; font-weight: 400; }
+        .viz-tip { min-height: 1.6em; margin-top: .8rem; font-size: .9rem; color: var(--v-text); }
+        .viz-tip:empty::before { content: "Tocca o passa sopra una barra per leggere il dettaglio."; color: var(--v-muted); }
+
+        /* Percorso e mediazione */
+        .viz-path { width: 100%; height: auto; display: block; margin-bottom: 1.2rem; }
+        .viz-split { display: flex; height: 34px; border-radius: 4px; overflow: hidden; gap: 2px; }
+        .viz-split > div { display: flex; align-items: center; padding: 0 .7rem; font-family: 'JetBrains Mono', monospace; font-size: .85rem; font-weight: 600; }
+        .viz-split-a { background: #00d9ff; color: #0a0e14; border-radius: 4px 0 0 4px; }
+        .viz-split-b { background: #3a4452; color: #e6edf3; justify-content: flex-end; border-radius: 0 4px 4px 0; }
+        .viz-ci { position: relative; height: 16px; margin-top: 4px; }
+        .viz-ci-bar { position: absolute; top: 7px; height: 2px; background: #e6edf3; }
+        .viz-ci-bar::before, .viz-ci-bar::after { content: ""; position: absolute; top: -5px; width: 2px; height: 12px; background: #e6edf3; }
+        .viz-ci-bar::before { left: 0; } .viz-ci-bar::after { right: 0; }
+        .viz-ci-dot { position: absolute; top: 3px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #e6edf3; }
+
+        /* Meccanismi */
+        .viz-mech { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+        .viz-mech-card { background: var(--v-card); border: 1px solid var(--v-border); border-top: 3px solid var(--st); border-radius: 8px; padding: 1.1rem 1.2rem; }
+        .viz-mech-card h4 { color: var(--v-text); font-size: 1.05rem; font-weight: 600; margin: .5rem 0 .4rem; text-transform: none; letter-spacing: 0; }
+        .viz-mech-card p { color: var(--v-text2); font-size: .9rem; line-height: 1.55; }
+        .viz-mech-status { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--st); }
+        .viz-st-warn { --st: #d29922; } .viz-st-ok { --st: #3fb950; } .viz-st-mid { --st: #79c0ff; }
+
+        /* Studi */
+        .viz-studies { display: grid; gap: .5rem; }
+        .viz-study { display: grid; grid-template-columns: 8.5rem 1fr auto; gap: 1rem; align-items: center; text-align: left; width: 100%; min-height: 44px; background: var(--v-card); border: 1px solid var(--v-border); border-radius: 8px; padding: .8rem 1.1rem; color: var(--v-text); font-family: 'Outfit', sans-serif; cursor: pointer; transition: .2s ease; }
+        .viz-study:hover { background: #222c3a; border-color: #00d9ff88; }
+        .viz-study:focus-visible { outline: 3px solid var(--v-cyan); outline-offset: 3px; }
+        .viz-study-n { font-family: 'JetBrains Mono', monospace; font-size: .9rem; font-weight: 600; color: var(--v-cyan); }
+        .viz-study-main strong { display: block; font-weight: 600; font-size: .98rem; }
+        .viz-study-main span { display: block; color: var(--v-text2); font-size: .88rem; line-height: 1.45; }
+        .viz-study-tag { font-family: 'JetBrains Mono', monospace; font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--v-cyan); border: 1px solid #00d9ff55; background: #00d9ff12; border-radius: 4px; padding: 3px 8px; white-space: nowrap; }
+        .viz-tag-weak { color: #d29922; border-color: #d2992255; background: #d2992212; }
+
+        .viz-divider { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--v-muted); }
+        .viz-divider::before, .viz-divider::after { content: ""; flex: 1; border-top: 1px solid var(--v-border); }
+
+        @media (max-width: 860px) {
+            .viz-calc { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .viz-box, .viz-calc { padding: 1.1rem 1rem; }
+            .viz-big { font-size: 2.8rem; } .viz-big-2 { font-size: 2.1rem; }
+            .viz-calc-res { grid-template-columns: 1fr 1fr; gap: .9rem; }
+            .viz-bar-row { grid-template-columns: 1fr auto; row-gap: .3rem; }
+            .viz-bar-label { grid-column: 1 / 2; }
+            .viz-bar-val { grid-column: 2 / 3; grid-row: 1; }
+            .viz-bar-track { grid-column: 1 / -1; }
+            .viz-axis-row .viz-bar-label { display: none; }
+            .viz-axis-row .viz-axis { grid-column: 1 / -1; }
+            .viz-path { display: none; }
+            .viz-path-mobile { display: block !important; }
+            .viz-study { grid-template-columns: 1fr auto; }
+            .viz-study-n { grid-column: 1; }
+            .viz-study-tag { grid-column: 2; grid-row: 1; }
+            .viz-study-main { grid-column: 1 / -1; }
+            .viz-h { font-size: 1.25rem; }
+        }
+        #papers .paper-card { scroll-margin-top: 170px; }
+        @media (max-width: 640px) { .viz-axis span:nth-child(even) { display: none; } }
+        @media (prefers-reduced-motion: reduce) { .viz-night-lost { transition: none; } }
+    </style>
 </head>
 <body>
     <div id="site-menu"></div>
@@ -612,6 +739,192 @@
                 <!-- OVERVIEW SECTION -->
                 <section id="overview" class="section active">
                     <h2>📊 Panoramica: La Relazione Schermo-Sonno</h2>
+
+                    <!-- ============ STRATO VISUAL (ottobre 2026) ============
+                         Aggiunto sopra il contenuto originale della Panoramica, che resta tutto qui sotto.
+                         Ogni numero viene dal testo della pagina stessa (sezioni Studi, Temi, Limitazioni). -->
+                    <div class="viz">
+
+                        <!-- 1. Calcolatore -->
+                        <div class="viz-kicker">Strumento interattivo</div>
+                        <h3 class="viz-h">Quanto sonno costa un'ora di schermo?</h3>
+                        <p class="viz-lede">La meta-analisi più ampia (He et al. 2025, 548.338 bambini e ragazzi) dà un numero preciso. Sposta il cursore e guarda quanto pesa davvero su una notte intera.</p>
+
+                        <div class="viz-calc">
+                            <div class="viz-calc-ctrl">
+                                <label for="vizHours">Ore di schermo <strong>in più</strong> al giorno</label>
+                                <div class="viz-slider-row">
+                                    <input type="range" id="vizHours" min="1" max="4" step="1" value="2" aria-describedby="vizHoursOut">
+                                    <output id="vizHoursOut" class="viz-hours-out">2 h</output>
+                                </div>
+                                <div class="viz-scale" aria-hidden="true"><span>1 h</span><span>2 h</span><span>3 h</span><span>4 h</span></div>
+                            </div>
+                            <div class="viz-calc-res">
+                                <div>
+                                    <div class="viz-big" id="vizSleep">6-10</div>
+                                    <div class="viz-big-sub">minuti di sonno in meno a notte<br><span class="viz-src">3-5 min per ora, He et al. 2025</span></div>
+                                </div>
+                                <div>
+                                    <div class="viz-big viz-big-2" id="vizBed">26</div>
+                                    <div class="viz-big-sub">minuti di ritardo nell'andare a letto<br><span class="viz-src">13,2 min per ora, stesso studio</span></div>
+                                </div>
+                            </div>
+                            <div class="viz-night" aria-label="Proporzione del sonno perso su una notte di 9 ore">
+                                <div class="viz-night-label">Su una notte di 9 ore (il fabbisogno indicato per questa età è 8-9 ore)</div>
+                                <div class="viz-night-track"><div class="viz-night-lost" id="vizNightLost"></div></div>
+                                <div class="viz-night-legend"><span><i class="viz-sw viz-sw-sleep"></i>sonno che resta</span><span><i class="viz-sw viz-sw-lost"></i>sonno perso: <strong id="vizPct">1,1-1,9%</strong></span></div>
+                            </div>
+                            <div class="viz-note"><b>Come leggerlo.</b> Il calcolo moltiplica il dato medio per le ore scelte: dà un ordine di grandezza, non una previsione per un singolo ragazzo. È lo stesso punto delle Limitazioni: un effetto piccolo per il singolo, che conta sulla popolazione perché si accumula negli anni e su milioni di bambini. E poiché le ore di schermo sono auto-dichiarate, il valore vero potrebbe essere un po' più alto.</div>
+                        </div>
+
+                        <!-- 2. Come si usa -->
+                        <h3 class="viz-h">Non è solo quanto. È come.</h3>
+                        <p class="viz-lede">Forza dell'associazione tra uso dei social e sonno più breve (correlazione r, riportata in valore assoluto). Più la barra è lunga, più il legame è forte. Il salto vero lo fa l'uso problematico.</p>
+                        <div class="viz-box">
+                            <div class="viz-bars" role="list">
+                                <div class="viz-bar-row" role="listitem" tabindex="0" data-tip="Uso generico dei social: r da -0,20 a -0,30. Tutte e 10 le revisioni vanno nella stessa direzione.">
+                                    <span class="viz-bar-label">Uso generico dei social</span>
+                                    <span class="viz-bar-track"><span class="viz-bar-fill viz-range" style="--from:40%;--to:60%"></span></span>
+                                    <span class="viz-bar-val">0,20-0,30</span>
+                                </div>
+                                <div class="viz-bar-row" role="listitem" tabindex="0" data-tip="TikTok e Instagram: r circa -0,20, effetto moderato.">
+                                    <span class="viz-bar-label">TikTok, Instagram</span>
+                                    <span class="viz-bar-track"><span class="viz-bar-fill" style="width:40%"></span></span>
+                                    <span class="viz-bar-val">~0,20</span>
+                                </div>
+                                <div class="viz-bar-row" role="listitem" tabindex="0" data-tip="Facebook e Twitter: r circa -0,35. Ipotesi: confronto sociale e FOMO da notizie in tempo reale.">
+                                    <span class="viz-bar-label">Facebook, Twitter</span>
+                                    <span class="viz-bar-track"><span class="viz-bar-fill" style="width:70%"></span></span>
+                                    <span class="viz-bar-val">~0,35</span>
+                                </div>
+                                <div class="viz-bar-row viz-strong" role="listitem" tabindex="0" data-tip="Uso problematico (compulsivo, difficile da controllare): r fino a -0,45. Un gruppo ad alto rischio che chiede interventi clinici specifici.">
+                                    <span class="viz-bar-label">Uso problematico</span>
+                                    <span class="viz-bar-track"><span class="viz-bar-fill" style="width:90%"></span></span>
+                                    <span class="viz-bar-val">fino a 0,45</span>
+                                </div>
+                            </div>
+                            <div class="viz-bar-row viz-axis-row" aria-hidden="true"><span class="viz-bar-label"></span><span class="viz-axis"><span style="left:0%">0</span><span style="left:20%">0,10</span><span style="left:40%">0,20</span><span style="left:60%">0,30</span><span style="left:80%">0,40</span><span style="left:100%">0,50</span></span><span></span></div>
+                            <div class="viz-tip" id="vizTip" role="status" aria-live="polite"></div>
+                            <div class="viz-src viz-src-block">Fonte: scoping review di Ndubisi et al. 2026 (10 revisioni sistematiche). Valori approssimati come riportati nella review; il confronto fra piattaforme non è spiegato dagli studi (vedi Zone d'ombra).</div>
+                        </div>
+
+                        <!-- 3. Mediazione -->
+                        <h3 class="viz-h">Il sonno spiega un terzo del legame con l'umore</h3>
+                        <p class="viz-lede">Lo studio ABCD (Lima Santos et al. 2025, JAMA Pediatrics) segue 976 ragazzi per due anni: schermo a 9-10 anni, sintomi depressivi a 11-13. Una parte del percorso passa per il sonno.</p>
+                        <div class="viz-box">
+                            <svg class="viz-path" viewBox="0 0 760 150" role="img" aria-label="Percorso: schermo, sonno breve, materia bianca del cingolo, sintomi depressivi. Il 36,4 per cento dell'effetto passa per sonno e materia bianca, il 63,6 per cento per altre vie non misurate.">
+                                <defs>
+                                    <marker id="vizArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/></marker>
+                                </defs>
+                                <g font-family="Outfit, sans-serif" font-size="14" text-anchor="middle">
+                                    <rect x="6" y="20" width="150" height="54" rx="8" fill="#151b23" stroke="#30363d"/>
+                                    <text x="81" y="44" fill="#e6edf3" font-weight="600">Tempo-schermo</text>
+                                    <text x="81" y="62" fill="#8b949e" font-size="12">9-10 anni</text>
+
+                                    <rect x="204" y="20" width="150" height="54" rx="8" fill="#00d9ff14" stroke="#00d9ff"/>
+                                    <text x="279" y="44" fill="#e6edf3" font-weight="600">Sonno breve</text>
+                                    <text x="279" y="62" fill="#8b949e" font-size="12">ore per notte</text>
+
+                                    <rect x="402" y="20" width="150" height="54" rx="8" fill="#00d9ff14" stroke="#00d9ff"/>
+                                    <text x="477" y="44" fill="#e6edf3" font-weight="600">Materia bianca</text>
+                                    <text x="477" y="62" fill="#8b949e" font-size="12">fascio del cingolo</text>
+
+                                    <rect x="600" y="20" width="154" height="54" rx="8" fill="#151b23" stroke="#30363d"/>
+                                    <text x="677" y="44" fill="#e6edf3" font-weight="600">Sintomi depressivi</text>
+                                    <text x="677" y="62" fill="#8b949e" font-size="12">11-13 anni (CBCL)</text>
+                                </g>
+                                <g stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#vizArrow)">
+                                    <line x1="158" y1="47" x2="200" y2="47"/>
+                                    <line x1="356" y1="47" x2="398" y2="47"/>
+                                    <line x1="554" y1="47" x2="596" y2="47"/>
+                                    <path d="M81,76 C81,130 677,130 677,78" stroke-dasharray="5 5"/>
+                                </g>
+                                <text x="379" y="140" text-anchor="middle" font-family="Outfit, sans-serif" font-size="13" fill="#8b949e">altre vie, non misurate nello studio (isolamento, cyberbullismo, ansia...)</text>
+                            </svg>
+
+                            <ol class="viz-path-mobile" aria-hidden="true">
+                                <li>Tempo-schermo <span>9-10 anni</span></li>
+                                <li class="viz-pm-hi">Sonno breve <span>ore per notte</span></li>
+                                <li class="viz-pm-hi">Materia bianca <span>fascio del cingolo</span></li>
+                                <li>Sintomi depressivi <span>11-13 anni (CBCL)</span></li>
+                            </ol>
+
+                            <div class="viz-split" role="img" aria-label="36,4 per cento attraverso sonno e materia bianca, 63,6 per cento altre vie">
+                                <div class="viz-split-a" style="width:36.4%"><span>36,4%</span></div>
+                                <div class="viz-split-b" style="width:63.6%"><span>63,6%</span></div>
+                            </div>
+                            <div class="viz-ci" aria-hidden="true">
+                                <div class="viz-ci-bar" style="left:18.2%;width:45.4%"></div>
+                                <div class="viz-ci-dot" style="left:36.4%"></div>
+                            </div>
+                            <div class="viz-split-legend">
+                                <span><i class="viz-sw viz-sw-sleep"></i>attraverso sonno e materia bianca</span>
+                                <span><i class="viz-sw viz-sw-other"></i>altre vie</span>
+                                <span><i class="viz-sw viz-sw-ci"></i>intervallo di confidenza 95%: 18,2-63,6%</span>
+                            </div>
+                            <div class="viz-note"><b>Perché conta.</b> Il sonno è un bersaglio che si può modificare, a differenza di genetica e temperamento. Ma due terzi del legame passano altrove: ridurre lo schermo non è una cura miracolosa.</div>
+                        </div>
+
+                        <!-- 4. Meccanismi -->
+                        <h3 class="viz-h">Quattro spiegazioni, quattro livelli di prova</h3>
+                        <p class="viz-lede">La luce blu è la spiegazione più citata, ed è proprio quella che gli studi recenti hanno messo più in discussione. Lo stato di ogni meccanismo è quello indicato nei Temi trasversali.</p>
+                        <div class="viz-mech">
+                            <div class="viz-mech-card viz-st-warn">
+                                <div class="viz-mech-status"><span aria-hidden="true">⚠</span> Parzialmente smentita</div>
+                                <h4>Luce blu e melatonina</h4>
+                                <p>Gli occhiali che filtrano la luce blu anticipano il sonno di 10 minuti, ma la melatonina non cambia (Maeda-Nishino 2025). La spiegazione "solo luce" non basta.</p>
+                            </div>
+                            <div class="viz-mech-card viz-st-ok">
+                                <div class="viz-mech-status"><span aria-hidden="true">✓</span> Documentato</div>
+                                <h4>Ritardo del ritmo circadiano</h4>
+                                <p>Lo schermo serale sposta in avanti l'orologio interno di 30-90 minuti, in conflitto con l'orario della scuola.</p>
+                            </div>
+                            <div class="viz-mech-card viz-st-mid">
+                                <div class="viz-mech-status"><span aria-hidden="true">~</span> Sempre presente, poco misurato</div>
+                                <h4>Attivazione cognitiva ed emotiva</h4>
+                                <p>FOMO, notifiche, ricompense imprevedibili tengono il cervello acceso. Probabilmente pesa quanto o più della luce, ma nessuno l'ha quantificato.</p>
+                            </div>
+                            <div class="viz-mech-card viz-st-mid">
+                                <div class="viz-mech-status"><span aria-hidden="true">~</span> Non completamente misurato</div>
+                                <h4>Architettura del sonno</h4>
+                                <p>Lo schermo potrebbe frammentare il sonno: meno sonno profondo e meno REM, con effetti su memoria, umore e difese immunitarie.</p>
+                            </div>
+                        </div>
+
+                        <!-- 5. Gli studi -->
+                        <h3 class="viz-h">Cinque studi, pesi diversi</h3>
+                        <p class="viz-lede">Prima i tre studi con partecipanti, dal più piccolo al più grande, poi le due revisioni. Tocca una riga per aprire l'analisi completa.</p>
+                        <div class="viz-studies">
+                            <button class="viz-study" type="button" data-paper="0">
+                                <span class="viz-study-n">n = 39</span>
+                                <span class="viz-study-main"><strong>Maeda-Nishino et al. 2025</strong><span>RCT crossover · occhiali anti luce blu: sonno anticipato, melatonina invariata</span></span>
+                                <span class="viz-study-tag">Sperimentale</span>
+                            </button>
+                            <button class="viz-study" type="button" data-paper="4">
+                                <span class="viz-study-n">n = 976</span>
+                                <span class="viz-study-main"><strong>Lima Santos et al. 2025</strong><span>Coorte ABCD, 2 anni · il sonno media il 36,4% del legame con la depressione</span></span>
+                                <span class="viz-study-tag">Longitudinale</span>
+                            </button>
+                            <button class="viz-study" type="button" data-paper="2">
+                                <span class="viz-study-n">n = 548.338</span>
+                                <span class="viz-study-main"><strong>He et al. 2025</strong><span>Meta-analisi di 21 coorti · 3-5 min di sonno in meno per ora di schermo</span></span>
+                                <span class="viz-study-tag">Meta-analisi</span>
+                            </button>
+                            <button class="viz-study" type="button" data-paper="1">
+                                <span class="viz-study-n">10 revisioni</span>
+                                <span class="viz-study-main"><strong>Ndubisi et al. 2026</strong><span>Scoping review · effetto piccolo ma coerente, più forte nell'uso problematico</span></span>
+                                <span class="viz-study-tag">Revisione di revisioni</span>
+                            </button>
+                            <button class="viz-study" type="button" data-paper="3">
+                                <span class="viz-study-n">narrativa</span>
+                                <span class="viz-study-main"><strong>Fatima et al. 2026</strong><span>Review narrativa · cascata su immunità e crescita, in larga parte speculativa</span></span>
+                                <span class="viz-study-tag viz-tag-weak">Prova debole</span>
+                            </button>
+                        </div>
+
+                        <div class="viz-divider"><span>Le evidenze in dettaglio</span></div>
+                    </div>
+                    <!-- ============ FINE STRATO VISUAL ============ -->
 
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -1677,6 +1990,49 @@ footer.site-footer-nav {
     <p class="site-footer-nav__id"><span>Ivan Ferrero</span> · <span>Psicologo-psicoterapeuta, iscritto OPL n. 16571 dal 2006</span> · <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a> · <a href="/privacy-policy/">Privacy policy</a></p>
 </div>
 </footer>
+    <script>
+        // Strato visual (ottobre 2026): calcolatore, dettaglio barre, collegamento agli studi.
+        (function () {
+            var slider = document.getElementById('vizHours');
+            if (!slider) return;
+            function fmt(n) { return n.toFixed(1).replace('.', ','); }
+            function update() {
+                var h = +slider.value, lo = 3 * h, hi = 5 * h;
+                document.getElementById('vizHoursOut').textContent = h + ' h';
+                document.getElementById('vizSleep').textContent = lo + '-' + hi;
+                document.getElementById('vizBed').textContent = Math.round(13.2 * h);
+                var pLo = lo / 540 * 100, pHi = hi / 540 * 100;
+                document.getElementById('vizPct').textContent = fmt(pLo) + '-' + fmt(pHi) + '%';
+                document.getElementById('vizNightLost').style.width = pHi + '%';
+                slider.setAttribute('aria-valuetext', h + ' ore in più: da ' + lo + ' a ' + hi + ' minuti di sonno in meno');
+            }
+            slider.addEventListener('input', update);
+            update();
+
+            var tip = document.getElementById('vizTip');
+            document.querySelectorAll('.viz-bar-row[data-tip]').forEach(function (row) {
+                var show = function () { tip.textContent = row.getAttribute('data-tip'); };
+                row.addEventListener('mouseenter', show);
+                row.addEventListener('focus', show);
+                row.addEventListener('click', show);
+            });
+
+            document.querySelectorAll('.viz-study').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.section').forEach(function (s) { s.classList.remove('active'); });
+                    document.getElementById('papers').classList.add('active');
+                    document.querySelectorAll('.nav-item').forEach(function (n) {
+                        n.classList.toggle('active', (n.getAttribute('onclick') || '').indexOf("'papers'") > -1);
+                    });
+                    var card = document.querySelectorAll('#papers .paper-card')[+btn.getAttribute('data-paper')];
+                    if (card) {
+                        card.classList.add('expanded');
+                        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        })();
+    </script>
     <script src="/assets/menu.js"></script>
 </body>
 </html>
