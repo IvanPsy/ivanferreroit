@@ -202,3 +202,8 @@ sections:
         url: /lezioni-accessibili/scrivere-per-audiovisivo/
         tag_label: "Audiovisivo · UDL 3.0"
         description: "Capitolo 1 di scrittura per l'audiovisivo (produzione, fasi della scrittura, formattazione all'italiana e all'americana, stile della sceneggiatura) in tre versioni: per tutta la classe secondo UDL 3.0, ad alta leggibilità, a tappe. Con la tabella dei principi UDL 3.0 applicati a ciascuna versione."
+
+      - title: "🙋 Imparo a chiedere — Un chatbot per allenarsi a chiedere aiuto"
+        url: /lezioni-accessibili/imparo-a-chiedere/
+        tag_label: "Trasversale · UDL 3.0"
+        description: "Attività per studenti che faticano a chiedere aiuto: tre mosse sempre uguali con un chatbot sui propri appunti (metti in ordine, non capisco, cosa manca?) e ogni volta una domanda portata a una persona. Due schede, guidata ed essenziale, in Word modificabile e PDF; istruzioni per il chatbot aperte nel progetto ADA. Versione 0.1, in sperimentazione."
