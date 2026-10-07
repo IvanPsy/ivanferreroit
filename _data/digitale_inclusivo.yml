@@ -212,3 +212,8 @@ sections:
         url: /lezioni-accessibili/chi-viene-guardato/
         tag_label: "Storia dell'arte e storia · UDL 3.0"
         description: "Nove immagini di denuncia sociale, dal Realismo francese (Courbet, Millet) ai Peredvižniki russi, al Divisionismo italiano (Morbelli, Pellizza) e alla fotografia di Riis e Hine, con una domanda guida: chi viene guardato? Percorso a tappe interattivo per la quinta superiore, con le stesse 5 domande per ogni immagine, la distinzione «lo vedo / me lo dice l'autore», carte di storia e linea del tempo. Verifica finale da 20 punti, accessibile anche senza rifare il percorso, che produce il PDF da consegnare alla docente. Pensata per studenti con disturbo dello spettro autistico, utile a tutta la classe. Versione 0.1, in sperimentazione."
+
+      - title: "∑ Formulario di matematica"
+        url: /lezioni-accessibili/formulario-matematica/
+        tag_label: "Matematica · Da telefono"
+        description: "Il formulario della classe, completo e senza semplificazioni, reso leggibile da cellulare: potenze, regole dei segni, prodotti notevoli, radicali, equazioni e disequazioni di primo e secondo grado, equazioni e disequazioni fratte, funzione esponenziale e logaritmo, campo di esistenza, studio del segno e asintoti. Formule in MathML (leggibili dai lettori di schermo e ingrandibili senza sgranarsi), indice per argomenti, pulsante «Come si legge» con la lettura a parole di ogni formula, grafici ridisegnati e descritti, tabella della disequazione di secondo grado a schede, testo ingrandibile, tema chiaro e scuro."
