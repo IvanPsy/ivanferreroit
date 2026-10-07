@@ -1,0 +1,225 @@
+---
+title: "Chi viene guardato? Arte e storia dal 1848 al 1911"
+description: "Lezione accessibile di storia dell'arte e storia per la quinta superiore: nove immagini di denuncia sociale, dal Realismo francese al Quarto Stato e alla fotografia di Riis e Hine. Percorso a tappe interattivo e verifica con PDF per la docente, progettati con lo Universal Design for Learning 3.0."
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi viene guardato? Arte e storia dal 1848 al 1911 | Ivan Ferrero</title>
+{% seo title=false %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base-styles.css">
+<style>
+.sp{--text-muted:#9aa4ae;--v-guidata:#b692ff;--v-essenziale:#3fb950;font-size:1.05rem}
+.sp-skip{position:absolute;left:-9999px;top:0;z-index:2000;background:#00d9ff;color:#0a0e14;padding:.6rem 1rem;border-radius:6px;font-weight:600}
+.sp-skip:focus{left:1rem;top:calc(var(--menu-h,72px) + .5rem)}
+.sp :focus-visible{outline:3px solid #00d9ff;outline-offset:3px;border-radius:4px}
+.sp .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sp-layout{max-width:1280px;margin:0 auto;padding:calc(var(--menu-h,72px) + 2rem) 2rem 3rem;display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-areas:'toc hero' 'toc body';column-gap:3rem;outline:none}
+.sp-hero{grid-area:hero;max-width:960px}.sp-toc{grid-area:toc}.sp-main{grid-area:body}
+.sp-toc{position:sticky;top:calc(var(--menu-h,72px) + 1.5rem);align-self:start;grid-row:1 / span 2}
+@media (max-width:1024px){.sp-toc{grid-row:auto}}
+.sp-toc p{font-size:.8rem;font-weight:600;color:var(--text-muted);margin:0 0 .6rem .75rem;letter-spacing:.04em}
+.sp-toc ol{list-style:none;margin:0;padding:0;counter-reset:t}
+.sp-toc li{counter-increment:t}
+.sp-toc a{display:flex;gap:.6rem;align-items:baseline;min-height:44px;padding:.55rem .75rem;border-radius:6px;color:#b8c1cc;font-size:.92rem;border-left:3px solid transparent}
+.sp-toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted)}
+.sp-toc a:hover{background:#222c3a;color:#e6edf3;opacity:1}
+.sp-toc a[aria-current="true"]{color:#e6edf3;border-left-color:#00d9ff;background:#00d9ff14}
+.sp-main{min-width:0;max-width:960px}
+.sp section{scroll-margin-top:calc(var(--menu-h,72px) + 1.5rem);padding-top:1rem;margin-bottom:3.5rem}
+.sp h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1;letter-spacing:-.02em;margin:0 0 .8rem}
+.sp h2{font-size:1.7rem;letter-spacing:-.02em;margin:0 0 1rem;padding-bottom:.5rem;border-bottom:1px solid #30363d}
+.sp h3{font-size:1.2rem;margin:0 0 .5rem}
+.sp p,.sp li{color:#c9d1d9;line-height:1.7}
+.sp strong{color:#e6edf3}
+.sp a{color:#00d9ff}
+.sp-main a:not(.sp-btn){text-decoration:underline;text-underline-offset:3px}
+.sp-kicker{font-family:var(--font-mono);font-size:.85rem;color:#00d9ff;margin:0 0 1rem}
+.sp-lead{font-size:1.25rem;color:#c9d1d9;max-width:44em}
+.sp-hero{padding:1.5rem 0 1rem}
+.sp-stats{list-style:none;padding:0;margin:2rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}
+.sp-stats li{background:#151b23;border:1px solid #30363d;border-radius:8px;padding:1.1rem 1.2rem;color:#c9d1d9;font-size:.95rem}
+.sp-stats b{display:block;font-family:var(--font-mono);font-size:2rem;color:#00d9ff;line-height:1.1;margin-bottom:.3rem;font-weight:600}
+.sp-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.sp-btn{display:inline-flex;align-items:center;min-height:48px;padding:.7rem 1.3rem;border-radius:6px;background:#00d9ff;color:#0a0e14!important;font-weight:600;text-decoration:none}
+.sp-btn:hover{background:#6be8ff;opacity:1}
+.sp-btn-ghost{background:transparent;color:#e6edf3!important;border:1px solid #8b949e}
+.sp-btn-ghost:hover{background:#222c3a;border-color:#00d9ff}
+.sp-key{background:linear-gradient(135deg,#00d9ff12 0%,#3fb9500d 100%);border:1px solid #00d9ff55;border-radius:8px;padding:1.2rem 1.4rem;margin:1rem 0 1.5rem}
+.sp-key .lbl{font-family:var(--font-mono);font-size:.8rem;color:#00d9ff;margin:0 0 .4rem}
+.sp-key p:last-child{margin-bottom:0}
+.sp-vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;align-items:start}
+.sp-vcard{background:#1a222d;border:1px solid #30363d;border-top:4px solid var(--vc);border-radius:8px;padding:1.3rem 1.3rem 1.2rem}
+.sp-v-guidata{--vc:var(--v-guidata)}.sp-v-essenziale{--vc:var(--v-essenziale)}
+.sp-vtag{display:inline-block;font-family:var(--font-mono);font-size:.75rem;color:var(--vc);border:1px solid var(--vc);border-radius:4px;padding:.1rem .5rem;margin:0 0 .8rem}
+.sp-vcard ul{padding-left:1.2rem;margin:.6rem 0}
+.sp-who{font-size:.95rem}
+.sp-steps{list-style:none;counter-reset:s;padding:0;margin:1rem 0}
+.sp-steps li{counter-increment:s;position:relative;padding:.9rem 1rem .9rem 3.6rem;background:#151b23;border:1px solid #30363d;border-radius:8px;margin-bottom:.7rem}
+.sp-steps li::before{content:counter(s);position:absolute;left:1rem;top:.85rem;width:1.8rem;height:1.8rem;border:2px solid #00d9ff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.85rem;color:#00d9ff}
+.sp-say{font-family:var(--font-mono);font-size:.92rem;color:#e6edf3;background:#0f1419;border:1px solid #30363d;border-radius:4px;padding:.05rem .4rem}
+.sp-scroll{overflow-x:auto;max-width:100%;position:relative;margin:1rem 0 1.5rem;border:1px solid #30363d;border-radius:8px}
+.sp table{width:100%;border-collapse:collapse;font-size:.93rem}
+.sp caption{text-align:left;font-weight:600;color:#e6edf3;padding:.8rem 1rem;caption-side:top}
+.sp th,.sp td{border-top:1px solid #30363d;padding:.7rem .9rem;text-align:left;vertical-align:top;color:#c9d1d9}
+.sp thead th{background:#151b23;color:#e6edf3;font-weight:600}
+.sp tbody th{color:#e6edf3;font-weight:500}
+.sp-wide{min-width:760px}
+.sp-mid{min-width:560px}
+.sp-warn{background:#d299220f;border:1px solid #d2992266;border-left:4px solid #d29922;border-radius:8px;padding:1rem 1.3rem}
+.sp-warn ul{margin:0;padding-left:1.2rem}
+.sp-end{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+.sp-endcard{background:#1a222d;border:1px solid #30363d;border-radius:8px;padding:1.4rem}
+.sp-foot{color:var(--text-muted);font-size:.9rem;border-top:1px solid #30363d;padding-top:1rem;margin-top:2rem}
+.sp-foot li{color:#b8c1cc}
+@media (max-width:1024px){.sp-layout{grid-template-columns:1fr;grid-template-areas:'hero' 'toc' 'body';gap:1rem}
+.sp-toc{position:static;border:1px solid #30363d;border-radius:8px;padding:.8rem}
+.sp-toc ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}}
+@media (max-width:768px){.sp-layout{padding-left:1rem;padding-right:1rem}.sp-toc a{font-size:.88rem}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+/* integrazione sito: su mobile base-styles.css mette l'header in colonna e l'hamburger esce dalla barra fissa */
+@media (max-width:768px){.header-content{flex-direction:row;gap:1rem}}
+</style>
+</head>
+<body>
+<a class="sp-skip" href="#contenuto">Vai al contenuto</a>
+<div id="site-menu"></div>
+<div class="sp">
+<main id="contenuto" class="sp-layout" tabindex="-1">
+<header class="sp-hero">
+<p class="sp-kicker">Lezioni accessibili · Storia dell'arte e storia, quinta superiore · versione 0.1, in sperimentazione</p>
+<h1>Chi viene guardato?</h1>
+<p class="sp-lead">Arte e storia dal 1848 al 1911, attraverso nove immagini di denuncia sociale: dal Realismo francese al Quarto Stato, fino alle fotografie di Riis e Hine. Un percorso a tappe con attività interattive e una verifica finale che produce il PDF da consegnare alla docente.</p>
+<ul class="sp-stats">
+<li><b>9</b>immagini: 5 quadri e 4 fotografie</li>
+<li><b>6</b>tappe, con una pausa possibile dopo ognuna</li>
+<li><b>5</b>domande sempre uguali per ogni immagine</li>
+<li><b>20</b>punti di verifica, con PDF per la docente</li>
+</ul>
+<div class="sp-actions"><a class="sp-btn" href="chi-viene-guardato-a-tappe.html">Apri il percorso a tappe</a><a class="sp-btn sp-btn-ghost" href="chi-viene-guardato-a-tappe.html#verifica">Vai direttamente alla verifica</a></div>
+</header>
+<nav class="sp-toc" aria-label="In questa pagina"><p>In questa pagina</p><ol><li><a href="#sintesi">In sintesi</a></li><li><a href="#percorso">Il percorso</a></li><li><a href="#domande">Le 5 domande</a></li><li><a href="#verifica">La verifica e il PDF</a></li><li><a href="#uso">Come usarla</a></li><li><a href="#udl">Principi UDL</a></li><li><a href="#limiti">Limiti dichiarati</a></li><li><a href="#crediti">Immagini e contatti</a></li></ol></nav>
+<div class="sp-main">
+
+<section id="sintesi" aria-labelledby="h-sintesi">
+<h2 id="h-sintesi">In sintesi</h2>
+<div class="sp-key"><p class="lbl">Il punto</p>
+<p>Ogni immagine sceglie chi far vedere. Nel 1864 la fotografia di Nadar guarda soprattutto chi ha soldi o fama; nel 1911 quella di Lewis Hine guarda un bambino di nome Angelo Ross che lavora in miniera. In mezzo c'è mezzo secolo di pittori e fotografi che hanno deciso di guardare chi lavora e chi è povero. Il percorso segue questo spostamento dello sguardo con una sola domanda guida: <strong>chi viene guardato?</strong></p></div>
+<p>La lezione accompagna la spiegazione del Realismo francese e la allarga ad altre correnti dello stesso periodo con lo stesso tema, la denuncia sociale: i Peredvižniki russi, il Divisionismo italiano e la fotografia sociale americana. Ogni tappa ha anche una carta di storia, con gli eventi degli stessi anni: le rivoluzioni del 1848, la fine della servitù della gleba in Russia, la Rerum Novarum, i fatti di Milano del 1898, l'emigrazione italiana, l'età giolittiana e la legge Carcano sul lavoro dei bambini. Così l'arte si aggancia al programma di storia della quinta.</p>
+<p>È pensata in particolare per studenti con disturbo dello spettro autistico, ma funziona per tutta la classe: struttura prevedibile, una cosa alla volta, immagini grandi da ingrandire, ascolto ad alta voce di ogni carta.</p>
+</section>
+
+<section id="percorso" aria-labelledby="h-percorso">
+<h2 id="h-percorso">Il percorso</h2>
+<p>Sei tappe, ognuna con 4-7 carte. Le attività sbloccano il pulsante «Avanti» solo dopo la risposta; l'errore non blocca, e dopo due tentativi la risposta giusta viene evidenziata. Su ogni dispositivo il percorso si ricorda le tappe finite.</p>
+<div class="sp-scroll"><table class="sp-mid"><caption>Le sei tappe</caption><thead><tr><th scope="col">Tappa</th><th scope="col">Immagini</th><th scope="col">Storia</th><th scope="col">Attività</th></tr></thead><tbody>
+<tr><th scope="row">1. Il ritratto</th><td>Nadar, ritratto di Sarah Bernhardt (1864) e le catacombe di Parigi (1862)</td><td>La fotografia nasce nel 1839</td><td>Chi poteva farsi fotografare? La domanda guida del percorso</td></tr>
+<tr><th scope="row">2. Francia</th><td>Courbet, Gli spaccapietre (1849); Millet, Le spigolatrici (1857)</td><td>Le rivoluzioni del 1848, la rivoluzione industriale</td><td>Lo vedo o me lo dice l'autore; trova nel quadro il contrasto tra chi ha poco e chi ha tanto</td></tr>
+<tr><th scope="row">3. Russia</th><td>Repin, I battellieri del Volga (dal 1870 al 1873)</td><td>1861, fine della servitù della gleba</td><td>Trova nel quadro; lo vedo o me lo dice</td></tr>
+<tr><th scope="row">4. Italia</th><td>Morbelli, Per ottanta centesimi! (1895); Pellizza da Volpedo, Il Quarto Stato (1901)</td><td>Rerum Novarum, nascita del Partito Socialista, fatti di Milano del 1898, età giolittiana</td><td>Confronti tra opere: la schiena piegata, i lavoratori che si alzano in piedi</td></tr>
+<tr><th scope="row">5. La foto denuncia</th><td>Riis, Bandit's Roost (1888); Hine, Ragazzi della miniera (1911)</td><td>L'emigrazione italiana, la legge Carcano del 1902</td><td>Quadro o foto: perché una fotografia è una prova</td></tr>
+<tr><th scope="row">6. Il tempo</th><td>Tutte</td><td>Linea del tempo completa, arte e storia affiancate</td><td>Metti in ordine; arte e storia; scegli tu come chiudere</td></tr>
+</tbody></table></div>
+<p>Un filo attraversa tutto il percorso: la luce. Nadar porta la luce elettrica nelle catacombe nel 1861; Riis, nel 1887, entra con il lampo al magnesio nelle case più povere di New York, abitate in gran parte da emigrati italiani.</p>
+</section>
+
+<section id="domande" aria-labelledby="h-domande">
+<h2 id="h-domande">Le 5 domande</h2>
+<p>Per ogni immagine lo studente risponde sempre alle stesse cinque domande, ognuna con il suo colore e la sua icona: <strong>chi</strong>, <strong>dove</strong>, <strong>quando</strong>, <strong>cosa vedo</strong>, <strong>cosa mi dice l'autore</strong>. Le risposte si scoprono una alla volta. La ripetizione della struttura è lo scaffold: le correnti cambiano, lo schema resta.</p>
+<div class="sp-key"><p class="lbl">Lo vedo o me lo dice l'autore?</p>
+<p>La denuncia sociale chiede di capire l'intenzione dell'autore, un'inferenza che per molti studenti resta implicita e faticosa. Il percorso la rende esplicita con una regola concreta: <strong>lo vedo</strong> se posso indicarlo con il dito nell'immagine; <strong>me lo dice l'autore</strong> se non posso indicarlo, ma lo capisco dagli indizi. L'interpretazione si costruisce così a partire dall'osservazione, invece di essere chiesta a freddo.</p></div>
+</section>
+
+<section id="verifica" aria-labelledby="h-verifica">
+<h2 id="h-verifica">La verifica e il PDF</h2>
+<p>La verifica si apre dal pulsante «Verifica», sempre presente in alto, oppure dal link diretto: non serve rifare il percorso. La prima schermata chiede nome e classe e anticipa tutto: cinque esercizi, punti, tempo indicativo (circa 40 minuti, modificabile dalla docente), strumenti che si possono usare.</p>
+<div class="sp-scroll"><table class="sp-mid"><caption>Gli esercizi della verifica</caption><thead><tr><th scope="col">Esercizio</th><th scope="col">Formato</th><th scope="col">Punti</th></tr></thead><tbody>
+<tr><th scope="row">1. Vero o falso</th><td>4 affermazioni</td><td>4, correzione automatica</td></tr>
+<tr><th scope="row">2. Riconosci l'opera</th><td>4 immagini, 3 opzioni ciascuna</td><td>4, correzione automatica</td></tr>
+<tr><th scope="row">3. Lo vedo o me lo dice?</th><td>4 frasi su due opere nuove per questo compito</td><td>4, correzione automatica</td></tr>
+<tr><th scope="row">4. Arte e storia</th><td>2 fatti storici da collegare a un'immagine</td><td>2, correzione automatica</td></tr>
+<tr><th scope="row">5. Racconta un'opera</th><td>Lo studente sceglie un'immagine e risponde a chi, cosa vedo, cosa mi dice l'autore, con il numero di frasi indicato</td><td>6, valuta la docente (0, 1 o 2 per risposta, criteri scritti)</td></tr>
+</tbody></table></div>
+<p>Durante la verifica non c'è correzione: lo studente può cambiare le risposte, saltare una domanda e tornarci. Prima della consegna un riepilogo segnala le risposte mancanti, e la consegna chiede una conferma. Le risposte restano salvate se la pagina si chiude.</p>
+<p>Dopo la consegna lo studente scarica un <strong>PDF da consegnare alla docente</strong> (su Classroom, sul registro o per email). Il PDF riporta nome, classe, data e ora, il punteggio degli esercizi a correzione automatica, ogni risposta data con l'esito e la risposta corretta, l'immagine scelta e le tre risposte dell'esercizio 5 con la griglia 0-1-2 e lo spazio per le note.</p>
+<div class="sp-key"><p class="lbl">Privacy</p>
+<p>Il PDF si crea nel browser: nome e risposte restano sul dispositivo e non vengono inviati a nessun server. Il PDF indica anche il numero del tentativo fatto su quel dispositivo, se la verifica viene rifatta.</p></div>
+</section>
+
+<section id="uso" aria-labelledby="h-uso">
+<h2 id="h-uso">Come usarla</h2>
+<ol class="sp-steps">
+<li><strong>Durante la spiegazione del Realismo,</strong> lo studente segue le tappe 1 e 2 mentre la classe lavora su Courbet e Millet: stesse opere, stesso momento.</li>
+<li><strong>Una tappa per volta,</strong> 15-20 minuti ciascuna. Dopo ogni tappa il percorso propone una pausa e si ricorda dove si è arrivati.</li>
+<li><strong>Le carte di storia</strong> sono il ponte con l'altra disciplina: si possono riprendere nell'ora di storia, soprattutto quelle sull'Italia, perché arrivano dove comincia il programma della quinta.</li>
+<li><strong>Alla fine, l'attività a scelta per tutti:</strong> scrivere tre frasi su un'immagine, registrare un audio di un minuto, oppure fotografare un lavoro di oggi (mani, attrezzi, luoghi, mai il volto di una persona senza il suo permesso) e rispondere alle 5 domande.</li>
+<li><strong>La verifica in un'altra lezione,</strong> anche senza rifare il percorso. Il PDF arriva alla docente di storia dell'arte, che valuta l'esercizio 5 con i criteri scritti nel PDF.</li>
+</ol>
+<p>Il Quarto Stato è a Milano, al Museo del Novecento: se la classe è in Lombardia, la tappa 4 può diventare un'uscita.</p>
+</section>
+
+<section id="udl" aria-labelledby="h-udl">
+<h2 id="h-udl">Principi UDL applicati</h2>
+<div class="sp-scroll"><table class="sp-mid"><caption>Le considerazioni UDL 3.0 su cui si regge la lezione</caption><thead><tr><th scope="col">Considerazione UDL 3.0</th><th scope="col">Come è applicata</th></tr></thead><tbody>
+<tr><th scope="row">1.1 Personalizzare la presentazione delle informazioni</th><td>Testo ingrandibile, ascolto di ogni carta, immagini ingrandibili, tema chiaro e scuro.</td></tr>
+<tr><th scope="row">1.3 Rappresentare prospettive e identità diverse</th><td>Cinque paesi, e l'emigrazione italiana vista dall'altra parte dell'oceano, nelle foto di New York e della Pennsylvania.</td></tr>
+<tr><th scope="row">3.2 Evidenziare schemi e relazioni</th><td>Le stesse 5 domande per ogni immagine; la linea del tempo che affianca arte e storia.</td></tr>
+<tr><th scope="row">3.3 Coltivare più modi di conoscere e costruire significato</th><td>«Lo vedo o me lo dice l'autore»: l'inferenza sull'intenzione resa esplicita e allenata.</td></tr>
+<tr><th scope="row">5.1 Usare più mezzi di comunicazione</th><td>L'attività finale si sceglie tra scrittura, audio e fotografia, per tutta la classe.</td></tr>
+<tr><th scope="row">7.4 Affrontare pregiudizi, minacce e distrazioni</th><td>Struttura anticipata, una carta alla volta, nessuna correzione durante la verifica, conferma prima della consegna.</td></tr>
+</tbody></table></div>
+<p><a href="../metodo.html">Leggi come progettiamo tutte le lezioni accessibili</a></p>
+</section>
+
+<section id="limiti" aria-labelledby="h-limiti">
+<h2 id="h-limiti">Limiti dichiarati</h2>
+<div class="sp-warn"><ul>
+<li><strong>È una versione 0.1:</strong> la lezione è in sperimentazione da ottobre 2026. Questa pagina verrà aggiornata con quello che emerge dall'uso.</li>
+<li>Il PDF della verifica richiede una connessione a internet. Senza connessione si apre la finestra di stampa, da cui si può salvare in PDF.</li>
+<li>Il numero del tentativo è contato solo sul dispositivo usato: è un'indicazione per la docente, non un blocco.</li>
+<li>Il PDF mostra la risposta corretta accanto agli errori: è utile alla docente, ma lo studente la vede quando lo scarica.</li>
+<li>Il percorso usa la sintesi vocale del browser: la qualità della voce dipende dal dispositivo.</li>
+<li>Gli spaccapietre di Courbet sono andati distrutti nel 1945: l'immagine è una riproduzione fotografica.</li>
+</ul></div>
+</section>
+
+<section id="crediti" aria-labelledby="h-crediti">
+<h2 id="h-crediti">Immagini e contatti</h2>
+<div class="sp-end">
+<div class="sp-endcard"><h3>Apri la lezione</h3>
+<p>Funziona nel browser, su computer, tablet e telefono, senza account.</p>
+<div class="sp-actions"><a class="sp-btn" href="chi-viene-guardato-a-tappe.html">Percorso a tappe</a><a class="sp-btn sp-btn-ghost" href="chi-viene-guardato-a-tappe.html#verifica">Verifica</a></div></div>
+<div class="sp-endcard"><h3>Chi ha curato questa lezione</h3>
+<p><strong>Ivan Ferrero</strong> è psicologo e psicoterapeuta, cyberpsicologo e docente di sostegno nella scuola secondaria di secondo grado. Si occupa di pratica clinica, didattica inclusiva e formazione degli insegnanti.</p>
+<p>Se usi la lezione, raccontami com'è andata: è così che la versione 0.1 diventa uno strumento verificato.</p>
+<div class="sp-actions"><a class="sp-btn sp-btn-ghost" href="/#contatti">Scrivimi dalla pagina Contatti</a></div></div>
+</div>
+<div class="sp-foot"><p><strong>Fonti e crediti</strong></p>
+<ul><li>Tutte le immagini sono in pubblico dominio e provengono da Wikimedia Commons: Nadar, <em>Sarah Bernhardt</em> (1864 circa) e <em>Catacombe di Parigi</em> (1862); Gustave Courbet, <em>Gli spaccapietre</em> (1849); Jean-François Millet, <em>Le spigolatrici</em> (1857, Musée d'Orsay); Il'ja Repin, <em>I battellieri del Volga</em> (1870-1873, Museo Russo); Angelo Morbelli, <em>Per ottanta centesimi!</em> (1895, Museo Borgogna); Giuseppe Pellizza da Volpedo, <em>Il Quarto Stato</em> (1901, Museo del Novecento); Jacob Riis, <em>Bandit's Roost</em> (1888); Lewis Hine, <em>Breaker boys, Hughestown Borough Coal Co., Pittston</em> (1911, National Archives). <a href="https://commons.wikimedia.org" hreflang="en">commons.wikimedia.org</a></li>
+<li>CAST (2024). Universal Design for Learning Guidelines version 3.0. <a href="https://udlguidelines.cast.org" hreflang="en">udlguidelines.cast.org</a></li>
+<li>Jacob A. Riis (1890). <em>How the Other Half Lives</em>. New York, Charles Scribner's Sons.</li></ul></div>
+</section>
+</div></main></div>
+
+{% include footer-nav.html %}
+
+<script src="/assets/menu.js"></script>
+<script>
+(function(){
+function fit(){var h=document.querySelector('#site-menu .header');var mh=h?h.offsetHeight:72;
+document.documentElement.style.setProperty('--menu-h',mh+'px')}
+fit();window.addEventListener('resize',fit);setTimeout(fit,300);
+var links=[].slice.call(document.querySelectorAll('.sp-toc a'));
+var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))});
+function spy(){var y=window.scrollY+(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--menu-h'))||72)+60,cur=secs[0];secs.forEach(function(s){if(s&&s.offsetTop<=y)cur=s});
+links.forEach(function(a){a.getAttribute('href')==='#'+cur.id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current')})}
+window.addEventListener('scroll',spy,{passive:true});spy();
+})();
+</script>
+</body>
+</html>

@@ -207,3 +207,8 @@ sections:
         url: /lezioni-accessibili/imparo-a-chiedere/
         tag_label: "Trasversale · UDL 3.0"
         description: "Attività per studenti che faticano a chiedere aiuto: tre mosse sempre uguali con un chatbot sui propri appunti (metti in ordine, non capisco, cosa manca?) e ogni volta una domanda portata a una persona. Due schede, guidata ed essenziale, in Word modificabile e PDF; istruzioni per il chatbot aperte nel progetto ADA. Versione 0.1, in sperimentazione."
+
+      - title: "🖼️ Chi viene guardato? Arte e storia dal 1848 al 1911"
+        url: /lezioni-accessibili/chi-viene-guardato/
+        tag_label: "Storia dell'arte e storia · UDL 3.0"
+        description: "Nove immagini di denuncia sociale, dal Realismo francese (Courbet, Millet) ai Peredvižniki russi, al Divisionismo italiano (Morbelli, Pellizza) e alla fotografia di Riis e Hine, con una domanda guida: chi viene guardato? Percorso a tappe interattivo per la quinta superiore, con le stesse 5 domande per ogni immagine, la distinzione «lo vedo / me lo dice l'autore», carte di storia e linea del tempo. Verifica finale da 20 punti, accessibile anche senza rifare il percorso, che produce il PDF da consegnare alla docente. Pensata per studenti con disturbo dello spettro autistico, utile a tutta la classe. Versione 0.1, in sperimentazione."
