@@ -1,9 +1,9 @@
 <!-- Footer di navigazione del sito, in HTML puro (senza JavaScript), cosi' i link interni esistono anche per chi non esegue menu.js.
      Sorgente unica: _includes/footer-nav.html (lo usano i layout e le pagine con front matter).
-     ATTENZIONE: e' copiato tale e quale anche in index.html, privacy-policy/index.html,
-     digitale-inclusivo/decodificatore-icf/index.html e dashboards/verifica-fotografia.html
-     (pagine senza front matter, dove l'include non funziona).
-     Se modifichi questo file, replica la modifica anche in quei quattro. -->
+     ATTENZIONE: e' copiato tale e quale in tutte le pagine senza front matter, dove l'include
+     non funziona: index.html, privacy-policy/index.html, libri/index.html,
+     digitale-inclusivo/decodificatore-icf/index.html e le dashboard in dashboards/ (57 copie al 08/10/2026).
+     Se modifichi questo file, replica la modifica in tutte: grep -rl 'site-footer-nav__links' --include=*.html . -->
 <footer class="site-footer-nav">
 <style>
 footer.site-footer-nav {
@@ -88,7 +88,7 @@ footer.site-footer-nav {
     </nav>
     <nav class="site-footer-nav__row" aria-label="Progetti">
         <span class="site-footer-nav__label">Progetti</span>
-        <div class="site-footer-nav__links"><span><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="https://equilibrio.ivanferrero.it/">Equilibrio</a></span></div>
+        <div class="site-footer-nav__links"><span><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="https://equilibrio.ivanferrero.it/">Equilibrio</a><a href="https://percorsi.ivanferrero.it/">Percorsi</a></span></div>
     </nav>
     <p class="site-footer-nav__id"><span>Ivan Ferrero</span> · <span>Psicologo-psicoterapeuta, iscritto OPL n. 16571 dal 2006</span> · <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a> · <a href="/privacy-policy/">Privacy policy</a></p>
 </div>
