@@ -2,8 +2,7 @@
 <html lang="it"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Scrivere per l'audiovisivo. Capitolo 1, versione accessibile</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>
 :root{--bg:#FFFBF0;--surface:#FFFFFF;--ink:#1F2937;--muted:#4B5563;--line:#CBD5E1;--head:#E2E8F0;--rowh:#F1F5F9;
 --primary:#1D4ED8;--primary-ink:#FFFFFF;--ok:#15803D;--okbg:#F0FDF4;--ko:#B91C1C;--kobg:#FEF2F2;
@@ -103,7 +102,6 @@ input[type=search]{width:100%;min-height:48px;font:inherit;padding:8px 12px;bord
 .toggle-row{margin:.5em 0}
 </style>
 <!-- integrazione sito: caratteri del menu del sito (solo @font-face, la lezione mantiene i suoi) -->
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Outfit:wght@500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <a class="skip" href="#main">Vai al contenuto</a>
@@ -441,9 +439,7 @@ setTask(store('scena-task')||'');
 show(store('scena-view')||'home',false);
 })();
 </script>
-<!-- integrazione sito: menu del sito isolato in Shadow DOM (vedi /lezioni-accessibili/assets/menu-lezioni.js).
-     Il flag evita il banner cookie: queste pagine non usano cookie ne' tracciamenti e il banner coprirebbe i pulsanti della lezione. -->
-<script>window.__ivfConsentLoaded = true;</script>
+<!-- integrazione sito: menu del sito isolato in Shadow DOM (vedi /lezioni-accessibili/assets/menu-lezioni.js). -->
 <script src="/assets/menu.js"></script>
 <script src="/lezioni-accessibili/assets/menu-lezioni.js"></script>
 </body></html>

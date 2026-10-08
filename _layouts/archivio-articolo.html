@@ -30,9 +30,7 @@
     }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -171,6 +169,19 @@
             display: block; margin: 1.75rem auto; border: 1px solid #21262d; border-radius: 8px;
         }
 
+        .art-body iframe[data-src] { display: none; }
+        .embed-esterno {
+            margin: 1.75rem 0; padding: 1.25rem 1.5rem; border: 1px solid #30363d; border-radius: 8px;
+            background: #151b23; font-size: 0.95rem;
+        }
+        .embed-esterno p { margin: 0 0 0.75rem; }
+        .embed-esterno p:last-child { margin-bottom: 0; }
+        .embed-esterno button {
+            font: inherit; font-weight: 600; cursor: pointer; padding: 0.55rem 1.1rem; margin: 0 0.75rem 0.25rem 0;
+            color: #0d1117; background: #00d9ff; border: 0; border-radius: 6px;
+        }
+        .embed-esterno button:focus-visible { outline: 3px solid #e6edf3; outline-offset: 2px; }
+
         .art-body table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.92rem; }
         .art-body th, .art-body td { padding: 0.6rem 0.75rem; border: 1px solid #30363d; text-align: left; }
         .art-body th { background: #151b23; color: #e6edf3; font-weight: 600; }
@@ -247,7 +258,9 @@
 
     <!-- Corpo, nella forma originale del {{ page.date | date: "%Y" }} -->
     <div class="art-body">
-        {{ content }}
+        {%- comment -%} Contenuti incorporati di terzi (YouTube, Spotify, Anchor): l'iframe esce senza src, quindi la pagina non contatta nessuno finché il lettore non preme «Carica». Il testo dell'articolo resta quello originale. {%- endcomment -%}
+        {%- assign corpo = content | replace: ' src="https://www.youtube.com/embed/', ' data-src="https://www.youtube-nocookie.com/embed/' | replace: ' src="https://www.youtube-nocookie.com/embed/', ' data-src="https://www.youtube-nocookie.com/embed/' | replace: ' src="https://open.spotify.com/', ' data-src="https://open.spotify.com/' | replace: ' src="https://anchor.fm/', ' data-src="https://anchor.fm/' %}
+        {{ corpo }}
     </div>
 
     <!-- Footer -->
@@ -266,6 +279,29 @@
 </main>
 
 {% include footer-nav.html %}
+
+<!-- Contenuti di terzi caricati solo su richiesta del lettore -->
+<script>
+(function () {
+    document.querySelectorAll('.art-body iframe[data-src]').forEach(function (f) {
+        var u = f.getAttribute('data-src');
+        var yt = /youtube/.test(u);
+        var chi = yt ? 'YouTube (Google)' : 'Spotify';
+        var cosa = yt ? 'il video' : "l'episodio del podcast";
+        var link = yt ? 'https://www.youtube.com/watch?v=' + u.split('/embed/')[1].split('?')[0]
+                      : u.replace('/embed-podcast/', '/').replace('/embed/episodes/', '/episodes/');
+        var box = document.createElement('div');
+        box.className = 'embed-esterno';
+        box.innerHTML = '<p>Qui c\'è ' + (yt ? 'un video' : 'un episodio del podcast') + ' su ' + chi.split(' ')[0] +
+            '. Non lo carichiamo finché non lo chiedi tu: aprendolo, ' + chi + ' riceve il tuo indirizzo IP e può usare cookie propri.</p>' +
+            '<p><button type="button">Carica ' + cosa + '</button> <a href="' + link + '" rel="noopener" target="_blank">oppure aprilo su ' + chi.split(' ')[0] + '</a></p>';
+        box.querySelector('button').addEventListener('click', function () {
+            f.src = u; f.removeAttribute('data-src'); box.remove(); f.focus();
+        });
+        f.parentNode.insertBefore(box, f);
+    });
+})();
+</script>
 
 <!-- Menu condiviso del sito -->
 <script src="/assets/menu.js"></script>

@@ -1,3 +1,4 @@
+/* FERMO DAL 2026-10-08: ivanferrero.it non usa cookie, tracciatori né tag di misura, quindi non chiede consensi e questo banner non è caricato da nessuna pagina. Lo riapre solo l'aggiunta di un tag di misura o di campagna (GA4, Google Ads, pixel): allora va rimesso in assets/, ricollegato in coda a assets/menu.js e la privacy va riscritta prima di pubblicare. */
 /* ===========================================
    IVAN FERRERO — COOKIE CONSENT BANNER
    ===========================================

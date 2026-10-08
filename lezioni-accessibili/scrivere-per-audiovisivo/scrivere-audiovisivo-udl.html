@@ -2,8 +2,7 @@
 <html lang="it"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Scrivere per l'audiovisivo. Capitolo 1, versione UDL</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lexend:wght@400;700&family=Literata:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>:root{--bg:#F5F7FA;--surface:#FFFFFF;--ink:#18212E;--muted:#4F5B6B;--line:#CDD5DF;--head:#E4E9F0;--rowh:#F0F3F7;
 --primary:#1E4FA3;--primary-ink:#FFFFFF;--accent:#0F6B5E;--accent-bg:#E3F3F0;
 --ok:#1D6B33;--okbg:#E4F3E7;--retry:#8A5A00;--retrybg:#FFF4DC;
@@ -152,7 +151,6 @@ dialog#restart-dlg h2{font-size:1.35rem;margin-top:0}
 .modes .lbl{max-width:none}
 </style>
 <!-- integrazione sito: caratteri del menu del sito (solo @font-face, la lezione mantiene i suoi) -->
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Outfit:wght@500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <a class="skip" href="#main">Vai al contenuto</a>
@@ -833,9 +831,7 @@ $('#rd-yes').onclick=function(){var all=$('#rd-settings').checked;
 show(st('view')||'home',false);
 })();
 </script>
-<!-- integrazione sito: menu del sito isolato in Shadow DOM (vedi /lezioni-accessibili/assets/menu-lezioni.js).
-     Il flag evita il banner cookie: queste pagine non usano cookie ne' tracciamenti e il banner coprirebbe i pulsanti della lezione. -->
-<script>window.__ivfConsentLoaded = true;</script>
+<!-- integrazione sito: menu del sito isolato in Shadow DOM (vedi /lezioni-accessibili/assets/menu-lezioni.js). -->
 <script src="/assets/menu.js"></script>
 <script src="/lezioni-accessibili/assets/menu-lezioni.js"></script>
 </body></html>
