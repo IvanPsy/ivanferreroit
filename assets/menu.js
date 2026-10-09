@@ -25,6 +25,7 @@ const menuConfig = {
         { label: 'Dashboard', href: '/dashboards/' },
         { label: 'Osservatorio', href: '/osservatorio/' },
         { label: 'Digitale Inclusivo', href: '/digitale-inclusivo/' },
+        { label: 'Formazione', href: '/formazione/' },
         { label: 'Dialoghi', href: '/dialoghi/' },
         { label: 'Archivio', href: '/archivio/' },
         { label: 'Chi Sono', href: '/#chi-sono' },
