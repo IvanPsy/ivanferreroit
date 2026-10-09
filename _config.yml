@@ -100,6 +100,17 @@ defaults:
     values:
       sitemap: false
 
+  # I PDF delle lezioni accessibili restano scaricabili ma escono da sitemap.xml
+  # (08/10/2026, baseline di Search Console, suggerimento 3: la regola sulle schede
+  # qui sopra non copriva la sezione nuova). Le pagine HTML delle lezioni restano in sitemap.
+  # ⚠️ NON allargare a "**/*.pdf": in Jekyll 3.10 un glob nello scope rilegge l'albero
+  # per ogni file del sito e la build supera i 10 minuti (GitHub Pages fallisce).
+  # Una sezione nuova con PDF = una regola nuova qui, con il glob dentro la sua cartella.
+  - scope:
+      path: "lezioni-accessibili/**/*.pdf"
+    values:
+      sitemap: false
+
 # Plugin (nella whitelist di GitHub Pages)
 plugins:
   - jekyll-sitemap
