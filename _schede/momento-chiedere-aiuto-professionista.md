@@ -46,6 +46,6 @@ C'è poi un caso che non aspetta nessun criterio. Se tuo figlio dice, anche una 
 
 ## Se vuoi parlarne
 
-Per tutto il resto, se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Mi occupo di umore e autostima nei ragazzi da anni, con loro e con le famiglie.
+Per tutto il resto, se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Lavoro da anni con i genitori e, se occorre, direttamente con i ragazzi.
 
 </aside>

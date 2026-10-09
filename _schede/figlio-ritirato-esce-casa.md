@@ -29,7 +29,7 @@ Questa non è una scheda di soluzioni: da qui in poi il lavoro è di un professi
 2. **Tieni un canale minimo e regolare.** Un pasto insieme, una frase alla stessa ora, restare due minuti sulla porta senza entrare. Poco e prevedibile funziona meglio di molto e a sorpresa.
 3. **Chiedi da che cosa si sta proteggendo**, e accetta di non ricevere risposta subito. È la domanda che gli dice che non lo consideri pigro.
 4. **Non trattarlo da malato e non trattarlo da colpevole.** Nessuna delle due posizioni lascia una porta: la prima gli conferma di essere rotto, la seconda che deve difendersi.
-5. **Vai tu dal professionista, se lui non ci va.** Il primo colloquio può farlo un genitore da solo, e serve a impostare come avvicinarlo. Non è un passo minore: nella maggior parte di questi percorsi è il primo che si muove.
+5. **Comincia tu, se lui non viene.** Il primo colloquio può farlo un genitore da solo, e serve a impostare come avvicinarlo. Non è un passo minore: nella maggior parte di questi percorsi è il primo che si muove.
 
 ## Cosa evitare
 
@@ -39,7 +39,7 @@ Non usare etichette davanti a lui, «hikikomori» compresa: nominare la condizio
 
 ## Quando chiedere aiuto
 
-Qui la soglia è già superata: se non esce di casa, il momento di un professionista è adesso, non fra qualche settimana. Cerca uno psicoterapeuta con esperienza di ritiro sociale, e nel frattempo parla con il medico di base per il quadro fisico. Sono da riferire subito, senza attendere il primo appuntamento, l'abbandono della scuola o del lavoro, il rifiuto di lavarsi o di mangiare con voi, e qualunque frase che riguardi il non valere la pena di esistere. In quest'ultimo caso chiama il tuo medico o il numero di emergenza lo stesso giorno.
+Qui la soglia è già superata: se non esce di casa, il momento di chiedere aiuto è adesso, non fra qualche settimana. Il primo passo puoi farlo tu, da genitore, anche se lui non vuole venire: serve a capire da che cosa si sta proteggendo e come avvicinarlo senza chiudere la porta. Nel frattempo parla con il medico di base per il quadro fisico. Sono da riferire subito, senza attendere il primo appuntamento, l'abbandono della scuola o del lavoro, il rifiuto di lavarsi o di mangiare con voi, e qualunque frase che riguardi il non valere la pena di esistere. In quest'ultimo caso chiama il tuo medico o il numero di emergenza lo stesso giorno.
 
 </div>
 
@@ -47,6 +47,6 @@ Qui la soglia è già superata: se non esce di casa, il momento di un profession
 
 ## Se vuoi parlarne
 
-Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Mi occupo di ritiro sociale da anni, con i ragazzi e con le famiglie.
+Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Lavoro da anni con i genitori e, se occorre, direttamente con i ragazzi.
 
 </aside>

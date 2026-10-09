@@ -44,6 +44,6 @@ Il criterio non è quanto tempo passa in camera, è che cosa succede alle propos
 
 ## Se vuoi parlarne
 
-Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Mi occupo di ritiro sociale da anni, con i ragazzi e con le famiglie.
+Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Lavoro da anni con i genitori e, se occorre, direttamente con i ragazzi.
 
 </aside>

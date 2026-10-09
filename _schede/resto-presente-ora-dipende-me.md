@@ -45,6 +45,6 @@ Che non dipenda più da te è la buona notizia. Quella che va guardata è un'alt
 
 ## Se vuoi parlarne
 
-Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Mi occupo di solitudine e relazioni nei ragazzi da anni, con i ragazzi e con le famiglie.
+Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Lavoro da anni con i genitori e, se occorre, direttamente con i ragazzi.
 
 </aside>

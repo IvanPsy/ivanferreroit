@@ -34,7 +34,7 @@ In adolescenza l'attenzione è puntata su di sé quasi tutto il giorno, e da lì
 
 ## Quando chiedere aiuto
 
-La vergogna episodica è normale a quell'età. Diventa materia da psicologo quando smette di essere un episodio e diventa una regola di vita: se in un mese ha rinunciato a due o tre cose che gli piacevano (un corso, una festa, un invito) per come si sente guardato; se evita lo sguardo delle persone anche in casa; se comincia a saltare la scuola nei giorni in cui si sente più esposto. Rivolgiti a uno psicologo dell'età evolutiva, e portagli i fatti concreti che hai osservato, non le tue interpretazioni.
+La vergogna episodica è normale a quell'età. Diventa il momento di chiedere aiuto quando smette di essere un episodio e diventa una regola di vita: se in un mese ha rinunciato a due o tre cose che gli piacevano (un corso, una festa, un invito) per come si sente guardato; se evita lo sguardo delle persone anche in casa; se comincia a saltare la scuola nei giorni in cui si sente più esposto. A quel punto un primo colloquio serve, e conviene arrivarci con i fatti concreti che hai osservato, non con le tue interpretazioni.
 
 </div>
 
@@ -42,6 +42,6 @@ La vergogna episodica è normale a quell'età. Diventa materia da psicologo quan
 
 ## Se vuoi parlarne
 
-Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Mi occupo di ansia sociale e vergogna in adolescenza da anni, con i ragazzi e con le famiglie.
+Se in quello che hai letto riconosci tuo figlio, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Lavoro da anni con i genitori e, se occorre, direttamente con i ragazzi.
 
 </aside>

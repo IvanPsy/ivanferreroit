@@ -44,6 +44,6 @@ Il segnale che alza l'allerta non è il silenzio con te, è l'evitamento: rinunc
 
 ## Se vuoi parlarne
 
-Se in quello che hai letto riconosci tua figlia, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Mi occupo di ansia sociale e vergogna in adolescenza da anni, con i ragazzi e con le famiglie.
+Se in quello che hai letto riconosci tua figlia, parliamone. Scrivimi a **[ivan@ivanferrero.it](mailto:ivan@ivanferrero.it)** e raccontami in due righe cosa sta succedendo: ti rispondo io. Un primo colloquio serve a capire insieme se serve un percorso e di che tipo, senza impegnarti a niente. Lavoro da anni con i genitori e, se occorre, direttamente con i ragazzi.
 
 </aside>
