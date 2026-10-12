@@ -358,7 +358,7 @@ function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&
 var R=[
  {name:'Chi è chi', icon:'user', html:
   kick('Ripasso · carta 1 di 4','user')+'<h2>Chi è chi.</h2><p>Nel libro ci sono tante persone. Queste sono le più importanti.</p><ul class="who">'+
-  '<li>'+thumb('flaubert')+'<div><b>Gustave Flaubert</b><p>È lo scrittore del libro.</p><p>È francese.</p><p>Scrive il libro nel 1856.</p></div></li>'+
+  '<li>'+thumb('flaubert')+'<div><b>Gustave Flaubert</b><p>È lo scrittore del libro.</p><p>È francese.</p><p>Il libro esce nel 1856.</p></div></li>'+
   '<li>'+thumb('emma')+'<div><b>Emma Bovary</b><p>È la protagonista.</p><p>Vive in un paese piccolo.</p><p>Si annoia. Sogna una vita come nei romanzi.</p></div></li>'+
   '<li>'+thumb('nozze')+'<div><b>Charles Bovary</b><p>È il marito di Emma.</p><p>Fa il medico in un paese.</p><p>È una persona tranquilla.</p></div></li></ul>'},
  {name:'La storia', icon:'book', html:
@@ -374,7 +374,7 @@ var R=[
   def('Realismo','raccontare la vita vera, di tutti i giorni.')},
  {name:'Il periodo', icon:'clock', html:
   kick('Ripasso · carta 4 di 4','clock')+'<h2>Il periodo: l’Ottocento.</h2>'+
-  '<p>Flaubert scrive Madame Bovary nel <b>1856</b>, in Francia. Siamo nell’<b>Ottocento</b>.</p>'+
+  '<p>Madame Bovary esce nel <b>1856</b>, in Francia. Siamo nell’<b>Ottocento</b>.</p>'+
   '<p>In questi anni scrittori e pittori fanno una cosa nuova: raccontano la <b>vita vera</b>, di tutti i giorni. Si chiama <b>Realismo</b>.</p>'+
   '<div class="two-fig">'+fig('napoleone')+fig('courbet')+'</div>'+
   '<p><b>Prima</b> molti pittori dipingono re, generali ed eroi, come Napoleone.</p><p><b>Con il Realismo</b> i pittori dipingono chi lavora, come gli spaccapietre di Courbet.</p>'+
@@ -410,7 +410,7 @@ var VX=[
   {id:'pa4',type:'mt',w:'Sognare a occhi aperti',pre:'Emma sogna a occhi aperti.',opts:{a:'Dormire tutto il giorno.',b:'Immaginare una vita diversa da quella vera.',c:'Scrivere un libro.'},c:'b'}]},
  {name:'Il periodo', short:'Periodo', pts:1, intro:'Leggi bene. Premi la risposta giusta.', items:[
   {id:'pe1',type:'ab',t:'Nell’Ottocento anche i pittori raccontano la vita vera, come Flaubert.',q:'Quale quadro racconta la vita vera, di tutti i giorni?',opts:['napoleone','millet'],c:'millet'},
-  {id:'pe2',type:'mt',w:'1856',pre:'Flaubert scrive Madame Bovary nel 1856.',q:'In quale secolo siamo?',opts:{a:'Nel Seicento',b:'Nell’Ottocento',c:'Nel Novecento'},c:'b'}]},
+  {id:'pe2',type:'mt',w:'1856',pre:'Madame Bovary esce nel 1856.',q:'In quale secolo siamo?',opts:{a:'Nel Seicento',b:'Nell’Ottocento',c:'Nel Novecento'},c:'b'}]},
  {name:'Emma e noi', short:'Emma e noi', pts:6, open:true, intro:'Rispondi a 3 domande. Puoi scrivere con la tastiera oppure dettare con il microfono.', items:[
   {id:'op',type:'open'}]}
 ];
@@ -510,7 +510,7 @@ function vQuestion(el,it){
   }
   el.innerHTML=h;
   if(it.type==='open'){
-    el.querySelectorAll('textarea').forEach(function(t){if(lk)t.readOnly=true;t.oninput=function(){var A=VA.op||{};A[t.dataset.f]=t.value.trim();VA.op=A;vsave();stripDraw()}});
+    el.querySelectorAll('textarea').forEach(function(t){if(lk)t.readOnly=true;t.oninput=function(){var A=VA.op||{};A[t.dataset.f]=t.value.trim();VA.op=A;vsave();stripDraw();why.textContent=answered(it)?'Risposte salvate. Puoi cambiarle fino alla consegna.':'Risposta salvata. Rispondi a tutte e 3 le domande.'}});
   } else {
     el.querySelectorAll('.opt').forEach(function(b){sel(b,a===b.dataset.v);if(lk)b.disabled=true;b.onclick=function(){vpick(it,b.dataset.v)}});
   }

@@ -213,6 +213,11 @@ sections:
         tag_label: "Storia dell'arte e storia · UDL 3.0"
         description: "Nove immagini di denuncia sociale, dal Realismo francese (Courbet, Millet) ai Peredvižniki russi, al Divisionismo italiano (Morbelli, Pellizza) e alla fotografia di Riis e Hine, con una domanda guida: chi viene guardato? Percorso a tappe interattivo per la quinta superiore, con le stesse 5 domande per ogni immagine, la distinzione «lo vedo / me lo dice l'autore», carte di storia e linea del tempo. Verifica finale da 20 punti, accessibile anche senza rifare il percorso, che produce il PDF da consegnare alla docente. Pensata per studenti con disturbo dello spettro autistico, utile a tutta la classe. Versione 0.1, in sperimentazione."
 
+      - title: "📖 Madame Bovary e il suo tempo"
+        url: /lezioni-accessibili/madame-bovary/
+        tag_label: "Italiano · UDL 3.0"
+        description: "Il romanzo di Flaubert e l'Ottocento del Realismo per la quinta superiore: quattro carte di ripasso (chi è chi, la storia in sette frasi, sei parole, il periodo) e una verifica da 20 punti, 14 a correzione automatica e 6 valutati dal docente, che produce il PDF da consegnare. Si aggancia a «Chi viene guardato?» per il Realismo in pittura. Pensata per studenti con disturbo dello spettro autistico o con disabilità intellettiva, anche con programmazione differenziata, utile a tutta la classe come ripasso. Versione 0.1, in sperimentazione."
+
       - title: "∑ Formulario di matematica"
         url: /lezioni-accessibili/formulario-matematica/
         tag_label: "Matematica · Da telefono"
