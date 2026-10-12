@@ -217,3 +217,8 @@ sections:
         url: /lezioni-accessibili/formulario-matematica/
         tag_label: "Matematica · Da telefono"
         description: "Il formulario della classe, completo e senza semplificazioni, reso leggibile da cellulare: potenze, regole dei segni, prodotti notevoli, radicali, equazioni e disequazioni di primo e secondo grado, equazioni e disequazioni fratte, funzione esponenziale e logaritmo, campo di esistenza, studio del segno e asintoti. Formule in MathML (leggibili dai lettori di schermo e ingrandibili senza sgranarsi), indice per argomenti, pulsante «Come si legge» con la lettura a parole di ogni formula, grafici ridisegnati e descritti, tabella della disequazione di secondo grado a schede, testo ingrandibile, tema chiaro e scuro."
+
+      - title: "💡 Schema funzionale: un interruttore, tre lampade e una presa"
+        url: /lezioni-accessibili/schema-funzionale-impianto/
+        tag_label: "Impianti elettrici · Da telefono"
+        description: "Come si legge lo schema funzionale di un piccolo impianto civile: linee L, N e PE, simboli di interruttore, lampada e presa 2P+T, il percorso della corrente. Schema interattivo in cui si chiude l'interruttore e si svita una lampada per vedere il collegamento in parallelo, confronto serie e parallelo, ruolo del PE e del differenziale, tre regole di sicurezza, esercizio per ridisegnare lo schema, ripasso da 9 domande con risposta spiegata e glossario. Tema chiaro e scuro, testo ingrandibile."

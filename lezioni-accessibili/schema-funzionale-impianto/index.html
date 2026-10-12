@@ -1,0 +1,581 @@
+---
+title: "Schema funzionale: un interruttore, tre lampade e una presa"
+description: "Lezione accessibile di impianti elettrici: come si legge uno schema funzionale con fase, neutro e conduttore di protezione, un interruttore che comanda tre lampade in parallelo e una presa 2P+T. Schema interattivo, regole di sicurezza, ripasso con feedback immediato. Pensata per il telefono."
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Schema funzionale: interruttore, tre lampade e presa | Lezioni accessibili | Ivan Ferrero</title>
+{% seo title=false %}
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<script>
+/* preferenze salvate: applicate prima del disegno per evitare lampi */
+(function(){try{var d=document.documentElement,t=localStorage.getItem('sf-theme'),s=localStorage.getItem('sf-size');
+if(t)d.setAttribute('data-theme',t);if(s)d.style.setProperty('--fs',s+'px');}catch(e){}})();
+</script>
+<style>
+:root{
+  --fs:19px;
+  --bg:#EEF2F6; --card:#FFFFFF; --ink:#16202C; --soft:#465263; --line:#C5CED9;
+  --accent:#1F4FA8; --accent-ink:#FFFFFF;
+  --c-L:#8A4513; --c-N:#1F5FBF; --c-PE1:#2E7D32; --c-PE2:#C9A400;
+  --lamp-on:#FFD23F; --lamp-glow:rgba(255,190,0,.45); --live:#D35400;
+  --ok-bg:#E3F4E5; --ok-ink:#1B5E20; --no-bg:#FDE7E4; --no-ink:#9A1C0B;
+  --box-bg:#FFF6DC; --box-ink:#4A3800; --box-line:#E2C062;
+  --chip-bg:#E3ECFF;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161C; --card:#1C232C; --ink:#E8ECF1; --soft:#B0BAC6; --line:#38424F;
+  --accent:#8FB0F5; --accent-ink:#0E1522;
+  --c-L:#E0A47A; --c-N:#8FB0F5; --c-PE1:#7DD383; --c-PE2:#F2D45C;
+  --lamp-on:#FFD23F; --lamp-glow:rgba(255,200,40,.35); --live:#FF9F5A;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --chip-bg:#1D2A45;}}
+:root[data-theme="dark"]{
+  --bg:#12161C; --card:#1C232C; --ink:#E8ECF1; --soft:#B0BAC6; --line:#38424F;
+  --accent:#8FB0F5; --accent-ink:#0E1522;
+  --c-L:#E0A47A; --c-N:#8FB0F5; --c-PE1:#7DD383; --c-PE2:#F2D45C;
+  --lamp-on:#FFD23F; --lamp-glow:rgba(255,200,40,.35); --live:#FF9F5A;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --chip-bg:#1D2A45;}
+
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:var(--fs);-webkit-text-size-adjust:100%;scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;padding-bottom:calc(5rem + env(safe-area-inset-bottom,0px))}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:0;z-index:3000;background:var(--accent);color:var(--accent-ink);padding:.7rem 1rem;border-radius:8px;font-weight:700}
+.skip:focus{left:.75rem;top:.75rem}
+
+.wrap{max-width:46rem;margin:0 auto;padding:0 1rem}
+header.top{padding:1.25rem 0 .5rem}
+.kicker{margin:0 0 .3rem;font-weight:700;color:var(--soft);font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:1.75rem;line-height:1.15;margin:0 0 .5rem}
+.lead{margin:0 0 1rem;color:var(--soft)}
+
+.tools{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.25rem}
+button{font:inherit}
+.tools button,.btn{font-size:.9rem;font-weight:700;min-height:48px;min-width:48px;padding:0 .9rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.4rem}
+.tools button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn-main{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+
+.brief{background:var(--box-bg);color:var(--box-ink);border-left:5px solid var(--box-line);border-radius:12px;padding:.9rem 1rem;margin:0 0 1.25rem}
+.brief h2{font-size:1.05rem;margin:0 0 .4rem}
+.brief ul{margin:0;padding-left:1.2rem}
+.brief li{margin:.3rem 0}
+
+nav.idx{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:1.5rem}
+nav.idx h2{font-size:1.1rem;margin:0 0 .5rem}
+nav.idx ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem;counter-reset:i}
+nav.idx li{counter-increment:i}
+nav.idx a{display:flex;align-items:center;gap:.5rem;min-height:48px;padding:.4rem .7rem;border-radius:10px;text-decoration:none;color:var(--ink);font-size:.9rem;line-height:1.25;border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--chip-bg)}
+nav.idx a::before{content:counter(i);font-weight:700;color:var(--accent);min-width:1.1em}
+
+.sec{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:14px;padding:1rem 1rem 1.1rem;margin:0 0 1.1rem;scroll-margin-top:12px}
+.sec h2{font-size:1.3rem;line-height:1.2;margin:0 0 .75rem}
+.sec h3{font-size:1.05rem;margin:1.1rem 0 .4rem}
+.sec p{margin:.5rem 0}
+.sec ul,.sec ol{padding-left:1.3rem}
+.sec li{margin:.35rem 0}
+.step{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);margin-bottom:.2rem}
+.key{background:var(--box-bg);color:var(--box-ink);border-left:4px solid var(--box-line);border-radius:8px;padding:.55rem .8rem;margin:.75rem 0}
+.key strong{font-weight:700}
+
+/* tabella delle linee */
+.lines{list-style:none;padding:0!important;margin:.5rem 0}
+.lines li{display:flex;gap:.8rem;align-items:center;padding:.6rem .7rem;margin:.45rem 0;border:1px solid var(--line);border-radius:10px}
+.lines svg{flex:0 0 64px;width:64px;height:20px}
+.lines .t{flex:1;min-width:0}
+.lines b{display:block}
+
+/* simboli */
+.syms{list-style:none;padding:0!important;margin:.5rem 0;display:grid;grid-template-columns:1fr;gap:.5rem}
+.syms li{display:flex;gap:.9rem;align-items:center;padding:.6rem .7rem;margin:0;border:1px solid var(--line);border-radius:10px}
+.syms svg{flex:0 0 64px;width:64px;height:64px}
+.syms .t{flex:1;min-width:0}
+.syms b{display:block}
+
+/* disegni */
+svg .wL{stroke:var(--c-L)} svg .wN{stroke:var(--c-N)}
+svg .w{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+svg .pe1{fill:none;stroke:var(--c-PE1);stroke-width:3;stroke-dasharray:7 7}
+svg .pe2{fill:none;stroke:var(--c-PE2);stroke-width:3;stroke-dasharray:7 7;stroke-dashoffset:7}
+svg .dot{stroke:none}
+svg .dL{fill:var(--c-L)} svg .dN{fill:var(--c-N)} svg .dPE{fill:var(--c-PE1)}
+svg .sym{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+svg .lab{fill:var(--ink);font-family:"Atkinson Hyperlegible",sans-serif;font-size:16px;font-weight:700}
+svg .labs{fill:var(--soft);font-family:"Atkinson Hyperlegible",sans-serif;font-size:14px;font-weight:700}
+
+/* schema interattivo */
+figure.schema{margin:.5rem 0 0}
+svg.big{display:block;width:100%;height:auto;background:var(--bg);border-radius:12px}
+svg.big .lampc{fill:var(--card);stroke:var(--ink);stroke-width:3}
+svg.big .lampx{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+svg.big .glow{fill:var(--lamp-glow);opacity:0}
+svg.big .blade{stroke:var(--c-L);stroke-width:4;stroke-linecap:round}
+svg.big .swp{fill:var(--card);stroke:var(--c-L);stroke-width:2.5}
+svg.big .tag{fill:var(--live);font-family:"Atkinson Hyperlegible",sans-serif;font-size:13px;font-weight:700}
+svg.big .cmd{stroke:var(--c-L)}
+svg.big.on .cmd{stroke:var(--live);stroke-width:4.5}
+svg.big.on .lamp:not(.out) .lampc{fill:var(--lamp-on)}
+svg.big.on .lamp:not(.out) .lampx{stroke:#3A2A00}
+svg.big.on .lamp:not(.out) .glow{opacity:1}
+svg.big .lamp.out .lampc{fill:none;stroke:var(--soft);stroke-dasharray:4 5}
+svg.big .lamp.out .lampx{opacity:0}
+svg.big .outlab{display:none;fill:var(--soft);font-family:"Atkinson Hyperlegible",sans-serif;font-size:13px;font-weight:700}
+svg.big .lamp.out .outlab{display:block}
+@media (prefers-reduced-motion:no-preference){svg.big .blade,svg.big .lampc,svg.big .glow,svg.big .cmd{transition:all .25s ease}}
+.legend{display:flex;flex-wrap:wrap;gap:.3rem 1rem;font-size:.85rem;color:var(--soft);margin:.5rem 0 0}
+.legend span{display:inline-flex;align-items:center;gap:.35rem}
+.legend svg{width:34px;height:10px}
+.ctrl{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0 .4rem}
+.ctrl .btn{flex:1 1 auto}
+.ctrl .btn[aria-pressed="true"]{border-color:var(--live);background:var(--live);color:#fff}
+.status{margin:.6rem 0 0;padding:.6rem .8rem;border-radius:10px;background:var(--chip-bg);border-left:4px solid var(--accent);font-size:.95rem}
+details.words{margin:.8rem 0 0;border:1px solid var(--line);border-radius:10px;padding:.1rem .9rem}
+details.words summary,footer.about summary,details.ans summary{min-height:48px;display:flex;align-items:center;font-weight:700;cursor:pointer}
+
+/* serie e parallelo */
+.cmp{display:grid;grid-template-columns:1fr;gap:.7rem;margin:.6rem 0}
+.cmp > div{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem}
+.cmp h3{margin:.1rem 0 .3rem}
+
+/* quiz */
+.q{border:1px solid var(--line);border-radius:12px;padding:.6rem .9rem .8rem;margin:.8rem 0}
+.q legend{font-weight:700;padding:0 .3rem;line-height:1.35}
+.q .n{color:var(--accent)}
+.q label{display:flex;gap:.6rem;align-items:center;min-height:48px;padding:.35rem .6rem;margin:.35rem 0;border:1px solid var(--line);border-radius:10px;cursor:pointer;line-height:1.3}
+.q input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--accent)}
+.q label:has(input:checked){border-color:var(--accent);border-width:2px}
+.q .btn{margin-top:.4rem}
+.fb{margin:.6rem 0 0;padding:0;border-radius:8px;font-size:.95rem}
+.fb.ok{background:var(--ok-bg);color:var(--ok-ink);padding:.55rem .8rem}
+.fb.no{background:var(--no-bg);color:var(--no-ink);padding:.55rem .8rem}
+.score{font-weight:700;padding:.7rem .9rem;border-radius:10px;background:var(--chip-bg);margin:.8rem 0 0}
+
+dl.glo{margin:.4rem 0}
+dl.glo dt{font-weight:700;margin-top:.8rem}
+dl.glo dd{margin:.2rem 0 0 0;padding-left:.8rem;border-left:3px solid var(--line)}
+
+.toidx[hidden]{display:none}
+.toidx{position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:900;display:inline-flex;align-items:center;gap:.35rem;min-height:48px;padding:0 1rem;border-radius:24px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+
+footer.about{margin:2.5rem 0 1rem;font-size:.92rem;color:var(--soft)}
+footer.about details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.2rem 1rem}
+footer.about summary{color:var(--ink)}
+footer.about li{margin:.35rem 0}
+
+@media (max-width:359px){.wrap{padding:0 .6rem}.sec{padding:.9rem .7rem}nav.idx ol{grid-template-columns:1fr}}
+@media (min-width:720px){
+  :root{--fs:20px}
+  h1{font-size:2.2rem}
+  .sec{padding:1.3rem 1.5rem}
+  .syms{grid-template-columns:1fr 1fr}
+  .cmp{grid-template-columns:1fr 1fr}
+  nav.idx ol{grid-template-columns:repeat(3,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  :root{--bg:#fff;--card:#fff;--ink:#000;--soft:#333;--line:#999}
+  #site-menu,.tools,nav.idx,.toidx,footer.about,.skip,.ctrl,.q .btn{display:none!important}
+  body{padding:0}.sec{break-inside:avoid;border-width:1px}
+  details{display:block}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#indice">Vai all’indice della lezione</a>
+<div id="site-menu" data-lezioni-menu="minimal" data-back="/lezioni-accessibili/"></div>
+
+<div class="wrap">
+<header class="top">
+  <p class="kicker">Impianti elettrici · Schema funzionale</p>
+  <h1>Un interruttore, tre lampade e una presa</h1>
+  <p class="lead">Come si legge lo schema funzionale di un piccolo impianto: da dove arriva la corrente, dove passa, dove torna e come si protegge chi lo usa. In fondo trovi il ripasso con le risposte corrette spiegate.</p>
+  <div class="tools" role="group" aria-label="Impostazioni di lettura">
+    <span role="group" aria-label="Grandezza del testo" style="display:inline-flex;gap:.35rem">
+      <button type="button" id="btn-minus" aria-label="Testo più piccolo">A−</button>
+      <button type="button" id="btn-plus" aria-label="Testo più grande">A+</button>
+    </span>
+    <button type="button" id="btn-theme" aria-pressed="false">Tema scuro</button>
+  </div>
+</header>
+
+<main id="lezione">
+
+<section class="brief" aria-labelledby="breve-t">
+  <h2 id="breve-t">In breve</h2>
+  <ul>
+    <li>Lo schema ha tre linee: <strong>L</strong> (fase), <strong>N</strong> (neutro) e <strong>PE</strong> (protezione, tratteggiata).</li>
+    <li>Un <strong>interruttore</strong> sulla fase comanda <strong>tre lampade collegate in parallelo</strong>: si accendono e si spengono insieme.</li>
+    <li>Se una lampada si guasta, le altre <strong>restano accese</strong>, perché ognuna ha il suo collegamento tra L e N.</li>
+    <li>La <strong>presa 2P+T</strong> è collegata direttamente a L e N: è sempre in tensione, l’interruttore non la comanda.</li>
+    <li>Il <strong>PE</strong> arriva a ogni lampada e alla presa: in caso di guasto porta la corrente a terra.</li>
+  </ul>
+</section>
+
+<nav class="idx" id="indice" aria-labelledby="indice-t" tabindex="-1">
+  <h2 id="indice-t">Indice</h2>
+  <ol>
+    <li><a href="#linee">Le tre linee</a></li>
+    <li><a href="#simboli">I simboli</a></li>
+    <li><a href="#schema">Lo schema da provare</a></li>
+    <li><a href="#parallelo">Perché in parallelo</a></li>
+    <li><a href="#presa">La presa 2P+T</a></li>
+    <li><a href="#protezione">Il conduttore PE</a></li>
+    <li><a href="#regole">Regole di sicurezza</a></li>
+    <li><a href="#disegna">Ridisegnalo tu</a></li>
+    <li><a href="#ripasso">Ripasso</a></li>
+    <li><a href="#glossario">Glossario</a></li>
+  </ol>
+</nav>
+
+<section class="sec" id="linee" aria-labelledby="linee-t">
+  <span class="step">Parte 1</span>
+  <h2 id="linee-t">Le tre linee</h2>
+  <p>Uno <strong>schema funzionale</strong> serve a capire <em>come funziona</em> un circuito, non dove sono i cavi nel muro. Le linee orizzontali in alto e in basso sono le “strade” da cui partono tutti i collegamenti.</p>
+  <ul class="lines">
+    <li><svg viewBox="0 0 64 20" aria-hidden="true"><line class="w wL" x1="2" y1="10" x2="62" y2="10"/></svg><span class="t"><b>L, la fase</b>Porta la corrente verso gli utilizzatori. Nei cavi è marrone (a volte nero o grigio).</span></li>
+    <li><svg viewBox="0 0 64 20" aria-hidden="true"><line class="w wN" x1="2" y1="10" x2="62" y2="10"/></svg><span class="t"><b>N, il neutro</b>Riporta indietro la corrente e chiude il circuito. Nei cavi è blu.</span></li>
+    <li><svg viewBox="0 0 64 20" aria-hidden="true"><line class="pe1" x1="2" y1="10" x2="62" y2="10"/><line class="pe2" x1="2" y1="10" x2="62" y2="10"/></svg><span class="t"><b>PE, il conduttore di protezione</b>Si disegna <strong>tratteggiato</strong>. Collega a terra le parti metalliche. Nei cavi è gialloverde. Normalmente non ci passa corrente.</span></li>
+  </ul>
+  <p class="key"><strong>Da ricordare:</strong> linea continua = conduttore che porta corrente; linea tratteggiata = protezione.</p>
+</section>
+
+<section class="sec" id="simboli" aria-labelledby="simboli-t">
+  <span class="step">Parte 2</span>
+  <h2 id="simboli-t">I simboli</h2>
+  <ul class="syms">
+    <li><svg viewBox="0 0 64 64" aria-hidden="true"><line class="sym" x1="32" y1="2" x2="32" y2="18"/><line class="sym" x1="32" y1="46" x2="32" y2="62"/><line class="sym" x1="32" y1="46" x2="16" y2="20"/></svg><span class="t"><b>Interruttore</b>Un tratto obliquo che “stacca” la linea. Disegnato aperto: il circuito è interrotto. Quando lo premi si chiude e la corrente passa.</span></li>
+    <li><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="sym" cx="32" cy="32" r="18"/><line class="sym" x1="19" y1="19" x2="45" y2="45"/><line class="sym" x1="45" y1="19" x2="19" y2="45"/></svg><span class="t"><b>Lampada</b>Un cerchio con una X dentro. Alla lavagna spesso si disegna solo la X. Qui le lampade si chiamano P1, P2, P3.</span></li>
+    <li><svg viewBox="0 0 64 64" aria-hidden="true"><line class="sym" x1="22" y1="14" x2="22" y2="50"/><path class="sym" d="M48 8 A26 26 0 0 0 48 56"/></svg><span class="t"><b>Presa 2P+T</b>Un semicerchio con un tratto dritto. “2P+T” vuol dire <strong>due poli più terra</strong>: un foro per L, uno per N e il contatto di terra per PE.</span></li>
+    <li><svg viewBox="0 0 64 64" aria-hidden="true"><line class="sym" x1="4" y1="32" x2="60" y2="32"/><line class="sym" x1="32" y1="32" x2="32" y2="62"/><circle cx="32" cy="32" r="6" fill="currentColor" style="color:var(--ink)"/></svg><span class="t"><b>Nodo (pallino)</b>Il pallino vuol dire “qui i fili sono collegati”. Due linee che si incrociano <strong>senza pallino</strong> non si toccano.</span></li>
+  </ul>
+</section>
+
+<section class="sec" id="schema" aria-labelledby="schema-t">
+  <span class="step">Parte 3</span>
+  <h2 id="schema-t">Lo schema da provare</h2>
+  <p>Premi i pulsanti sotto il disegno: puoi chiudere l’interruttore e svitare una lampada alla volta. Il testo sotto ti dice cosa succede.</p>
+  <figure class="schema">
+    <svg class="big" id="circuito" viewBox="0 0 400 310" role="img" aria-labelledby="sch-title sch-desc">
+      <title id="sch-title">Schema funzionale: un interruttore comanda tre lampade in parallelo; una presa 2P+T è collegata a parte</title>
+      <desc id="sch-desc">In alto la linea L, in basso la linea N, sotto ancora la linea PE tratteggiata. Da L scende un ramo con l’interruttore, che porta a una sbarra da cui partono le tre lampade P1, P2 e P3, ognuna collegata a N. Più a destra la presa 2P+T è collegata direttamente a L e a N. Ogni lampada e la presa hanno un collegamento tratteggiato verso PE. La descrizione completa è nel riquadro «Lo schema a parole».</desc>
+      <!-- linee principali -->
+      <line class="w wL" x1="34" y1="40" x2="392" y2="40"/>
+      <line class="w wN" x1="34" y1="250" x2="392" y2="250"/>
+      <line class="pe1" x1="34" y1="292" x2="392" y2="292"/><line class="pe2" x1="34" y1="292" x2="392" y2="292"/>
+      <text class="lab" x="8" y="46">L</text><text class="lab" x="8" y="256">N</text><text class="lab" x="2" y="298">PE</text>
+
+      <!-- interruttore -->
+      <line class="w wL" x1="95" y1="40" x2="95" y2="72"/>
+      <circle class="swp" cx="95" cy="72" r="4"/>
+      <line class="blade" id="blade" x1="95" y1="106" x2="76" y2="76"/>
+      <circle class="swp" cx="95" cy="106" r="4"/>
+      <text class="labs" x="104" y="94">interruttore</text>
+      <!-- filo comandato e sbarra -->
+      <path class="w cmd" d="M95 110 V130 M50 130 H230 M50 130 V174 M140 130 V174 M230 130 V174"/>
+
+      <!-- lampade -->
+      <g class="lamp" id="lamp1">
+        <circle class="glow" cx="50" cy="190" r="27"/>
+        <circle class="lampc" cx="50" cy="190" r="16"/>
+        <path class="lampx" d="M39 179 L61 201 M61 179 L39 201"/>
+        <text class="outlab" x="43" y="228" text-anchor="end">svitata</text>
+        <text class="lab" x="14" y="168">P1</text>
+      </g>
+      <g class="lamp" id="lamp2">
+        <circle class="glow" cx="140" cy="190" r="27"/>
+        <circle class="lampc" cx="140" cy="190" r="16"/>
+        <path class="lampx" d="M129 179 L151 201 M151 179 L129 201"/>
+        <text class="outlab" x="133" y="228" text-anchor="end">svitata</text>
+        <text class="lab" x="104" y="168">P2</text>
+      </g>
+      <g class="lamp" id="lamp3">
+        <circle class="glow" cx="230" cy="190" r="27"/>
+        <circle class="lampc" cx="230" cy="190" r="16"/>
+        <path class="lampx" d="M219 179 L241 201 M241 179 L219 201"/>
+        <text class="outlab" x="223" y="228" text-anchor="end">svitata</text>
+        <text class="lab" x="194" y="168">P3</text>
+      </g>
+      <path class="w wN" d="M50 206 V250 M140 206 V250 M230 206 V250"/>
+
+      <!-- presa 2P+T -->
+      <path class="w wL" d="M310 40 V176 H322"/>
+      <path class="w wN" d="M322 204 H310 V250"/>
+      <line class="sym" x1="322" y1="166" x2="322" y2="214"/>
+      <path class="sym" d="M352 160 A30 30 0 0 0 352 220"/>
+      <text class="lab" x="336" y="146">2P+T</text>
+      <text class="tag" id="tag-presa"><tspan x="322" y="266">sempre</tspan><tspan x="322" y="281">in tensione</tspan></text>
+
+      <!-- PE (tratteggio) -->
+      <path class="pe1" d="M66 190 H80 V292 M156 190 H170 V292 M246 190 H260 V292 M322 190 H290 V292"/>
+      <path class="pe2" d="M66 190 H80 V292 M156 190 H170 V292 M246 190 H260 V292 M322 190 H290 V292"/>
+
+      <!-- nodi -->
+      <circle class="dot dL" cx="95" cy="40" r="5"/><circle class="dot dL" cx="310" cy="40" r="5"/>
+      <circle class="dot dL cmdot" cx="95" cy="130" r="5"/><circle class="dot dL cmdot" cx="140" cy="130" r="5"/>
+      <circle class="dot dN" cx="50" cy="250" r="5"/><circle class="dot dN" cx="140" cy="250" r="5"/><circle class="dot dN" cx="230" cy="250" r="5"/><circle class="dot dN" cx="310" cy="250" r="5"/>
+      <circle class="dot dPE" cx="80" cy="292" r="5"/><circle class="dot dPE" cx="170" cy="292" r="5"/><circle class="dot dPE" cx="260" cy="292" r="5"/><circle class="dot dPE" cx="290" cy="292" r="5"/>
+    </svg>
+    <figcaption class="legend" aria-hidden="true">
+      <span><svg viewBox="0 0 34 10"><line class="w wL" x1="1" y1="5" x2="33" y2="5"/></svg>L fase</span>
+      <span><svg viewBox="0 0 34 10"><line class="w wN" x1="1" y1="5" x2="33" y2="5"/></svg>N neutro</span>
+      <span><svg viewBox="0 0 34 10"><line class="pe1" x1="1" y1="5" x2="33" y2="5"/><line class="pe2" x1="1" y1="5" x2="33" y2="5"/></svg>PE protezione</span>
+    </figcaption>
+  </figure>
+
+  <div class="ctrl" role="group" aria-label="Comandi dello schema">
+    <button type="button" class="btn btn-main" id="btn-sw" aria-pressed="false">Chiudi l’interruttore</button>
+  </div>
+  <div class="ctrl" role="group" aria-label="Svita o riavvita una lampada">
+    <button type="button" class="btn" data-lamp="1" aria-pressed="false">Svita P1</button>
+    <button type="button" class="btn" data-lamp="2" aria-pressed="false">Svita P2</button>
+    <button type="button" class="btn" data-lamp="3" aria-pressed="false">Svita P3</button>
+  </div>
+  <p class="status" id="status" aria-live="polite">Interruttore aperto: il ramo delle lampade è interrotto e sono tutte spente. La presa invece è in tensione, perché non passa dall’interruttore.</p>
+
+  <details class="words">
+    <summary>Lo schema a parole</summary>
+    <ol>
+      <li>In alto c’è la linea L, in basso la linea N, sotto ancora la linea PE tratteggiata.</li>
+      <li>Da un nodo su L scende un filo che arriva all’interruttore.</li>
+      <li>Dopo l’interruttore il filo arriva a una sbarra orizzontale.</li>
+      <li>Dalla sbarra scendono tre fili, uno per ogni lampada: P1, P2, P3.</li>
+      <li>Sotto ogni lampada un filo scende fino alla linea N, con un nodo.</li>
+      <li>Più a destra, un secondo nodo su L porta un filo direttamente alla presa 2P+T. Dall’altro polo della presa un filo va a N.</li>
+      <li>Ogni lampada e la presa hanno un filo tratteggiato che scende fino alla linea PE.</li>
+    </ol>
+  </details>
+
+  <h3>Il percorso della corrente</h3>
+  <ol>
+    <li>Parte da <strong>L</strong>.</li>
+    <li>Attraversa l’<strong>interruttore</strong> (solo se è chiuso).</li>
+    <li>Si divide e arriva a <strong>P1, P2 e P3</strong> nello stesso momento.</li>
+    <li>Attraversa le lampade, che si accendono.</li>
+    <li>Torna indietro su <strong>N</strong>.</li>
+  </ol>
+  <p class="key"><strong>Da ricordare:</strong> un circuito funziona solo se è chiuso, cioè se la corrente può andare e tornare.</p>
+</section>
+
+<section class="sec" id="parallelo" aria-labelledby="parallelo-t">
+  <span class="step">Parte 4</span>
+  <h2 id="parallelo-t">Perché in parallelo</h2>
+  <p>Le tre lampade sono collegate <strong>in parallelo</strong>: ognuna ha un filo che arriva dalla fase (dopo l’interruttore) e un filo che va al neutro. È come se ciascuna avesse la sua strada.</p>
+  <div class="cmp">
+    <div>
+      <h3>In parallelo (questo schema)</h3>
+      <ul>
+        <li>Ogni lampada riceve la tensione piena: in casa <strong>230 V</strong>.</li>
+        <li>Se una si guasta, le altre <strong>restano accese</strong>.</li>
+        <li>È il modo in cui sono collegate le luci di casa.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>In serie (per confronto)</h3>
+      <ul>
+        <li>Le lampade sono una dopo l’altra sullo stesso filo.</li>
+        <li>La tensione si divide tra loro: fanno meno luce.</li>
+        <li>Se una si guasta, il circuito si apre e <strong>si spengono tutte</strong>.</li>
+      </ul>
+    </div>
+  </div>
+  <p>Provalo nello schema della Parte 3: chiudi l’interruttore e svita P2. P1 e P3 restano accese.</p>
+</section>
+
+<section class="sec" id="presa" aria-labelledby="presa-t">
+  <span class="step">Parte 5</span>
+  <h2 id="presa-t">La presa 2P+T</h2>
+  <p>La presa è collegata <strong>direttamente</strong> alla fase e al neutro, senza passare dall’interruttore. Per questo è <strong>sempre in tensione</strong>: puoi attaccare il caricatore anche con la luce spenta.</p>
+  <ul>
+    <li><strong>2P</strong>: i due poli, cioè i due fori laterali, collegati a L e N.</li>
+    <li><strong>+T</strong>: il contatto di terra (al centro nelle prese italiane, le molle laterali nelle prese tedesche), collegato al PE.</li>
+  </ul>
+  <p class="key"><strong>Da ricordare:</strong> lampade e presa stanno sulle stesse linee L e N, ma solo le lampade passano dall’interruttore.</p>
+</section>
+
+<section class="sec" id="protezione" aria-labelledby="protezione-t">
+  <span class="step">Parte 6</span>
+  <h2 id="protezione-t">Il conduttore di protezione PE</h2>
+  <p>Molte lampade hanno parti di metallo che si possono toccare. Se un filo interno si rovina e tocca il metallo, quel metallo va in tensione: chi lo tocca prende la scossa.</p>
+  <p>Il <strong>PE</strong> collega il metallo all’impianto di terra. In caso di guasto la corrente scappa verso terra lungo il PE invece di passare attraverso la persona, e l’<strong>interruttore differenziale</strong> nel quadro (il “salvavita”) se ne accorge e toglie la corrente in una frazione di secondo.</p>
+  <p class="key"><strong>Da ricordare:</strong> il PE non serve a far funzionare le lampade. Serve a proteggere le persone.</p>
+</section>
+
+<section class="sec" id="regole" aria-labelledby="regole-t">
+  <span class="step">Parte 7</span>
+  <h2 id="regole-t">Tre regole di sicurezza</h2>
+  <ol>
+    <li><strong>L’interruttore interrompe sempre la fase, mai il neutro.</strong> Così, a interruttore aperto, la lampada non è in tensione e si può cambiare la lampadina senza rischi. Lo prevede la norma CEI 64-8 sugli impianti elettrici.</li>
+    <li><strong>I colori dei cavi non si scelgono a caso.</strong> Gialloverde solo per il PE, blu per il neutro, marrone, nero o grigio per la fase.</li>
+    <li><strong>Si lavora solo senza tensione.</strong> Prima di toccare i fili si stacca l’interruttore generale e si verifica con lo strumento che la corrente non ci sia.</li>
+  </ol>
+</section>
+
+<section class="sec" id="disegna" aria-labelledby="disegna-t">
+  <span class="step">Parte 8</span>
+  <h2 id="disegna-t">Ridisegnalo tu</h2>
+  <p>Prendi un foglio e prova a rifare lo schema senza guardare, seguendo questi passi. Poi confronta con il disegno della Parte 3.</p>
+  <ol>
+    <li>Traccia tre linee orizzontali e scrivi L, N e PE. La linea PE è tratteggiata.</li>
+    <li>Da L fai scendere un filo e disegna l’interruttore aperto.</li>
+    <li>Sotto l’interruttore disegna una sbarra orizzontale.</li>
+    <li>Dalla sbarra fai partire tre fili con le tre lampade, poi portali fino a N.</li>
+    <li>Da L fai scendere un altro filo fino alla presa 2P+T, e dalla presa un filo fino a N.</li>
+    <li>Collega con il tratteggio ogni lampada e la presa alla linea PE.</li>
+    <li>Metti un pallino in ogni punto in cui i fili si collegano.</li>
+  </ol>
+</section>
+
+<section class="sec" id="ripasso" aria-labelledby="ripasso-t">
+  <span class="step">Parte 9</span>
+  <h2 id="ripasso-t">Ripasso</h2>
+  <p>Scegli una risposta e premi «Controlla». Puoi riprovare tutte le volte che vuoi.</p>
+  <form id="quiz" novalidate></form>
+  <p class="score" id="score" aria-live="polite">Risposte corrette: 0 su 9.</p>
+  <button type="button" class="btn" id="btn-reset">Ricomincia il ripasso</button>
+
+  <h3>Spiegalo con parole tue</h3>
+  <p>Scegli il modo che preferisci: a voce, con un disegno o per iscritto.</p>
+  <ul>
+    <li>Racconta il percorso della corrente, da L fino a N.</li>
+    <li>Spiega a qualcuno perché se una lampada si brucia le altre restano accese.</li>
+    <li>Spiega perché la presa funziona anche con l’interruttore aperto.</li>
+    <li>Spiega a cosa serve la linea tratteggiata.</li>
+  </ul>
+</section>
+
+<section class="sec" id="glossario" aria-labelledby="glossario-t">
+  <span class="step">Parte 10</span>
+  <h2 id="glossario-t">Glossario</h2>
+  <dl class="glo">
+    <dt>Schema funzionale</dt><dd>Disegno che mostra come funziona un circuito: quali componenti ci sono e come sono collegati. Non mostra dove passano i cavi nella stanza.</dd>
+    <dt>Fase (L)</dt><dd>Conduttore che porta la corrente agli utilizzatori. Cavo marrone, nero o grigio.</dd>
+    <dt>Neutro (N)</dt><dd>Conduttore che riporta la corrente e chiude il circuito. Cavo blu.</dd>
+    <dt>Conduttore di protezione (PE)</dt><dd>Collega a terra le parti metalliche. Cavo gialloverde, nello schema linea tratteggiata.</dd>
+    <dt>Interruttore</dt><dd>Dispositivo che apre o chiude un circuito. Quello di questo schema interrompe un solo conduttore, la fase (interruttore unipolare).</dd>
+    <dt>Nodo</dt><dd>Punto in cui due o più fili sono collegati. Nello schema è un pallino.</dd>
+    <dt>Collegamento in parallelo</dt><dd>Ogni utilizzatore è collegato direttamente tra fase e neutro e riceve la tensione piena.</dd>
+    <dt>Collegamento in serie</dt><dd>Gli utilizzatori sono uno dopo l’altro sullo stesso filo: se uno si interrompe, si ferma tutto.</dd>
+    <dt>Presa 2P+T</dt><dd>Presa con due poli (L e N) più il contatto di terra (PE).</dd>
+    <dt>Interruttore differenziale</dt><dd>Dispositivo nel quadro elettrico, detto anche salvavita, che toglie la corrente quando una parte di essa “scappa” verso terra.</dd>
+  </dl>
+</section>
+
+</main>
+
+<footer class="about">
+  <details>
+    <summary>Per i docenti: come è fatta questa pagina</summary>
+    <p>Lezione di base sugli schemi funzionali (impianti civili), pensata per il ripasso a casa da telefono. Il contenuto è quello del programma, senza semplificazioni di sostanza; cambia la forma.</p>
+    <ul>
+      <li>Lo schema è un disegno vettoriale con titolo e descrizione per i lettori di schermo, più la versione a parole passo per passo. Le linee si distinguono per colore <em>e</em> per forma (il PE è tratteggiato), mai solo per colore.</li>
+      <li>Lo schema si manipola: chiudere l’interruttore e svitare una lampada rende visibile il comportamento del parallelo (UDL 3.0, linea guida 3.2: evidenziare relazioni e idee chiave).</li>
+      <li>Ogni sezione ha un riquadro «Da ricordare» con l’idea essenziale; il glossario chiarisce il lessico tecnico (linea guida 2.1).</li>
+      <li>Il ripasso dà un riscontro immediato che spiega perché una risposta è giusta o sbagliata (linea guida 8.5); la consegna finale si svolge a voce, con un disegno o per iscritto (linea guida 5.1).</li>
+      <li>Font ad alta leggibilità (Atkinson Hyperlegible), contrasti WCAG 2.2 AA, tema chiaro e scuro, aree da toccare di almeno 48 pixel, rispetto della preferenza per il movimento ridotto. Le preferenze restano salvate su questo dispositivo.</li>
+      <li>Alla lavagna la lampada si disegna spesso con la sola X: qui si usa il simbolo completo, cerchio con X, e lo si dice esplicitamente.</li>
+    </ul>
+    <p><a href="/lezioni-accessibili/metodo.html">Il metodo delle lezioni accessibili</a></p>
+  </details>
+</footer>
+</div>
+
+<a class="toidx" href="#indice"><span aria-hidden="true">↑</span> Indice</a>
+
+<script>
+(function(){
+  var d=document.documentElement;
+  function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function cur(){return parseFloat(getComputedStyle(d).fontSize)||19;}
+  function setSize(px){px=Math.max(16,Math.min(30,px));d.style.setProperty('--fs',px+'px');save('sf-size',px);}
+  document.getElementById('btn-plus').addEventListener('click',function(){setSize(cur()+2);});
+  document.getElementById('btn-minus').addEventListener('click',function(){setSize(cur()-2);});
+  var bt=document.getElementById('btn-theme');
+  function isDark(){var t=d.getAttribute('data-theme');if(t)return t==='dark';return window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;}
+  function syncTheme(){bt.setAttribute('aria-pressed',isDark()?'true':'false');}
+  bt.addEventListener('click',function(){var t=isDark()?'light':'dark';d.setAttribute('data-theme',t);save('sf-theme',t);syncTheme();});
+  syncTheme();
+
+  /* ---------- schema interattivo ---------- */
+  var svg=document.getElementById('circuito'),blade=document.getElementById('blade'),bsw=document.getElementById('btn-sw'),st=document.getElementById('status');
+  var closed=false,out={1:false,2:false,3:false};
+  function names(f){var a=[];for(var i=1;i<=3;i++){if(f(i))a.push('P'+i);}return a;}
+  function list(a){return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' e '+a[a.length-1];}
+  function render(){
+    svg.classList.toggle('on',closed);
+    blade.setAttribute('x2',closed?95:76);blade.setAttribute('y2',closed?72:76);
+    bsw.textContent=closed?'Apri l’interruttore':'Chiudi l’interruttore';
+    bsw.setAttribute('aria-pressed',closed?'true':'false');
+    for(var i=1;i<=3;i++){document.getElementById('lamp'+i).classList.toggle('out',out[i]);
+      var b=document.querySelector('[data-lamp="'+i+'"]');b.textContent=(out[i]?'Riavvita P':'Svita P')+i;b.setAttribute('aria-pressed',out[i]?'true':'false');}
+    var on=names(function(i){return !out[i];}),off=names(function(i){return out[i];}),msg;
+    if(!closed){msg='Interruttore aperto: il ramo delle lampade è interrotto e sono tutte spente. La presa invece è in tensione, perché non passa dall’interruttore.';}
+    else if(on.length===0){msg='Interruttore chiuso, ma tutte le lampade sono svitate: nessuna si accende. La presa resta in tensione.';}
+    else{msg='Interruttore chiuso: la corrente parte da L, attraversa l’interruttore, arriva alle lampade e torna su N. '+(on.length===1?'Accesa: ':'Accese: ')+list(on)+'.';
+      if(off.length){msg+=' '+(off.length===1?'Svitata: ':'Svitate: ')+list(off)+'. Le altre restano accese perché sono collegate in parallelo.';}}
+    st.textContent=msg;
+  }
+  bsw.addEventListener('click',function(){closed=!closed;render();});
+  Array.prototype.forEach.call(document.querySelectorAll('[data-lamp]'),function(b){b.addEventListener('click',function(){var i=b.getAttribute('data-lamp');out[i]=!out[i];render();});});
+  render();
+
+  /* ---------- ripasso ---------- */
+  var Q=[
+    {q:'Cosa indica la linea tratteggiata nello schema?',o:['Il neutro','Il conduttore di protezione PE','Un filo ancora da collegare'],c:1,
+     y:'Giusto. Il tratteggio indica il PE, che collega a terra le parti metalliche.',n:'Non è così. Il tratteggio indica il PE, il conduttore di protezione. Il neutro è una linea continua.'},
+    {q:'Quale conduttore deve interrompere l’interruttore?',o:['Il neutro','La fase','Il PE'],c:1,
+     y:'Esatto. Interrompendo la fase, a interruttore aperto la lampada non è in tensione.',n:'Rivedi la Parte 7: l’interruttore interrompe sempre la fase. Se interrompesse il neutro, la lampada resterebbe in tensione anche da spenta.'},
+    {q:'Come sono collegate le tre lampade?',o:['In serie','In parallelo','Una in serie e due in parallelo'],c:1,
+     y:'Sì. Ognuna ha il suo collegamento tra fase e neutro: sono in parallelo.',n:'Guarda lo schema: ogni lampada ha un filo dalla sbarra e un filo verso N. Questo è il collegamento in parallelo.'},
+    {q:'Con l’interruttore chiuso, si brucia P2. Cosa succede?',o:['Si spengono tutte','P1 e P3 restano accese','Smette di funzionare anche la presa'],c:1,
+     y:'Giusto. In parallelo ogni lampada ha la sua strada: il guasto di una non spegne le altre.',n:'Prova nella Parte 3: chiudi l’interruttore e svita P2. P1 e P3 restano accese, perché sono in parallelo.'},
+    {q:'Che tensione arriva a ogni lampada in un impianto di casa?',o:['230 V','Circa 77 V, cioè 230 diviso 3','0 V'],c:0,
+     y:'Esatto. In parallelo ogni lampada riceve la tensione piena, 230 V.',n:'La divisione della tensione avviene nel collegamento in serie. In parallelo ogni lampada riceve tutti i 230 V.'},
+    {q:'Con l’interruttore aperto, la presa funziona?',o:['Sì, perché è collegata direttamente a L e N','No, perché l’interruttore spegne tutto'],c:0,
+     y:'Giusto. La presa non passa dall’interruttore: è sempre in tensione.',n:'Guarda lo schema: la presa prende la fase direttamente da L, prima dell’interruttore. Per questo funziona sempre.'},
+    {q:'Di che colore è il cavo del PE?',o:['Blu','Marrone','Gialloverde'],c:2,
+     y:'Esatto. Il gialloverde si usa solo per il PE.',n:'Il blu è il neutro, il marrone la fase. Il PE è sempre gialloverde.'},
+    {q:'Cosa vuol dire la sigla 2P+T?',o:['Due prese più un trasformatore','Due poli più terra','Due fasi più tensione'],c:1,
+     y:'Giusto: due poli (L e N) più il contatto di terra (PE).',n:'2P+T vuol dire due poli più terra: L e N sui fori laterali, PE sul contatto di terra.'},
+    {q:'A cosa serve collegare il PE alle parti metalliche?',o:['A far funzionare la lampada','A portare a terra la corrente in caso di guasto, così interviene il differenziale','A risparmiare energia'],c:1,
+     y:'Esatto. Il PE protegge le persone: in caso di guasto la corrente va a terra e il differenziale toglie la corrente.',n:'La lampada funziona anche senza PE. Il PE serve alla sicurezza: in caso di guasto porta la corrente a terra e fa intervenire il differenziale.'}
+  ];
+  var form=document.getElementById('quiz'),score=document.getElementById('score'),done={};
+  Q.forEach(function(it,i){
+    var fs=document.createElement('fieldset');fs.className='q';
+    var lg=document.createElement('legend');lg.innerHTML='<span class="n">'+(i+1)+'.</span> ';lg.appendChild(document.createTextNode(it.q));fs.appendChild(lg);
+    it.o.forEach(function(t,j){var l=document.createElement('label'),r=document.createElement('input');r.type='radio';r.name='q'+i;r.value=j;l.appendChild(r);l.appendChild(document.createTextNode(t));fs.appendChild(l);});
+    var b=document.createElement('button');b.type='button';b.className='btn';b.textContent='Controlla';fs.appendChild(b);
+    var fb=document.createElement('p');fb.className='fb';fb.setAttribute('aria-live','polite');fs.appendChild(fb);
+    b.addEventListener('click',function(){
+      var s=fs.querySelector('input:checked');
+      if(!s){fb.className='fb no';fb.textContent='Scegli prima una risposta.';return;}
+      var ok=+s.value===it.c;done[i]=ok;
+      fb.className='fb '+(ok?'ok':'no');fb.textContent=(ok?'✓ ':'✗ ')+(ok?it.y:it.n);
+      upd();
+    });
+    form.appendChild(fs);
+  });
+  function upd(){var n=0;for(var k in done){if(done[k])n++;}score.textContent='Risposte corrette: '+n+' su '+Q.length+'.'+(n===Q.length?' Ottimo, hai fatto tutto!':'');}
+  document.getElementById('btn-reset').addEventListener('click',function(){form.reset();done={};Array.prototype.forEach.call(form.querySelectorAll('.fb'),function(f){f.className='fb';f.textContent='';});upd();form.querySelector('input').focus();});
+
+  /* torna all'indice */
+  var ti=document.querySelector('.toidx'),ix=document.getElementById('indice');
+  if('IntersectionObserver' in window){new IntersectionObserver(function(e){ti.hidden=e[0].isIntersecting;}).observe(ix);}
+  ti.addEventListener('click',function(){setTimeout(function(){ix.focus({preventScroll:true});},0);});
+})();
+</script>
+<!-- menu del sito isolato in Shadow DOM: vedi /lezioni-accessibili/assets/menu-lezioni.js -->
+<script src="/assets/menu.js"></script>
+<script src="/lezioni-accessibili/assets/menu-lezioni.js"></script>
+</body>
+</html>
