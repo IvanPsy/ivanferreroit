@@ -1,0 +1,74 @@
+# Rimandi dalle schede della collana ai percorsi dell'incubatore (percorsi.ivanferrero.it).
+# Creato da P09 della catena Percorsi il 13/10/2026, su decisione di P06
+# (clinica/percorsi_cartella_lavoro/strategia/STRATEGIA-GENITORI.md, §4.2) e di Ivan (09/10/2026).
+#
+# Come funziona: _layouts/scheda.html include _includes/rimando-percorso.html, che mostra il blocco
+# solo sulle schede il cui slug è in un elenco qui sotto. I file _schede/*.md e i PDF non si toccano.
+# Il link porta ?da=scheda-<slug>: è l'unico valore del parametro ammesso in questa finestra (P06 §8).
+#
+# Per togliere il rimando (esito 🔴 del cancello) basta svuotare l'elenco o cancellare la voce.
+# Per una nicchia nuova: una voce nuova con url, testo ed elenco, e una scheda in un solo elenco.
+
+genitori:
+  url: "https://percorsi.ivanferrero.it/genitori/"
+  etichetta: "Un percorso per genitori"
+  righe:
+    - "Se gli hai proposto un aiuto, anche solo di parlarne, e la risposta è stata no, puoi cominciare tu."
+    - "È un percorso online per i genitori di ragazzi dai 6 ai 17 anni: si lavora con te, o con voi due, e lui non deve venire in seduta."
+  link_testo: "Come funziona il percorso per genitori"
+  schede:
+    # 1 · Le schede scelte da P02 per il percorso (13 su 14: «incoraggio ad agire nonostante la paura» è esclusa da P06)
+    - resistenze-sono-capricci-paura-vera
+    - regole-devo-tenere-duro-lasciar-correre
+    - rispondo-paure-senza-dirgli-esagera
+    - rassicuro-senza-dirgli-sta-esagerando
+    - faccio-stare-bene-io-stare-bene-figlio
+    - smetto-rimproverarmi-errori-fatti-genitore
+    - reagisco-figlio-faccio-passo-indietro
+    - imparo-dire-no
+    - faccio-sentire-presenza-senza-invaderlo
+    - faccio-rifiuta-ogni-consiglio-ogni-confronto
+    - figlio-rifugia-online-ogni-volta-ansia
+    - perche-figlio-rifiuta-ogni-cambiamento-piccolo
+    - faccio-sapere-sto-facendo-progressi-figlio
+    # 2 · Ansia e paura
+    - figlio-immagina-sempre-peggio-aiuto
+    - faccio-ansia-impedisce-affrontare-verifica
+    - perche-figlio-ha-paura-cose-succederanno
+    - perche-figlio-vergogna-dettagli-nessuno-nota
+    - aiuto-tollerare-incertezza
+    - aiuto-ridimensionare-paura-senza-sminuirla
+    - aiuto-smettere-sentirsi-osservato
+    - aiuto-farsi-bloccare-paura-fallire
+    - figlio-rimanda-tutto-paura-funzioni
+    - aiuto-ha-paura-scegliere
+    - ha-paura-restare-etichettato-errore-dico
+    - figlio-tortura-avrei-dovuto-saperlo-aiuto
+    - sto-proteggendo-troppo-figlio-controllo-resta
+    # 3 · Rifiuto, scontro, regole
+    - perche-figlio-fa-contrario-quello-dico
+    - parlo-adolescente-convinto-avere-sempre-ragione
+    - faccio-accettare-critica-senza-scontro
+    - devo-assecondare-figlio-prima-provare-correggerlo
+    - insegno-chiedere-invece-insistere
+    - accompagno-cambiamento-senza-forzarlo
+    # 4 · Ritiro e chiusura (senza le schede sull'essere sempre connesso: pubblico di framework-schermi)
+    - figlio-ritirato-esce-casa
+    - distinguo-pigrizia-ritiro-vero
+    - momento-chiedere-aiuto-professionista
+    - figlio-riesce-stare-persone-vivo
+    - avvicino-ha-deciso-parlare-primo
+    - bambino-era-bravissimo-adesso-spento-successo
+    - faccio-uscire-dai-pensieri-chiuso
+    - riconosco-solitudine-racconta
+    # 5 · Il genitore come paziente (tema lavoro-su-di-se, le altre dieci)
+    - accorgo-sto-pilotando-conversazione-figlio
+    - devo-fare-scelte-altri-aspettano-me
+    - dove-inizio-lavorare-me-stesso-genitore
+    - obiettivo-sono-dato-dipende-me-figlio
+    - passato-condanna-rapporto-figlio
+    - perche-voglio-migliorare-rapporto-figlio
+    - pesano-figlio-aspettative-ho-messo-addosso
+    - posso-essere-imparziale-figlio
+    - ritaglio-tempo-me-senza-sentirmi-colpa
+    - voglio-ottenere-rapporto-figlio

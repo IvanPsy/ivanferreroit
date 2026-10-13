@@ -1,0 +1,18 @@
+{%- comment -%}
+    Blocco di rimando da una scheda della collana a un percorso dell'incubatore (P09, 13/10/2026).
+    Testo, link ed elenco delle schede stanno in _data/rimandi_percorsi.yml: qui solo la forma.
+    Regola del presidio: porta di là e non replica l'offerta (niente prezzi, moduli, «prenota»).
+{%- endcomment -%}
+{%- for voce in site.data.rimandi_percorsi -%}
+{%- assign r = voce[1] -%}
+{%- if r.schede contains page.slug %}
+    <aside class="scheda-percorso" aria-label="{{ r.etichetta }}">
+        <span class="etichetta">{{ r.etichetta }}</span>
+        {%- for riga in r.righe %}
+        <p>{{ riga }}</p>
+        {%- endfor %}
+        <a href="{{ r.url }}?da=scheda-{{ page.slug }}">{{ r.link_testo }} →</a>
+    </aside>
+{%- break -%}
+{%- endif -%}
+{%- endfor -%}

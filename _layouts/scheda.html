@@ -116,6 +116,18 @@
             background: linear-gradient(135deg, #00d9ff0f 0%, #0a0e14 70%);
         }
         .scheda-contatto h2 { margin-top: 0 !important; }
+        /* rimando a un percorso dell'incubatore (P09, 13/10/2026): discreto, sotto «Se vuoi parlarne» */
+        .scheda-percorso {
+            margin: 1rem 0 0; padding: 1rem 1.5rem 1.1rem;
+            border: 1px solid #30363d; border-left: 3px solid #a371f7; border-radius: 8px; background: #151b23;
+            font-size: .95rem;
+        }
+        .scheda-percorso .etichetta {
+            display: block; margin-bottom: .45rem; font-family: 'JetBrains Mono', monospace;
+            font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: #a371f7;
+        }
+        .scheda-percorso p { margin-bottom: .45rem; color: #c9d1d9; }
+        .scheda-percorso a { font-weight: 500; }
         .scheda-corpo table { width: 100%; border-collapse: collapse; margin: .5rem 0 1.25rem; font-size: .92rem; }
         .scheda-corpo th {
             text-align: left; font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 600;
@@ -187,7 +199,7 @@
             .scheda-corpo td:first-child { white-space: normal; }
         }
         @media print {
-            #site-menu, .site-footer-nav, .scheda-box, .scheda-sezione, .scheda-uscite { display: none !important; }
+            #site-menu, .site-footer-nav, .scheda-box, .scheda-sezione, .scheda-uscite, .scheda-percorso { display: none !important; }
             body { background: #fff; color: #000; padding-top: 0; }
         }
     </style>
@@ -249,8 +261,13 @@
 
     <h1 class="scheda-titolo">{{ page.title }}</h1>
 
+    {%- comment -%} Oggetto precompilato nella mail delle schede (P06 §8, eseguito da P09 il 13/10/2026):
+        «Dalla scheda: <titolo>» dice nel registro da dove arriva un contatto, senza toccare sorgenti né PDF. {%- endcomment -%}
+    {%- assign oggetto = page.title | prepend: "Dalla scheda: " | url_encode | replace: "+", "%20" -%}
+    {%- capture mailto_con_oggetto %}href="mailto:ivan@ivanferrero.it?subject={{ oggetto }}"{% endcapture %}
     <article class="scheda-corpo">
-{{ content }}
+{{ content | replace: 'href="mailto:ivan@ivanferrero.it"', mailto_con_oggetto }}
+{%- include rimando-percorso.html %}
     </article>
 
     <div class="scheda-box">
