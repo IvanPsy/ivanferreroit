@@ -390,14 +390,14 @@
       "esiti_occupazionali": "80% di occupati dalla fine del corso e oltre 12.200 persone inserite dal 2018. Il primo contratto vale in mediana 1.100 € netti (stage compresi).",
       "fonte_esiti": "italy.generation.org (home)",
       "dichiarato_da_ente": true,
-      "accessibilita": "Sul sito non ho trovato nulla su DSA o disabilità.",
+      "accessibilita": "Ho chiesto a Generation Italy e mi hanno risposto a ottobre 2026: oggi non hanno misure dedicate agli studenti con DSA, né nel test e nel colloquio né durante il corso. Mi hanno però scritto che negli anni diversi studenti con DSA hanno frequentato il corso e l'hanno finito. Sulle altre disabilità la risposta non dice nulla. Se ti serve tempo in più o uno strumento compensativo, chiedilo per scritto prima del test.",
       "accessibilita_livello": "non dichiarato",
       "accessibilita_richiesta_il": null,
       "territorio": "nazionale",
       "a_scadenza": false,
-      "nota_scadenza": "Le classi partono più volte l'anno. Oggi sul sito c'è la classe Java in Lombardia dal 14 ottobre 2026. Il calendario 2027 non è pubblicato. Il corso si ferma due settimane ad agosto e dal 24 dicembre al 6 gennaio.",
+      "nota_scadenza": "Le classi partono più volte l'anno. L'ultima classe Java in Lombardia è partita il 14 ottobre 2026; le prossime non sono ancora sul sito. Il corso si ferma due settimane ad agosto e dal 24 dicembre al 6 gennaio.",
       "fonte_ufficiale": "https://italy.generation.org/programs/java-developer/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-10-14",
       "porte": [
         "lavorare presto",
         "ripartire"
@@ -413,9 +413,9 @@
         "reti e sicurezza",
         "dati e IA"
       ],
-      "stato_etichetta": "Ora c'è la classe Java in Lombardia dal 14 ottobre 2026",
+      "stato_etichetta": "Prossime classi non ancora uscite",
       "prossima_finestra": null,
-      "cosa_fai_adesso": "Se hai già il diploma e non studi né lavori, fai la candidatura online: sono poco più di un'ora di test. Se sei ancora in quinta, tieni d'occhio le classi dopo giugno.",
+      "cosa_fai_adesso": "Se hai già il diploma e non studi né lavori, guarda le nuove classi sul sito e candidati appena ne esce una: sono poco più di un'ora di test. Se sei ancora in quinta, tieni d'occhio le classi dopo giugno.",
       "costi_nascosti": "È gratis, ma sei collegato dal lunedì al venerdì, dalle 9 alle 18, per 14 settimane: niente altro lavoro nel frattempo. I colloqui sono nella città della candidatura."
     },
     {
