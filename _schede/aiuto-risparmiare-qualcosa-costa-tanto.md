@@ -2,7 +2,7 @@
 title: "Come lo aiuto a risparmiare per qualcosa che costa tanto?"
 description: "Una cosa che costa tanto è lontana due volte: nel prezzo e nel tempo."
 slug: "aiuto-risparmiare-qualcosa-costa-tanto"
-tipo: "singola"
+tipo: "fusione"
 tema: "educazione-finanziaria"
 tema_label: "Educazione finanziaria"
 eta: "6-10"
@@ -25,7 +25,7 @@ Una cosa che costa tanto è lontana due volte: nel prezzo e nel tempo. Per un ba
 
 1. **Parti dall'oggetto esatto, con il prezzo esatto.** Non «risparmiare per un gioco» ma quel gioco, quel modello, quella cifra. Scrivetela. Un obiettivo generico non si può raggiungere perché non si sa mai quando è raggiunto.
 2. **Fate il conto insieme, sul foglio.** Quanto mette da parte a settimana, quante settimane servono, quando arriva la data. È la parte che dà a un bambino la misura del tempo che gli manca.
-3. **Appendete il percorso dove lo vede ogni giorno.** Una striscia con le tappe da colorare a ogni versamento, in camera sua e non in un cassetto. Serve a lui, non a te: è quello che sostituisce la memoria nei giorni in cui l'obiettivo sembra svanito.
+3. **Appendete il percorso dove lo vede ogni giorno.** Una striscia con le tappe da colorare a ogni versamento, in camera sua e non in un cassetto. Serve a lui, non a te: è quello che sostituisce la memoria nei giorni in cui l'obiettivo sembra svanito. I contanti, finché è piccolo, stanno in un barattolo trasparente con la foto dell'obiettivo attaccata sopra.
 4. **Decidete prima cosa succede ai soldi straordinari.** Il regalo dei nonni, la mancia del compleanno: quale quota va sull'obiettivo, stabilita in anticipo. Deciderlo mentre li ha in mano è un'altra cosa e finisce quasi sempre allo stesso modo.
 5. **Fissate due momenti di riconoscimento lungo la strada.** A un terzo e a metà, senza comprare niente: si conta insieme quello che c'è e si dice ad alta voce quanto manca. È lì che quasi tutti mollano, ed è lì che serve una tappa.
 
