@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sceneggiatura e montaggio: ripasso e verifica</title>
+<link rel="canonical" href="https://ivanferrero.it/lezioni-accessibili/sceneggiatura-montaggio/sceneggiatura-verifica.html">
+<meta name="description" content="Ripasso della sceneggiatura in sei carte e verifica accessibile da 20 punti: domande sulla scena, l'intestazione, la descrizione e il dialogo, poi un montaggio a blocchi in cui l'ordine cambia il senso della storia. Produce il PDF da consegnare al docente.">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<style>
+:root{
+  --bg:#EEF2F6; --card:#FFFFFF; --ink:#1B2430; --soft:#4A5565; --line:#C5CED9;
+  --primary:#1F4FA8; --primary-ink:#FFFFFF; --sel-bg:#E3ECFF;
+  --dove:#6B3FC4; --dove-bg:#EEE7FF;
+  --quando:#8A5A00; --quando-bg:#FFF1D6;
+  --vede:#0B6E80; --vede-bg:#DDF2F5;
+  --parla:#B4540A; --parla-bg:#FFEADB;
+  --ok:#1D6B33; --ok-bg:#E1F3E5;
+  --retry:#4A5565; --retry-bg:#EEF0F3;
+  --paper:#FFFDF7; --paper-line:#D9D2C3;
+  --fs:20px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161A20; --card:#1F252D; --ink:#E6E9EE; --soft:#AAB3C0; --line:#3A4452;
+  --primary:#8FB0F5; --primary-ink:#0E1522; --sel-bg:#1D2A45;
+  --dove:#C1A8F5; --dove-bg:#2A2142; --quando:#F0C060; --quando-bg:#3A2E12;
+  --vede:#73CAD8; --vede-bg:#14303A; --parla:#F4AE72; --parla-bg:#3A2616;
+  --ok:#86D79B; --ok-bg:#15311E; --retry:#C9D0DA; --retry-bg:#2B323C;
+  --paper:#232A33; --paper-line:#46505E;}}
+:root[data-theme="dark"]{
+  --bg:#161A20; --card:#1F252D; --ink:#E6E9EE; --soft:#AAB3C0; --line:#3A4452;
+  --primary:#8FB0F5; --primary-ink:#0E1522; --sel-bg:#1D2A45;
+  --dove:#C1A8F5; --dove-bg:#2A2142; --quando:#F0C060; --quando-bg:#3A2E12;
+  --vede:#73CAD8; --vede-bg:#14303A; --parla:#F4AE72; --parla-bg:#3A2616;
+  --ok:#86D79B; --ok-bg:#15311E; --retry:#C9D0DA; --retry-bg:#2B323C;
+  --paper:#232A33; --paper-line:#46505E;}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+html{font-size:var(--fs)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Atkinson Hyperlegible',Verdana,Arial,sans-serif;line-height:1.5;display:flex;flex-direction:column}
+:focus-visible{outline:4px solid var(--primary);outline-offset:3px}
+svg.i{width:1.2em;height:1.2em;vertical-align:-0.22em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+button{font:inherit;color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* barra in alto */
+.top{background:var(--card);border-bottom:2px solid var(--line);padding:10px 14px 8px}
+.wrap{max-width:780px;margin:0 auto}
+body.wide .wrap,body.wide .stage{max-width:1180px}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.tools p{margin:0;font-weight:700;font-size:.9rem}
+.tools .grp{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;list-style:none;margin:0;padding:0}
+.strip.six{grid-template-columns:repeat(6,1fr)}
+.strip li{border:2px solid var(--line);border-radius:6px;padding:6px 4px;text-align:center;font-size:.72rem;line-height:1.25;background:var(--card);min-width:0;overflow-wrap:anywhere}
+.strip li b{display:block;font-size:1rem}
+.strip li.now{border:4px solid var(--primary)}
+.strip li.done{background:var(--ok-bg);border-color:var(--ok)}
+.strip li .st{display:block;color:var(--soft)}
+.strip li.done .st{color:var(--ok);font-weight:700}
+.nowline{margin:8px 0 0;font-size:.85rem;color:var(--soft)}
+.nowline b{color:var(--ink)}
+
+/* area centrale */
+main{flex:1;overflow-y:auto}
+.stage{max-width:780px;margin:0 auto;padding:18px 14px 24px}
+.count{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:.9rem;color:var(--soft)}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dots span{width:14px;height:14px;border-radius:50%;border:2px solid var(--soft)}
+.dots span.on{background:var(--primary);border-color:var(--primary)}
+.dots span.past{background:var(--soft)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:22px 22px 18px}
+.card h2{font-size:1.45rem;line-height:1.3;margin:0 0 14px}
+.card h2:focus{outline:none}
+.card p{font-size:1.1rem;margin:0 0 .7em}
+.kicker{display:flex;align-items:center;gap:8px;font-size:.85rem!important;font-weight:700;color:var(--soft);margin:0 0 6px!important;text-transform:uppercase;letter-spacing:.04em}
+.note{border-left:5px solid var(--line);padding:6px 0 6px 14px;margin:12px 0}
+.note p{font-size:1.02rem}
+.def{border:2px dashed var(--line);border-radius:10px;padding:10px 14px;margin:10px 0}
+.def p{font-size:1.05rem;margin:0}
+.def b{color:var(--primary)}
+.steps{margin:6px 0 10px;padding-left:1.4em}
+.steps li{font-size:1.08rem;margin:0 0 .45em}
+.center{text-align:center}
+.big-icons{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.big-icons svg.i{width:56px;height:56px;stroke-width:1.6}
+details{margin-top:22px;border-top:2px solid var(--line);padding-top:10px;font-size:.9rem}
+details summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-weight:700}
+details p,details li{font-size:.9rem!important}
+
+/* etichette delle parti: colore + parola, mai solo colore */
+.chip{display:inline-flex;align-items:center;gap:.35em;border:2px solid;border-radius:8px;padding:.05em .45em;font-weight:700;white-space:nowrap;color:var(--ink);font-size:.85rem}
+.c-dove{background:var(--dove-bg);border-color:var(--dove)}.c-dove svg{color:var(--dove)}
+.c-quando{background:var(--quando-bg);border-color:var(--quando)}.c-quando svg{color:var(--quando)}
+.c-vede{background:var(--vede-bg);border-color:var(--vede)}.c-vede svg{color:var(--vede)}
+.c-parla{background:var(--parla-bg);border-color:var(--parla)}.c-parla svg{color:var(--parla)}
+
+/* pagina di sceneggiatura */
+.script{background:var(--paper);border:2px solid var(--paper-line);border-radius:10px;padding:12px 16px;margin:10px 0}
+.script .h{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-weight:700;font-size:.95rem;letter-spacing:.02em;margin:0 0 .4em}
+.script .h .nr{display:inline-block;min-width:1.6em}
+.script .d{margin:0 0 .4em;font-size:1.05rem}
+.script .n{margin:.5em 0 0;text-align:center;font-weight:700;letter-spacing:.06em;font-size:1rem}
+.script .p{margin:0;text-align:center;font-style:italic;color:var(--soft);font-size:1rem}
+.script .b{margin:0 auto .4em;text-align:center;max-width:24em;font-size:1.05rem}
+.lab{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:start}
+.lab .chip{justify-self:end;margin-top:2px}
+@media (max-width:520px){.lab{grid-template-columns:1fr}.lab .chip{justify-self:start;margin:0 0 6px}}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.cmp > div{border:2px solid var(--line);border-radius:10px;padding:10px 12px}
+.cmp h3{font-size:1rem;margin:0 0 6px;display:flex;align-items:center;gap:6px}
+.cmp p{font-size:1rem!important}
+.no h3{color:#A62828}.yes h3{color:var(--ok)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .no h3{color:#FFB4A8}}
+.mini{list-style:none;margin:6px 0;padding:0;display:grid;gap:6px}
+.mini li{border:2px solid var(--line);border-radius:8px;padding:6px 10px;font-size:1rem;background:var(--paper)}
+.mini li.same{border:3px solid var(--primary)}
+.mini .k{font-weight:700;color:var(--soft);font-size:.85rem;display:block}
+.res{font-weight:700;margin:6px 0 0!important}
+@media (max-width:620px){.cmp{grid-template-columns:1fr}}
+
+/* risposte */
+.situ{border:2px solid var(--line);border-radius:10px;padding:12px 16px;background:var(--bg);font-size:1.12rem}
+.q{font-weight:700}
+.consegna{font-weight:700;border-left:5px solid var(--primary);padding-left:12px}
+.vbtns{display:grid;gap:10px;margin:12px 0}
+.vbtns.two-c{grid-template-columns:1fr 1fr}
+.opt{min-height:60px;width:100%;text-align:left;border:3px solid var(--line);border-radius:12px;background:var(--card);padding:10px 14px;font-size:1.08rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px}
+.opt:hover{border-color:var(--primary)}
+.opt.chosen{border-color:var(--primary);background:var(--sel-bg);box-shadow:inset 0 0 0 2px var(--primary)}
+.opt.chosen::after{content:"Scelta";margin-left:auto;font-size:.8rem;background:var(--primary);color:var(--primary-ink);border-radius:6px;padding:2px 8px;white-space:nowrap}
+.opt[disabled]{cursor:default}
+.lineq{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-weight:700;font-size:1.15rem;text-align:center;border:3px solid var(--primary);border-radius:12px;padding:12px;margin:8px 0 12px;background:var(--paper)}
+.lineq.it{font-family:inherit;font-style:italic}
+.lineq.txt{font-family:inherit;font-weight:400}
+.build{display:grid;gap:12px;margin:10px 0}
+.build fieldset{border:2px solid var(--line);border-radius:10px;padding:8px 12px 12px;margin:0}
+.build legend{font-weight:700;padding:0 6px}
+.build .row{display:flex;flex-wrap:wrap;gap:8px}
+.build .opt{width:auto;min-width:8em;flex:1 1 auto;justify-content:center;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+.preview{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-weight:700;border:2px dashed var(--line);border-radius:10px;padding:10px 14px;text-align:center;min-height:52px;font-size:1.05rem}
+.fb{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:10px 14px;font-size:1.05rem;margin:10px 0 0;font-weight:700}
+.fb.ok{background:var(--ok-bg);color:var(--ok);border:2px solid var(--ok)}
+.fb.retry{background:var(--retry-bg);color:var(--ink);border:2px solid var(--retry)}
+.fb span{color:var(--ink);font-weight:400}
+.field{margin:12px 0}
+.field label{display:block;font-weight:700;margin-bottom:4px}
+.field input,.field textarea{width:100%;font:inherit;font-size:1.1rem;color:var(--ink);background:var(--card);border:3px solid var(--line);border-radius:10px;padding:10px 12px;min-height:52px}
+.field textarea{line-height:1.5;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:var(--primary);outline:none}
+.hint-s,.note-s{font-size:.95rem!important;color:var(--soft);margin:0 0 6px!important}
+.h3{font-size:1.1rem;margin:18px 0 8px}
+.exlist{margin:0 0 10px;padding-left:1.4em}
+.exlist li{margin:4px 0}.exlist li span{display:block;color:var(--soft);font-size:.95rem}
+.homebtns{display:grid;gap:10px;margin-top:16px}
+.revlist{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.revb{width:100%;min-height:56px;border:2px dashed #B7791F;border-radius:10px;background:var(--card);cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;padding:8px 10px;text-align:left;font-weight:700;gap:2px}
+.revb em{font-style:normal;font-weight:400;font-size:.85rem;color:var(--soft)}
+.revb.yes{border:2px solid var(--ok)}
+.revb.yes svg{color:var(--ok)}
+.seqshow{list-style:none;padding:0;margin:8px 0;display:grid;gap:8px;counter-reset:s}
+.seqshow > li{counter-increment:s;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.seqshow > li::before{content:counter(s);width:2rem;height:2rem;border-radius:50%;background:var(--primary);color:var(--primary-ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;margin-top:12px}
+.seqshow .script{margin:0}
+.seqshow .bt{font-weight:700;font-size:.9rem;color:var(--soft);margin:0 0 4px}
+
+/* ===== montaggio a blocchi ===== */
+.mgrid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:10px}
+@media (min-width:980px){.mgrid{grid-template-columns:1fr 1fr;align-items:start}}
+.mcol{border:2px solid var(--line);border-radius:12px;padding:12px;background:var(--bg)}
+.mcol h3{margin:0 0 4px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.mcol .note-s{margin:0 0 10px!important}
+.blist{list-style:none;margin:0;padding:0;display:grid;gap:10px;min-height:80px}
+.blk{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.blk.used{border-style:dashed;background:var(--bg)}
+.blk.used .tt{color:var(--soft)}
+.seq .blk .hl{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-weight:600;font-size:.88rem;margin:0 0 8px;color:var(--soft)}
+.seqprev{margin-top:12px;border-top:2px solid var(--line);padding-top:6px}
+.seqprev summary{font-size:1rem}
+.blk .top-b{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.blk .lt{flex:0 0 auto;width:2.2rem;height:2.2rem;border-radius:8px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'JetBrains Mono',ui-monospace,monospace}
+.blk .tt{font-weight:700;font-size:1.05rem;flex:1}
+.blk .script{margin:0 0 8px;padding:8px 12px}
+.blk .script .d,.blk .script .b{font-size:1rem}
+.bbtns{display:flex;flex-wrap:wrap;gap:8px}
+.bb{min-height:48px;min-width:48px;border-radius:10px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:700;font-size:.92rem;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:4px 12px}
+.bb:hover{border-color:var(--primary)}
+.bb.add{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
+.bb[disabled]{opacity:.45;cursor:not-allowed}
+.seq{list-style:none;margin:0;padding:0;display:grid;gap:10px;min-height:120px;border-radius:10px}
+.seq.over,.blist.over{outline:3px dashed var(--primary);outline-offset:4px}
+.seq > li.empty{border:2px dashed var(--line);border-radius:12px;padding:18px 12px;color:var(--soft);text-align:center;font-size:1rem}
+.seq .blk{border-left:8px solid var(--primary)}
+.seq .blk .pos{font-size:.8rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em}
+.blk.drop-before{box-shadow:0 -5px 0 0 var(--primary)}
+.blk[draggable="true"]{cursor:grab}
+.mstat{font-weight:700;margin:10px 0 0!important;font-size:1rem!important}
+.mstat.ok{color:var(--ok)}
+.mtools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.moods{display:grid;gap:8px;margin:8px 0}
+.moods .opt{min-height:52px;font-size:1rem}
+.seqtitles{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px;padding:0;list-style:none;counter-reset:t}
+.seqtitles li{counter-increment:t;border:2px solid var(--primary);border-radius:8px;padding:2px 10px;font-weight:700;font-size:.95rem;background:var(--sel-bg)}
+.seqtitles li::before{content:counter(t) ". ";color:var(--primary)}
+
+/* barra in basso */
+.bottom{background:var(--card);border-top:2px solid var(--line);padding:10px 14px}
+.bottom .wrap{display:grid;grid-template-columns:1fr auto 1.4fr;gap:10px;align-items:center}
+.nav{min-height:64px;font-size:1.12rem;font-weight:700;border-radius:12px;border:3px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 14px}
+.nav.primary{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.nav[disabled]{opacity:.4;cursor:not-allowed}
+.small{min-height:48px;min-width:48px;font-size:.9rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;padding:6px 10px;display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.tools .grp .vbtn{border-color:var(--primary)}
+.why{grid-column:1/-1;margin:0;text-align:center;font-size:.85rem;color:var(--soft);min-height:1.2em}
+body.nonav .bottom{display:none}
+
+@media (max-width:420px){.tools p{display:none}.tools{justify-content:flex-end}}
+@media (max-width:520px){.strip li{padding:6px 2px}.strip li .nm,.strip li .st{display:none}.strip li.done b::after{content:" ✓"}
+.bottom .wrap{grid-template-columns:1fr 1fr}.bottom #next{grid-column:1/-1;grid-row:1}.nav{font-size:1rem}
+.card{padding:16px 14px 14px}.card h2{font-size:1.3rem}.vbtns.two-c{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.card{animation:in .18s ease-out}@keyframes in{from{opacity:.4}to{opacity:1}}}
+</style>
+</head>
+<body>
+<!-- integrazione sito: barra minima con il menu del sito su richiesta -->
+<div id="site-menu" data-lezioni-menu="minimal" data-back="/lezioni-accessibili/sceneggiatura-montaggio/"></div>
+<header class="top"><div class="wrap">
+  <div class="tools"><p>Sceneggiatura e montaggio</p>
+    <div class="grp" role="group" aria-label="Strumenti">
+      <button type="button" class="small" id="fs-down" aria-label="Testo più piccolo">A-</button>
+      <button type="button" class="small" id="fs-up" aria-label="Testo più grande">A+</button>
+      <button type="button" class="small" id="home-b"></button>
+      <button type="button" class="small vbtn" id="ver-b"></button>
+    </div></div>
+  <ol class="strip" id="strip" aria-label="Le carte del ripasso"></ol>
+  <p class="nowline" id="nowline" role="status"></p>
+</div></header>
+
+<main id="main"><div class="stage" id="stage"></div></main>
+
+<footer class="bottom"><div class="wrap">
+  <button type="button" class="nav" id="back"></button>
+  <button type="button" class="nav" id="listen" aria-label="Ascolta questa pagina"></button>
+  <button type="button" class="nav primary" id="next"></button>
+  <p class="why" id="why" aria-live="polite"></p>
+</div></footer>
+<p class="sr" id="announce" aria-live="assertive"></p>
+
+<script>
+(function(){
+/* ---------- icone ---------- */
+var P={
+ pencil:'<path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/>',
+ camera:'<rect x="3" y="7" width="13" height="10" rx="2"/><path d="M16 11l5-3v8l-5-3"/>',
+ bulb:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+ pin:'<path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+ script:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h5"/>',
+ eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ speech:'<path d="M4 5h16v11H9l-5 4z"/>',
+ film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
+ blocks:'<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="8" y="13" width="8" height="8" rx="1"/>',
+ ticket:'<path d="M3 8a2 2 0 0 0 0 4v4h18v-4a2 2 0 0 1 0-4V4H3z"/><path d="M14 4v12"/>',
+ phone:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
+ run:'<circle cx="14" cy="4.5" r="2"/><path d="M8 21l3-6 3 2v4M6 12l3-4h5l2 4 3 1M11 15l-2-4"/>',
+ seat:'<path d="M6 4v9h11v7M6 13v7M9 4h3"/>',
+ two:'<circle cx="8" cy="7" r="3"/><circle cx="16" cy="7" r="3"/><path d="M2 20c0-3 3-5 6-5s6 2 6 5M10 20c0-3 3-5 6-5s6 2 6 5"/>',
+ arrow:'<path d="M4 12h15"/><path d="M13 6l6 6-6 6"/>',
+ back:'<path d="M20 12H5"/><path d="M11 6l-6 6 6 6"/>',
+ up:'<path d="M12 19V5"/><path d="M6 11l6-6 6 6"/>',
+ down:'<path d="M12 5v14"/><path d="M6 13l6 6 6-6"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ check:'<path d="M4 12l5 5L20 6"/>',
+ cross:'<path d="M6 6l12 12M18 6L6 18"/>',
+ retry:'<path d="M4 12a8 8 0 1 0 2.3-5.7"/><path d="M4 4v4h4"/>',
+ speaker:'<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6"/>',
+ stop:'<rect x="6" y="6" width="12" height="12" rx="1"/>',
+ home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+ q:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7v.5M12 17h.01"/>',
+ house:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+ tree:'<path d="M12 22v-6"/><path d="M12 2l6 9h-3l4 5H5l4-5H6z"/>'
+};
+function ic(n){return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+P[n]+'</svg>'}
+function kick(t,n){return '<p class="kicker">'+ic(n||'script')+t+'</p>'}
+function chip(c,i,t){return '<span class="chip c-'+c+'">'+ic(i)+t+'</span>'}
+function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+/* ---------- i sei blocchi della storia ---------- */
+/* righe: h intestazione, d descrizione, n nome del personaggio, p come parla, b battuta */
+var BL={
+ A:{t:'Il biglietto',i:'ticket',r:[['h','INT. CAMERA DI MARCO - NOTTE'],['d','Marco mette nello zaino due biglietti del treno.'],['d','Marco sorride.']]},
+ B:{t:'Il messaggio',i:'phone',r:[['h','INT. CUCINA - NOTTE'],['d','Il telefono di Marco vibra.'],['d','Sullo schermo c’è scritto: «Domani non vengo. Scusa.»'],['d','Marco spegne la luce.']]},
+ C:{t:'Il binario',i:'clock',r:[['h','EXT. BINARIO DELLA STAZIONE - GIORNO'],['d','Marco è sul binario, da solo. Marco guarda l’orologio.'],['d','Si sente l’altoparlante: «Il treno per il mare è in partenza.»']]},
+ D:{t:'La corsa',i:'run',r:[['h','EXT. INGRESSO DELLA STAZIONE - GIORNO'],['d','Giulia entra di corsa in stazione. Giulia ha lo zaino.'],['n','GIULIA'],['p','(senza fiato)'],['b','Marco! Aspettami!']]},
+ E:{t:'Il posto vuoto',i:'seat',r:[['h','INT. TRENO - GIORNO'],['d','Marco è seduto vicino al finestrino.'],['d','Il posto accanto a Marco è vuoto. Fuori si vede il mare.']]},
+ F:{t:'Insieme',i:'two',r:[['h','EXT. SPIAGGIA - GIORNO'],['d','Marco e Giulia camminano sulla sabbia. Giulia ride.'],['n','MARCO'],['b','Pensavo che non venissi!']]}
+};
+var BK=['A','B','C','D','E','F'];
+function scriptHTML(rows,nr){
+  return '<div class="script">'+rows.map(function(r,i){
+    var t=esc(r[1]);
+    if(r[0]==='h')return '<p class="h">'+(nr?'<span class="nr">'+nr+'</span>':'')+t+'</p>';
+    return '<p class="'+r[0]+'">'+t+'</p>'}).join('')+'</div>'}
+function blockText(k){return BL[k].r.map(function(r){return r[1]}).join(' ')}
+
+/* ---------- ripasso: 6 carte ---------- */
+var R=[
+ {name:'Prima si scrive',icon:'pencil',html:
+  kick('Ripasso · carta 1 di 6','pencil')+'<h2>Prima si scrive. Poi si gira.</h2>'+
+  '<p>Per fare un video, prima scriviamo su un foglio. Dopo facciamo le riprese con la videocamera. Fare le riprese si dice <b>girare</b>.</p>'+
+  '<p>La scrittura ha <b>4 fasi</b>, sempre in questo ordine:</p>'+
+  '<ol class="steps"><li><b>Idea</b>: poche parole. Per esempio: «Uno spot per dire: metti il casco».</li><li><b>Soggetto</b>: racconta tutta la storia, fino alla fine.</li><li><b>Scaletta</b>: un elenco. Ogni riga è una scena.</li><li><b>Sceneggiatura</b>: scrive tutto. Dove siamo, che cosa si vede, che cosa dicono i personaggi.</li></ol>'},
+ {name:'La scena',icon:'pin',html:
+  kick('Ripasso · carta 2 di 6','pin')+'<h2>Che cos’è una scena.</h2>'+
+  '<p>Una scena è un pezzo della storia.</p><p>Nella scena il posto è sempre lo stesso: '+chip('dove','pin','DOVE')+'</p><p>Nella scena anche il tempo è sempre lo stesso: '+chip('quando','clock','QUANDO')+'</p>'+
+  '<div class="def"><p><b>Cambia il posto</b> (cucina, poi corridoio): nuova scena.</p></div>'+
+  '<div class="def"><p><b>Cambia il tempo</b> (giorno, poi notte): nuova scena.</p></div>'},
+ {name:'L’intestazione',icon:'script',html:
+  kick('Ripasso · carta 3 di 6','script')+'<h2>Ogni scena comincia con l’intestazione.</h2>'+
+  '<p>L’intestazione è una riga speciale. Dice tre cose:</p>'+
+  '<ol class="steps"><li>Dentro o fuori. '+ic('house')+' <b>INT.</b> vuol dire dentro, per esempio in una casa. '+ic('tree')+' <b>EXT.</b> vuol dire fuori, per esempio in un giardino.</li><li>'+chip('dove','pin','DOVE')+' il posto.</li><li>'+chip('quando','clock','QUANDO')+' GIORNO oppure NOTTE.</li></ol>'+
+  '<p class="lineq">INT. CUCINA - GIORNO</p><p class="note-s center">Dentro, in cucina, di giorno.</p>'},
+ {name:'Cosa si vede',icon:'eye',html:
+  kick('Ripasso · carta 4 di 6','eye')+'<h2>Dopo l’intestazione c’è la descrizione.</h2>'+
+  '<p>La descrizione dice che cosa si vede e che cosa si sente: '+chip('vede','eye','COSA SI VEDE')+'</p>'+
+  '<div class="def"><p><b>La regola della videocamera:</b> scrivi solo le cose che una videocamera può riprendere. Le azioni e i suoni sì. I pensieri no.</p></div>'+
+  '<div class="cmp"><div class="no"><h3>'+ic('cross')+'No</h3><p>Marco è preoccupato.</p><p class="note-s">La videocamera non vede che cosa sente Marco.</p></div>'+
+  '<div class="yes"><h3>'+ic('check')+'Sì</h3><p>Marco guarda il telefono. Poi mette il telefono in tasca.</p><p class="note-s">La videocamera vede queste azioni.</p></div></div>'},
+ {name:'Chi parla',icon:'speech',html:
+  kick('Ripasso · carta 5 di 6','speech')+'<h2>Quando un personaggio parla, scriviamo il dialogo.</h2>'+
+  '<ol class="steps"><li>Il <b>nome</b> del personaggio, in MAIUSCOLO.</li><li>Tra parentesi, se serve, <b>come parla</b>.</li><li>Sotto, le parole che dice. Si chiamano <b>battuta</b>.</li></ol>'+
+  '<p>Ecco una scena intera, con tutte le parti:</p>'+
+  '<div class="script">'+
+   '<div class="lab"><p class="h">INT. CORRIDOIO - GIORNO</p>'+chip('dove','pin','intestazione')+'</div>'+
+   '<div class="lab"><p class="d">Il bambino corre con il triciclo. Il bambino cade.</p>'+chip('vede','eye','descrizione')+'</div>'+
+   '<div class="lab"><p class="n">FRATELLO</p>'+chip('parla','speech','nome')+'</div>'+
+   '<div class="lab"><p class="p">(premuroso)</p>'+chip('parla','speech','come parla')+'</div>'+
+   '<div class="lab"><p class="b">Ti sei fatto male?</p>'+chip('parla','speech','battuta')+'</div>'+
+  '</div><p class="note-s">Premuroso vuol dire: gentile e attento.</p>'},
+ {name:'Il montaggio',icon:'film',html:
+  kick('Ripasso · carta 6 di 6','film')+'<h2>Il montaggio: l’ordine cambia la storia.</h2>'+
+  '<p>Dopo le riprese, le scene si mettono in fila, una dopo l’altra. Questo lavoro si chiama <b>montaggio</b>.</p>'+
+  '<p>Lo stesso pezzo, messo dopo un pezzo diverso, racconta una cosa diversa. Guarda:</p>'+
+  '<div class="cmp"><div><h3>Montaggio 1</h3><ol class="mini"><li><span class="k">Prima</span>Sul telefono: «Arrivo tra 5 minuti!»</li><li class="same"><span class="k">Dopo</span>Luca guarda la porta.</li></ol><p class="res">Luca aspetta contento.</p></div>'+
+  '<div><h3>Montaggio 2</h3><ol class="mini"><li><span class="k">Prima</span>Sul telefono: «Non vengo.»</li><li class="same"><span class="k">Dopo</span>Luca guarda la porta.</li></ol><p class="res">Luca è deluso.</p></div></div>'+
+  '<div class="def"><p><b>Luca guarda la porta</b> è uguale nei due montaggi. Cambia quello che viene prima. Per questo cambia il senso.</p></div>'+
+  '<p>Nella verifica farai il tuo montaggio, con 6 blocchi di una storia.</p>'+
+  '<details><summary>Per chi insegna</summary><p>Il ripasso riprende, con le stesse parole e gli stessi esempi, il percorso «Come si scrive un video» della lezione «Scrivere per l’audiovisivo». La carta 6 introduce il montaggio con un esempio minimo sul principio dell’effetto Kuleshov: la stessa inquadratura cambia significato secondo quella che la precede.</p><p>Principi UDL 3.0 applicati: testo, esempio visivo e ascolto (1.1, 2.5); parti della sceneggiatura etichettate con colore e parola (2.1, 3.2); verifica senza correzione durante lo svolgimento e con struttura anticipata (7.4); montaggio libero e motivazione scritta o dettata come prodotto finale (5.1, 6.1, 7.1).</p></details>'}
+];
+
+/* ---------- stato ---------- */
+var KEY='sceneggiatura-montaggio';
+function st(k,v){try{if(v===undefined)return localStorage.getItem(KEY+'-'+k);localStorage.setItem(KEY+'-'+k,v)}catch(e){return null}}
+var S={screen:'home',c:0,v:0};
+var stage=document.getElementById('stage'), nextB=document.getElementById('next'), backB=document.getElementById('back'),
+    listenB=document.getElementById('listen'), why=document.getElementById('why'), mainEl=document.getElementById('main'),
+    announce=document.getElementById('announce');
+function say(t){announce.textContent='';setTimeout(function(){announce.textContent=t},30)}
+
+/* ================= VERIFICA ================= */
+var PARTI={a:'L’intestazione: dice dove e quando',b:'La descrizione: dice che cosa si vede e si sente',c:'Il dialogo: chi parla e che cosa dice',d:'Come parla il personaggio'};
+var VX=[
+ {name:'Vero o falso',short:'V o F',pts:1,intro:'Leggi la frase. Premi «Vero» oppure «Falso».',items:[
+  {id:'vf1',type:'vf',t:'Le 4 fasi della scrittura sono: idea, soggetto, scaletta, sceneggiatura. La sceneggiatura è l’ultima.',c:'V'},
+  {id:'vf2',type:'vf',t:'Se cambia il posto, comincia una nuova scena.',c:'V'},
+  {id:'vf3',type:'vf',t:'Nell’intestazione, EXT. vuol dire che la scena è dentro, per esempio in una casa.',c:'F'},
+  {id:'vf4',type:'vf',t:'Nella descrizione scriviamo i pensieri dei personaggi.',c:'F'}]},
+ {name:'Che cos’è questa riga?',short:'Le parti',pts:1,intro:'Leggi la riga di sceneggiatura nel riquadro. Premi che cos’è.',items:[
+  {id:'pr1',type:'line',l:'EXT. PARCO - GIORNO',cls:'',opts:{a:PARTI.a,b:PARTI.b,c:PARTI.d},c:'a'},
+  {id:'pr2',type:'line',l:'Sara apre la porta. Fuori piove.',cls:'txt',opts:{a:PARTI.c,b:PARTI.a,c:PARTI.b},c:'c'},
+  {id:'pr3',type:'line',l:'(sottovoce)',cls:'it',opts:{a:PARTI.d,b:PARTI.b,c:PARTI.a},c:'a'},
+  {id:'pr4',type:'line',l:'SARA<br><span style="font-weight:400">Chi c’è?</span>',plain:'SARA: Chi c’è?',cls:'txt',opts:{a:PARTI.b,b:PARTI.c,c:PARTI.a},c:'b'}]},
+ {name:'Scrivi l’intestazione',short:'Intestaz.',pts:2,intro:'Costruisci l’intestazione della scena. Fai 3 scelte.',items:[
+  {id:'in1',type:'build',situ:'Giulia aspetta alla fermata del bus. È notte.',parts:[
+    {k:'a',q:'1. Dentro o fuori?',o:['INT.','EXT.'],c:'EXT.'},
+    {k:'b',q:'2. Dove?',o:['CUCINA','FERMATA DEL BUS','SCUOLA'],c:'FERMATA DEL BUS'},
+    {k:'c',q:'3. Quando?',o:['GIORNO','NOTTE'],c:'NOTTE'}]}]},
+ {name:'Due montaggi',short:'2 montaggi',pts:1,intro:'Leggi i blocchi in ordine, dal primo all’ultimo. Poi premi la risposta giusta.',items:[
+  {id:'mo1',type:'seq',seq:['A','C','D','F'],q:'Come finisce questa storia?',opts:{a:'Marco e Giulia vanno al mare insieme.',b:'Marco va al mare da solo.',c:'Marco torna a casa.'},c:'a'},
+  {id:'mo2',type:'seq',seq:['A','C','E','D'],pre:'Qui il blocco «La corsa» è alla fine, dopo «Il posto vuoto».',q:'Che cosa succede a Giulia?',opts:{a:'Giulia arriva in tempo e parte con Marco.',b:'Giulia arriva tardi: Marco è già sul treno.',c:'Giulia resta a casa.'},c:'b'}]},
+ {name:'Il tuo montaggio',short:'Montaggio',pts:8,open:true,intro:'',items:[
+  {id:'seq',type:'mont'},{id:'why',type:'why'}]}
+];
+var MOODS=[['bene','Una storia che finisce bene'],['triste','Una storia triste, di delusione'],['tensione','Una storia di attesa e tensione'],['sorpresa','Una storia con una sorpresa (colpo di scena)'],['altro','Un’altra cosa: la scrivo io']];
+function MQ(seq){var f=seq&&seq.length?'«'+BL[seq[0]].t+'»':'(il primo blocco)', l=seq&&seq.length?'«'+BL[seq[seq.length-1]].t+'»':'(l’ultimo blocco)';
+ return [
+  ['senso','CHE COSA RACCONTA LA TUA STORIA','Completa la frase: «La mia storia racconta che…». Scrivi almeno 2 frasi.'],
+  ['inizio','PERCHÉ QUESTO INIZIO','Il primo blocco della tua storia è '+f+'. Perché lo hai messo all’inizio? Che cosa capisce subito chi guarda? Scrivi almeno 1 frase.'],
+  ['fine','PERCHÉ QUESTA FINE','L’ultimo blocco della tua storia è '+l+'. Perché lo hai messo alla fine? Come si sente chi guarda alla fine? Scrivi almeno 1 frase.']]}
+var VQ=[];VX.forEach(function(ex,e){ex.items.forEach(function(it,j){it.e=e;it.j=j;VQ.push(it)})});
+var VAUTO=VX.reduce(function(s,ex){return s+(ex.open?0:ex.items.length*ex.pts)},0); /* 12 */
+var VOPEN=8, VTOT=VAUTO+VOPEN;
+var VA={}, VINFO={nome:'',cognome:'',classe:'',tent:0,consegna:null};
+try{VA=JSON.parse(st('vans')||'{}')||{}}catch(e){VA={}}
+try{VINFO=Object.assign(VINFO,JSON.parse(st('vinfo')||'{}')||{})}catch(e){}
+function vsave(){st('vans',JSON.stringify(VA));st('vinfo',JSON.stringify(VINFO))}
+function seqOf(){return (VA.seq||[]).filter(function(k){return BL[k]})}
+function answered(it){var a=VA[it.id];
+  if(it.type==='mont')return seqOf().length>=4;
+  if(it.type==='why')return !!(a&&a.mood&&(a.mood!=='altro'||a.moodTxt)&&a.senso&&a.inizio&&a.fine);
+  if(it.type==='build')return !!(a&&a.a&&a.b&&a.c);
+  return a!==undefined&&a!==null}
+function exDone(e){return VX[e].items.every(answered)}
+function itemPts(it){var a=VA[it.id];
+  if(it.type==='build'){if(!a)return 0;var n=it.parts.filter(function(p){return a[p.k]===p.c}).length;return n===3?2:(n===2?1:0)}
+  return a===it.c?VX[it.e].pts:0}
+function score(){var s=0;VQ.forEach(function(it){if(!VX[it.e].open)s+=itemPts(it)});return s}
+function ansText(it,a){if(a===undefined||a===null)return '(nessuna risposta)';
+  if(it.type==='vf')return a==='V'?'Vero':'Falso';
+  if(it.type==='build')return [a.a||'___',a.b||'___',a.c||'___'].join(' ').replace(/ (GIORNO|NOTTE|___)$/,' - $1');
+  return it.opts[a]||a}
+function rightText(it){if(it.type==='build')return it.parts[0].c+' '+it.parts[1].c+' - '+it.parts[2].c;return ansText(it,it.c)}
+function locked(){return !!VINFO.consegna}
+function sel(b,on){b.classList.toggle('chosen',on);b.setAttribute('aria-pressed',on?'true':'false')}
+function vpick(it,val){if(locked())return;VA[it.id]=val;vsave();render();
+  why.textContent='Risposta salvata. Puoi cambiarla fino alla consegna.'}
+
+function stripDraw(){
+  var sEl=document.getElementById('strip'), nl=document.getElementById('nowline'), V=S.screen.charAt(0)==='v';
+  if(V){var hv='';VX.forEach(function(ex,e){var isNow=S.screen==='vq'&&VQ[S.v].e===e, d=exDone(e);
+      hv+='<li class="'+(d?'done ':'')+(isNow?'now':'')+'" '+(isNow?'aria-current="step"':'')+'><b>'+(e+1)+'</b><span class="nm">'+ex.short+'</span><span class="st">'+(isNow?'adesso':(d?'fatto':'da fare'))+'</span></li>'});
+    hv+='<li class="'+(locked()?'done ':'')+(S.screen==='vreview'||S.screen==='vdone'?'now':'')+'"><b>'+ic('check')+'</b><span class="nm">Consegna</span><span class="st">'+(locked()?'fatta':'alla fine')+'</span></li>';
+    sEl.className='strip six';sEl.innerHTML=hv;sEl.setAttribute('aria-label','Gli esercizi della verifica');
+    nl.innerHTML='<b>Verifica.</b> Domande con risposta: '+VQ.filter(answered).length+' su '+VQ.length+'.';return}
+  var h='';R.forEach(function(r,i){var isNow=S.screen==='card'&&S.c===i;
+    h+='<li class="'+(isNow?'now':'')+'" '+(isNow?'aria-current="step"':'')+'><b>'+(i+1)+'</b><span class="nm">'+r.name+'</span><span class="st">'+(isNow?'adesso':'ripasso')+'</span></li>'});
+  h+='<li><b>'+ic('pencil')+'</b><span class="nm">Verifica</span><span class="st">quando vuoi</span></li>';
+  sEl.className='strip';sEl.innerHTML=h;sEl.setAttribute('aria-label','Le carte del ripasso');
+  nl.innerHTML=S.screen==='card'?'<b>Ripasso:</b> carta '+(S.c+1)+' di '+R.length+', '+R[S.c].name+'.':'Ripasso in 6 carte, poi la verifica.';
+}
+function navSet(backTxt,backOn,nextTxt,nextOn,msg){
+  backB.innerHTML=ic('back')+backTxt; backB.disabled=!backOn;
+  nextB.innerHTML=nextTxt+' '+ic('arrow'); nextB.disabled=!nextOn;
+  why.textContent=msg||'';
+}
+function focusTitle(){var h=stage.querySelector('h2');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}}
+function fullName(){return (VINFO.nome+' '+VINFO.cognome).trim()}
+
+function vIntro(){
+  var lk=locked();
+  stage.innerHTML='<article class="card">'+kick('Verifica','pencil')+'<h2>Verifica: sceneggiatura e montaggio</h2>'+
+  (lk?'<div class="fb ok">'+ic('check')+'<span>Hai già consegnato questa verifica. Puoi scaricare di nuovo il PDF.</span></div><div class="homebtns"><button type="button" class="nav primary" id="v-pdf2">'+ic('arrow')+'Vado al PDF</button><button type="button" class="nav" id="v-new">'+ic('retry')+'Faccio una nuova verifica</button></div><p class="why" id="vnewmsg" aria-live="polite"></p>':
+  '<p>Scrivi nome, cognome e classe. Servono per il PDF da consegnare al prof.</p>'+
+  '<div class="field"><label for="v-nome">Nome</label><input id="v-nome" autocomplete="given-name" value="'+esc(VINFO.nome)+'"></div>'+
+  '<div class="field"><label for="v-cognome">Cognome</label><input id="v-cognome" autocomplete="family-name" value="'+esc(VINFO.cognome)+'"></div>'+
+  '<div class="field"><label for="v-classe">Classe</label><input id="v-classe" value="'+esc(VINFO.classe)+'"></div>'+
+  '<p class="note-s">I tuoi dati restano su questo dispositivo. Non vengono inviati a nessuno.</p>'+
+  '<h3 class="h3">La verifica ha 5 esercizi</h3><ol class="exlist">'+
+   '<li><b>Vero o falso</b><span>4 domande, 4 punti</span></li>'+
+   '<li><b>Che cos’è questa riga?</b><span>4 domande, 4 punti</span></li>'+
+   '<li><b>Scrivi l’intestazione</b><span>1 domanda con 3 scelte, 2 punti</span></li>'+
+   '<li><b>Due montaggi</b><span>2 domande, 2 punti</span></li>'+
+   '<li><b>Il tuo montaggio</b><span>metti in ordine i blocchi di una storia, poi scrivi perché. 8 punti</span></li></ol>'+
+  '<p><b>Punteggio totale: '+VTOT+' punti.</b></p>'+
+  '<div class="note"><p>'+ic('clock')+' <b>Tempo:</b> circa 40 minuti. Esercizi da 1 a 4: circa 15 minuti. Esercizio 5: circa 25 minuti. Il prof può darti più tempo.</p><p>'+ic('speaker')+' <b>Puoi usare</b> il pulsante «Ascolta» per sentire le domande.</p><p>'+ic('check')+' Durante la verifica non vedi se la risposta è giusta. Puoi cambiare una risposta fino a quando consegni.</p></div>'+
+  '<div class="homebtns"><button type="button" class="nav primary" id="v-go">Comincio la verifica '+ic('arrow')+'</button></div><p class="why" id="vmsg" aria-live="polite"></p>')+'</article>';
+  if(lk){document.getElementById('v-pdf2').onclick=function(){S.screen='vdone';render()};
+    var nb=document.getElementById('v-new'),armed=false;nb.onclick=function(){
+      if(!armed){armed=true;nb.innerHTML=ic('retry')+'Sì, cancello e ricomincio';document.getElementById('vnewmsg').textContent='Attenzione: le risposte di prima si cancellano. Premi di nuovo per confermare.';return}
+      VA={};VINFO.consegna=null;vsave();S={screen:'vintro',c:S.c,v:0};render()};}
+  else document.getElementById('v-go').onclick=function(){
+    VINFO.nome=document.getElementById('v-nome').value.trim();VINFO.cognome=document.getElementById('v-cognome').value.trim();VINFO.classe=document.getElementById('v-classe').value.trim();
+    var m=document.getElementById('vmsg');
+    if(!VINFO.nome){m.textContent='Scrivi il tuo nome. Poi premi di nuovo.';document.getElementById('v-nome').focus();return}
+    if(!VINFO.cognome){m.textContent='Scrivi il tuo cognome. Poi premi di nuovo.';document.getElementById('v-cognome').focus();return}
+    vsave();S.screen='vq';S.v=S.v||0;render()};
+  focusTitle();
+}
+
+function optList(it){return '<div class="vbtns">'+Object.keys(it.opts).map(function(o){return '<button type="button" class="opt" data-v="'+o+'">'+it.opts[o]+'</button>'}).join('')+'</div>'}
+function seqShow(seq){return '<ol class="seqshow">'+seq.map(function(k,i){return '<li><div><p class="bt">Blocco '+k+' · '+BL[k].t+'</p>'+scriptHTML(BL[k].r,(i+1)+'.')+'</div></li>'}).join('')+'</ol>'}
+
+function vQuestion(el,it){
+  var ex=VX[it.e], a=VA[it.id], lk=locked();
+  var h='<p class="kicker">'+ic('pencil')+'Esercizio '+(it.e+1)+' di 5 · '+ex.name+'</p>';
+  if(it.type==='mont'){
+    h+='<h2>Il tuo montaggio. Parte 1 di 2: metti in ordine i blocchi.</h2>'+
+     '<p class="consegna">Questi sono 6 blocchi di una storia: Marco e Giulia devono andare al mare in treno. Scegli quali blocchi usare e in che ordine. Così decidi tu che storia raccontare.</p>'+
+     '<ol class="steps"><li>Leggi i 6 blocchi.</li><li>Premi «Metti nella storia» sui blocchi che vuoi usare. <b>Usa almeno 4 blocchi.</b> Puoi usarli tutti e 6.</li><li>Nella tua storia usa «Su» e «Giù» per cambiare l’ordine. Con il mouse puoi anche trascinare i blocchi.</li></ol>'+
+     '<p class="note-s">Non c’è un ordine giusto. Ogni ordine racconta una storia diversa. Nella parte 2 spieghi le tue scelte.</p>'+
+     '<div class="mgrid"><section class="mcol" aria-labelledby="h-bank"><h3 id="h-bank">'+ic('blocks')+'I blocchi</h3><p class="note-s">I blocchi non sono in ordine. La lettera serve solo a riconoscerli.</p><ul class="blist" id="bank"></ul></section>'+
+     '<section class="mcol seqcol" aria-labelledby="h-seq"><h3 id="h-seq">'+ic('film')+'La tua storia</h3><p class="note-s">Il blocco 1 è l’inizio. L’ultimo blocco è la fine. Qui vedi titolo e intestazione; il testo intero è sotto, in «Leggi la tua storia intera».</p><ol class="seq" id="seq"></ol><p class="mstat" id="mstat"></p><details class="seqprev" id="seqprev"><summary>Leggi la tua storia intera, come sceneggiatura</summary><div id="seqfull"></div></details><div class="mtools"><button type="button" class="bb" id="m-listen">'+ic('speaker')+'Ascolta la mia storia</button></div></section></div>';
+    el.innerHTML=h;montInit(el,lk);return;
+  }
+  if(it.type==='why'){
+    var sq=seqOf(), A=a||{}, Q=MQ(sq);
+    h+='<h2>Il tuo montaggio. Parte 2 di 2: perché hai scelto questo ordine?</h2>'+
+     (sq.length?'<p>La tua storia, in ordine:</p><ol class="seqtitles">'+sq.map(function(k){return '<li>'+BL[k].t+'</li>'}).join('')+'</ol>':'<div class="fb retry">'+ic('q')+'<span>Non hai ancora messo i blocchi in ordine. Torna indietro alla parte 1.</span></div>')+
+     '<fieldset class="field" style="border:0;padding:0;margin:12px 0"><legend class="q">1. Che tipo di storia hai voluto raccontare? Scegli una risposta.</legend><div class="moods">'+
+     MOODS.map(function(m){return '<button type="button" class="opt" data-mood="'+m[0]+'">'+m[1]+'</button>'}).join('')+'</div>'+
+     '<div class="field" id="moodtxt-w" '+(A.mood==='altro'?'':'hidden')+'><label for="f-moodTxt">Scrivi che tipo di storia è</label><input id="f-moodTxt" data-f="moodTxt" value="'+esc(A.moodTxt)+'"></div></fieldset>'+
+     Q.map(function(f,i){return '<div class="field"><label for="f-'+f[0]+'">'+(i+2)+'. '+f[1]+'</label><p class="hint-s" id="h-'+f[0]+'">'+f[2]+'</p><textarea id="f-'+f[0]+'" data-f="'+f[0]+'" rows="3" aria-describedby="h-'+f[0]+'">'+esc(A[f[0]]||'')+'</textarea></div>'}).join('')+
+     '<div class="field"><label for="f-titolo">5. Il titolo della tua storia (se vuoi)</label><input id="f-titolo" data-f="titolo" value="'+esc(A.titolo)+'"></div>'+
+     '<p class="note-s">Puoi scrivere con la tastiera oppure dettare con il microfono della tastiera del dispositivo.</p>'+
+     '<div class="note"><p><b>Come valuta il prof (8 punti):</b> l’ordine dei blocchi va d’accordo con la storia che dici di raccontare (2 punti). Domande 2, 3 e 4: 2 punti se la risposta è chiara e spiega la scelta, 1 punto se è chiara ma non spiega, 0 punti se manca.</p></div>';
+    el.innerHTML=h;
+    el.querySelectorAll('[data-mood]').forEach(function(b){sel(b,A.mood===b.dataset.mood);if(lk)b.disabled=true;b.onclick=function(){
+      var X=VA.why||{};X.mood=b.dataset.mood;VA.why=X;vsave();
+      el.querySelectorAll('[data-mood]').forEach(function(o){sel(o,o===b)});
+      document.getElementById('moodtxt-w').hidden=X.mood!=='altro';stripDraw();why.textContent='Risposta salvata.'}});
+    el.querySelectorAll('textarea,input[data-f]').forEach(function(t){if(lk)t.readOnly=true;t.oninput=function(){var X=VA.why||{};X[t.dataset.f]=t.value.trim();VA.why=X;vsave();stripDraw();
+      why.textContent=answered(it)?'Risposte salvate. Puoi cambiarle fino alla consegna.':'Risposta salvata. Rispondi alle domande da 1 a 4.'}});
+    return;
+  }
+  h+='<h2>Domanda '+(it.j+1)+' di '+ex.items.length+'.</h2><p class="consegna">'+ex.intro+'</p>';
+  if(it.type==='vf'){
+    h+='<p class="situ">'+it.t+'</p><div class="vbtns two-c"><button type="button" class="opt" data-v="V">'+ic('check')+'Vero</button><button type="button" class="opt" data-v="F">'+ic('cross')+'Falso</button></div>';
+  } else if(it.type==='line'){
+    h+='<p class="lineq '+it.cls+'">'+it.l+'</p><p class="q">Che cos’è questa riga?</p>'+optList(it);
+  } else if(it.type==='build'){
+    var A2=a||{};
+    h+='<p class="situ">'+it.situ+'</p><div class="build">'+it.parts.map(function(p){return '<fieldset><legend>'+p.q+'</legend><div class="row">'+p.o.map(function(o){return '<button type="button" class="opt" data-p="'+p.k+'" data-v="'+esc(o)+'">'+o+'</button>'}).join('')+'</div></fieldset>'}).join('')+
+      '</div><p class="q">La tua intestazione:</p><p class="preview" id="prev" aria-live="polite"></p>';
+    el.innerHTML=h;
+    function prev(){var X=VA[it.id]||{};document.getElementById('prev').textContent=(X.a||'___')+' '+(X.b||'___')+' - '+(X.c||'___')}
+    el.querySelectorAll('[data-p]').forEach(function(b){sel(b,A2[b.dataset.p]===b.dataset.v);if(lk)b.disabled=true;b.onclick=function(){if(locked())return;
+      var X=VA[it.id]||{};X[b.dataset.p]=b.dataset.v;VA[it.id]=X;vsave();
+      el.querySelectorAll('[data-p="'+b.dataset.p+'"]').forEach(function(o){sel(o,o===b)});prev();stripDraw();
+      why.textContent=answered(it)?'Risposta salvata. Puoi cambiarla fino alla consegna.':'Scelta salvata. Fai tutte e 3 le scelte.'}});
+    prev();return;
+  } else if(it.type==='seq'){
+    h+=seqShow(it.seq)+(it.pre?'<p class="situ">'+it.pre+'</p>':'')+'<p class="q">'+it.q+'</p>'+optList(it);
+  }
+  el.innerHTML=h;
+  el.querySelectorAll('.opt').forEach(function(b){sel(b,a===b.dataset.v);if(lk)b.disabled=true;b.onclick=function(){vpick(it,b.dataset.v)}});
+}
+
+/* ---------- montaggio: aggiungi, sposta, togli, trascina ---------- */
+function montInit(el,lk){
+  var bank=el.querySelector('#bank'), seqEl=el.querySelector('#seq'), mstat=el.querySelector('#mstat'), dragK=null;
+  function blockCard(k,inSeq,pos,n){
+    var b=BL[k], h='<div class="top-b"><span class="lt" aria-hidden="true">'+k+'</span><span class="tt">'+(inSeq?'<span class="pos">Blocco '+(pos+1)+' di '+n+'</span><br>':'')+b.t+'</span></div>'+(inSeq?'<p class="hl">'+esc(b.r[0][1])+'</p>':scriptHTML(b.r))+'<div class="bbtns">';
+    if(lk){} else if(inSeq){
+      h+='<button type="button" class="bb" data-act="up" data-k="'+k+'" '+(pos===0?'disabled':'')+' aria-label="Sposta su il blocco '+b.t+'">'+ic('up')+'Su</button>'+
+         '<button type="button" class="bb" data-act="down" data-k="'+k+'" '+(pos===n-1?'disabled':'')+' aria-label="Sposta giù il blocco '+b.t+'">'+ic('down')+'Giù</button>'+
+         '<button type="button" class="bb" data-act="out" data-k="'+k+'" aria-label="Togli dalla storia il blocco '+b.t+'">'+ic('cross')+'Togli</button>';
+    } else {
+      h+='<button type="button" class="bb add" data-act="add" data-k="'+k+'">'+ic('plus')+'Metti nella storia</button>';
+    }
+    return h+'</div>'}
+  function draw(focusK,focusAct){
+    var sq=seqOf(), n=sq.length;
+    bank.innerHTML=BK.map(function(k){var used=sq.indexOf(k)>=0;
+      return used?'<li class="blk used"><div class="top-b"><span class="lt" aria-hidden="true">'+k+'</span><span class="tt">'+BL[k].t+'</span></div><p class="note-s" style="margin:0!important">'+ic('check')+' È nella tua storia, al posto '+(sq.indexOf(k)+1)+'.</p></li>'
+        :'<li class="blk" data-k="'+k+'" '+(lk?'':'draggable="true"')+'>'+blockCard(k,false)+'</li>'}).join('');
+    seqEl.innerHTML=n?sq.map(function(k,i){return '<li class="blk" data-k="'+k+'" '+(lk?'':'draggable="true"')+'>'+blockCard(k,true,i,n)+'</li>'}).join('')
+      :'<li class="empty">La tua storia è vuota. Premi «Metti nella storia» su un blocco.</li>';
+    el.querySelector('#seqfull').innerHTML=n?seqShow(sq):'<p class="note-s">La tua storia è vuota.</p>';
+    mstat.className='mstat'+(n>=4?' ok':'');
+    mstat.innerHTML=n>=4?ic('check')+' La tua storia ha '+n+' blocchi. Puoi andare alla parte 2.':'La tua storia ha '+n+' blocchi. Ne servono almeno 4.';
+    stripDraw();
+    var it=VQ[S.v];if(it&&it.type==='mont')navSet('Indietro',true,'Avanti: parte 2',true,answered(it)?'Montaggio salvato. Puoi cambiarlo fino alla consegna.':'Puoi andare avanti anche adesso e tornare dopo.');
+    if(focusK){var t=el.querySelector('[data-act="'+focusAct+'"][data-k="'+focusK+'"]:not([disabled])')||el.querySelector('#seq [data-k="'+focusK+'"] .bb:not([disabled])')||el.querySelector('#bank .bb')||el.querySelector('#seq .bb');if(t)t.focus()}
+  }
+  function setSeq(sq){VA.seq=sq;vsave()}
+  el.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b||locked())return;
+    var k=b.dataset.k, sq=seqOf().slice(), i=sq.indexOf(k), act=b.dataset.act;
+    if(act==='add'){if(i<0)sq.push(k);setSeq(sq);draw(k,'down');say('Blocco «'+BL[k].t+'» messo nella storia, al posto '+sq.length+'.')}
+    else if(act==='up'&&i>0){sq.splice(i,1);sq.splice(i-1,0,k);setSeq(sq);draw(k,'up');say('Blocco «'+BL[k].t+'» spostato al posto '+i+'.')}
+    else if(act==='down'&&i<sq.length-1){sq.splice(i,1);sq.splice(i+1,0,k);setSeq(sq);draw(k,'down');say('Blocco «'+BL[k].t+'» spostato al posto '+(i+2)+'.')}
+    else if(act==='out'&&i>=0){sq.splice(i,1);setSeq(sq);draw(k,'add');say('Blocco «'+BL[k].t+'» tolto dalla storia.')}
+  });
+  /* trascinamento con il mouse (alternativa ai pulsanti) */
+  function clearMarks(){el.querySelectorAll('.drop-before').forEach(function(n){n.classList.remove('drop-before')});seqEl.classList.remove('over');bank.classList.remove('over')}
+  el.addEventListener('dragstart',function(e){var li=e.target.closest('li.blk[data-k]');if(!li)return;dragK=li.dataset.k;try{e.dataTransfer.setData('text/plain',dragK);e.dataTransfer.effectAllowed='move'}catch(x){}});
+  el.addEventListener('dragend',function(){dragK=null;clearMarks()});
+  seqEl.addEventListener('dragover',function(e){if(!dragK)return;e.preventDefault();clearMarks();seqEl.classList.add('over');var li=e.target.closest('#seq li.blk');if(li&&li.dataset.k!==dragK)li.classList.add('drop-before')});
+  seqEl.addEventListener('drop',function(e){if(!dragK)return;e.preventDefault();var sq=seqOf().slice(),k=dragK,li=e.target.closest('#seq li.blk'),from=sq.indexOf(k);
+    if(from>=0)sq.splice(from,1);var to=li&&li.dataset.k!==k?sq.indexOf(li.dataset.k):sq.length;if(to<0)to=sq.length;sq.splice(to,0,k);
+    clearMarks();setSeq(sq);draw();say('Blocco «'+BL[k].t+'» al posto '+(to+1)+'.')});
+  bank.addEventListener('dragover',function(e){if(!dragK||seqOf().indexOf(dragK)<0)return;e.preventDefault();clearMarks();bank.classList.add('over')});
+  bank.addEventListener('drop',function(e){if(!dragK)return;e.preventDefault();var sq=seqOf().slice(),i=sq.indexOf(dragK);if(i>=0){sq.splice(i,1);setSeq(sq);say('Blocco «'+BL[dragK].t+'» tolto dalla storia.')}clearMarks();draw()});
+  el.querySelector('#m-listen').onclick=function(){var sq=seqOf();if(!sq.length){mstat.textContent='La tua storia è vuota.';return}
+    speak(sq.map(function(k,i){return 'Blocco '+(i+1)+'. '+blockText(k)}).join(' '),this)};
+  draw();
+}
+
+function vReview(){
+  var miss=VQ.filter(function(it){return !answered(it)});
+  stage.innerHTML='<article class="card">'+kick('Verifica','pencil')+'<h2>Riepilogo prima di consegnare.</h2>'+
+   '<p>Qui vedi tutte le domande. Premi una domanda per tornare a quella domanda.</p>'+
+   VX.map(function(ex,e){return '<h3 class="h3">'+(e+1)+'. '+ex.name+'</h3><ul class="revlist">'+ex.items.map(function(it){var ok=answered(it),i=VQ.indexOf(it);
+     var lbl=it.type==='mont'?'Parte 1: l’ordine':(it.type==='why'?'Parte 2: perché':'Domanda '+(it.j+1));
+     var miss=it.type==='mont'?'servono almeno 4 blocchi':(it.type==='why'?'manca almeno una risposta':'manca la risposta');
+     return '<li><button type="button" class="revb'+(ok?' yes':'')+'" data-i="'+i+'">'+ic(ok?'check':'q')+'<span>'+lbl+'</span><em>'+(ok?'risposta data':miss)+'</em></button></li>'}).join('')+'</ul>'}).join('')+
+   (miss.length?'<div class="fb retry">'+ic('q')+'<span>Ci sono <b>'+miss.length+'</b> domande senza risposta completa. Puoi tornare a rispondere, oppure consegnare lo stesso.</span></div>':'<div class="fb ok">'+ic('check')+'<span>Hai risposto a tutte le domande.</span></div>')+
+   '<div class="homebtns"><button type="button" class="nav primary" id="v-send">'+ic('check')+'Consegno la verifica</button><button type="button" class="nav" id="v-back">'+ic('back')+'Torno alle domande</button></div><p class="why" id="vsendmsg" aria-live="polite"></p></article>';
+  stage.querySelectorAll('.revb').forEach(function(b){b.onclick=function(){S.screen='vq';S.v=+b.dataset.i;render()}});
+  document.getElementById('v-back').onclick=function(){S.screen='vq';S.v=VQ.length-1;render()};
+  var sb=document.getElementById('v-send'),armed=false;
+  sb.onclick=function(){
+    if(!armed){armed=true;sb.innerHTML=ic('check')+'Sì, consegno';document.getElementById('vsendmsg').textContent='Dopo la consegna non puoi più cambiare le risposte. Premi di nuovo «Sì, consegno» per confermare.';return}
+    VINFO.tent=(VINFO.tent||0)+1;VINFO.consegna=new Date().toISOString();vsave();S.screen='vdone';render()};
+  focusTitle();
+}
+function vDone(){
+  var s=score();
+  stage.innerHTML='<article class="card center"><div class="big-icons" style="justify-content:center;color:var(--ok)" aria-hidden="true">'+ic('check')+'</div><h2>Verifica consegnata.</h2>'+
+   '<p>Esercizi da 1 a 4: <b>'+s+' punti su '+VAUTO+'</b>.</p><p>L’esercizio 5, il tuo montaggio, lo valuta il prof: vale '+VOPEN+' punti.</p>'+
+   '<p>Ora scarica il PDF e consegnalo al prof, come ti ha detto (per esempio su Classroom, sul registro o per email).</p>'+
+   '<div class="homebtns"><button type="button" class="nav primary" id="v-pdf">'+ic('arrow')+'Scarico il PDF</button><button type="button" class="nav" id="v-home">'+ic('home')+'Torno all’inizio</button></div><p class="why" id="pdfmsg" aria-live="polite"></p></article>';
+  document.getElementById('v-pdf').onclick=makePDF;
+  document.getElementById('v-home').onclick=function(){S.screen='home';render()};
+  focusTitle();
+}
+
+/* ---------- PDF ---------- */
+function loadJsPDF(cb){
+  if(window.jspdf)return cb(true);
+  var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  s.onload=function(){cb(!!window.jspdf)};s.onerror=function(){cb(false)};document.head.appendChild(s);
+}
+function fmtDate(iso){var d=iso?new Date(iso):new Date();function p(n){return (n<10?'0':'')+n}
+  return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+', ore '+p(d.getHours())+':'+p(d.getMinutes())}
+function makePDF(){
+  var msg=document.getElementById('pdfmsg');msg.textContent='Preparo il PDF…';
+  loadJsPDF(function(ok){
+    if(!ok){msg.textContent='Non riesco a creare il PDF senza internet. Si apre la finestra di stampa: scegli «Salva come PDF».';return printFallback()}
+    try{buildPDF();msg.textContent='Il PDF è stato scaricato. Lo trovi nella cartella dei download.'}
+    catch(e){msg.textContent='Qualcosa non ha funzionato. Si apre la finestra di stampa: scegli «Salva come PDF».';printFallback()}
+  });
+}
+/* jsPDF con i font standard non stampa alcuni caratteri tipografici: li normalizzo */
+function pt(s){return String(s==null?'':s).replace(/<br>/g,' ').replace(/<[^>]+>/g,'').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/…/g,'...').replace(/[–—]/g,'-').replace(/œ/g,'oe')}
+function moodText(A){if(!A||!A.mood)return '(nessuna risposta)';var m=MOODS.filter(function(x){return x[0]===A.mood})[0];return A.mood==='altro'?'Altro: '+(A.moodTxt||'(non scritto)'):(m?m[1]:A.mood)}
+function buildPDF(){
+  var J=new window.jspdf.jsPDF({unit:'mm',format:'a4'}), W=210, M=18, y=M, LH=6.2;
+  var INK=[27,36,48], SOFT=[74,85,101], OK=[29,107,51], KO=[166,40,40], PRI=[31,79,168];
+  function need(h){if(y+h>297-M){J.addPage();y=M}}
+  function txt(t,size,style,color,indent,font,align){J.setFont(font||'helvetica',style||'normal');J.setFontSize(size||11);J.setTextColor.apply(J,color||INK);
+    var w=W-2*M-(indent||0)*(align==='center'?2:1);
+    var lines=J.splitTextToSize(pt(t),w);lines.forEach(function(l){need(LH);if(align==='center')J.text(l,W/2,y,{align:'center'});else J.text(l,M+(indent||0),y);y+=size>12?LH+1.5:LH});}
+  function rule(){need(4);J.setDrawColor(197,206,217);J.setLineWidth(.4);J.line(M,y,W-M,y);y+=5}
+  var s=score();
+  txt('Verifica: sceneggiatura e montaggio',18,'bold',PRI); y+=1;
+  txt('Scrittura per l\'audiovisivo. Lezioni accessibili, ivanferrero.it',10,'normal',SOFT); y+=2; rule();
+  txt('Nome: '+VINFO.nome,12,'bold');
+  txt('Cognome: '+(VINFO.cognome||'(non indicato)'),12,'bold');
+  txt('Classe: '+(VINFO.classe||'(non indicata)'),12);
+  txt('Consegnata il: '+fmtDate(VINFO.consegna),12);
+  txt('Tentativo numero: '+VINFO.tent+(VINFO.tent>1?'  (attenzione: la verifica è stata rifatta su questo dispositivo)':''),11,'normal',VINFO.tent>1?KO:INK);
+  y+=2;
+  need(30);J.setDrawColor.apply(J,PRI);J.setLineWidth(.6);J.rect(M,y,W-2*M,27);y+=7;
+  txt('Esercizi 1-4 (correzione automatica): '+s+' / '+VAUTO,12,'bold',INK,4);
+  txt('Esercizio 5, il montaggio (valuta il docente): ____ / '+VOPEN,12,'bold',INK,4);
+  txt('Totale: ____ / '+VTOT+'        Voto: ______',12,'bold',INK,4); y+=6;
+  VX.forEach(function(ex,e){
+    if(ex.open)return;
+    need(16);y+=3;txt((e+1)+'. '+ex.name+'  ('+ex.items.length*ex.pts+' punti)',13,'bold',PRI);
+    ex.items.forEach(function(it){
+      var a=VA[it.id], p=itemPts(it), max=ex.pts, q;
+      if(it.type==='vf')q=it.t;
+      else if(it.type==='line')q='Che cos\'è questa riga? "'+(it.plain||it.l)+'"';
+      else if(it.type==='build')q='Scrivi l\'intestazione. Situazione: '+it.situ;
+      else q='Montaggio dei blocchi: '+it.seq.map(function(k){return BL[k].t}).join(' > ')+'. '+(it.pre?it.pre+' ':'')+it.q;
+      need(22);txt('Domanda '+(it.j+1)+'. '+q,11,'bold');
+      txt('Risposta data: '+ansText(it,a),11,'normal',INK,4);
+      var miss=it.type==='build'?!answered(it)&&!a:(a===undefined||a===null);
+      txt(miss?'Esito: nessuna risposta (0 punti)':(p===max?'Esito: giusta ('+max+(max>1?' punti':' punto')+')':(p>0?'Esito: in parte giusta ('+p+' su '+max+'). Risposta corretta: '+rightText(it):'Esito: da rivedere (0 punti). Risposta corretta: '+rightText(it))),11,'bold',p===max?OK:KO,4);
+      y+=1.5;
+    });
+  });
+  /* esercizio 5 */
+  J.addPage();y=M;
+  var sq=seqOf(), A=VA.why||{};
+  txt('5. Il tuo montaggio  ('+VOPEN+' punti, valuta il docente)',13,'bold',PRI);y+=1;
+  txt('Lo studente ha scelto '+sq.length+' blocchi su 6 e li ha messi in questo ordine. Ecco la sua sceneggiatura:',10,'normal',SOFT);y+=2;
+  if(A.titolo){txt('Titolo: '+A.titolo,12,'bold');y+=1}
+  if(!sq.length)txt('(nessun blocco in ordine)',11,'normal',KO,4);
+  sq.forEach(function(k,i){
+    need(30);
+    J.setDrawColor(217,210,195);J.setLineWidth(.3);
+    txt('Blocco '+(i+1)+'  ·  '+BL[k].t+' (lettera '+k+')',9.5,'bold',SOFT);
+    BL[k].r.forEach(function(r){
+      if(r[0]==='h')txt((i+1)+'. '+r[1],11,'bold',INK,4,'courier');
+      else if(r[0]==='d')txt(r[1],11,'normal',INK,4);
+      else if(r[0]==='n')txt(r[1],11,'bold',INK,0,'helvetica','center');
+      else if(r[0]==='p')txt(r[1],11,'italic',SOFT,0,'helvetica','center');
+      else txt(r[1],11,'normal',INK,30,'helvetica','center');
+    });y+=2.5;
+  });
+  var unused=BK.filter(function(k){return sq.indexOf(k)<0});
+  txt('Blocchi non usati: '+(unused.length?unused.map(function(k){return BL[k].t}).join(', '):'nessuno'),10,'normal',SOFT);
+  y+=2;txt('Ordine in breve: '+(sq.length?sq.map(function(k){return BL[k].t}).join(' > '):'-'),10.5,'bold',INK);
+  txt('Punti per l\'ordine (coerente con la storia dichiarata):   0     1     2',11,'bold',SOFT,4);y+=3;rule();
+  need(20);txt('1. CHE TIPO DI STORIA',12,'bold',PRI);txt(moodText(A),11.5,'normal',A.mood?INK:KO,4);y+=2;
+  MQ(sq).forEach(function(f,i){
+    need(28);txt((i+2)+'. '+f[1],12,'bold',PRI);txt(f[2],10,'normal',SOFT);txt(A[f[0]]||'(nessuna risposta)',11.5,'normal',A[f[0]]?INK:KO,4);
+    y+=1;txt('Punti:   0     1     2',11,'bold',SOFT,4);y+=3;
+  });
+  y+=1;rule();
+  txt('Criteri (8 punti). Ordine dei blocchi: 2 punti se l\'ordine va d\'accordo con il tipo di storia scelto e con la risposta 2; 1 punto se va d\'accordo solo in parte; 0 punti se non va d\'accordo o mancano blocchi. Domande 2, 3 e 4: 2 punti se la risposta è chiara e collega il posto del blocco all\'effetto sulla storia (per esempio: «metto il messaggio all\'inizio così chi guarda sa già che Giulia non viene»); 1 punto se è chiara ma generica («perché è bello»); 0 punti se manca o non è pertinente. Non esiste un ordine giusto: si valuta la coerenza tra ordine e senso dichiarato.',10,'normal',SOFT);
+  y+=4;txt('Note del docente:',11,'bold');
+  for(var i=0;i<5;i++){need(9);y+=3;J.setDrawColor(197,206,217);J.line(M,y,W-M,y);y+=5}
+  var n=J.getNumberOfPages();for(var p=1;p<=n;p++){J.setPage(p);J.setFont('helvetica','normal');J.setFontSize(9);J.setTextColor.apply(J,SOFT);
+    J.text(pt(fullName()+(VINFO.classe?' · '+VINFO.classe:'')+' · Verifica: sceneggiatura e montaggio · pagina '+p+' di '+n),M,297-8)}
+  var fn='verifica-sceneggiatura-'+(fullName()||'alunno').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.pdf';
+  J.save(fn);
+}
+function printFallback(){
+  var w=window.open('','_blank');if(!w)return;
+  var A=VA.why||{}, s=score(), sq=seqOf();
+  var h='<html lang="it"><head><meta charset="utf-8"><title>Verifica '+esc(fullName())+'</title><style>body{font-family:Verdana,Arial,sans-serif;font-size:13pt;line-height:1.5;margin:18mm}h1{font-size:18pt}h2{font-size:14pt;margin-top:1.2em}.ok{color:#1D6B33}.ko{color:#A62828}.sc{border:1px solid #999;padding:6px 12px;margin:6px 0}.h{font-family:Courier,monospace;font-weight:bold}.c{text-align:center}</style></head><body>'+
+   '<h1>Verifica: sceneggiatura e montaggio</h1><p><b>Nome:</b> '+esc(VINFO.nome)+'<br><b>Cognome:</b> '+esc(VINFO.cognome)+'<br><b>Classe:</b> '+esc(VINFO.classe)+'<br><b>Consegnata il:</b> '+fmtDate(VINFO.consegna)+'<br><b>Tentativo:</b> '+VINFO.tent+'</p><p><b>Esercizi 1-4: '+s+' / '+VAUTO+'. Esercizio 5: ____ / '+VOPEN+'. Totale: ____ / '+VTOT+'</b></p>';
+  VX.forEach(function(ex,e){if(ex.open)return;h+='<h2>'+(e+1)+'. '+ex.name+'</h2>';ex.items.forEach(function(it){var a=VA[it.id],p=itemPts(it),g=p===ex.pts;
+    h+='<p><b>Domanda '+(it.j+1)+'.</b> '+esc(pt(it.t||it.plain||it.l||it.situ||it.q))+'<br>Risposta: '+esc(ansText(it,a))+'<br><span class="'+(g?'ok':'ko')+'">'+(g?'Giusta':'Da rivedere ('+p+' su '+ex.pts+'). Corretta: '+esc(rightText(it)))+'</span></p>'})});
+  h+='<h2>5. Il tuo montaggio</h2>'+(A.titolo?'<p><b>Titolo:</b> '+esc(A.titolo)+'</p>':'')+sq.map(function(k,i){return '<div class="sc">'+BL[k].r.map(function(r){return r[0]==='h'?'<p class="h">'+(i+1)+'. '+esc(r[1])+'</p>':'<p class="'+(r[0]==='d'?'':'c')+'">'+esc(r[1])+'</p>'}).join('')+'</div>'}).join('')+
+   '<p><b>Che tipo di storia:</b> '+esc(moodText(A))+'</p>'+MQ(sq).map(function(f){return '<p><b>'+f[1]+':</b> '+esc(A[f[0]])+'</p>'}).join('')+'<\/body><\/html>';
+  w.document.write(h);w.document.close();w.focus();w.print();
+}
+
+function vRender(){
+  var it=VQ[S.v];
+  document.body.classList.toggle('wide',it.type==='mont');
+  var dots='';VQ.forEach(function(q,i){dots+='<span class="'+(i===S.v?'on':(answered(q)?'past':''))+'"></span>'});
+  stage.innerHTML='<p class="count"><span class="dots" aria-hidden="true">'+dots+'</span>Domanda '+(S.v+1)+' di '+VQ.length+'</p><article class="card" id="card"></article>';
+  var last=S.v===VQ.length-1;
+  navSet('Indietro',S.v>0,last?'Vado al riepilogo':'Avanti',true,answered(it)?(locked()?'Verifica già consegnata: le risposte non si cambiano.':'Risposta salvata. Puoi cambiarla fino alla consegna.'):'Puoi rispondere adesso o tornare dopo.');
+  vQuestion(document.getElementById('card'),it);
+  focusTitle();
+}
+
+/* ---------- schermate ---------- */
+function home(){
+  stage.innerHTML='<article class="card">'+kick('Scrittura per l’audiovisivo','film')+'<h2>Sceneggiatura e montaggio</h2>'+
+   '<p>Qui trovi due cose:</p><ul class="steps"><li><b>Il ripasso</b>: 6 carte. Le 4 fasi, la scena, l’intestazione, la descrizione, il dialogo, il montaggio.</li><li><b>La verifica</b>: 5 esercizi. Nell’ultimo metti in ordine i blocchi di una storia e spieghi le tue scelte. Alla fine scarichi un PDF da consegnare al prof.</li></ul>'+
+   '<p>Puoi ascoltare ogni carta con il pulsante '+ic('speaker')+' «Ascolta». Puoi ingrandire il testo con A+.</p>'+
+   '<div class="homebtns"><button type="button" class="nav primary" id="go-start">Comincio il ripasso '+ic('arrow')+'</button><button type="button" class="nav" id="go-ver">'+ic('pencil')+'Vado alla verifica</button></div>'+
+   '<p class="note-s" style="margin-top:8px!important">Hai già ripassato? Puoi andare subito alla verifica.</p></article>';
+  document.getElementById('go-start').onclick=function(){S={screen:'card',c:0,v:S.v};render()};
+  document.getElementById('go-ver').onclick=goVer;
+  focusTitle();
+}
+function render(){
+  stopSpeak();
+  document.body.classList.remove('wide');
+  document.body.classList.toggle('nonav',S.screen!=='card'&&S.screen!=='vq');
+  stripDraw(); mainEl.scrollTop=0;
+  if(S.screen==='home') return home();
+  if(S.screen==='vintro') return vIntro();
+  if(S.screen==='vreview') return vReview();
+  if(S.screen==='vdone') return vDone();
+  if(S.screen==='vq') return vRender();
+  var r=R[S.c];
+  var dots='';for(var i=0;i<R.length;i++)dots+='<span class="'+(i===S.c?'on':(i<S.c?'past':''))+'"></span>';
+  stage.innerHTML='<p class="count"><span class="dots" aria-hidden="true">'+dots+'</span>Carta '+(S.c+1)+' di '+R.length+'</p><article class="card" id="card">'+r.html+'</article>';
+  var last=S.c===R.length-1;
+  navSet('Indietro',S.c>0,last?'Vado alla verifica':'Avanti',true,'');
+  focusTitle();
+}
+
+/* ---------- navigazione ---------- */
+function goVer(){var f=-1;for(var i=0;i<VQ.length;i++){if(!answered(VQ[i])){f=i;break}}S.v=f<0?0:f;S.screen='vintro';render()}
+nextB.onclick=function(){
+  if(S.screen==='vq'){if(S.v<VQ.length-1){S.v++}else{S.screen='vreview'}return render()}
+  if(S.c<R.length-1){S.c++;return render()}
+  goVer();
+};
+backB.onclick=function(){if(S.screen==='vq'){if(S.v>0){S.v--;render()}return}if(S.c>0){S.c--;render()}};
+var verB=document.getElementById('ver-b'); verB.innerHTML=ic('pencil')+'Verifica'; verB.onclick=goVer;
+var homeB=document.getElementById('home-b'); homeB.innerHTML=ic('home')+'Inizio';
+homeB.onclick=function(){S.screen='home';render()};
+
+/* ---------- testo più grande ---------- */
+var fs=parseInt(st('fs')||'20',10);
+function setFs(v){fs=Math.max(16,Math.min(28,v));document.documentElement.style.setProperty('--fs',fs+'px');st('fs',fs)}
+setFs(fs);
+document.getElementById('fs-up').onclick=function(){setFs(fs+2)};
+document.getElementById('fs-down').onclick=function(){setFs(fs-2)};
+
+/* ---------- ascolto ---------- */
+var speaking=null;
+function stopSpeak(){try{speechSynthesis.cancel()}catch(e){}if(speaking&&speaking!==listenB)speaking.innerHTML=ic('speaker')+'Ascolta la mia storia';speaking=null;listenB.innerHTML=ic('speaker')+'<span class="lt">Ascolta</span>'}
+function speak(text,btn){
+  if(!('speechSynthesis' in window)){why.textContent='Questo browser non può leggere ad alta voce.';return}
+  if(speaking){var was=speaking;stopSpeak();if(was===btn)return}
+  var u=new SpeechSynthesisUtterance(text.replace(/\s+/g,' '));u.lang='it-IT';u.rate=.95;
+  u.onend=stopSpeak;speechSynthesis.cancel();speechSynthesis.speak(u);speaking=btn;btn.innerHTML=ic('stop')+(btn===listenB?'<span class="lt">Ferma</span>':'Ferma');
+}
+listenB.onclick=function(){
+  var c=stage.querySelector('.card');if(!c)return;
+  var clone=c.cloneNode(true);clone.querySelectorAll('details,textarea,.bbtns,.lt,.mtools,svg').forEach(function(n){n.remove()});
+  speak(clone.innerText,listenB);
+};
+
+if(location.hash==='#verifica'){goVer()}else{render()}
+window.addEventListener('hashchange',function(){if(location.hash==='#verifica')goVer()});
+})();
+</script>
+<!-- integrazione sito: menu del sito isolato in Shadow DOM (vedi /lezioni-accessibili/assets/menu-lezioni.js). -->
+<script src="/assets/menu.js"></script>
+<script src="/lezioni-accessibili/assets/menu-lezioni.js"></script>
+</body>
+</html>
