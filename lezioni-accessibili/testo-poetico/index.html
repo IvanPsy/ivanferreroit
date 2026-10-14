@@ -1,0 +1,774 @@
+---
+title: "La poesia: come è fatta e come si legge"
+description: "Lezione accessibile di italiano sul testo poetico: verso e prosa, significato e connotazione, io lirico, sillabe e versi, rime, strofe, sonetto, figure retoriche, i temi della poesia e i grandi poeti. Sintesi per il ripasso da telefono, con lettura ad alta voce, parole in sei lingue e ripasso con risposte spiegate."
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>La poesia: come è fatta e come si legge | Lezioni accessibili | Ivan Ferrero</title>
+{% seo title=false %}
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<script>
+/* preferenze salvate: applicate prima del disegno per evitare lampi */
+(function(){try{var d=document.documentElement,t=localStorage.getItem('tp-theme'),s=localStorage.getItem('tp-size');
+if(t)d.setAttribute('data-theme',t);if(s)d.style.setProperty('--fs',s+'px');}catch(e){}})();
+</script>
+<style>
+:root{
+  --fs:19px;
+  --bg:#F3F0EA; --card:#FFFFFF; --ink:#1D1B26; --soft:#4C4858; --line:#CFC9BE;
+  --accent:#6A2C8F; --accent-ink:#FFFFFF;
+  --g-suono:#0B6E78; --g-senso:#A3361C; --g-ordine:#3B4FA8;
+  --rA:#0B6E78; --rB:#A3361C; --rC:#3B4FA8; --rD:#7A5A00; --rE:#6A2C8F;
+  --ok-bg:#E3F4E5; --ok-ink:#1B5E20; --no-bg:#FDE7E4; --no-ink:#9A1C0B;
+  --box-bg:#FFF4D6; --box-ink:#4A3800; --box-line:#D9AF45;
+  --chip-bg:#EFE6F6;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15131B; --card:#201D29; --ink:#ECE9F2; --soft:#B9B3C6; --line:#3D3849;
+  --accent:#C9A2EC; --accent-ink:#1A1022;
+  --g-suono:#6FD3DC; --g-senso:#F5A08A; --g-ordine:#A5B4FF;
+  --rA:#6FD3DC; --rB:#F5A08A; --rC:#A5B4FF; --rD:#F0CF6A; --rE:#C9A2EC;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --chip-bg:#2C2238;}}
+:root[data-theme="dark"]{
+  --bg:#15131B; --card:#201D29; --ink:#ECE9F2; --soft:#B9B3C6; --line:#3D3849;
+  --accent:#C9A2EC; --accent-ink:#1A1022;
+  --g-suono:#6FD3DC; --g-senso:#F5A08A; --g-ordine:#A5B4FF;
+  --rA:#6FD3DC; --rB:#F5A08A; --rC:#A5B4FF; --rD:#F0CF6A; --rE:#C9A2EC;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --chip-bg:#2C2238;}
+
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:var(--fs);-webkit-text-size-adjust:100%;scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;padding-bottom:calc(5rem + env(safe-area-inset-bottom,0px))}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:3000;background:var(--accent);color:var(--accent-ink);padding:.7rem 1rem;border-radius:8px;font-weight:700}
+.skip:focus{left:.75rem;top:.75rem}
+
+.wrap{max-width:46rem;margin:0 auto;padding:0 1rem}
+header.top{padding:1.25rem 0 .5rem}
+.kicker{margin:0 0 .3rem;font-weight:700;color:var(--soft);font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:1.75rem;line-height:1.15;margin:0 0 .5rem}
+.lead{margin:0 0 1rem;color:var(--soft)}
+
+.tools{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.25rem}
+button{font:inherit}
+.tools button,.btn{font-size:.9rem;font-weight:700;min-height:48px;min-width:48px;padding:0 .9rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.4rem}
+.tools button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+
+.brief{background:var(--box-bg);color:var(--box-ink);border-left:5px solid var(--box-line);border-radius:12px;padding:.9rem 1rem;margin:0 0 1.25rem}
+.brief h2{font-size:1.05rem;margin:0 0 .4rem}
+.brief ul{margin:0;padding-left:1.2rem}
+.brief li{margin:.3rem 0}
+
+nav.idx{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:1.5rem}
+nav.idx h2{font-size:1.1rem;margin:0 0 .5rem}
+nav.idx ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem;counter-reset:i}
+nav.idx li{counter-increment:i}
+nav.idx a{display:flex;align-items:center;gap:.5rem;min-height:48px;padding:.4rem .7rem;border-radius:10px;text-decoration:none;color:var(--ink);font-size:.9rem;line-height:1.25;border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--chip-bg)}
+nav.idx a::before{content:counter(i);font-weight:700;color:var(--accent);min-width:1.1em}
+
+.sec{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:14px;padding:1rem 1rem 1.1rem;margin:0 0 1.1rem;scroll-margin-top:12px}
+.sec-head{display:flex;gap:.6rem;align-items:flex-start;justify-content:space-between}
+.sec h2{font-size:1.3rem;line-height:1.2;margin:0 0 .75rem}
+.sec h3{font-size:1.05rem;margin:1.1rem 0 .4rem}
+.sec p{margin:.5rem 0}
+.sec ul,.sec ol{padding-left:1.3rem}
+.sec li{margin:.35rem 0}
+.step{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);margin-bottom:.2rem}
+.say{flex:0 0 auto;font-size:.85rem;min-height:44px;padding:0 .7rem}
+.say[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.key{background:var(--box-bg);color:var(--box-ink);border-left:4px solid var(--box-line);border-radius:8px;padding:.55rem .8rem;margin:.75rem 0}
+.w{font-weight:700;border-bottom:2px dotted var(--accent)}
+
+/* confronto a due colonne (diventa una colonna sul telefono) */
+.cmp{display:grid;grid-template-columns:1fr;gap:.7rem;margin:.6rem 0}
+.cmp > div{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem}
+.cmp h3{margin:.1rem 0 .3rem}
+.verse{font-style:italic;margin:.4rem 0;padding:.5rem .8rem;border-left:4px solid var(--line);background:var(--bg);border-radius:0 8px 8px 0;line-height:1.5}
+.verse .src{display:block;font-style:normal;font-size:.8rem;color:var(--soft);margin-top:.3rem}
+
+/* sillabe */
+dl.rules dd{margin:.2rem 0 0;padding-left:.8rem;border-left:3px solid var(--line)}
+.syl{display:flex;flex-wrap:wrap;gap:.3rem;margin:.5rem 0;padding:0;list-style:none}
+.syl li{margin:0;min-width:2.6rem;text-align:center;border:2px solid var(--line);border-radius:8px;padding:.15rem .35rem;line-height:1.2}
+.syl li small{display:block;font-size:.7rem;color:var(--soft);font-weight:700}
+.syl li.hl{border-color:var(--accent);border-width:3px}
+.syl li.tonic{background:var(--chip-bg)}
+
+/* versi per numero di sillabe */
+.metri{list-style:none;padding:0!important;display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.metri li{margin:0;border:1px solid var(--line);border-radius:10px;padding:.45rem .6rem;line-height:1.3}
+.metri b{display:block;font-size:1.3rem;color:var(--accent)}
+.metri li.star{border:2px solid var(--accent)}
+
+/* schemi di rima: colore + lettera, mai solo colore */
+.rime{display:grid;grid-template-columns:1fr;gap:.7rem;margin:.6rem 0}
+.rima{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem}
+.rima h3{margin:.1rem 0 .4rem;display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap}
+.rima .sch{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:700;letter-spacing:.08em}
+.rl{display:flex;gap:.6rem;align-items:baseline;margin:.15rem 0;font-style:italic;line-height:1.35}
+.rl .L{font-style:normal;font-weight:700;font-family:"JetBrains Mono",ui-monospace,monospace;min-width:1.4rem;text-align:center;border-radius:6px;color:var(--card);padding:0 .25rem}
+.rl .e{font-weight:700;font-style:normal;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.LA{background:var(--rA)} .LB{background:var(--rB)} .LC{background:var(--rC)} .LD{background:var(--rD)} .LE{background:var(--rE)}
+.rl .src{font-style:normal}
+
+/* strofe */
+table.t{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:.45rem .5rem;text-align:left;vertical-align:top}
+table.t th{background:var(--chip-bg)}
+table.t td.n{font-weight:700;width:30%}
+@media (min-width:720px){table.t td.n{width:auto;white-space:nowrap}}
+
+/* figure retoriche */
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.filters button{font-size:.85rem;font-weight:700;min-height:44px;padding:0 .8rem;border-radius:22px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.figs{list-style:none;padding:0!important;margin:.4rem 0;display:grid;grid-template-columns:1fr;gap:.55rem}
+.fig{margin:0!important;border:1px solid var(--line);border-left:6px solid var(--gc);border-radius:10px;padding:.55rem .8rem}
+.fig[data-g="suono"]{--gc:var(--g-suono)} .fig[data-g="senso"]{--gc:var(--g-senso)} .fig[data-g="ordine"]{--gc:var(--g-ordine)}
+.fig .nm{font-weight:700;font-size:1.05rem}
+.fig .gr{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gc);margin-left:.4rem}
+.fig .def{margin:.2rem 0}
+.fig .ex{margin:.25rem 0 0;font-style:italic;color:var(--soft)}
+.fig .ex::before{content:"Esempio: ";font-style:normal;font-weight:700;color:var(--ink)}
+.fig[hidden]{display:none}
+.gkey{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.85rem;color:var(--soft);margin:.3rem 0}
+.gkey span{display:inline-flex;align-items:center;gap:.35rem}
+.gkey i{display:inline-block;width:14px;height:14px;border-radius:3px}
+
+/* temi e autori */
+.tl{list-style:none;padding:0!important;margin:.5rem 0;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:.6rem 0 .6rem .9rem!important}
+.tl li::before{content:"";position:absolute;left:-1.3rem;top:.55rem;width:.65rem;height:.65rem;border-radius:50%;background:var(--accent)}
+.tl .when{display:block;font-size:.8rem;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.03em}
+
+details.more{margin:.8rem 0 0;border:1px solid var(--line);border-radius:10px;padding:.1rem .9rem}
+details.more summary,footer.about summary,details.ans summary{min-height:48px;display:flex;align-items:center;font-weight:700;cursor:pointer}
+
+/* parole in sei lingue */
+.lang-wrap{overflow-x:auto;margin:.6rem 0;border:1px solid var(--line);border-radius:10px}
+table.lang{border-collapse:collapse;min-width:40rem;font-size:.92rem}
+table.lang.one{min-width:0;width:100%}
+table.lang .off{display:none}
+table.lang th,table.lang td{border-bottom:1px solid var(--line);padding:.45rem .55rem;text-align:left}
+table.lang th{background:var(--chip-bg);position:sticky;top:0}
+table.lang td:first-child,table.lang th:first-child{position:sticky;left:0;background:var(--card);font-weight:700;border-right:2px solid var(--line)}
+table.lang th:first-child{background:var(--chip-bg)}
+table.lang td[lang="ar"]{font-family:system-ui,sans-serif;font-size:1.05rem}
+
+/* quiz */
+.q{border:1px solid var(--line);border-radius:12px;padding:.6rem .9rem .8rem;margin:.8rem 0}
+.q legend{font-weight:700;padding:0 .3rem;line-height:1.35}
+.q .n{color:var(--accent)}
+.q label{display:flex;gap:.6rem;align-items:center;min-height:48px;padding:.35rem .6rem;margin:.35rem 0;border:1px solid var(--line);border-radius:10px;cursor:pointer;line-height:1.3}
+.q input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--accent)}
+.q label:has(input:checked){border-color:var(--accent);border-width:2px}
+.q .btn{margin-top:.4rem}
+.fb{margin:.6rem 0 0;padding:0;border-radius:8px;font-size:.95rem}
+.fb.ok{background:var(--ok-bg);color:var(--ok-ink);padding:.55rem .8rem}
+.fb.no{background:var(--no-bg);color:var(--no-ink);padding:.55rem .8rem}
+.score{font-weight:700;padding:.7rem .9rem;border-radius:10px;background:var(--chip-bg);margin:.8rem 0 0}
+
+ol.passi{counter-reset:p;list-style:none;padding:0!important}
+ol.passi li{counter-increment:p;position:relative;padding:.5rem .7rem .5rem 3rem;border:1px solid var(--line);border-radius:10px;margin:.45rem 0!important}
+ol.passi li::before{content:counter(p);position:absolute;left:.7rem;top:.5rem;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+
+.toidx[hidden]{display:none}
+.toidx{position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:900;display:inline-flex;align-items:center;gap:.35rem;min-height:48px;padding:0 1rem;border-radius:24px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+
+footer.about{margin:2.5rem 0 1rem;font-size:.92rem;color:var(--soft)}
+footer.about details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.2rem 1rem}
+footer.about summary{color:var(--ink)}
+footer.about li{margin:.35rem 0}
+
+@media (max-width:359px){.wrap{padding:0 .6rem}.sec{padding:.9rem .7rem}nav.idx ol{grid-template-columns:1fr}.metri{grid-template-columns:1fr}}
+@media (min-width:720px){
+  :root{--fs:20px}
+  h1{font-size:2.2rem}
+  .sec{padding:1.3rem 1.5rem}
+  .cmp,.rime{grid-template-columns:1fr 1fr}
+  .figs{grid-template-columns:1fr 1fr}
+  .metri{grid-template-columns:repeat(3,1fr)}
+  nav.idx ol{grid-template-columns:repeat(3,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  :root{--bg:#fff;--card:#fff;--ink:#000;--soft:#333;--line:#999}
+  #site-menu,.tools,nav.idx,.toidx,footer.about,.skip,.say,.filters,.q .btn,#btn-reset{display:none!important}
+  body{padding:0}.sec{break-inside:avoid;border-width:1px}
+  .fig[hidden]{display:block}
+  details{display:block}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#indice">Vai all’indice della lezione</a>
+<div id="site-menu" data-lezioni-menu="minimal" data-back="/lezioni-accessibili/"></div>
+
+<div class="wrap">
+<header class="top">
+  <p class="kicker">Italiano · Il testo poetico</p>
+  <h1>La poesia: come è fatta e come si legge</h1>
+  <p class="lead">Le idee principali per capire una poesia: i versi, il significato delle parole, chi parla, il ritmo, le rime, le strofe, il sonetto e le figure retoriche. Poi i temi e i grandi poeti. In fondo trovi il ripasso con le risposte spiegate.</p>
+  <div class="tools" role="group" aria-label="Impostazioni di lettura">
+    <span role="group" aria-label="Grandezza del testo" style="display:inline-flex;gap:.35rem">
+      <button type="button" id="btn-minus" aria-label="Testo più piccolo">A−</button>
+      <button type="button" id="btn-plus" aria-label="Testo più grande">A+</button>
+    </span>
+    <button type="button" id="btn-theme" aria-pressed="false">Tema scuro</button>
+  </div>
+  <p class="lead" id="tts-note" hidden>Ogni parte ha il pulsante <strong>🔊 Ascolta</strong>: il telefono legge il testo ad alta voce.</p>
+</header>
+
+<main id="lezione">
+
+<section class="brief" aria-labelledby="breve-t">
+  <h2 id="breve-t">In breve: le 8 cose da sapere</h2>
+  <ul>
+    <li>La poesia è scritta in <strong>versi</strong>: va a capo prima della fine della riga. La prosa invece occupa tutta la riga.</li>
+    <li>In poesia le parole hanno spesso <strong>più di un significato</strong>: quello letterale (<strong>denotazione</strong>) e quello nascosto (<strong>connotazione</strong>).</li>
+    <li>Chi dice «io» nella poesia è l’<strong>io lirico</strong>. Non è sempre il poeta in carne e ossa.</li>
+    <li>Nei versi si contano le <strong>sillabe</strong>. Il verso più usato in italiano è l’<strong>endecasillabo</strong> (11 sillabe).</li>
+    <li>Due versi sono in <strong>rima</strong> quando finiscono con lo stesso suono, dall’ultima vocale accentata in poi.</li>
+    <li>I versi si raggruppano in <strong>strofe</strong>: distico (2), terzina (3), quartina (4), sestina (6), ottava (8).</li>
+    <li>Il <strong>sonetto</strong> ha 14 endecasillabi: 2 quartine e 2 terzine.</li>
+    <li>Le <strong>figure retoriche</strong> sono di tre tipi: di <strong>suono</strong>, di <strong>significato</strong>, di <strong>ordine</strong>.</li>
+  </ul>
+</section>
+
+<nav class="idx" id="indice" aria-labelledby="indice-t" tabindex="-1">
+  <h2 id="indice-t">Indice</h2>
+  <ol>
+    <li><a href="#versi">Versi e prosa</a></li>
+    <li><a href="#parole">Le parole della poesia</a></li>
+    <li><a href="#io">Chi parla</a></li>
+    <li><a href="#sillabe">Sillabe e versi</a></li>
+    <li><a href="#rime">Le rime</a></li>
+    <li><a href="#strofe">Strofe e sonetto</a></li>
+    <li><a href="#figure">Figure retoriche</a></li>
+    <li><a href="#temi">I temi</a></li>
+    <li><a href="#poeti">I grandi poeti</a></li>
+    <li><a href="#analisi">Analizzare una poesia</a></li>
+    <li><a href="#ripasso">Ripasso</a></li>
+    <li><a href="#lingue">Parole in 6 lingue</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="versi" aria-labelledby="versi-t">
+  <span class="step">Parte 1</span>
+  <div class="sec-head"><h2 id="versi-t">Versi e prosa</h2></div>
+  <p>Una poesia si riconosce <strong>a colpo d’occhio</strong>: le righe sono corte e restano spazi bianchi. Ogni riga si chiama <span class="w">verso</span>.</p>
+  <div class="cmp">
+    <div>
+      <h3>Prosa</h3>
+      <p>Dal latino <em>prosus</em>, «che cammina dritto». Il testo arriva sempre <strong>fino al margine</strong> della pagina e va a capo solo quando finisce lo spazio.</p>
+    </div>
+    <div>
+      <h3>Poesia</h3>
+      <p>Dal latino <em>versus</em>, «tornare indietro». Il poeta <strong>sceglie</strong> dove andare a capo. Le righe si interrompono e si ripetono e così creano un <strong>ritmo</strong>.</p>
+    </div>
+  </div>
+  <h3>Perché andare a capo?</h3>
+  <p>La pausa a fine verso <strong>mette in rilievo</strong> le parole. Leggi la stessa notizia in due modi:</p>
+  <div class="cmp">
+    <div><p class="verse" style="font-style:normal">Ieri, sulla Statale sette, un’automobile, correndo a cento all’ora, ha cozzato contro un platano. I quattro occupanti sono rimasti uccisi.</p></div>
+    <div><p class="verse">Ieri, sulla Statale sette<br>un’automobile<br>correndo a cento all’ora ha cozzato<br>contro un platano.<br>I quattro occupanti sono rimasti<br>uccisi.</p></div>
+  </div>
+  <p>Nella seconda versione la parola <strong>«uccisi»</strong> è da sola: la notiamo di più e ci colpisce di più.</p>
+  <div class="key"><strong>Da ricordare.</strong> Le parole all’<strong>inizio</strong> e alla <strong>fine</strong> del verso, e quelle nei <strong>versi molto brevi</strong>, sono le più importanti: il poeta vuole che le guardiamo bene. Anche gli spazi bianchi «parlano»: sono silenzi.</div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="parole" aria-labelledby="parole-t">
+  <span class="step">Parte 2</span>
+  <div class="sec-head"><h2 id="parole-t">Le parole della poesia</h2></div>
+  <h3>Significante e significato</h3>
+  <p>Ogni parola ha due facce:</p>
+  <ul>
+    <li><span class="w">significante</span>: i suoni o le lettere. Esempio: f + i + u + m + e.</li>
+    <li><span class="w">significato</span>: l’idea che ci viene in mente. Esempio: l’idea di un fiume.</li>
+  </ul>
+  <p>In poesia anche il <strong>suono</strong> conta. Dante, per descrivere una selva che fa paura, usa tanti suoni duri con la <strong>s</strong> e la <strong>r</strong>:</p>
+  <p class="verse">esta selva selvaggia e aspra e forte<span class="src">Dante, Inferno, canto I</span></p>
+  <h3>Denotazione e connotazione</h3>
+  <div class="cmp">
+    <div>
+      <h3>Denotazione</h3>
+      <p>Il significato <strong>letterale</strong>, quello del vocabolario. «Fiume» = un corso d’acqua che scorre verso il mare.</p>
+    </div>
+    <div>
+      <h3>Connotazione</h3>
+      <p>Il significato <strong>in più</strong>, che nasce dal contesto. «Il fiume dei pensieri» = pensieri che scorrono senza fermarsi.</p>
+    </div>
+  </div>
+  <p>Alla prima lettura capiamo la denotazione. Per capire la connotazione dobbiamo <strong>interpretare</strong>: simboli, metafore, immagini.</p>
+  <h3>Polisemia</h3>
+  <p>Una parola <span class="w">polisemica</span> ha <strong>molti significati</strong> (dal greco <em>polys</em>, «molti», e <em>sema</em>, «segno»). Ungaretti, soldato nella Prima guerra mondiale, scrive che il mare è per lui «una bara di freschezza»: il mare è vita e fresco, ma la parola «bara» riporta la morte vista in guerra.</p>
+  <div class="key"><strong>Da ricordare.</strong> Denotazione = significato letterale. Connotazione = significato nascosto. La poesia usa molto la connotazione: per questo una poesia si può leggere in modi diversi.</div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="io" aria-labelledby="io-t">
+  <span class="step">Parte 3</span>
+  <div class="sec-head"><h2 id="io-t">Chi parla nella poesia</h2></div>
+  <p>Nell’antica Grecia i poeti cantavano accompagnati da uno strumento, la <strong>lira</strong>. Da qui viene la parola <span class="w">lirica</span>: oggi indica le poesie che esprimono <strong>emozioni e sentimenti</strong>.</p>
+  <div class="cmp">
+    <div>
+      <h3>Autore reale</h3>
+      <p>La persona vera, che è esistita e ha scritto il testo.</p>
+    </div>
+    <div>
+      <h3>Io lirico</h3>
+      <p>La <strong>voce</strong> che nel testo dice «io». Può essere il poeta, ma può anche essere un personaggio inventato.</p>
+    </div>
+  </div>
+  <p>È come nei racconti, dove l’<strong>autore</strong> e il <strong>narratore</strong> sono due cose diverse.</p>
+  <h3>L’interlocutore</h3>
+  <p>L’io lirico spesso parla a un <strong>«tu»</strong>: una persona, Dio, la luna, un’idea. Questo «tu» si chiama <span class="w">interlocutore</span>. È dentro il testo. Non è il lettore vero.</p>
+  <div class="key"><strong>Da ricordare.</strong> Io lirico = chi dice «io» nella poesia. Interlocutore = il «tu» a cui parla. Il lettore reale è un’altra cosa.</div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sillabe" aria-labelledby="sillabe-t">
+  <span class="step">Parte 4</span>
+  <div class="sec-head"><h2 id="sillabe-t">Sillabe e versi</h2></div>
+  <p>Il nome di un verso dipende dal <strong>numero di sillabe</strong>. Le sillabe di un verso (sillabe <strong>metriche</strong>) non sempre sono uguali a quelle della grammatica.</p>
+  <h3>La regola dell’ultimo accento</h3>
+  <p>Si conta fino alla sillaba <strong>dopo l’ultimo accento</strong> del verso.</p>
+  <ul>
+    <li><strong>Verso piano</strong>: finisce con una parola accentata sulla penultima sillaba (<em>a-<strong>mo</strong>-re</em>). È il caso normale.</li>
+    <li><strong>Verso tronco</strong>: finisce con una parola accentata sull’ultima (<em>cit-<strong>tà</strong></em>). Si conta <strong>una sillaba in più</strong>.</li>
+    <li><strong>Verso sdrucciolo</strong>: finisce con una parola accentata sulla terzultima (<em><strong>ta</strong>-vo-lo</em>). Si conta <strong>una sillaba in meno</strong>.</li>
+  </ul>
+  <h3>Quattro regole per contare</h3>
+  <dl class="rules">
+    <dt><strong>Sinalefe</strong> (fusione tra due parole)</dt>
+    <dd>La vocale finale di una parola e la vocale iniziale della parola dopo diventano <strong>una sola sillaba</strong>. È la regola più frequente.
+      <ul class="syl" aria-label="Esempio di sinalefe: mi ritrovai per una selva oscura, 11 sillabe, con sinalefe tra selva e oscura">
+        <li><small>1</small>mi</li><li><small>2</small>ri</li><li><small>3</small>tro</li><li><small>4</small>vai</li><li><small>5</small>per</li><li><small>6</small>u</li><li><small>7</small>na</li><li><small>8</small>sel</li><li class="hl"><small>9</small>va o</li><li class="tonic"><small>10</small>scu</li><li><small>11</small>ra</li>
+      </ul>
+      <span style="font-size:.9rem;color:var(--soft)">«va o» si legge insieme: una sola sillaba. Il riquadro colorato è l’ultimo accento (10ª sillaba).</span>
+    </dd>
+    <dt style="margin-top:.8rem"><strong>Dialefe</strong> (separazione tra due parole)</dt>
+    <dd>È il contrario: le due vocali vicine restano <strong>separate</strong>. Esempio: <em>co / min / ciò / a</em> (Dante).</dd>
+    <dt style="margin-top:.8rem"><strong>Dieresi</strong> (separazione dentro una parola)</dt>
+    <dd>Due vocali che di solito stanno insieme (dittongo) diventano <strong>due sillabe</strong>. Si segna con due puntini: <em>im-pe-tü-o-sa</em>, <em>gra-zï-o-sa</em>.</dd>
+    <dt style="margin-top:.8rem"><strong>Sineresi</strong> (fusione dentro una parola)</dt>
+    <dd>È il contrario: due vocali che di solito sono separate diventano <strong>una sillaba</strong>. <em>pa-re-a</em> → <em>pa-rea</em>.</dd>
+  </dl>
+  <h3>I versi più comuni</h3>
+  <ul class="metri">
+    <li><b>5</b>quinario</li>
+    <li><b>6</b>senario</li>
+    <li class="star"><b>7</b>settenario</li>
+    <li><b>8</b>ottonario</li>
+    <li><b>9</b>novenario</li>
+    <li class="star"><b>11</b>endecasillabo ★</li>
+  </ul>
+  <h3>Il ritmo</h3>
+  <p>Leggendo ad alta voce, alcune sillabe si pronunciano <strong>più forte</strong>: sono gli <span class="w">accenti ritmici</span> (o <em>ictus</em>, dal latino «colpo»). La loro ripetizione crea il <strong>ritmo</strong> del verso. Nei versi con un numero pari di sillabe gli accenti sono in posizione fissa; nei versi dispari, come l’endecasillabo, possono cambiare. L’ultimo accento, nei versi piani, cade <strong>sempre sulla penultima sillaba</strong>.</p>
+  <div class="key"><strong>Da ricordare.</strong> Endecasillabo = 11 sillabe, ultimo accento sulla 10ª. È il verso più importante della poesia italiana. Settenario = 7 sillabe.</div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="rime" aria-labelledby="rime-t">
+  <span class="step">Parte 5</span>
+  <div class="sec-head"><h2 id="rime-t">Le rime</h2></div>
+  <p>Due versi sono in <span class="w">rima</span> quando hanno lo <strong>stesso suono a partire dall’ultima vocale accentata</strong>: <em>n<strong>àstro</strong> / alab<strong>àstro</strong></em>, <em>torner<strong>à</strong> / chiss<strong>à</strong></em>.</p>
+  <p>Per descrivere lo <strong>schema</strong> delle rime si usano le lettere: <strong>la stessa lettera = la stessa rima</strong>. Le maiuscole indicano i versi lunghi (dall’endecasillabo), le minuscole quelli più corti.</p>
+  <div class="rime">
+    <div class="rima">
+      <h3>Rima baciata <span class="sch">AABB</span></h3>
+      <div class="rl"><span class="L LA">A</span><span>O cavallina, cavallina st<span class="e">orna</span>,</span></div>
+      <div class="rl"><span class="L LA">A</span><span>che portavi colui che non rit<span class="e">orna</span>;</span></div>
+      <div class="rl"><span class="L LB">B</span><span>tu capivi il suo cenno ed il suo d<span class="e">etto</span>!</span></div>
+      <div class="rl"><span class="L LB">B</span><span>Egli ha lasciato un figlio giovin<span class="e">etto</span></span></div>
+      <p style="font-size:.85rem;color:var(--soft);margin:.3rem 0 0">Pascoli · Le rime si «toccano»: due versi vicini.</p>
+    </div>
+    <div class="rima">
+      <h3>Rima alternata <span class="sch">ABAB</span></h3>
+      <div class="rl"><span class="L LA">A</span><span>I cipressi che a Bolgheri alti e schi<span class="e">etti</span></span></div>
+      <div class="rl"><span class="L LB">B</span><span>van da San Guido in duplice fil<span class="e">ar</span>,</span></div>
+      <div class="rl"><span class="L LA">A</span><span>quasi in corsa giganti giovin<span class="e">etti</span></span></div>
+      <div class="rl"><span class="L LB">B</span><span>mi balzarono incontro e mi guard<span class="e">ar</span>.</span></div>
+      <p style="font-size:.85rem;color:var(--soft);margin:.3rem 0 0">Carducci · Una sì e una no.</p>
+    </div>
+    <div class="rima">
+      <h3>Rima incrociata <span class="sch">ABBA</span></h3>
+      <div class="rl"><span class="L LA">A</span><span>Quando la terra è d’ombre ricov<span class="e">erta</span></span></div>
+      <div class="rl"><span class="L LB">B</span><span>e soffia il vento, e in su l’arene estr<span class="e">eme</span></span></div>
+      <div class="rl"><span class="L LB">B</span><span>l’onda va e vien che mormorando g<span class="e">eme</span>,</span></div>
+      <div class="rl"><span class="L LA">A</span><span>e appar la luna tra le nubi inc<span class="e">erta</span>.</span></div>
+      <p style="font-size:.85rem;color:var(--soft);margin:.3rem 0 0">Foscolo · Il primo rima con l’ultimo, i due in mezzo tra loro.</p>
+    </div>
+    <div class="rima">
+      <h3>Rima incatenata <span class="sch">ABA BCB</span></h3>
+      <div class="rl"><span class="L LA">A</span><span>Nel mezzo del cammin di nostra v<span class="e">ita</span></span></div>
+      <div class="rl"><span class="L LB">B</span><span>mi ritrovai per una selva osc<span class="e">ura</span>,</span></div>
+      <div class="rl"><span class="L LA">A</span><span>ché la diritta via era smarr<span class="e">ita</span>.</span></div>
+      <div class="rl"><span class="L LB">B</span><span>Ahi quanto a dir qual era è cosa d<span class="e">ura</span></span></div>
+      <div class="rl"><span class="L LC">C</span><span>esta selva selvaggia e aspra e f<span class="e">orte</span></span></div>
+      <div class="rl"><span class="L LB">B</span><span>che nel pensier rinova la pa<span class="e">ura</span>!</span></div>
+      <p style="font-size:.85rem;color:var(--soft);margin:.3rem 0 0">Dante · La rima di mezzo (B) diventa la rima esterna della terzina dopo: come anelli di una catena.</p>
+    </div>
+  </div>
+  <p>Esiste anche la <strong>rima ripetuta</strong> (ABC ABC): le rime tornano nello stesso ordine.</p>
+  <h3>Rime imperfette</h3>
+  <ul>
+    <li><span class="w">Assonanza</span>: sono uguali solo le <strong>vocali</strong> finali. <em>c<strong>o</strong>ll<strong>o</strong> / p<strong>o</strong>st<strong>o</strong></em>.</li>
+    <li><span class="w">Consonanza</span>: sono uguali solo le <strong>consonanti</strong> finali. <em>mo<strong>lt</strong>o / sa<strong>lt</strong>o</em>.</li>
+  </ul>
+  <div class="key"><strong>Da ricordare.</strong> Baciata AABB · Alternata ABAB · Incrociata ABBA · Incatenata ABA BCB. Per trovare lo schema: guarda come finisce ogni verso e dai una lettera a ogni suono nuovo.</div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="strofe" aria-labelledby="strofe-t">
+  <span class="step">Parte 6</span>
+  <div class="sec-head"><h2 id="strofe-t">Strofe e sonetto</h2></div>
+  <p>Più versi insieme formano una <span class="w">strofa</span>: un gruppo con un senso compiuto e un ritmo suo. Il nome dipende da <strong>quanti versi</strong> ci sono.</p>
+  <table class="t">
+    <thead><tr><th scope="col">Strofa</th><th scope="col">Versi</th><th scope="col">Rime di solito</th></tr></thead>
+    <tbody>
+      <tr><td class="n">Distico</td><td>2</td><td>baciata (AA)</td></tr>
+      <tr><td class="n">Terzina</td><td>3</td><td>incatenata (ABA BCB), come in Dante</td></tr>
+      <tr><td class="n">Quartina</td><td>4</td><td>alternata (ABAB) o incrociata (ABBA)</td></tr>
+      <tr><td class="n">Sestina</td><td>6</td><td>4 alternati + 2 baciati (ababcc)</td></tr>
+      <tr><td class="n">Ottava</td><td>8</td><td>6 alternati + 2 baciati (ABABABCC), tipica dei poemi cavallereschi</td></tr>
+    </tbody>
+  </table>
+  <p>Dall’Ottocento molti poeti usano strofe <strong>libere</strong>: il numero dei versi e le rime cambiano come vuole l’autore.</p>
+  <h3>Il sonetto</h3>
+  <p>Più strofe insieme formano un <span class="w">componimento</span>. I più importanti della tradizione italiana sono il <strong>sonetto</strong> e la <strong>canzone</strong> (meno usati l’ode, il madrigale e la ballata).</p>
+  <p>Il <strong>sonetto</strong> è la forma più diffusa della poesia italiana. È breve e va bene per ogni argomento, dall’amore alla politica. L’ha inventato <strong>Giacomo da Lentini</strong> nel Duecento, partendo dalla poesia provenzale (Francia del Sud).</p>
+  <div class="key"><strong>Sonetto = 14 endecasillabi</strong> divisi in <strong>2 quartine + 2 terzine</strong> (4 + 4 + 3 + 3).</div>
+  <p>Esempio: <em>Tanto gentile e tanto onesta pare</em> di Dante. Le quartine hanno rima incrociata (ABBA ABBA), le terzine rima invertita (CDE EDC).</p>
+  <details class="more">
+    <summary>Leggi il sonetto di Dante con lo schema</summary>
+    <div class="rl"><span class="L LA">A</span><span>Tanto gentile e tanto onesta p<span class="e">are</span></span></div>
+    <div class="rl"><span class="L LB">B</span><span>la donna mia quand’ella altrui sal<span class="e">uta</span>,</span></div>
+    <div class="rl"><span class="L LB">B</span><span>ch’ogne lingua deven tremando m<span class="e">uta</span>,</span></div>
+    <div class="rl"><span class="L LA">A</span><span>e li occhi no l’ardiscon di guard<span class="e">are</span>.</span></div>
+    <p style="margin:.4rem 0"></p>
+    <div class="rl"><span class="L LA">A</span><span>Ella si va, sentendosi laud<span class="e">are</span>,</span></div>
+    <div class="rl"><span class="L LB">B</span><span>benignamente d’umiltà vest<span class="e">uta</span>;</span></div>
+    <div class="rl"><span class="L LB">B</span><span>e par che sia una cosa ven<span class="e">uta</span></span></div>
+    <div class="rl"><span class="L LA">A</span><span>da cielo in terra a miracol mostr<span class="e">are</span>.</span></div>
+    <p style="margin:.4rem 0"></p>
+    <div class="rl"><span class="L LC">C</span><span>Mostrasi sì piacente a chi la m<span class="e">ira</span>,</span></div>
+    <div class="rl"><span class="L LD">D</span><span>che dà per li occhi una dolcezza al c<span class="e">ore</span>,</span></div>
+    <div class="rl"><span class="L LE">E</span><span>che ’ntender no la può chi no la pr<span class="e">ova</span>:</span></div>
+    <p style="margin:.4rem 0"></p>
+    <div class="rl"><span class="L LE">E</span><span>e par che de la sua labbia si m<span class="e">ova</span></span></div>
+    <div class="rl"><span class="L LD">D</span><span>un spirito soave pien d’am<span class="e">ore</span>,</span></div>
+    <div class="rl"><span class="L LC">C</span><span>che va dicendo a l’anima: Sosp<span class="e">ira</span>.</span></div>
+    <p style="font-size:.85rem;color:var(--soft)">Dante, Vita nuova. Parafrasi breve: la donna amata è così nobile e onesta che, quando saluta, chi la guarda resta senza parole; sembra un miracolo sceso dal cielo e la sua dolcezza fa sospirare d’amore.</p>
+  </details>
+  <p>Anche <em>S’i’ fosse foco</em> di Cecco Angiolieri è un sonetto: ogni strofa ripete all’inizio «s’i’ fosse» («se io fossi»). Questa ripetizione si chiama <strong>anafora</strong> e crea un ritmo regolare.</p>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="figure" aria-labelledby="figure-t">
+  <span class="step">Parte 7</span>
+  <div class="sec-head"><h2 id="figure-t">Le figure retoriche</h2></div>
+  <p>Le <span class="w">figure retoriche</span> sono modi speciali di usare le parole per dare <strong>forza, musica o un significato nuovo</strong> a quello che si dice. Si dividono in tre gruppi:</p>
+  <div class="gkey" aria-hidden="true">
+    <span><i style="background:var(--g-suono)"></i>Suono</span>
+    <span><i style="background:var(--g-senso)"></i>Significato</span>
+    <span><i style="background:var(--g-ordine)"></i>Ordine</span>
+  </div>
+  <ul>
+    <li><strong>Di suono</strong>: giocano con i suoni delle parole.</li>
+    <li><strong>Di significato</strong>: cambiano o allargano il significato delle parole.</li>
+    <li><strong>Di ordine</strong> (o di sintassi): cambiano l’ordine o la ripetizione delle parole nella frase.</li>
+  </ul>
+  <div class="filters" role="group" aria-label="Mostra le figure del gruppo">
+    <button type="button" data-f="tutte" aria-pressed="true">Tutte</button>
+    <button type="button" data-f="suono" aria-pressed="false">Suono</button>
+    <button type="button" data-f="senso" aria-pressed="false">Significato</button>
+    <button type="button" data-f="ordine" aria-pressed="false">Ordine</button>
+  </div>
+  <p class="sr-count" id="fig-count" aria-live="polite" style="font-size:.85rem;color:var(--soft);margin:.2rem 0">Figure mostrate: 20.</p>
+  <ul class="figs" id="figs">
+    <li class="fig" data-g="suono"><span class="nm">Allitterazione</span><span class="gr">suono</span><p class="def">Lo stesso suono o la stessa lettera si ripete in parole vicine.</p><p class="ex">«fresche le mie parole ne la sera / ti sien come il fruscìo che fan le foglie» (D’Annunzio)</p></li>
+    <li class="fig" data-g="suono"><span class="nm">Onomatopea</span><span class="gr">suono</span><p class="def">Una parola imita un suono o un rumore.</p><p class="ex">«don don», «tic tac», «il tuono rimbombò di schianto» (Pascoli)</p></li>
+    <li class="fig" data-g="suono"><span class="nm">Paronomasia</span><span class="gr">suono</span><p class="def">Due parole simili nel suono ma diverse nel significato vicine.</p><p class="ex">«campagna / accompagna»</p></li>
+    <li class="fig" data-g="suono"><span class="nm">Assonanza e consonanza</span><span class="gr">suono</span><p class="def">Rime imperfette: uguali solo le vocali finali (assonanza) o solo le consonanti finali (consonanza).</p><p class="ex">«collo / posto»; «molto / salto»</p></li>
+
+    <li class="fig" data-g="senso"><span class="nm">Similitudine</span><span class="gr">significato</span><p class="def">Un paragone tra due cose, con la parola <strong>come</strong> (o simile a, tale…).</p><p class="ex">«il mio amore brucia come una fiamma»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Metafora</span><span class="gr">significato</span><p class="def">Un paragone <strong>senza «come»</strong>: una parola prende il posto di un’altra che le somiglia.</p><p class="ex">«il mio amore è una fiamma»; «il viaggio» per dire la vita</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Analogia</span><span class="gr">significato</span><p class="def">Come la metafora, ma più ardita: unisce cose molto lontane tra loro.</p><p class="ex">«capelli come la notte»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Personificazione</span><span class="gr">significato</span><p class="def">Dare qualità umane a cose, animali o idee.</p><p class="ex">«il mare era furibondo»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Iperbole</span><span class="gr">significato</span><p class="def">Un’esagerazione, in più o in meno.</p><p class="ex">«è un secolo che non ci vediamo»; «piangere fiumi di lacrime»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Sinestesia</span><span class="gr">significato</span><p class="def">Unisce parole di due sensi diversi (vista, udito, tatto…).</p><p class="ex">«un colore caldo» (vista + tatto); «il grido ghiacciato»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Ossimoro</span><span class="gr">significato</span><p class="def">Due parole di significato opposto, una accanto all’altra.</p><p class="ex">«tacito tumulto» (Pascoli); «urlo muto»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Antitesi</span><span class="gr">significato</span><p class="def">Due idee opposte messe a confronto.</p><p class="ex">«lei lo amava, lui la odiava»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Metonimia</span><span class="gr">significato</span><p class="def">Una parola al posto di un’altra <strong>collegata</strong>: il contenitore per il contenuto, l’autore per l’opera, la marca per il prodotto.</p><p class="ex">«bere un bicchiere»; «leggere Dante»; «guidare una Fiat»</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Sineddoche</span><span class="gr">significato</span><p class="def">Una parola al posto di un’altra per <strong>quantità</strong>: la parte per il tutto, il singolare per il plurale.</p><p class="ex">«tornare sotto il tetto» (= la casa); «ho visto una vela sul mare» (= una nave)</p></li>
+    <li class="fig" data-g="senso"><span class="nm">Perifrasi</span><span class="gr">significato</span><p class="def">Un «giro di parole» al posto di una parola sola.</p><p class="ex">«colui che tutto move» (= Dio, Dante)</p></li>
+
+    <li class="fig" data-g="ordine"><span class="nm">Anafora</span><span class="gr">ordine</span><p class="def">La stessa parola si ripete <strong>all’inizio</strong> di più versi o frasi.</p><p class="ex">«sentivo il cullare del mare, / sentivo un fru fru tra le fratte; / sentivo nel cuore un sussulto» (Pascoli)</p></li>
+    <li class="fig" data-g="ordine"><span class="nm">Enjambement</span><span class="gr">ordine</span><p class="def">La frase non finisce con il verso: continua nel verso dopo.</p><p class="ex">«Si sta come / d’autunno / sugli alberi / le foglie» (Ungaretti)</p></li>
+    <li class="fig" data-g="ordine"><span class="nm">Climax</span><span class="gr">ordine</span><p class="def">Una serie di parole sempre <strong>più forti</strong> (o sempre più deboli: anticlimax).</p><p class="ex">«Veloce? È un razzo, una scheggia, un fulmine!»</p></li>
+    <li class="fig" data-g="ordine"><span class="nm">Chiasmo</span><span class="gr">ordine</span><p class="def">Due coppie di parole messe a incrocio: A B / B A.</p><p class="ex">«Le donne, i cavallier, l’arme, gli amori» (Ariosto): persone, cose / cose, sentimenti</p></li>
+    <li class="fig" data-g="ordine"><span class="nm">Anastrofe e iperbato</span><span class="gr">ordine</span><p class="def">L’ordine normale delle parole viene cambiato (anastrofe) o diviso da altre parole (iperbato).</p><p class="ex">«vita natural durante»; «O belle agli occhi miei tende latine» (Tasso)</p></li>
+    <li class="fig" data-g="ordine"><span class="nm">Asindeto e polisindeto</span><span class="gr">ordine</span><p class="def">Elenco <strong>senza</strong> congiunzioni (asindeto) o con <strong>tante</strong> «e» ripetute (polisindeto).</p><p class="ex">«Veni, vidi, vici» (Cesare); «e mangia e beve e dorme e veste panni» (Dante)</p></li>
+  </ul>
+  <div class="key"><strong>Trucco.</strong> Se c’è «come» è una <strong>similitudine</strong>; se il paragone c’è ma «come» manca è una <strong>metafora</strong>. Se due parole opposte stanno vicine è un <strong>ossimoro</strong>. Se una parola torna all’inizio dei versi è un’<strong>anafora</strong>.</div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="temi" aria-labelledby="temi-t">
+  <span class="step">Parte 8</span>
+  <div class="sec-head"><h2 id="temi-t">I temi della poesia</h2></div>
+  <p>Da millenni la poesia parla delle stesse grandi esperienze umane: l’<strong>amore</strong>, la <strong>natura</strong>, la <strong>guerra</strong>, il <strong>mistero della vita</strong>. Per questo una poesia scritta tanto tempo fa può parlare anche a noi: ha una <strong>valenza universale</strong>. Leggendo, il lettore mette nella poesia anche la propria esperienza.</p>
+  <h3>Come si studia un tema</h3>
+  <ol>
+    <li>Conoscere la <strong>vita dell’autore</strong> e l’<strong>epoca</strong> in cui vive: aiuta a capire le sue idee.</li>
+    <li>Leggere <strong>molte poesie</strong> di epoche e paesi diversi sullo stesso tema, e confrontarle.</li>
+  </ol>
+  <h3>Esempio: l’amore</h3>
+  <p>L’amore non è solo quello di coppia: lo viviamo fin da piccoli in famiglia e cambia con l’età.</p>
+  <table class="t">
+    <thead><tr><th scope="col">Tipo di amore</th><th scope="col">Poeti e poesie</th></tr></thead>
+    <tbody>
+      <tr><td class="n">In famiglia</td><td><strong>Neruda</strong>, <em>Il figlio</em>: l’amore che dà vita nuova. <strong>Sbarbaro</strong>, <em>Padre, se anche tu non fossi il mio</em>: amore per il padre, nonostante un rapporto difficile.</td></tr>
+      <tr><td class="n">Felice, in coppia</td><td><strong>Prévert</strong>, <em>I ragazzi che si amano</em>: due ragazzi così innamorati da non vedere il mondo intorno. <strong>Rimbaud</strong>, <em>Sogno invernale</em>. <strong>Emily Dickinson</strong>, <em>Ah, notti folli</em>: la passione come una tempesta di mare.</td></tr>
+      <tr><td class="n">Oltre la realtà</td><td><strong>Pavese</strong>, <em>Incontro</em>: una ragazza unita al ricordo della sua terra. <strong>Montale</strong>, <em>Ho sceso, dandoti il braccio</em>: l’amore per la moglie continua anche dopo la morte.</td></tr>
+      <tr><td class="n">Sofferto</td><td><strong>Saffo</strong> e <strong>Catullo</strong>, nell’antichità: la passione che fa soffrire. <strong>Strand</strong>, <em>Mare nero</em>: l’attesa inutile di una persona che non arriva.</td></tr>
+    </tbody>
+  </table>
+  <div class="key"><strong>Da ricordare.</strong> Per studiare un tema: vita dell’autore + epoca + confronto tra più poesie. I temi universali sono amore, natura, guerra, mistero della vita.</div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="poeti" aria-labelledby="poeti-t">
+  <span class="step">Parte 9</span>
+  <div class="sec-head"><h2 id="poeti-t">I grandi poeti, in breve</h2></div>
+  <p>La poesia è una delle forme d’arte più antiche. Petrarca diceva che dura più a lungo dei monumenti di bronzo. Ecco un viaggio veloce nel tempo.</p>
+  <ul class="tl">
+    <li><span class="when">Grecia antica</span><strong>Omero</strong>: <em>Iliade</em> e <em>Odissea</em>, le storie di Achille e Ulisse. Forse non è mai esistito davvero. <strong>Saffo</strong>, poetessa, canta l’amore non corrisposto.</li>
+    <li><span class="when">Roma antica</span><strong>Catullo</strong>: poesie brevi su amore e vita di tutti i giorni («dammi mille baci…»). <strong>Virgilio</strong> e <strong>Ovidio</strong> scrivono nell’età di Augusto, che protegge i poeti.</li>
+    <li><span class="when">1200</span>Nasce la poesia in <strong>volgare</strong>, la lingua del popolo. <strong>San Francesco</strong>, <em>Cantico delle creature</em> («frate sole, sora luna»). <strong>Cecco Angiolieri</strong>, <em>S’i’ fosse foco</em>: poesia comica e aggressiva.</li>
+    <li><span class="when">1300</span>Le «tre corone»: <strong>Dante</strong> (<em>Divina Commedia</em>, Beatrice), <strong>Petrarca</strong> (<em>Canzoniere</em>, Laura), <strong>Boccaccio</strong> (<em>Decameron</em>, Fiammetta).</li>
+    <li><span class="when">1500</span>Rinascimento: <strong>Ariosto</strong>, <em>Orlando furioso</em>; <strong>Tasso</strong>, <em>Gerusalemme liberata</em>.</li>
+    <li><span class="when">1800</span><strong>Leopardi</strong>: il «pessimismo cosmico», l’uomo è destinato a soffrire. <em>L’infinito</em>: «e il naufragar m’è dolce in questo mare». I <strong>poeti maledetti</strong> francesi (Rimbaud, Verlaine, Baudelaire). <strong>Emily Dickinson</strong> negli Stati Uniti.</li>
+    <li><span class="when">1900</span><strong>Yeats</strong> in Irlanda. <strong>Ungaretti</strong>, soldato nella Prima guerra mondiale: «M’illumino / d’immenso». <strong>Montale</strong>, premio Nobel nel 1975: una poesia senza illusioni.</li>
+  </ul>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="analisi" aria-labelledby="analisi-t">
+  <span class="step">Parte 10</span>
+  <div class="sec-head"><h2 id="analisi-t">Come analizzare una poesia</h2></div>
+  <p>Cinque passi, sempre nello stesso ordine. Servono per lo studio e per la verifica.</p>
+  <ol class="passi">
+    <li><strong>Leggi</strong> la poesia due volte, anche ad alta voce. Cerca sul vocabolario le parole che non conosci.</li>
+    <li><strong>Di che cosa parla?</strong> Scrivilo in una frase (significato letterale, denotazione).</li>
+    <li><strong>Chi parla e a chi?</strong> Trova l’io lirico e l’eventuale interlocutore.</li>
+    <li><strong>Com’è fatta?</strong> Conta i versi e le strofe, trova lo schema delle rime e le parole messe in rilievo (inizio e fine verso, versi brevi). Cerca le figure retoriche.</li>
+    <li><strong>Che messaggio vuole dare il poeta?</strong> Spiega il significato più profondo (connotazione) e che cosa ha detto a te.</li>
+  </ol>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="ripasso" aria-labelledby="ripasso-t">
+  <span class="step">Parte 11</span>
+  <h2 id="ripasso-t">Ripasso</h2>
+  <p>Scegli una risposta e premi «Controlla». Puoi riprovare tutte le volte che vuoi.</p>
+  <form id="quiz" novalidate></form>
+  <p class="score" id="score" aria-live="polite">Risposte corrette: 0 su 14.</p>
+  <button type="button" class="btn" id="btn-reset">Ricomincia il ripasso</button>
+
+  <h3>Spiegalo con parole tue</h3>
+  <p>Scegli il modo che preferisci: a voce, con un disegno, con una mappa o per iscritto. Puoi usare anche la tua lingua per prendere appunti.</p>
+  <ul>
+    <li>Spiega a un compagno la differenza tra poesia e prosa.</li>
+    <li>Inventa una similitudine e trasformala in metafora.</li>
+    <li>Scegli una canzone che ti piace: trova una rima, un’anafora o una metafora.</li>
+    <li>Disegna lo schema di un sonetto (quante strofe, quanti versi).</li>
+  </ul>
+</section>
+
+<!-- 12 -->
+<section class="sec" id="lingue" aria-labelledby="lingue-t">
+  <span class="step">Parte 12</span>
+  <h2 id="lingue-t">Le parole della poesia in 6 lingue</h2>
+  <p>Molte di queste parole sono simili in tante lingue. Conosci la parola nella tua lingua? Usala per ricordare quella italiana. Scegli quale lingua vedere accanto all’italiano.</p>
+  <div class="filters" role="group" aria-label="Lingua da mostrare accanto all’italiano" id="langf">
+    <button type="button" data-l="all" aria-pressed="true">Tutte</button>
+    <button type="button" data-l="2" aria-pressed="false" lang="en">English</button>
+    <button type="button" data-l="3" aria-pressed="false" lang="es">Español</button>
+    <button type="button" data-l="4" aria-pressed="false" lang="ro">Română</button>
+    <button type="button" data-l="5" aria-pressed="false" lang="sq">Shqip</button>
+    <button type="button" data-l="6" aria-pressed="false" lang="ar">العربية</button>
+  </div>
+  <div class="lang-wrap" tabindex="0" role="region" aria-label="Tabella delle parole in sei lingue, scorrevole">
+  <table class="lang" id="langt">
+    <thead><tr><th scope="col">Italiano</th><th scope="col" lang="en">English</th><th scope="col" lang="es">Español</th><th scope="col" lang="ro">Română</th><th scope="col" lang="sq">Shqip</th><th scope="col" lang="ar">العربية</th></tr></thead>
+    <tbody>
+      <tr><td>poesia</td><td lang="en">poem, poetry</td><td lang="es">poema, poesía</td><td lang="ro">poezie</td><td lang="sq">poezi</td><td lang="ar" dir="rtl">قصيدة، شِعر</td></tr>
+      <tr><td>poeta</td><td lang="en">poet</td><td lang="es">poeta</td><td lang="ro">poet</td><td lang="sq">poet</td><td lang="ar" dir="rtl">شاعر</td></tr>
+      <tr><td>verso</td><td lang="en">line (of a poem)</td><td lang="es">verso</td><td lang="ro">vers</td><td lang="sq">varg</td><td lang="ar" dir="rtl">بيت شعري</td></tr>
+      <tr><td>strofa</td><td lang="en">stanza</td><td lang="es">estrofa</td><td lang="ro">strofă</td><td lang="sq">strofë</td><td lang="ar" dir="rtl">مقطع شعري</td></tr>
+      <tr><td>rima</td><td lang="en">rhyme</td><td lang="es">rima</td><td lang="ro">rimă</td><td lang="sq">rimë</td><td lang="ar" dir="rtl">قافية</td></tr>
+      <tr><td>sillaba</td><td lang="en">syllable</td><td lang="es">sílaba</td><td lang="ro">silabă</td><td lang="sq">rrokje</td><td lang="ar" dir="rtl">مقطع صوتي</td></tr>
+      <tr><td>ritmo</td><td lang="en">rhythm</td><td lang="es">ritmo</td><td lang="ro">ritm</td><td lang="sq">ritëm</td><td lang="ar" dir="rtl">إيقاع</td></tr>
+      <tr><td>significato</td><td lang="en">meaning</td><td lang="es">significado</td><td lang="ro">sens, înțeles</td><td lang="sq">kuptim</td><td lang="ar" dir="rtl">معنى</td></tr>
+      <tr><td>similitudine</td><td lang="en">simile</td><td lang="es">símil, comparación</td><td lang="ro">comparație</td><td lang="sq">krahasim</td><td lang="ar" dir="rtl">تشبيه</td></tr>
+      <tr><td>metafora</td><td lang="en">metaphor</td><td lang="es">metáfora</td><td lang="ro">metaforă</td><td lang="sq">metaforë</td><td lang="ar" dir="rtl">استعارة</td></tr>
+      <tr><td>sonetto</td><td lang="en">sonnet</td><td lang="es">soneto</td><td lang="ro">sonet</td><td lang="sq">sonet</td><td lang="ar" dir="rtl">سونيتة</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Ogni lingua ha la sua poesia. Nella tua lingua c’è una poesia o una canzone che conosci a memoria? Prova a cercare le rime e le figure retoriche anche lì: funzionano allo stesso modo.</p>
+</section>
+
+</main>
+
+<footer class="about">
+  <details>
+    <summary>Per i docenti: come è fatta questa pagina</summary>
+    <p>Sintesi di un’unità introduttiva sul testo poetico (biennio della secondaria di secondo grado), pensata per il ripasso da telefono prima di una verifica. Raccoglie in una pagina sola i materiali di un manuale e di alcune schede: tiene i concetti principali e lascia fuori i dettagli.</p>
+    <ul>
+      <li>Linguaggio semplificato nella forma, non nel contenuto: frasi brevi, una idea per frase, lessico tecnico in evidenza e spiegato quando compare (UDL 3.0, linea guida 2.1). Un riquadro «Da ricordare» chiude ogni parte.</li>
+      <li>Ogni parte si può ascoltare con la sintesi vocale del dispositivo, senza servizi esterni (linea guida 1.2: alternative all’informazione visiva).</li>
+      <li>Le parole chiave in sei lingue sono per tutta la classe, non solo per chi ha l’italiano come seconda lingua: il plurilinguismo è una risorsa per capire come funzionano le parole (linea guida 2.3).</li>
+      <li>Gli schemi di rima usano colore <em>e</em> lettera, mai solo il colore; i gruppi di figure retoriche sono indicati anche a parole.</li>
+      <li>Il ripasso dà un riscontro immediato che spiega l’errore (linea guida 8.5); la consegna finale si svolge a voce, con un disegno, una mappa o per iscritto, a scelta di ogni studente (linee guida 5.1 e 7.1).</li>
+      <li>Font ad alta leggibilità (Atkinson Hyperlegible), contrasti WCAG 2.2 AA, tema chiaro e scuro, testo ingrandibile, aree da toccare di almeno 44-48 pixel, rispetto della preferenza per il movimento ridotto.</li>
+      <li>Si riportano solo versi pubblicati prima del 1929, brevi e a scopo di commento; delle poesie più recenti si danno titolo e contenuto.</li>
+    </ul>
+    <p><a href="/lezioni-accessibili/metodo.html">Il metodo delle lezioni accessibili</a></p>
+  </details>
+</footer>
+</div>
+
+<a class="toidx" href="#indice"><span aria-hidden="true">↑</span> Indice</a>
+
+<script>
+(function(){
+  var d=document.documentElement;
+  function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function cur(){return parseFloat(getComputedStyle(d).fontSize)||19;}
+  function setSize(px){px=Math.max(16,Math.min(30,px));d.style.setProperty('--fs',px+'px');save('tp-size',px);}
+  document.getElementById('btn-plus').addEventListener('click',function(){setSize(cur()+2);});
+  document.getElementById('btn-minus').addEventListener('click',function(){setSize(cur()-2);});
+  var bt=document.getElementById('btn-theme');
+  function isDark(){var t=d.getAttribute('data-theme');if(t)return t==='dark';return window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;}
+  function syncTheme(){bt.setAttribute('aria-pressed',isDark()?'true':'false');}
+  bt.addEventListener('click',function(){var t=isDark()?'light':'dark';d.setAttribute('data-theme',t);save('tp-theme',t);syncTheme();});
+  syncTheme();
+
+  /* ---------- ascolta: sintesi vocale del dispositivo ---------- */
+  var synth=window.speechSynthesis,speaking=null;
+  if(synth&&'SpeechSynthesisUtterance' in window){
+    document.getElementById('tts-note').hidden=false;
+    function stop(){synth.cancel();if(speaking){speaking.setAttribute('aria-pressed','false');speaking.textContent='🔊 Ascolta';}speaking=null;}
+    function voice(){var v=synth.getVoices();for(var i=0;i<v.length;i++){if(/^it/i.test(v[i].lang))return v[i];}return null;}
+    Array.prototype.forEach.call(document.querySelectorAll('.sec-head'),function(h){
+      var sec=h.parentNode,b=document.createElement('button');
+      b.type='button';b.className='btn say';b.textContent='🔊 Ascolta';b.setAttribute('aria-pressed','false');
+      b.setAttribute('aria-label','Ascolta: '+h.querySelector('h2').textContent);
+      h.appendChild(b);
+      b.addEventListener('click',function(){
+        if(speaking===b){stop();return;}
+        stop();
+        var c=sec.cloneNode(true);Array.prototype.forEach.call(c.querySelectorAll('button,.step,.L,.gkey,.filters,#fig-count,.fig[hidden],[lang]:not([lang="it"])'),function(n){n.remove();});
+        var txt=c.textContent.replace(/\s+/g,' ').trim();
+        var u=new SpeechSynthesisUtterance(txt);u.lang='it-IT';var vv=voice();if(vv)u.voice=vv;u.rate=.92;
+        u.onend=u.onerror=function(){if(speaking===b)stop();};
+        speaking=b;b.setAttribute('aria-pressed','true');b.textContent='⏹ Ferma';synth.speak(u);
+      });
+    });
+    window.addEventListener('pagehide',stop);
+  }
+
+  /* ---------- filtro figure retoriche ---------- */
+  var fbtn=document.querySelectorAll('.filters button'),figs=document.querySelectorAll('.fig'),fc=document.getElementById('fig-count');
+  Array.prototype.forEach.call(fbtn,function(b){b.addEventListener('click',function(){
+    var f=b.getAttribute('data-f'),n=0;
+    Array.prototype.forEach.call(fbtn,function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    Array.prototype.forEach.call(figs,function(li){var show=f==='tutte'||li.getAttribute('data-g')===f;li.hidden=!show;if(show)n++;});
+    fc.textContent='Figure mostrate: '+n+'.';
+  });});
+
+  /* ---------- scelta della lingua ---------- */
+  var lb=document.querySelectorAll('#langf button'),lt=document.getElementById('langt');
+  Array.prototype.forEach.call(lb,function(b){b.addEventListener('click',function(){
+    var l=b.getAttribute('data-l');
+    Array.prototype.forEach.call(lb,function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    lt.classList.toggle('one',l!=='all');
+    Array.prototype.forEach.call(lt.rows,function(r){for(var c=1;c<r.cells.length;c++){r.cells[c].classList.toggle('off',l!=='all'&&String(c+1)!==l);}});
+  });});
+
+  /* ---------- ripasso ---------- */
+  var Q=[
+    {q:'Come si riconosce subito una poesia?',o:['Ha sempre le rime','È scritta in versi: va a capo prima della fine della riga','Parla sempre d’amore'],c:1,
+     y:'Giusto. Il segno più evidente sono i versi. Non tutte le poesie hanno le rime.',n:'Rileggi la Parte 1: la differenza principale con la prosa sono i versi. Molte poesie moderne non hanno rime.'},
+    {q:'«Il fiume dei pensieri»: la parola «fiume» qui ha un valore…',o:['denotativo (letterale)','connotativo (significato in più)'],c:1,
+     y:'Esatto. Qui «fiume» non è un corso d’acqua: indica pensieri che scorrono senza fermarsi.',n:'Il significato letterale di «fiume» è un corso d’acqua. Qui indica i pensieri che scorrono: è connotazione.'},
+    {q:'Chi è l’io lirico?',o:['Sempre il poeta in carne e ossa','La voce che nel testo dice «io»','Il lettore della poesia'],c:1,
+     y:'Giusto. Può coincidere con il poeta, ma può anche essere un personaggio inventato.',n:'L’io lirico è la voce che parla nel testo. Non sempre è il poeta reale, e non è il lettore.'},
+    {q:'Quante sillabe ha un endecasillabo?',o:['7','10','11'],c:2,
+     y:'Esatto: 11 sillabe, con l’ultimo accento sulla 10ª.',n:'Endeca- vuol dire undici: l’endecasillabo ha 11 sillabe. Il settenario ne ha 7.'},
+    {q:'Che cos’è la sinalefe?',o:['La fusione in una sillaba della vocale finale di una parola e di quella iniziale della parola dopo','La divisione di un dittongo in due sillabe','Una rima imperfetta'],c:0,
+     y:'Giusto. Per esempio «selva oscura»: «va o» conta come una sillaba.',n:'La divisione di un dittongo è la dieresi. La sinalefe unisce due vocali di parole vicine in una sola sillaba.'},
+    {q:'Lo schema ABAB è una rima…',o:['baciata','alternata','incrociata'],c:1,
+     y:'Esatto: una sì e una no.',n:'Baciata è AABB, incrociata è ABBA. ABAB è la rima alternata.'},
+    {q:'Lo schema ABBA è una rima…',o:['incrociata','incatenata','alternata'],c:0,
+     y:'Giusto: il primo verso rima con il quarto, il secondo con il terzo.',n:'ABBA è la rima incrociata. L’incatenata è ABA BCB, l’alternata ABAB.'},
+    {q:'Come è fatto un sonetto?',o:['14 endecasillabi: 2 quartine e 2 terzine','8 endecasillabi in una sola strofa','4 strofe di 4 versi'],c:0,
+     y:'Esatto: 4 + 4 + 3 + 3 = 14 versi.',n:'Il sonetto ha 14 endecasillabi: due quartine e due terzine. Otto versi in una strofa sono l’ottava.'},
+    {q:'Una strofa di tre versi si chiama…',o:['distico','terzina','quartina'],c:1,
+     y:'Giusto. Distico = 2 versi, quartina = 4.',n:'Tre versi formano una terzina. Il distico ha 2 versi, la quartina 4.'},
+    {q:'«Il mio amore brucia come una fiamma» è…',o:['una metafora','una similitudine','un ossimoro'],c:1,
+     y:'Esatto: c’è la parola «come», quindi è una similitudine.',n:'C’è la parola «come»: è una similitudine. Senza «come» («il mio amore è una fiamma») sarebbe una metafora.'},
+    {q:'«Tacito tumulto» (silenzioso + rumoroso) è…',o:['un’anafora','un ossimoro','un’onomatopea'],c:1,
+     y:'Giusto: due parole di significato opposto vicine.',n:'Due parole opposte una accanto all’altra formano un ossimoro.'},
+    {q:'«Sentivo il cullare del mare, / sentivo un fru fru tra le fratte; / sentivo nel cuore un sussulto». La parola «sentivo» ripetuta all’inizio è…',o:['un’anafora','un climax','una sinestesia'],c:0,
+     y:'Esatto: ripetizione all’inizio dei versi = anafora.',n:'Quando la stessa parola torna all’inizio di più versi si chiama anafora.'},
+    {q:'«Un colore caldo» unisce vista e tatto. È…',o:['una personificazione','una sinestesia','una perifrasi'],c:1,
+     y:'Giusto: la sinestesia unisce due sensi diversi.',n:'Unire due sensi diversi (vista e tatto) è una sinestesia.'},
+    {q:'Per studiare un tema poetico è utile…',o:['Imparare a memoria una sola poesia','Conoscere la vita dell’autore e la sua epoca, e confrontare più poesie','Leggere solo poesie italiane'],c:1,
+     y:'Esatto: autore, epoca e confronto tra poesie di tempi e luoghi diversi.',n:'Rileggi la Parte 8: servono la vita dell’autore, la sua epoca e il confronto tra molte poesie, anche di paesi diversi.'}
+  ];
+  var form=document.getElementById('quiz'),score=document.getElementById('score'),done={};
+  Q.forEach(function(it,i){
+    var fs=document.createElement('fieldset');fs.className='q';
+    var lg=document.createElement('legend');lg.innerHTML='<span class="n">'+(i+1)+'.</span> ';lg.appendChild(document.createTextNode(it.q));fs.appendChild(lg);
+    it.o.forEach(function(t,j){var l=document.createElement('label'),r=document.createElement('input');r.type='radio';r.name='q'+i;r.value=j;l.appendChild(r);l.appendChild(document.createTextNode(t));fs.appendChild(l);});
+    var b=document.createElement('button');b.type='button';b.className='btn';b.textContent='Controlla';fs.appendChild(b);
+    var fb=document.createElement('p');fb.className='fb';fb.setAttribute('aria-live','polite');fs.appendChild(fb);
+    b.addEventListener('click',function(){
+      var s=fs.querySelector('input:checked');
+      if(!s){fb.className='fb no';fb.textContent='Scegli prima una risposta.';return;}
+      var ok=+s.value===it.c;done[i]=ok;
+      fb.className='fb '+(ok?'ok':'no');fb.textContent=(ok?'✓ ':'✗ ')+(ok?it.y:it.n);
+      upd();
+    });
+    form.appendChild(fs);
+  });
+  function upd(){var n=0;for(var k in done){if(done[k])n++;}score.textContent='Risposte corrette: '+n+' su '+Q.length+'.'+(n===Q.length?' Ottimo, hai fatto tutto!':'');}
+  document.getElementById('btn-reset').addEventListener('click',function(){form.reset();done={};Array.prototype.forEach.call(form.querySelectorAll('.fb'),function(f){f.className='fb';f.textContent='';});upd();form.querySelector('input').focus();});
+
+  /* torna all'indice */
+  var ti=document.querySelector('.toidx'),ix=document.getElementById('indice');
+  if('IntersectionObserver' in window){new IntersectionObserver(function(e){ti.hidden=e[0].isIntersecting;}).observe(ix);}
+  ti.addEventListener('click',function(){setTimeout(function(){ix.focus({preventScroll:true});},0);});
+})();
+</script>
+<!-- menu del sito isolato in Shadow DOM: vedi /lezioni-accessibili/assets/menu-lezioni.js -->
+<script src="/assets/menu.js"></script>
+<script src="/lezioni-accessibili/assets/menu-lezioni.js"></script>
+</body>
+</html>
