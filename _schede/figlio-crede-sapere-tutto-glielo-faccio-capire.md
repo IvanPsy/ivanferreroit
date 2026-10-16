@@ -2,7 +2,7 @@
 title: "Mio figlio crede di sapere tutto: come glielo faccio capire?"
 description: "Chi ha appena scalfito la superficie di una materia non ha ancora gli strumenti per misurare quanto gli manca: gli sembra di aver visto tutto perché non sa che cosa c'è sotto."
 slug: "figlio-crede-sapere-tutto-glielo-faccio-capire"
-tipo: "singola"
+tipo: "fusione"
 tema: "bias-cognitivi"
 tema_label: "Bias cognitivi"
 eta: "14-18"
@@ -24,6 +24,8 @@ Chi ha appena scalfito la superficie di una materia non ha ancora gli strumenti 
 2. **Mettilo dove il giudizio non lo dai tu.** Un concorso, il giornalino della scuola, una squadra, un blog letto da estranei, un gruppo dove qualcuno più bravo di lui c'è per davvero. Serve un ritorno chiaro, che non passi da te, e che lui non possa attribuire all'invidia.
 3. **Cercagli un'occasione dove la misura la dà il lavoro.** Un lavoretto d'estate, un volontariato, un impegno con orari e persone che contano su di lui. Lì la realtà risponde da sola, senza che nessuno debba dirgli niente, e la risposta arriva in fretta.
 4. **Portalo dove si vede il livello vero, e andateci insieme.** Una gara, un laboratorio, una conferenza, un dietro le quinte. Non per umiliarlo con il confronto: per fargli vedere quanta strada c'è, e che quella strada è interessante invece che minacciosa.
+
+**Dal tuo lato.** La stessa sicurezza può essere la tua, quando a chi ti propone un aiuto rispondi «lo conosco meglio di chiunque, è l'età». Prova a dire ad alta voce, a qualcuno che ti vuole bene, una cosa di lui che non capisci, senza aggiungere subito la spiegazione.
 
 ## Cosa evitare
 

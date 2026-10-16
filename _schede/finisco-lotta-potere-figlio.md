@@ -2,7 +2,7 @@
 title: "Come finisco in una lotta di potere con mio figlio?"
 description: "La strada è sempre la stessa e si percorre in un minuto."
 slug: "finisco-lotta-potere-figlio"
-tipo: "singola"
+tipo: "fusione"
 tema: "comunicazione"
 tema_label: "Comunicazione"
 eta: "trasversale"
@@ -28,6 +28,8 @@ La strada è sempre la stessa e si percorre in un minuto. Una domanda chiusa met
 3. **Non insistere sulla stessa domanda.** La ripetizione è il momento in cui la richiesta diventa una prova di forza, e da lì la risposta non arriva più comunque.
 4. **Rimanda invece di vincere.** «Ne riparliamo dopo cena» non è una resa: è l'unico modo di tenere in piedi sia il tema sia il rapporto.
 5. **Non chiedergli di darti ragione.** Puoi chiedergli di fare una cosa, e sono due richieste diverse: la seconda si può ottenere, la prima no.
+
+**Dal tuo lato.** Se ogni minuto concesso ti sembra tolto a te, chiediti «cosa vinceremmo tutti e due?» e non chi vince. E cedere su una regola sbagliata non è perdere: è mostrargli come si cambia idea.
 
 ## Cosa evitare
 

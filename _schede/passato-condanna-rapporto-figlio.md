@@ -2,7 +2,7 @@
 title: "Il mio passato condanna il rapporto con mio figlio?"
 description: "Il passato influenza, non decide."
 slug: "passato-condanna-rapporto-figlio"
-tipo: "singola"
+tipo: "fusione"
 tema: "lavoro-su-di-se"
 tema_label: "Lavoro su di sé"
 eta: "trasversale"

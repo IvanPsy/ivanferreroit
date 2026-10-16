@@ -29,6 +29,8 @@ Perché è così che funziona l'attenzione, in lui come in te. Non possiamo regi
 4. **Fai l'avvocato del diavolo con delicatezza.** «E se invece fosse andata così?» Non per vincere: per fargli esercitare il gesto di considerare una seconda versione.
 5. **Falo tu davanti a lui.** Cambia idea ad alta voce quando qualcuno ti porta un argomento buono, ammetti quando non sai. Imparerà più da quello che da qualsiasi spiegazione.
 
+**Dal tuo lato.** Il filtro lavora anche su di te: da quando ha una parola per il problema, «non si applica», lo vedi dappertutto, e il pomeriggio passato a studiare non entra nel conto. Per una settimana scrivi ogni sera tre cose che ha fatto e che con il problema non c'entrano.
+
 ## Cosa evitare
 
 Non accumulare prove contro la sua convinzione: più ne porti, più lui si organizza per difenderla, ed è tempo che lavora contro di te. Ed evita di affrontare il tema subito dopo un insuccesso: a caldo la convinzione è al massimo della forza e ogni argomento diventa una consolazione da respingere.

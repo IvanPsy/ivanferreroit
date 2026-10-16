@@ -29,6 +29,8 @@ Il controllo diretto che avevi quando era piccolo non si perde per un tuo errore
 4. **Non commentare a caldo.** Quando fa una scelta che non condividi, aspetta. Il commento serve dopo, e serve solo se te lo chiede.
 5. **Consegnagli una zona in cui decide lui, e dillo ad alta voce.** Una parte dei suoi soldi, un pomeriggio, una spesa. «Questo è tuo, decidi tu» vale più di dieci discorsi sulla fiducia.
 
+**Dal tuo lato.** Quasi tutto quello che sai di lui te lo dice lui, quando sceglie di raccontare (Stattin e Kerr, 2000): il controllo che senti di avere, se c'è, te lo sta dando lui, e arriva solo in una casa dove raccontare non diventa un verbale.
+
 ## Cosa evitare
 
 Non usare l'ironia sulle sue scelte e non ricordargli com'era andata l'ultima volta che aveva sbagliato: gli confermi che da solo non ce la fa. E non trasformare ogni conversazione in un controllo travestito da domanda.

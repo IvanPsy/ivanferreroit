@@ -2,7 +2,7 @@
 title: "Come insegno a mio figlio a guardare oltre le apparenze?"
 description: "La mente prende un tratto che le piace, la bellezza, la simpatia, la popolarità, e da quello deduce tutto il resto: chi è bello sembra anche intelligente, leale, affidabile, senza che nessuno abbia…"
 slug: "insegno-figlio-guardare-oltre-apparenze"
-tipo: "singola"
+tipo: "fusione"
 tema: "bias-cognitivi"
 tema_label: "Bias cognitivi"
 eta: "14-18"
@@ -24,6 +24,8 @@ La mente prende un tratto che le piace, la bellezza, la simpatia, la popolarità
 2. **Usa le storie degli altri come palestra.** Davanti a un film o a una serie: «questo personaggio è come sembrava all'inizio? Ti fideresti di lui?» Su un personaggio inventato può pensare liberamente, su un amico no.
 3. **Fagli vedere che tu cambi idea.** Quando ti accorgi di aver giudicato male qualcuno, dillo ad alta voce e racconta che cosa te l'ha fatto capire. Questo passa meglio di qualsiasi discorso sul non fermarsi alle apparenze.
 4. **Allarga il campo.** Uno sport, un corso, un posto dove le persone che contano non sono le stesse della scuola. Più modelli diversi di persona in gamba incontra, meno peso ha il modello unico.
+
+**Dal tuo lato.** Lo stesso alone colora il tuo sguardo su di lui: la camera in ordine «quindi» è affidabile, una risposta sgarbata «quindi» non si impegna. Sotto ogni giudizio facile cerca un fatto solo, con una data.
 
 ## Cosa evitare
 

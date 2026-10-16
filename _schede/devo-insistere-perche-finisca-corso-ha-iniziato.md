@@ -2,7 +2,7 @@
 title: "Devo insistere perché finisca il corso che ha iniziato?"
 description: "Dipende da che cosa vuoi insegnargli, e le due lezioni possibili sono opposte."
 slug: "devo-insistere-perche-finisca-corso-ha-iniziato"
-tipo: "singola"
+tipo: "fusione"
 tema: "bias-cognitivi"
 tema_label: "Bias cognitivi"
 eta: "14-18"
@@ -24,6 +24,8 @@ Dipende da che cosa vuoi insegnargli, e le due lezioni possibili sono opposte. �
 2. **Fatti dire che cosa è cambiato da quando ha iniziato.** Se le ragioni per cui ci era andato non ci sono più, non sta mollando: sta prendendo atto. Se invece ci sono ancora e in mezzo si è messo altro, la conversazione è diversa, e la sai fare solo dopo aver chiesto.
 3. **Lascia che la decisione sia sua, anche se non la condividi.** Puoi dire che cosa pensi, una volta. Poi la scelta resta a lui: se gliela togli, quello che impara non è la costanza, è che le sue valutazioni non contano.
 4. **Se molla, aiutalo a cercare che cosa viene dopo.** Non subito e non come compito: nelle settimane successive, informandovi insieme, provando qualcosa senza impegno. Smettere senza niente all'orizzonte è la condizione in cui un abbandono diventa davvero una perdita.
+
+**Dal tuo lato.** Prima di rispondergli chiediti che cosa stai difendendo, lui o l'investimento, fatto di soldi ma anche di domeniche sugli spalti e forse di un sogno tuo. Se è l'investimento puoi dirglielo, che ti ci vorrà un po' per farci pace; ma quello che ha imparato resta a lui.
 
 ## Cosa evitare
 

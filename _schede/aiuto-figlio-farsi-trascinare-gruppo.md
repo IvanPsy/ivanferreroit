@@ -29,6 +29,8 @@ Dentro un gruppo, chi ha dei dubbi quasi sempre se li tiene, per non rompere l'a
 4. **Non attaccare il gruppo.** Se lo attacchi, lui lo difende, e difendendolo si lega di più. Puoi dire cosa non ti è piaciuto di un fatto preciso, senza estenderlo alle persone.
 5. **Tienigli aperto un posto fuori.** Un'attività, un vecchio amico, un contesto dove non deve dimostrare niente. Chi ha un solo gruppo non può permettersi di dire di no; chi ne ha due sì.
 
+**Dal tuo lato.** Chiediti se il pericolo l'hai visto o immaginato: una sera sotto casa, un cappuccio, una risata troppo forte bastano a giudicare tutto il gruppo, e tuo figlio con loro. Invece di «chi sono quelli», chiedigli «cosa ti piace di loro» e ascolta fino in fondo.
+
 ## Cosa evitare
 
 Non fargli la predica sui valori subito dopo uno sbaglio: in quel momento si sta già vergognando, e la predica gli insegna soltanto che la prossima volta è meglio non raccontartelo. Ed evita di liquidare la pressione del gruppo come una scusa: è reale, e nominarla per quello che è ti rende uno con cui vale la pena parlarne.
