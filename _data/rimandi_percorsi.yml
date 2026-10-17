@@ -1,6 +1,6 @@
 # Rimandi dalle schede della collana ai percorsi dell'incubatore (percorsi.ivanferrero.it).
 # Creato da P09 della catena Percorsi il 13/10/2026, su decisione di P06
-# (clinica/percorsi/strategia/STRATEGIA-GENITORI.md, §4.2) e di Ivan (09/10/2026).
+# (~/corpus/clinica/framework/percorsi_retrobottega/strategia/STRATEGIA-GENITORI.md, §4.2) e di Ivan (09/10/2026).
 #
 # Come funziona: _layouts/scheda.html include _includes/rimando-percorso.html, che mostra il blocco
 # solo sulle schede il cui slug è in un elenco qui sotto. I file _schede/*.md e i PDF non si toccano.
