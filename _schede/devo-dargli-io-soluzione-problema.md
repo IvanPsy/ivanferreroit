@@ -30,6 +30,8 @@ Quando ti porta un problema, la soluzione ce l'hai quasi sempre, ed è probabilm
 
 **Se tuo figlio è grande.** Con un figlio adulto capita sempre più spesso di non poter fare niente, un colloquio andato male, un contratto che non arriva: diglielo proprio così, «non lo aggiusto, ci sono». Gli serve sentirsi capito prima di sentirsi consigliato, e molte volte basta.
 
+**Se si è chiuso in casa.** Risolvergli tutto gli conferma che da solo non ce la fa. Restituiscigli decisioni piccole e vere e lasciagli un insuccesso sopportabile, una cena bruciata, un pacco sbagliato, senza ripararlo al posto suo.
+
 ## Cosa evitare
 
 Non risolvere e poi chiedere se va bene: quella non è una scelta, è una ratifica. E non usare la sua indecisione come prova che senza di te non ce la fa, nemmeno per scherzo.

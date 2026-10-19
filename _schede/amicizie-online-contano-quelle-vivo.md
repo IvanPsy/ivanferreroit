@@ -2,7 +2,7 @@
 title: "Le amicizie online contano quanto quelle dal vivo?"
 description: "La domanda che ti stai facendo di solito nasce da un fatto concreto: tuo figlio sta male per qualcuno che tu non hai mai visto."
 slug: "amicizie-online-contano-quelle-vivo"
-tipo: "singola"
+tipo: "fusione"
 tema: "vita-digitale"
 tema_label: "Vita digitale"
 eta: "14-18"
@@ -27,6 +27,8 @@ La domanda che ti stai facendo di solito nasce da un fatto concreto: tuo figlio 
 2. **Chiedi i nomi e la storia.** Da quanto si conoscono, di cosa parlano, che cosa sa di loro, come si sono trovati. Non è un interrogatorio: è il modo in cui una persona astratta diventa una persona.
 3. **Guarda se si aggiunge o sostituisce.** Non contare le ore online, conta le cose che ha smesso di fare da quando c'è quel gruppo. È la sola misura che dice qualcosa.
 4. **Non svalutare il canale.** «È solo internet» chiude la conversazione senza cambiare niente di quello che sente, e ti mette fuori dal giro nel momento in cui avrebbe bisogno di raccontartelo.
+
+**Se si è chiuso in casa.** Quell'amicizia può diventare un ponte: una videochiamata, una telefonata, un incontro se abita vicino. Nessun passaggio lo decidi tu, e lo nomini solo se lo accenna lui.
 
 ## Cosa evitare
 

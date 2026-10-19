@@ -26,6 +26,8 @@ ordine_alfa: "come lodo limpegno invece del risultato"
 4. **Fai il paragone con lui di un mese prima.** «Rispetto a settembre, questa parte adesso la fai senza chiedermela.» È un confronto che dipende solo da lui e che si può ripetere.
 5. **Fai sentire come racconti i tuoi risultati.** Quando ti va bene, di' anche che cosa hai fatto per arrivarci e chi ti ha aiutato; quando ti va male, di' che cosa non avevi preparato invece di dare la colpa agli altri. Imparerà da lì più che dalle tue lodi.
 
+**Se si è chiuso in casa.** Riconosci il tentativo anche se non riesce: «ho visto che ti sei vestito per uscire».
+
 ## Cosa evitare
 
 Non chiudere con la promessa «impegnati e i risultati arriveranno»: non è vero sempre, e il giorno in cui si impegna e va male hai perso credibilità proprio quando serviva. Ed evita di lodare l'impegno come premio di consolazione dopo un brutto voto: si sente, e vale meno di niente.

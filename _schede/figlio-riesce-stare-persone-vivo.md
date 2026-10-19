@@ -2,7 +2,7 @@
 title: "Mio figlio non riesce più a stare con le persone dal vivo"
 description: "Non è che non voglia."
 slug: "figlio-riesce-stare-persone-vivo"
-tipo: "singola"
+tipo: "fusione"
 tema: "isolamento-e-ritiro-sociale"
 tema_label: "Isolamento e ritiro sociale"
 eta: "14-18"
@@ -27,6 +27,8 @@ Non è che non voglia. Il corpo si accende prima che lui decida: nodo alla gola,
 2. **Punta su una cosa piccola che si ripete.** Un'ora fissa a settimana con le stesse due persone vale più di cinque inviti diversi: il costo scende perché la scena è già conosciuta e non va affrontata da capo ogni volta.
 3. **Rendi possibile, non convocare.** Puoi occuparti dell'orario, del passaggio, dello spazio in casa. Se sei tu a chiamare gli altri e a organizzare l'incontro, gli confermi che da solo non ce la può fare.
 4. **Abbassa la durata, non l'obiettivo.** Venti minuti veri valgono più di un pomeriggio intero rimandato per sempre. La misura giusta è quella che lui riesce a fare due volte.
+
+**Se si è chiuso in casa.** Non rassicurarlo sul contenuto della paura: digli che cosa farete se andrà male.
 
 ## Cosa evitare
 
