@@ -29,6 +29,8 @@ La domanda nasce quasi sempre davanti a un figlio convinto che a lui non succede
 4. **Ammetti anche quello che non sai.** Su una cosa che non conosci, chiedigli come funziona. Non perdi autorevolezza: apri l'unico tipo di conversazione in cui parla anche lui.
 5. **Raccontalo a freddo, non durante una discussione.** Usato come argomento in un litigio diventa un'arma, e viene ricordato come tale.
 
+**Se tuo figlio è grande.** Non è il tuo confidente: il tuo matrimonio, i tuoi soldi, le tue paure sul suo futuro restano per il diario o per qualcuno che ti aiuti.
+
 ## Cosa evitare
 
 Non usare il racconto per stabilire che tu hai sofferto di più, e non chiudere con «ai miei tempi». E non raccontare cose che non gli riguardano: se il tuo errore serve a te, si sente.

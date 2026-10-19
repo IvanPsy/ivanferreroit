@@ -2,7 +2,7 @@
 title: "Devo dargli io la soluzione al suo problema?"
 description: "Quando ti porta un problema, la soluzione ce l'hai quasi sempre, ed è probabilmente buona."
 slug: "devo-dargli-io-soluzione-problema"
-tipo: "singola"
+tipo: "fusione"
 tema: "comunicazione"
 tema_label: "Comunicazione"
 eta: "11-13"
@@ -27,6 +27,8 @@ Quando ti porta un problema, la soluzione ce l'hai quasi sempre, ed è probabilm
 2. **Punta a capire, non a risolvere.** Fai le domande che servono a te per capire meglio, non quelle che lo portano dove hai già deciso.
 3. **Se insiste, offrigli un confronto invece di un verdetto.** «Fra le due strade che hai in testa, che differenza vedi?» Restano due sue strade.
 4. **Non pretendere che ci arrivi in questa conversazione.** Il tempo è un alleato: se il dialogo è stato vero, il discorso si riprende domani senza ricominciare da zero.
+
+**Se tuo figlio è grande.** Con un figlio adulto capita sempre più spesso di non poter fare niente, un colloquio andato male, un contratto che non arriva: diglielo proprio così, «non lo aggiusto, ci sono». Gli serve sentirsi capito prima di sentirsi consigliato, e molte volte basta.
 
 ## Cosa evitare
 
