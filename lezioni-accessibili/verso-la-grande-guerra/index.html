@@ -1,0 +1,956 @@
+---
+title: "Verso la Grande guerra: l'Europa dal 1867 al 1914"
+description: "Lezione accessibile di storia sul preludio alla Prima guerra mondiale: le grandi potenze, la Belle Époque con le sue luci e le sue ombre, i maestri del sospetto (Marx, Nietzsche, Freud), le alleanze, le crisi coloniali e balcaniche, Sarajevo e l'effetto domino del luglio 1914. Linea del tempo interattiva a schede, ripasso con risposte spiegate, parole in sei lingue."
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Verso la Grande guerra: l'Europa dal 1867 al 1914 | Lezioni accessibili | Ivan Ferrero</title>
+{% seo title=false %}
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<script>
+/* preferenze salvate: applicate prima del disegno per evitare lampi */
+(function(){try{var d=document.documentElement,t=localStorage.getItem('gg-theme'),s=localStorage.getItem('gg-size');
+if(t)d.setAttribute('data-theme',t);if(s)d.style.setProperty('--fs',s+'px');}catch(e){}})();
+</script>
+<style>
+:root{
+  --fs:19px;
+  --bg:#F4F1EA; --card:#FFFFFF; --ink:#1C1B1F; --soft:#4A4650; --line:#CFC8BB;
+  --accent:#8A2B1E; --accent-ink:#FFFFFF;
+  --c-pot:#1F4E9A; --c-pro:#2E6B2F; --c-ide:#6A2C8F; --c-cri:#9A4408; --c-sci:#A3161C;
+  --ok-bg:#E3F4E5; --ok-ink:#1B5E20; --no-bg:#FDE7E4; --no-ink:#9A1C0B;
+  --box-bg:#FFF4D6; --box-ink:#4A3800; --box-line:#D9AF45;
+  --chip-bg:#F1E7E3; --luce:#FFF8E1; --ombra:#ECEAF0;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151417; --card:#211F24; --ink:#EEEBF0; --soft:#BDB7C3; --line:#3E3A44;
+  --accent:#F2A08F; --accent-ink:#1E0F0B;
+  --c-pot:#9DB8F2; --c-pro:#9AD69B; --c-ide:#CDA6EE; --c-cri:#F4B07A; --c-sci:#FF9A9A;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --chip-bg:#33241F; --luce:#2C2715; --ombra:#26232C;}}
+:root[data-theme="dark"]{
+  --bg:#151417; --card:#211F24; --ink:#EEEBF0; --soft:#BDB7C3; --line:#3E3A44;
+  --accent:#F2A08F; --accent-ink:#1E0F0B;
+  --c-pot:#9DB8F2; --c-pro:#9AD69B; --c-ide:#CDA6EE; --c-cri:#F4B07A; --c-sci:#FF9A9A;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --chip-bg:#33241F; --luce:#2C2715; --ombra:#26232C;}
+
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:var(--fs);-webkit-text-size-adjust:100%;scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;padding-bottom:calc(5rem + env(safe-area-inset-bottom,0px))}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:3000;background:var(--accent);color:var(--accent-ink);padding:.7rem 1rem;border-radius:8px;font-weight:700}
+.skip:focus{left:.75rem;top:.75rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:46rem;margin:0 auto;padding:0 1rem}
+header.top{padding:1.25rem 0 .5rem}
+.kicker{margin:0 0 .3rem;font-weight:700;color:var(--soft);font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:1.75rem;line-height:1.15;margin:0 0 .5rem}
+.lead{margin:0 0 1rem;color:var(--soft)}
+
+.tools{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.25rem}
+button{font:inherit}
+.tools button,.btn{font-size:.9rem;font-weight:700;min-height:48px;min-width:48px;padding:0 .9rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;text-decoration:none}
+.tools button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn.main{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+#ord-hint[aria-pressed="true"]{border-color:var(--accent);border-width:3px}
+
+.brief{background:var(--box-bg);color:var(--box-ink);border-left:5px solid var(--box-line);border-radius:12px;padding:.9rem 1rem;margin:0 0 1.25rem}
+.brief h2{font-size:1.05rem;margin:0 0 .4rem}
+.brief ul{margin:0;padding-left:1.2rem}
+.brief li{margin:.3rem 0}
+
+nav.idx{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:1.5rem}
+nav.idx h2{font-size:1.1rem;margin:0 0 .5rem}
+nav.idx ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem;counter-reset:i}
+nav.idx li{counter-increment:i}
+nav.idx a{display:flex;align-items:center;gap:.5rem;min-height:48px;padding:.4rem .7rem;border-radius:10px;text-decoration:none;color:var(--ink);font-size:.9rem;line-height:1.25;border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--chip-bg)}
+nav.idx a::before{content:counter(i);font-weight:700;color:var(--accent);min-width:1.1em}
+
+.sec{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:14px;padding:1rem 1rem 1.1rem;margin:0 0 1.1rem;scroll-margin-top:12px}
+.sec-head{display:flex;gap:.6rem;align-items:flex-start;justify-content:space-between}
+.sec h2{font-size:1.3rem;line-height:1.2;margin:0 0 .75rem}
+.sec h3{font-size:1.05rem;margin:1.1rem 0 .4rem}
+.sec p{margin:.5rem 0}
+.sec ul,.sec ol{padding-left:1.3rem}
+.sec li{margin:.35rem 0}
+.step{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);margin-bottom:.2rem}
+.say{flex:0 0 auto;font-size:.85rem;min-height:44px;padding:0 .7rem}
+.say[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.key{background:var(--box-bg);color:var(--box-ink);border-left:4px solid var(--box-line);border-radius:8px;padding:.55rem .8rem;margin:.75rem 0}
+.key b:first-child{display:block}
+.w{font-weight:700;border-bottom:2px dotted var(--accent)}
+
+/* temi: colore + icona + parola, mai solo colore */
+[data-t="pot"]{--tc:var(--c-pot)} [data-t="pro"]{--tc:var(--c-pro)} [data-t="ide"]{--tc:var(--c-ide)} [data-t="cri"]{--tc:var(--c-cri)} [data-t="sci"]{--tc:var(--c-sci)}
+.tkey{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.85rem;color:var(--soft);margin:.4rem 0}
+.tkey span{display:inline-flex;align-items:center;gap:.35rem}
+.tkey i{display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--tc)}
+
+/* periodi */
+.eras{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.6rem 0 1rem;padding:0!important;list-style:none}
+.eras li{margin:0!important}
+.eras a{display:block;min-height:48px;height:100%;padding:.5rem .7rem;border:2px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);background:var(--bg);line-height:1.25}
+.eras a b{display:block;font-size:.8rem;color:var(--soft);letter-spacing:.03em}
+.eras a:hover{border-color:var(--accent)}
+
+/* filtri */
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.filters button{font-size:.85rem;font-weight:700;min-height:44px;padding:0 .8rem;border-radius:22px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.filters button[data-t]{border-left:6px solid var(--tc)}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.count{font-size:.9rem;color:var(--soft);margin:.2rem 0 .6rem}
+
+/* linea del tempo */
+.era-t{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap;margin:1.4rem 0 .5rem!important;padding:.4rem .7rem;background:var(--chip-bg);border-radius:8px;scroll-margin-top:12px}
+.era-t small{font-weight:700;color:var(--soft)}
+.era-t[hidden]{display:none}
+ol.tl{list-style:none;margin:0;padding:0 0 0 1.4rem!important;position:relative}
+ol.tl::before{content:"";position:absolute;left:.45rem;top:.3rem;bottom:.3rem;width:3px;background:var(--line);border-radius:2px}
+.ev{position:relative;margin:0 0 .6rem!important}
+.ev[hidden]{display:none}
+.ev::before{content:"";position:absolute;left:-1.25rem;top:1.05rem;width:.85rem;height:.85rem;border-radius:50%;background:var(--tc);border:3px solid var(--card);box-shadow:0 0 0 2px var(--tc)}
+.ev-btn{width:100%;text-align:left;display:grid;grid-template-columns:auto 1fr auto;gap:.15rem .6rem;align-items:center;min-height:56px;padding:.55rem .75rem;border:1px solid var(--line);border-left:6px solid var(--tc);border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer;line-height:1.3}
+.ev-btn:hover{background:var(--bg)}
+.ev-y{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:700;font-size:.95rem;color:var(--ink);grid-row:1 / span 2}
+.ev-tt{font-weight:700}
+.ev-tag{font-size:.75rem;font-weight:700;color:var(--tc);text-transform:uppercase;letter-spacing:.04em;grid-column:2}
+.ev-pm{grid-row:1 / span 2;grid-column:3;font-weight:700;font-size:1.3rem;color:var(--soft);width:1.6rem;text-align:center}
+.ev-btn[aria-expanded="true"] .ev-pm::before{content:"−"}
+.ev-btn[aria-expanded="false"] .ev-pm::before{content:"+"}
+.ev-card{border:1px solid var(--line);border-top:0;border-left:6px solid var(--tc);border-radius:0 0 10px 10px;margin-top:-6px;padding:.8rem .8rem .5rem;background:var(--bg)}
+.ev-card[hidden]{display:none}
+.ev-card dl{margin:0}
+.ev-card dt{font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--soft);margin-top:.4rem}
+.ev-card dd{margin:.1rem 0 .3rem}
+.ev-card .go{display:inline-block;margin:.3rem 0 .2rem;font-weight:700}
+
+/* luci e ombre */
+.lo{display:grid;grid-template-columns:1fr;gap:.7rem;margin:.6rem 0}
+.lo > div{border-radius:12px;padding:.7rem .9rem;border:1px solid var(--line)}
+.lo .luce{background:var(--luce)} .lo .ombra{background:var(--ombra)}
+.lo h3{margin:.1rem 0 .3rem}
+.lo ul{margin:.2rem 0;padding-left:1.2rem}
+
+/* maestri del sospetto */
+.ms{display:grid;grid-template-columns:1fr;gap:.8rem;margin:.7rem 0}
+.m{border:1px solid var(--line);border-top:5px solid var(--c-ide);border-radius:12px;padding:.7rem .9rem;background:var(--bg)}
+.m-h{display:flex;gap:.7rem;align-items:center}
+.m-av{flex:0 0 3rem;height:3rem;border-radius:50%;background:var(--c-ide);color:var(--card);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+.m-h h3{margin:0;line-height:1.2}
+.m-h small{display:block;color:var(--soft);font-weight:400;font-size:.85rem}
+.m dl{margin:.5rem 0 0}
+.m dt{font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--soft);margin-top:.45rem}
+.m dd{margin:.1rem 0}
+.m .q1{font-size:1.05rem;font-weight:700;border-left:4px solid var(--c-ide);padding-left:.6rem}
+
+/* schema delle alleanze */
+.al{display:grid;grid-template-columns:1fr;gap:.6rem;margin:.7rem 0}
+.blk{border:2px solid var(--bc);border-radius:12px;padding:.6rem .8rem}
+.blk h3{margin:.1rem 0 .4rem;color:var(--ink)}
+.blk h3 small{display:block;font-size:.8rem;color:var(--soft);font-weight:700}
+.blk ul{list-style:none;padding:0!important;margin:0;display:flex;flex-wrap:wrap;gap:.35rem}
+.blk li{margin:0!important;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:.25rem .6rem;font-weight:700}
+.blk li small{font-weight:400;color:var(--soft)}
+.blk-a{--bc:var(--c-pot)} .blk-b{--bc:var(--c-cri)}
+.vs{text-align:center;font-weight:700;color:var(--soft)}
+.links{list-style:none;padding:0!important;margin:.4rem 0}
+.links li{border:1px dashed var(--line);border-radius:10px;padding:.45rem .7rem;margin:.4rem 0!important}
+.links b{white-space:nowrap}
+
+/* polveriera */
+.causes{list-style:none;padding:0!important;display:grid;grid-template-columns:1fr;gap:.55rem;margin:.6rem 0}
+.causes li{margin:0!important;border:1px solid var(--line);border-left:6px solid var(--c-cri);border-radius:10px;padding:.55rem .8rem}
+.causes .nm{font-weight:700;font-size:1.05rem}
+.spark{border:2px solid var(--c-sci);border-radius:12px;padding:.6rem .9rem;margin:.7rem 0}
+.spark .nm{font-weight:700;color:var(--ink)}
+
+/* attività: causa profonda o scintilla */
+.sort{list-style:none;padding:0!important;margin:.6rem 0}
+.sort li{border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem;margin:.5rem 0!important}
+.sort .it{font-weight:700;margin:0 0 .35rem}
+.sort .ch{display:flex;flex-wrap:wrap;gap:.4rem}
+.sort .ch button{font-size:.88rem}
+.sort .ch button[aria-pressed="true"]{border-color:var(--accent);border-width:3px}
+
+/* domino */
+ol.dom{list-style:none;padding:0!important;margin:.7rem 0;counter-reset:d}
+.tile{counter-increment:d;position:relative;margin:0 0 .7rem!important;border:2px solid var(--line);border-radius:12px;padding:.65rem .8rem .65rem 3.4rem;background:var(--card);transition:transform .35s ease,opacity .35s ease}
+.tile::before{content:counter(d);position:absolute;left:.7rem;top:.7rem;width:2rem;height:2.6rem;border-radius:6px;border:2px solid var(--c-sci);color:var(--c-sci);font-weight:700;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.tile .dt{display:block;font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:700;font-size:.85rem;color:var(--soft)}
+.tile .wh{font-weight:700;display:block;margin:.1rem 0}
+.tile .then{display:block;margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--line);font-size:.95rem}
+.tile .then::before{content:"↓ E quindi: ";font-weight:700}
+.tile.last .then::before{content:"Risultato: "}
+.dom.js .tile.wait{border-style:dashed;background:var(--bg)}
+.dom.js .tile.wait .wh,.dom.js .tile.wait .then,.dom.js .tile.wait .tx{display:none}
+.dom.js .tile.wait::after{content:"Tessera ancora in piedi";display:block;color:var(--soft);font-size:.9rem}
+.dom.js .tile.now{border-color:var(--c-sci);transform:rotate(-1.2deg)}
+.dom-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin:.4rem 0}
+
+/* metti in ordine */
+ol.ord{list-style:none;padding:0!important;margin:.6rem 0;counter-reset:o}
+ol.ord li{counter-increment:o;display:flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:10px;padding:.35rem .5rem;margin:.4rem 0!important;background:var(--card)}
+ol.ord li::before{content:counter(o);font-weight:700;color:var(--accent);min-width:1.4rem;text-align:center}
+ol.ord .tx{flex:1;line-height:1.3}
+ol.ord .yr{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:700;margin-right:.3rem}
+ol.ord .yr[hidden]{display:none}
+ol.ord .mv{display:flex;gap:.3rem}
+ol.ord .mv button{min-width:44px;min-height:44px;padding:0;font-size:1.1rem}
+ol.ord li.okp{border-color:var(--ok-ink);border-width:2px}
+ol.ord li.nop{border-color:var(--no-ink);border-width:2px;border-style:dashed}
+
+/* parole in sei lingue */
+.lang-wrap{overflow-x:auto;margin:.6rem 0;border:1px solid var(--line);border-radius:10px}
+table.lang{border-collapse:collapse;min-width:40rem;font-size:.92rem}
+table.lang.one{min-width:0;width:100%}
+table.lang .off{display:none}
+table.lang th,table.lang td{border-bottom:1px solid var(--line);padding:.45rem .55rem;text-align:left}
+table.lang th{background:var(--chip-bg);position:sticky;top:0}
+table.lang td:first-child,table.lang th:first-child{position:sticky;left:0;background:var(--card);font-weight:700;border-right:2px solid var(--line)}
+table.lang th:first-child{background:var(--chip-bg)}
+table.lang td[lang="ar"]{font-family:system-ui,sans-serif;font-size:1.05rem}
+
+/* quiz */
+.q{border:1px solid var(--line);border-radius:12px;padding:.6rem .9rem .8rem;margin:.8rem 0}
+.q legend{font-weight:700;padding:0 .3rem;line-height:1.35}
+.q .n{color:var(--accent)}
+.q label{display:flex;gap:.6rem;align-items:center;min-height:48px;padding:.35rem .6rem;margin:.35rem 0;border:1px solid var(--line);border-radius:10px;cursor:pointer;line-height:1.3}
+.q input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--accent)}
+.q label:has(input:checked){border-color:var(--accent);border-width:2px}
+.q .btn{margin-top:.4rem}
+.fb{margin:.6rem 0 0;padding:0;border-radius:8px;font-size:.95rem}
+.fb.ok{background:var(--ok-bg);color:var(--ok-ink);padding:.55rem .8rem}
+.fb.no{background:var(--no-bg);color:var(--no-ink);padding:.55rem .8rem}
+.score{font-weight:700;padding:.7rem .9rem;border-radius:10px;background:var(--chip-bg);margin:.8rem 0 0}
+
+details.more{margin:.8rem 0 0;border:1px solid var(--line);border-radius:10px;padding:.1rem .9rem}
+details.more summary,footer.about summary{min-height:48px;display:flex;align-items:center;font-weight:700;cursor:pointer}
+
+.toidx[hidden]{display:none}
+.toidx{position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:900;display:inline-flex;align-items:center;gap:.35rem;min-height:48px;padding:0 1rem;border-radius:24px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+
+footer.about{margin:2.5rem 0 1rem;font-size:.92rem;color:var(--soft)}
+footer.about details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.2rem 1rem;margin-bottom:.7rem}
+footer.about summary{color:var(--ink)}
+footer.about li{margin:.35rem 0}
+
+@media (max-width:359px){.wrap{padding:0 .6rem}.sec{padding:.9rem .7rem}nav.idx ol,.eras{grid-template-columns:1fr}}
+@media (min-width:720px){
+  :root{--fs:20px}
+  h1{font-size:2.2rem}
+  .sec{padding:1.3rem 1.5rem}
+  .lo{grid-template-columns:1fr 1fr}
+  .al{grid-template-columns:1fr auto 1fr;align-items:center}
+  .causes{grid-template-columns:1fr 1fr}
+  .eras{grid-template-columns:repeat(4,1fr)}
+  nav.idx ol{grid-template-columns:repeat(3,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.dom.js .tile.now{transform:none}}
+@media print{
+  :root{--bg:#fff;--card:#fff;--ink:#000;--soft:#333;--line:#999}
+  #site-menu,.tools,nav.idx,.toidx,footer.about,.skip,.say,.filters,.dom-bar,.q .btn,#btn-reset,.ev-pm,.sort .ch,.mv{display:none!important}
+  body{padding:0}.sec{break-inside:avoid;border-width:1px}
+  .ev[hidden],.era-t[hidden],.ev-card[hidden]{display:block}
+  .dom.js .tile.wait .wh,.dom.js .tile.wait .tx,.dom.js .tile.wait .then{display:block!important}.dom.js .tile.wait::after{content:none}
+  details{display:block}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#indice">Vai all’indice della lezione</a>
+<div id="site-menu" data-lezioni-menu="minimal" data-back="/lezioni-accessibili/"></div>
+
+<div class="wrap">
+<header class="top">
+  <p class="kicker">Storia · Il Novecento comincia</p>
+  <h1>Verso la Grande guerra: l’Europa dal 1867 al 1914</h1>
+  <p class="lead">Come si arriva alla Prima guerra mondiale? Qui trovi la storia a tappe: le grandi potenze, la Belle Époque, tre pensatori che hanno cambiato il modo di vedere il mondo, le alleanze, le crisi e infine la scintilla di Sarajevo. Ogni tappa è una scheda da aprire. In fondo c’è il ripasso.</p>
+  <div class="tools" role="group" aria-label="Impostazioni di lettura">
+    <span role="group" aria-label="Grandezza del testo" style="display:inline-flex;gap:.35rem">
+      <button type="button" id="btn-minus" aria-label="Testo più piccolo">A−</button>
+      <button type="button" id="btn-plus" aria-label="Testo più grande">A+</button>
+    </span>
+    <button type="button" id="btn-theme" aria-pressed="false">Tema scuro</button>
+  </div>
+  <p class="lead" id="tts-note" hidden>Ogni parte ha il pulsante <strong>🔊 Ascolta</strong>: il telefono legge il testo ad alta voce.</p>
+</header>
+
+<main id="lezione">
+
+<section class="brief" aria-labelledby="breve-t">
+  <h2 id="breve-t">In breve: le 6 cose da sapere</h2>
+  <ul>
+    <li>Nel 1871 nasce l’<strong>Impero tedesco</strong>. In Europa ci sono ora cinque grandi potenze che si guardano con sospetto.</li>
+    <li>Dal 1890 al 1914 è la <strong>Belle Époque</strong>: elettricità, cinema, automobili, fiducia nel progresso. Ma è «bella» solo per una parte delle persone.</li>
+    <li>Marx, Nietzsche e Freud sono i <strong>maestri del sospetto</strong>: dicono che dietro quello che vediamo si nasconde altro. Le certezze dell’Ottocento si incrinano.</li>
+    <li>L’Europa si divide in due blocchi: <strong>Triplice Alleanza</strong> (Germania, Austria-Ungheria, Italia) e <strong>Triplice Intesa</strong> (Francia, Regno Unito, Russia).</li>
+    <li>Le <strong>cause profonde</strong> sono quattro: nazionalismo, imperialismo, alleanze, corsa agli armamenti. I <strong>Balcani</strong> sono la «polveriera d’Europa».</li>
+    <li>Il <strong>casus belli</strong> è l’attentato di <strong>Sarajevo</strong> (28 giugno 1914). In poco più di un mese le alleanze trascinano in guerra tutta l’Europa: è l’effetto domino.</li>
+  </ul>
+</section>
+
+<nav class="idx" id="indice" aria-labelledby="indice-t" tabindex="-1">
+  <h2 id="indice-t">Indice della lezione</h2>
+  <ol>
+    <li><a href="#tempo">La linea del tempo</a></li>
+    <li><a href="#belle">La Belle Époque</a></li>
+    <li><a href="#sospetto">I maestri del sospetto</a></li>
+    <li><a href="#alleanze">Due blocchi di alleanze</a></li>
+    <li><a href="#cause">La polveriera e la scintilla</a></li>
+    <li><a href="#domino">Luglio 1914: l’effetto domino</a></li>
+    <li><a href="#ripasso">Ripasso</a></li>
+    <li><a href="#lingue">Parole in sei lingue</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="tempo" aria-labelledby="tempo-t">
+  <span class="step">Parte 1</span>
+  <div class="sec-head"><h2 id="tempo-t">La linea del tempo</h2></div>
+  <p>Ventitré tappe, dal 1867 al 1914. <strong>Tocca una tappa</strong> per aprire la sua scheda: che cosa succede e perché conta per la guerra.</p>
+  <p>Le tappe sono divise in quattro periodi. Tocca un periodo per andarci subito.</p>
+  <ul class="eras">
+    <li><a href="#era1"><b>1867-1889</b>Le grandi potenze</a></li>
+    <li><a href="#era2"><b>1890-1904</b>La Belle Époque</a></li>
+    <li><a href="#era3"><b>1905-1913</b>Le crisi</a></li>
+    <li><a href="#era4"><b>1914</b>La scintilla</a></li>
+  </ul>
+  <p>Ogni tappa ha un tema, con un’icona e un colore. Puoi vedere solo un tema alla volta.</p>
+  <div class="filters" id="tfil" role="group" aria-label="Mostra le tappe per tema">
+    <button type="button" data-f="tutte" aria-pressed="true">Tutte</button>
+    <button type="button" data-f="pot" data-t="pot" aria-pressed="false">🤝 Potenze e alleanze</button>
+    <button type="button" data-f="pro" data-t="pro" aria-pressed="false">💡 Progresso</button>
+    <button type="button" data-f="ide" data-t="ide" aria-pressed="false">🧠 Idee</button>
+    <button type="button" data-f="cri" data-t="cri" aria-pressed="false">⚠️ Crisi, colonie e armi</button>
+    <button type="button" data-f="sci" data-t="sci" aria-pressed="false">🔥 La scintilla</button>
+  </div>
+  <p class="count" id="tcount" aria-live="polite">Tappe mostrate: 23.</p>
+  <div class="btns" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.4rem">
+    <button type="button" class="btn" id="open-all">Apri tutte le schede</button>
+    <button type="button" class="btn" id="close-all">Chiudi tutte</button>
+  </div>
+
+  <h3 class="era-t" id="era1" data-era="1">Le grandi potenze <small>dal 1867 al 1889</small></h3>
+  <ol class="tl" data-era="1">
+    <li class="ev" data-t="ide">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1867</span><span class="ev-tt">Marx pubblica «Il Capitale»</span><span class="ev-tag">🧠 Idee</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il filosofo tedesco Karl Marx pubblica il primo volume del <em>Capitale</em>. Studia le fabbriche e il lavoro degli operai.</dd>
+        <dt>Perché conta</dt><dd>Le sue idee danno forza ai <strong>partiti socialisti</strong> e ai sindacati. Molti socialisti pensano che gli operai di tutti i paesi siano fratelli e non debbano combattere tra loro. Nel 1914 però quasi tutti i partiti socialisti votano a favore della guerra del proprio paese.</dd>
+      </dl><a class="go" href="#sospetto">Vai ai maestri del sospetto</a></div>
+    </li>
+    <li class="ev" data-t="pot">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1871</span><span class="ev-tt">Nasce l’Impero tedesco</span><span class="ev-tag">🤝 Potenze</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>La Prussia vince la guerra contro la Francia. Il 18 gennaio 1871, a Versailles, viene proclamato l’<strong>Impero tedesco</strong>. Il primo ministro è Otto von Bismarck. La Francia perde due regioni: <strong>Alsazia e Lorena</strong>.</dd>
+        <dt>Perché conta</dt><dd>Nel cuore dell’Europa nasce una nuova potenza, forte nell’industria e nell’esercito. La Francia vuole la rivincita e riprendersi le due regioni: questo desiderio si chiama <span class="w">revanscismo</span>.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="pot">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1882</span><span class="ev-tt">La Triplice Alleanza</span><span class="ev-tag">🤝 Potenze</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd><strong>Germania, Austria-Ungheria e Italia</strong> firmano un’alleanza difensiva: se una viene attaccata, le altre la aiutano.</dd>
+        <dt>Perché conta</dt><dd>È il primo dei due blocchi che si scontreranno nel 1914. L’Italia però ha un problema: Trento e Trieste, che molti italiani vogliono, sono dentro l’Austria-Ungheria, cioè dentro un paese alleato.</dd>
+      </dl><a class="go" href="#alleanze">Vai ai due blocchi</a></div>
+    </li>
+    <li class="ev" data-t="ide">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1882</span><span class="ev-tt">Nietzsche: «Dio è morto»</span><span class="ev-tag">🧠 Idee</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il filosofo tedesco Friedrich Nietzsche scrive <em>La gaia scienza</em>. Dentro c’è una frase famosa: «Dio è morto».</dd>
+        <dt>Perché conta</dt><dd>Nietzsche dice che i vecchi valori non reggono più. Molte persone sentono di vivere in un’epoca senza certezze. Dopo la sua morte alcune sue idee vengono usate e deformate dai nazionalisti.</dd>
+      </dl><a class="go" href="#sospetto">Vai ai maestri del sospetto</a></div>
+    </li>
+    <li class="ev" data-t="cri">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1884</span><span class="ev-tt">A Berlino gli europei si dividono l’Africa</span><span class="ev-tag">⚠️ Colonie</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Dal 1884 al 1885, alla <strong>Conferenza di Berlino</strong>, i paesi europei stabiliscono le regole per prendersi l’Africa. Nessun africano è invitato.</dd>
+        <dt>Perché conta</dt><dd>È il cuore dell’<span class="w">imperialismo</span>: le potenze fanno a gara per avere colonie, cioè terre da cui prendere materie prime e dove vendere merci. La gara crea rivalità tra europei. Per milioni di africani significa perdere la propria terra e la libertà.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="pro">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1889</span><span class="ev-tt">La Torre Eiffel e l’Esposizione di Parigi</span><span class="ev-tag">💡 Progresso</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Parigi ospita l’<strong>Esposizione universale</strong>: i paesi mostrano le loro invenzioni e le loro macchine. Per l’occasione viene costruita la Torre Eiffel, in ferro.</dd>
+        <dt>Perché conta</dt><dd>È il simbolo della fiducia nella scienza e nella tecnica: il <span class="w">positivismo</span>. Ma le Esposizioni sono anche una gara tra nazioni: ognuna vuole mostrare di essere la più forte.</dd>
+      </dl><a class="go" href="#belle">Vai alla Belle Époque</a></div>
+    </li>
+  </ol>
+
+  <h3 class="era-t" id="era2" data-era="2">La Belle Époque <small>dal 1890 al 1904</small></h3>
+  <ol class="tl" data-era="2">
+    <li class="ev" data-t="pot">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1890</span><span class="ev-tt">Bismarck lascia, la Germania vuole il mondo</span><span class="ev-tag">🤝 Potenze</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il nuovo imperatore tedesco, <strong>Guglielmo II</strong>, manda via Bismarck. Bismarck voleva tenere la Francia isolata e restare in pace con la Russia. Guglielmo II vuole invece che la Germania diventi una <strong>potenza mondiale</strong>, con colonie e una grande flotta.</dd>
+        <dt>Perché conta</dt><dd>La Germania non rinnova l’accordo con la Russia. Così la Russia si avvicina alla Francia, e il Regno Unito comincia a temere la flotta tedesca.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="pot">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1894</span><span class="ev-tt">Francia e Russia si alleano</span><span class="ev-tag">🤝 Potenze</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Francia e Russia firmano un’alleanza militare: se la Germania attacca una delle due, l’altra interviene.</dd>
+        <dt>Perché conta</dt><dd>La Germania ora ha un nemico a ovest (Francia) e uno a est (Russia). Per questo prepara un piano per vincere in fretta prima contro la Francia, passando per il Belgio: lo applicherà nel 1914.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="pro">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1895</span><span class="ev-tt">I fratelli Lumière inventano il cinema</span><span class="ev-tag">💡 Progresso</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il 28 dicembre 1895, a Parigi, Auguste e Louis Lumière fanno la prima proiezione pubblica a pagamento. Negli stessi anni arrivano l’elettricità nelle città, il telefono, l’automobile e, nel 1903, l’aereo.</dd>
+        <dt>Perché conta</dt><dd>La vita cambia in fretta e molti pensano che il progresso non si fermerà mai. Le stesse tecnologie (motori, chimica, telegrafo) serviranno anche a fare la guerra.</dd>
+      </dl><a class="go" href="#belle">Vai alla Belle Époque</a></div>
+    </li>
+    <li class="ev" data-t="cri">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1896</span><span class="ev-tt">Adua: l’Etiopia sconfigge l’Italia</span><span class="ev-tag">⚠️ Colonie</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>L’Italia vuole conquistare l’Etiopia. Il 1° marzo 1896, ad <strong>Adua</strong>, l’esercito etiope dell’imperatore Menelik II sconfigge quello italiano.</dd>
+        <dt>Perché conta</dt><dd>L’Etiopia resta indipendente: è uno dei due soli paesi africani liberi all’inizio del Novecento. In Italia la sconfitta brucia, e il desiderio di una rivincita coloniale porterà alla guerra di Libia nel 1911.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="ide">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1899</span><span class="ev-tt">Freud: «L’interpretazione dei sogni»</span><span class="ev-tag">🧠 Idee</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il medico austriaco Sigmund Freud, a Vienna, pubblica <em>L’interpretazione dei sogni</em> (sul libro c’è la data 1900). Nasce la <span class="w">psicoanalisi</span>.</dd>
+        <dt>Perché conta</dt><dd>Freud mostra che dentro di noi c’è l’<strong>inconscio</strong>: desideri e paure che non conosciamo. L’essere umano non è guidato solo dalla ragione. Dopo lo scoppio della guerra, nel 1915, Freud scrive che la guerra ha fatto cadere la vernice della civiltà.</dd>
+      </dl><a class="go" href="#sospetto">Vai ai maestri del sospetto</a></div>
+    </li>
+    <li class="ev" data-t="pot">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1904</span><span class="ev-tt">L’Intesa cordiale tra Francia e Regno Unito</span><span class="ev-tag">🤝 Potenze</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Francia e Regno Unito, rivali da secoli, si accordano sulle colonie: il Regno Unito tiene l’Egitto, la Francia può occuparsi del Marocco.</dd>
+        <dt>Perché conta</dt><dd>Non è ancora un’alleanza militare, ma i due paesi smettono di essere nemici e cominciano a collaborare contro la Germania.</dd>
+      </dl></div>
+    </li>
+  </ol>
+
+  <h3 class="era-t" id="era3" data-era="3">Le crisi <small>dal 1905 al 1913</small></h3>
+  <ol class="tl" data-era="3">
+    <li class="ev" data-t="cri">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1905</span><span class="ev-tt">Prima crisi del Marocco</span><span class="ev-tag">⚠️ Crisi</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Guglielmo II va a Tangeri, in Marocco, e dice che il Marocco deve restare indipendente. È una sfida alla Francia, che vuole controllarlo.</dd>
+        <dt>Perché conta</dt><dd>La Germania vuole dividere Francia e Regno Unito, ma ottiene l’effetto opposto: i due paesi si uniscono ancora di più. Nel 1911 ci sarà una seconda crisi del Marocco, ad Agadir.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="cri">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1906</span><span class="ev-tt">La Dreadnought: la corsa alle navi da guerra</span><span class="ev-tag">⚠️ Armi</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il Regno Unito vara la <strong>Dreadnought</strong>, una corazzata più veloce e più armata di tutte le altre. La Germania risponde costruendo navi simili.</dd>
+        <dt>Perché conta</dt><dd>È la <span class="w">corsa agli armamenti</span>: ogni potenza spende di più per esercito e flotta, perché ha paura delle altre. Più armi ci sono, più cresce la paura.</dd>
+      </dl><a class="go" href="#cause">Vai alle cause profonde</a></div>
+    </li>
+    <li class="ev" data-t="pot">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1907</span><span class="ev-tt">Nasce la Triplice Intesa</span><span class="ev-tag">🤝 Potenze</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il Regno Unito si accorda anche con la Russia. Ora <strong>Francia, Regno Unito e Russia</strong> formano la Triplice Intesa.</dd>
+        <dt>Perché conta</dt><dd>L’Europa è divisa in due blocchi. Un litigio tra due paesi può diventare una guerra tra tutti.</dd>
+      </dl><a class="go" href="#alleanze">Vai ai due blocchi</a></div>
+    </li>
+    <li class="ev" data-t="cri">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1908</span><span class="ev-tt">L’Austria si prende la Bosnia</span><span class="ev-tag">⚠️ Crisi</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>L’Austria-Ungheria annette la <strong>Bosnia ed Erzegovina</strong>, che già amministrava dal 1878.</dd>
+        <dt>Perché conta</dt><dd>In Bosnia vivono molti serbi. La <strong>Serbia</strong> sogna di unire tutti gli slavi del sud e si sente minacciata. La Russia, che protegge la Serbia, deve cedere ma non dimentica. Tra Austria e Serbia nasce un odio che esploderà a Sarajevo, capitale della Bosnia.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="ide">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1909</span><span class="ev-tt">Il Manifesto del Futurismo</span><span class="ev-tag">🧠 Idee</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Il poeta Filippo Tommaso Marinetti pubblica a Parigi il <strong>Manifesto del Futurismo</strong>. Celebra la velocità, le macchine, la città moderna. Scrive che la guerra è la «sola igiene del mondo».</dd>
+        <dt>Perché conta</dt><dd>Mostra un’idea diffusa tra molti giovani e intellettuali: la guerra vista come avventura, pulizia, rinascita. Nessuno immagina quanto sarà lunga e terribile.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="cri">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1911</span><span class="ev-tt">L’Italia in guerra per la Libia</span><span class="ev-tag">⚠️ Colonie</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Dal 1911 al 1912 l’Italia combatte contro l’<strong>Impero ottomano</strong> e conquista la Libia. La popolazione libica resiste per molti anni.</dd>
+        <dt>Perché conta</dt><dd>L’Impero ottomano esce indebolito. I piccoli stati dei Balcani ne approfittano subito per attaccarlo.</dd>
+      </dl></div>
+    </li>
+    <li class="ev" data-t="cri">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">1912</span><span class="ev-tt">Le guerre balcaniche</span><span class="ev-tag">⚠️ Crisi</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>Dal 1912 al 1913 ci sono due guerre nei <strong>Balcani</strong>. Nella prima Serbia, Montenegro, Grecia e Bulgaria cacciano gli ottomani da quasi tutta l’Europa. Nella seconda litigano tra loro per dividersi le terre conquistate.</dd>
+        <dt>Perché conta</dt><dd>La Serbia esce più grande e più forte. L’Austria-Ungheria la vede come un pericolo. I Balcani diventano la <span class="w">polveriera d’Europa</span>: basta una scintilla.</dd>
+      </dl><a class="go" href="#cause">Vai alla polveriera</a></div>
+    </li>
+  </ol>
+
+  <h3 class="era-t" id="era4" data-era="4">La scintilla <small>1914</small></h3>
+  <ol class="tl" data-era="4">
+    <li class="ev" data-t="sci">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">28 giu<br>1914</span><span class="ev-tt">L’attentato di Sarajevo</span><span class="ev-tag">🔥 Scintilla</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>A Sarajevo, capitale della Bosnia, <strong>Gavrilo Princip</strong>, uno studente serbo-bosniaco di 19 anni, spara e uccide <strong>Francesco Ferdinando</strong>, l’erede al trono d’Austria-Ungheria, e sua moglie Sofia. Princip fa parte di un gruppo di giovani nazionalisti aiutato da un’organizzazione segreta serba, la Mano Nera.</dd>
+        <dt>Perché conta</dt><dd>È il <span class="w">casus belli</span>, cioè il fatto che fa scoppiare la guerra. L’Austria-Ungheria accusa la Serbia e decide di punirla.</dd>
+      </dl><a class="go" href="#domino">Vai all’effetto domino</a></div>
+    </li>
+    <li class="ev" data-t="sci">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">5 lug<br>1914</span><span class="ev-tt">La Germania promette aiuto all’Austria</span><span class="ev-tag">🔥 Scintilla</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>La Germania dice all’Austria-Ungheria che la sosterrà qualunque cosa decida contro la Serbia. Gli storici lo chiamano <strong>assegno in bianco</strong>.</dd>
+        <dt>Perché conta</dt><dd>Con la Germania alle spalle, l’Austria-Ungheria può essere durissima con la Serbia, anche se sa che la Russia potrebbe intervenire.</dd>
+      </dl><a class="go" href="#domino">Vai all’effetto domino</a></div>
+    </li>
+    <li class="ev" data-t="sci">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">23 lug<br>1914</span><span class="ev-tt">L’ultimatum alla Serbia</span><span class="ev-tag">🔥 Scintilla</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>L’Austria-Ungheria manda alla Serbia un <span class="w">ultimatum</span>: una lista di richieste da accettare entro 48 ore, altrimenti sarà guerra. La Serbia accetta quasi tutto, ma non la richiesta di far indagare la polizia austriaca sul proprio territorio.</dd>
+        <dt>Perché conta</dt><dd>L’ultimatum è scritto per essere rifiutato. L’Austria-Ungheria considera la risposta insufficiente.</dd>
+      </dl><a class="go" href="#domino">Vai all’effetto domino</a></div>
+    </li>
+    <li class="ev" data-t="sci">
+      <button type="button" class="ev-btn" aria-expanded="false"><span class="ev-y">28 lug<br>1914</span><span class="ev-tt">Inizia la guerra</span><span class="ev-tag">🔥 Scintilla</span><span class="ev-pm" aria-hidden="true"></span></button>
+      <div class="ev-card" hidden><dl>
+        <dt>Che cosa succede</dt><dd>L’Austria-Ungheria dichiara guerra alla Serbia. Nei giorni successivi entrano in guerra Russia, Germania, Francia e Regno Unito.</dd>
+        <dt>Perché conta</dt><dd>Un conflitto locale diventa in una settimana una guerra europea, e poi mondiale. Il 3 agosto l’Italia si dichiara <strong>neutrale</strong>: entrerà in guerra solo nel maggio 1915, ma dalla parte dell’Intesa.</dd>
+      </dl><a class="go" href="#domino">Guarda le tessere giorno per giorno</a></div>
+    </li>
+  </ol>
+  <div class="key"><b>Da ricordare</b>In quarant’anni l’Europa diventa più ricca e più moderna, ma anche più divisa e più armata. Le tensioni si accumulano lentamente; la guerra scoppia in poche settimane.</div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="belle" aria-labelledby="belle-t">
+  <span class="step">Parte 2</span>
+  <div class="sec-head"><h2 id="belle-t">La Belle Époque: bella per chi?</h2></div>
+  <p><span class="w">Belle Époque</span> in francese vuol dire «epoca bella». È il nome che viene dato, <strong>dopo</strong> la guerra, agli anni dal 1890 circa al 1914. Chi era sopravvissuto alle trincee ricordava quel tempo come un’età felice e spensierata.</p>
+  <p>Era davvero bella? Dipende da chi la guardi.</p>
+  <div class="lo">
+    <div class="luce">
+      <h3>☀️ Le luci</h3>
+      <ul>
+        <li><strong>Elettricità</strong>: lampadine nelle strade e nelle case delle città.</li>
+        <li><strong>Nuovi mezzi</strong>: automobile, tram elettrico, bicicletta, aereo (1903).</li>
+        <li><strong>Nuove comunicazioni</strong>: telefono, telegrafo senza fili, cinema.</li>
+        <li><strong>Medicina</strong>: vaccini, più igiene, si vive più a lungo.</li>
+        <li><strong>Tempo libero</strong>: caffè, teatri, grandi magazzini, sport, vacanze al mare per i borghesi.</li>
+        <li><strong>Scuola</strong>: più bambini imparano a leggere e scrivere.</li>
+      </ul>
+    </div>
+    <div class="ombra">
+      <h3>🌑 Le ombre</h3>
+      <ul>
+        <li><strong>Operai</strong>: lavorano 10-12 ore al giorno, anche i bambini, in fabbriche pericolose.</li>
+        <li><strong>Povertà</strong>: nelle campagne e nelle periferie si vive in case piccole e malsane.</li>
+        <li><strong>Emigrazione</strong>: milioni di italiani partono per l’America in cerca di lavoro.</li>
+        <li><strong>Colonie</strong>: in Africa e in Asia milioni di persone sono dominate dagli europei.</li>
+        <li><strong>Donne</strong>: non possono votare in quasi nessun paese.</li>
+        <li><strong>Nazionalismo</strong>: cresce l’idea che la propria nazione sia superiore alle altre.</li>
+      </ul>
+    </div>
+  </div>
+  <p>Accanto alla fiducia nel progresso cresce anche un senso di inquietudine. Gli artisti e i pensatori lo sentono prima degli altri.</p>
+  <div class="key"><b>Da ricordare</b>La Belle Époque è un’età di progresso e di ottimismo, soprattutto per la borghesia delle città. Ma dietro la vetrina ci sono povertà, colonie e rivalità tra nazioni.</div>
+  <p>Per vedere chi stava nell’ombra, con quadri e fotografie dello stesso periodo: <a href="/lezioni-accessibili/chi-viene-guardato/">Chi viene guardato? Arte e storia dal 1848 al 1911</a>.</p>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sospetto" aria-labelledby="sospetto-t">
+  <span class="step">Parte 3</span>
+  <div class="sec-head"><h2 id="sospetto-t">I maestri del sospetto</h2></div>
+  <p>Nell’Ottocento molti pensano che la <strong>ragione</strong> e la <strong>scienza</strong> possano spiegare tutto. Tre pensatori dicono invece: <strong>le cose non sono come sembrano</strong>. Dietro quello che vediamo c’è qualcosa di nascosto.</p>
+  <p>Nel 1965 il filosofo francese Paul Ricœur li ha chiamati i <span class="w">maestri del sospetto</span>.</p>
+  <div class="ms">
+    <article class="m">
+      <div class="m-h"><span class="m-av" aria-hidden="true">KM</span><h3>Karl Marx <small>tedesco, 1818-1883</small></h3></div>
+      <dl>
+        <dt>In una frase</dt><dd class="q1">Dietro la politica ci sono i soldi.</dd>
+        <dt>Dove guarda</dt><dd>Nell’<strong>economia</strong> e nel lavoro.</dd>
+        <dt>Che cosa scopre</dt><dd>La società è divisa in classi: chi possiede le fabbriche (borghesia) e chi ci lavora (proletariato). Leggi, religione e idee servono spesso a proteggere chi comanda.</dd>
+        <dt>Che cosa c’entra con la guerra</dt><dd>Per i marxisti la gara per le colonie e i mercati è una delle cause della guerra. I socialisti sperano di fermarla, ma nel 1914 il nazionalismo è più forte.</dd>
+      </dl>
+    </article>
+    <article class="m">
+      <div class="m-h"><span class="m-av" aria-hidden="true">FN</span><h3>Friedrich Nietzsche <small>tedesco, 1844-1900</small></h3></div>
+      <dl>
+        <dt>In una frase</dt><dd class="q1">Dietro i valori c’è la volontà di potenza.</dd>
+        <dt>Dove guarda</dt><dd>Nella <strong>morale</strong>, cioè nelle idee di bene e di male.</dd>
+        <dt>Che cosa scopre</dt><dd>I valori che sembrano eterni sono stati creati dagli esseri umani. «Dio è morto» vuol dire: le vecchie certezze sono finite. L’uomo deve creare valori nuovi.</dd>
+        <dt>Che cosa c’entra con la guerra</dt><dd>Racconta la crisi delle certezze del suo tempo. Dopo la sua morte alcune sue idee vengono deformate e usate per esaltare la forza e la guerra.</dd>
+      </dl>
+    </article>
+    <article class="m">
+      <div class="m-h"><span class="m-av" aria-hidden="true">SF</span><h3>Sigmund Freud <small>austriaco, 1856-1939</small></h3></div>
+      <dl>
+        <dt>In una frase</dt><dd class="q1">Dietro la ragione c’è l’inconscio.</dd>
+        <dt>Dove guarda</dt><dd>Nella <strong>mente</strong>: sogni, dimenticanze, lapsus.</dd>
+        <dt>Che cosa scopre</dt><dd>Una parte di noi, l’inconscio, contiene desideri e paure che non conosciamo ma che guidano le nostre azioni. Non siamo del tutto padroni di noi stessi.</dd>
+        <dt>Che cosa c’entra con la guerra</dt><dd>Spiega che dentro gli esseri umani ci sono anche spinte aggressive. Nel 1915, a guerra iniziata, scrive che la civiltà è solo uno strato sottile sopra quelle spinte.</dd>
+      </dl>
+    </article>
+  </div>
+  <div class="key"><b>Da ricordare</b>Marx, Nietzsche e Freud non hanno causato la guerra. Ma mostrano che la fiducia dell’Ottocento nella ragione e nel progresso si sta incrinando: economia, potere e inconscio contano più di quanto si pensasse.</div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="alleanze" aria-labelledby="alleanze-t">
+  <span class="step">Parte 4</span>
+  <div class="sec-head"><h2 id="alleanze-t">L’Europa nel 1914: due blocchi</h2></div>
+  <p>Nel 1914 le grandi potenze europee sono legate da alleanze. Ogni paese pensa che l’alleanza lo protegga. In realtà, se scoppia una lite, le alleanze trascinano tutti dentro.</p>
+  <div class="al" role="group" aria-label="Schema delle alleanze nel 1914">
+    <div class="blk blk-a">
+      <h3><small>dal 1882</small>Triplice Alleanza</h3>
+      <ul><li>Germania</li><li>Austria-Ungheria</li><li>Italia <small>(neutrale nel 1914)</small></li></ul>
+    </div>
+    <p class="vs" aria-hidden="true">⚔️<br>rivali</p>
+    <div class="blk blk-b">
+      <h3><small>dal 1907</small>Triplice Intesa</h3>
+      <ul><li>Francia</li><li>Regno Unito</li><li>Russia</li></ul>
+    </div>
+  </div>
+  <h3>I legami che contano nel luglio 1914</h3>
+  <ul class="links">
+    <li><b>Russia → Serbia</b>: la Russia protegge la Serbia, perché sono entrambi popoli slavi e di religione ortodossa.</li>
+    <li><b>Germania → Austria-Ungheria</b>: la Germania promette di aiutare l’Austria-Ungheria in ogni caso.</li>
+    <li><b>Francia ↔ Russia</b>: se la Germania attacca la Russia, la Francia interviene.</li>
+    <li><b>Regno Unito → Belgio</b>: il Regno Unito garantisce che il Belgio resti neutrale. Se qualcuno lo invade, il Regno Unito entra in guerra.</li>
+  </ul>
+  <details class="more">
+    <summary>Perché l’Italia nel 1914 resta neutrale?</summary>
+    <p>La Triplice Alleanza è un patto <strong>difensivo</strong>: obbliga ad aiutare un alleato attaccato. Ma nel 1914 è l’Austria-Ungheria ad attaccare la Serbia, e non avverte l’Italia. Il governo italiano dichiara quindi la neutralità il 3 agosto 1914. Nel 1915, con il Patto di Londra, l’Italia passa dalla parte dell’Intesa, che le promette Trento, Trieste e altre terre.</p>
+  </details>
+  <div class="key"><b>Da ricordare</b>Le alleanze nascono per difendersi, ma trasformano una lite tra due paesi in una guerra tra blocchi.</div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="cause" aria-labelledby="cause-t">
+  <span class="step">Parte 5</span>
+  <div class="sec-head"><h2 id="cause-t">La polveriera e la scintilla</h2></div>
+  <p>Gli storici distinguono due tipi di cause. Immagina una <strong>polveriera</strong>, un deposito pieno di polvere da sparo, e un <strong>fiammifero</strong>.</p>
+  <h3>💣 La polveriera: le 4 cause profonde</h3>
+  <p>Si accumulano in molti anni. Da sole non fanno scoppiare la guerra, ma la rendono possibile.</p>
+  <ul class="causes">
+    <li><span class="nm">1. Nazionalismo</span><br>Ogni popolo pensa che la propria nazione sia la migliore. Alcuni popoli senza stato (come gli slavi del sud nell’Austria-Ungheria) vogliono l’indipendenza.</li>
+    <li><span class="nm">2. Imperialismo</span><br>Le potenze fanno a gara per conquistare colonie e mercati in Africa e in Asia. Le crisi del Marocco nascono da qui.</li>
+    <li><span class="nm">3. Alleanze</span><br>L’Europa è divisa in due blocchi. Un conflitto locale può coinvolgere tutti.</li>
+    <li><span class="nm">4. Corsa agli armamenti</span><br>Eserciti sempre più grandi, flotte, piani di guerra già pronti. Chi si muove per primo pensa di vincere.</li>
+  </ul>
+  <h3>🔥 La scintilla: il casus belli</h3>
+  <div class="spark"><span class="nm"><span class="w">Casus belli</span></span> è un’espressione latina: vuol dire «occasione della guerra». È il fatto che accende la miccia. Nel 1914 è l’<strong>attentato di Sarajevo</strong>.</div>
+  <h3>Prova tu: polveriera o scintilla?</h3>
+  <p>Per ogni frase scegli se è una <strong>causa profonda</strong> o il <strong>casus belli</strong>.</p>
+  <ul class="sort" id="sort"></ul>
+  <p class="score" id="sort-score" aria-live="polite">Risposte giuste: 0 su 6.</p>
+  <div class="key"><b>Da ricordare</b>Le cause profonde spiegano <strong>perché</strong> c’è stata la guerra; il casus belli spiega <strong>quando</strong> e <strong>come</strong> è cominciata.</div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="domino" aria-labelledby="domino-t">
+  <span class="step">Parte 6</span>
+  <div class="sec-head"><h2 id="domino-t">Luglio 1914: l’effetto domino</h2></div>
+  <p>Dall’attentato alla guerra europea passano 37 giorni. Ogni decisione fa cadere la tessera successiva, come nel domino. Premi il pulsante per far cadere una tessera alla volta.</p>
+  <div class="dom-bar" hidden>
+    <button type="button" class="btn main" id="dom-next">Fai cadere la prima tessera</button>
+    <button type="button" class="btn" id="dom-all">Mostra tutte</button>
+    <button type="button" class="btn" id="dom-reset">Ricomincia</button>
+  </div>
+  <p class="count" id="dom-status" aria-live="polite"></p>
+  <ol class="dom" id="dom">
+    <li class="tile"><span class="dt">28 giugno 1914</span><span class="wh">Sarajevo</span><span class="tx">Gavrilo Princip uccide l’erede al trono austriaco, Francesco Ferdinando.</span><span class="then">l’Austria-Ungheria accusa la Serbia e vuole punirla.</span></li>
+    <li class="tile"><span class="dt">5 luglio</span><span class="wh">Germania</span><span class="tx">La Germania promette all’Austria-Ungheria pieno sostegno: l’«assegno in bianco».</span><span class="then">l’Austria-Ungheria si sente forte e decide di essere durissima.</span></li>
+    <li class="tile"><span class="dt">23 luglio</span><span class="wh">Austria-Ungheria</span><span class="tx">Ultimatum alla Serbia: 48 ore per accettare tutte le richieste.</span><span class="then">la Serbia accetta quasi tutto, ma non tutto. L’Austria-Ungheria rompe i rapporti.</span></li>
+    <li class="tile"><span class="dt">28 luglio</span><span class="wh">Austria-Ungheria</span><span class="tx">Dichiara guerra alla Serbia.</span><span class="then">la Russia, protettrice della Serbia, si prepara a intervenire.</span></li>
+    <li class="tile"><span class="dt">30 luglio</span><span class="wh">Russia</span><span class="tx">Lo zar Nicola II ordina la mobilitazione generale: l’esercito si prepara alla guerra.</span><span class="then">la Germania si sente minacciata e chiede alla Russia di fermarsi.</span></li>
+    <li class="tile"><span class="dt">1° agosto</span><span class="wh">Germania</span><span class="tx">Dichiara guerra alla Russia.</span><span class="then">la Francia, alleata della Russia, mobilita il suo esercito.</span></li>
+    <li class="tile"><span class="dt">3 agosto</span><span class="wh">Germania</span><span class="tx">Dichiara guerra alla Francia. Lo stesso giorno l’Italia si dichiara neutrale.</span><span class="then">per colpire la Francia in fretta, la Germania passa dal Belgio, che è neutrale.</span></li>
+    <li class="tile last"><span class="dt">4 agosto</span><span class="wh">Regno Unito</span><span class="tx">La Germania invade il Belgio. Il Regno Unito, che garantiva la neutralità del Belgio, dichiara guerra alla Germania.</span><span class="then">in 37 giorni un attentato in Bosnia diventa una guerra tra le grandi potenze. È la Prima guerra mondiale.</span></li>
+  </ol>
+  <div class="key"><b>Da ricordare</b>Nessuno dei governi voleva una guerra lunga quattro anni. Molti pensavano che sarebbe finita «per Natale». Le alleanze e i piani militari già pronti hanno reso difficile fermarsi.</div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="ripasso" aria-labelledby="ripasso-t">
+  <span class="step">Parte 7</span>
+  <h2 id="ripasso-t">Ripasso</h2>
+  <h3>Metti in ordine</h3>
+  <p>Usa le frecce ↑ e ↓ per mettere le tappe dalla più antica alla più recente. Poi premi «Controlla». Se ti serve, puoi far comparire gli anni.</p>
+  <ol class="ord" id="ord"></ol>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button type="button" class="btn" id="ord-check">Controlla l’ordine</button>
+    <button type="button" class="btn" id="ord-hint" aria-pressed="false">Aiuto: mostra gli anni</button>
+  </div>
+  <p class="fb" id="ord-fb" aria-live="polite"></p>
+
+  <h3>Domande</h3>
+  <p>Scegli una risposta e premi «Controlla». Puoi riprovare tutte le volte che vuoi.</p>
+  <form id="quiz" novalidate></form>
+  <p class="score" id="score" aria-live="polite">Risposte corrette: 0 su 10.</p>
+  <button type="button" class="btn" id="btn-reset">Ricomincia il ripasso</button>
+
+  <h3>Spiegalo con parole tue</h3>
+  <p>Scegli una sola attività e il modo che preferisci: a voce, con un disegno, con una mappa, con un fumetto o per iscritto. Puoi prendere appunti anche nella tua lingua.</p>
+  <ul>
+    <li>Spiega a un compagno la differenza tra causa profonda e casus belli, con un esempio della tua vita (un litigio che covava da tempo e la goccia che ha fatto traboccare il vaso).</li>
+    <li>Disegna l’effetto domino del luglio 1914 con le tessere e i nomi dei paesi.</li>
+    <li>Scegli uno dei tre maestri del sospetto e racconta in tre frasi che cosa ha «scoperto».</li>
+    <li>Sei un operaio, un’emigrante o un borghese di Parigi nel 1900: racconta la tua Belle Époque in cinque righe o in un audio di un minuto.</li>
+  </ul>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="lingue" aria-labelledby="lingue-t">
+  <span class="step">Parte 8</span>
+  <h2 id="lingue-t">Parole in sei lingue</h2>
+  <p>Le parole chiave della lezione in sei lingue. Servono a tutti: confrontare le lingue aiuta a ricordare le parole. Puoi vedere una lingua alla volta.</p>
+  <div class="filters" id="langf" role="group" aria-label="Lingue da mostrare">
+    <button type="button" data-l="all" aria-pressed="true">Tutte</button>
+    <button type="button" data-l="2" aria-pressed="false">English</button>
+    <button type="button" data-l="3" aria-pressed="false">Español</button>
+    <button type="button" data-l="4" aria-pressed="false">Română</button>
+    <button type="button" data-l="5" aria-pressed="false">Shqip</button>
+    <button type="button" data-l="6" aria-pressed="false">العربية</button>
+  </div>
+  <div class="lang-wrap"><table class="lang" id="langt">
+    <thead><tr><th scope="col">Italiano</th><th scope="col" lang="en">English</th><th scope="col" lang="es">Español</th><th scope="col" lang="ro">Română</th><th scope="col" lang="sq">Shqip</th><th scope="col" lang="ar" dir="rtl">العربية</th></tr></thead>
+    <tbody>
+      <tr><td>guerra</td><td lang="en">war</td><td lang="es">guerra</td><td lang="ro">război</td><td lang="sq">luftë</td><td lang="ar" dir="rtl">حرب</td></tr>
+      <tr><td>pace</td><td lang="en">peace</td><td lang="es">paz</td><td lang="ro">pace</td><td lang="sq">paqe</td><td lang="ar" dir="rtl">سلام</td></tr>
+      <tr><td>alleanza</td><td lang="en">alliance</td><td lang="es">alianza</td><td lang="ro">alianță</td><td lang="sq">aleancë</td><td lang="ar" dir="rtl">تحالف</td></tr>
+      <tr><td>nazionalismo</td><td lang="en">nationalism</td><td lang="es">nacionalismo</td><td lang="ro">naționalism</td><td lang="sq">nacionalizëm</td><td lang="ar" dir="rtl">القومية</td></tr>
+      <tr><td>imperialismo</td><td lang="en">imperialism</td><td lang="es">imperialismo</td><td lang="ro">imperialism</td><td lang="sq">imperializëm</td><td lang="ar" dir="rtl">الإمبريالية</td></tr>
+      <tr><td>colonia</td><td lang="en">colony</td><td lang="es">colonia</td><td lang="ro">colonie</td><td lang="sq">koloni</td><td lang="ar" dir="rtl">مستعمرة</td></tr>
+      <tr><td>armi</td><td lang="en">weapons</td><td lang="es">armas</td><td lang="ro">arme</td><td lang="sq">armë</td><td lang="ar" dir="rtl">أسلحة</td></tr>
+      <tr><td>causa</td><td lang="en">cause</td><td lang="es">causa</td><td lang="ro">cauză</td><td lang="sq">shkak</td><td lang="ar" dir="rtl">سبب</td></tr>
+      <tr><td>neutrale</td><td lang="en">neutral</td><td lang="es">neutral</td><td lang="ro">neutru</td><td lang="sq">neutral</td><td lang="ar" dir="rtl">محايد</td></tr>
+      <tr><td>progresso</td><td lang="en">progress</td><td lang="es">progreso</td><td lang="ro">progres</td><td lang="sq">përparim</td><td lang="ar" dir="rtl">تقدم</td></tr>
+    </tbody>
+  </table></div>
+  <p>Conosci un’altra lingua? Aggiungi la parola «guerra» e la parola «pace» sul tuo quaderno.</p>
+</section>
+</main>
+
+<footer class="about">
+  <details>
+    <summary>Per i docenti: come è fatta questa pagina</summary>
+    <p>Sintesi del preludio alla Prima guerra mondiale (dal 1867 al 1914) per la secondaria, pensata per studenti con BES e utile a tutta la classe come ripasso da telefono. Tiene insieme storia politica (potenze, alleanze, crisi), società (Belle Époque) e storia delle idee (maestri del sospetto, Futurismo), fino al casus belli e alla crisi di luglio.</p>
+    <ul>
+      <li>Linguaggio semplificato nella forma, non nel contenuto: frasi brevi, una idea per frase, termini tecnici sottolineati e spiegati quando compaiono (UDL 3.0, considerazione 2.1). Un riquadro «Da ricordare» chiude ogni parte.</li>
+      <li>La linea del tempo è a schede che si aprono una alla volta (carico cognitivo dosato) e si può filtrare per tema: alleanze, progresso, idee, crisi, scintilla. Ogni scheda ha sempre la stessa struttura, «Che cosa succede» e «Perché conta» (considerazione 3.2: evidenziare schemi e relazioni). Il tema è indicato da colore, icona e parola, mai dal solo colore.</li>
+      <li>Prospettive plurali (considerazione 1.3): la Conferenza di Berlino senza africani, Adua dalla parte etiope, la resistenza libica, l’emigrazione italiana, la Belle Époque vista da chi stava nell’ombra.</li>
+      <li>Ogni parte si può ascoltare con la sintesi vocale del dispositivo, senza servizi esterni (considerazione 1.2). Le parole chiave in sei lingue sono per tutta la classe (considerazione 2.3).</li>
+      <li>Il ripasso dà un riscontro immediato che spiega l’errore (considerazione 8.5); l’attività finale si sceglie tra più forme, a voce, disegno, mappa, fumetto o scrittura (considerazioni 5.1 e 7.1).</li>
+      <li>Font ad alta leggibilità (Atkinson Hyperlegible), contrasti WCAG 2.2 AA, tema chiaro e scuro, testo ingrandibile, aree da toccare di almeno 44-48 pixel, rispetto della preferenza per il movimento ridotto, stampabile con tutte le schede aperte.</li>
+      <li>Nessun dato lascia il dispositivo: le risposte non vengono salvate né inviate.</li>
+    </ul>
+    <p><a href="/lezioni-accessibili/metodo.html">Il metodo delle lezioni accessibili</a></p>
+  </details>
+  <details>
+    <summary>Fonti</summary>
+    <ul>
+      <li>Christopher Clark (2013). <em>I sonnambuli. Come l’Europa arrivò alla Grande guerra</em>. Laterza.</li>
+      <li>Margaret MacMillan (2013). <em>1914. Come la luce si spense sul mondo di ieri</em>. Rizzoli.</li>
+      <li>Paul Ricœur (1965). <em>De l’interprétation. Essai sur Freud</em>. Seuil (dove compare l’espressione «maestri del sospetto»).</li>
+      <li>Sigmund Freud (1915). <em>Considerazioni attuali sulla guerra e la morte</em>.</li>
+      <li>CAST (2024). Universal Design for Learning Guidelines version 3.0. <a href="https://udlguidelines.cast.org" hreflang="en">udlguidelines.cast.org</a></li>
+    </ul>
+  </details>
+</footer>
+</div>
+
+<a class="toidx" href="#indice"><span aria-hidden="true">↑</span> Indice</a>
+
+<script>
+(function(){
+  var d=document.documentElement;
+  function $(s,c){return (c||document).querySelector(s);}
+  function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
+  function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+  /* ---------- testo e tema ---------- */
+  function cur(){return parseFloat(getComputedStyle(d).fontSize)||19;}
+  function setSize(px){px=Math.max(16,Math.min(30,px));d.style.setProperty('--fs',px+'px');save('gg-size',px);}
+  $('#btn-plus').addEventListener('click',function(){setSize(cur()+2);});
+  $('#btn-minus').addEventListener('click',function(){setSize(cur()-2);});
+  var bt=$('#btn-theme');
+  function isDark(){var t=d.getAttribute('data-theme');if(t)return t==='dark';return window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;}
+  function syncTheme(){bt.setAttribute('aria-pressed',isDark()?'true':'false');}
+  bt.addEventListener('click',function(){var t=isDark()?'light':'dark';d.setAttribute('data-theme',t);save('gg-theme',t);syncTheme();});
+  syncTheme();
+
+  /* ---------- ascolta: sintesi vocale del dispositivo ---------- */
+  var synth=window.speechSynthesis,speaking=null;
+  if(synth&&'SpeechSynthesisUtterance' in window){
+    $('#tts-note').hidden=false;
+    var stop=function(){synth.cancel();if(speaking){speaking.setAttribute('aria-pressed','false');speaking.textContent='🔊 Ascolta';}speaking=null;};
+    var voice=function(){var v=synth.getVoices();for(var i=0;i<v.length;i++){if(/^it/i.test(v[i].lang))return v[i];}return null;};
+    $$('.sec-head').forEach(function(h){
+      var sec=h.parentNode,b=document.createElement('button');
+      b.type='button';b.className='btn say';b.textContent='🔊 Ascolta';b.setAttribute('aria-pressed','false');
+      b.setAttribute('aria-label','Ascolta: '+h.querySelector('h2').textContent);
+      h.appendChild(b);
+      b.addEventListener('click',function(){
+        if(speaking===b){stop();return;}
+        stop();
+        var c=sec.cloneNode(true);
+        /* nella linea del tempo legge le tappe visibili, schede comprese */
+        $$('button:not(.ev-btn),.step,.filters,.count,.btns,.ev[hidden],.era-t[hidden],.ev-pm,.ev-tag,.go,.dom-bar,.sort,#sort-score,.tkey',c).forEach(function(n){n.remove();});
+        $$('.ev-btn',c).forEach(function(n){n.insertAdjacentText('afterend','. ');});
+        $$('.ev-card[hidden]',c).forEach(function(n){n.hidden=false;});
+        var txt=c.textContent.replace(/\s+/g,' ').trim();
+        var u=new SpeechSynthesisUtterance(txt);u.lang='it-IT';var vv=voice();if(vv)u.voice=vv;u.rate=.92;
+        u.onend=u.onerror=function(){if(speaking===b)stop();};
+        speaking=b;b.setAttribute('aria-pressed','true');b.textContent='⏹ Ferma';synth.speak(u);
+      });
+    });
+    window.addEventListener('pagehide',stop);
+  }
+
+  /* ---------- linea del tempo: schede ---------- */
+  var evs=$$('.ev');
+  function setOpen(li,open){var b=$('.ev-btn',li);b.setAttribute('aria-expanded',open?'true':'false');$('.ev-card',li).hidden=!open;}
+  evs.forEach(function(li,i){
+    var b=$('.ev-btn',li),c=$('.ev-card',li);c.id='scheda-'+(i+1);b.setAttribute('aria-controls',c.id);
+    b.addEventListener('click',function(){setOpen(li,b.getAttribute('aria-expanded')!=='true');});
+  });
+  $('#open-all').addEventListener('click',function(){evs.forEach(function(li){if(!li.hidden)setOpen(li,true);});});
+  $('#close-all').addEventListener('click',function(){evs.forEach(function(li){setOpen(li,false);});});
+
+  /* filtro per tema */
+  var tf=$$('#tfil button'),tc=$('#tcount');
+  tf.forEach(function(b){b.addEventListener('click',function(){
+    var f=b.getAttribute('data-f'),n=0;
+    tf.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    evs.forEach(function(li){var show=f==='tutte'||li.getAttribute('data-t')===f;li.hidden=!show;if(show)n++;});
+    $$('ol.tl').forEach(function(ol){var any=$$('.ev',ol).some(function(li){return !li.hidden;});ol.hidden=!any;$('.era-t[data-era="'+ol.getAttribute('data-era')+'"]').hidden=!any;});
+    tc.textContent='Tappe mostrate: '+n+'.';
+  });});
+
+  /* i link dei periodi riportano visibili tutte le tappe */
+  $$('.eras a').forEach(function(a){a.addEventListener('click',function(){if($('#tfil [data-f="tutte"]').getAttribute('aria-pressed')!=='true')$('#tfil [data-f="tutte"]').click();});});
+
+  /* ---------- polveriera o scintilla ---------- */
+  var S=[
+    {t:'L’attentato a Francesco Ferdinando a Sarajevo',c:1,y:'Giusto: è il fatto che accende la miccia, il casus belli.',n:'È il casus belli: un fatto preciso, in un giorno preciso, che fa partire la guerra.'},
+    {t:'Le potenze europee fanno a gara per avere colonie',c:0,y:'Giusto: è l’imperialismo, una causa profonda.',n:'La gara per le colonie dura molti anni: è una causa profonda, l’imperialismo.'},
+    {t:'Ogni popolo pensa che la propria nazione sia superiore',c:0,y:'Giusto: è il nazionalismo, una causa profonda.',n:'È un modo di pensare che cresce per decenni: una causa profonda, il nazionalismo.'},
+    {t:'Germania e Regno Unito costruiscono sempre più navi da guerra',c:0,y:'Giusto: è la corsa agli armamenti.',n:'Costruire armi per anni è una causa profonda: la corsa agli armamenti.'},
+    {t:'L’Europa è divisa tra Triplice Alleanza e Triplice Intesa',c:0,y:'Giusto: il sistema delle alleanze è una causa profonda.',n:'I blocchi di alleanze si formano in più di vent’anni: sono una causa profonda.'},
+    {t:'Un giovane nazionalista spara a Sarajevo il 28 giugno 1914',c:1,y:'Giusto: è di nuovo il casus belli, detto con altre parole.',n:'È lo stesso fatto dell’attentato: il casus belli.'}
+  ];
+  var sortEl=$('#sort'),sortDone={};
+  S.forEach(function(it,i){
+    var li=document.createElement('li');
+    li.innerHTML='<p class="it"></p><div class="ch" role="group"><button type="button" class="btn" data-v="0">💣 Causa profonda</button><button type="button" class="btn" data-v="1">🔥 Casus belli</button></div><p class="fb" aria-live="polite"></p>';
+    $('.it',li).textContent=(i+1)+'. '+it.t;$('.ch',li).setAttribute('aria-label','Frase '+(i+1));
+    var fb=$('.fb',li);
+    $$('button',li).forEach(function(b){b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){
+      $$('button',li).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      var ok=+b.getAttribute('data-v')===it.c;sortDone[i]=ok;
+      fb.className='fb '+(ok?'ok':'no');fb.textContent=(ok?'✓ ':'✗ ')+(ok?it.y:it.n);
+      var n=0;for(var k in sortDone){if(sortDone[k])n++;}$('#sort-score').textContent='Risposte giuste: '+n+' su '+S.length+'.';
+    });});
+    sortEl.appendChild(li);
+  });
+
+  /* ---------- domino ---------- */
+  var dom=$('#dom'),tiles=$$('.tile',dom),pos=0,bar=$('.dom-bar'),nx=$('#dom-next'),ds=$('#dom-status');
+  bar.hidden=false;dom.classList.add('js');
+  function paint(){
+    tiles.forEach(function(t,i){t.classList.toggle('wait',i>=pos);t.classList.toggle('now',i===pos-1);t.setAttribute('aria-hidden',i>=pos?'true':'false');});
+    nx.disabled=pos>=tiles.length;
+    nx.textContent=pos===0?'Fai cadere la prima tessera':(pos>=tiles.length?'Tutte le tessere sono cadute':'Fai cadere la tessera successiva');
+    ds.textContent=pos===0?'Nessuna tessera caduta.':'Tessere cadute: '+pos+' su '+tiles.length+'.';
+  }
+  nx.addEventListener('click',function(){if(pos<tiles.length){pos++;paint();var t=tiles[pos-1];ds.textContent+=' '+t.querySelector('.dt').textContent+': '+t.querySelector('.tx').textContent;}});
+  $('#dom-all').addEventListener('click',function(){pos=tiles.length;paint();});
+  $('#dom-reset').addEventListener('click',function(){pos=0;paint();nx.focus();});
+  paint();
+
+  /* ---------- metti in ordine ---------- */
+  var O=['Nasce l’Impero tedesco','Triplice Alleanza','Torre Eiffel ed Esposizione di Parigi','Triplice Intesa','Guerre balcaniche','Attentato di Sarajevo'],OY=['1871','1882','1889','1907','1912','1914'];
+  var mix=[3,0,5,2,4,1],ord=$('#ord'),ofb=$('#ord-fb');
+  function row(i){
+    var li=document.createElement('li');li.setAttribute('data-k',i);
+    li.innerHTML='<span class="tx"><span class="yr" hidden></span><span class="lb"></span></span><span class="mv"><button type="button" class="btn up">↑</button><button type="button" class="btn dn">↓</button></span>';
+    $('.lb',li).textContent=O[i];$('.yr',li).textContent=OY[i];
+    $('.up',li).setAttribute('aria-label','Sposta su: '+O[i]);$('.dn',li).setAttribute('aria-label','Sposta giù: '+O[i]);
+    $('.up',li).addEventListener('click',function(){var p=li.previousElementSibling;if(p){ord.insertBefore(li,p);clearO();$('.up',li).focus();}});
+    $('.dn',li).addEventListener('click',function(){var n=li.nextElementSibling;if(n){ord.insertBefore(n,li);clearO();$('.dn',li).focus();}});
+    return li;
+  }
+  function clearO(){$$('li',ord).forEach(function(l){l.classList.remove('okp','nop');});ofb.className='fb';ofb.textContent='';}
+  mix.forEach(function(i){ord.appendChild(row(i));});
+  $('#ord-check').addEventListener('click',function(){
+    var ok=0;$$('li',ord).forEach(function(l,p){var g=+l.getAttribute('data-k')===p;l.classList.toggle('okp',g);l.classList.toggle('nop',!g);if(g)ok++;});
+    if(ok===O.length){ofb.className='fb ok';ofb.textContent='✓ Perfetto: tutte le tappe sono al posto giusto.';}
+    else{ofb.className='fb no';ofb.textContent='✗ Al posto giusto: '+ok+' su '+O.length+'. Le tappe con il bordo tratteggiato vanno spostate. Puoi usare l’aiuto per vedere gli anni.';}
+  });
+  var oh=$('#ord-hint');
+  oh.addEventListener('click',function(){var on=oh.getAttribute('aria-pressed')!=='true';oh.setAttribute('aria-pressed',on?'true':'false');oh.textContent=on?'Nascondi gli anni':'Aiuto: mostra gli anni';$$('.yr',ord).forEach(function(y){y.hidden=!on;});});
+
+  /* ---------- domande ---------- */
+  var Q=[
+    {q:'Che cosa perde la Francia nel 1871?',o:['La Corsica','L’Alsazia e la Lorena','Il Marocco'],c:1,
+     y:'Giusto. La perdita di Alsazia e Lorena fa nascere in Francia il desiderio di rivincita.',n:'Rileggi la tappa del 1871: la Francia sconfitta perde Alsazia e Lorena.'},
+    {q:'Quali paesi formano la Triplice Alleanza?',o:['Francia, Regno Unito, Russia','Germania, Austria-Ungheria, Italia','Germania, Russia, Serbia'],c:1,
+     y:'Esatto: è l’alleanza del 1882.',n:'Francia, Regno Unito e Russia formano la Triplice Intesa. La Triplice Alleanza è Germania, Austria-Ungheria e Italia.'},
+    {q:'Che cosa vuol dire «Belle Époque»?',o:['Epoca bella','Epoca della guerra','Epoca della bellezza femminile'],c:0,
+     y:'Giusto: è francese, «epoca bella». Il nome è stato dato dopo la guerra.',n:'Belle Époque in francese vuol dire «epoca bella».'},
+    {q:'La Belle Époque era bella per tutti?',o:['Sì, tutti stavano bene grazie al progresso','No: c’erano povertà, lavoro minorile, emigrazione e colonie'],c:1,
+     y:'Esatto. Era bella soprattutto per la borghesia delle città.',n:'Rileggi la Parte 2: accanto alle luci ci sono molte ombre.'},
+    {q:'Chi sono i tre «maestri del sospetto»?',o:['Marx, Nietzsche, Freud','Bismarck, Guglielmo II, Francesco Ferdinando','Marinetti, Lumière, Eiffel'],c:0,
+     y:'Giusto: tre pensatori che dicono che dietro le apparenze c’è qualcosa di nascosto.',n:'I maestri del sospetto sono tre pensatori: Marx, Nietzsche e Freud.'},
+    {q:'Secondo Freud, che cosa c’è «dietro» la ragione?',o:['L’economia','L’inconscio','La volontà di potenza'],c:1,
+     y:'Esatto. L’economia è la risposta di Marx, la volontà di potenza quella di Nietzsche.',n:'Freud scopre l’inconscio. L’economia è di Marx, la volontà di potenza di Nietzsche.'},
+    {q:'Perché i Balcani sono chiamati «polveriera d’Europa»?',o:['Perché lì si produceva polvere da sparo','Perché ci sono tanti conflitti tra popoli e potenze che possono esplodere','Perché sono una zona desertica'],c:1,
+     y:'Giusto: nazionalismi, Impero ottomano in crisi, Austria e Russia rivali.',n:'È una metafora: i Balcani sono pieni di tensioni pronte a esplodere.'},
+    {q:'Qual è il casus belli della Prima guerra mondiale?',o:['La corsa agli armamenti','La Conferenza di Berlino','L’attentato di Sarajevo del 28 giugno 1914'],c:2,
+     y:'Esatto: è la scintilla che fa scoppiare la guerra.',n:'La corsa agli armamenti è una causa profonda. Il casus belli è l’attentato di Sarajevo.'},
+    {q:'Perché il Regno Unito entra in guerra il 4 agosto 1914?',o:['Perché la Germania invade il Belgio neutrale','Perché la Serbia lo chiede','Perché l’Italia lo attacca'],c:0,
+     y:'Giusto: il Regno Unito garantiva la neutralità del Belgio.',n:'Rileggi l’ultima tessera del domino: la Germania invade il Belgio.'},
+    {q:'Che cosa fa l’Italia nell’agosto 1914?',o:['Entra subito in guerra con la Germania','Si dichiara neutrale','Entra subito in guerra con la Francia'],c:1,
+     y:'Esatto: il 3 agosto si dichiara neutrale. Entrerà in guerra nel 1915 con l’Intesa.',n:'Nel 1914 l’Italia resta neutrale: la Triplice era un patto difensivo e l’Austria aveva attaccato.'}
+  ];
+  var form=$('#quiz'),score=$('#score'),done={};
+  Q.forEach(function(it,i){
+    var fs=document.createElement('fieldset');fs.className='q';
+    var lg=document.createElement('legend');lg.innerHTML='<span class="n">'+(i+1)+'.</span> ';lg.appendChild(document.createTextNode(it.q));fs.appendChild(lg);
+    it.o.forEach(function(t,j){var l=document.createElement('label'),r=document.createElement('input');r.type='radio';r.name='q'+i;r.value=j;l.appendChild(r);l.appendChild(document.createTextNode(t));fs.appendChild(l);});
+    var b=document.createElement('button');b.type='button';b.className='btn';b.textContent='Controlla';fs.appendChild(b);
+    var fb=document.createElement('p');fb.className='fb';fb.setAttribute('aria-live','polite');fs.appendChild(fb);
+    b.addEventListener('click',function(){
+      var s=fs.querySelector('input:checked');
+      if(!s){fb.className='fb no';fb.textContent='Scegli prima una risposta.';return;}
+      var ok=+s.value===it.c;done[i]=ok;
+      fb.className='fb '+(ok?'ok':'no');fb.textContent=(ok?'✓ ':'✗ ')+(ok?it.y:it.n);
+      upd();
+    });
+    form.appendChild(fs);
+  });
+  function upd(){var n=0;for(var k in done){if(done[k])n++;}score.textContent='Risposte corrette: '+n+' su '+Q.length+'.'+(n===Q.length?' Ottimo, hai fatto tutto!':'');}
+  $('#btn-reset').addEventListener('click',function(){form.reset();done={};$$('.fb',form).forEach(function(f){f.className='fb';f.textContent='';});upd();form.querySelector('input').focus();});
+
+  /* ---------- scelta della lingua ---------- */
+  var lb=$$('#langf button'),lt=$('#langt');
+  lb.forEach(function(b){b.addEventListener('click',function(){
+    var l=b.getAttribute('data-l');
+    lb.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    lt.classList.toggle('one',l!=='all');
+    Array.prototype.forEach.call(lt.rows,function(r){for(var c=1;c<r.cells.length;c++){r.cells[c].classList.toggle('off',l!=='all'&&String(c+1)!==l);}});
+  });});
+
+  /* torna all'indice */
+  var ti=$('.toidx'),ix=$('#indice');
+  if('IntersectionObserver' in window){new IntersectionObserver(function(e){ti.hidden=e[0].isIntersecting;}).observe(ix);}
+  ti.addEventListener('click',function(){setTimeout(function(){ix.focus({preventScroll:true});},0);});
+
+  /* stampa: tutte le schede aperte */
+  window.addEventListener('beforeprint',function(){evs.forEach(function(li){$('.ev-card',li).hidden=false;});});
+})();
+</script>
+<!-- menu del sito isolato in Shadow DOM: vedi /lezioni-accessibili/assets/menu-lezioni.js -->
+<script src="/assets/menu.js"></script>
+<script src="/lezioni-accessibili/assets/menu-lezioni.js"></script>
+</body>
+</html>
