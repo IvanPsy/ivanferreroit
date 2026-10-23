@@ -1,0 +1,774 @@
+---
+title: "La mia zona sul piano cartesiano"
+description: "Lezione accessibile di matematica: la mappa vera di un quartiere di Milano diventa un piano cartesiano. Si leggono e si mettono punti su una griglia guidata che aggancia il punto all'incrocio più vicino, si misura una distanza con la calcolatrice e Google Maps, si costruisce un grafico a barre con i minuti del navigatore. Con una parte da fare a casa e il PDF da consegnare."
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>La mia zona sul piano cartesiano | Lezioni accessibili | Ivan Ferrero</title>
+{% seo title=false %}
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<script>
+/* preferenze salvate: applicate prima del disegno per evitare lampi */
+(function(){try{var d=document.documentElement,t=localStorage.getItem('pc-theme'),s=localStorage.getItem('pc-size');
+if(t)d.setAttribute('data-theme',t);if(s)d.style.setProperty('--fs',s+'px');}catch(e){}})();
+</script>
+<style>
+:root{
+  --fs:19px;
+  --bg:#EEF2F6; --card:#FFFFFF; --ink:#16202C; --soft:#465263; --line:#C5CED9;
+  --accent:#1F4FA8; --accent-ink:#FFFFFF;
+  --axis:#1F4E79; --grid:rgba(31,78,121,.55); --place:#B00020; --cursor:#1F4FA8;
+  --go-x:#B85C00; --go-y:#16794A;
+  --ok-bg:#E3F4E5; --ok-ink:#1B5E20; --no-bg:#FDE7E4; --no-ink:#9A1C0B;
+  --box-bg:#FFF6DC; --box-ink:#4A3800; --box-line:#E2C062;
+  --home-bg:#FFF1D6; --home-line:#C98A00;
+  --chip-bg:#E3ECFF; --bar:#1F4FA8; --bar-ok:#16794A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161C; --card:#1C232C; --ink:#E8ECF1; --soft:#B0BAC6; --line:#38424F;
+  --accent:#8FB0F5; --accent-ink:#0E1522;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --home-bg:#33270E; --home-line:#B88412;
+  --chip-bg:#1D2A45; --bar:#8FB0F5; --bar-ok:#7DD383;}}
+:root[data-theme="dark"]{
+  --bg:#12161C; --card:#1C232C; --ink:#E8ECF1; --soft:#B0BAC6; --line:#38424F;
+  --accent:#8FB0F5; --accent-ink:#0E1522;
+  --ok-bg:#163320; --ok-ink:#A8E6B0; --no-bg:#3A1B17; --no-ink:#FFB4A8;
+  --box-bg:#2E2712; --box-ink:#F3DE9C; --box-line:#7A6421;
+  --home-bg:#33270E; --home-line:#B88412;
+  --chip-bg:#1D2A45; --bar:#8FB0F5; --bar-ok:#7DD383;}
+
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:var(--fs);-webkit-text-size-adjust:100%;scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;padding-bottom:calc(5rem + env(safe-area-inset-bottom,0px))}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:0;z-index:3000;background:var(--accent);color:var(--accent-ink);padding:.7rem 1rem;border-radius:8px;font-weight:700}
+.skip:focus{left:.75rem;top:.75rem}
+
+.wrap{max-width:48rem;margin:0 auto;padding:0 1rem}
+header.top{padding:1.25rem 0 .5rem}
+.kicker{margin:0 0 .3rem;font-weight:700;color:var(--soft);font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:1.75rem;line-height:1.15;margin:0 0 .5rem}
+.lead{margin:0 0 1rem;color:var(--soft)}
+
+.tools{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.25rem}
+button,input,select,textarea{font:inherit}
+.tools button,.btn{font-size:.9rem;font-weight:700;min-height:48px;min-width:48px;padding:0 .9rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;text-decoration:none}
+.tools button[aria-pressed="true"],.btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn-main{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+.brief{background:var(--box-bg);color:var(--box-ink);border-left:5px solid var(--box-line);border-radius:12px;padding:.9rem 1rem;margin:0 0 1.25rem}
+.brief h2{font-size:1.05rem;margin:0 0 .4rem}
+.todo{list-style:none;margin:0;padding:0}
+.todo li{margin:.35rem 0}
+.todo label{display:flex;gap:.6rem;align-items:center;min-height:44px;cursor:pointer}
+.todo input{width:24px;height:24px;flex:0 0 24px;accent-color:var(--accent)}
+.todo input:checked + span{text-decoration:line-through;text-decoration-thickness:2px}
+
+nav.idx{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:1.5rem}
+nav.idx h2{font-size:1.1rem;margin:0 0 .5rem}
+nav.idx ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem;counter-reset:i}
+nav.idx li{counter-increment:i}
+nav.idx a{display:flex;align-items:center;gap:.5rem;min-height:48px;padding:.4rem .7rem;border-radius:10px;text-decoration:none;color:var(--ink);font-size:.9rem;line-height:1.25;border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--chip-bg)}
+nav.idx a::before{content:counter(i);font-weight:700;color:var(--accent);min-width:1.1em}
+
+.sec{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:14px;padding:1rem 1rem 1.1rem;margin:0 0 1.1rem;scroll-margin-top:12px}
+.sec.home{border-top-color:var(--home-line);background:var(--home-bg)}
+.sec h2{font-size:1.3rem;line-height:1.2;margin:0 0 .75rem}
+.sec h3{font-size:1.05rem;margin:1.2rem 0 .4rem}
+.sec p{margin:.5rem 0}
+.sec ol,.sec ul{padding-left:1.3rem}
+.sec li{margin:.35rem 0}
+.step{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);margin-bottom:.2rem}
+.key{background:var(--box-bg);color:var(--box-ink);border-left:4px solid var(--box-line);border-radius:8px;padding:.55rem .8rem;margin:.75rem 0}
+.words3{list-style:none;padding:0!important;margin:.5rem 0;display:grid;gap:.5rem}
+.words3 li{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin:0}
+.words3 b{display:block;font-size:1.05rem}
+.sym{font-weight:700;color:var(--accent)}
+figure{margin:.6rem 0}
+figcaption{font-size:.85rem;color:var(--soft);margin-top:.35rem}
+.ex svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
+
+/* mappa */
+.mapbox{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;background:#fff}
+#mappa{display:block;width:100%;min-width:900px;height:auto;touch-action:manipulation;cursor:crosshair}
+#mappa:focus-visible{outline:4px solid var(--accent);outline-offset:-4px}
+#mappa .gl{stroke:var(--grid);stroke-width:2}
+#mappa .ax{stroke:var(--axis);stroke-width:6}
+#mappa .num{font-family:"Atkinson Hyperlegible",sans-serif;font-size:30px;font-weight:700;fill:var(--axis);paint-order:stroke;stroke:#fff;stroke-width:7px;stroke-linejoin:round}
+#mappa .lab{font-family:"Atkinson Hyperlegible",sans-serif;font-size:28px;font-weight:700;fill:#111;paint-order:stroke;stroke:#fff;stroke-width:8px;stroke-linejoin:round}
+#mappa .pin{fill:var(--place);stroke:#fff;stroke-width:5}
+#mappa .pin-s{fill:var(--axis);stroke:#fff;stroke-width:5}
+#mappa .pl{font-family:"Atkinson Hyperlegible",sans-serif;font-size:24px;font-weight:700;fill:#fff;pointer-events:none}
+#mappa .gox{stroke:var(--go-x);stroke-width:10;fill:none;stroke-linecap:round}
+#mappa .goy{stroke:var(--go-y);stroke-width:10;fill:none;stroke-linecap:round}
+#mappa .cur{fill:none;stroke:var(--cursor);stroke-width:7}
+#mappa .curdot{fill:var(--cursor)}
+#mappa .ghost{fill:none;stroke:var(--cursor);stroke-width:4;stroke-dasharray:6 6;opacity:.8}
+#mappa .curlab{font-family:"Atkinson Hyperlegible",sans-serif;font-size:34px;font-weight:700;fill:var(--cursor);paint-order:stroke;stroke:#fff;stroke-width:9px;stroke-linejoin:round}
+.hint-scroll{font-size:.85rem;color:var(--soft);margin:.3rem 0 0}
+@media (min-width:960px){.hint-scroll{display:none}}
+.status{margin:.6rem 0 0;padding:.6rem .8rem;border-radius:10px;background:var(--chip-bg);border-left:4px solid var(--accent);font-size:.95rem;min-height:3rem}
+.ctrl{display:flex;flex-wrap:wrap;gap:.5rem;margin:.7rem 0 .2rem}
+
+/* tabella punti */
+.pts{width:100%;border-collapse:collapse;margin:.5rem 0}
+.pts th,.pts td{border:1px solid var(--line);padding:.45rem .5rem;text-align:left;vertical-align:middle}
+.pts th{background:var(--chip-bg);font-size:.9rem}
+.pts tr.given td{background:var(--chip-bg)}
+.pts input{width:3.2rem;min-height:44px;font-size:1.05rem;text-align:center;border:2px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.pts .act{display:flex;flex-wrap:wrap;gap:.35rem}
+.pts .act .btn{min-height:44px;padding:0 .6rem;font-size:.85rem}
+.fb{margin:.5rem 0 0;padding:0;border-radius:8px;font-size:.95rem}
+.fb:empty{display:none}
+.fb.ok{background:var(--ok-bg);color:var(--ok-ink);padding:.5rem .75rem}
+.fb.no{background:var(--no-bg);color:var(--no-ink);padding:.5rem .75rem}
+.fb.info{background:var(--chip-bg);padding:.5rem .75rem}
+.row-fb td{padding:.3rem .5rem .6rem!important;border-top:0!important}
+
+.calc{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;font-size:1.3rem;font-weight:700;margin:.4rem 0}
+.calc input,.field input,.field select,.field textarea{min-height:48px;font-size:1.05rem;border:2px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);padding:0 .6rem}
+.calc input{width:7rem;text-align:center}
+.field{margin:.6rem 0}
+.field label{display:block;font-weight:700;margin-bottom:.25rem}
+.field input,.field select{width:100%;max-width:22rem}
+.field textarea{width:100%;min-height:5rem;padding:.5rem .6rem}
+.choice{list-style:none;padding:0!important;margin:.4rem 0;display:grid;gap:.4rem}
+.choice label{display:flex;gap:.6rem;align-items:center;min-height:48px;padding:.3rem .7rem;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:var(--card)}
+.choice input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--accent)}
+.choice label:has(input:checked){border-color:var(--accent);border-width:2px}
+
+/* tempi e grafico */
+.times{width:100%;max-width:26rem;border-collapse:collapse;margin:.5rem 0}
+.times th,.times td{border:1px solid var(--line);padding:.4rem .6rem;text-align:left}
+.times th{background:var(--chip-bg)}
+.times input{width:5rem;min-height:44px;font-size:1.05rem;text-align:center;border:2px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.chart{display:block;width:100%;max-width:640px;height:auto;margin:.4rem auto 0;background:var(--card);border-radius:10px;touch-action:manipulation}
+.chart .cl{stroke:var(--line);stroke-width:2}
+.chart .cl5{stroke:var(--soft);stroke-width:2}
+.chart .ax{stroke:var(--ink);stroke-width:4}
+.chart text{font-family:"Atkinson Hyperlegible",sans-serif;fill:var(--ink);font-weight:700}
+.chart .col{fill:transparent;stroke:var(--line);stroke-width:2;stroke-dasharray:6 6;cursor:pointer}
+.chart .col:focus-visible{outline:none;stroke:var(--accent);stroke-width:4;stroke-dasharray:none}
+.chart .bar{fill:var(--bar);pointer-events:none}
+.chart .bar.ok{fill:var(--bar-ok)}
+.barbtns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem;max-width:640px;margin:.4rem auto 0;padding-left:13%}
+.barbtns div{display:flex;flex-wrap:wrap;gap:.25rem;justify-content:center}
+.barbtns .btn{min-width:44px;min-height:44px;padding:0 .4rem}
+
+.done-card[hidden]{display:none}
+.done-card{position:fixed;inset:0;z-index:2500;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:1rem}
+.done-card > div{background:var(--card);border:6px solid #C00000;border-radius:18px;padding:1.5rem;max-width:30rem;text-align:center}
+.done-card strong{display:block;font-size:2.6rem;color:#C00000;line-height:1.1}
+[data-theme="dark"] .done-card strong{color:#FF8A80}
+
+details.lang{margin:.8rem 0 0;border:1px solid var(--line);border-radius:10px;padding:.1rem .9rem}
+details.lang summary,footer.about summary{min-height:48px;display:flex;align-items:center;font-weight:700;cursor:pointer}
+.lt{width:100%;border-collapse:collapse;font-size:.9rem;margin:.3rem 0 .7rem}
+.lt th,.lt td{border:1px solid var(--line);padding:.35rem .45rem;text-align:left}
+.lt [lang="ar"]{direction:rtl;text-align:right}
+.dl{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0}
+
+.toidx[hidden]{display:none}
+.toidx{position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:900;display:inline-flex;align-items:center;gap:.35rem;min-height:48px;padding:0 1rem;border-radius:24px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+
+footer.about{margin:2.5rem 0 1rem;font-size:.92rem;color:var(--soft)}
+footer.about details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.2rem 1rem}
+footer.about summary{color:var(--ink)}
+footer.about li{margin:.35rem 0}
+
+@media (max-width:359px){.wrap{padding:0 .6rem}.sec{padding:.9rem .7rem}nav.idx ol{grid-template-columns:1fr}}
+@media (min-width:720px){
+  :root{--fs:20px}
+  h1{font-size:2.2rem}
+  .sec{padding:1.3rem 1.5rem}
+  .words3{grid-template-columns:repeat(3,1fr)}
+  nav.idx ol{grid-template-columns:repeat(3,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  :root{--bg:#fff;--card:#fff;--ink:#000;--soft:#333;--line:#999}
+  #site-menu,.tools,nav.idx,.toidx,footer.about,.skip,.ctrl,.act,.barbtns{display:none!important}
+  body{padding:0}.sec{break-inside:avoid;border-width:1px}
+  #mappa{min-width:0}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#indice">Vai all’indice della lezione</a>
+<div id="site-menu" data-lezioni-menu="minimal" data-back="/lezioni-accessibili/"></div>
+
+<div class="wrap">
+<header class="top">
+  <p class="kicker">Matematica · Piano cartesiano e grafici</p>
+  <h1>La mia zona sul piano cartesiano</h1>
+  <p class="lead">La mappa vera di un quartiere di Milano diventa un piano cartesiano: la scuola è il punto di partenza, le strade e i parchi stanno sulla griglia. Si lavora dal banco, con Google Maps, una calcolatrice e questa pagina.</p>
+  <div class="tools" role="group" aria-label="Impostazioni di lettura">
+    <span role="group" aria-label="Grandezza del testo" style="display:inline-flex;gap:.35rem">
+      <button type="button" id="btn-minus" aria-label="Testo più piccolo">A−</button>
+      <button type="button" id="btn-plus" aria-label="Testo più grande">A+</button>
+    </span>
+    <button type="button" id="btn-theme" aria-pressed="false">Tema scuro</button>
+  </div>
+</header>
+
+<main id="lezione">
+
+<section class="brief" aria-labelledby="oggi-t">
+  <h2 id="oggi-t">Cosa faccio oggi</h2>
+  <p style="margin:.2rem 0 .4rem">Quando finisco un passo, faccio la spunta.</p>
+  <ul class="todo">
+    <li><label><input type="checkbox"><span>Guardo come funziona il piano cartesiano.</span></label></li>
+    <li><label><input type="checkbox"><span><strong>Missione 1:</strong> trovo i posti su Google Maps.</span></label></li>
+    <li><label><input type="checkbox"><span><strong>Missione 2:</strong> leggo e metto i punti sulla mappa.</span></label></li>
+    <li><label><input type="checkbox"><span><strong>Missione 2:</strong> calcolo quanto è lontana la metropolitana.</span></label></li>
+    <li><label><input type="checkbox"><span><strong>Missione 3:</strong> faccio il grafico del viaggio.</span></label></li>
+    <li><label><input type="checkbox"><span>Dico «Ho finito» e scarico il PDF.</span></label></li>
+  </ul>
+  <p style="margin:.6rem 0 0"><strong>Ricorda:</strong> gli errori servono per imparare. Se sbaglio, riprovo.</p>
+</section>
+
+<nav class="idx" id="indice" aria-labelledby="indice-t" tabindex="-1">
+  <h2 id="indice-t">Indice</h2>
+  <ol>
+    <li><a href="#piano">Il piano cartesiano</a></li>
+    <li><a href="#m1">Missione 1: i posti</a></li>
+    <li><a href="#m2">Missione 2: la mappa</a></li>
+    <li><a href="#distanza">Quanto è lontano?</a></li>
+    <li><a href="#m3">Missione 3: il grafico</a></li>
+    <li><a href="#casa">A casa</a></li>
+    <li><a href="#consegna">Consegna il PDF</a></li>
+    <li><a href="#stampa">Le schede da stampare</a></li>
+  </ol>
+</nav>
+
+<!-- ============ IL PIANO CARTESIANO ============ -->
+<section class="sec" id="piano" aria-labelledby="piano-t">
+  <span class="step">Prima di cominciare</span>
+  <h2 id="piano-t">Il piano cartesiano</h2>
+  <p>Tre parole da sapere.</p>
+  <ul class="words3">
+    <li><b>asse x</b>la linea che va a destra <span class="sym" aria-hidden="true">→</span></li>
+    <li><b>asse y</b>la linea che va in su <span class="sym" aria-hidden="true">↑</span></li>
+    <li><b>origine (0;0)</b>il punto di partenza. Sulla nostra mappa è la <strong>scuola</strong>.</li>
+  </ul>
+  <h3>Come trovo un punto</h3>
+  <ol>
+    <li>Parto dall’origine (0;0).</li>
+    <li>Vado <strong>a destra</strong> e conto i quadretti: è la <strong>x</strong>.</li>
+    <li>Poi vado <strong>su</strong> e conto i quadretti: è la <strong>y</strong>.</li>
+    <li>Scrivo il punto così: <strong>(x;y)</strong>.</li>
+  </ol>
+  <figure class="ex">
+    <svg viewBox="0 0 420 330" role="img" aria-labelledby="ex-t ex-d">
+      <title id="ex-t">Esempio: il punto (3;2)</title>
+      <desc id="ex-d">Dall’origine si va a destra di 3 quadretti, con una freccia arancione, poi su di 2 quadretti, con una freccia verde. Lì c’è il punto rosso (3;2).</desc>
+      <defs>
+        <marker id="ah-x" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#B85C00"/></marker>
+        <marker id="ah-y" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16794A"/></marker>
+      </defs>
+      <rect width="420" height="330" rx="10" fill="#fff"/>
+      <g stroke="#9DB0C4" stroke-width="2">
+        <line x1="60" y1="270" x2="60" y2="40"/><line x1="115" y1="270" x2="115" y2="40"/><line x1="170" y1="270" x2="170" y2="40"/><line x1="225" y1="270" x2="225" y2="40"/><line x1="280" y1="270" x2="280" y2="40"/><line x1="335" y1="270" x2="335" y2="40"/>
+        <line x1="60" y1="270" x2="370" y2="270"/><line x1="60" y1="215" x2="370" y2="215"/><line x1="60" y1="160" x2="370" y2="160"/><line x1="60" y1="105" x2="370" y2="105"/><line x1="60" y1="50" x2="370" y2="50"/>
+      </g>
+      <line x1="60" y1="270" x2="395" y2="270" stroke="#1F4E79" stroke-width="5"/>
+      <line x1="60" y1="270" x2="60" y2="22" stroke="#1F4E79" stroke-width="5"/>
+      <g font-family="Atkinson Hyperlegible,sans-serif" font-weight="700" font-size="20" fill="#1F4E79" text-anchor="middle">
+        <text x="60" y="298">0</text><text x="115" y="298">1</text><text x="170" y="298">2</text><text x="225" y="298">3</text><text x="280" y="298">4</text><text x="335" y="298">5</text>
+        <text x="40" y="222">1</text><text x="40" y="167">2</text><text x="40" y="112">3</text><text x="40" y="57">4</text>
+        <text x="405" y="262">x</text><text x="76" y="26">y</text>
+      </g>
+      <line x1="62" y1="270" x2="212" y2="270" stroke="#B85C00" stroke-width="9" marker-end="url(#ah-x)"/>
+      <line x1="225" y1="268" x2="225" y2="175" stroke="#16794A" stroke-width="9" marker-end="url(#ah-y)"/>
+      <text x="140" y="256" font-family="Atkinson Hyperlegible,sans-serif" font-size="17" font-weight="700" fill="#8A4500" text-anchor="middle">1° a destra 3</text>
+      <text x="236" y="225" font-family="Atkinson Hyperlegible,sans-serif" font-size="17" font-weight="700" fill="#0F5C38">2° su 2</text>
+      <circle cx="225" cy="160" r="12" fill="#B00020" stroke="#fff" stroke-width="3"/>
+      <text x="242" y="146" font-family="Atkinson Hyperlegible,sans-serif" font-size="24" font-weight="700" fill="#B00020">(3;2)</text>
+      <rect x="50" y="260" width="20" height="20" fill="#1F4E79"/>
+    </svg>
+  </figure>
+  <p class="key"><strong>Prima la x, poi la y.</strong> Prima a destra, poi su.</p>
+  <details class="lang">
+    <summary>Le parole in sei lingue</summary>
+    <div style="overflow-x:auto"><table class="lt">
+      <thead><tr><th>Italiano</th><th>English</th><th>Español</th><th>Română</th><th>Shqip</th><th>العربية</th></tr></thead>
+      <tbody>
+        <tr><td>punto</td><td lang="en">point</td><td lang="es">punto</td><td lang="ro">punct</td><td lang="sq">pikë</td><td lang="ar">نقطة</td></tr>
+        <tr><td>asse</td><td lang="en">axis</td><td lang="es">eje</td><td lang="ro">axă</td><td lang="sq">bosht</td><td lang="ar">محور</td></tr>
+        <tr><td>origine</td><td lang="en">origin</td><td lang="es">origen</td><td lang="ro">origine</td><td lang="sq">origjinë</td><td lang="ar">نقطة الأصل</td></tr>
+        <tr><td>grafico</td><td lang="en">graph</td><td lang="es">gráfico</td><td lang="ro">grafic</td><td lang="sq">grafik</td><td lang="ar">رسم بياني</td></tr>
+        <tr><td>distanza</td><td lang="en">distance</td><td lang="es">distancia</td><td lang="ro">distanță</td><td lang="sq">largësi</td><td lang="ar">مسافة</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+</section>
+
+<!-- ============ MISSIONE 1 ============ -->
+<section class="sec" id="m1" aria-labelledby="m1-t">
+  <span class="step">Missione 1</span>
+  <h2 id="m1-t">Trovo i posti su Google Maps</h2>
+  <p>Uso il computer della scuola. Scrivo io, con la tastiera.</p>
+  <ol>
+    <li>Apro il browser e scrivo in alto: <strong>maps.google.com</strong>. Premo Invio.</li>
+    <li>Nella barra di ricerca scrivo: <strong>via degli Ulivi 6 Milano</strong>. Premo Invio. Vedo la scuola.</li>
+    <li>Scrivo: <strong>Bisceglie M1</strong>. Premo Invio. Vedo la fermata della metropolitana.</li>
+    <li>Scrivo: <strong>Parco delle Cave Milano</strong>. Premo Invio. Vedo il parco.</li>
+    <li>Scrivo: <strong>Ospedale San Carlo Milano</strong>. Premo Invio. Vedo l’ospedale.</li>
+  </ol>
+  <p class="key"><strong>Aiuto.</strong> Se non trovo un posto, lo dico all’insegnante: «Non lo trovo». Oppure apro il link: <a href="https://www.google.com/maps/search/?api=1&amp;query=Via%20degli%20Ulivi%206%20Milano" target="_blank" rel="noopener">la scuola</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Bisceglie%20M1%20Milano" target="_blank" rel="noopener">Bisceglie M1</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Parco%20delle%20Cave%20Milano" target="_blank" rel="noopener">Parco delle Cave</a> · <a href="https://www.google.com/maps/search/?api=1&amp;query=Ospedale%20San%20Carlo%20Borromeo%20Milano" target="_blank" rel="noopener">Ospedale San Carlo</a> <span class="sr">(i link si aprono in una nuova scheda)</span></p>
+  <fieldset class="choice-q" style="border:0;padding:0;margin:.8rem 0 0">
+    <legend style="font-weight:700">Su Google Maps la scuola è a sinistra o a destra di Bisceglie?</legend>
+    <ul class="choice">
+      <li><label><input type="radio" name="m1q" value="s">A sinistra</label></li>
+      <li><label><input type="radio" name="m1q" value="d">A destra</label></li>
+    </ul>
+    <button type="button" class="btn" id="m1-check">Controlla</button>
+    <p class="fb" id="m1-fb" aria-live="polite"></p>
+  </fieldset>
+</section>
+
+<!-- ============ MISSIONE 2: MAPPA ============ -->
+<section class="sec" id="m2" aria-labelledby="m2-t">
+  <span class="step">Missione 2</span>
+  <h2 id="m2-t">La mappa diventa un piano cartesiano</h2>
+  <p>La scuola è il punto <strong>(0;0)</strong>. Ogni quadretto è lungo <strong>250 metri</strong>.</p>
+  <p><strong>Tocca la mappa:</strong> il punto si aggancia da solo all’incrocio più vicino e ti dice dove si trova. Le frecce ti mostrano la strada: prima a destra (arancione), poi su (verde).</p>
+  <figure>
+    <div class="mapbox">
+      <svg id="mappa" viewBox="0 0 1500 900" tabindex="0" role="application" aria-roledescription="mappa a griglia" aria-label="Mappa della zona con la griglia del piano cartesiano. Usa le frecce della tastiera per spostare il punto da un incrocio all’altro." aria-describedby="map-status">
+        <image href="mappa-zona.webp" x="0" y="0" width="1500" height="900" preserveAspectRatio="none"/>
+        <g id="g-grid"></g><g id="g-axes"></g><g id="g-go"></g><g id="g-places"></g><g id="g-ghost"></g><g id="g-cur"></g>
+      </svg>
+    </div>
+    <p class="hint-scroll">Sul telefono la mappa scorre di lato: trascinala con un dito.</p>
+    <figcaption>Mappa: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>. I punti sono messi sull’incrocio più vicino al posto vero.</figcaption>
+  </figure>
+  <p class="status" id="map-status" aria-live="polite">Tocca la mappa per mettere un punto.</p>
+  <div class="ctrl">
+    <button type="button" class="btn" id="btn-go" aria-pressed="true">Frecce della strada: sì</button>
+    <button type="button" class="btn" id="btn-clear">Cancella il punto</button>
+  </div>
+
+  <h3>Leggo i punti</h3>
+  <p>Le prime due righe sono già fatte. Guardo come sono fatte. Poi faccio io: scrivo la x e la y e premo <strong>Controlla</strong>.</p>
+  <div style="overflow-x:auto">
+  <table class="pts" id="pts">
+    <thead><tr><th scope="col">Posto</th><th scope="col">x</th><th scope="col">y</th><th scope="col">Il punto</th></tr></thead>
+    <tbody>
+      <tr class="given"><th scope="row">S · Scuola</th><td>0</td><td>0</td><td>(0;0)</td></tr>
+      <tr class="given"><th scope="row">B · Bisceglie M1</th><td>9</td><td>0</td><td>(9;0)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Metto io un punto</h3>
+  <ol>
+    <li>Sulla mappa metto il punto in <strong>(12;1)</strong>: prima a destra di 12 quadretti, poi su di 1.</li>
+    <li>Premo <strong>Controlla il mio punto</strong>.</li>
+  </ol>
+  <button type="button" class="btn btn-main" id="p121-check">Controlla il mio punto</button>
+  <p class="fb" id="p121-fb" aria-live="polite"></p>
+</section>
+
+<!-- ============ DISTANZA ============ -->
+<section class="sec" id="distanza" aria-labelledby="dist-t">
+  <span class="step">Missione 2</span>
+  <h2 id="dist-t">Quanto è lontana la metropolitana?</h2>
+  <p>Sulla mappa, dalla scuola a Bisceglie ci sono <strong>9 quadretti</strong>. Ogni quadretto è lungo <strong>250 metri</strong>.</p>
+  <h3>Faccio il conto con la calcolatrice</h3>
+  <p class="calc"><label for="d-m">9 × 250 =</label> <input id="d-m" inputmode="numeric" autocomplete="off"> <span>metri</span></p>
+  <button type="button" class="btn" id="d-m-check">Controlla</button>
+  <p class="fb" id="d-m-fb" aria-live="polite"></p>
+  <h3>Adesso controllo con Google Maps</h3>
+  <ol>
+    <li>Cerco la scuola: <strong>via degli Ulivi 6 Milano</strong>.</li>
+    <li>Clicco con il tasto destro sulla scuola (sul trackpad: con due dita; sul telefono: tengo premuto).</li>
+    <li>Scelgo <strong>Misura distanza</strong>.</li>
+    <li>Clicco una volta su Bisceglie M1.</li>
+    <li>Leggo il numero in basso.</li>
+  </ol>
+  <p class="calc"><label for="d-km">Google Maps dice:</label> <input id="d-km" inputmode="decimal" autocomplete="off"> <span>km</span></p>
+  <button type="button" class="btn" id="d-km-check">Controlla</button>
+  <p class="fb" id="d-km-fb" aria-live="polite"></p>
+  <p class="key"><strong>Lo sapevi?</strong> 1000 metri sono 1 chilometro (km). Quindi 2250 metri sono 2,25 km.</p>
+</section>
+
+<!-- ============ MISSIONE 3 ============ -->
+<section class="sec" id="m3" aria-labelledby="m3-t">
+  <span class="step">Missione 3</span>
+  <h2 id="m3-t">Quanto ci metto ad andare a Bisceglie?</h2>
+  <p>Il navigatore di Google Maps mi dice quanti minuti servono.</p>
+  <ol>
+    <li>Su Google Maps clicco <strong>Indicazioni</strong>.</li>
+    <li>Nella prima riga scrivo: <strong>via degli Ulivi 6 Milano</strong>.</li>
+    <li>Nella seconda riga scrivo: <strong>Bisceglie M1</strong>.</li>
+    <li>In alto ci sono i disegni: a piedi, bici, auto, mezzi. Clicco un disegno alla volta.</li>
+    <li>Scrivo i minuti nella tabella.</li>
+  </ol>
+  <p class="key"><strong>Aiuto.</strong> <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Via%20degli%20Ulivi%206%20Milano&amp;destination=Bisceglie%20M1%20Milano&amp;travelmode=walking" target="_blank" rel="noopener">Apri il percorso già pronto<span class="sr"> (si apre in una nuova scheda)</span></a>. Il navigatore cambia i minuti con il traffico: va bene, scrivo i miei numeri.</p>
+  <div data-trip="scuola"></div>
+  <p style="margin-top:1rem"><button type="button" class="btn btn-main" data-done>Ho finito!</button></p>
+</section>
+
+<!-- ============ A CASA ============ -->
+<section class="sec home" id="casa" aria-labelledby="casa-t">
+  <span class="step">A casa</span>
+  <h2 id="casa-t">La Missione 3 di nuovo, con un adulto di casa</h2>
+  <p>Faccio la stessa cosa fatta a scuola, con un viaggio che parte da <strong>casa mia</strong>. Uso il telefono o il computer di casa.</p>
+  <fieldset style="border:0;padding:0;margin:.5rem 0">
+    <legend style="font-weight:700">Scelgo dove vado</legend>
+    <ul class="choice" id="casa-dest">
+      <li><label><input type="radio" name="dest" value="Lo sport">Lo sport</label></li>
+      <li><label><input type="radio" name="dest" value="Un amico o un parente">Un amico o un parente</label></li>
+      <li><label><input type="radio" name="dest" value="Un negozio">Un negozio</label></li>
+      <li><label><input type="radio" name="dest" value="altro">Un altro posto</label></li>
+    </ul>
+    <div class="field"><label for="dest-altro">Il posto che ho scelto (lo scrivo):</label><input id="dest-altro" autocomplete="off"></div>
+  </fieldset>
+  <ol>
+    <li>Su Google Maps clicco <strong>Indicazioni</strong>.</li>
+    <li>Nella prima riga scrivo l’indirizzo di casa (l’adulto mi aiuta).</li>
+    <li>Nella seconda riga scrivo il posto che ho scelto.</li>
+    <li>Clicco un disegno alla volta: a piedi, bici, auto, mezzi.</li>
+    <li>Scrivo i minuti nella tabella e faccio il grafico.</li>
+  </ol>
+  <div data-trip="casa"></div>
+  <div class="field"><label for="adulto">Chiedo all’adulto: «Tu come ci vai?» Scrivo la risposta:</label><textarea id="adulto"></textarea></div>
+  <p class="key"><strong>Per la famiglia.</strong> È la stessa attività fatta in classe. Bastano 15-20 minuti. Lasciate che scriva e clicchi da solo: aiutate solo con l’indirizzo di casa, che non va scritto in questa pagina. Se i minuti non sono numeri tondi, va bene così.</p>
+</section>
+
+<!-- ============ CONSEGNA ============ -->
+<section class="sec" id="consegna" aria-labelledby="cons-t">
+  <span class="step">Alla fine</span>
+  <h2 id="cons-t">Consegno il lavoro</h2>
+  <p>Scrivo il mio nome e scarico il PDF. Lo consegno all’insegnante.</p>
+  <div class="field"><label for="nome">Nome e cognome</label><input id="nome" autocomplete="off"></div>
+  <div class="field"><label for="classe">Classe</label><input id="classe" autocomplete="off"></div>
+  <button type="button" class="btn btn-main" id="btn-pdf">Scarica il PDF</button>
+  <p class="fb" id="pdf-fb" aria-live="polite"></p>
+  <p style="font-size:.85rem;color:var(--soft)">Il nome resta su questo dispositivo: la pagina non lo invia a nessuno. Il pulsante scarica una libreria per comporre il PDF da cdnjs.cloudflare.com.</p>
+</section>
+
+<!-- ============ STAMPA ============ -->
+<section class="sec" id="stampa" aria-labelledby="stampa-t">
+  <span class="step">Su carta</span>
+  <h2 id="stampa-t">Le schede da stampare</h2>
+  <p>La stessa attività su carta, 11 pagine: tre missioni, due pagine «A casa» e una pagina per l’insegnante con soluzioni e griglia di osservazione. La mappa di pagina 4 va stampata a colori, in orizzontale.</p>
+  <div class="dl">
+    <a class="btn" href="la-mia-zona-piano-cartesiano-scheda.docx" download>Scarica in Word<span class="sr">, scheda da stampare</span></a>
+    <a class="btn" href="la-mia-zona-piano-cartesiano-scheda.pdf">Scarica in PDF<span class="sr">, scheda da stampare</span></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="about">
+  <details>
+    <summary>Per i docenti: come è fatta questa pagina</summary>
+    <p>Esercitazione di matematica sul primo quadrante del piano cartesiano e sul grafico a barre, pensata per studenti con disturbo dello spettro autistico o con disabilità intellettiva, anche con programmazione differenziata. Funziona con tutta la classe come aggancio concreto. Due ore in classe (missioni 1 e 2, poi missione 3) e una parte a casa con la stessa struttura.</p>
+    <ul>
+      <li>La mappa è vera: la scuola è l’origine, la fermata della metropolitana sta quasi sull’asse x, un quadretto vale 250 metri. Il piano cartesiano parte da un territorio conosciuto (UDL 3.0, linea guida 7.2: rilevanza e autenticità) e la parte a casa lo porta su un tragitto scelto dallo studente (linea guida 3.4: transfer).</li>
+      <li>La griglia è guidata: il punto si aggancia sempre all’incrocio più vicino e le frecce mostrano il percorso, prima la x poi la y. Le frecce si possono spegnere quando lo studente non ne ha più bisogno, e il punto (12;1) si mette senza aiuti (linea guida 5.3: supporto graduato). Anche le barre del grafico si fermano sulle righe del 5.</li>
+      <li>Ogni controllo dice che cosa rifare, non solo se è giusto («ricontrolla la x: conta i quadretti verso destra»); dopo un errore compare il pulsante che mostra la strada (linea guida 8.5).</li>
+      <li>La mappa si usa con il dito, il mouse o la tastiera (frecce per spostare il punto); le barre anche con i pulsanti ▲ ▼ (linea guida 4.1). Lista di spunta iniziale per seguire i passi (linea guida 6.4), scelta della destinazione e del mezzo preferito (linea guida 7.1), parole chiave in sei lingue (linea guida 2.3).</li>
+      <li>Soluzioni: Chiesa (2;3), Parco delle Cave (5;6), Ospedale (10;6); il punto (12;1) è Inganni M1; 9 × 250 = 2.250 metri, «Misura distanza» dà circa 2,3 km in linea d’aria. Navigatore, valori indicativi: a piedi circa 35 minuti (2,8 km), bici 12-15, auto 5-10, mezzi 15-25. Lo scarto fra i punti della griglia e i posti veri è al massimo di un centinaio di metri.</li>
+      <li>Per i compagni la stessa mappa regge un passo in più: distanza Scuola-Ospedale con Pitagora, √(10² + 6²) ≈ 11,7 quadretti ≈ 2,9 km, da confrontare con «Misura distanza».</li>
+      <li>Font ad alta leggibilità (Atkinson Hyperlegible), contrasti WCAG 2.2 AA, tema chiaro e scuro, aree da toccare di almeno 44-48 pixel, nessuna animazione. Le preferenze di lettura restano salvate su questo dispositivo; nome e risposte non escono dalla pagina. I link a Google Maps si aprono solo se li tocchi.</li>
+    </ul>
+    <p><a href="/lezioni-accessibili/metodo.html">Il metodo delle lezioni accessibili</a></p>
+  </details>
+</footer>
+</div>
+
+<div class="done-card" id="done-card" hidden role="dialog" aria-modal="true" aria-labelledby="done-t">
+  <div>
+    <strong id="done-t">Ho finito!</strong>
+    <p>Mostro questo cartoncino all’insegnante, oppure lo dico a voce.</p>
+    <button type="button" class="btn btn-main" id="done-close">Chiudi</button>
+  </div>
+</div>
+
+<a class="toidx" href="#indice"><span aria-hidden="true">↑</span> Indice</a>
+
+<script>
+(function(){
+  var d=document.documentElement, NS='http://www.w3.org/2000/svg';
+  function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function $(id){return document.getElementById(id);}
+  function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+  function fb(node,cls,txt){node.className='fb '+cls;node.textContent=txt;}
+  function num(v){v=String(v||'').trim().replace(/\s/g,'');if(!v)return NaN;
+    if(/^\d{1,3}(\.\d{3})+$/.test(v))v=v.replace(/\./g,'');v=v.replace(',','.');return parseFloat(v);}
+
+  /* ---------- lettura ---------- */
+  function cur(){return parseFloat(getComputedStyle(d).fontSize)||19;}
+  function setSize(px){px=Math.max(16,Math.min(30,px));d.style.setProperty('--fs',px+'px');save('pc-size',px);}
+  $('btn-plus').addEventListener('click',function(){setSize(cur()+2);});
+  $('btn-minus').addEventListener('click',function(){setSize(cur()-2);});
+  var bt=$('btn-theme');
+  function isDark(){var t=d.getAttribute('data-theme');if(t)return t==='dark';return window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;}
+  function syncTheme(){bt.setAttribute('aria-pressed',isDark()?'true':'false');}
+  bt.addEventListener('click',function(){var t=isDark()?'light':'dark';d.setAttribute('data-theme',t);save('pc-theme',t);syncTheme();});
+  syncTheme();
+
+  /* ---------- stato raccolto per il PDF ---------- */
+  var R={m1:null,pts:{},p121:false,dm:'',dmOk:false,dkm:'',trips:{}};
+
+  /* ---------- missione 1 ---------- */
+  $('m1-check').addEventListener('click',function(){
+    var s=document.querySelector('input[name="m1q"]:checked'),f=$('m1-fb');
+    if(!s){fb(f,'no','Scegli prima una risposta.');return;}
+    R.m1=s.value==='s';
+    fb(f,R.m1?'ok':'no',R.m1?'✓ Giusto: la scuola è a sinistra, Bisceglie è a destra. Anche sulla nostra mappa Bisceglie è a destra della scuola, sull’asse x.':'✗ Guarda di nuovo Google Maps: il nord è in alto. La scuola è a sinistra di Bisceglie.');
+  });
+
+  /* ---------- mappa ---------- */
+  var U=100,OX=120,OY=780,XM=13,YM=7;
+  function px(x){return OX+x*U;} function py(y){return OY-y*U;}
+  var svg=$('mappa'),gG=$('g-grid'),gA=$('g-axes'),gGo=$('g-go'),gP=$('g-places'),gGh=$('g-ghost'),gC=$('g-cur'),st=$('map-status');
+  var defs=el('defs',{},svg);
+  [['mx','#B85C00'],['my','#16794A'],['ma','#1F4E79']].forEach(function(m){
+    var mk=el('marker',{id:m[0],viewBox:'0 0 10 10',refX:'5',refY:'5',markerWidth:'3.2',markerHeight:'3.2',orient:'auto'},defs);
+    el('path',{d:'M0,0 L10,5 L0,10 z',fill:m[1]},mk);});
+  for(var i=0;i<=XM;i++)el('line',{x1:px(i),y1:py(0),x2:px(i),y2:py(YM)-35,'class':'gl'},gG);
+  for(var j=0;j<=YM;j++)el('line',{x1:px(0),y1:py(j),x2:px(XM)+35,y2:py(j),'class':'gl'},gG);
+  el('line',{x1:px(0),y1:py(0),x2:px(XM)+70,y2:py(0),'class':'ax','marker-end':'url(#ma)'},gA);
+  el('line',{x1:px(0),y1:py(0),x2:px(0),y2:py(YM)-70,'class':'ax','marker-end':'url(#ma)'},gA);
+  for(i=0;i<=XM;i++)el('text',{x:px(i),y:py(0)+42,'text-anchor':'middle','class':'num'},gA,String(i));
+  for(j=1;j<=YM;j++)el('text',{x:px(0)-34,y:py(j)+10,'text-anchor':'middle','class':'num'},gA,String(j));
+  el('text',{x:px(XM)+88,y:py(0)-18,'class':'num'},gA,'x');
+  el('text',{x:px(0)+22,y:py(YM)-60,'class':'num'},gA,'y');
+  el('text',{x:24,y:884,'class':'num','font-size':'26'},gA,'1 quadretto = 250 metri');
+
+  var PL=[
+    {k:'S',n:'Scuola',x:0,y:0,lab:'SCUOLA',given:true},
+    {k:'B',n:'Bisceglie M1',x:9,y:0,lab:'BISCEGLIE M1',given:true},
+    {k:'C',n:'Chiesa',x:2,y:3,lab:'CHIESA'},
+    {k:'P',n:'Parco delle Cave',x:5,y:6,lab:'PARCO DELLE CAVE'},
+    {k:'O',n:'Ospedale',x:10,y:6,lab:'OSPEDALE'}];
+  var ING={k:'I',n:'Inganni M1',x:12,y:1,lab:'INGANNI M1'};
+  function drawPlace(p,parent){
+    var g=el('g',{},parent);
+    if(p.k==='S')el('rect',{x:px(p.x)-24,y:py(p.y)-24,width:48,height:48,'class':'pin-s'},g);
+    else el('circle',{cx:px(p.x),cy:py(p.y),r:24,'class':'pin'},g);
+    el('text',{x:px(p.x),y:py(p.y)+9,'text-anchor':'middle','class':'pl'},g,p.k);
+    el('text',{x:px(p.x)+(p.x>=11?-34:34),y:py(p.y)-30,'text-anchor':p.x>=11?'end':'start','class':'lab'},g,p.lab);
+    return g;}
+  PL.forEach(function(p){drawPlace(p,gP);});
+  var ingG=null;
+
+  var curP=null,showGo=true;
+  function placeAt(x,y){for(var k=0;k<PL.length;k++){if(PL[k].x===x&&PL[k].y===y)return PL[k];}if(ingG&&x===12&&y===1)return ING;return null;}
+  function clear(g){while(g.firstChild)g.removeChild(g.firstChild);}
+  function drawGo(x,y){
+    clear(gGo);if(!showGo||(x===0&&y===0))return;
+    if(x>0)el('line',{x1:px(0)+4,y1:py(0),x2:px(x)-(y>0?0:30),y2:py(0),'class':'gox','marker-end':y>0?'':'url(#mx)'},gGo);
+    if(y>0)el('line',{x1:px(x),y1:py(0),x2:px(x),y2:py(y)+30,'class':'goy','marker-end':'url(#my)'},gGo);
+  }
+  function setCur(x,y,announce){
+    x=Math.max(0,Math.min(XM,x));y=Math.max(0,Math.min(YM,y));curP={x:x,y:y};
+    clear(gC);drawGo(x,y);
+    el('circle',{cx:px(x),cy:py(y),r:34,'class':'cur'},gC);
+    el('circle',{cx:px(x),cy:py(y),r:9,'class':'curdot'},gC);
+    var lx=px(x)+(x>10?-150:40),ly=py(y)+(y>5?70:-48);
+    el('text',{x:lx,y:ly,'class':'curlab'},gC,'('+x+';'+y+')');
+    if(announce!==false){var p=placeAt(x,y);
+      st.textContent='Il punto è ('+x+';'+y+'): a destra '+x+', su '+y+'.'+(p?' Qui c’è: '+p.n+'.':'');}
+  }
+  function svgPoint(e){var pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse());}
+  function snap(p){return {x:Math.max(0,Math.min(XM,Math.round((p.x-OX)/U))),y:Math.max(0,Math.min(YM,Math.round((OY-p.y)/U)))};}
+  svg.addEventListener('click',function(e){var s=snap(svgPoint(e));setCur(s.x,s.y);});
+  svg.addEventListener('pointermove',function(e){if(e.pointerType!=='mouse')return;var s=snap(svgPoint(e));clear(gGh);
+    el('circle',{cx:px(s.x),cy:py(s.y),r:28,'class':'ghost'},gGh);});
+  svg.addEventListener('pointerleave',function(){clear(gGh);});
+  svg.addEventListener('keydown',function(e){
+    var c=curP||{x:0,y:0},m={ArrowRight:[1,0],ArrowLeft:[-1,0],ArrowUp:[0,1],ArrowDown:[0,-1]}[e.key];
+    if(m){e.preventDefault();setCur(c.x+m[0],c.y+m[1]);}
+    else if(e.key==='Home'){e.preventDefault();setCur(0,0);}
+  });
+  svg.addEventListener('focus',function(){if(!curP){st.textContent='Usa le frecce: destra e sinistra cambiano la x, su e giù cambiano la y.';}});
+  $('btn-go').addEventListener('click',function(){showGo=!showGo;this.setAttribute('aria-pressed',showGo?'true':'false');this.textContent='Frecce della strada: '+(showGo?'sì':'no');if(curP)drawGo(curP.x,curP.y);});
+  $('btn-clear').addEventListener('click',function(){curP=null;clear(gC);clear(gGo);st.textContent='Tocca la mappa per mettere un punto.';});
+
+  /* tabella dei punti */
+  var tb=document.querySelector('#pts tbody');
+  PL.filter(function(p){return !p.given;}).forEach(function(p){
+    var tr=document.createElement('tr'),id='pt-'+p.k;
+    tr.innerHTML='<th scope="row">'+p.k+' · '+p.n+'</th>'+
+      '<td><label class="sr" for="'+id+'-x">x di '+p.n+'</label><input id="'+id+'-x" inputmode="numeric" maxlength="2" autocomplete="off"></td>'+
+      '<td><label class="sr" for="'+id+'-y">y di '+p.n+'</label><input id="'+id+'-y" inputmode="numeric" maxlength="2" autocomplete="off"></td>'+
+      '<td data-pv>( ; )</td>';
+    var tr2=document.createElement('tr');tr2.className='row-fb';tr2.innerHTML='<td colspan="4"><div class="act"><button type="button" class="btn" data-chk>Controlla<span class="sr"> '+p.n+'</span></button><button type="button" class="btn" data-help hidden>Mostrami la strada</button></div><p class="fb" aria-live="polite"></p></td>';
+    tb.appendChild(tr);tb.appendChild(tr2);
+    var f=tr2.querySelector('.fb'),help=tr2.querySelector('[data-help]'),pv=tr.querySelector('[data-pv]');
+    function prev(){var x=$(id+'-x').value.trim(),y=$(id+'-y').value.trim();pv.textContent='('+(x||' ')+';'+(y||' ')+')';}
+    $(id+'-x').addEventListener('input',prev);$(id+'-y').addEventListener('input',prev);
+    tr2.querySelector('[data-chk]').addEventListener('click',function(){
+      var x=num($(id+'-x').value),y=num($(id+'-y').value);
+      if(isNaN(x)||isNaN(y)){fb(f,'no','Scrivi la x e la y.');return;}
+      var okx=x===p.x,oky=y===p.y;R.pts[p.k]={n:p.n,x:x,y:y,ok:okx&&oky};
+      if(okx&&oky){fb(f,'ok','✓ Giusto: '+p.n+' è ('+p.x+';'+p.y+').');help.hidden=true;}
+      else{var t='✗ ';if(!okx)t+='Ricontrolla la x: dalla scuola conta i quadretti verso destra. ';if(!oky)t+='Ricontrolla la y: conta i quadretti verso su. ';
+        if(okx&&!oky)t+='La x va bene.';else if(oky&&!okx)t+='La y va bene.';fb(f,'no',t);help.hidden=false;}
+    });
+    help.addEventListener('click',function(){setCur(p.x,p.y);svg.scrollIntoView({block:'center'});
+      var box=svg.parentNode;box.scrollLeft=Math.max(0,(px(p.x)/1500)*box.scrollWidth-box.clientWidth/2);});
+  });
+
+  $('p121-check').addEventListener('click',function(){
+    var f=$('p121-fb');
+    if(!curP){fb(f,'no','Prima tocca la mappa e metti il punto.');return;}
+    if(curP.x===12&&curP.y===1){R.p121=true;
+      if(!ingG){ingG=drawPlace(ING,gP);}
+      fb(f,'ok','✓ Giusto: il punto (12;1) è Inganni M1, la fermata della metropolitana dopo Bisceglie. Cercala su Google Maps per controllare.');}
+    else{var t='✗ Il tuo punto è ('+curP.x+';'+curP.y+'). ';
+      if(curP.x!==12)t+='La x deve essere 12: a destra di 12 quadretti. ';if(curP.y!==1)t+='La y deve essere 1: su di 1 quadretto.';
+      if(curP.x===1&&curP.y===12)t='✗ Hai scambiato x e y. Prima a destra di 12, poi su di 1.';
+      fb(f,'no',t);}
+  });
+
+  /* ---------- distanza ---------- */
+  $('d-m-check').addEventListener('click',function(){
+    var v=num($('d-m').value),f=$('d-m-fb');R.dm=$('d-m').value;
+    if(isNaN(v)){fb(f,'no','Scrivi il risultato della calcolatrice.');return;}
+    R.dmOk=v===2250;
+    fb(f,R.dmOk?'ok':'no',R.dmOk?'✓ Giusto: 9 × 250 = 2250 metri.':'✗ Rifai il conto con la calcolatrice: premi 9, poi ×, poi 250, poi =.');
+  });
+  $('d-km-check').addEventListener('click',function(){
+    var v=num($('d-km').value),f=$('d-km-fb');R.dkm=$('d-km').value;
+    if(isNaN(v)){fb(f,'no','Scrivi il numero che legge Google Maps.');return;}
+    if(v>=2&&v<=2.7)fb(f,'ok','✓ Sì, sono vicini: il mio conto dà 2,25 km, Google Maps '+String(v).replace('.',',')+' km. La differenza c’è perché sulla griglia i posti sono un po’ spostati sull’incrocio.');
+    else if(v>=1500&&v<=2700)fb(f,'info','Hai scritto i metri? Google Maps a volte scrive i km: 2,3 km sono 2300 metri. Va bene lo stesso, sono vicini al mio conto.');
+    else fb(f,'no','Il numero è lontano dal mio conto (2,25 km). Ricontrolla: il primo clic sulla scuola, il secondo su Bisceglie M1.');
+  });
+
+  /* ---------- missione 3: tabella e grafico ---------- */
+  var MODES=['A piedi','In bici','In auto','Con i mezzi'],SHORT=['A PIEDI','BICI','AUTO','MEZZI'];
+  function makeTrip(root,key){
+    var T={min:[null,null,null,null],bar:[0,0,0,0],pref:null,low:null,high:null};R.trips[key]=T;
+    var h='<h3>I minuti</h3><table class="times"><thead><tr><th scope="col">Come vado</th><th scope="col">Minuti</th></tr></thead><tbody>';
+    MODES.forEach(function(m,i){h+='<tr><th scope="row"><label for="'+key+'-t'+i+'">'+m+'</label></th><td><input id="'+key+'-t'+i+'" inputmode="numeric" maxlength="3" autocomplete="off"></td></tr>';});
+    h+='</tbody></table><h3>Il grafico</h3><p>Tocca una colonna all’altezza dei tuoi minuti: la barra si ferma sulla riga del 5 più vicina. Se i minuti sono 37, la riga più vicina è 35.</p>';
+    root.innerHTML=h;
+    var ch=el('svg',{viewBox:'0 0 700 470','class':'chart',role:'group','aria-label':'Grafico a barre dei minuti'},root);
+    var B=410,TOP=50,H5=30,X0=100,CW=150;
+    for(var v=0;v<=60;v+=5){var y=B-v/5*H5;el('line',{x1:X0-6,y1:y,x2:690,y2:y,'class':v%10?'cl':'cl5'},ch);if(v%10===0)el('text',{x:X0-14,y:y+9,'text-anchor':'end','font-size':'26'},ch,String(v));}
+    el('text',{x:X0-90,y:TOP-20,'font-size':'24'},ch,'minuti');
+    el('line',{x1:X0,y1:TOP-10,x2:X0,y2:B,'class':'ax'},ch);el('line',{x1:X0,y1:B,x2:690,y2:B,'class':'ax'},ch);
+    var bars=[],cols=[];
+    MODES.forEach(function(m,i){var x=X0+20+i*CW;
+      var b=el('rect',{x:x+15,y:B,width:CW-50,height:0,'class':'bar'},ch);bars.push(b);
+      var c=el('rect',{x:x,y:TOP,width:CW-20,height:B-TOP,'class':'col',tabindex:'0',role:'slider','aria-label':'Barra '+m,'aria-valuemin':'0','aria-valuemax':'60','aria-valuenow':'0','aria-valuetext':'0 minuti'},ch);cols.push(c);
+      el('text',{x:x+(CW-20)/2,y:B+40,'text-anchor':'middle','font-size':'27'},ch,SHORT[i]);
+      c.addEventListener('click',function(e){var pt=ch.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;var q=pt.matrixTransform(ch.getScreenCTM().inverse());
+        setBar(i,Math.round((B-q.y)/H5)*5);});
+      c.addEventListener('keydown',function(e){if(e.key==='ArrowUp'||e.key==='ArrowRight'){e.preventDefault();setBar(i,T.bar[i]+5);}if(e.key==='ArrowDown'||e.key==='ArrowLeft'){e.preventDefault();setBar(i,T.bar[i]-5);}});
+    });
+    function setBar(i,v){v=Math.max(0,Math.min(60,v));T.bar[i]=v;bars[i].setAttribute('y',B-v/5*H5);bars[i].setAttribute('height',v/5*H5);bars[i].classList.remove('ok');
+      cols[i].setAttribute('aria-valuenow',v);cols[i].setAttribute('aria-valuetext',v+' minuti');}
+    var bb=document.createElement('div');bb.className='barbtns';
+    MODES.forEach(function(m,i){var dv=document.createElement('div');
+      dv.innerHTML='<button type="button" class="btn" aria-label="Alza la barra '+m+'">▲</button><button type="button" class="btn" aria-label="Abbassa la barra '+m+'">▼</button>';
+      dv.children[0].addEventListener('click',function(){setBar(i,T.bar[i]+5);});dv.children[1].addEventListener('click',function(){setBar(i,T.bar[i]-5);});bb.appendChild(dv);});
+    root.appendChild(bb);
+    var cb=document.createElement('p');cb.innerHTML='<button type="button" class="btn">Controlla il grafico</button>';root.appendChild(cb);
+    var cf=document.createElement('p');cf.className='fb';cf.setAttribute('aria-live','polite');root.appendChild(cf);
+    function readMins(){var ok=true;MODES.forEach(function(m,i){var v=num($(key+'-t'+i).value);T.min[i]=isNaN(v)?null:Math.round(v);if(isNaN(v))ok=false;});return ok;}
+    cb.firstChild.addEventListener('click',function(){
+      if(!readMins()){fb(cf,'no','Scrivi prima tutti i minuti nella tabella.');return;}
+      var bad=[];MODES.forEach(function(m,i){var exp=Math.min(60,Math.round(T.min[i]/5)*5);if(T.bar[i]===exp)bars[i].classList.add('ok');else{bars[i].classList.remove('ok');bad.push(m.toLowerCase()+' (la riga giusta è '+exp+')');}});
+      if(!bad.length)fb(cf,'ok','✓ Il grafico è giusto: ogni barra arriva alla riga dei tuoi minuti.'+(T.min.some(function(v){return v>60;})?' I minuti oltre 60 non ci stanno: la barra si ferma in cima.':''));
+      else fb(cf,'no','✗ Da sistemare: '+bad.join('; ')+'.');
+    });
+    // domande
+    var q=document.createElement('div');
+    var opts='<option value="">Scegli…</option>'+MODES.map(function(m,i){return '<option value="'+i+'">'+m+'</option>';}).join('');
+    q.innerHTML='<h3>Leggo il grafico</h3>'+
+      '<div class="field"><label for="'+key+'-low">La colonna più bassa è: (il modo più veloce)</label><select id="'+key+'-low">'+opts+'</select></div>'+
+      '<div class="field"><label for="'+key+'-high">La colonna più alta è: (il modo più lento)</label><select id="'+key+'-high">'+opts+'</select></div>'+
+      '<p><button type="button" class="btn">Controlla</button></p><p class="fb" aria-live="polite"></p>'+
+      '<fieldset style="border:0;padding:0;margin:.6rem 0 0"><legend style="font-weight:700">Io preferisco andare:</legend><ul class="choice">'+
+      MODES.map(function(m,i){return '<li><label><input type="radio" name="'+key+'-pref" value="'+i+'">'+m+'</label></li>';}).join('')+
+      '</ul><p style="font-size:.9rem;color:var(--soft)">Qui va bene qualsiasi scelta: è la mia.</p></fieldset>';
+    root.appendChild(q);
+    var qf=q.querySelector('.fb');
+    q.querySelector('button').addEventListener('click',function(){
+      if(!readMins()){fb(qf,'no','Scrivi prima tutti i minuti nella tabella.');return;}
+      var lo=$(key+'-low').value,hi=$(key+'-high').value;if(lo===''||hi===''){fb(qf,'no','Scegli una risposta in tutte e due le righe.');return;}
+      var mn=Math.min.apply(null,T.min),mx=Math.max.apply(null,T.min);T.low=+lo;T.high=+hi;
+      var okL=T.min[+lo]===mn,okH=T.min[+hi]===mx,t='';
+      t+=okL?'✓ La più bassa va bene. ':'✗ La più bassa è quella con meno minuti: guarda la tabella. ';
+      t+=okH?'✓ La più alta va bene.':'✗ La più alta è quella con più minuti.';
+      fb(qf,okL&&okH?'ok':'no',t);
+    });
+    q.addEventListener('change',function(e){if(e.target.name===key+'-pref')T.pref=+e.target.value;});
+    T.read=readMins;
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-trip]'),function(r){makeTrip(r,r.getAttribute('data-trip'));});
+
+  /* ---------- ho finito ---------- */
+  var dc=$('done-card'),lastBtn=null;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-done]'),function(b){b.addEventListener('click',function(){lastBtn=b;dc.hidden=false;$('done-close').focus();});});
+  function closeDone(){dc.hidden=true;if(lastBtn)lastBtn.focus();}
+  $('done-close').addEventListener('click',closeDone);
+  dc.addEventListener('keydown',function(e){if(e.key==='Escape')closeDone();if(e.key==='Tab'){e.preventDefault();$('done-close').focus();}});
+
+  /* ---------- PDF ---------- */
+  function loadPdf(cb){if(window.jspdf)return cb(true);var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload=function(){cb(!!window.jspdf);};s.onerror=function(){cb(false);};document.head.appendChild(s);}
+  function dest(){var r=document.querySelector('input[name="dest"]:checked'),a=$('dest-altro').value.trim();if(!r)return a||'(non scelto)';return r.value==='altro'?(a||'un altro posto'):r.value+(a?': '+a:'');}
+  $('btn-pdf').addEventListener('click',function(){
+    var f=$('pdf-fb'),nome=$('nome').value.trim();
+    if(!nome){fb(f,'no','Scrivi prima il tuo nome.');$('nome').focus();return;}
+    fb(f,'info','Sto preparando il PDF…');
+    loadPdf(function(ok){
+      if(!ok){fb(f,'no','Non riesco a scaricare la libreria per il PDF. Controlla la connessione e riprova, oppure stampa la pagina.');return;}
+      R.trips.scuola.read();R.trips.casa.read();
+      var J=new window.jspdf.jsPDF({unit:'mm',format:'a4'}),M=18,y=M,W=210;
+      function line(t,sz,b){J.setFont('helvetica',b?'bold':'normal');J.setFontSize(sz||11);var ls=J.splitTextToSize(t,W-2*M);ls.forEach(function(l){if(y>280){J.addPage();y=M;}J.text(l,M,y);y+=(sz||11)*0.45;});y+=1.2;}
+      function chart(T,title){if(y>215){J.addPage();y=M;}line(title,11,true);var x0=M+12,b=y+52,h=48;J.setDrawColor(150);
+        for(var v=0;v<=60;v+=10){var yy=b-v/60*h;J.setLineWidth(0.1);J.line(x0,yy,x0+130,yy);J.setFontSize(8);J.text(String(v),x0-7,yy+1);}
+        J.setLineWidth(0.4);J.line(x0,b,x0+130,b);J.line(x0,b,x0,b-h-2);
+        MODES.forEach(function(m,i){var bx=x0+6+i*32,bh=T.bar[i]/60*h;J.setFillColor(31,79,168);if(bh>0)J.rect(bx,b-bh,20,bh,'F');J.setFontSize(8);J.text(m,bx,b+5);J.text(T.bar[i]+' min',bx,b-bh-1.5);});
+        y=b+11;}
+      function trip(T){MODES.forEach(function(m,i){line(m+': '+(T.min[i]==null?'-':T.min[i]+' minuti'),11);});
+        if(T.low!=null)line('Colonna piu bassa: '+MODES[T.low]+' - colonna piu alta: '+(T.high!=null?MODES[T.high]:'-'),11);
+        line('Preferisco andare: '+(T.pref!=null?MODES[T.pref]:'-'),11);}
+      line('La mia zona sul piano cartesiano',18,true);
+      line('Nome: '+nome+'   Classe: '+($('classe').value.trim()||'-')+'   Data: '+new Date().toLocaleDateString('it-IT'),11);
+      line('ivanferrero.it/lezioni-accessibili/la-mia-zona-piano-cartesiano/',9);y+=2;
+      line('Missione 1',13,true);line('La scuola rispetto a Bisceglie: '+(R.m1===null?'non risposto':(R.m1?'a sinistra (giusto)':'a destra (da rivedere)')),11);y+=1;
+      line('Missione 2: leggo i punti',13,true);
+      PL.filter(function(p){return !p.given;}).forEach(function(p){var a=R.pts[p.k];line(p.n+': '+(a?'('+a.x+';'+a.y+') '+(a.ok?'giusto':'da rivedere, giusto ('+p.x+';'+p.y+')'):'non controllato'),11);});
+      line('Punto (12;1) messo sulla mappa: '+(R.p121?'giusto, e Inganni M1':'non ancora'),11);
+      line('9 x 250 = '+(R.dm||'-')+' metri'+(R.dm?(R.dmOk?' (giusto)':' (da rivedere: 2250)'):''),11);
+      line('Google Maps, Misura distanza: '+(R.dkm||'-')+' km',11);y+=1;
+      line('Missione 3: dalla scuola a Bisceglie M1',13,true);trip(R.trips.scuola);chart(R.trips.scuola,'Il grafico fatto a scuola');
+      line('A casa: da casa a '+dest(),13,true);trip(R.trips.casa);chart(R.trips.casa,'Il grafico fatto a casa');
+      var ad=$('adulto').value.trim();if(ad)line('L\'adulto ci va: '+ad,11);
+      J.save('la-mia-zona-'+nome.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.pdf');
+      fb(f,'ok','✓ Il PDF è pronto: lo trovi nei download. Consegnalo all’insegnante.');
+    });
+  });
+
+  /* torna all'indice */
+  var ti=document.querySelector('.toidx'),ix=$('indice');
+  if('IntersectionObserver' in window){new IntersectionObserver(function(e){ti.hidden=e[0].isIntersecting;}).observe(ix);}
+  ti.addEventListener('click',function(){setTimeout(function(){ix.focus({preventScroll:true});},0);});
+})();
+</script>
+<!-- menu del sito isolato in Shadow DOM: vedi /lezioni-accessibili/assets/menu-lezioni.js -->
+<script src="/assets/menu.js"></script>
+<script src="/lezioni-accessibili/assets/menu-lezioni.js"></script>
+</body>
+</html>
