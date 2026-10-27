@@ -25,6 +25,7 @@ const menuConfig = {
         { label: 'Osservatorio', href: '/osservatorio/' },
         { label: 'Digitale Inclusivo', href: '/digitale-inclusivo/' },
         { label: 'Formazione', href: '/formazione/' },
+        { label: 'Psicoterapia', href: '/psicoterapia/' },
         { label: 'Dialoghi', href: '/dialoghi/' },
         { label: 'Archivio', href: '/archivio/' },
         { label: 'Chi Sono', href: '/#chi-sono' },
