@@ -1,0 +1,140 @@
+---
+title: "Scuola: formazione e materiali"
+description: "Per docenti, dirigenti, educatori e studenti: formazione, lezioni accessibili, risorse su profili BES, IA e normativa, orientamento dopo il diploma."
+permalink: /scuola/
+---
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scuola: formazione e materiali | Ivan Ferrero</title>
+    {% seo title=false %}
+
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <link rel="stylesheet" href="/assets/base-styles.css">
+
+    <style>
+        .sc-page { max-width: 820px; margin: 0 auto; padding: 7rem 1.5rem 4rem; }
+        .sc-kicker {
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--accent-cyan, #00d9ff); margin: 0 0 0.8rem;
+        }
+        .sc-page h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 600; line-height: 1.15;
+            letter-spacing: -0.02em; margin: 0 0 1.5rem;
+        }
+        .sc-page h2 {
+            font-size: 1.45rem; font-weight: 600; margin: 3rem 0 1rem;
+            color: var(--accent-cyan, #00d9ff); letter-spacing: -0.01em;
+        }
+        .sc-page h2 .sc-n {
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 0.8rem; font-weight: 400; margin-left: 0.5rem;
+            color: var(--text-muted, #8b949e);
+        }
+        .sc-page p { font-size: 1.02rem; line-height: 1.75; color: var(--text-primary, #e6edf3); margin: 0 0 1rem; }
+        .sc-lead { font-size: 1.12rem !important; }
+        .sc-page a {
+            color: var(--accent-cyan, #00d9ff); text-decoration: underline;
+            text-decoration-color: rgba(0, 217, 255, 0.35); text-underline-offset: 3px;
+        }
+        .sc-page a:hover, .sc-page a:focus-visible { text-decoration-color: var(--accent-cyan, #00d9ff); }
+        .sc-vai { font-weight: 600; }
+        .sc-sotto {
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--accent-cyan, #00d9ff); margin: 1.8rem 0 0.4rem;
+        }
+        .sc-lista { list-style: none; margin: 0; padding: 0; }
+        .sc-lista li { padding: 0.75rem 0; border-bottom: 1px solid var(--border-color, #30363d); }
+        .sc-lista li:last-child { border-bottom: none; }
+        .sc-lista a.sc-titolo {
+            color: var(--text-primary, #e6edf3); font-weight: 600; text-decoration: none;
+        }
+        .sc-lista a.sc-titolo:hover, .sc-lista a.sc-titolo:focus-visible { color: var(--accent-cyan, #00d9ff); }
+        .sc-etichetta {
+            display: inline-block; margin-left: 0.5rem;
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 0.7rem; color: var(--text-muted, #8b949e);
+        }
+        .sc-lista p {
+            margin: 0.2rem 0 0; font-size: 0.9rem; line-height: 1.55;
+            color: var(--text-secondary, #8b949e);
+        }
+        .sc-contatto {
+            margin: 1.25rem 0 0; padding: 1.4rem 1.5rem; border-radius: 12px;
+            border: 1px solid var(--border-accent, #00d9ff30); background: var(--gradient-cyber, #0f1419);
+        }
+        .sc-contatto h3 { font-size: 1.08rem; font-weight: 600; margin: 0 0 0.6rem; color: var(--text-primary, #e6edf3); }
+        .sc-contatto p:last-child { margin-bottom: 0; }
+        @media (max-width: 700px) {
+            .sc-page { padding: 6rem 1rem 3rem; }
+        }
+    </style>
+</head>
+<body>
+<div id="site-menu"></div>
+
+{%- assign sc_dati = site.data.digitale_inclusivo.sections -%}
+
+<main class="sc-page">
+    <p class="sc-kicker">Scuola</p>
+    <h1>Per la scuola: <span class="text-cyan">formazione e materiali</span></h1>
+
+    <p class="sc-lead">Sono Ivan Ferrero, psicologo-psicoterapeuta, e la mattina sono docente di sostegno all'IIS Galilei-Luxemburg di Milano, perciò quello che porto a scuola viene dalla classe e dalla stanza di terapia, e questa pagina raccoglie in un posto solo tutto quello che il sito offre a chi lavora a scuola e agli studenti.</p>
+
+    <h2>Formazione per docenti, dirigenti ed enti</h2>
+    <p>I temi sono quattro, e spesso nello stesso incontro si toccano: IA e minori, inclusione e digitale, adolescenti e schermi, cyberbullismo e relazioni online. I formati sono corsi e cicli per docenti, anche in webinar, incontri per genitori, singoli o in ciclo, e percorsi per educatori, di pomeriggio o di sera. Ho lavorato con DeA Scuola, con CFI Edu, con Spazio Aperto Servizi insieme a FEDA e con Serenis.</p>
+    <p class="sc-vai"><a href="/formazione/">Temi, formati e come si parte →</a></p>
+
+    <h2>Materiali per la classe{% for s in sc_dati %}{% if s.id == "lezioni-accessibili" %}<span class="sc-n">{{ s.cards | size }}</span>{% endif %}{% endfor %}</h2>
+    <p>Sono lezioni e materiali costruiti con lo Universal Design for Learning 3.0 e le WCAG, con versioni pensate per tutta la classe e versioni calibrate su profili specifici di alunni e studenti.</p>
+    <p class="sc-vai"><a href="/lezioni-accessibili/">Tutte le lezioni e il metodo →</a></p>
+    {%- for s in sc_dati %}
+    {%- if s.id == "lezioni-accessibili" %}
+    <ul class="sc-lista">
+        {%- for c in s.cards %}
+        <li><a class="sc-titolo" href="{{ c.url }}">{{ c.title }}</a><span class="sc-etichetta">{{ c.tag_label }}</span>
+            <p>{{ c.description | strip_html | truncate: 220 }}</p></li>
+        {%- endfor %}
+    </ul>
+    {%- endif %}
+    {%- endfor %}
+
+    <h2>Per gli studenti, dopo il diploma</h2>
+    <div class="sc-contatto">
+        <h3><a href="/dashboards/dopo-il-diploma/">Dopo il diploma, nel digitale</a></h3>
+        <p>Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con fonte ufficiale, data del controllo e cosa offre a studenti con DSA o disabilità.</p>
+        <p class="sc-vai"><a href="/dashboards/dopo-il-diploma/docenti.html">Per i docenti: come usarla in classe →</a></p>
+    </div>
+
+    <h2>Risorse per docenti: profili BES, IA e normativa</h2>
+    <p>Dashboard di approfondimento su profili di funzionamento, tecnologie e quadro normativo, da usare nella progettazione didattica. <a href="/digitale-inclusivo/">L'hub Digitale Inclusivo →</a></p>
+    {%- for id in "profili-bes,ia-tecnologie,normativa" | split: "," %}
+    {%- for s in sc_dati %}
+    {%- if s.id == id %}
+    <div class="sc-sotto">{{ s.title }}<span class="sc-etichetta"> {{ s.cards | size }}</span></div>
+    <ul class="sc-lista">
+        {%- for c in s.cards %}
+        <li><a class="sc-titolo" href="{{ c.url }}">{{ c.title }}</a><span class="sc-etichetta">{{ c.tag_label }}</span>
+            <p>{{ c.description | strip_html | truncate: 220 }}</p></li>
+        {%- endfor %}
+    </ul>
+    {%- endif %}
+    {%- endfor %}
+    {%- endfor %}
+
+    <h2>Come funziona un contatto</h2>
+    <div class="sc-contatto">
+        <p>Scrivetemi a <a href="mailto:ivan@ivanferrero.it?subject=Formazione">ivan@ivanferrero.it</a> con tre informazioni: chi siete, per chi è la formazione (docenti, genitori, educatori, professionisti) e in che periodo pensate di farla.</p>
+        <p>Vi rispondo con una proposta: temi, formato, numero di incontri.</p>
+    </div>
+</main>
+
+{% include footer-nav.html %}
+
+<script src="/assets/menu.js"></script>
+</body>
+</html>

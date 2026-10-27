@@ -20,15 +20,11 @@ const menuConfig = {
 
     // Voci di navigazione
     items: [
-        { label: 'Home', href: '/' },
-        { label: 'Libri', href: '/libri/' },
-        { label: 'Osservatorio', href: '/osservatorio/' },
-        { label: 'Digitale Inclusivo', href: '/digitale-inclusivo/' },
-        { label: 'Formazione', href: '/formazione/' },
+        { label: 'Genitori', href: '/libri/' },
+        { label: 'Scuola', href: '/scuola/', match: ['/formazione/', '/digitale-inclusivo/', '/lezioni-accessibili/', '/dashboards/'] },
         { label: 'Psicoterapia', href: '/psicoterapia/' },
-        { label: 'Dialoghi', href: '/dialoghi/' },
-        { label: 'Archivio', href: '/archivio/' },
-        { label: 'Chi Sono', href: '/#chi-sono' },
+        { label: 'Osservatorio', href: '/osservatorio/' },
+        { label: 'Chi sono', href: '/chi-sono/', match: ['/archivio/', '/dialoghi/', '/bullismoonline/'] },
         { label: 'Contatti', href: '/#contatti' }
     ]
 };
@@ -46,11 +42,14 @@ const menuConfig = {
 
     const currentPath = window.location.pathname;
 
-    function isActive(href) {
+    function isActive(item) {
+        const href = item.href;
         if (href === '/') {
             return currentPath === '/' || currentPath === '/index.html';
         }
-        return currentPath.startsWith(href);
+        if (href.startsWith('/#')) return false;
+        if (currentPath.startsWith(href)) return true;
+        return (item.match || []).some(m => currentPath.startsWith(m));
     }
 
     function buildBrandText() {
@@ -62,7 +61,7 @@ const menuConfig = {
     }
 
     const navItems = menuConfig.items.map(item => {
-        const activeClass = isActive(item.href) ? ' active' : '';
+        const activeClass = isActive(item) ? ' active' : '';
         return `<a href="${item.href}" class="nav-btn${activeClass}">${item.label}</a>`;
     }).join('');
 
