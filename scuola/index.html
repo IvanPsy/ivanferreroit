@@ -112,7 +112,8 @@ permalink: /scuola/
 
     <h2>Risorse per docenti: profili BES, IA e normativa</h2>
     <p>Dashboard di approfondimento su profili di funzionamento, tecnologie e quadro normativo, da usare nella progettazione didattica. <a href="/digitale-inclusivo/">L'hub Digitale Inclusivo →</a></p>
-    {%- for id in "profili-bes,ia-tecnologie,normativa" | split: "," %}
+    {%- assign sc_ids = "profili-bes,ia-tecnologie,normativa" | split: "," %}
+    {%- for id in sc_ids %}
     {%- for s in sc_dati %}
     {%- if s.id == id %}
     <div class="sc-sotto">{{ s.title }}<span class="sc-etichetta"> {{ s.cards | size }}</span></div>

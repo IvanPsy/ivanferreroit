@@ -264,6 +264,63 @@ body { padding-top: 60px; }
     .gs-dialogo-testa, .gs-dialogo-corpo { padding-left: 1.1rem; padding-right: 1.1rem; }
     .gs-esercizio { flex-direction: column; gap: .2rem; }
 }
+
+/* --- telefono (sotto i 700px): prima si sceglie, poi si vedono le schede ---
+   Le classi gs-iniziale / gs-filtrato le mette il JavaScript su #indice.
+   Senza JavaScript non c'è nessuna classe e la pagina resta quella di sempre. */
+.gs-solo-mobile { display: none; }
+@media (max-width: 699.98px) {
+    /* apertura: niente schede, temi come pulsanti grandi */
+    .gs-iniziale .gs-griglia,
+    .gs-iniziale .gs-vuoto,
+    .gs-iniziale .gs-temi-html,
+    .gs-iniziale #gs-f-intervento,
+    .gs-iniziale #gs-f-libro { display: none; }
+    .gs-iniziale #gs-f-tema { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .gs-iniziale #gs-f-tema .gs-etichetta { grid-column: 1 / -1; }
+    .gs-iniziale #gs-f-tema .gs-chip {
+        min-height: 48px; padding: .5rem .75rem; border-radius: 10px; font-size: .92rem;
+        display: flex; align-items: center; justify-content: space-between; gap: .4rem; text-align: left;
+    }
+    /* con un filtro attivo: conteggio + Cambia tema, e restano solo i tipi di intervento */
+    .gs-filtrato #gs-f-tema,
+    .gs-filtrato #gs-f-libro { display: none; }
+    .gs-filtrato .gs-chip { min-height: 40px; padding: .4rem .9rem; }
+    .gs-filtrato .gs-conteggio { margin-bottom: .75rem; }
+
+    .gs-mostra-tutte, .gs-cambia {
+        min-height: 48px; padding: .6rem 1rem; border-radius: 10px; cursor: pointer;
+        background: transparent; color: var(--text-primary); border: 1px solid var(--accent-cyan);
+        font-family: var(--font-display); font-size: .95rem;
+    }
+    .gs-mostra-tutte { width: 100%; margin-top: .75rem; }
+    .gs-cambia { min-height: 44px; font-size: .88rem; }
+    .gs-azzera { min-height: 44px; }
+    .gs-cerca { min-height: 48px; }
+    .gs-iniziale .gs-mostra-tutte { display: block; }
+    .gs-filtrato .gs-cambia { display: inline-block; margin-bottom: 1.25rem; }
+    .gs-libro-azioni .gs-mini { min-height: 44px; display: inline-flex; align-items: center; }
+
+    /* i quattro libri: copertina piccola a sinistra, testo a destra (prima ognuno era alto quasi 600px) */
+    .gs-libri { grid-template-columns: 1fr; gap: .75rem; }
+    .gs-libro { flex-direction: row; }
+    .gs-coverbox { width: 96px; flex: 0 0 96px; aspect-ratio: auto; align-self: stretch; min-height: 144px; }
+    .gs-coverfallback { font-size: .8rem; padding: .5rem; }
+    .gs-libro-corpo { padding: .9rem; gap: .4rem; }
+    .gs-libro-corpo h3 { font-size: 1rem; }
+    .gs-libro-corpo p { font-size: .8rem; }
+
+    /* dentro le card: bersagli di almeno 24px */
+    .gs-scheda h3 a { display: block; padding: .2rem 0; }
+    .gs-azioni { align-items: center; }
+    .gs-pdf { display: inline-flex; align-items: center; min-height: 32px; padding: 0 .4rem; font-size: .82rem; }
+    .gs-giu { min-height: 32px; }
+    .gs-temi-html nav a { display: inline-flex; align-items: center; min-height: 36px; }
+    .gs-esercizio { padding: 1rem 0; }
+    .gs-chiudi { width: 44px; height: 44px; }
+    .gs-contatto a { display: inline-block; min-height: 28px; line-height: 28px; }
+    .site-footer-nav a { display: inline-block; min-height: 28px; line-height: 28px; }
+}
 </style>
 </head>
 <body>
@@ -308,6 +365,8 @@ body { padding-top: 60px; }
     </div>
 
     <p class="gs-conteggio" id="gs-conteggio" aria-live="polite" role="status">Carico l'indice…</p>
+    <button type="button" id="gs-cambia" class="gs-cambia gs-solo-mobile">Cambia tema</button>
+    <button type="button" id="gs-mostra-tutte" class="gs-mostra-tutte gs-solo-mobile">Mostra tutte le schede</button>
     <div class="gs-griglia" id="gs-griglia"></div>
     <div class="gs-vuoto" id="gs-vuoto" hidden>
       <p>Nessuna scheda con questi filtri.</p>
@@ -498,6 +557,10 @@ footer.site-footer-nav {
   var $cerca = document.getElementById("gs-cerca");
   var $azzera = document.getElementById("gs-azzera");
   var $dialogo = document.getElementById("gs-dialogo");
+  var $indice = document.getElementById("indice");
+  var $cambia = document.getElementById("gs-cambia");
+  var $tutte = document.getElementById("gs-mostra-tutte");
+  var tutte = false;     // telefono: «Mostra tutte» senza filtri
 
   // ------------------------------------------------------------ utilità
   function testo(s) { return (s || "").toString(); }
@@ -614,9 +677,28 @@ footer.site-footer-nav {
     var filtrato = !!(stato.q || stato.t || stato.i || stato.l);
     $azzera.hidden = !filtrato;
     $vuoto.hidden = n > 0;
-    $conteggio.innerHTML = filtrato
-      ? "<b>" + n + "</b> schede su " + VOCI.length
-      : "<b>" + VOCI.length + "</b> schede";
+    var cosa = [];
+    if (stato.t) cosa.push(DATI.mappaTemi[stato.t] || stato.t);
+    if (stato.i) cosa.push((DATI.mappaInterventi[stato.i] || stato.i).toLowerCase());
+    if (stato.l) cosa.push(stato.l === "collana" ? "Solo scheda" : (DATI.mappaLibri[stato.l] || stato.l));
+    if (stato.q) cosa.push("«" + $cerca.value.trim() + "»");
+    var mobile = window.matchMedia("(max-width: 699.98px)").matches;
+    if (mobile && filtrato) {
+      $conteggio.textContent = n + (n === 1 ? " scheda su " : " schede su ") + cosa.join(", ");
+    } else {
+      $conteggio.innerHTML = filtrato
+        ? "<b>" + n + "</b> schede su " + VOCI.length
+        : "<b>" + VOCI.length + "</b> schede";
+    }
+    // sotto i 700px (via CSS): senza filtri si vedono solo i temi, con un filtro le schede
+    var prima = $indice.classList.contains("gs-iniziale");
+    var iniziale = !filtrato && !tutte;
+    $indice.classList.toggle("gs-iniziale", iniziale);
+    $indice.classList.toggle("gs-filtrato", !iniziale);
+    $tutte.textContent = "Mostra tutte le " + VOCI.length + " schede";
+    if (mobile && scrivi && prima !== iniziale) {
+      $indice.scrollIntoView({ block: "start" });
+    }
 
     if (scrivi) scriviHash();
   }
@@ -796,6 +878,13 @@ footer.site-footer-nav {
     $cerca.value = "";
     aggiorna(true);
     $cerca.focus();
+  });
+  $tutte.addEventListener("click", function () { tutte = true; aggiorna(true); });
+  $cambia.addEventListener("click", function () {
+    stato = { q: "", t: "", i: "", l: "" };
+    tutte = false;
+    $cerca.value = "";
+    aggiorna(true);
   });
   document.getElementById("gs-dialogo-chiudi").addEventListener("click", chiudiPercorso);
   $dialogo.addEventListener("click", function (ev) { if (ev.target === $dialogo) chiudiPercorso(); });

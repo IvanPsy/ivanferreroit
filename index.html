@@ -1,3 +1,6 @@
+---
+permalink: /
+---
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -7,11 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="vcDrdtYJ2hY64qwAUL_yY4sUjQGoNgcibwMIz7qlE8A" />
     <title>Ivan Ferrero | Cyberpsicologo · Formatore · Autore</title>
-    <meta name="description" content="Psicologo delle nuove tecnologie. Dal 2000 studio l'impatto del digitale sulla mente umana: cyberbullismo, adolescenti e tecnologia, formazione, consulenza.">
+    <meta name="description" content="Psicologo-psicoterapeuta e cyberpsicologo: psicoterapia online per adulti, formazione e materiali per la scuola, 427 schede gratuite per genitori.">
     <link rel="canonical" href="https://ivanferrero.it/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Ivan Ferrero | Cyberpsicologo · Formatore · Autore">
-    <meta property="og:description" content="Psicologo delle nuove tecnologie. Dal 2000 studio l'impatto del digitale sulla mente umana: cyberbullismo, adolescenti e tecnologia, formazione, consulenza.">
+    <meta property="og:description" content="Psicologo-psicoterapeuta e cyberpsicologo: psicoterapia online per adulti, formazione e materiali per la scuola, 427 schede gratuite per genitori.">
     <meta property="og:url" content="https://ivanferrero.it/">
     <meta property="og:locale" content="it_IT">
     <script type="application/ld+json">
@@ -42,42 +45,192 @@
     <!-- Page-specific styles -->
     <style>
         .hero {
-            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 8rem 0 4rem;
+            padding: 7rem 0 3.5rem;
         }
-        
+
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            margin-bottom: 1.5rem;
+            font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+            margin-bottom: 1.25rem;
             line-height: 1.15;
             font-weight: 600;
         }
-        
+
         .hero .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            max-width: 650px;
-            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 720px;
+            line-height: 1.7;
         }
-        
+
         .hero-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
-        
-        .hero-cta {
-            display: flex;
-            flex-wrap: wrap;
+
+        /* ===== Le tre porte ===== */
+        .doors {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 1rem;
+        }
+
+        .door {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-top: 3px solid var(--door-accent, var(--accent-cyan));
+            border-radius: 8px;
+            padding: 1.5rem 1.5rem 1.25rem;
+            transition: all 0.2s ease;
+            min-width: 0;
+        }
+
+        .door:hover,
+        .door:focus-visible {
+            border-color: var(--door-accent, var(--accent-cyan));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .door-genitori { --door-accent: var(--accent-green); }
+        .door-scuola { --door-accent: var(--accent-yellow); }
+        .door-psicoterapia { --door-accent: var(--accent-cyan); }
+
+        .door-title {
+            display: block;
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 0.75rem;
+        }
+
+        .door-text {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .door-arrow {
+            display: block;
+            color: var(--door-accent, var(--accent-cyan));
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .section-more {
+            margin-top: 1.5rem;
+        }
+
+        /* ===== Dall'Osservatorio: regole copiate e adattate da _includes/osservatorio-style.html ===== */
+        .stream-tech    { --stream-accent: #00d9ff; --stream-border: rgba(0, 217, 255, 0.30);  --stream-glow: rgba(0, 217, 255, 0.06); }
+        .stream-edu     { --stream-accent: #3fb950; --stream-border: rgba(63, 185, 80, 0.30);  --stream-glow: rgba(63, 185, 80, 0.06); }
+        .stream-cyber   { --stream-accent: #a371f7; --stream-border: rgba(163, 113, 247, 0.30); --stream-glow: rgba(163, 113, 247, 0.06); }
+        .stream-include { --stream-accent: #db6d28; --stream-border: rgba(219, 109, 40, 0.30); --stream-glow: rgba(219, 109, 40, 0.06); }
+
+        .latest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .latest-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            min-width: 0;
+        }
+        .latest-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            width: 3px; height: 100%;
+            background: var(--stream-accent, var(--text-muted));
+        }
+        .latest-card:hover {
+            border-color: var(--stream-border, var(--border-color));
+            box-shadow: 0 0 30px var(--stream-glow, rgba(0,217,255,0.05));
+        }
+        .latest-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
+        }
+        .latest-card-stream {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--stream-accent, var(--text-muted));
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .latest-card-date {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .latest-card-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .latest-card-tldr {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        .latest-card-link {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--stream-accent, var(--text-muted));
+            margin-top: auto;
+        }
+        .latest-card:hover .latest-card-link { color: var(--text-primary); }
+        .latest-card.empty { opacity: 0.55; cursor: default; }
+        .latest-card.empty:hover { border-color: var(--border-color); box-shadow: none; }
+        .latest-card.empty .latest-card-title { color: var(--text-muted); font-style: italic; font-weight: 400; }
+
+        /* ===== Dove trovarmi online ===== */
+        .online-links {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 2;
             margin-bottom: 2rem;
         }
-        
+        .online-links a { color: var(--accent-cyan); text-decoration: none; }
+        .online-links a:hover { text-decoration: underline; }
+        .online-links .sep { color: var(--text-muted); }
+        .project-card-single { max-width: 640px; }
+
         .section-home {
             padding: 5rem 0;
             border-top: 1px solid var(--border-color);
@@ -100,21 +253,6 @@
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 1rem;
             margin: 2.5rem 0;
-        }
-        
-        .quote-block {
-            border-left: 3px solid var(--accent-cyan);
-            padding-left: 1.5rem;
-            margin: 2rem 0;
-            font-style: italic;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-        
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
         }
         
         .project-card {
@@ -262,6 +400,15 @@
                 gap: 1.5rem;
             }
         }
+
+        @media (max-width: 700px) {
+            .doors {
+                grid-template-columns: 1fr;
+            }
+            .door-title {
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -282,149 +429,69 @@
             <h1>La testa nel <span class="text-cyan">Cloud</span>,<br>il cuore nella <span class="text-cyan">Psicologia</span></h1>
             
             <p class="subtitle">
-                Dal 2000 studio come il digitale trasforma la mente umana, le relazioni e la società. Aiuto scuole, famiglie e organizzazioni a navigare l'era digitale con consapevolezza.
+                Psicologo-psicoterapeuta e cyberpsicologo. La mattina a scuola come docente di sostegno, il resto del tempo con adulti in psicoterapia, genitori e scuole.
             </p>
-            
-            <div class="hero-cta">
-                <a href="#contatti" class="btn btn-primary">Parliamo del tuo progetto</a>
-                <a href="/libri/" class="btn btn-secondary">Le schede per i genitori</a>
-            </div>
+
+            <!-- Le tre porte: una per destinatario -->
+            <nav class="doors" aria-label="Da dove vuoi cominciare">
+                <a href="/libri/" class="door door-genitori">
+                    <span class="door-title">Sei un genitore</span>
+                    <span class="door-text">427 schede gratuite, una domanda per pagina, dai quattro libri della collana Genitori senza stress; e un percorso breve per chi ha un figlio con ansia o che rifiuta l'aiuto.</span>
+                    <span class="door-arrow" aria-hidden="true">&rarr;</span>
+                </a>
+                <a href="/scuola/" class="door door-scuola">
+                    <span class="door-title">Lavori nella scuola</span>
+                    <span class="door-text">Formazione per docenti, dirigenti ed enti; materiali accessibili per la classe; risorse su BES, IA e normativa; e per gli studenti, Dopo il diploma nel digitale.</span>
+                    <span class="door-arrow" aria-hidden="true">&rarr;</span>
+                </a>
+                <a href="/psicoterapia/" class="door door-psicoterapia">
+                    <span class="door-title">Cerchi uno psicoterapeuta</span>
+                    <span class="door-text">Percorsi online per adulti con approccio bioenergetico: ansia, umore, vergogna, ritiro, vita digitale, ADHD e spettro autistico nell'adulto, dipendenze senza sostanze.</span>
+                    <span class="door-arrow" aria-hidden="true">&rarr;</span>
+                </a>
+            </nav>
         </section>
 
-        <!-- Chi Sono -->
-        <section id="chi-sono" class="section-home">
-            <h2>Un ponte tra <span class="text-cyan">mente umana</span> e tecnologia</h2>
-            <p class="section-intro">
-                Mi occupo di cyberpsicologia dal 2000: la disciplina che studia come le tecnologie digitali trasformano la mente, le relazioni e il tessuto sociale.
-            </p>
-            
-            <div class="card">
-                <p>
-                    Psicologo-psicoterapeuta, con specializzazione in psicoterapia a indirizzo Analisi Bioenergetica. Lavoro all'intersezione tra psicologia, educazione e nuove tecnologie.
-                </p>
-                <p>
-                    Il mio percorso non è stato lineare, e questa è la mia forza. Nato a Torino, ho iniziato con Informatica prima di approdare a Psicologia. Questa doppia anima mi permette di parlare il linguaggio dei ragazzi e di tradurlo per gli adulti.
-                </p>
-                
-                <blockquote class="quote-block">
-                    "Non puoi trattare un argomento con professionalità se non lo vivi a fondo. Prima di educare, bisogna entrare in relazione."
-                </blockquote>
+        <!-- Dall'Osservatorio: ultimo brief per stream (blocco Liquid copiato da osservatorio/index.html, "Ultimo per stream") -->
+        <section id="osservatorio" class="section-home">
+            <h2>Dall'<span class="text-cyan">Osservatorio</span>, questa settimana</h2>
+            <p class="section-intro">L'ultimo brief di ciascuno dei quattro stream: tecnologia, educazione, psicologia digitale e minori, inclusione.</p>
+
+            <div class="latest-grid">
+                {%- assign streams = "tech,edu,cyber,include" | split: "," -%}
+                {%- for s in streams -%}
+                    {%- assign reports_for_stream = site.osservatorio | where: "stream", s | sort: "date" | reverse -%}
+                    {%- assign latest = reports_for_stream | first -%}
+
+                    {%- case s -%}
+                        {%- when 'tech' -%}    {%- assign s_icon = '🛰️' -%}{%- assign s_label = 'TECH' -%}
+                        {%- when 'edu' -%}     {%- assign s_icon = '🎓' -%}{%- assign s_label = 'EDU' -%}
+                        {%- when 'cyber' -%}   {%- assign s_icon = '🛡️' -%}{%- assign s_label = 'CYBER' -%}
+                        {%- when 'include' -%} {%- assign s_icon = '♿' -%}{%- assign s_label = 'INCLUDE' -%}
+                    {%- endcase -%}
+
+                    {% if latest %}
+                    <a href="{{ latest.url }}" class="latest-card stream-{{ s }}">
+                        <div class="latest-card-header">
+                            <span class="latest-card-stream"><span aria-hidden="true">{{ s_icon }}</span>{{ s_label }}</span>
+                            <span class="latest-card-date">{{ latest.date | date: "%Y.%m.%d" }}</span>
+                        </div>
+                        <div class="latest-card-title">{{ latest.title }}</div>
+                        {% if latest.tldr %}<div class="latest-card-tldr">{{ latest.tldr | strip_html | truncate: 160 }}</div>{% endif %}
+                        <span class="latest-card-link">Leggi →</span>
+                    </a>
+                    {% else %}
+                    <div class="latest-card empty stream-{{ s }}">
+                        <div class="latest-card-header">
+                            <span class="latest-card-stream"><span aria-hidden="true">{{ s_icon }}</span>{{ s_label }}</span>
+                        </div>
+                        <div class="latest-card-title">Nessun report ancora pubblicato</div>
+                    </div>
+                    {% endif %}
+                {%- endfor -%}
             </div>
-            
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-value">2006</div>
-                    <div class="stat-label">Albo degli Psicologi della Lombardia, n. 16571</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">4</div>
-                    <div class="stat-label">libri della collana Genitori senza stress</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">427</div>
-                    <div class="stat-label">schede gratuite per genitori</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">4</div>
-                    <div class="stat-label">stream dell'Osservatorio, ogni settimana</div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Servizi -->
-        <section id="servizi" class="section-home">
-            <h2>Cosa posso fare <span class="text-cyan">per te</span></h2>
-            <p class="section-intro">Formazione, consulenza, psicoterapia e divulgazione.</p>
-            
-            <div class="card-grid">
-                <div class="card">
-                    <h3>🎓 Formazione per scuole, enti e organizzazioni</h3>
-                    <p>Formazione docenti, incontri per genitori e percorsi per educatori su intelligenza artificiale e minori, inclusione e digitale, adolescenti e schermi, cyberbullismo. Progetti PNRR, metodologie innovative.</p>
-                    <p>Per enti, cooperative e aziende, incontri e percorsi su benessere digitale nelle organizzazioni, comunicazione digitale efficace e policy d'uso degli strumenti.</p>
-                    <p><a href="/formazione/" class="text-cyan">Temi, formati e committenti →</a></p>
-                </div>
-                
-                <div class="card">
-                    <h3>👨‍👩‍👧 Consulenza Genitori</h3>
-                    <p>Supporto alle famiglie per comprendere il mondo digitale dei figli, migliorare la comunicazione, stabilire regole condivise e affrontare le sfide dell'era digitale con serenità.</p>
-                    <p><a href="/libri/" class="text-cyan">Le schede e il percorso per genitori →</a></p>
-                </div>
-                
-                <div class="card">
-                    <h3>🧠 Psicoterapia</h3>
-                    <p>Percorsi individuali online per adulti, con approccio bioenergetico: ansia e stress, umore e autosvalutazione, vergogna e ansia sociale, ritiro e ripartenza, vita digitale, ADHD e spettro autistico nell'adulto, dipendenze senza sostanze. <a href="/psicoterapia/">Come lavoro e il primo incontro &rarr;</a></p>
-                    <p>Per le difficolt&agrave; di erezione su base psicologica e l'uso problematico della pornografia c'&egrave; <a href="https://equilibrio.ivanferrero.it/" target="_blank" rel="noopener">Equilibrio</a>: se hai gi&agrave; fatto <a href="https://equilibrio.ivanferrero.it/disfunzione-erettile-esami-a-posto/" target="_blank" rel="noopener">visite ed esami e non hanno trovato niente</a>, o hai gi&agrave; provato altre strade senza un risultato stabile, quella pagina &egrave; scritta per questa situazione.</p>
-                    <p>Se a chiedere aiuto sei tu che stai accanto a qualcuno, come genitore, partner o familiare, ci sono <a href="https://percorsi.ivanferrero.it/" target="_blank" rel="noopener">percorsi brevi, con un obiettivo chiaro, pensati per te</a>.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Progetti e Risorse -->
-        <section id="progetti" class="section-home">
-            <h2>Progetti e <span class="text-cyan">Risorse</span></h2>
-            <p class="section-intro">Dove trovarmi online.</p>
-            
-            <div class="projects-grid">
-                <a href="https://www.agendadigitale.eu/giornalista/ivan-ferrero/" target="_blank" rel="noopener" class="project-card">
-                    <span class="tag tag-cyan">Articoli</span>
-                    <h3>Agenda Digitale</h3>
-                    <p>Scrivo di psicologia del digitale per Agenda Digitale: intelligenza artificiale, social media, adolescenti e tecnologia. Oltre 20 articoli pubblicati dal 2018.</p>
-                    <span class="arrow">Leggi gli articoli →</span>
-                </a>
-                
-                <!-- CARD RIMOSSA il 12/08/2026 — NON RIPRISTINARE COSI' COM'ERA.
-                     Era: <h3>Bullismo Online</h3> con link a https://psicologiadeldigitale.substack.com/
-                     Quell'indirizzo risponde 302 e redirige su https://www.bullismoonline.it/, cioe' sul
-                     sito di terzi che ha registrato il dominio dopo la scadenza. La card mandava i
-                     visitatori di ivanferrero.it la' sopra. Stessa dinamica del CNAME rimosso l'11/08.
-                     Il redirect nasce quasi certamente dal dominio personalizzato ancora impostato nelle
-                     opzioni Substack della pubblicazione: va tolto da li'.
-                     Il titolo era anche ambiguo: "Bullismo Online" e' il nome dell'archivio, non della
-                     newsletter. Se la newsletter torna online a un indirizzo funzionante, reinserirla
-                     con il suo nome vero e l'URL verificato. -->
-
-                <a href="https://genitorisenzastress.substack.com/" target="_blank" rel="noopener" class="project-card">
-                    <span class="tag tag-green">Newsletter</span>
-                    <h3>Genitori senza Stress</h3>
-                    <p>I numeri usciti restano da leggere: comunicazione, limiti, opportunità nell'era digitale.</p>
-                    <span class="arrow">Leggi i numeri usciti →</span>
-                </a>
-                
-                <a href="https://www.youtube.com/channel/UCwtpXynvhq5PG7K22q55-Qg" target="_blank" rel="noopener" class="project-card">
-                    <span class="tag tag-red">Video</span>
-                    <h3>Psicologia e Tecnologia</h3>
-                    <p>Video divulgativi su come il digitale sta cambiando il nostro modo di vivere, pensare e relazionarci.</p>
-                    <span class="arrow">Guarda i video →</span>
-                </a>
-                
-                <a href="https://creators.spotify.com/pod/profile/ivan-ferrero/" target="_blank" rel="noopener" class="project-card">
-                    <span class="tag tag-purple">Podcast</span>
-                    <h3>Essere Genitori nell'Era Digitale</h3>
-                    <p>Riflessioni in formato audio su psicologia, tecnologia e il futuro delle relazioni umane.</p>
-                    <span class="arrow">Ascolta →</span>
-                </a>
-                
-                <a href="/archivio/" class="project-card">
-                    <span class="tag tag-yellow">Archivio</span>
-                    <h3>BullismoOnline 2009&ndash;2020</h3>
-                    <p>Undici anni di divulgazione sul cyberbullismo, riletti e riordinati: quello che regge ancora, quello che vale come documento d'epoca, e perch&eacute; il dominio <code>bullismoonline.it</code> non &egrave; pi&ugrave; mio.</p>
-                    <span class="arrow">Entra nell'archivio &rarr;</span>
-                </a>
-
-                <a href="/dashboards/dopo-il-diploma/" class="project-card">
-                    <span class="tag tag-yellow">Per gli studenti</span>
-                    <h3>Dopo il diploma, nel digitale</h3>
-                    <p>Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con la fonte ufficiale e cosa offre a studenti con DSA o disabilit&agrave;.</p>
-                    <span class="arrow">Esplora i percorsi →</span>
-                </a>
-
-                <a href="https://equilibrio.ivanferrero.it/guida-autovalutazione/" target="_blank" rel="noopener" class="project-card">
-                    <span class="tag tag-cyan">Risorsa Clinica</span>
-                    <h3>Equilibrio — Guida all'Autovalutazione</h3>
-                    <p>Una guida riservata e gratuita per chi sospetta che l'uso della pornografia sia diventato un problema. Strumento di prima riflessione, parte del progetto clinico Equilibrio.</p>
-                    <span class="arrow">Accedi alla guida →</span>
-                </a>
-            </div>
+            <p class="section-more"><a href="/osservatorio/" class="text-cyan">Tutti i brief e gli approfondimenti &rarr;</a></p>
         </section>
 
         <!-- Pubblicazioni -->
@@ -456,6 +523,67 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Chi sono, in breve (la versione lunga e' in /chi-sono/) -->
+        <section id="chi-sono" class="section-home">
+            <h2>Chi sono, <span class="text-cyan">in breve</span></h2>
+            <p class="section-intro">
+                Mi occupo di cyberpsicologia dal 2000: la disciplina che studia come le tecnologie digitali trasformano la mente, le relazioni e il tessuto sociale. Il mio percorso non è stato lineare, e questa è la mia forza: ho iniziato con Informatica prima di approdare a Psicologia, e questa doppia anima mi permette di parlare il linguaggio dei ragazzi e di tradurlo per gli adulti.
+            </p>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-value">2006</div>
+                    <div class="stat-label">Albo degli Psicologi della Lombardia, n. 16571</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">libri della collana Genitori senza stress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">427</div>
+                    <div class="stat-label">schede gratuite per genitori</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">stream dell'Osservatorio, ogni settimana</div>
+                </div>
+            </div>
+
+            <p class="section-more"><a href="/chi-sono/" class="text-cyan">Il percorso, i tre lavori e le tracce &rarr;</a></p>
+        </section>
+
+        <!-- Dove trovarmi online (sostituisce le card di "Progetti e Risorse") -->
+        <section id="progetti" class="section-home">
+            <h2>Dove trovarmi <span class="text-cyan">online</span></h2>
+
+            <!-- CARD RIMOSSA il 12/08/2026 — NON RIPRISTINARE COSI' COM'ERA.
+                 Era: <h3>Bullismo Online</h3> con link a https://psicologiadeldigitale.substack.com/
+                 Quell'indirizzo risponde 302 e redirige su https://www.bullismoonline.it/, cioe' sul
+                 sito di terzi che ha registrato il dominio dopo la scadenza. La card mandava i
+                 visitatori di ivanferrero.it la' sopra. Stessa dinamica del CNAME rimosso l'11/08.
+                 Il redirect nasce quasi certamente dal dominio personalizzato ancora impostato nelle
+                 opzioni Substack della pubblicazione: va tolto da li'.
+                 Il titolo era anche ambiguo: "Bullismo Online" e' il nome dell'archivio, non della
+                 newsletter. Se la newsletter torna online a un indirizzo funzionante, reinserirla
+                 con il suo nome vero e l'URL verificato. -->
+
+            <p class="online-links">
+                <a href="https://www.agendadigitale.eu/giornalista/ivan-ferrero/" target="_blank" rel="noopener">Agenda Digitale</a><span class="sep" aria-hidden="true"> · </span>
+                <a href="https://www.youtube.com/channel/UCwtpXynvhq5PG7K22q55-Qg" target="_blank" rel="noopener">YouTube «Psicologia e Tecnologia»</a><span class="sep" aria-hidden="true"> · </span>
+                <a href="https://creators.spotify.com/pod/profile/ivan-ferrero/" target="_blank" rel="noopener">Podcast</a><span class="sep" aria-hidden="true"> · </span>
+                <a href="https://genitorisenzastress.substack.com/" target="_blank" rel="noopener">Newsletter «Genitori senza stress», i numeri usciti</a><span class="sep" aria-hidden="true"> · </span>
+                <a href="/archivio/">Archivio BullismoOnline 2009-2020</a><span class="sep" aria-hidden="true"> · </span>
+                <a href="/dialoghi/">Dialoghi con una AI</a>
+            </p>
+
+            <a href="/dashboards/dopo-il-diploma/" class="project-card project-card-single">
+                <span class="tag tag-yellow">Orientamento</span>
+                <h3>Per gli studenti: Dopo il diploma, nel digitale</h3>
+                <p>Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con la fonte ufficiale e cosa offre a studenti con DSA o disabilit&agrave;.</p>
+                <span class="arrow">Esplora i percorsi &rarr;</span>
+            </a>
         </section>
 
         <!-- Credenziali -->
