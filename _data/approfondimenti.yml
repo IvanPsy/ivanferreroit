@@ -1,0 +1,129 @@
+# ───────────────────────────────────────────────────────────────────────
+# Approfondimenti: analisi di ricerca, speciali dell'Osservatorio e
+# pagine per le famiglie.
+#
+# REGOLA: ogni dashboard nuova ha UNA riga in uno di questi file
+# (digitale_inclusivo.yml, approfondimenti.yml, fuori_hub.yml).
+# Le pagine indice (/dashboards/, /osservatorio/) si generano da qui:
+# niente card scritte a mano. Per controllare che non ci siano pagine
+# orfane o doppie: python3 _bozze/controlla_hub.py
+#
+# Qui entrano le pagine che hanno una porta pubblica (l'Osservatorio
+# per analisi e speciali). Le sezioni escono nello stesso ordine in
+# cui compaiono qui sotto.
+# ───────────────────────────────────────────────────────────────────────
+
+sections:
+
+  # ════════════════════════════════════════════════════════════════════
+  - id: analisi-ricerche
+    icon: "🔬"
+    title: "Analisi e ricerche"
+    short_name: "Analisi e ricerche"
+    description: "Letture critiche della ricerca su minori, schermi, social e salute mentale, con le evidenze pesate una per una."
+    tag_class: tag-analisi
+    cards:
+
+      - title: "Beyond Digital Determinism"
+        url: /dashboards/beyond-digital-determinism-with-menu.html
+        tag_label: "Cyberpsicologia"
+        description: "Analisi critica della ricerca su social media e benessere adolescenziale: effect size reali, variabili moderatrici, implicazioni per genitori e educatori."
+
+      - title: "SMART Schools Study: analisi critica"
+        url: /dashboards/smartphone-school-policies-with-menu.html
+        tag_label: "Ricerca"
+        description: "Le politiche restrittive sugli smartphone non migliorano il benessere: analisi del Lancet 2025 su 1.227 adolescenti."
+
+      - title: "Connettività funzionale e internet addiction negli adolescenti"
+        url: /dashboards/system-review-2024-internet-addiction-functional-connectivity-adolescents-critica-dashboard-with-menu.html
+        tag_label: "Ricerca · Analisi critica"
+        description: "Analisi critica della review sistematica Chang &amp; Lee (2024) su connettività funzionale e internet addiction negli adolescenti: limiti, I-PACE, implicazioni."
+
+      - title: "Social media e salute mentale 2024-2026"
+        url: /dashboards/social-media-salute-mentale-with-menu.html
+        tag_label: "Ricerca · Analisi critica"
+        description: "Undici studi 2024-2026 su social media e salute mentale degli adolescenti: meccanismi, uso problematico e limiti della ricerca. Per docenti, genitori e clinici."
+
+      - title: "Sonno e schermi: ricerche 2025-2026"
+        url: /dashboards/sonno-schermi-with-menu.html
+        tag_label: "Ricerca · Analisi critica"
+        description: "Cinque studi 2025-2026 sull'effetto degli schermi sul sonno di bambini e adolescenti, il legame con l'umore e i limiti delle evidenze. Per genitori, docenti e clinici."
+
+      - title: "Cyberbullismo, gaming e pornografia: ricerche 2024-2026"
+        url: /dashboards/cyberbullismo-gaming-pornografia-with-menu.html
+        tag_label: "Ricerca · Analisi critica"
+        description: "Cinque ricerche 2024-2026 su cyberbullismo, gaming disorder, pornografia e grooming online negli adolescenti, lette in modo critico. Per docenti, genitori e clinici."
+
+      - title: "Dato vs Claim: systematic review iADDICT"
+        url: /dashboards/iaddict-dato-vs-claim-with-menu.html
+        tag_label: "Ricerca · Analisi critica"
+        description: "Appraisal AMSTAR-2 della review iADDICT sul tempo di schermo sotto i 2 anni (2026): per ogni tema, cosa dice il report e cosa dicono davvero gli studi citati."
+
+      - title: "Il \"Big Tobacco moment\" delle Big Tech"
+        url: /dashboards/dashboard-big-tobacco-moment.html
+        tag_label: "Policy · Analisi critica"
+        description: "Decostruzione tecnica della cornice retorica che sta dando forma alla policy pubblica su social media e minori. Risorsa per educatori, clinici, policy-maker."
+
+      - title: "Ecosistemi digitali e bambini: AAP 2026"
+        url: /dashboards/ecosistemi-digitali-bambini-aap-2026-with-menu.html
+        tag_label: "Cyberpsicologia"
+        description: "Il Policy Statement 2026 dell'American Academy of Pediatrics su bambini, adolescenti e piattaforme digitali: modello socioecologico, 5 C's, raccomandazioni."
+
+      - title: "Dark pattern nei chatbot AI"
+        url: /dashboards/dark-patterns-ai-chatbots-with-menu.html
+        tag_label: "Cyberpsicologia · AI"
+        description: "Tassonomia interattiva di 37 pattern manipolativi nei chatbot AI, esplorabili per categoria, rischio ed evidenza. Per chi progetta, forma o studia l'interazione uomo-AI."
+
+      - title: "Il dispositivo maranza"
+        url: /dashboards/dispositivo-maranza-with-menu.html
+        tag_label: "Cyberpsicologia · Sociologia"
+        description: "Genealogia, cornice teorica e architettura psichica di un nemico pubblico contemporaneo: dal labelling effect classico all'amplificazione algoritmica."
+
+      # Crans-Montana: analisi psicosociologica (dinamiche di gruppo, errori cognitivi), non cronaca; sta fra le analisi.
+      - title: "Incendio di Crans-Montana 2026: analisi psicosociologica"
+        url: /dashboards/crans-montana-dashboard-with-menu.html
+        tag_label: "Psicologia dell'emergenza"
+        description: "Analisi psicosociologica dell'incendio di Crans-Montana (2026): dinamiche di gruppo, errori cognitivi, trauma collettivo e lezioni per la prevenzione."
+
+  # ════════════════════════════════════════════════════════════════════
+  - id: speciali
+    icon: "★"
+    title: "Speciali"
+    short_name: "Speciali"
+    description: "Reperti navigabili e companion degli speciali dell'Osservatorio, consultabili e citabili anche da soli."
+    tag_class: tag-speciale
+    cards:
+
+      - title: "I numeri del femminicidio"
+        url: /dashboards/femminicidio-numeri.html
+        tag_label: "Dati · Speciale"
+        description: "Tre conteggi diversi del femminicidio in Italia, tutti veri: Istat, art. 577-bis e osservatori di movimento a confronto. Serie storica del nucleo che non si muove, confronto internazionale e fonti dichiarate."
+
+      - title: "Tre colonne"
+        url: /dashboards/tre-colonne.html
+        tag_label: "Reperto · Speciale"
+        description: "Gli stessi tratti testuali descritti da tre mondi che non si sono mai parlati: le guide per riconoscere i testi scritti dall'AI, la letteratura clinica sulla lingua autistica, gli strumenti compensativi di PDP e PEI."
+
+      - title: "Fahrenheit 451: la mappa esplorabile"
+        url: /dashboards/fahrenheit-451.html
+        tag_label: "Cyberpsicologia · Speciale"
+        description: "Companion per addetti ai lavori dell'articolo su Bradbury, con lo strato di evidenza su lettura profonda, attenzione e smartphone a scuola. Per chi insegna, forma o fa clinica."
+
+      - title: "Educazione sessuo-affettiva e consenso"
+        url: /dashboards/educazione-sessuo-affettiva-consenso-with-menu.html
+        tag_label: "Educazione · Speciale"
+        description: "Una lettura della legge Valditara sul consenso informato in ambito scolastico oltre i due copioni opposti: cosa dice il testo, cosa c'era prima, cosa dice l'evidenza, e dove finisce il fatto e comincia il valore."
+
+  # ════════════════════════════════════════════════════════════════════
+  - id: famiglie
+    icon: "👨‍👩‍👧"
+    title: "Per le famiglie"
+    short_name: "Per le famiglie"
+    description: "Strumenti di comunicazione e di lettura pensati per i genitori."
+    tag_class: tag-famiglie
+    cards:
+
+      - title: "Dieci tecniche di comunicazione per genitori di un figlio adulto"
+        url: /dashboards/tecniche-comunicazione-madre-figlio-with-menu.html
+        tag_label: "Genitorialità"
+        description: "Dieci tecniche di comunicazione evidence-based per genitori di un figlio adulto nella transizione all'autonomia: NVC, colloquio motivazionale, ACT, CPS, EFFT."

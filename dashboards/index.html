@@ -1,13 +1,25 @@
 ---
-# Frontmatter vuoto: serve solo a dire a Jekyll di processare il file
-# con Liquid, così possiamo leggere _data/digitale_inclusivo.yml.
-title: "Dashboard"
-description: "Dashboard interattive gratuite per docenti, genitori e professionisti: analisi critiche della ricerca, inclusione e BES, adolescenti e digitale, IA e scuola."
+# Il front matter serve a dire a Jekyll di processare il file con Liquid,
+# così l'indice si genera da _data/digitale_inclusivo.yml e _data/approfondimenti.yml.
+# Nessuna card scritta a mano: per aggiungere una pagina si aggiunge una riga nel file dati.
+title: "Indice delle dashboard"
+description: "Indice tecnico di tutte le pagine interattive del sito, raggruppate per destinatario: scuola e docenti, classe, analisi e speciali."
 ---
-{%- assign total = 0 -%}
+{%- assign scuola_ids = "profili-bes,ia-tecnologie,normativa" | split: "," -%}
+{%- assign n_scuola = 0 -%}
+{%- assign n_classe = 1 -%}
 {%- for s in site.data.digitale_inclusivo.sections -%}
-  {%- assign total = total | plus: s.cards.size -%}
+  {%- if scuola_ids contains s.id -%}
+    {%- assign n_scuola = n_scuola | plus: s.cards.size -%}
+  {%- elsif s.id == "lezioni-accessibili" -%}
+    {%- assign n_classe = n_classe | plus: s.cards.size -%}
+  {%- endif -%}
 {%- endfor -%}
+{%- assign n_analisi = 0 -%}
+{%- for s in site.data.approfondimenti.sections -%}
+  {%- assign n_analisi = n_analisi | plus: s.cards.size -%}
+{%- endfor -%}
+{%- assign totale = n_scuola | plus: n_classe | plus: n_analisi -%}
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -15,7 +27,7 @@ description: "Dashboard interattive gratuite per docenti, genitori e professioni
 <link rel="stylesheet" href="/assets/base-styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Ivan Ferrero</title>
+    <title>Indice delle dashboard | Ivan Ferrero</title>
     {% seo title=false %}
 
     <!-- Fonts -->
@@ -23,166 +35,54 @@ description: "Dashboard interattive gratuite per docenti, genitori e professioni
     <!-- Design System -->
     <link rel="stylesheet" href="/assets/base-styles.css">
 
-    <style>
+<style>
         @media (max-width: 768px) {
             .main-container.single-column {
                 padding-top: 8rem !important;
             }
         }
 
-        /* ── Feature Block Digitale Inclusivo ── */
-        .di-feature {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 2.5rem;
-            position: relative;
+        .indice-gruppo { margin-top: 2.5rem; }
+        .indice-gruppo > h2 { font-size: 1.35rem; margin-bottom: 0.25rem; }
+        .indice-gruppo > h2 .n {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-left: 0.5rem;
         }
-
-        .di-feature::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #00d4ff, #8b5cf6, #00d4ff);
+        .indice-sezione {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin: 1.5rem 0 0.4rem;
         }
-
-        .di-feature-header {
-            padding: 1.6rem 1.8rem 1.3rem;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 1.5rem;
-            flex-wrap: wrap;
+        .indice-lista { list-style: none; margin: 0; padding: 0; }
+        .indice-lista li {
+            padding: 0.75rem 0;
             border-bottom: 1px solid var(--border-color);
         }
-
-        .di-feature-header .brand-label {
+        .indice-lista li:last-child { border-bottom: none; }
+        .indice-lista a.titolo {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .indice-lista a.titolo:hover { color: var(--accent-cyan); }
+        .indice-lista .etichetta {
+            display: inline-block;
+            margin-left: 0.5rem;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--accent-cyan);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .di-feature-header h2 {
-            font-size: 1.25rem;
-            margin-bottom: 0.4rem;
-            line-height: 1.3;
-        }
-
-        .di-feature-header p {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            max-width: 530px;
-            line-height: 1.65;
-            margin: 0;
-        }
-
-        .di-stats {
-            display: flex;
-            gap: 1.5rem;
-            flex-shrink: 0;
-            align-items: center;
-        }
-
-        .di-stat {
-            text-align: center;
-        }
-
-        .di-stat .n {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: 700;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-cyan);
-            line-height: 1;
-        }
-
-        .di-stat .l {
             font-size: 0.7rem;
             color: var(--text-muted);
-            margin-top: 0.2rem;
-            display: block;
         }
-
-        .di-categories {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .di-cat {
-            padding: 1.1rem 1.4rem;
-            border-right: 1px solid var(--border-color);
-            transition: background 0.2s;
-        }
-
-        .di-cat:last-child {
-            border-right: none;
-        }
-
-        .di-cat:hover {
-            background: rgba(0, 212, 255, 0.03);
-        }
-
-        .di-cat .cat-icon {
-            font-size: 1.15rem;
-            margin-bottom: 0.35rem;
-            display: block;
-        }
-
-        .di-cat .cat-name {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.15rem;
-        }
-
-        .di-cat .cat-count {
-            font-size: 0.72rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-cyan);
-        }
-
-        .di-feature-footer {
-            padding: 0.9rem 1.8rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .di-feature-footer p {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin: 0;
-        }
-
-        .di-feature-footer a {
-            font-size: 0.85rem;
-            color: var(--accent-cyan);
-            text-decoration: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            transition: opacity 0.2s;
-        }
-
-        .di-feature-footer a:hover {
-            opacity: 0.8;
-        }
-
-        @media (max-width: 700px) {
-            .di-categories {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .di-cat:nth-child(2) { border-right: none; }
-            .di-cat:nth-child(1),
-            .di-cat:nth-child(2) { border-bottom: 1px solid var(--border-color); }
-            .di-stats { display: none; }
+        .indice-lista p {
+            margin: 0.2rem 0 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
         }
     </style>
 </head>
@@ -193,252 +93,62 @@ description: "Dashboard interattive gratuite per docenti, genitori e professioni
     <!-- Main Container -->
     <div class="main-container single-column" style="padding-top: 6rem;">
         <main>
-            <h1>Dashboard <span class="text-cyan">Interattive</span></h1>
-            <p class="text-secondary" style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Risorse visuali e navigabili per lo studio e la formazione.
+            <h1>Indice delle <span class="text-cyan">dashboard</span></h1>
+            <p class="text-secondary" style="font-size: 1.05rem; margin-bottom: 0.5rem;">
+                Questo è l'indice tecnico di tutte le pagine interattive del sito: {{ totale }} in tutto, generate dai file dati. Le porte per pubblico sono <a href="/digitale-inclusivo/">/digitale-inclusivo/</a> (scuola), <a href="/lezioni-accessibili/">/lezioni-accessibili/</a> (classe) e <a href="/osservatorio/">/osservatorio/</a> (analisi e speciali).
             </p>
 
-            <!-- ── Banner Digitale Inclusivo ── -->
-            <div class="card" style="background: linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(138,43,226,0.06) 100%); border-color: rgba(0,212,255,0.25); margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-                <div>
-                    <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-cyan); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.4rem;">◈ Sezione dedicata</div>
-                    <h3 style="color:var(--text-primary); margin:0 0 0.3rem;">Digitale Inclusivo</h3>
-                    <p style="color:var(--text-secondary); font-size:0.9rem; margin:0;">{{ total }} risorse su BES, DSA, ADHD, autismo, IA e tecnologie assistive — raccolte in un hub dedicato.</p>
-                </div>
-                <a href="/digitale-inclusivo/" class="btn btn-primary" style="white-space:nowrap; flex-shrink:0;">Vai al hub →</a>
-            </div>
-
-            <!-- ── Feature Block Digitale Inclusivo ── -->
-            <div class="di-feature">
-
-                <div class="di-feature-header">
-                    <div>
-                        <div class="brand-label">◈ Digitale Inclusivo — con Ivan Ferrero</div>
-                        <h2>Risorse per BES, DSA e <span class="text-cyan">Neurodiversità</span></h2>
-                        <p>Strumenti interattivi, dashboard di ricerca e materiali didattici accessibili per docenti, genitori e professionisti. Dall'ADHD all'autismo, dall'IA all'ICF.</p>
-                    </div>
-                    <div class="di-stats">
-                        <div class="di-stat">
-                            <span class="n">{{ total }}</span>
-                            <span class="l">risorse</span>
-                        </div>
-                        <div class="di-stat">
-                            <span class="n">{{ site.data.digitale_inclusivo.sections | size }}</span>
-                            <span class="l">aree</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="di-categories">
-                    {% for s in site.data.digitale_inclusivo.sections %}
-                    <div class="di-cat">
-                        <span class="cat-icon">{{ s.icon }}</span>
-                        <div class="cat-name">{{ s.short_name }}</div>
-                        <div class="cat-count">{{ s.cards | size }} risorse</div>
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <div class="di-feature-footer">
-                    <p>Esplora tutte le risorse per categoria</p>
-                    <a href="/digitale-inclusivo/">Apri il hub Digitale Inclusivo →</a>
-                </div>
-
-            </div>
-
-            <!-- ── Dashboard Grid — Cyberpsicologia, Clinica, Ricerca ── -->
-            <div class="card-grid">
-
-                <a href="/dashboards/dopo-il-diploma/" class="card" style="text-decoration: none;">
-                    <span class="tag tag-green" style="margin-bottom: 0.75rem;">Orientamento &bull; Per studenti</span>
-                    <h3 style="color: var(--text-primary);">Dopo il diploma, nel digitale</h3>
-                    <p>Strade gratis o quasi verso il lavoro digitale dopo le superiori, pensate anche per chi esce da un istituto professionale o tecnico: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda ha la fonte ufficiale, la data del controllo e cosa offre a studenti con DSA o disabilit&agrave;. Con una pagina per i docenti tutor e orientatori.</p>
-                </a>
-
-                <a href="/dashboards/asrs-adhd-autovalutazione.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-yellow" style="margin-bottom: 0.75rem;">Psicologia &bull; Strumento interattivo</span>
-                    <h3 style="color: var(--text-primary);">ASRS v1.1 &mdash; Screener ADHD adulti</h3>
-                    <p>Le sei domande dello screener OMS sui sintomi ADHD nell'adulto, nella traduzione italiana ufficiale, compilabili dal telefono: zona critica evidenziata, esito immediato, nessun dato inviato o salvato. Con la cornice che i test online di solito non danno &mdash; che cosa un esito non pu&ograve; dire, i confondenti che lo imitano, e le sette domande da portare a un professionista.</p>
-                </a>
-
-                <a href="/dashboards/femminicidio-numeri.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-red" style="margin-bottom: 0.75rem;">Dati • Speciale Osservatorio</span>
-                    <h3 style="color: var(--text-primary);">I numeri del femminicidio</h3>
-                    <p>Tre conteggi diversi, tutti veri, pubblicati nello stesso mese: scegli la definizione (Istat/UNODC, art. 577-bis, osservatori) e guarda cambiare il numero, con cosa entra, cosa resta fuori e come viene usato male. Dentro: la serie storica del nucleo che non si muove, il confronto internazionale e il paradosso nordico, le fonti dichiarate una per una.</p>
-                </a>
-
-                <a href="/dashboards/tre-colonne.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Reperto • Speciale Osservatorio</span>
-                    <h3 style="color: var(--text-primary);">Tre colonne</h3>
-                    <p>Indizi di AI, descrittori clinici della lingua autistica e strategie compensative di PDP e PEI, messi a confronto riga per riga. Nove voci, sette convergono. Reperto navigabile dello Speciale "Scrivi troppo bene", consultabile e citabile anche da solo.</p>
-                </a>
-
-                <a href="/dashboards/dark-patterns-ai-chatbots-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-cyan" style="margin-bottom: 0.75rem;">Cyberpsicologia • AI</span>
-                    <h3 style="color: var(--text-primary);">Dark Patterns nei Chatbot AI</h3>
-                    <p>Tassonomia interattiva di 37 pattern manipolativi nelle interfacce conversazionali AI: esplorabili per categoria, rischio ed evidenza, con matrice rischio × evidenza e una nota riflessiva sul caso Claude. Per chi progetta, forma o studia l'interazione uomo-AI.</p>
-                </a>
-
-                <a href="/dashboards/fahrenheit-451.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-cyan" style="margin-bottom: 0.75rem;">Cyberpsicologia • Speciale Osservatorio</span>
-                    <h3 style="color: var(--text-primary);">Fahrenheit 451: la mappa esplorabile</h3>
-                    <p>Companion per addetti ai lavori dell'articolo su Bradbury: lo stesso strumento in due usi opposti (conchiglia contro proiettile verde), con sotto lo strato di evidenza su lettura profonda, attenzione, smartphone a scuola e norma Valditara. Per chi insegna, forma o lavora in clinica.</p>
-                </a>
-
-                <a href="/dashboards/educazione-sessuo-affettiva-consenso-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-green" style="margin-bottom: 0.75rem;">Educazione • Speciale Osservatorio</span>
-                    <h3 style="color: var(--text-primary);">Educazione sessuo-affettiva e consenso: leggere la legge oltre il tifo</h3>
-                    <p>La legge Valditara sul consenso informato a scuola, oltre i due copioni opposti: cosa dice il testo, cosa c'era prima, cosa dice l'evidenza, e dove finisce il fatto e comincia il valore.</p>
-                </a>
-
-                <a href="/dashboards/crans-montana-dashboard-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-orange" style="margin-bottom: 0.75rem;">Psicologia dell'Emergenza</span>
-                    <h3 style="color: var(--text-primary);">Incendio Crans-Montana 2026</h3>
-                    <p>Analisi psicosociologica della tragedia. Dinamiche di gruppo, errori cognitivi, trauma collettivo e lezioni per la prevenzione.</p>
-                </a>
-
-                <a href="/dashboards/beyond-digital-determinism-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-cyan" style="margin-bottom: 0.75rem;">Cyberpsicologia</span>
-                    <h3 style="color: var(--text-primary);">Beyond Digital Determinism</h3>
-                    <p>Analisi critica della ricerca su social media e benessere adolescenziale: effect size reali, variabili moderatrici, implicazioni per genitori e educatori.</p>
-                </a>
-
-                <a href="/dashboards/ecosistemi-digitali-bambini-aap-2026-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-cyan" style="margin-bottom: 0.75rem;">Cyberpsicologia</span>
-                    <h3 style="color: var(--text-primary);">Ecosistemi Digitali, Bambini e Adolescenti — AAP 2026</h3>
-                    <p>Policy Statement dell'American Academy of Pediatrics: modello socioecologico, framework 5 C's, tabella design-impatto, SCREEN OUT e raccomandazioni multilivello. Il problema non è il digitale — è come sono costruite le piattaforme.</p>
-                </a>
-
-                <a href="/dashboards/smartphone-school-policies-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca</span>
-                    <h3 style="color: var(--text-primary);">SMART Schools Study — Analisi Critica</h3>
-                    <p>Le politiche restrittive sugli smartphone non migliorano il benessere: analisi del Lancet 2025 su 1.227 adolescenti.</p>
-                </a>
-
-                <a href="/dashboards/system-review-2024-internet-addiction-functional-connectivity-adolescents-critica-dashboard-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
-                    <h3 style="color: var(--text-primary);">Connettività Funzionale e Internet Addiction negli Adolescenti</h3>
-                    <p>Analisi critica della review sistematica Chang & Lee (2024). Gap modello-dati, limitazioni metodologiche, confronto con framework I-PACE, implicazioni per pratica clinica e formazione docenti.</p>
-                </a>
-
-                <a href="/dashboards/social-media-salute-mentale-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
-                    <h3 style="color: var(--text-primary);">Social Media e Salute Mentale</h3>
-                    <p>Undici studi 2024-2026 su social media e salute mentale degli adolescenti: meccanismi, uso problematico e limiti della ricerca. Per docenti, genitori e clinici.</p>
-                </a>
-
-                <a href="/dashboards/sonno-schermi-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
-                    <h3 style="color: var(--text-primary);">Sonno e Schermi</h3>
-                    <p>Cinque studi 2025-2026 sull'effetto degli schermi sul sonno di bambini e adolescenti, il legame con l'umore e i limiti delle evidenze. Per genitori, docenti e clinici.</p>
-                </a>
-
-                <a href="/dashboards/cyberbullismo-gaming-pornografia-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
-                    <h3 style="color: var(--text-primary);">Cyberbullismo, Gaming e Pornografia</h3>
-                    <p>Cinque ricerche 2024-2026 su cyberbullismo, gaming disorder, pornografia e grooming online negli adolescenti, lette in modo critico. Per docenti, genitori e clinici.</p>
-                </a>
-
-                <a href="/dashboards/timeline-percorso-umanita-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-green" style="margin-bottom: 0.75rem;">Educazione</span>
-                    <h3 style="color: var(--text-primary);">Il Cammino dell'Umanità — Arte, Architettura, Pensiero</h3>
-                    <p>Timeline interattiva da Roma al digitale: 15 epoche, 7 categorie tematiche con filtri, sintesi narrativa finale.</p>
-                </a>
-
-                <a href="/dashboards/pornografia-strumento-psicoeducativo.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Salute sessuale • Ricerca clinica</span>
-                    <h3 style="color: var(--text-primary);">Materiale Pornografico come Strumento Psicoeducativo</h3>
-                    <p>Revisione della letteratura sull'uso clinico del materiale erotico in psicoterapia sessuale. 50+ studi peer-reviewed, dal PPMI di Grubbs all'ACT di Twohig, CSBD nell'ICD-11, framework sex-positive.</p>
-                </a>
-
-                <a href="/dashboards/escalation-framework-diagrammi-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Salute sessuale • Framework</span>
-                    <h3 style="color: var(--text-primary);">Framework Multi-Asse dell'Escalation — Diagrammi</h3>
-                    <p>6 diagrammi interattivi del framework originale: overview tre assi, architettura teorica, profili clinici radar, ciclo habituation-novelty, effetto amplificatore, protocollo di assessment.</p>
-                </a>
-
-                <a href="/dashboards/escalation-matrice-ppu-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Salute sessuale • Framework</span>
-                    <h3 style="color: var(--text-primary);">Matrice di Escalation nel PPU — Livelli di Coinvolgimento</h3>
-                    <p>Matrice interattiva a 3 assi (finanziario, relazionale, contenuto) con 6 livelli di progressione. Tre viste: per asse, tabella comparativa, per livello con filtri.</p>
-                </a>
-
-                <a href="/dashboards/vivere-con-narcisista-uscita-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-yellow" style="margin-bottom: 0.75rem;">Psicologia Clinica</span>
-                    <h3 style="color: var(--text-primary);">Vivere con un Narcisista Patologico — Dinamiche, Impatto e Uscita</h3>
-                    <p>Revisione evidence-based su ciclo narcisistico, legame traumatico, neurobiologia dell'attaccamento, arsenale manipolatorio (gaslighting, DARVO, ostracismo) e percorsi terapeutici (EMDR, Schema Therapy, ACT, DBT). 45+ meta-analisi e studi empirici.</p>
-                </a>
-
-                <a href="/dashboards/tecniche-comunicazione-madre-figlio-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-yellow" style="margin-bottom: 0.75rem;">Psicologia Clinica • Genitorialità</span>
-                    <h3 style="color: var(--text-primary);">10 Tecniche di Comunicazione Evidence-Based — Relazione Madre-Figlio</h3>
-                    <p>Tecniche di comunicazione per la transizione all'autonomia del figlio adulto. NVC, Colloquio Motivazionale, ACT, CPS, EFFT. 25 riferimenti peer-reviewed, sequenza implementativa in 4 fasi, applicazioni pratiche contestualizzate.</p>
-                </a>
-
-                <a href="/dashboards/probe-retreat-advance-comunicazione-politica-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Antropologia Politica · Semiotica</span>
-                    <h3 style="color: var(--text-primary);">Sacralizzazione del Potere e Grammatica del Probe-Retreat-Advance</h3>
-                    <p>Analisi comparata della comunicazione politica contemporanea: Trump, Bolsonaro, Modi, Meloni, Salvini. Dal gesto simbolico alle dinamiche geopolitiche. Studio del fenomeno, non inchiesta politica.</p>
-                </a>
-
-                <a href="/dashboards/mappa-sei-ancore-adss-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-green" style="margin-bottom: 0.75rem;">Inclusione Scolastica · Normativa</span>
-                    <h3 style="color: var(--text-primary);">Mappa delle Sei Ancore — ADSS PNRR3</h3>
-                    <p>Strumento operativo per la prova orale ADSS: le sei normative cardine dell'inclusione (L. 517/1977 → D.I. 182/2020), timeline, rete delle connessioni, flashcard, frasi da concorso e glossario con 31 termini.</p>
-                </a>
-
-                <a href="/dashboards/dispositivo-maranza-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Cyberpsicologia · Sociologia</span>
-                    <h3 style="color: var(--text-primary);">Il Dispositivo Maranza</h3>
-                    <p>Genealogia, cornice teorica e architettura psichica di un nemico pubblico contemporaneo. Dal labelling effect classico all'amplificazione algoritmica, fino al lavoro sul repertorio narrativo come pratica clinica e pedagogica inquadrata in UDL 3.0.</p>
-                </a>
-
-                <a href="/dashboards/dashboard-big-tobacco-moment.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Cyberpsicologia · Policy · Analisi Critica</span>
-                    <h3 style="color: var(--text-primary);">Il "Big Tobacco moment" delle Big Tech</h3>
-                    <p>Decostruzione tecnica della cornice retorica che sta dando forma alla policy pubblica su social media e minori. Verdetti del 24-25 marzo 2026 (NM, CA), gap scientifico dell'analogia tabacco/social, sei dispositivi retorici, sei modi di fallimento pedagogico, framework alternativi. Risorsa per educatori, clinici, policy-maker.</p>
-                </a>
-
-                <a href="/dashboards/iaddict-dato-vs-claim-with-menu.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-purple" style="margin-bottom: 0.75rem;">Ricerca • Analisi Critica</span>
-                    <h3 style="color: var(--text-primary);">Dato vs Claim — Systematic Review iADDICT</h3>
-                    <p>Appraisal AMSTAR-2 della review "Impacts of Screen Time on Under 2s" (mag 2026). Per ogni tema, il confronto tra come lo formula il report e cosa dicono davvero gli studi citati, con un misuratore dello scarto dato→claim. Verdetto Critically Low: dove il linguaggio si irrigidisce da "associato a" verso "causa/danno" si localizza la cattura da advocacy.</p>
-                </a>
-
-                <!-- Template per nuove dashboard - duplicare questo blocco
-                <a href="/dashboards/nome-file.html" class="card" style="text-decoration: none;">
-                    <span class="tag tag-green" style="margin-bottom: 0.75rem;">Categoria</span>
-                    <h3 style="color: var(--text-primary);">Titolo Dashboard</h3>
-                    <p>Breve descrizione del contenuto.</p>
-                </a>
-                -->
-
-            </div>
-
-            <!-- ── Materiale per la classe (P03) ──
-                 Le card vengono da _data/digitale_inclusivo.yml, sezione "lezioni-accessibili":
-                 per aggiungere un materiale si aggiunge la voce li', non qui. -->
-            {%- assign lezioni = site.data.digitale_inclusivo.sections | where: "id", "lezioni-accessibili" | first %}
-            <section id="materiale-per-la-classe" aria-labelledby="titolo-materiale-classe" style="margin-top: 3rem;">
-                <h2 id="titolo-materiale-classe">Materiale per la <span class="text-cyan">classe</span></h2>
-                <p class="text-secondary" style="margin-bottom: 1.5rem;">Materiali che uso nelle mie lezioni di sostegno, costruiti per studenti reali e resi pubblici. Possono servire a chi insegna le stesse materie, o a chi deve adattarle per uno studente con BES.</p>
-                <div class="card-grid">
-                {%- for c in lezioni.cards %}
-
-                    <a href="{{ c.url }}" class="card" style="text-decoration: none;">
-                        <span class="tag tag-green" style="margin-bottom: 0.75rem;">{{ c.tag_label }}</span>
-                        <h3 style="color: var(--text-primary);">{{ c.title }}</h3>
-                        <p>{{ c.description }}</p>
-                    </a>
+            <!-- ── Per la scuola e i docenti ── -->
+            <section class="indice-gruppo" id="scuola" aria-labelledby="t-scuola">
+                <h2 id="t-scuola">Per la scuola e i docenti<span class="n">{{ n_scuola }}</span></h2>
+                {%- for s in site.data.digitale_inclusivo.sections %}
+                {%- if scuola_ids contains s.id %}
+                <div class="indice-sezione">{{ s.short_name }}</div>
+                <ul class="indice-lista">
+                    {%- for c in s.cards %}
+                    <li><a class="titolo" href="{{ c.url }}">{{ c.title }}</a><span class="etichetta">{{ c.tag_label }}</span>
+                        <p>{{ c.description | strip_html | truncate: 220 }}</p></li>
+                    {%- endfor %}
+                </ul>
+                {%- endif %}
                 {%- endfor %}
+            </section>
 
-                </div>
+            <!-- ── Per la classe ── -->
+            <section class="indice-gruppo" id="classe" aria-labelledby="t-classe">
+                <h2 id="t-classe">Per la classe<span class="n">{{ n_classe }}</span></h2>
+                <ul class="indice-lista">
+                    {%- for s in site.data.digitale_inclusivo.sections %}
+                    {%- if s.id == "lezioni-accessibili" %}
+                    {%- for c in s.cards %}
+                    <li><a class="titolo" href="{{ c.url }}">{{ c.title }}</a><span class="etichetta">{{ c.tag_label }}</span>
+                        <p>{{ c.description | strip_html | truncate: 220 }}</p></li>
+                    {%- endfor %}
+                    {%- endif %}
+                    {%- endfor %}
+                    <li><a class="titolo" href="/dashboards/dopo-il-diploma/">Dopo il diploma, nel digitale</a><span class="etichetta">Per gli studenti</span>
+                        <p>Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con fonte ufficiale, data del controllo e cosa offre a studenti con DSA o disabilità.</p></li>
+                </ul>
+            </section>
+
+            <!-- ── Analisi, ricerche e speciali ── -->
+            <section class="indice-gruppo" id="analisi" aria-labelledby="t-analisi">
+                <h2 id="t-analisi">Analisi, ricerche e speciali<span class="n">{{ n_analisi }}</span></h2>
+                {%- for s in site.data.approfondimenti.sections %}
+                <div class="indice-sezione">{{ s.short_name }}</div>
+                <ul class="indice-lista">
+                    {%- for c in s.cards %}
+                    <li><a class="titolo" href="{{ c.url }}">{{ c.title }}</a><span class="etichetta">{{ c.tag_label }}</span>
+                        <p>{{ c.description | strip_html | truncate: 220 }}</p></li>
+                    {%- endfor %}
+                </ul>
+                {%- endfor %}
             </section>
 
             <!-- Footer -->
             <div class="card mt-4" style="text-align: center;">
                 <p class="text-muted" style="font-size: 0.85rem; margin: 0;">
-                    Risorse create da Ivan Ferrero — 2026<br>
+                    Risorse create da Ivan Ferrero, 2026<br>
                     <a href="/">← Torna alla homepage</a>
                 </p>
             </div>

@@ -173,6 +173,11 @@ sections:
         tag_label: "Matematica · Scheda Stampabile"
         description: "Scheda A4 stampabile, complementare allo studio di funzione passo per passo. Sequenza dei 6 passi e tutte le formule chiave su una pagina, con seconda pagina di scaffold guidato per esercitarsi. Pensata come strumento di supporto da tenere accanto durante esercitazioni e verifiche. Compatibile con stampa diretta (formato A4 portrait, layout pulito senza interferenze)."
 
+      - title: "Il Cammino dell'Umanità: arte, architettura, pensiero"
+        url: /dashboards/timeline-percorso-umanita-with-menu.html
+        tag_label: "Storia · Timeline"
+        description: "Timeline interattiva dalla caduta di Roma all'era digitale: 15 epoche di storia, arte, architettura e pensiero, con filtri. Versione completa, per studenti delle superiori."
+
       - title: "La Storia dell'Umanità — Versione Accessibile"
         url: /dashboards/timeline-percorso-umanita-accessibile-with-menu.html
         tag_label: "Storia · ASD-friendly"

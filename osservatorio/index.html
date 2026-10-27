@@ -87,6 +87,26 @@ description: "Intelligence brief settimanali: tecnologia (TECH), educazione (EDU
         <a href="/osservatorio/include/" class="stream-include"><span aria-hidden="true">♿</span>INCLUDE</a>
     </nav>
 
+    <!-- PARTE B.1bis: Approfondimenti (generato da _data/approfondimenti.yml: per aggiungere una pagina si aggiunge una riga nel file dati) -->
+    <div class="section-title">Approfondimenti</div>
+    <div class="latest-grid">
+        {%- for sez in site.data.approfondimenti.sections -%}
+        <div class="latest-card stream-speciale">
+            <div class="latest-card-header">
+                <span class="latest-card-stream"><span aria-hidden="true">{{ sez.icon }}</span>{{ sez.short_name }}</span>
+                <span class="latest-card-date">{{ sez.cards.size }}</span>
+            </div>
+            <div class="latest-card-title">{{ sez.title }}</div>
+            <div class="latest-card-tldr" style="flex-grow:0;">{{ sez.description }}</div>
+            <ul class="speciali-list" style="margin-bottom:0;">
+                {%- for c in sez.cards %}
+                <li><a href="{{ c.url }}">{{ c.title }}</a> <span class="speciali-kind" style="margin:0 0 0 0.4rem;">{{ c.tag_label }}</span></li>
+                {%- endfor %}
+            </ul>
+        </div>
+        {%- endfor -%}
+    </div>
+
     <!-- PARTE B.2: Archivio cronologico filtrabile -->
     <div class="section-title">Archivio cronologico</div>
 

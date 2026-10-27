@@ -683,16 +683,8 @@ code, .mono {
 }
 
 @media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .main-nav {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
+    /* Intestazione: nessuna regola qui. Il menu condiviso (assets/menu.js)
+       tiene logo a sinistra e hamburger a destra su una sola riga. */
     h1 { font-size: 1.8rem; }
     h2 { font-size: 1.4rem; }
     h3 { font-size: 1.2rem; }

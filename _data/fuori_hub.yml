@@ -1,0 +1,33 @@
+# ───────────────────────────────────────────────────────────────────────
+# Pagine in dashboards/ che NON hanno una card in nessun indice.
+# Restano raggiungibili al loro indirizzo, ma non si promuovono.
+#
+# REGOLA: ogni dashboard nuova ha UNA riga in uno di questi file
+# (digitale_inclusivo.yml, approfondimenti.yml, fuori_hub.yml).
+# Le pagine indice si generano dai file dati: niente card a mano.
+# Controllo: python3 _bozze/controlla_hub.py
+#
+# motivo: clinico   = materiali di Equilibrio o della pratica clinica,
+#                     non si promuovono da ivanferrero.it
+# motivo: personale = appunti di studio o di analisi personali
+# ───────────────────────────────────────────────────────────────────────
+
+pagine:
+
+  # ── Clinico ──
+  - url: /dashboards/asrs-adhd-autovalutazione.html
+    motivo: clinico
+  - url: /dashboards/vivere-con-narcisista-uscita-with-menu.html
+    motivo: clinico
+  - url: /dashboards/pornografia-strumento-psicoeducativo.html
+    motivo: clinico
+  - url: /dashboards/escalation-framework-diagrammi-with-menu.html
+    motivo: clinico
+  - url: /dashboards/escalation-matrice-ppu-with-menu.html
+    motivo: clinico
+
+  # ── Personale ──
+  - url: /dashboards/mappa-sei-ancore-adss-with-menu.html
+    motivo: personale
+  - url: /dashboards/probe-retreat-advance-comunicazione-politica-with-menu.html
+    motivo: personale

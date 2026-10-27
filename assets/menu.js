@@ -22,7 +22,6 @@ const menuConfig = {
     items: [
         { label: 'Home', href: '/' },
         { label: 'Libri', href: '/libri/' },
-        { label: 'Dashboard', href: '/dashboards/' },
         { label: 'Osservatorio', href: '/osservatorio/' },
         { label: 'Digitale Inclusivo', href: '/digitale-inclusivo/' },
         { label: 'Formazione', href: '/formazione/' },
@@ -99,6 +98,12 @@ const menuConfig = {
                 background: #0a0e14;
                 border-bottom: 1px solid #30363d;
                 backdrop-filter: blur(20px);
+                /* reset: alcune pagine definiscono una regola nuda "header {...}"
+                   (padding, margini, centratura) che altrimenti investe anche il menu */
+                margin: 0;
+                padding: 0;
+                text-align: left;
+                border-radius: 0;
             }
             .header-content {
                 max-width: 1600px;
@@ -225,6 +230,28 @@ const menuConfig = {
 
             /* --- Mobile breakpoint --- */
             @media (max-width: 768px) {
+                /* Specificita' alzata: l'intestazione resta su UNA riga (logo a sinistra,
+                   hamburger a destra, 60px) qualunque CSS di pagina o base-styles.css
+                   venga caricato. Non serve ricordarsi nulla nelle pagine nuove. */
+                .header .header-content {
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 1rem;
+                    height: 60px;
+                    padding: 0 1rem;
+                    box-sizing: border-box;
+                }
+                .header .logo {
+                    min-width: 0;
+                    flex-shrink: 1;
+                }
+                .header .logo-text {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
                 .hamburger {
                     display: flex;
                 }
