@@ -694,6 +694,57 @@
       "prossima_finestra": null,
       "cosa_fai_adesso": "Guarda i sei corsi ITS e l'avviso di selezione sul sito, e scegli quello che ti incuriosisce.",
       "costi_nascosti": "Ai 1.000 € si aggiungono 30 € per fare la selezione. Il tirocinio del secondo anno non ha uno stipendio obbligatorio. La presenza obbligatoria è almeno all'80%."
+    },
+    {
+      "id": "union-borse-di-studio",
+      "nome": "Uni.ON, Accendi il tuo futuro",
+      "ente": "UniCredit Foundation con la Fondazione Don Gino Rigoldi; in Lombardia il campus è con l'Università degli Studi di Milano",
+      "tipo_ente": "privato",
+      "tipo_scheda": "palestra",
+      "sedi": [
+        "Milano",
+        "online"
+      ],
+      "famiglia": "A",
+      "tipologia": "Un campus gratuito con docenti universitari durante la quinta, poi borse di studio per l'università in materie scientifiche, informatiche o economiche",
+      "requisiti": "Essere in quinta in una scuola superiore statale della Lombardia (vale anche per Campania, Puglia e Veneto), essere residente in Italia, avere un ISEE fino a 26.000 € e una media di almeno 6,5 alla fine della terza e della quarta. Alleghi l'ISEE, le pagelle di terza e quarta, una lettera in cui racconti perché vuoi partecipare (massimo 1.500 caratteri) e, se vuoi, una lettera di un tuo docente. I posti nel campus sono 150 per regione.",
+      "costo": "Gratis: il campus vale 4.500 € a persona e lo paga il progetto. Se superi il test finale ricevi un premio di 500 € lordi. Poi ci sono 200 borse da 5.000 € lordi (50 per regione) per chi si iscrive a una laurea triennale ammessa in un'università statale.",
+      "costo_fascia": "gratuito",
+      "modalita": "presenza e online",
+      "durata": "100 ore tra novembre 2026 e aprile 2027, fuori dall'orario di scuola. Per fare il test finale devi esserci almeno all'80% delle ore.",
+      "titolo_rilasciato": "Non un titolo: il premio di 500 € se superi il test e la possibilità di vincere la borsa. Con la borsa hai anche 30 ore di esercitazioni di analisi e fisica prima di iniziare l'università e un tutor per tutto il primo anno.",
+      "valore_titolo": "partecipazione",
+      "sbocchi": "Ti prepara alla maturità e ai test d'ingresso dell'università. Le lauree ammesse sono 23, tra cui informatica, ingegneria dell'informazione, statistica, matematica, economia, e anche turismo e beni culturali (scienze, tecnologie e diagnostica): l'elenco completo è nel bando.",
+      "esiti_occupazionali": null,
+      "fonte_esiti": null,
+      "dichiarato_da_ente": null,
+      "accessibilita": "Nel bando e nelle domande frequenti non c'è scritto nulla su misure per studenti con DSA o con disabilità nel campus e nel test finale.",
+      "accessibilita_livello": "non dichiarato",
+      "accessibilita_richiesta_il": null,
+      "territorio": "Lombardia",
+      "a_scadenza": true,
+      "nota_scadenza": "Ci si candida fino al 4 novembre 2026 alle 23:59 (la scadenza è stata spostata più avanti). L'elenco di chi entra nel campus esce entro il 16 novembre; il campus va dal 20 novembre 2026 al 12 aprile 2027 (date indicative); l'elenco delle borse esce entro il 31 maggio 2027. La borsa arriva in due parti da 2.500 €: la seconda se a fine settembre 2028 hai almeno metà dei crediti del primo anno. Il 29 ottobre 2026 alle 18 c'è una presentazione online aperta a studenti, genitori e docenti.",
+      "fonte_ufficiale": "https://www.union-borsedistudio.it/it/",
+      "ultimo_controllo": "2026-10-27",
+      "porte": [
+        "un titolo",
+        "provare prima"
+      ],
+      "filtro_costo": "gratis e mi pagano",
+      "filtro_lavoro": null,
+      "filtro_dove": "Milano e dintorni",
+      "filtro_resta": null,
+      "filtro_durata": "pochi mesi",
+      "filtro_ingresso": "selezione tosta",
+      "settori": [
+        "programmare",
+        "dati e IA",
+        "digitale per le aziende"
+      ],
+      "stato_etichetta": "Aperto fino al 4 novembre 2026",
+      "prossima_finestra": "4 novembre 2026, ore 23:59",
+      "cosa_fai_adesso": "Se sei in quinta, chiedi subito l'ISEE in famiglia o a un CAF, recupera le pagelle di terza e quarta e scrivi la tua lettera: c'è tempo fino al 4 novembre. Chiedi a un docente se ti scrive due righe di presentazione. Se hai dubbi, segui la presentazione online del 29 ottobre alle 18.",
+      "costi_nascosti": "Il premio di 500 € è lordo: ti arrivano 375 €. Parte delle lezioni è in presenza a Milano: conta i viaggi. La borsa arriva solo su un conto intestato a te, e devi prima superare la maturità ed entrare all'università."
     }
   ],
   "sezioni": {
