@@ -23,7 +23,7 @@
       ],
       "famiglia": "B",
       "tipologia": "ITS Academy: due anni di scuola superiore di tecnologia con stage in azienda",
-      "requisiti": "Diploma di scuola superiore, oppure quinta superiore in corso, diploma quadriennale o IFTS. Prova scritta e colloquio. Di solito serve residenza o domicilio in Lombardia.",
+      "requisiti": "Diploma di scuola superiore, oppure quinta superiore in corso, diploma quadriennale o IFTS. Prova scritta e colloquio. Possono candidarsi anche studenti di fuori regione (l'ITS segnala un contributo fino a 6.000 € per loro). La residenza o il domicilio in Lombardia servono per alcune borse di merito.",
       "costo": "Circa 1.000 € l'anno (cifra scritta nella pagina di un corso, non nel bando). Ci sono borse per reddito e per merito che possono ridurla o azzerarla.",
       "costo_fascia": "a pagamento",
       "modalita": "presenza",
@@ -39,9 +39,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "Lombardia",
       "a_scadenza": true,
-      "nota_scadenza": "Per chi si è diplomato nel 2026 le iscrizioni chiudevano il 4 ottobre 2026, con le prove il 6 ottobre. Per chi si diploma nel 2027 le date non sono ancora uscite: chiedile alla segreteria. Chi è in quarta può fare una preselezione.",
+      "nota_scadenza": "Per chi si è diplomato nel 2026 le iscrizioni chiudevano il 4 ottobre 2026, con le prove il 6 ottobre. Per i corsi che partono a ottobre 2027 le selezioni riaprono a fine novembre 2026: il sito parla anche di «1 dicembre». Chi è in quinta può fare una preselezione.",
       "fonte_ufficiale": "https://www.itsrizzoli.it/iscrizione/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo",
         "lavorare presto"
@@ -60,9 +60,9 @@
         "macchine e automazione",
         "digitale per le aziende"
       ],
-      "stato_etichetta": "Date 2027 non ancora uscite",
-      "prossima_finestra": null,
-      "cosa_fai_adesso": "Scrivi alla segreteria per sapere quando sono le selezioni per chi si diploma nel 2027. Intanto guarda i corsi e scegli quelli che ti piacciono.",
+      "stato_etichetta": "Riapre a fine novembre 2026",
+      "prossima_finestra": "Fine novembre o 1 dicembre 2026",
+      "cosa_fai_adesso": "Se sei in quinta, a fine novembre si aprono le selezioni per i corsi che partono a ottobre 2027: guarda i corsi, scegli quelli che ti piacciono e tieni d'occhio la pagina delle iscrizioni.",
       "costi_nascosti": "La quota non copre viaggi e pasti. Sullo stage non c'è scritto se è pagato. Le borse non si sommano tra loro."
     },
     {
@@ -92,7 +92,7 @@
       "a_scadenza": false,
       "nota_scadenza": null,
       "fonte_ufficiale": "https://www.indire.it/progetto/its-istituti-tecnologici-superiori/sistema-its-le-aree-tecnologiche/tecnologie-dellinformazione-e-della-comunicazione/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo",
         "lavorare presto"
@@ -133,7 +133,7 @@
       "titolo_rilasciato": "Diploma di tecnico superiore (V livello EQF)",
       "valore_titolo": "legale",
       "sbocchi": "Web developer, cloud e IA, analisi dati, cyber security, IoT, realtà virtuale e giochi, digital twin, marketing digitale",
-      "esiti_occupazionali": "Oltre il 92% di occupati (area programmazione e nuove tecnologie).",
+      "esiti_occupazionali": "Il 90% dei diplomati lavora nel suo ambito di studio a un anno dal diploma (FAQ del sito). In home page il dato è 95%, senza anno.",
       "fonte_esiti": "Sito di ITS INCOM e stampa locale (MalpensaNews)",
       "dichiarato_da_ente": true,
       "accessibilita": "Le FAQ e la pagina delle selezioni non dicono nulla su DSA o disabilità, né nelle prove né durante il corso.",
@@ -143,7 +143,7 @@
       "a_scadenza": true,
       "nota_scadenza": "Selezioni online con un test e un colloquio. L'ultima data sul sito è il 9 settembre 2026 (già passata). Le date del 2027 non sono pubblicate: «tra maggio e luglio» è una stima dalle edizioni passate (13/5/2025, 1/7/2026, 9/9/2026).",
       "fonte_ufficiale": "https://itsincom.it/faq-its/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo",
         "lavorare presto"
@@ -184,11 +184,11 @@
       ],
       "famiglia": "B",
       "tipologia": "ITS Academy: macchine, robot e automazione, con stage in azienda",
-      "requisiti": "Diploma di scuola superiore, oppure diploma professionale dei corsi quadriennali o IFTS. Test online e colloquio in presenza.",
-      "costo": "500 € il primo anno e 1.000 € il secondo. Borsa da 1.000 € (donazione delle aziende) per chi è meritevole e senza mezzi. Esenzione della quota da 1.000 € per le ragazze.",
+      "requisiti": "Diploma di scuola superiore, oppure diploma professionale dei corsi quadriennali o IFTS. Residenza o domicilio in Lombardia quando parte il corso. Test online e colloquio in presenza.",
+      "costo": "500 € il primo anno e 1.000 € il secondo. Iscriversi alla selezione è gratis. Due borse, che non si sommano: per chi è meritevole o ha difficoltà economiche, non paghi il secondo anno (1.000 €); per la parità di genere e le materie STEM, non paghi il primo anno e paghi metà del secondo.",
       "costo_fascia": "a pagamento",
       "modalita": "presenza",
-      "durata": "2 anni: 1.200 ore tra aula e azienda e 800 ore di stage",
+      "durata": "2 anni, con almeno 800 ore in azienda",
       "titolo_rilasciato": "Diploma di tecnico superiore (V livello EQF), più certificazioni di settore (per Factory Automation: Cetop, Eplan, Siemens, SolidWorks, ABB)",
       "valore_titolo": "legale",
       "sbocchi": "Progettista di soluzioni meccatroniche, programmatore di sistemi di automazione, manutentore e installatore di linee, tecnico di assistenza, tecnico commerciale",
@@ -200,9 +200,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "Lombardia",
       "a_scadenza": true,
-      "nota_scadenza": "Le sessioni di test online sono molte nell'anno. Sul sito ci sono l'8 luglio e il 16 settembre, poi il 2, l'8 e il 14 ottobre (iscrizioni fino al 7 e al 13 ottobre), senza l'anno scritto in pagina. Le date del 2027 non sono pubblicate: «luglio» è una stima.",
+      "nota_scadenza": "Le sessioni di test online sono molte nell'anno. Per i corsi 2026-28 andavano dal 10 dicembre 2025 al 16 settembre 2026, con iscrizione fino a tre giorni prima di ogni test. Oggi le selezioni sono chiuse e le date per i corsi 2027 non sono ancora pubblicate: «da dicembre» è una stima dal bando precedente.",
       "fonte_ufficiale": "https://itslombardiameccatronica.it/iscrizioni/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo",
         "lavorare presto"
@@ -216,7 +216,7 @@
       "settori": [
         "macchine e automazione"
       ],
-      "stato_etichetta": "Di solito riapre a luglio",
+      "stato_etichetta": "Di solito le sessioni partono a dicembre",
       "prossima_finestra": null,
       "cosa_fai_adesso": "Scegli la sede più vicina e iscriviti a una sessione di test online. Dopo il test c'è un colloquio in presenza, che conta molto.",
       "costi_nascosti": "Per lo stage di 800 ore non è scritto se è pagato. I viaggi fino alla sede sono tuoi."
@@ -248,7 +248,7 @@
       "a_scadenza": true,
       "nota_scadenza": "Ogni anno c'è un nuovo avviso della Regione e l'elenco dei corsi cambia. Per il 2026/27 l'avviso è del 5 maggio 2026 (decreto 5855) e i progetti sono stati approvati il 4 agosto 2026 (decreto 10618). Per il 2027/28 non c'è ancora nulla. Gli IFTS AI del Rizzoli 2026/27 risultano esauriti.",
       "fonte_ufficiale": "https://www.bandi.regione.lombardia.it/servizi/servizio/comunicazioni/dettaglio/avviso-pubblico-selezione-nuovi-progetti-istruzione-formazione-tecnica-superiore-ifts-realizzare-anno-formativo-2026-2027-8a5aa37d9fcf0361019fd218e255002d",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo",
         "lavorare presto"
@@ -299,9 +299,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "nazionale",
       "a_scadenza": false,
-      "nota_scadenza": "Le Piscine hanno date fisse per sede. Roma: 5 al 30 ottobre 2026 e 18 gennaio al 12 febbraio 2027. Firenze: 5 al 30 ottobre 2026. Milano: 22 febbraio, 12 aprile e 24 maggio, ma sul sito non c'è l'anno.",
+      "nota_scadenza": "Le Piscine hanno date fisse per sede. Roma: 5 al 30 ottobre 2026 e 8 febbraio al 5 marzo 2027. Firenze: date 2027 in arrivo, ma ci si può già candidare. Milano: 5 aprile, 24 maggio e 12 luglio, ma sul sito non c'è l'anno.",
       "fonte_ufficiale": "https://www.42milano.it/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "lavorare presto",
         "provare prima"
@@ -317,8 +317,8 @@
         "reti e sicurezza",
         "grafica 3D e giochi"
       ],
-      "stato_etichetta": "Di solito riapre a gennaio e febbraio",
-      "prossima_finestra": "Roma dal 18 gennaio 2027. Milano il 22 febbraio (anno non scritto sul sito).",
+      "stato_etichetta": "Prossime Piscine da febbraio 2027",
+      "prossima_finestra": "Roma dall'8 febbraio 2027. Milano dal 5 aprile (anno non scritto sul sito).",
       "cosa_fai_adesso": "Fai i giochi online sul sito della sede che preferisci e prenota la prossima Piscine. Non serve saper programmare.",
       "costi_nascosti": "La scuola è gratis, ma vitto, alloggio e trasporti sono tuoi. Durante la Piscine sei in campus tutto il giorno, quindi lavorare è difficile. Non c'è un titolo di legge."
     },
@@ -351,7 +351,7 @@
       "a_scadenza": true,
       "nota_scadenza": "Un bando l'anno. Quello 2026/27 è del 29 gennaio 2026: iscrizioni fino al 17 aprile, test dal 28 aprile al 5 maggio, colloqui dal 18 al 22 maggio, avvio il 28 settembre. Il bando 2027/28 non è ancora uscito e va letto bene: se chiede il diploma già preso, chi finisce a giugno 2027 potrebbe non rientrare. Il Federico II Foundation Program 2026/27 è riservato a studenti già iscritti alla Federico II: non è una porta per chi si diploma.",
       "fonte_ufficiale": "https://www.developeracademy.unina.it/it/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "lavorare presto",
         "provare prima"
@@ -379,15 +379,15 @@
       "sedi": null,
       "famiglia": "B",
       "tipologia": "Corsi online gratuiti e intensivi per un primo lavoro nel tech, con colloquio garantito",
-      "requisiti": "Da 18 a 29 anni. Per le classi in Lombardia: non lavorare, non essere iscritto a scuola o università quando ti candidi e avere residenza o domicilio in Lombardia. Test di attitudine, inglese e logica, poi colloquio.",
+      "requisiti": "Da 18 a 34 anni. Per le classi in Lombardia: non lavorare, non essere iscritto a scuola o università quando ti candidi e avere residenza o domicilio in Lombardia. Test di attitudine, inglese e logica, poi colloquio.",
       "costo": "Gratis.",
       "costo_fascia": "gratuito",
       "modalita": "online",
-      "durata": "14 settimane (corso Java Developer)",
+      "durata": "15 settimane, dal lunedì al venerdì dalle 9 alle 18, tutto online (corso Java Developer)",
       "titolo_rilasciato": "Attestato Generation (non è un titolo di legge) e almeno un colloquio di lavoro garantito",
       "valore_titolo": "partecipazione",
       "sbocchi": "Junior Java Developer. Altri corsi: Salesforce, .NET, cloud, dati, cyber security",
-      "esiti_occupazionali": "80% di occupati dalla fine del corso e oltre 12.200 persone inserite dal 2018. Il primo contratto vale in mediana 1.100 € netti (stage compresi).",
+      "esiti_occupazionali": "80% di occupati dalla fine del corso e 91% che lavora ancora a tre anni. Il primo contratto vale in mediana 1.100 € netti (stage compresi). Dal 2018 sono entrate nei corsi oltre 12.200 persone.",
       "fonte_esiti": "italy.generation.org (home)",
       "dichiarato_da_ente": true,
       "accessibilita": "Ho chiesto a Generation Italy e mi hanno risposto a ottobre 2026: oggi non hanno misure dedicate agli studenti con DSA, né nel test e nel colloquio né durante il corso. Mi hanno però scritto che negli anni diversi studenti con DSA hanno frequentato il corso e l'hanno finito. Sulle altre disabilità la risposta non dice nulla. Se ti serve tempo in più o uno strumento compensativo, chiedilo per scritto prima del test.",
@@ -395,9 +395,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "nazionale",
       "a_scadenza": false,
-      "nota_scadenza": "Le classi partono più volte l'anno. L'ultima classe Java in Lombardia è partita il 14 ottobre 2026; le prossime non sono ancora sul sito. Il corso si ferma due settimane ad agosto e dal 24 dicembre al 6 gennaio.",
+      "nota_scadenza": "Le classi partono più volte l'anno. La prossima classe Java per la Lombardia parte il 1° dicembre (il sito non scrive l'anno). Il corso si ferma due settimane ad agosto e dal 24 dicembre al 6 gennaio.",
       "fonte_ufficiale": "https://italy.generation.org/programs/java-developer/",
-      "ultimo_controllo": "2026-10-14",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "lavorare presto",
         "ripartire"
@@ -413,8 +413,8 @@
         "reti e sicurezza",
         "dati e IA"
       ],
-      "stato_etichetta": "Prossime classi non ancora uscite",
-      "prossima_finestra": null,
+      "stato_etichetta": "Prossima classe dal 1° dicembre",
+      "prossima_finestra": "1° dicembre 2026",
       "cosa_fai_adesso": "Se hai già il diploma e non studi né lavori, guarda le nuove classi sul sito e candidati appena ne esce una: sono poco più di un'ora di test. Se sei ancora in quinta, tieni d'occhio le classi dopo giugno.",
       "costi_nascosti": "È gratis, ma sei collegato dal lunedì al venerdì, dalle 9 alle 18, per 14 settimane: niente altro lavoro nel frattempo. I colloqui sono nella città della candidatura."
     },
@@ -447,7 +447,7 @@
       "a_scadenza": false,
       "nota_scadenza": "Non c'è un calendario pubblicato: si parte prenotando il colloquio. Dopo i sei mesi l'assunzione non è garantita: si concorda con l'azienda.",
       "fonte_ufficiale": "https://www.galdus.it/aws/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "ripartire",
         "lavorare presto"
@@ -479,7 +479,7 @@
       "costo": "Non paghi niente. Prendi 519,47 € al mese.",
       "costo_fascia": "gratuito",
       "modalita": "presenza",
-      "durata": "Da 8 a 12 mesi, 25 ore a settimana",
+      "durata": "12 mesi, 25 ore a settimana",
       "titolo_rilasciato": "Attestato di partecipazione al Servizio civile, con crediti formativi e riconoscimento delle competenze",
       "valore_titolo": "partecipazione",
       "sbocchi": "Esperienza nel digitale dentro un ente. Il servizio vale come titolo di preferenza nei concorsi pubblici, con una riserva del 15% dei posti",
@@ -491,9 +491,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "nazionale",
       "a_scadenza": true,
-      "nota_scadenza": "Il bando di settembre 2026 ha 1.000 posti digitali (28 programmi, 83 progetti) e chiude il 6 novembre 2026 alle 14:00. Il servizio parte entro l'8 gennaio 2027. Nessuna fonte ufficiale dice che il filone digitale si ripeta nel 2027.",
+      "nota_scadenza": "Il bando di settembre 2026 ha 1.000 posti digitali (28 programmi, 83 progetti) e chiude il 6 novembre 2026 alle 14:00. Il servizio parte il 18 dicembre 2026, il 15 gennaio o il 29 gennaio 2027, secondo il progetto. Nessuna fonte ufficiale dice che il filone digitale si ripeta nel 2027.",
       "fonte_ufficiale": "https://scelgoilserviziocivile.gov.it/leggi-il-bando/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "provare prima",
         "lavorare presto",
@@ -509,7 +509,7 @@
       "stato_etichetta": "Aperto fino al 6 novembre 2026",
       "prossima_finestra": "6 novembre 2026, ore 14:00",
       "cosa_fai_adesso": "Se hai già 18 anni e hai finito la scuola, guarda i progetti digitali e fai domanda con SPID entro il 6 novembre. Se sei in quinta, 25 ore a settimana sono difficili da conciliare con la scuola: guarda il prossimo bando.",
-      "costi_nascosti": "Prendi 519,47 € al mese, ma dai 25 ore a settimana per 8 o 12 mesi, quindi resta poco tempo per altro. Il progetto può essere lontano da casa."
+      "costi_nascosti": "Prendi 519,47 € al mese, ma dai 25 ore a settimana per 12 mesi, quindi resta poco tempo per altro. Il progetto può essere lontano da casa."
     },
     {
       "id": "universita-quanto-paghi",
@@ -521,7 +521,7 @@
       "famiglia": "A",
       "tipologia": "No tax area e borse di studio: quanto costa l'università con un ISEE basso",
       "requisiti": "Un ISEE per le prestazioni universitarie fatto in tempo. Borsa regionale 2026/27: ISEE fino a 26.887,93 € e ISPE fino a 58.452,06 €, tutti e due.",
-      "costo": "Con la no tax area non paghi le tasse sotto una soglia ISEE che cambia da ateneo ad ateneo (a Bicocca è 30.000 €). La borsa regionale va da circa 2.100 a 8.250 € l'anno, secondo la fascia e se abiti in sede, pendolare o fuori sede (importi del bando Bicocca).",
+      "costo": "Con la no tax area non paghi le tasse sotto una soglia ISEE che cambia da ateneo ad ateneo (a Bicocca è 30.000 €). La borsa regionale va da circa 2.100 a 8.250 € l'anno, secondo la fascia e se abiti in sede, pendolare o fuori sede (importi del bando Bicocca). Per le studentesse dei corsi STEM la borsa aumenta del 20%.",
       "costo_fascia": "legato all'ISEE",
       "modalita": null,
       "durata": "3 anni per la laurea triennale",
@@ -536,9 +536,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "Lombardia",
       "a_scadenza": true,
-      "nota_scadenza": "La domanda di borsa 2026/27 a Bicocca è stata dal 7 luglio al 30 settembre 2026 (già chiusa). Nel 2027 la finestra sarà probabilmente luglio-settembre: è una stima. Soglie e importi del 2027/28 arriveranno con il nuovo bando.",
+      "nota_scadenza": "La domanda di borsa 2026/27 a Bicocca è stata dal 7 luglio al 30 settembre 2026 (già chiusa): la graduatoria provvisoria è uscita il 2 novembre e quella definitiva arriva entro il 30 novembre. Nel 2027 la finestra sarà probabilmente luglio-settembre: è una stima. Soglie e importi del 2027/28 arriveranno con il nuovo bando.",
       "fonte_ufficiale": "https://www.regione.lombardia.it/istruzione-formazione-e-lavoro/universita-e-formazione-accademica/borse-di-studio-universitarie-2026-2027",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo"
       ],
@@ -563,7 +563,7 @@
       "sedi": null,
       "famiglia": "A",
       "tipologia": "Corsi online gratuiti per provare un argomento prima di scegliere",
-      "requisiti": "Ti registri e basta.",
+      "requisiti": "Ti registri e inizi. Per entrare servono SPID, CIE o un account universitario.",
       "costo": "Gratis.",
       "costo_fascia": "gratuito",
       "modalita": "online",
@@ -579,9 +579,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "nazionale",
       "a_scadenza": true,
-      "nota_scadenza": "I corsi Edvance sono nati con fondi PNRR: il progetto è finito il 31 marzo 2026. Il catalogo è ancora online, ma il futuro non è garantito.",
+      "nota_scadenza": "I corsi Edvance sono nati con fondi PNRR, finiti il 31 marzo 2026. Il catalogo è ancora online e a ottobre 2026 il Politecnico ha lanciato «Edvance 2.0» per continuare il progetto, ma non ha ancora detto se i nuovi corsi resteranno gratis.",
       "fonte_ufficiale": "https://www.pok.polimi.it/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "provare prima"
       ],
@@ -627,7 +627,7 @@
       "a_scadenza": false,
       "nota_scadenza": null,
       "fonte_ufficiale": "https://www.federica.eu/faq/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "provare prima"
       ],
@@ -674,9 +674,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "Lombardia",
       "a_scadenza": true,
-      "nota_scadenza": "Selezione online il 6 ottobre 2026 alle 15:30, con i documenti da inviare entro il giorno prima. Sul sito c'è un avviso di selezione in PDF caricato ad aprile 2026. Le date del 2027 non sono pubblicate.",
+      "nota_scadenza": "Prossima selezione online martedì 10 novembre 2026 alle 15:30, con i documenti da inviare entro il giorno prima. Il sito annuncia altre date di selezione, non ancora pubblicate. Open Day a Vimercate il 21 novembre alle 10.",
       "fonte_ufficiale": "https://its-green.it/processo-di-selezione/",
-      "ultimo_controllo": "2026-10-04",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo",
         "lavorare presto"
@@ -690,9 +690,9 @@
       "settori": [
         "macchine e automazione"
       ],
-      "stato_etichetta": "Si riapre con il nuovo avviso di selezione",
-      "prossima_finestra": null,
-      "cosa_fai_adesso": "Guarda i sei corsi ITS e l'avviso di selezione sul sito, e scegli quello che ti incuriosisce.",
+      "stato_etichetta": "Selezione il 10 novembre 2026",
+      "prossima_finestra": "10 novembre 2026, ore 15:30",
+      "cosa_fai_adesso": "Guarda i sei corsi ITS e l'avviso di selezione sul sito, e scegli quello che ti incuriosisce. Se hai già il diploma puoi iscriverti alla selezione del 10 novembre; altrimenti vai all'Open Day del 21 novembre.",
       "costi_nascosti": "Ai 1.000 € si aggiungono 30 € per fare la selezione. Il tirocinio del secondo anno non ha uno stipendio obbligatorio. La presenza obbligatoria è almeno all'80%."
     },
     {
@@ -723,9 +723,9 @@
       "accessibilita_richiesta_il": null,
       "territorio": "Lombardia",
       "a_scadenza": true,
-      "nota_scadenza": "Ci si candida fino al 4 novembre 2026 alle 23:59 (la scadenza è stata spostata più avanti). L'elenco di chi entra nel campus esce entro il 16 novembre; il campus va dal 20 novembre 2026 al 12 aprile 2027 (date indicative); l'elenco delle borse esce entro il 31 maggio 2027. La borsa arriva in due parti da 2.500 €: la seconda se a fine settembre 2028 hai almeno metà dei crediti del primo anno. Il 29 ottobre 2026 alle 18 c'è una presentazione online aperta a studenti, genitori e docenti.",
+      "nota_scadenza": "Scadenza prorogata: la prima era il 25 ottobre, ora ci si candida fino al 4 novembre 2026 alle 23:59. L'elenco di chi entra nel campus esce entro il 16 novembre; il campus va dal 20 novembre 2026 al 12 aprile 2027 (date indicative); l'elenco delle borse esce entro il 31 maggio 2027. La borsa arriva in due parti da 2.500 €: la seconda se a fine settembre 2028 hai almeno metà dei crediti del primo anno. Il 29 ottobre 2026 alle 18 c'è una presentazione online aperta a studenti, genitori e docenti.",
       "fonte_ufficiale": "https://www.union-borsedistudio.it/it/",
-      "ultimo_controllo": "2026-10-27",
+      "ultimo_controllo": "2026-11-03",
       "porte": [
         "un titolo",
         "provare prima"
@@ -741,7 +741,7 @@
         "dati e IA",
         "digitale per le aziende"
       ],
-      "stato_etichetta": "Aperto fino al 4 novembre 2026",
+      "stato_etichetta": "Prorogato fino al 4 novembre 2026",
       "prossima_finestra": "4 novembre 2026, ore 23:59",
       "cosa_fai_adesso": "Se sei in quinta, chiedi subito l'ISEE in famiglia o a un CAF, recupera le pagelle di terza e quarta e scrivi la tua lettera: c'è tempo fino al 4 novembre. Chiedi a un docente se ti scrive due righe di presentazione. Se hai dubbi, segui la presentazione online del 29 ottobre alle 18.",
       "costi_nascosti": "Il premio di 500 € è lordo: ti arrivano 375 €. Parte delle lezioni è in presenza a Milano: conta i viaggi. La borsa arriva solo su un conto intestato a te, e devi prima superare la maturità ed entrare all'università."
@@ -890,3 +890,4 @@
     }
   }
 }
+
