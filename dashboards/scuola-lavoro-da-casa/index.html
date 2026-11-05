@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formazione scuola-lavoro, anche da casa | Ivan Ferrero</title>
+<meta name="description" content="Percorsi online per completare le ore di formazione scuola-lavoro (gli ex PCTO): chi li offre, chi può iscriversi, quanto costano, cosa chiedere alla scuola prima di cominciare. Una guida per i genitori, con fonti ufficiali e data del controllo.">
+<link rel="canonical" href="https://ivanferrero.it/dashboards/scuola-lavoro-da-casa/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Formazione scuola-lavoro, anche da casa">
+<meta property="og:description" content="Percorsi online per completare le ore di formazione scuola-lavoro (gli ex PCTO), con le regole da conoscere e la frase pronta per chiedere alla scuola.">
+<meta property="og:url" content="https://ivanferrero.it/dashboards/scuola-lavoro-da-casa/">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Ivan Ferrero">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<!-- Lo stile è quello di «Dopo il diploma» (stesso modello di consultazione): una sola copia, condivisa. -->
+<link rel="stylesheet" href="/dashboards/dopo-il-diploma/stile.css">
+<style>
+  .sit-box { margin-top: 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-cyan); border-radius: 8px; padding: 1.1rem 1.25rem; }
+  .sit-box h3 { margin-top: 0; }
+  .sit-box ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+  .sit-box li { margin: 0.35rem 0; }
+  .sit-box .chiedi { margin-top: 0.75rem; padding: 0.75rem 1rem; background: var(--bg-tertiary); border-radius: 6px; }
+  .sit-box[hidden] { display: none; }
+  .base-voci { display: grid; gap: 1rem; margin-top: 1rem; }
+  @media (min-width: 900px) { .base-voci { grid-template-columns: repeat(3, 1fr); } }
+  .base-voci .voce { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem 1.1rem; }
+  .ore-tab { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+  .ore-tab th, .ore-tab td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--border-color); }
+  .ore-tab td:last-child { font-weight: 700; white-space: nowrap; }
+  .cerca { margin-bottom: 1rem; }
+  .cerca label { display: block; font-weight: 700; margin-bottom: 0.35rem; }
+  .cerca input { width: 100%; min-height: 44px; padding: 0.5rem 0.75rem; font: inherit; color: var(--text-primary); background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; }
+  .badge-gratis { background: var(--bg-tertiary); color: var(--accent-green); border: 1px solid var(--accent-green); }
+  .badge-solo { background: var(--bg-tertiary); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+  .badge-ore { background: var(--bg-tertiary); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+  .badge-scuola { background: var(--bg-tertiary); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+  .scheda .ente { color: var(--text-secondary); margin: 0.15rem 0 0; }
+  .scheda { scroll-margin-top: 170px; }
+  #situazioni, #prima { scroll-margin-top: 170px; }
+</style>
+<script>try{if(localStorage.getItem('dd-tema')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+</head>
+<body>
+<a class="skip-link" href="#schede">Vai ai percorsi</a>
+<div id="site-menu"></div>
+<script src="/assets/menu.js"></script>
+
+<main>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <h1>Formazione scuola-lavoro, anche da casa</h1>
+        <button type="button" class="btn btn-ghost theme-toggle" id="theme-toggle" aria-pressed="false"><span aria-hidden="true">🌙</span> Tema scuro</button>
+      </div>
+      <p class="sottotitolo">Percorsi online per completare le ore di scuola-lavoro (gli ex PCTO): chi li offre, chi può iscriversi e cosa chiedere alla scuola prima di cominciare.</p>
+      <p class="meta" id="meta-controllo"></p>
+      <p class="avviso-fonti"><span aria-hidden="true">🔎</span> Raccolti in modo indipendente dalle pagine ufficiali. Nessun percorso conta da solo: <strong>è la scuola a decidere quali ore riconosce</strong>, quindi chiedi sempre prima. <a href="#contatti">Hai visto un errore?</a></p>
+    </header>
+
+    <section class="sezione" id="prima" aria-labelledby="prima-titolo">
+      <h2 id="prima-titolo"><span aria-hidden="true">🧭</span> Prima di cercare: tre cose da sapere</h2>
+      <div class="base-voci" id="prima-voci"></div>
+    </section>
+
+    <section class="porte" id="situazioni" aria-labelledby="porte-titolo">
+      <h2 id="porte-titolo">Qual è la situazione di tuo figlio?</h2>
+      <div class="porte-grid" id="porte"></div>
+      <div class="sit-box" id="sit-box" hidden role="region" aria-live="polite"></div>
+    </section>
+
+    <div class="layout">
+      <aside class="filtri" aria-labelledby="filtri-titolo">
+        <h2 id="filtri-titolo">Filtra i percorsi</h2>
+        <p class="sr-only">Puoi scegliere più risposte per ogni domanda. I percorsi si aggiornano subito.</p>
+        <div class="cerca">
+          <label for="cerca">Cerca per nome o argomento</label>
+          <input type="search" id="cerca" placeholder="Es. sicurezza, finanza, coding" autocomplete="off">
+        </div>
+        <div id="filtri-visibili"></div>
+        <details class="altri" id="altri-filtri">
+          <summary class="summary-btn" id="altri-summary">Altri filtri</summary>
+          <div id="filtri-altri"></div>
+        </details>
+        <div class="filtri-azioni">
+          <a class="btn btn-primario vai-schede" href="#schede" id="vai-schede">Vedi i percorsi <span aria-hidden="true">↓</span></a>
+          <button type="button" class="btn" id="azzera">Azzera i filtri</button>
+        </div>
+      </aside>
+
+      <div>
+        <details class="diritti" id="frase-scuola">
+          <summary class="summary-btn"><span><span aria-hidden="true">✉️</span> Prima di iscriverlo: la mail pronta per la scuola</span></summary>
+          <div id="frase-corpo"></div>
+        </details>
+
+        <div class="risultati-bar">
+          <p class="conteggio" id="conteggio" role="status" aria-live="polite"></p>
+          <div class="ordina">
+            <label for="ordine">Ordina:</label>
+            <select id="ordine">
+              <option value="solo">Prima chi si iscrive da solo</option>
+              <option value="ore">Prima quelli con più ore</option>
+              <option value="nome">Per nome</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="schede" tabindex="-1">
+          <noscript><p class="errore">Per vedere i percorsi serve JavaScript attivo nel browser.</p></noscript>
+        </div>
+      </div>
+    </div>
+
+    <section class="sezione" aria-labelledby="leggere-titolo">
+      <h2 id="leggere-titolo">Come leggere le schede</h2>
+      <ul class="legenda">
+        <li><span class="badge badge-ore"><span aria-hidden="true">🎓</span> Vale come scuola-lavoro</span> l'ente (o il catalogo di un'università, di una Camera di commercio, del Ministero) dichiara che il percorso dà ore di formazione scuola-lavoro, gli ex PCTO. Resta la scuola a inserirle nel percorso di tuo figlio.</li>
+        <li><span class="badge badge-scuola"><span aria-hidden="true">🤝</span> Ore da concordare</span> corso online serio, ma l'ente non dice che vale come scuola-lavoro: conta solo se la scuola lo accetta. Questi corsi stanno in fondo, separati.</li>
+        <li><span class="badge badge-solo"><span aria-hidden="true">🙋</span> Si iscrive da solo</span> lo studente (o la famiglia) può registrarsi senza passare dalla scuola. Le ore però le riconosce sempre la scuola.</li>
+        <li><span class="badge badge-scuola"><span aria-hidden="true">🏫</span> Serve la scuola</span> l'iscrizione la fa un docente, di solito il tutor scolastico o il referente per la scuola-lavoro.</li>
+        <li><span class="badge badge-gratis"><span aria-hidden="true">🆓</span> Gratis</span> nessun costo dichiarato dall'ente.</li>
+        <li><span class="badge badge-riapre"><span aria-hidden="true">🔁</span> Da confermare</span> il percorso c'era, ma l'ente non ha ancora confermato l'edizione di quest'anno: controlla prima.</li>
+      </ul>
+      <p class="prosa" style="margin-top:0.75rem"><strong>Da dove vengono queste informazioni.</strong> Le ho raccolte e controllate in modo indipendente, leggendo le pagine ufficiali di ogni ente e le norme del Ministero: nessun ente le ha scritte, approvate o pagate. Le offerte però cambiano spesso, anche durante l'anno. In fondo a ogni scheda trovi la data del controllo e il link alla fonte: prima di iscrivere tuo figlio verifica lì, e chiedi alla scuola.</p>
+    </section>
+
+    <section class="sezione contatto" id="contatti" aria-labelledby="contatti-titolo">
+      <h2 id="contatti-titolo"><span aria-hidden="true">✉️</span> Hai visto un errore o conosci un altro percorso?</h2>
+      <p class="prosa">Scrivimi. Mi aiuti a tenere questa mappa giusta e utile se mi segnali un dato sbagliato o un link che non funziona, se mi fai conoscere un percorso che qui manca, o anche solo se vuoi raccontarmi com'è andata con la scuola.</p>
+      <p class="contatto-mail"><a class="btn btn-primario" href="mailto:ivan@ivanferrero.it?subject=Formazione%20scuola-lavoro%2C%20anche%20da%20casa"><span aria-hidden="true">✉️</span> Scrivi a ivan@ivanferrero.it</a></p>
+      <p class="fonti">Rispondo io, Ivan Ferrero. Se segnali un percorso, metti il link alla sua pagina ufficiale: lo controllo e, se ha i requisiti, entra nella mappa.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="piede">
+  <div class="wrap">
+    <nav aria-label="Altre pagine">
+      <a href="/dashboards/dopo-il-diploma/">Dopo il diploma, nel digitale</a>
+      <a href="#contatti">Segnala un errore o una novità</a>
+      <a href="/dashboards/">Tutte le dashboard</a>
+      <a href="/">ivanferrero.it</a>
+    </nav>
+    <p>A cura di Ivan Ferrero, psicologo e docente di sostegno. Nessun ente ha pagato per stare in questa pagina.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  const AREE = [
+    ['sicurezza', 'Sicurezza sul lavoro'], ['digitale_tech', 'Digitale e tecnologia'], ['economia_finanza', 'Economia e soldi'],
+    ['impresa_lavoro', 'Impresa e mondo del lavoro'], ['sostenibilita_ambiente', 'Ambiente e sostenibilità'],
+    ['salute_benessere', 'Salute e benessere'], ['cittadinanza_legalita', 'Cittadinanza e legalità'],
+    ['comunicazione_media', 'Comunicazione e media'], ['scienze_ricerca', 'Scienza e ricerca'],
+    ['orientamento_universita', 'Orientamento e università'], ['arte_cultura', 'Arte e cultura'], ['altro', 'Altro']
+  ];
+  const FILTRI = [
+    { key: 'iscrizione', titolo: 'Chi lo iscrive?', ico: '🙋', visibile: true, opzioni: [
+      ['studente_da_solo', 'Si iscrive da solo'], ['tramite_scuola', 'Serve la scuola'] ] },
+    { key: 'modalita', titolo: 'Come si segue?', ico: '🕒', visibile: true, opzioni: [
+      ['online_asincrono', 'Quando vuole'], ['online_sincrono', 'In diretta, a orari fissi'], ['misto', 'Online e in presenza'] ] },
+    { key: 'costo', titolo: 'Quanto costa?', ico: '💸', visibile: true, opzioni: [
+      ['gratuito', 'Gratis'], ['a_pagamento', 'A pagamento'] ] },
+    { key: 'ore_fascia', titolo: 'Quante ore vale?', ico: '⏳', visibile: false, opzioni: [
+      ['fino a 10', 'Fino a 10'], ['da 11 a 30', 'Da 11 a 30'], ['oltre 30', 'Più di 30'] ] },
+    { key: 'area', titolo: 'Di che cosa parla?', ico: '🧩', visibile: false, opzioni: AREE }
+  ];
+  const ETI = {
+    iscrizione: { studente_da_solo: 'Si iscrive da solo', tramite_scuola: 'Tramite la scuola' },
+    modalita: { online_asincrono: 'Online, quando vuole', online_sincrono: 'Online, in diretta a orari fissi', misto: 'In parte online, in parte in presenza' },
+    costo: { gratuito: 'Gratis', a_pagamento: 'A pagamento' },
+    area: Object.fromEntries(AREE)
+  };
+
+  const st = { filtri: {}, ordine: 'solo', testo: '', sit: null };
+  FILTRI.forEach(f => { st.filtri[f.key] = new Set(); });
+  let SCHEDE = [], SEZ = {};
+  const $ = id => document.getElementById(id);
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function data(iso) { if (!iso) return ''; const [y, m, d] = iso.split('-').map(Number); return `${d} ${MESI[m - 1]} ${y}`; }
+  function dominio(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; } }
+  function linkFonte(u, t) { return `<a href="${esc(u)}" rel="noopener" target="_blank">${esc(t || dominio(u))}<span class="sr-only"> (si apre in una nuova scheda)</span>&nbsp;<span aria-hidden="true">↗</span></a>`; }
+  function valori(s, k) { const v = s[k]; if (v == null) return null; return Array.isArray(v) ? v : [v]; }
+  function norm(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+  function corrisponde(s) {
+    if (st.testo) {
+      const h = norm([s.nome, s.ente, s.descrizione, (ETI.area[s.area] || '')].join(' '));
+      if (!st.testo.split(/\s+/).every(w => h.includes(w))) return 'no';
+    }
+    let ignoto = false;
+    for (const f of FILTRI) {
+      const scelti = st.filtri[f.key];
+      if (!scelti.size) continue;
+      const v = valori(s, f.key);
+      if (v === null) { ignoto = true; continue; }
+      if (!v.some(x => scelti.has(x))) return 'no';
+    }
+    return ignoto ? 'ignoto' : 'si';
+  }
+
+  function ordina(l) {
+    return l.slice().sort((a, b) => {
+      if (st.ordine === 'nome') return a.nome.localeCompare(b.nome, 'it');
+      if (st.ordine === 'ore') return (b.ore_max || 0) - (a.ore_max || 0) || a.nome.localeCompare(b.nome, 'it');
+      const sa = (a.iscrizione || []).includes('studente_da_solo') ? 0 : 1;
+      const sb = (b.iscrizione || []).includes('studente_da_solo') ? 0 : 1;
+      return sa - sb || (a.stato === 'attivo' ? 0 : 1) - (b.stato === 'attivo' ? 0 : 1) || a.nome.localeCompare(b.nome, 'it');
+    });
+  }
+
+  function fatto(ico, titolo, testo) {
+    return `<div class="fatto"><dt><span aria-hidden="true">${ico}</span> ${titolo}</dt>${testo ? `<dd>${esc(testo)}</dd>` : '<dd class="ignoto">Non lo dice</dd>'}</div>`;
+  }
+  function riga(t, x) { return x ? `<div class="riga"><h4>${t}</h4><p>${esc(x)}</p></div>` : ''; }
+
+  function scheda(s) {
+    const isc = s.iscrizione || [];
+    const badges = [
+      s.stato === 'da_confermare' ? '<span class="badge badge-riapre"><span aria-hidden="true">🔁</span> Da confermare</span>' : '<span class="badge badge-aperto"><span aria-hidden="true">✅</span> Disponibile</span>',
+      isc.includes('studente_da_solo') ? '<span class="badge badge-solo"><span aria-hidden="true">🙋</span> Si iscrive da solo</span>' : '',
+      isc.includes('tramite_scuola') && !isc.includes('studente_da_solo') ? '<span class="badge badge-scuola"><span aria-hidden="true">🏫</span> Serve la scuola</span>' : '',
+      s.costo === 'gratuito' ? '<span class="badge badge-gratis"><span aria-hidden="true">🆓</span> Gratis</span>' : '',
+      s.riconoscimento === 'dichiarato' ? '<span class="badge badge-ore"><span aria-hidden="true">🎓</span> Vale come scuola-lavoro</span>' : '<span class="badge badge-scuola"><span aria-hidden="true">🤝</span> Ore da concordare</span>'
+    ].join('');
+    const chi = isc.length === 2 ? 'Da solo oppure tramite la scuola' : isc.length ? ETI.iscrizione[isc[0]] : null;
+    return `<li class="scheda" id="scheda-${esc(s.id)}">
+      <div class="scheda-top">${badges}</div>
+      <div>
+        <h3>${esc(s.nome)}</h3>
+        <p class="ente">${esc(s.ente)}</p>
+        <p class="tipologia">${esc(s.descrizione)}</p>
+      </div>
+      <dl class="fatti">
+        ${fatto('⏳', 'Quante ore', s.ore)}
+        ${fatto('🕒', 'Come si segue', ETI.modalita[s.modalita])}
+        ${fatto('🙋', 'Chi lo iscrive', chi)}
+        ${fatto('🎒', 'Per chi', s.classi)}
+      </dl>
+      <div class="adesso"><strong><span aria-hidden="true">👉</span> Come ci si iscrive</strong><p>${esc(s.dettaglio_iscrizione || 'La pagina ufficiale non lo spiega: chiedi all\'ente o alla scuola.')}</p></div>
+      <details class="dettagli">
+        <summary class="summary-btn">Tutti i dettagli<span class="sr-only"> su ${esc(s.nome)}</span></summary>
+        <div class="dettagli-corpo">
+          ${riga('Di che cosa parla', ETI.area[s.area])}
+          ${riga('Quanto costa', s.costo === 'gratuito' ? 'Gratis.' : s.costo === 'a_pagamento' ? 'A pagamento (vedi le note).' : null)}
+          ${riga('Cosa riceve alla fine', s.attestato)}
+          ${riga('Disabilità e DSA', s.accessibilita)}
+          ${riga('Quando', s.periodo)}
+          ${riga('Da sapere', s.note)}
+        </div>
+      </details>
+      <div class="scheda-piede">
+        <span>Controllato il ${data(s.verificato_il)}</span>
+        ${linkFonte(s.url, 'Fonte ufficiale')}
+      </div>
+    </li>`;
+  }
+
+  function conta(k, v) {
+    return SCHEDE.filter(s => { const vv = valori(s, k); return vv && vv.includes(v); }).length;
+  }
+
+  function disegnaFiltri() {
+    const html = vis => FILTRI.filter(f => f.visibile === vis).map(f => `
+      <div class="gruppo" role="group" aria-labelledby="g-${f.key}">
+        <h3 id="g-${f.key}"><span class="ico" aria-hidden="true">${f.ico}</span>${esc(f.titolo)}</h3>
+        <div class="chips">
+          ${f.opzioni.filter(([v]) => conta(f.key, v) > 0).map(([v, l]) => `<button type="button" class="chip" data-k="${f.key}" data-v="${esc(v)}" aria-pressed="${st.filtri[f.key].has(v)}">${esc(l)} <span class="n">(${conta(f.key, v)})</span></button>`).join('')}
+        </div>
+      </div>`).join('');
+    $('filtri-visibili').innerHTML = html(true);
+    $('filtri-altri').innerHTML = html(false);
+    const n = FILTRI.filter(f => !f.visibile).reduce((t, f) => t + st.filtri[f.key].size, 0);
+    $('altri-summary').textContent = n ? `Altri filtri (${n} attivi)` : 'Altri filtri';
+  }
+
+  function disegnaSchede() {
+    const si = [], ign = [], conc = [];
+    SCHEDE.forEach(s => {
+      const c = corrisponde(s);
+      if (c === 'no') return;
+      if (s.riconoscimento !== 'dichiarato') conc.push(s);
+      else if (c === 'si') si.push(s); else ign.push(s);
+    });
+    let h = '';
+    if (si.length) h += `<ul class="lista" aria-label="Percorsi che valgono come scuola-lavoro">${ordina(si).map(scheda).join('')}</ul>`;
+    else h += `<div class="vuoto"><p><strong>Nessun percorso di scuola-lavoro con tutti questi filtri.</strong></p><p>Prova a toglierne uno, o a cercare una parola diversa.</p><button type="button" class="btn" data-azzera>Azzera i filtri</button></div>`;
+    if (ign.length) {
+      h += `<div class="separatore"><h2>Non so ancora se vanno bene per te</h2><p>Valgono come scuola-lavoro, ma l'ente non dice quello che hai scelto nei filtri. Leggi i dettagli o chiedi direttamente.</p></div>`;
+      h += `<ul class="lista" aria-label="Percorsi da verificare">${ordina(ign).map(scheda).join('')}</ul>`;
+    }
+    if (conc.length) {
+      h += `<div class="separatore"><h2>Corsi online utili, ma le ore non sono garantite</h2><p>Questi corsi sono seri e spesso si iniziano da soli, ma l'ente non dice che valgono come scuola-lavoro. Possono contare solo se la scuola li inserisce nel percorso di tuo figlio: chiedilo prima di cominciare.</p></div>`;
+      h += `<ul class="lista" aria-label="Corsi con ore da concordare">${ordina(conc).map(scheda).join('')}</ul>`;
+    }
+    $('schede').innerHTML = h;
+    const n = si.length, tot = SCHEDE.filter(s => s.riconoscimento === 'dichiarato').length;
+    $('vai-schede').innerHTML = `${n === 0 ? 'Vedi i risultati' : n === 1 ? 'Vedi il percorso' : 'Vedi i ' + n + ' percorsi'} <span aria-hidden="true">↓</span>`;
+    $('conteggio').textContent = (n === tot ? `${tot} percorsi di scuola-lavoro` : `${n} ${n === 1 ? 'percorso' : 'percorsi'} di scuola-lavoro su ${tot}`) + (ign.length ? `, più ${ign.length} da verificare` : '') + (conc.length ? ` · ${conc.length} corsi con ore da concordare` : '');
+  }
+
+  function fonti(l) { return (l || []).length ? `<p class="fonti">Fonte: ${l.map(u => linkFonte(u)).join(' · ')}</p>` : ''; }
+
+  function disegnaPrima() {
+    $('prima-voci').innerHTML = SEZ.prima_di_cercare.map(v => `<div class="voce"><h3><span aria-hidden="true">${v.ico}</span> ${esc(v.titolo)}</h3>${v.html || `<p>${esc(v.testo)}</p>`}${fonti(v.fonti)}</div>`).join('');
+  }
+
+  function disegnaPorte() {
+    $('porte').innerHTML = SEZ.situazioni.map(p => `<button type="button" class="porta" data-sit="${esc(p.id)}" aria-pressed="${st.sit === p.id}" aria-controls="sit-box"><span class="ico" aria-hidden="true">${p.ico}</span><span class="scelta">${esc(p.label)}</span></button>`).join('');
+    const box = $('sit-box');
+    const p = SEZ.situazioni.find(x => x.id === st.sit);
+    if (!p) { box.hidden = true; box.innerHTML = ''; return; }
+    box.hidden = false;
+    box.innerHTML = `<h3>${esc(p.titolo)}</h3>${p.punti.length ? `<ul>${p.punti.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}<div class="chiedi"><strong><span aria-hidden="true">💬</span> Cosa chiedere alla scuola</strong><p>${esc(p.chiedi)}</p></div>${fonti(p.fonti)}`;
+  }
+
+  function disegnaFrase() {
+    const f = SEZ.frase_per_la_scuola;
+    $('frase-corpo').innerHTML = `
+      <p class="lead">${esc(f.intro)}</p>
+      <div class="frase">
+        <strong>La mail pronta</strong>
+        <blockquote id="frase-testo" style="white-space:pre-line">${esc(f.testo)}</blockquote>
+        <button type="button" class="btn" id="copia-frase"><span aria-hidden="true">📋</span> Copia la mail</button>
+        <span id="copia-esito" role="status" aria-live="polite"></span>
+      </div>`;
+    $('copia-frase').addEventListener('click', async () => {
+      let ok = false;
+      try { await navigator.clipboard.writeText(f.testo); ok = true; } catch (e) {}
+      $('copia-esito').textContent = ok ? ' Copiata. Incollala nella tua mail e completa le parti fra parentesi.' : ' Non riesco a copiarla: tieni premuto sul testo e copialo tu.';
+    });
+  }
+
+  function tutto() { disegnaFiltri(); disegnaSchede(); }
+
+  document.addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (chip) {
+      const set = st.filtri[chip.dataset.k];
+      set.has(chip.dataset.v) ? set.delete(chip.dataset.v) : set.add(chip.dataset.v);
+      tutto();
+      const nuovo = document.querySelector(`.chip[data-k="${chip.dataset.k}"][data-v="${CSS.escape(chip.dataset.v)}"]`);
+      if (nuovo) nuovo.focus();
+      return;
+    }
+    const porta = e.target.closest('.porta');
+    if (porta) {
+      st.sit = st.sit === porta.dataset.sit ? null : porta.dataset.sit;
+      disegnaPorte();
+      const nuovo = document.querySelector(`.porta[data-sit="${CSS.escape(porta.dataset.sit)}"]`);
+      if (nuovo) nuovo.focus();
+      return;
+    }
+    if (e.target.closest('#azzera, [data-azzera]')) {
+      FILTRI.forEach(f => st.filtri[f.key].clear()); st.testo = ''; $('cerca').value = ''; tutto();
+    }
+  });
+  $('ordine').addEventListener('change', e => { st.ordine = e.target.value; disegnaSchede(); });
+  $('cerca').addEventListener('input', e => { st.testo = norm(e.target.value.trim()); disegnaSchede(); });
+
+  // Tema: chiaro di partenza, scuro a scelta (stessa chiave di «Dopo il diploma»)
+  (function () {
+    const root = document.documentElement, btn = $('theme-toggle');
+    let tema = 'light';
+    try { tema = localStorage.getItem('dd-tema') === 'dark' ? 'dark' : 'light'; } catch (e) {}
+    function applica(t) {
+      root.setAttribute('data-theme', t);
+      btn.setAttribute('aria-pressed', String(t === 'dark'));
+      btn.innerHTML = '<span aria-hidden="true">🌙</span> Tema scuro' + (t === 'dark' ? '<span aria-hidden="true"> ✓</span>' : '');
+    }
+    applica(tema);
+    btn.addEventListener('click', () => { tema = tema === 'dark' ? 'light' : 'dark'; applica(tema); try { localStorage.setItem('dd-tema', tema); } catch (e) {} });
+  })();
+
+  fetch('percorsi.json', { cache: 'no-cache' }).then(r => r.json()).then(d => {
+    SCHEDE = d.schede.filter(s => s.stato !== 'chiuso');
+    SEZ = d.sezioni;
+    const nd = SCHEDE.filter(s => s.riconoscimento === 'dichiarato').length;
+    $('meta-controllo').textContent = `${nd} percorsi che valgono come scuola-lavoro, più ${SCHEDE.length - nd} corsi con ore da concordare · ultimo controllo il ${data(d.meta.ultimo_controllo)}`;
+    disegnaPrima(); disegnaPorte(); disegnaFrase(); tutto();
+  }).catch(() => { $('schede').innerHTML = '<p class="errore">Non riesco a caricare i percorsi. Ricarica la pagina tra poco.</p>'; });
+})();
+</script>
+</body>
+</html>
