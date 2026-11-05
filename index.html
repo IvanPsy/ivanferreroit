@@ -229,7 +229,7 @@ permalink: /
         .online-links a { color: var(--accent-cyan); text-decoration: none; }
         .online-links a:hover { text-decoration: underline; }
         .online-links .sep { color: var(--text-muted); }
-        .project-card-single { max-width: 640px; }
+        .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
 
         .section-home {
             padding: 5rem 0;
@@ -578,12 +578,26 @@ permalink: /
                 <a href="/dialoghi/">Dialoghi con una AI</a>
             </p>
 
-            <a href="/dashboards/dopo-il-diploma/" class="project-card project-card-single">
-                <span class="tag tag-yellow">Orientamento</span>
-                <h3>Per gli studenti: Dopo il diploma, nel digitale</h3>
-                <p>Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con la fonte ufficiale e cosa offre a studenti con DSA o disabilit&agrave;.</p>
-                <span class="arrow">Esplora i percorsi &rarr;</span>
-            </a>
+        </section>
+
+        <!-- Guide gratuite: le dashboard di consultazione per famiglie e studenti (FSL26, HITECH26) -->
+        <section id="guide" class="section-home">
+            <h2>Guide <span class="text-cyan">gratuite</span></h2>
+            <p class="section-intro">Mappe controllate una per una sulle fonti ufficiali, senza registrazione e senza pubblicità.</p>
+            <div class="guide-grid">
+                <a href="/dashboards/scuola-lavoro-da-casa/" class="project-card">
+                    <span class="tag tag-cyan">Per i genitori</span>
+                    <h3>Formazione scuola-lavoro, anche da casa</h3>
+                    <p>I percorsi online per completare le ore di scuola-lavoro (gli ex PCTO), chi può iscriversi, cosa chiedere alla scuola. Con le regole per istruzione domiciliare, disabilit&agrave;, studenti-atleti, cambio di scuola.</p>
+                    <span class="arrow">Trova un percorso &rarr;</span>
+                </a>
+                <a href="/dashboards/dopo-il-diploma/" class="project-card">
+                    <span class="tag tag-yellow">Per gli studenti</span>
+                    <h3>Dopo il diploma, nel digitale</h3>
+                    <p>Percorsi gratis o quasi verso il lavoro digitale dopo il diploma: ITS, IFTS, scuole di programmazione, corsi online. Ogni scheda con la fonte ufficiale e cosa offre a studenti con DSA o disabilit&agrave;.</p>
+                    <span class="arrow">Esplora i percorsi &rarr;</span>
+                </a>
+            </div>
         </section>
 
         <!-- Credenziali -->
