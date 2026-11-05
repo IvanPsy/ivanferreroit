@@ -44,8 +44,8 @@
     "titolo": "Istruzione domiciliare o in ospedale",
     "punti": [
      "Non c'è una regola nazionale scritta apposta per le ore di scuola-lavoro di chi studia a casa o in ospedale: vale il principio generale dei percorsi personalizzati, decisi dalla scuola e dal consiglio di classe.",
-     "I percorsi online che si seguono quando si vuole sono quelli che si adattano meglio a cure, stanchezza e orari che cambiano: con il filtro «Come si segue? Quando vuole» li trovi subito.",
-     "Molti corsi sono pensati per classi intere e chiudono con un project work di classe o di gruppo: il docente può chiedere all'ente di attivare il percorso anche per un solo studente e concordare un elaborato individuale.",
+     "I percorsi che si seguono quando si vuole e che si fanno da soli sono quelli che si adattano meglio a cure, stanchezza e orari che cambiano: con i filtri «Come si segue? Quando vuole» e «Da solo o in gruppo? Da solo» li trovi subito.",
+     "Molti altri corsi sono pensati per classi intere e chiudono con un lavoro di classe o di gruppo: il docente può chiedere all'ente di attivarli anche per un solo studente e concordare un elaborato individuale.",
      "Se tuo figlio ha anche una disabilità certificata, nel PEI c'è un riquadro per la scuola-lavoro con l'opzione «altro», che le Linee guida del PEI collegano proprio ai progetti di istruzione domiciliare."
     ],
     "chiedi": "Che il progetto di istruzione domiciliare preveda anche le ore di scuola-lavoro, con uno o due percorsi online scelti insieme, attivati dal tutor scolastico e con scadenze compatibili con le cure.",
@@ -135,6 +135,37 @@
   "frase_per_la_scuola": {
    "intro": "Va mandata al coordinatore di classe o al tutor scolastico della scuola-lavoro, prima di iscrivere tuo figlio a qualsiasi percorso. Completa le parti fra parentesi quadre.",
    "testo": "Gentile prof. [cognome],\n\nsono [nome e cognome], genitore di [nome dello studente], classe [classe]. Mio figlio deve completare le ore di formazione scuola-lavoro e, per [la sua situazione: istruzione domiciliare, motivi di salute, attività sportiva, lavoro...], gli sarebbe più facile seguirle online.\n\nAbbiamo trovato questo percorso: [nome del percorso e link alla pagina ufficiale].\n\nVi chiedo gentilmente:\n1. se la scuola può riconoscere queste ore nel suo percorso di formazione scuola-lavoro;\n2. se l'iscrizione deve farla un docente, e chi;\n3. quante ore gli mancano ancora e entro quando.\n\nSe preferite proporci voi un altro percorso, siamo aperti. Grazie,\n[firma]"
+  },
+  "come_diventa_ore": {
+   "intro": "Nessun corso online dà ore da solo: il corso è il passaggio di mezzo, prima e dopo c'è sempre la scuola. Ecco il percorso completo, uguale per quasi tutti.",
+   "passi": [
+    {
+     "titolo": "La convenzione",
+     "testo": "La scuola, con il docente referente per la scuola-lavoro, firma un accordo con chi offre il corso (azienda, università, ente): lo stesso che firmerebbe con un'azienda che ospita lo studente in presenza."
+    },
+    {
+     "titolo": "Il patto formativo",
+     "testo": "Lo studente e i genitori firmano un patto che dice che cosa farà, con quale tutor della scuola e quale tutor esterno."
+    },
+    {
+     "titolo": "Il corso",
+     "testo": "Lo studente segue le lezioni online e quasi sempre, alla fine, consegna un lavoro: un progetto, un video, una relazione. Nei corsi pensati per la classe questo lavoro si fa in gruppo."
+    },
+    {
+     "titolo": "L'attestato",
+     "testo": "Il docente, a volte insieme al tutor dell'ente, controlla e approva il lavoro; poi si scarica l'attestato con il numero di ore."
+    },
+    {
+     "titolo": "Le ore registrate",
+     "testo": "La scuola registra le ore nel percorso di tuo figlio: le vedi nell'E-Portfolio su Unica (con SPID o CIE) e finiscono nel Curriculum dello studente allegato al diploma. Solo da qui valgono per l'ammissione all'esame."
+    }
+   ],
+   "nota": "Anche nei pochi corsi a cui lo studente si iscrive da solo, l'attestato va consegnato al docente referente: se la scuola non lo registra, resta un foglio. Per questo conviene chiedere prima di cominciare.",
+   "fonti": [
+    "https://www.mim.gov.it/documents/20182/1306025/Linee+guida+PCTO+con+allegati.pdf",
+    "https://www.normattiva.it/uri-res/N2Ls?urn:nir:ministero.istruzione.universita.ricerca:decreto:2017-11-03;195~art4",
+    "https://unica.istruzione.gov.it/portale/documents/20117/0/Manuale%20genitori/19cafbdf-2ea7-b81b-1f48-3b7adc317c37/Manuale%20genitori/esercenti%20la%20responsabilit%C3%A0%20genitoriale"
+   ]
   }
  },
  "schede": [
@@ -162,7 +193,10 @@
    "note": "Il percorso INKlusion apre solo a marzo 2027.",
    "ore_max": 20,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "a2a-transizione",
@@ -188,7 +222,10 @@
    "note": null,
    "ore_max": 40,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "oracle-academy",
@@ -214,7 +251,10 @@
    "note": "Più tecnico degli altri: adatto a chi ha interesse per l'informatica.",
    "ore_max": 30,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "mitsubishi-mentor-me",
@@ -240,7 +280,10 @@
    "note": "Costo non indicato sulla pagina. Pensato per istituti tecnici, meno adatto ai licei.",
    "ore_max": 20,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "federchimica-chimica",
@@ -266,7 +309,10 @@
    "note": "Il costo non è indicato sulla pagina.",
    "ore_max": 21,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "coca-cola-youthempowered",
@@ -292,7 +338,10 @@
    "note": "Le ore non sono scritte sulla pagina ufficiale e non c'è ancora una scadenza per il 2026-2027: prima di contarci, fai chiedere dalla scuola.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "leonardo-volo",
@@ -318,7 +367,8 @@
    "note": "Il tutor aziendale deve approvare l'elaborato prima del download dell'attestato.",
    "ore_max": 25,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "scala-magnifica-fabbrica",
@@ -344,7 +394,10 @@
    "note": "Il percorso digitale è gratuito; la visita ai laboratori e al museo è a pagamento (info: scuole.museo@fondazionelascala.it).",
    "ore_max": 20,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "ecolamp-facciamo-luce",
@@ -370,7 +423,10 @@
    "note": null,
    "ore_max": 20,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "samsung-solve-for-tomorrow",
@@ -396,7 +452,10 @@
    "note": "Costo non indicato sulla pagina. Come iscrive lo studente non è descritto: la pagina parla solo di docenti che iscrivono le classi.",
    "ore_max": 30,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "cisco-digital-skills",
@@ -422,7 +481,10 @@
    "note": "I corsi si svolgono sulla piattaforma Cisco: la pagina non dice in che lingua.",
    "ore_max": 30,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "zucchetti-coderz",
@@ -448,7 +510,10 @@
    "note": null,
    "ore_max": 40,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "enel-mind-the-gaps-ia",
@@ -474,7 +539,10 @@
    "note": null,
    "ore_max": 16,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "sustainability-makers-kpmg",
@@ -500,7 +568,8 @@
    "note": null,
    "ore_max": 30,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "bper-previmenti",
@@ -526,7 +595,10 @@
    "note": "Alcune sezioni della pagina non erano ancora complete al momento del controllo: ricontrolla prima di iscriverlo.",
    "ore_max": 25,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "isvi-segreto-italiano",
@@ -552,7 +624,8 @@
    "note": null,
    "ore_max": 35,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "feduf-che-impresa-ragazzi",
@@ -578,7 +651,10 @@
    "note": "Finestra di iscrizione vicina alla chiusura (15 dicembre). Ci sono due incontri con tutor e la parte locale è svolta con le banche aderenti: non è tutto asincrono.",
    "ore_max": 37,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "feduf-pronti-lavoro-via",
@@ -604,7 +680,10 @@
    "note": "Le ore differiscono tra le due pagine ufficiali (22 contro 20). Collaborazione con Unimpiego per l'inserimento lavorativo.",
    "ore_max": 22,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "hokkio-soft-skills",
@@ -630,7 +709,10 @@
    "note": "Percorso breve: utile per recuperare poche ore. Scade a gennaio 2027.",
    "ore_max": 8,
    "ore_fascia": "fino a 10",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "cisalfa-sport-benessere",
@@ -656,7 +738,10 @@
    "note": "Alcune sezioni della pagina erano segnate «Presto online» al momento del controllo.",
    "ore_max": 15,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "leonardo-crescita-consapevole",
@@ -682,7 +767,10 @@
    "note": null,
    "ore_max": 28,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "bper-crescita-consapevole",
@@ -708,7 +796,10 @@
    "note": "Breve, 10 ore.",
    "ore_max": 10,
    "ore_fascia": "fino a 10",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "leroy-merlin-sportello-energia",
@@ -734,7 +825,10 @@
    "note": "Lo registra un docente o il dirigente della scuola. Il costo non è scritto nel testo della pagina.",
    "ore_max": 35,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "rfi-rete-fa-rete",
@@ -760,7 +854,10 @@
    "note": "Costo non indicato sulla pagina.",
    "ore_max": 24,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "leonardo-scopri-naviga",
@@ -786,7 +883,10 @@
    "note": null,
    "ore_max": 20,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "mcarthurglen-design-cx",
@@ -812,7 +912,10 @@
    "note": "Alcune sezioni della pagina erano segnate «Presto online» al momento del controllo.",
    "ore_max": 13,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "corepla-plastica",
@@ -838,7 +941,10 @@
    "note": null,
    "ore_max": 20,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "museimpresa-scuola-impresa",
@@ -864,7 +970,8 @@
    "note": "Ore, costo e scadenze non indicati. La visita è in presenza, quindi non è tutto online. Iscrizione tramite 'Candidatura classi'.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "mediolanum-dalle-idee",
@@ -890,7 +997,8 @@
    "note": "Promotore non chiaro sulla pagina (si cita Banca Mediolanum ma non come promotrice). Non iscrivere finché non compaiono le date.",
    "ore_max": 30,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "leonardo-volo-verticale",
@@ -905,7 +1013,7 @@
    "iscrizione": [
     "tramite_scuola"
    ],
-   "dettaglio_iscrizione": "Lo studente non può iscriversi da solo: il docente registra la classe su educazionedigitale.it (Gestione classi), scarica convenzione e patto formativo, e dà ai ragazzi link e credenziali personali. Poi lo studente lavora in autonomia online.",
+   "dettaglio_iscrizione": "Lo studente non può iscriversi da solo: il docente registra la classe su educazionedigitale.it (Gestione classi), scarica convenzione e patto formativo, e dà ai ragazzi link e credenziali personali.",
    "classi": "scuole secondarie di secondo grado",
    "attestato": "Attestato dopo validazione di docente e tutor aziendale.",
    "accessibilita": "L'ente non scrive nulla su misure per disabilità o DSA: chiedilo direttamente.",
@@ -916,7 +1024,10 @@
    "note": "Il project work è pensato per le classi: per uno studente da solo va concordato con il docente.",
    "ore_max": 25,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "biorepack-bioplastiche",
@@ -942,7 +1053,8 @@
    "note": null,
    "ore_max": 15,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "ja-idee-in-azione",
@@ -968,7 +1080,10 @@
    "note": "La pagina non dice se tutto sia online, ma moduli digitali e webinar fanno pensare a una forte parte online. Per un ragazzo in istruzione domiciliare conviene chiedere a JA Italia.",
    "ore_max": 25,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "ja-girls-go-circular",
@@ -994,7 +1109,8 @@
    "note": "La pagina segna il progetto come concluso ma il modulo di iscrizione è attivo: fai chiedere a Junior Achievement Italia se c'è un'edizione 2026-2027.",
    "ore_max": 40,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "unimarconi-fsl-online",
@@ -1020,7 +1136,8 @@
    "note": "Le ore del 2026-27 vanno confermate con l'ateneo (nella pagina compare solo la data 10 ottobre 2026 accanto ai corsi, senza spiegazione). La scheda 2025-26 di Digital Video Storytelling dice 15 ore e iscrizione sempre aperta nel periodo. Contatto: orientamento.scuole@unimarconi.it, 06 3772 5639.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "ispra-fsl-elearning",
@@ -1046,7 +1163,8 @@
    "note": "Ente di ricerca pubblico, non università. Ore e attestato non sono indicati nella pagina: chiederli a alternanza@isprambiente.it. Nel 2026-27 la prossima finestra utile è quella con richiesta entro la prima settimana di dicembre per l'avvio di gennaio.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "sapienza-costituzione-e-diritti",
@@ -1072,7 +1190,8 @@
    "note": "Posti: 100. La finestra per le scuole per scegliere i progetti 2026-27 scade il 23 ottobre 2026, quindi va chiesto subito alla scuola se ci sono ancora posti o riaperture. La pagina riporta anno 2026 ma date di febbraio 2027.",
    "ore_max": 10,
    "ore_fascia": "fino a 10",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "unive-life-competence",
@@ -1098,7 +1217,8 @@
    "note": "Per il 2026-2027 Ca' Foscari offre attività online, in presenza o miste: l'elenco completo è sul sito dell'ateneo (unive.it/data/46282), dove le attività tutte online sono poche.",
    "ore_max": 10,
    "ore_fascia": "fino a 10",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "unive-graphic-novel-europa",
@@ -1124,7 +1244,10 @@
    "note": "Attestato e costo non indicati nella pagina. Regola generale Ca' Foscari: la scuola decide come riconoscere l'attività.",
    "ore_max": 12,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "unipd-scuola-di-wikipedia",
@@ -1150,7 +1273,10 @@
    "note": "L'Università di Padova lo presenta con un attestato valido ai fini PCTO. Avvisa comunque la scuola prima di iniziare e controlla che il corso sia ancora aperto nel 2026-2027.",
    "ore_max": 16,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "unipr-infopatente",
@@ -1177,7 +1303,10 @@
    "note": "Il costo non è scritto nella scheda; la brochure DigiLab dice che i corsi della piattaforma sono gratuiti. Chiedere a marina.usberti@unipr.it (0521 034706) se c'è l'edizione 2026-27.",
    "ore_max": 10,
    "ore_fascia": "fino a 10",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "unipr-bibliopatente",
@@ -1203,7 +1332,10 @@
    "note": "La scheda ufficiale è del 2023: chiedi all'ateneo (marina.usberti@unipr.it) se c'è un'edizione 2026-2027 e quante ore vale.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "unifi-ottica-optometria",
@@ -1229,7 +1361,8 @@
    "note": "Il dato viene dal catalogo di dicembre 2025, che elenca anche altre attività con una parte online: per il 2026-2027 chiedi il catalogo aggiornato all'ufficio orientamento dell'ateneo.",
    "ore_max": 17,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "unifg-ponti-per-il-futuro",
@@ -1253,7 +1386,8 @@
    "note": "Il formato online va concordato con l'università: non è garantito.",
    "ore_max": 25,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "polimi-pok-mooc",
@@ -1279,7 +1413,10 @@
    "note": "Non è un percorso di scuola-lavoro in sé: ore e riconoscimento vanno concordati con la scuola prima di iniziare. Per informazioni: pok@polimi.it.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "federica-web-learning",
@@ -1305,7 +1442,10 @@
    "note": "Non è un percorso di scuola-lavoro in sé e non ha ore certificate: usalo solo se la scuola accetta di riconoscere i corsi, per esempio come orientamento.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "eduopen-orientamento",
@@ -1329,7 +1469,10 @@
    "note": "Prima di iniziare un corso chiedere alla scuola se riconosce le ore. Il riconoscimento PCTO è dichiarato solo nei corsi dell'Università di Padova (Wikipedia) e di Parma (Infopatente, Bibliopatente).",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "cisco-pcto-digitale",
@@ -1355,7 +1498,10 @@
    "verificato_il": "2026-11-05",
    "ore_max": 50,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "fmd-ai-ready",
@@ -1381,7 +1527,8 @@
    "verificato_il": "2026-11-05",
    "ore_max": 20,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "fmd-patentino-digitale",
@@ -1407,7 +1554,8 @@
    "verificato_il": "2026-11-05",
    "ore_max": 12,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "fmd-rising-youth",
@@ -1433,7 +1581,10 @@
    "verificato_il": "2026-11-05",
    "ore_max": 40,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "fmd-futuro-della-cura",
@@ -1459,7 +1610,10 @@
    "verificato_il": "2026-11-05",
    "ore_max": 5,
    "ore_fascia": "fino a 10",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "fmd-ai-jump",
@@ -1485,7 +1639,8 @@
    "verificato_il": "2026-11-05",
    "ore_max": 21,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "ibm-skillsbuild",
@@ -1512,7 +1667,10 @@
    "verificato_il": "2026-11-05",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "cyberchallenge-it",
@@ -1538,7 +1696,8 @@
    "verificato_il": "2026-11-05",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": null
   },
   {
    "id": "olicyber-it",
@@ -1565,7 +1724,8 @@
    "verificato_il": "2026-11-05",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": null
   },
   {
    "id": "programma-il-futuro",
@@ -1589,7 +1749,8 @@
    "verificato_il": "2026-11-05",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": null
   },
   {
    "id": "aws-educate",
@@ -1615,7 +1776,10 @@
    "verificato_il": "2026-11-05",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "da_concordare"
+   "riconoscimento": "da_concordare",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "studiare-il-lavoro-mim-inail",
@@ -1642,7 +1806,10 @@
    "note": "Sono 4 ore di formazione generale. Per le attività in azienda le scuole di solito richiedono anche formazione specifica (spesso 4 ore in presenza o in videolezione organizzata dalla scuola), che non è coperta da questo corso. La pagina ufficiale aperta mostra solo l'accesso con registrazione e approvazione del profilo da parte della scuola; ore, moduli e dettagli vengono da circolari di scuole 2025-26 e da un articolo INAIL del 2018, quindi verificare con la scuola le regole di quest'anno. È la formazione sulla sicurezza obbligatoria per chiunque faccia scuola-lavoro: molte scuole contano le sue 4 ore nel monte ore.",
    "ore_max": 4,
    "ore_fascia": "fino a 10",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "individuale"
+   ]
   },
   {
    "id": "banca-italia-fsl-online-ibrido",
@@ -1668,7 +1835,8 @@
    "note": "Posti limitati e concorrenza alta (circa 230 percorsi in tutta Italia nel 2025-26). La modalità online dipende dalla singola sede. Costo e attestato non sono scritti nella pagina: se ne parla nella scheda generale e nella brochure collegate. Le date di prenotazione 2026-27 non sono riportate nella pagina letta. Contatto: Alternanza_Scuola_Lavoro@bancaditalia.it.",
    "ore_max": 25,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "camere-commercio-cittadinanza-sostenibile",
@@ -1694,7 +1862,10 @@
    "note": "Il catalogo è lo stesso per tutta la rete delle Camere (presentazione di Bologna e catalogo delle Marche coincidono), ma ogni Camera decide se e come attivarlo: chiedere alla propria. Costi non indicati nel catalogo.",
    "ore_max": 30,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "camere-commercio-modello-olivettiano",
@@ -1720,7 +1891,10 @@
    "note": "Costi non indicati. Disponibilità legata alla singola Camera di commercio. La Camera di Bologna cita anche un Premio nazionale Adriano Olivetti (candidature fino al 28/02/2027) per scuole e imprese, non per singoli studenti.",
    "ore_max": 30,
    "ore_fascia": "da 11 a 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "camere-commercio-doppia-transizione",
@@ -1746,7 +1920,10 @@
    "note": "Il lavoro di gruppo è previsto in classe, in gruppi di massimo 5 studenti: per ragazzi a distanza serve un accordo con scuola e Camera. Costi non indicati. Offerta valida solo dove la Camera locale l'ha attivata.",
    "ore_max": 50,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "camere-commercio-made-in-italy",
@@ -1772,7 +1949,10 @@
    "note": "Il lavoro di gruppo è svolto in classe in 3 sottogruppi. Le scadenze delle richieste cambiano da Camera a Camera: alcune sono già passate, chiedere subito alla propria. Costi non indicati.",
    "ore_max": 40,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "camere-commercio-agroalimentare",
@@ -1798,7 +1978,10 @@
    "note": "Utile solo per studenti di indirizzo agrario. Il grosso delle ore (65) è lavoro di classe, quindi poco adatto a chi non frequenta in presenza senza un adattamento concordato con la scuola. Costi non indicati.",
    "ore_max": 80,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "io-penso-positivo-unioncamere",
@@ -1824,7 +2007,8 @@
    "note": "Da verificare con il progetto se questa è l'edizione 2026-27 e se i Live Show restano in presenza o anche online: la scheda 2026 diceva in presenza, online o misto, mentre la home attuale parla di Live Show in presenza. Il riconoscimento delle ore FSL è deciso dalla scuola. Ore e dettagli dei moduli sono nella pagina I moduli formativi, non letta.",
    "ore_max": null,
    "ore_fascia": null,
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   },
   {
    "id": "a-scuola-di-opencoesione",
@@ -1850,7 +2034,10 @@
    "note": "Il bando 2025-26 aveva scadenza intorno al 10 novembre (da fonti secondarie); controllare se esce un bando 2026-27. Il numero di ore e il riconoscimento PCTO vengono dal vademecum 2025-26. Non dichiarata la gratuità, ma non risultano costi per le scuole.",
    "ore_max": 2025,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": [
+    "gruppo"
+   ]
   },
   {
    "id": "camera-commercio-maremma-tirreno-catalogo",
@@ -1876,7 +2063,8 @@
    "note": "Esempio territoriale (Livorno, Grosseto, Toscana costiera). Quasi tutte le Camere di commercio hanno un catalogo simile con parti online: conviene chiedere alla propria Camera. Gratuità, iscrizione e attestato non sono dichiarati nel documento letto.",
    "ore_max": 200,
    "ore_fascia": "oltre 30",
-   "riconoscimento": "dichiarato"
+   "riconoscimento": "dichiarato",
+   "lavoro": null
   }
  ]
 }

@@ -33,6 +33,12 @@
   .cerca input { width: 100%; min-height: 44px; padding: 0.5rem 0.75rem; font: inherit; color: var(--text-primary); background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; }
   .badge-gratis { background: var(--bg-tertiary); color: var(--accent-green); border: 1px solid var(--accent-green); }
   .badge-solo { background: var(--bg-tertiary); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+  .passi { list-style: none; counter-reset: passo; padding: 0; margin: 1rem 0; display: grid; gap: 0.75rem; }
+  @media (min-width: 900px) { .passi { grid-template-columns: repeat(5, 1fr); } }
+  .passi li { counter-increment: passo; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .passi li::before { content: counter(passo); font-family: var(--font-display); font-weight: 700; color: var(--accent-cyan); font-size: 1.4rem; line-height: 1; }
+  .passi li span { color: var(--text-secondary); }
+  .chiedi-nota { margin-top: 0.5rem; padding: 0.75rem 1rem; background: var(--bg-tertiary); border-radius: 6px; }
   .badge-ore { background: var(--bg-tertiary); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
   .badge-scuola { background: var(--bg-tertiary); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
   .scheda .ente { color: var(--text-secondary); margin: 0.15rem 0 0; }
@@ -61,6 +67,10 @@
     <section class="sezione" id="prima" aria-labelledby="prima-titolo">
       <h2 id="prima-titolo"><span aria-hidden="true">🧭</span> Prima di cercare: tre cose da sapere</h2>
       <div class="base-voci" id="prima-voci"></div>
+      <details class="diritti" id="come-diventa-ore" style="margin-top:1rem">
+        <summary class="summary-btn"><span><span aria-hidden="true">🔗</span> Come un corso online diventa ore di scuola-lavoro, in 5 passi</span></summary>
+        <div id="ore-corpo"></div>
+      </details>
     </section>
 
     <section class="porte" id="situazioni" aria-labelledby="porte-titolo">
@@ -159,9 +169,11 @@
   const FILTRI = [
     { key: 'iscrizione', titolo: 'Chi lo iscrive?', ico: '🙋', visibile: true, opzioni: [
       ['studente_da_solo', 'Si iscrive da solo'], ['tramite_scuola', 'Serve la scuola'] ] },
+    { key: 'lavoro', titolo: 'Da solo o in gruppo?', ico: '👥', visibile: true, opzioni: [
+      ['individuale', 'Da solo'], ['gruppo', 'Con la classe o in gruppo'] ] },
     { key: 'modalita', titolo: 'Come si segue?', ico: '🕒', visibile: true, opzioni: [
       ['online_asincrono', 'Quando vuole'], ['online_sincrono', 'In diretta, a orari fissi'], ['misto', 'Online e in presenza'] ] },
-    { key: 'costo', titolo: 'Quanto costa?', ico: '💸', visibile: true, opzioni: [
+    { key: 'costo', titolo: 'Quanto costa?', ico: '💸', visibile: false, opzioni: [
       ['gratuito', 'Gratis'], ['a_pagamento', 'A pagamento'] ] },
     { key: 'ore_fascia', titolo: 'Quante ore vale?', ico: '⏳', visibile: false, opzioni: [
       ['fino a 10', 'Fino a 10'], ['da 11 a 30', 'Da 11 a 30'], ['oltre 30', 'Più di 30'] ] },
@@ -171,6 +183,7 @@
     iscrizione: { studente_da_solo: 'Si iscrive da solo', tramite_scuola: 'Tramite la scuola' },
     modalita: { online_asincrono: 'Online, quando vuole', online_sincrono: 'Online, in diretta a orari fissi', misto: 'In parte online, in parte in presenza' },
     costo: { gratuito: 'Gratis', a_pagamento: 'A pagamento' },
+    lavoro: { individuale: 'Da solo', gruppo: 'Con la classe o in gruppo' },
     area: Object.fromEntries(AREE)
   };
 
@@ -238,12 +251,13 @@
         ${fatto('⏳', 'Quante ore', s.ore)}
         ${fatto('🕒', 'Come si segue', ETI.modalita[s.modalita])}
         ${fatto('🙋', 'Chi lo iscrive', chi)}
-        ${fatto('🎒', 'Per chi', s.classi)}
+        ${fatto('👥', 'Da solo o in gruppo', s.lavoro ? ETI.lavoro[s.lavoro[0]] : null)}
       </dl>
       <div class="adesso"><strong><span aria-hidden="true">👉</span> Come ci si iscrive</strong><p>${esc(s.dettaglio_iscrizione || 'La pagina ufficiale non lo spiega: chiedi all\'ente o alla scuola.')}</p></div>
       <details class="dettagli">
         <summary class="summary-btn">Tutti i dettagli<span class="sr-only"> su ${esc(s.nome)}</span></summary>
         <div class="dettagli-corpo">
+          ${riga('Per chi', s.classi)}
           ${riga('Di che cosa parla', ETI.area[s.area])}
           ${riga('Quanto costa', s.costo === 'gratuito' ? 'Gratis.' : s.costo === 'a_pagamento' ? 'A pagamento (vedi le note).' : null)}
           ${riga('Cosa riceve alla fine', s.attestato)}
@@ -306,6 +320,13 @@
 
   function disegnaPrima() {
     $('prima-voci').innerHTML = SEZ.prima_di_cercare.map(v => `<div class="voce"><h3><span aria-hidden="true">${v.ico}</span> ${esc(v.titolo)}</h3>${v.html || `<p>${esc(v.testo)}</p>`}${fonti(v.fonti)}</div>`).join('');
+  }
+
+  function disegnaOre() {
+    const o = SEZ.come_diventa_ore;
+    $('ore-corpo').innerHTML = `<p class="lead">${esc(o.intro)}</p>
+      <ol class="passi">${o.passi.map(x => `<li><strong>${esc(x.titolo)}</strong><span>${esc(x.testo)}</span></li>`).join('')}</ol>
+      <p class="chiedi-nota"><span aria-hidden="true">⚠️</span> ${esc(o.nota)}</p>${fonti(o.fonti)}`;
   }
 
   function disegnaPorte() {
@@ -380,7 +401,7 @@
     SEZ = d.sezioni;
     const nd = SCHEDE.filter(s => s.riconoscimento === 'dichiarato').length;
     $('meta-controllo').textContent = `${nd} percorsi che valgono come scuola-lavoro, più ${SCHEDE.length - nd} corsi con ore da concordare · ultimo controllo il ${data(d.meta.ultimo_controllo)}`;
-    disegnaPrima(); disegnaPorte(); disegnaFrase(); tutto();
+    disegnaPrima(); disegnaOre(); disegnaPorte(); disegnaFrase(); tutto();
   }).catch(() => { $('schede').innerHTML = '<p class="errore">Non riesco a caricare i percorsi. Ricarica la pagina tra poco.</p>'; });
 })();
 </script>
