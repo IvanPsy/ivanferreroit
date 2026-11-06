@@ -1,24 +1,13 @@
 ---
 title: "Lezioni accessibili"
 description: "Materiali didattici progettati con lo Universal Design for Learning 3.0 e le linee guida WCAG, per insegnanti e studenti: per ogni lezione una versione per tutta la classe e versioni calibrate su profili specifici."
+layout: sito
+css: 
+  - /lezioni-accessibili/assets/sezione.css
+salta: 
+  classe: la-skip
+  testo: "Salta il menu"
 ---
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lezioni accessibili | Ivan Ferrero</title>
-    {% seo title=false %}
-
-    <link rel="stylesheet" href="/assets/fonts/fonts.css">
-
-    <link rel="stylesheet" href="/assets/base-styles.css">
-    <link rel="stylesheet" href="/lezioni-accessibili/assets/sezione.css">
-</head>
-<body>
-    <a class="la-skip" href="#contenuto">Salta il menu</a>
-    <div id="site-menu"></div>
-
     <main id="contenuto" class="la-main" tabindex="-1">
         <h1>Lezioni <span class="text-cyan">accessibili</span></h1>
 
@@ -50,8 +39,4 @@ description: "Materiali didattici progettati con lo Universal Design for Learnin
         </div>
     </main>
 
-    {% include footer-nav.html %}
-
-    <script src="/assets/menu.js"></script>
-</body>
-</html>
+    

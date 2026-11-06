@@ -1,9 +1,8 @@
 <!-- Footer di navigazione del sito, in HTML puro (senza JavaScript), cosi' i link interni esistono anche per chi non esegue menu.js.
-     Sorgente unica: _includes/footer-nav.html (lo usano i layout e le pagine con front matter).
-     ATTENZIONE: e' copiato tale e quale in tutte le pagine senza front matter, dove l'include
-     non funziona: index.html, privacy-policy/index.html, libri/index.html,
-     digitale-inclusivo/decodificatore-icf/index.html e le dashboard in dashboards/ (57 copie al 08/10/2026).
-     Se modifichi questo file, replica la modifica in tutte: grep -rl 'site-footer-nav__links' --include=*.html . -->
+     Sorgente unica: questo file. Dal 06/11/2026 non ne esistono piu' copie incollate: lo inseriscono il guscio
+     (_layouts/sito.html) e, nelle dashboard, la riga {% raw %}{% include footer-nav.html %}{% endraw %}.
+     Una modifica qui arriva da sola in tutte le pagine. Il controllo _bozze/controlla_gusci.py segnala
+     le pagine nuove che non lo usano. -->
 <footer class="site-footer-nav">
 <style>
 footer.site-footer-nav {

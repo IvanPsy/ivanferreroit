@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{%- comment -%}
+  GUSCIO DEL SITO (dal 06/11/2026). Una pagina che usa «layout: sito» scrive solo
+  il suo contenuto: testata, caratteri, colori di base, menu e footer arrivano da qui.
+  Cambiare qualcosa della cornice = cambiare questo file (o footer-nav.html, menu.js,
+  base-styles.css), e cambia in tutte le pagine col guscio.
+
+  Front matter che il guscio legge:
+    title            titolo; nella scheda del browser diventa «title | Ivan Ferrero»
+    titolo_scheda    se c'è, sostituisce per intero il titolo della scheda del browser
+    seo: false       niente {% seo %} (pagine con i meta scritti a mano nella testa)
+    base_styles: false   niente base-styles.css (pagine con uno stile tutto loro)
+    css: [..]        fogli di stile in più, dopo base-styles.css
+    salta: {classe, testo}   link «salta al contenuto» prima del menu (punta a #contenuto)
+    js: [..]         script in più, dopo menu.js
+  Un sotto-guscio (es. _layouts/lezione.html) può mettere css, js e salta nel suo
+  front matter: valgono per tutte le pagine che lo usano.
+
+  Il contenuto della pagina può avere due segnaposto, ciascuno su una riga:
+    <!-- fine-testa -->   quello che sta sopra va nel <head> (stili e meta della pagina)
+    <!-- inizio-coda -->  quello che sta sotto va dopo menu.js (script della pagina)
+{%- endcomment %}
+{%- assign _parti = content | split: '<!-- fine-testa -->' -%}
+{%- if _parti.size > 1 -%}
+  {%- assign _testa = _parti[0] -%}
+  {%- assign _resto = _parti[1] -%}
+{%- else -%}
+  {%- assign _testa = '' -%}
+  {%- assign _resto = content -%}
+{%- endif -%}
+{%- assign _parti = _resto | split: '<!-- inizio-coda -->' -%}
+{%- assign _corpo = _parti[0] -%}
+{%- if _parti.size > 1 -%}{%- assign _coda = _parti[1] -%}{%- else -%}{%- assign _coda = '' -%}{%- endif %}
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.titolo_scheda %}{{ page.titolo_scheda }}{% else %}{{ page.title }} | {{ site.title }}{% endif %}</title>
+    {%- unless page.seo == false %}
+    {% seo title=false %}
+    {%- endunless %}
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    {%- unless page.base_styles == false %}
+    <link rel="stylesheet" href="/assets/base-styles.css">
+    {%- endunless %}
+    {%- for _css in layout.css %}
+    <link rel="stylesheet" href="{{ _css }}">
+    {%- endfor %}
+    {%- for _css in page.css %}
+    <link rel="stylesheet" href="{{ _css }}">
+    {%- endfor %}
+{{ _testa }}
+</head>
+<body>
+{%- assign _salta = page.salta | default: layout.salta -%}
+{%- if _salta %}
+<a class="{{ _salta.classe }}" href="#contenuto">{{ _salta.testo }}</a>
+{%- endif %}
+<div id="site-menu"></div>
+{{ _corpo }}
+{% include footer-nav.html %}
+
+<script src="/assets/menu.js"></script>
+{%- for _js in layout.js %}
+<script src="{{ _js }}"></script>
+{%- endfor %}
+{%- for _js in page.js %}
+<script src="{{ _js }}"></script>
+{%- endfor %}
+{{ _coda }}
+</body>
+</html>

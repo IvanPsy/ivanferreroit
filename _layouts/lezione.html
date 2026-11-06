@@ -1,0 +1,15 @@
+---
+# SOTTO-GUSCIO delle pagine di presentazione delle lezioni accessibili (dal 06/11/2026).
+# Prende tutto dal guscio del sito (_layouts/sito.html) e aggiunge lo stile e lo script
+# comuni delle schede-lezione. Una lezione nuova scrive solo il suo contenuto,
+# a partire da <div class="sp">, con «layout: lezione» nel front matter.
+layout: sito
+css:
+  - /lezioni-accessibili/assets/scheda-lezione.css
+js:
+  - /lezioni-accessibili/assets/scheda-lezione.js
+salta:
+  classe: sp-skip
+  testo: Vai al contenuto
+---
+{{ content }}

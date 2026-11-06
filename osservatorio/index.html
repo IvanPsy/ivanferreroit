@@ -1,26 +1,13 @@
 ---
 title: "Osservatorio"
 description: "Intelligence brief settimanali: tecnologia (TECH), educazione (EDU), psicologia digitale e minori (CYBER), inclusione e neurodiversita' (INCLUDE)."
+layout: sito
+base_styles: false
 ---
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Osservatorio | Ivan Ferrero</title>
-    {% seo title=false %}
-    <link rel="alternate" type="application/atom+xml" title="Osservatorio · Ivan Ferrero" href="{{ '/osservatorio/feed.xml' | absolute_url }}">
-
-    <!-- Fonts -->
-    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="alternate" type="application/atom+xml" title="Osservatorio · Ivan Ferrero" href="{{ '/osservatorio/feed.xml' | absolute_url }}">
 
     {% include osservatorio-style.html %}
-</head>
-<body>
-
-<!-- Menu del sito -->
-<div id="site-menu"></div>
-
+<!-- fine-testa -->
 <main class="osservatorio-container">
 
     <h1 class="osservatorio-title">Osservatorio</h1>
@@ -156,12 +143,7 @@ description: "Intelligence brief settimanali: tecnologia (TECH), educazione (EDU
     <p class="osservatorio-feed"><a href="/osservatorio/feed.xml">Feed RSS dell'Osservatorio</a> · i nuovi brief in un lettore di feed</p>
 
 </main>
-
-{% include footer-nav.html %}
-
-<!-- Menu condiviso del sito -->
-<script src="/assets/menu.js"></script>
-
+<!-- inizio-coda -->
 <script>
 (function() {
     var pills = document.querySelectorAll('.filter-pill');
@@ -220,6 +202,3 @@ description: "Intelligence brief settimanali: tecnologia (TECH), educazione (EDU
     }
 })();
 </script>
-
-</body>
-</html>

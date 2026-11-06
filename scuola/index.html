@@ -2,19 +2,9 @@
 title: "Scuola: formazione e materiali"
 description: "Per docenti, dirigenti, educatori e studenti: formazione, lezioni accessibili, risorse su profili BES, IA e normativa, orientamento dopo il diploma."
 permalink: /scuola/
+layout: sito
 ---
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scuola: formazione e materiali | Ivan Ferrero</title>
-    {% seo title=false %}
-
-    <link rel="stylesheet" href="/assets/fonts/fonts.css">
-    <link rel="stylesheet" href="/assets/base-styles.css">
-
-    <style>
+<style>
         .sc-page { max-width: 820px; margin: 0 auto; padding: 7rem 1.5rem 4rem; }
         .sc-kicker {
             font-family: var(--font-mono, 'JetBrains Mono', monospace);
@@ -73,10 +63,7 @@ permalink: /scuola/
             .sc-page { padding: 6rem 1rem 3rem; }
         }
     </style>
-</head>
-<body>
-<div id="site-menu"></div>
-
+<!-- fine-testa -->
 {%- assign sc_dati = site.data.digitale_inclusivo.sections -%}
 
 <main class="sc-page">
@@ -139,9 +126,3 @@ permalink: /scuola/
         <p>Vi rispondo con una proposta: temi, formato, numero di incontri.</p>
     </div>
 </main>
-
-{% include footer-nav.html %}
-
-<script src="/assets/menu.js"></script>
-</body>
-</html>

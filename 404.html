@@ -1,20 +1,13 @@
 ---
-layout: null
 permalink: /404.html
 sitemap: false
 title: "Pagina non trovata"
+layout: sito
+seo: false
+base_styles: false
 ---
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina non trovata | Ivan Ferrero</title>
-    <meta name="robots" content="noindex">
+<meta name="robots" content="noindex">
     <meta name="description" content="La pagina che cercavi non esiste o è stata spostata. Da qui puoi raggiungere tutte le sezioni del sito di Ivan Ferrero.">
-
-    <!-- Fonts -->
-    <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -109,12 +102,7 @@ title: "Pagina non trovata"
             .nf-title { font-size: 1.7rem; }
         }
     </style>
-</head>
-<body>
-
-<!-- Menu del sito -->
-<div id="site-menu"></div>
-
+<!-- fine-testa -->
 <main class="nf-container">
     <span class="nf-code">Errore 404</span>
     <h1 class="nf-title">Questa pagina non c'è</h1>
@@ -132,11 +120,3 @@ title: "Pagina non trovata"
         <li><a href="/#contatti"><strong>Contatti</strong><span>Per scrivermi</span></a></li>
     </ul>
 </main>
-
-{% include footer-nav.html %}
-
-<!-- Menu condiviso del sito -->
-<script src="/assets/menu.js"></script>
-
-</body>
-</html>

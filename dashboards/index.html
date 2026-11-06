@@ -4,6 +4,7 @@
 # Nessuna card scritta a mano: per aggiungere una pagina si aggiunge una riga nel file dati.
 title: "Indice delle dashboard"
 description: "Indice tecnico di tutte le pagine interattive del sito, raggruppate per destinatario: scuola e docenti, classe, analisi e speciali."
+layout: sito
 ---
 {%- assign scuola_ids = "profili-bes,ia-tecnologie,normativa" | split: "," -%}
 {%- assign n_scuola = 0 -%}
@@ -20,21 +21,6 @@ description: "Indice tecnico di tutte le pagine interattive del sito, raggruppat
   {%- assign n_analisi = n_analisi | plus: s.cards.size -%}
 {%- endfor -%}
 {%- assign totale = n_scuola | plus: n_classe | plus: n_analisi -%}
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="stylesheet" href="/assets/base-styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indice delle dashboard | Ivan Ferrero</title>
-    {% seo title=false %}
-
-    <!-- Fonts -->
-
-    <!-- Design System -->
-    <link rel="stylesheet" href="/assets/base-styles.css">
-
 <style>
         @media (max-width: 768px) {
             .main-container.single-column {
@@ -85,11 +71,7 @@ description: "Indice tecnico di tutte le pagine interattive del sito, raggruppat
             line-height: 1.55;
         }
     </style>
-</head>
-<body>
-    <!-- Menu condiviso -->
-    <div id="site-menu"></div>
-
+<!-- fine-testa -->
     <!-- Main Container -->
     <div class="main-container single-column" style="padding-top: 6rem;">
         <main>
@@ -156,10 +138,3 @@ description: "Indice tecnico di tutte le pagine interattive del sito, raggruppat
             </div>
         </main>
     </div>
-
-{% include footer-nav.html %}
-
-    <!-- Menu Script -->
-    <script src="/assets/menu.js"></script>
-</body>
-</html>

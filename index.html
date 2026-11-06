@@ -1,15 +1,11 @@
 ---
 permalink: /
+layout: sito
+titolo_scheda: "Ivan Ferrero | Cyberpsicologo · Formatore · Autore"
+seo: false
 ---
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="stylesheet" href="/assets/base-styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="vcDrdtYJ2hY64qwAUL_yY4sUjQGoNgcibwMIz7qlE8A" />
-    <title>Ivan Ferrero | Cyberpsicologo · Formatore · Autore</title>
+<meta name="google-site-verification" content="vcDrdtYJ2hY64qwAUL_yY4sUjQGoNgcibwMIz7qlE8A" />
+
     <meta name="description" content="Psicologo-psicoterapeuta e cyberpsicologo: psicoterapia online per adulti, formazione e materiali per la scuola, 427 schede gratuite per genitori.">
     <link rel="canonical" href="https://ivanferrero.it/">
     <meta property="og:type" content="website">
@@ -36,12 +32,7 @@ permalink: /
       ]
     }
     </script>
-    
-    <!-- Fonts -->
-    
-    <!-- Design System -->
-    <link rel="stylesheet" href="/assets/base-styles.css">
-    
+
     <!-- Page-specific styles -->
     <style>
         .hero {
@@ -235,26 +226,26 @@ permalink: /
             padding: 5rem 0;
             border-top: 1px solid var(--border-color);
         }
-        
+
         .section-home h2 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .section-intro {
             color: var(--text-secondary);
             font-size: 1.1rem;
             margin-bottom: 2rem;
             max-width: 700px;
         }
-        
+
         .stats-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 1rem;
             margin: 2.5rem 0;
         }
-        
+
         .project-card {
             display: block;
             text-decoration: none;
@@ -264,29 +255,29 @@ permalink: /
             padding: 1.5rem;
             transition: all 0.2s ease;
         }
-        
+
         .project-card:hover {
             border-color: var(--accent-cyan);
             transform: translateY(-2px);
         }
-        
+
         .project-card h3 {
             color: var(--text-primary);
             margin: 0.75rem 0;
             font-size: 1.2rem;
         }
-        
+
         .project-card p {
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
-        
+
         .project-card .arrow {
             color: var(--accent-cyan);
             font-size: 0.85rem;
         }
-        
+
         .credentials-bar {
             display: flex;
             flex-wrap: wrap;
@@ -297,71 +288,71 @@ permalink: /
             border-radius: 8px;
             border: 1px solid var(--border-color);
         }
-        
+
         .credential-item {
             text-align: center;
         }
-        
+
         .credential-item strong {
             display: block;
             color: var(--text-primary);
             font-size: 0.9rem;
         }
-        
+
         .credential-item span {
             color: var(--text-muted);
             font-size: 0.8rem;
         }
-        
+
         .books-section {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.5rem;
         }
-        
+
         .books-section ul {
             list-style: none;
             margin: 1rem 0;
         }
-        
+
         .books-section li {
             padding: 0.5rem 0;
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border-color);
         }
-        
+
         .books-section li:last-child {
             border-bottom: none;
         }
-        
+
         .books-section em {
             color: var(--accent-cyan);
         }
-        
+
         .cta-section {
             text-align: center;
             padding: 5rem 0;
             border-top: 1px solid var(--border-color);
         }
-        
+
         .cta-section h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .cta-section p {
             color: var(--text-secondary);
             margin-bottom: 2rem;
             font-size: 1.1rem;
         }
-        
+
         .social-footer {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-top: 2rem;
         }
-        
+
         .social-footer a {
             width: 44px;
             height: 44px;
@@ -374,24 +365,24 @@ permalink: /
             color: var(--text-secondary);
             transition: all 0.2s ease;
         }
-        
+
         .social-footer a:hover {
             border-color: var(--accent-cyan);
             color: var(--accent-cyan);
         }
-        
+
         footer {
             text-align: center;
             padding: 3rem 0;
             border-top: 1px solid var(--border-color);
         }
-        
+
         footer p {
             color: var(--text-muted);
             font-size: 0.85rem;
             margin: 0;
         }
-        
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -410,11 +401,7 @@ permalink: /
             }
         }
     </style>
-</head>
-<body>
-    <!-- Menu condiviso -->
-    <div id="site-menu"></div>
-
+<!-- fine-testa -->
     <!-- Main Container -->
     <div class="container" style="max-width: 1100px;">
         
@@ -655,104 +642,3 @@ permalink: /
             <p class="mt-1">© 2026 — Tutti i diritti riservati</p>
         </footer>
     </div>
-
-<!-- Footer di navigazione del sito, in HTML puro (senza JavaScript), cosi' i link interni esistono anche per chi non esegue menu.js.
-     Sorgente unica: _includes/footer-nav.html (lo usano i layout e le pagine con front matter).
-     ATTENZIONE: e' copiato tale e quale anche in index.html, privacy-policy/index.html,
-     digitale-inclusivo/decodificatore-icf/index.html e dashboards/verifica-fotografia.html
-     (pagine senza front matter, dove l'include non funziona).
-     Se modifichi questo file, replica la modifica anche in quei quattro. -->
-<footer class="site-footer-nav">
-<style>
-footer.site-footer-nav {
-    position: relative;
-    z-index: 1;
-    display: block;
-    margin: 3rem 0 0;
-    padding: 1.75rem 1.5rem 2rem;
-    background: #0a0e14;
-    border-top: 1px solid #30363d;
-    color: #e6edf3;
-    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    text-align: left;
-}
-.site-footer-nav .site-footer-nav__inner { max-width: 1100px; margin: 0 auto; }
-.site-footer-nav .site-footer-nav__row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    margin: 0 0 0.7rem;
-    padding: 0;
-}
-.site-footer-nav .site-footer-nav__label {
-    flex: 0 0 auto;
-    min-width: 6.5rem;
-    margin-right: 0.75rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #8b949e;
-}
-.site-footer-nav a {
-    color: #00d9ff;
-    text-decoration: none;
-    opacity: 1;
-    white-space: nowrap;
-}
-.site-footer-nav a:hover,
-.site-footer-nav a:focus-visible { color: #e6edf3; }
-/* Separatori "·" tra i link: ogni link ne ha uno davanti, e quello a inizio riga
-   resta nascosto fuori dal bordo (cosi' quando le righe vanno a capo non restano puntini orfani). */
-.site-footer-nav .site-footer-nav__links { flex: 1 1 0; min-width: 0; overflow: hidden; }
-.site-footer-nav .site-footer-nav__links > span {
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 0.3rem;
-    margin-left: -1.2rem;
-}
-.site-footer-nav .site-footer-nav__links a::before {
-    content: "·";
-    content: "·" / "";
-    display: inline-block;
-    width: 1.2rem;
-    text-align: center;
-    color: #6e7681;
-}
-.site-footer-nav .site-footer-nav__links a:hover::before,
-.site-footer-nav .site-footer-nav__links a:focus-visible::before { color: #6e7681; }
-.site-footer-nav p.site-footer-nav__id {
-    margin: 1.1rem 0 0;
-    padding: 1rem 0 0;
-    border-top: 1px solid #21262d;
-    color: #e6edf3;
-    font-size: 0.85rem;
-    text-align: left;
-}
-.site-footer-nav p.site-footer-nav__id span { white-space: nowrap; }
-@media (max-width: 600px) {
-    footer.site-footer-nav { padding: 1.5rem 1rem 1.75rem; }
-    .site-footer-nav .site-footer-nav__label { flex-basis: 100%; margin: 0 0 0.2rem; }
-    .site-footer-nav .site-footer-nav__links { flex-basis: 100%; }
-    .site-footer-nav p.site-footer-nav__id span { white-space: normal; }
-}
-</style>
-<div class="site-footer-nav__inner">
-    <nav class="site-footer-nav__row" aria-label="Sezioni del sito">
-        <span class="site-footer-nav__label">Sezioni</span>
-        <div class="site-footer-nav__links"><span><a href="/">Home</a><a href="/libri/">Libri e schede</a><a href="/dashboards/">Indice dashboard</a><a href="/lezioni-accessibili/">Lezioni accessibili</a><a href="/osservatorio/">Osservatorio</a><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="/scuola/">Scuola</a><a href="/formazione/">Formazione</a><a href="/psicoterapia/">Psicoterapia</a><a href="/dialoghi/">Dialoghi</a><a href="/archivio/">Archivio</a><a href="/chi-sono/">Chi sono</a><a href="/#contatti">Contatti</a></span></div>
-    </nav>
-    <nav class="site-footer-nav__row" aria-label="Progetti">
-        <span class="site-footer-nav__label">Progetti</span>
-        <div class="site-footer-nav__links"><span><a href="/digitale-inclusivo/">Digitale Inclusivo</a><a href="https://equilibrio.ivanferrero.it/">Equilibrio</a><a href="https://percorsi.ivanferrero.it/">Percorsi</a></span></div>
-    </nav>
-    <p class="site-footer-nav__id"><span>Ivan Ferrero</span> · <span>Psicologo-psicoterapeuta, iscritto OPL n. 16571 dal 2006</span> · <a href="mailto:ivan@ivanferrero.it">ivan@ivanferrero.it</a> · <a href="/privacy-policy/">Privacy policy</a></p>
-</div>
-</footer>
-
-    <!-- Menu Script -->
-    <script src="/assets/menu.js"></script>
-</body>
-</html>
