@@ -15,7 +15,9 @@
 Ogni dashboards/*.html e dashboards/*/index.html (escluso dashboards/index.html)
 deve comparire in esattamente uno fra _data/digitale_inclusivo.yml,
 _data/approfondimenti.yml, _data/fuori_hub.yml; oppure essere linkata da
-lezioni-accessibili/index.html (caso dopo-il-diploma).
+una porta scritta a mano: solo per le dashboard con una cartella propria (dashboards/x/),
+che stanno nell'indice delle dashboard sotto «Per la classe» e, dopo-il-diploma, anche
+nell'indice delle Lezioni accessibili. Le porte a mano contano come una porta sola.
 Uso: python3 _bozze/controlla_hub.py (stampa ✅ per ciascuno dei due controlli)
 """
 import re
@@ -24,7 +26,7 @@ from pathlib import Path
 
 RADICE = Path(__file__).resolve().parent.parent
 FILE_DATI = ["_data/digitale_inclusivo.yml", "_data/approfondimenti.yml", "_data/fuori_hub.yml"]
-FILE_LINK = "lezioni-accessibili/index.html"
+FILE_LINK = ["lezioni-accessibili/index.html", "dashboards/index.html"]  # porte a mano ammesse
 
 # Pagine fuori guscio per scelta, con il perché (percorso dalla radice del repo).
 PAGINE_LIBERE = {
@@ -89,7 +91,7 @@ def main():
     for f in FILE_DATI:
         for u in urls_yaml(f):
             dove.setdefault(u, []).append(f)
-    link = (RADICE / FILE_LINK).read_text(encoding="utf-8")
+    link = "\n".join((RADICE / f).read_text(encoding="utf-8") for f in FILE_LINK)
 
     orfane, doppie = [], []
     elenco = pagine()
@@ -100,7 +102,7 @@ def main():
             cartella = url[: -len("index.html")]
             file_trovati += dove.get(cartella, [])
             if cartella in link or url in link:
-                file_trovati.append(FILE_LINK)
+                file_trovati.append("porta a mano (" + ", ".join(FILE_LINK) + ")")
         n = len(file_trovati)
         if n == 0:
             orfane.append(url)
