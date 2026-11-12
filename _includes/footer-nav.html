@@ -1,10 +1,11 @@
 <!-- Footer di navigazione del sito, in HTML puro (senza JavaScript), cosi' i link interni esistono anche per chi non esegue menu.js.
      Sorgente unica: questo file. Dal 06/11/2026 non ne esistono piu' copie incollate: lo inseriscono il guscio
      (_layouts/sito.html) e, nelle dashboard, la riga {% raw %}{% include footer-nav.html %}{% endraw %}.
-     Una modifica qui arriva da sola in tutte le pagine. Il controllo _bozze/controlla_gusci.py segnala
+     Una modifica qui arriva da sola in tutte le pagine. Il controllo _bozze/controlla_hub.py segnala
      le pagine nuove che non lo usano. -->
 <footer class="site-footer-nav">
 <style>
+@media print { footer.site-footer-nav { display: none !important; } }
 footer.site-footer-nav {
     position: relative;
     z-index: 1;
