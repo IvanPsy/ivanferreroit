@@ -75,6 +75,11 @@ sections:
         tag_label: "Strumento Interattivo"
         description: "374 codici ICF con spiegazioni accessibili. Ricerca per codice o parola chiave, navigazione ad albero per categoria, linguaggio semplificato. Per capire il Profilo di Funzionamento senza un dizionario clinico."
 
+      - title: "📋 ADA pronto da incollare, per i genitori"
+        url: /digitale-inclusivo/ada-pronto-da-incollare/
+        tag_label: "Per i genitori"
+        description: "Un testo già pronto da incollare in ChatGPT o Gemini perché l'assistente aiuti tuo figlio a studiare senza fare i compiti al posto suo. Tre fasce d'età, versione corta e piena, tre prove da fare prima di consegnarlo. Dal progetto aperto ADA."
+
       - title: "🧭 AI e Inclusione — Framework e Strumenti"
         url: /dashboards/ai-inclusione-framework-strumenti-with-menu.html
         tag_label: "Review 2025-26"

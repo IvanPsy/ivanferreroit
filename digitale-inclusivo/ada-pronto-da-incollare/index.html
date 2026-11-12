@@ -1,0 +1,204 @@
+---
+title: "ADA pronto da incollare: l'assistente di studio per tuo figlio"
+description: "Un testo già pronto da incollare in ChatGPT o Gemini perché l'assistente aiuti tuo figlio a studiare senza fare i compiti al posto suo. Tre fasce d'età, tre prove da fare prima, gratuito."
+permalink: /digitale-inclusivo/ada-pronto-da-incollare/
+layout: sito
+titolo_scheda: "ADA pronto da incollare | Digitale Inclusivo, Ivan Ferrero"
+---
+{%- comment -%}
+  Pagina per i genitori (dal 12/11/2026). I testi NON stanno qui: la guida e i tre file
+  da incollare si caricano al momento dal repo pubblico di ADA, dove li genera
+  tools/ready_to_wear.py e li controlla la GitHub Action sul core. Qui si scrive solo la
+  cornice. Se cambia la guida, si cambia nel repo (channels/adult/ready-to-wear/_languages/it/
+  e italy/_country.md), mai in questa pagina. Decisione nel CLAUDE.md di ADA, nel corpus.
+  marked.min.js: marked 12.0.2 (MIT), copiato qui per non dipendere da un CDN.
+{%- endcomment -%}
+<style>
+    .ada-page { max-width: 860px; margin: 0 auto; padding: 7rem 1.25rem 4rem; }
+    .ada-kicker {
+        font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.12em;
+        text-transform: uppercase; color: var(--accent-cyan); margin: 0 0 0.8rem;
+    }
+    .ada-page h1 {
+        font-size: clamp(1.9rem, 5vw, 2.7rem); font-weight: 600; line-height: 1.15;
+        letter-spacing: -0.02em; margin: 0 0 1.25rem;
+    }
+    .ada-lead { font-size: 1.1rem; line-height: 1.75; color: var(--text-primary); margin: 0 0 1rem; }
+    .ada-page p, .ada-page li { line-height: 1.75; }
+    .ada-page a { color: var(--accent-cyan); text-decoration: underline; text-decoration-color: rgba(0,217,255,.35); text-underline-offset: 3px; }
+    .ada-stato {
+        display: inline-flex; gap: .5rem; align-items: center; margin: .5rem 0 1.5rem;
+        font-size: .85rem; padding: .4rem .85rem; border-radius: 20px;
+        background: rgba(210,153,34,.12); border: 1px solid rgba(210,153,34,.4); color: #e3b341;
+    }
+    .ada-indice { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0 0 2.5rem; }
+    .ada-btn {
+        display: inline-block; font: inherit; font-size: .95rem; cursor: pointer;
+        padding: .6rem 1.1rem; border-radius: 8px; text-decoration: none !important;
+        background: var(--bg-card); color: var(--text-primary) !important;
+        border: 1px solid var(--border-color);
+    }
+    .ada-btn:hover, .ada-btn:focus-visible { border-color: var(--accent-cyan); }
+    .ada-btn[aria-pressed="true"] { background: rgba(0,217,255,.12); border-color: var(--accent-cyan); color: var(--accent-cyan) !important; }
+    .ada-sezione { margin: 0 0 3rem; padding-top: 1rem; scroll-margin-top: 6rem; }
+    .ada-sezione > h2 { font-size: 1.5rem; color: var(--accent-cyan); margin: 0 0 1rem; }
+    .ada-fasce { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0 0 1.5rem; }
+    .md h2 { font-size: 1.3rem; margin: 2.25rem 0 .9rem; color: var(--text-primary); }
+    .md h3 { font-size: 1.1rem; margin: 1.5rem 0 .6rem; }
+    .md p { margin: 0 0 1rem; color: var(--text-primary); }
+    .md ul, .md ol { margin: 0 0 1rem 1.3rem; }
+    .md hr { border: none; border-top: 1px solid var(--border-color); margin: 2rem 0; }
+    .md blockquote { border-left: 3px solid var(--accent-cyan); padding: .4rem 1rem; margin: 0 0 1rem; color: var(--text-secondary); }
+    .md code { font-size: .88em; background: var(--bg-tertiary); padding: .1em .35em; border-radius: 4px; }
+    .md .tabella { overflow-x: auto; margin: 0 0 1.25rem; }
+    .md table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+    .md th, .md td { border: 1px solid var(--border-color); padding: .55rem .7rem; text-align: left; vertical-align: top; }
+    .md th { background: var(--bg-tertiary); }
+    .md td:first-child { white-space: nowrap; }
+    .riquadro { position: relative; margin: 0 0 1.5rem; }
+    .riquadro pre {
+        background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 10px;
+        padding: 3.2rem 1rem 1rem; white-space: pre-wrap; word-break: break-word;
+        font-size: .86rem; line-height: 1.6; max-height: 26rem; overflow: auto;
+    }
+    .riquadro pre code { background: none; padding: 0; }
+    .riquadro .copia { position: absolute; top: .6rem; right: .6rem; }
+    .riquadro .conta { position: absolute; top: 1rem; left: 1rem; font-size: .78rem; color: var(--text-muted); font-family: var(--font-mono); }
+    .ada-avviso { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem 1.2rem; color: var(--text-secondary); }
+    .ada-fonte { font-size: .88rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 1.25rem; margin-top: 3rem; }
+    @media (max-width: 600px) { .ada-page { padding-top: 6rem; } .riquadro pre { font-size: .82rem; } }
+</style>
+<!-- fine-testa -->
+<main class="ada-page" id="contenuto">
+    <p class="ada-kicker">Digitale Inclusivo · per i genitori</p>
+    <h1>ADA pronto da incollare</h1>
+
+    <p class="ada-lead">Se tuo figlio o tua figlia studia con ChatGPT o con Gemini, qui trovi un testo già pronto che puoi incollare nelle impostazioni dell'assistente perché lo aiuti a leggere, a mettere in ordine le idee e a trovare le parole, lasciando però a lui o a lei le decisioni su che cosa scrivere e perché, senza consegnare compiti già fatti e senza presentarsi come un amico.</p>
+    <p>È la porta d'ingresso di <a href="https://github.com/IvanPsy/ada-assisted-digital-autonomy" hreflang="en">ADA, Assisted Digital Autonomy</a>, un progetto aperto e gratuito che scrivo da psicologo e da docente di sostegno, pensato per ragazzi con bisogni educativi speciali ma utile a chiunque studi con un assistente. Lo si prepara insieme, non alle sue spalle, e prima di consegnarlo si fanno tre prove che trovi descritte nella guida.</p>
+
+    <p class="ada-stato" role="note">🧪 Versione non ancora provata sulle piattaforme vere: le tue prove aiutano a migliorarla</p>
+
+    <nav class="ada-indice" aria-label="In questa pagina">
+        <a class="ada-btn" href="#guida">📖 La guida, cinque minuti</a>
+        <a class="ada-btn" href="#testo">📋 Il testo da incollare</a>
+    </nav>
+
+    <section class="ada-sezione" id="guida" aria-labelledby="h-guida">
+        <h2 id="h-guida">La guida</h2>
+        <div class="md" id="md-guida" aria-live="polite"><p class="ada-avviso">Sto caricando la guida…</p></div>
+    </section>
+
+    <section class="ada-sezione" id="testo" aria-labelledby="h-testo">
+        <h2 id="h-testo">Il testo da incollare</h2>
+        <p>Scegli la fascia d'età. Ogni testo ha una versione corta e una piena: la guida qui sopra spiega quale usare e dove incollarla.</p>
+        <div class="ada-fasce" role="group" aria-label="Fascia d'età">
+            <button type="button" class="ada-btn" data-fascia="11-13-anni" aria-pressed="false">11-13 anni</button>
+            <button type="button" class="ada-btn" data-fascia="14-16-anni" aria-pressed="true">14-16 anni</button>
+            <button type="button" class="ada-btn" data-fascia="17-19-anni" aria-pressed="false">17-19 anni</button>
+        </div>
+        <div class="md" id="md-testo" aria-live="polite"><p class="ada-avviso">Sto caricando il testo…</p></div>
+    </section>
+
+    <p class="ada-fonte">I testi di questa pagina si caricano ogni volta dal progetto ADA, dove vengono controllati automaticamente a ogni modifica: quello che leggi qui è sempre l'ultima versione. Contenuti con licenza <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it">CC BY-SA 4.0</a>. Per altri paesi e altre lingue c'è l'<a href="https://github.com/IvanPsy/ada-assisted-digital-autonomy/tree/main/channels/adult/ready-to-wear" hreflang="en">elenco completo</a>; per tornare alle altre risorse, <a href="/digitale-inclusivo/">Digitale Inclusivo</a>.</p>
+</main>
+<!-- inizio-coda -->
+<script src="marked.min.js"></script>
+<script>
+(function () {
+    var RAW = 'https://raw.githubusercontent.com/IvanPsy/ada-assisted-digital-autonomy/main/channels/adult/ready-to-wear/italy/it/';
+    var BLOB = 'https://github.com/IvanPsy/ada-assisted-digital-autonomy/blob/main/channels/adult/ready-to-wear/italy/it/';
+    var FASCE = ['11-13-anni', '14-16-anni', '17-19-anni'];
+    var cache = {};
+
+    function carica(nome) {
+        if (cache[nome]) return Promise.resolve(cache[nome]);
+        return fetch(RAW + nome, { cache: 'no-cache' }).then(function (r) {
+            if (!r.ok) throw new Error(r.status);
+            return r.text();
+        }).then(function (t) { cache[nome] = t; return t; });
+    }
+
+    function errore(box, nome) {
+        box.innerHTML = '<p class="ada-avviso">Non riesco a caricare il testo in questo momento. Lo trovi comunque, identico, <a href="' + BLOB + nome + '">nel progetto ADA</a>.</p>';
+    }
+
+    // Ripulisce il Markdown dalle parti pensate per chi lo legge su GitHub.
+    function pulisci(md, guida) {
+        md = md.replace(/^# .*\n+/, '');                              // titolo: c'è già la pagina
+        md = md.replace(/^> ⚙️.*\n+/m, '');                          // nota per chi sviluppa
+        if (guida) md = md.replace(/\n## File per fascia d'età[\s\S]*$/, '\n'); // indice dei file
+        else md = md.replace(/^🧪 .*\n+/m, '');                       // lo stato è già in testa
+        return md;
+    }
+
+    function assoluto(href) {
+        try { return new URL(href, BLOB).href; } catch (e) { return href; }
+    }
+
+    function sistema(box) {
+        // Link: i file delle fasce e la guida restano nella pagina, il resto va a GitHub.
+        box.querySelectorAll('a[href]').forEach(function (a) {
+            var h = a.getAttribute('href');
+            if (/^(https?:|mailto:|#)/.test(h)) return;
+            var nome = h.split('/').pop();
+            var f = nome.replace(/\.md$/, '');
+            if (FASCE.indexOf(f) !== -1) { a.href = '#testo'; a.dataset.vai = f; if (/\.md$/.test(a.textContent)) a.textContent = 'Vai al testo'; return; }
+            if (nome === 'README.md' && h.indexOf('/') === -1) { a.href = '#guida'; return; }
+            a.href = assoluto(h); a.hreflang = 'en';
+        });
+        box.querySelectorAll('table').forEach(function (t) {
+            var w = document.createElement('div'); w.className = 'tabella';
+            t.parentNode.insertBefore(w, t); w.appendChild(t);
+        });
+        // Riquadri da copiare.
+        box.querySelectorAll('pre').forEach(function (pre) {
+            var testo = pre.textContent.replace(/\n$/, '');
+            var w = document.createElement('div'); w.className = 'riquadro';
+            pre.parentNode.insertBefore(w, pre); w.appendChild(pre);
+            var c = document.createElement('span'); c.className = 'conta';
+            c.textContent = testo.length.toLocaleString('it-IT') + ' caratteri';
+            var b = document.createElement('button'); b.type = 'button'; b.className = 'ada-btn copia';
+            b.textContent = 'Copia il testo';
+            b.addEventListener('click', function () {
+                var fatto = function () { b.textContent = '✓ Copiato'; setTimeout(function () { b.textContent = 'Copia il testo'; }, 2500); };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(testo).then(fatto, function () { seleziona(pre); });
+                } else { seleziona(pre); }
+            });
+            w.appendChild(c); w.appendChild(b);
+        });
+    }
+
+    function seleziona(el) {
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+
+    function mostra(box, nome, guida) {
+        return carica(nome).then(function (md) {
+            box.innerHTML = marked.parse(pulisci(md, guida));
+            sistema(box);
+        }).catch(function () { errore(box, nome); });
+    }
+
+    var boxGuida = document.getElementById('md-guida');
+    var boxTesto = document.getElementById('md-testo');
+    var bottoni = document.querySelectorAll('[data-fascia]');
+
+    function scegli(f, scorri) {
+        bottoni.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.fascia === f ? 'true' : 'false'); });
+        mostra(boxTesto, f + '.md', false);
+        if (scorri) document.getElementById('testo').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    bottoni.forEach(function (b) { b.addEventListener('click', function () { scegli(b.dataset.fascia, false); }); });
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[data-vai]');
+        if (a) { e.preventDefault(); scegli(a.dataset.vai, true); }
+    });
+
+    if (typeof marked === 'undefined') { errore(boxGuida, 'README.md'); errore(boxTesto, '14-16-anni.md'); return; }
+    mostra(boxGuida, 'README.md', true);
+    scegli('14-16-anni', false);
+})();
+</script>
