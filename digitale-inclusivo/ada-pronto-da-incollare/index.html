@@ -26,11 +26,6 @@ titolo_scheda: "ADA pronto da incollare | Digitale Inclusivo, Ivan Ferrero"
     .ada-lead { font-size: 1.1rem; line-height: 1.75; color: var(--text-primary); margin: 0 0 1rem; }
     .ada-page p, .ada-page li { line-height: 1.75; }
     .ada-page a { color: var(--accent-cyan); text-decoration: underline; text-decoration-color: rgba(0,217,255,.35); text-underline-offset: 3px; }
-    .ada-stato {
-        display: inline-flex; gap: .5rem; align-items: center; margin: .5rem 0 1.5rem;
-        font-size: .85rem; padding: .4rem .85rem; border-radius: 20px;
-        background: rgba(210,153,34,.12); border: 1px solid rgba(210,153,34,.4); color: #e3b341;
-    }
     .ada-indice { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0 0 2.5rem; }
     .ada-btn {
         display: inline-block; font: inherit; font-size: .95rem; cursor: pointer;
@@ -75,8 +70,6 @@ titolo_scheda: "ADA pronto da incollare | Digitale Inclusivo, Ivan Ferrero"
 
     <p class="ada-lead">Se tuo figlio o tua figlia studia con ChatGPT o con Gemini, qui trovi un testo già pronto che puoi incollare nelle impostazioni dell'assistente perché lo aiuti a leggere, a mettere in ordine le idee e a trovare le parole, lasciando però a lui o a lei le decisioni su che cosa scrivere e perché, senza consegnare compiti già fatti e senza presentarsi come un amico.</p>
     <p>È la porta d'ingresso di <a href="https://github.com/IvanPsy/ada-assisted-digital-autonomy" hreflang="en">ADA, Assisted Digital Autonomy</a>, un progetto aperto e gratuito che scrivo da psicologo e da docente di sostegno, pensato per ragazzi con bisogni educativi speciali ma utile a chiunque studi con un assistente. Lo si prepara insieme, non alle sue spalle, e prima di consegnarlo si fanno tre prove che trovi descritte nella guida.</p>
-
-    <p class="ada-stato" role="note">🧪 Versione non ancora provata sulle piattaforme vere: le tue prove aiutano a migliorarla</p>
 
     <nav class="ada-indice" aria-label="In questa pagina">
         <a class="ada-btn" href="#guida">📖 La guida, cinque minuti</a>
@@ -126,8 +119,8 @@ titolo_scheda: "ADA pronto da incollare | Digitale Inclusivo, Ivan Ferrero"
     function pulisci(md, guida) {
         md = md.replace(/^# .*\n+/, '');                              // titolo: c'è già la pagina
         md = md.replace(/^> ⚙️.*\n+/m, '');                          // nota per chi sviluppa
+        md = md.replace(/^🧪 .*\n+/m, '');                           // stato delle prove: sul sito non si mostra
         if (guida) md = md.replace(/\n## File per fascia d'età[\s\S]*$/, '\n'); // indice dei file
-        else md = md.replace(/^🧪 .*\n+/m, '');                       // lo stato è già in testa
         return md;
     }
 
