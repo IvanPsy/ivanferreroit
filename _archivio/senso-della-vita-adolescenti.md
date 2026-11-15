@@ -27,7 +27,7 @@ Il concetto di tutto è sintetizzabile da una frase della D.ssa Lorena Quaranta:
 
 Quindi dobbiamo per un attimo fare un passo indietro e ragionare secondo un punto di vista che vada al di là del digitale.
 
-Per fare questo ne ho parlato con Maria Amantea, criminologa, ideatrice e fondatrice del [Progetto Io Valgo](www.progettoiovalgo.com), e insieme a lei abbiamo ragionato su come strutturare degli interventi educativi che aiutino i nostri ragazzi in tal senso.
+Per fare questo ne ho parlato con Maria Amantea, criminologa, ideatrice e fondatrice del [Progetto Io Valgo](https://www.progettoiovalgo.com), e insieme a lei abbiamo ragionato su come strutturare degli interventi educativi che aiutino i nostri ragazzi in tal senso.
 Ne sono derivate delle linee guida ben strutturate.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/w7qye_jiWwc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
